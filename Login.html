@@ -1,0 +1,86 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head> 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<title> Login</title> 
+		<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" href="event.css">
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+	</script>
+	<![endif]-->
+	
+</head>
+
+<body>
+<div id="wrapper">
+
+<header>
+	
+	<h1>
+		Login
+	</h1>
+	
+</header>
+
+<nav>
+	<ul>
+		<li><a href="homepage.html">Home</a></li>
+		<li><a href="Login.html">Login</a></li>
+		<li><a href="Student.html">Student</a></li>
+		<li><a href="Teacher.html">Teacher</a></li>
+	</ul>
+</nav>
+	
+<main>
+	<h2 id="marginAndPaddingSetter"> 
+		Enter Your Login Information
+	</h2>
+	<p>
+		<br>Required fields are marked with an asterik(*).
+	</p>
+	
+	<h3 id="marginAndPaddingSetter">
+	<form method="post" action="https://sslab-seren888.c9users.io/WEBDEV/login.php">
+		
+		<label for="name"> *Student_ID:</label> <input type="text" name="myName" id="name" pattern=".{0-9}" maxlength="9" size="9" required></br>
+		<label for="password"> * Password:</label><input type="password" name="myPassword" id="password" required>
+		<input id="marginSubmitButton" type="submit" value="Login">
+		<p id="demo"></p>
+	</form>
+	</h3>
+	<!--<script>
+function myFunction() {
+    var x, text;
+
+    // Get the value of the input field with id="numb"
+    x = document.getElementById("name").value;
+
+    // If x is Not a Number or less than one or greater than 10
+    if (isNaN(x) || x < 1 || x > 10) {
+        text = "Input not valid";
+    } else {
+        text = "Input OK";
+    }
+    document.getElementById("demo").innerHTML = text;
+}
+</script>
+-->
+</main>
+
+<footer>
+	
+	</footer>
+	</div>
+</body>
+</html>

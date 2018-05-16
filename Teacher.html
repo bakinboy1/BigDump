@@ -1,0 +1,111 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head> 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<title> JavaJam Coffee House Menu</title> 
+		<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" href="event.css">
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+	</script>
+	<![endif]-->
+	
+</head>
+
+<body>
+<div id="wrapper">
+
+<header>
+	
+	<h1>Teachers</h1>
+	
+	</header>
+
+<nav>
+	<ul>
+		<li><a href="homepage.html">Home</a></li>
+		<li><a href="Login.html">Login</a></li>
+		<li><a href="Student.html">Student</a></li>
+		<li><a href="Teacher.html">Teacher</a></li>
+	</ul>
+	</nav>
+
+
+<main>
+
+
+	<h2>
+		My Upcoming Events
+	</h2>
+
+	
+	
+	<div class="tablecentered">
+	<table style="width:100%">
+  <tr>
+    <th>Event Name</th>
+    <th>Event Date</th> 
+    <th>Event Location</th>
+	<th>Department</th>
+	<th>Event ID</th>
+	<th># of RSVP's</th>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+	<td></td>
+    <td></td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+	<td></td>
+    <td></td>
+    <td>0</td>
+  </tr>
+  <tr>
+    <td></td>
+    <td></td>
+    <td></td>
+	<td></td>
+    <td></td>
+    <td>0</td>
+  </tr>
+</table>
+	</div>
+<h2> Create An Event </h2>
+<h3 id="marginAndPaddingSetter">
+	<form method="post" action="http://webdevbasics.net/scripts/javajam8.php">
+		
+		<label for="event"> *Event Name:</label> <input type="text" name="eventName" id="event" required></br>
+		<label for="location"> *Location:</label><input type="text" name="eventLocation" id="location" required></br>
+		<label for="department"> *Department:</label><input type="text" name="eventDepartment" id="department" required></br>
+		<label for="date"> *Date:</label><input type="datetime" name="eventDate" id="date" required></br>
+
+		<input id="marginSubmitButton" type="submit" value="Create Event">
+		
+	</form>
+	</h3>
+</main>
+
+<footer>
+	
+</footer>
+
+</div>
+</body>
+	
+</html>
