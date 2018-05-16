@@ -181,3 +181,5 @@
 [Fri Mar 16 08:56:40.894802 2018] [ssl:warn] [pid 15492:tid 648] AH01909: localhost:444:0 server certificate does NOT include an ID which matches the server name
 [Fri Mar 16 08:56:41.909522 2018] [ssl:warn] [pid 15492:tid 648] AH01909: localhost:444:0 server certificate does NOT include an ID which matches the server name
 [Fri Mar 16 08:56:43.047487 2018] [mpm_winnt:notice] [pid 15492:tid 648] AH00354: Child: Starting 64 worker threads.
+[Sat Mar 17 12:03:57.040493 2018] [mpm_winnt:notice] [pid 4800:tid 552] AH00422: Parent: Received shutdown signal -- Shutting down the server.
+[Sat Mar 17 12:03:59.947111 2018] [mpm_winnt:notice] [pid 15492:tid 648] AH00364: Child: All worker threads have exited.
