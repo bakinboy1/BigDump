@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Bass()
+comment1.params=newFishName\ newLength\ newWeight\ newIsLargemouth
+comment1.target=Bass(java.lang.String,\ int,\ double,\ boolean)
+comment2.params=
+comment2.target=java.lang.String\ getFishName()
+comment3.params=
+comment3.target=int\ getLength()
+comment4.params=
+comment4.target=double\ getWeight()
+comment5.params=
+comment5.target=boolean\ getIsLargemouth()
+comment6.params=
+comment6.target=java.lang.String\ toString()
+numComments=7

@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<title>Heading Example</title>
+	<meta charset="utf-8">
+	<style>
+{
+background-color:style="color: blue";
+color:style="color=yellow";
+font-family: Verdana , Arial, sans-serif;
+font-size: 2 (value types- em, px, pt, %);
+font-weight:(bold, bolder, lighter, 100-900)
+font-style: normal, italics
+line-height: oblique
+text-align:left, right, center, justify
+text-indent:(indents first line of a paragraph)
+text-decoration: none, underline, uppercase, lowercase, capitalize, line through
+text-transform: 
+letter-spacing:
+word-spacing:
+text-shadow: 3px-vertical 3px-horizontal 5px-radius #color;
+}
+</style>
+</head>
+// <nav></nav> contains web page's main navigation links
+<header> 
+<h1>header is distinct from head and requires h# tags</h1>
+</header>
+<body>
+	<h1>Heading level 1</h1>
+	
+	<p>paragraph goes here
+	word formatting displayed 
+    still appears on a single line
+    <br> unless you use the "<br>" line break element</p>
+    <blockquote>
+    "<blockquotes> indent a line
+    </blockquote>
+    
+	<h2>Heading level 2</h2>
+	id="myElement"
+	class="myClass"
+	//alignments can be changed with "left, right, center, justify"
+	<p align="right">aligns text to the right side</p>
+	
+	
+	//creating a list
+	//to create an unordered list 
+	<ul>
+	<li>create a new line</li>
+	<li>for each li line you want</li>
+	<li>in the unordered list</li>
+	</ul>
+	
+	//An ordered list will put a "#." in front of each line input.
+	//there are different type
+	<ol type="1">
+	<li>this will be numbered</li>
+	</ol>
+	
+	<dl>
+	dl is description list
+	<dt>description term dt</dt>
+	<dd> description definition dd</dd>
+	//putting in special characters-- copyright c = &copy; < = &lt; > = &gt; & = &amp; blank space = &nbsp;
+	</dl>
+	//the div tag configures a block on a web page 
+	//can contain other block display elements, including other div elements
+	<div>
+
+	</div>
+	//<footer></footer> elements contain web page's documents footer
+	
+	//Anchor element refers to a file (creates hyperlinks)
+	//<a href="website.com">text that gets hyperlinked</a>
+	// 2 types of href
+	// Absolute link- link to a different website requires full url
+	<a href="http://google.com> google</a>
+	// relative link- link within same webpage
+	
+</body>

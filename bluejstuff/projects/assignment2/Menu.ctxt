@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Menu()
+comment1.params=
+comment1.target=void\ initializeArray()
+comment1.text=\r\n\ \ @initializeArray\ creates\ the\ initial\ values\ for\ all\ the\ animals\ in\ the\ aquarium\r\n
+comment2.params=
+comment2.target=java.util.ArrayList\ getExhibit()
+comment2.text=\r\n\ @\ public\ ArrayList<Animal>getExhibit()\ returns\ exhibit\ values\ with\ corresponding\ arraylist\ position\ \r\n\ entered\ into\ the\ ()\r\n
+comment3.params=args
+comment3.target=void\ main(java.lang.String[])
+comment3.text=\r\n\ @m\ creates\ a\ new\ Menu\ object\r\n\ @input\ initializes\ a\ new\ scanner\ for\ the\ user\r\n\ @userChoice\ stores\ the\ input\ of\ the\ user\r\n\ @counter\ is\ used\ to\ store\ the\ arrayList\ position\ of\ the\ animal\ the\ user\ has\ requested\r\n
+numComments=4

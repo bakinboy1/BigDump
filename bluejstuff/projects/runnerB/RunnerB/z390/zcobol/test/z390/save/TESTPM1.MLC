@@ -1,0 +1,406 @@
+         ZCOBOL PGM='zcobol\test\TESTPM1',VER=V1.5.06,CDATE=MM/DD/YY,CTX
+               IME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statsX
+               )
+         COPY  TESTPM1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTPM1.
+         PROGRAM_ID TESTPM1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  10/13/08.
+*      * TEST IF ELSE END-IF                              
+         DATE_WRITTEN 10,/,13,/,08
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 I       COMP PIC S9(4).
+         WS      77,I,COMP,PIC,S9(4)
+*        77 COUNT   COMP PIC 9(4) VALUE 0.
+         WS      77,COUNT,COMP,PIC,9(4),VALUE,0
+*        77 ERRORS  COMP PIC 9(4) VALUE 0.
+         WS      77,ERRORS,COMP,PIC,9(4),VALUE,0
+*        77 GOOD    COMP-3 PIC S9(4) VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,S9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTPM1 STARTING'
+*      * FORMAT 1A
+*ZC     15         DISPLAY 'TESTPM1 STARTING'
+         DISPLAY 'TESTPM1 STARTING'
+*            MOVE 0 TO COUNT.
+*ZC     17         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFIRN FORNATM 1A'
+*ZC     18         DISPLAY 'TEST PERFIRN FORNATM 1A'
+         DISPLAY 'TEST PERFIRN FORNATM 1A'
+*            PERFORM TEST1
+*ZC     19         PERFORM TEST1
+         PERFORM TEST1
+*            ADD 1 TO GOOD
+*ZC     20         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 1 PERFORM ERROR END-IF
+*ZC     21         IF    COUNT,NOT,=,1
+         IF    COUNT,NOT,=,1
+*ZC     22         PERFORM ERROR
+         PERFORM ERROR
+*ZC     22         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT
+*ZC     22         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+*            PERFORM TEST1 THRU TEST2
+*ZC     23         PERFORM TEST1,THRU,TEST2
+         PERFORM TEST1,THRU,TEST2
+*            ADD 1 TO GOOD
+*ZC     24         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     25         IF    COUNT,NOT,=,3
+         IF    COUNT,NOT,=,3
+*      * FORMAT 1B
+*ZC     27         PERFORM ERROR
+         PERFORM ERROR
+*ZC     27         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     27         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 1B'
+*ZC     28         DISPLAY 'TEST PERFORM FORMAT 1B'
+         DISPLAY 'TEST PERFORM FORMAT 1B'
+*            PERFORM ADD 1 TO COUNT END-PERFORM
+*ZC     29         PERFORM 
+         PERFORM 
+*ZC     30         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*ZC     30         END_PERFORM 
+         END_PERFORM 
+*            ADD 1 TO GOOD
+*ZC     30         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 1 PERFORM ERROR END-IF
+*ZC     31         IF    COUNT,NOT,=,1
+         IF    COUNT,NOT,=,1
+*      * FORMAT 2A
+*ZC     33         PERFORM ERROR
+         PERFORM ERROR
+*ZC     33         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     33         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 2A'
+*ZC     34         DISPLAY 'TEST PERFORM FORMAT 2A'
+         DISPLAY 'TEST PERFORM FORMAT 2A'
+*            PERFORM TEST1 3 TIMES
+*ZC     35         PERFORM TEST1,3,TIMES
+         PERFORM TEST1,3,TIMES
+*            ADD 1 TO GOOD
+*ZC     36         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     37         IF    COUNT,NOT,=,3
+         IF    COUNT,NOT,=,3
+*      * FORMAT 2B
+*ZC     39         PERFORM ERROR
+         PERFORM ERROR
+*ZC     39         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     39         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 2B'
+*ZC     40         DISPLAY 'TEST PERFORM FORMAT 2B'
+         DISPLAY 'TEST PERFORM FORMAT 2B'
+*            PERFORM 3 TIMES ADD 1 TO COUNT END-PERFORM
+*ZC     41         PERFORM 3,TIMES
+         PERFORM 3,TIMES
+*ZC     42         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*ZC     42         END_PERFORM 
+         END_PERFORM 
+*            ADD 1 TO GOOD
+*ZC     42         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     43         IF    COUNT,NOT,=,3
+         IF    COUNT,NOT,=,3
+*      * FORMAT 3A
+*ZC     45         PERFORM ERROR
+         PERFORM ERROR
+*ZC     45         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     45         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 3A WITH TEST BEFORE'
+*ZC     46         DISPLAY 'TEST PERFORM FORMAT 3A WITH TEST BEFORE'
+         DISPLAY 'TEST PERFORM FORMAT 3A WITH TEST BEFORE'
+*            MOVE 1 TO I
+*ZC     47         MOVE  1,TO,I
+         MOVE  1,TO,I
+*            PERFORM TEST1I UNTIL I>3 
+*ZC     48         PERFORM TEST1I,UNTIL,I,>,3
+         PERFORM TEST1I,UNTIL,I,>,3
+*            ADD 1 TO GOOD
+*ZC     49         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     50         IF    COUNT,NOT,=,3
+         IF    COUNT,NOT,=,3
+*ZC     51         PERFORM ERROR
+         PERFORM ERROR
+*ZC     51         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     51         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 3A WITH TEST AFTER'
+*ZC     52         DISPLAY 'TEST PERFORM FORMAT 3A WITH TEST AFTER'
+         DISPLAY 'TEST PERFORM FORMAT 3A WITH TEST AFTER'
+*            MOVE 1 TO I
+*ZC     53         MOVE  1,TO,I
+         MOVE  1,TO,I
+*            PERFORM TEST1I WITH TEST AFTER UNTIL I>3 
+*ZC     54         PERFORM TEST1I,WITH,TEST,AFTER,UNTIL,I,>,3
+         PERFORM TEST1I,WITH,TEST,AFTER,UNTIL,I,>,3
+*            ADD 1 TO GOOD
+*ZC     55         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     56         IF    COUNT,NOT,=,3
+         IF    COUNT,NOT,=,3
+*      * FORMAT 3B
+*ZC     58         PERFORM ERROR
+         PERFORM ERROR
+*ZC     58         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     58         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 3B WITH TEST BEFORE'
+*ZC     59         DISPLAY 'TEST PERFORM FORMAT 3B WITH TEST BEFORE'
+         DISPLAY 'TEST PERFORM FORMAT 3B WITH TEST BEFORE'
+*            MOVE 1 TO I.
+*ZC     60         MOVE  1,TO,I
+         MOVE  1,TO,I
+         PERIOD 
+*            PERFORM UNTIL I>3 ADD 1 TO COUNT ADD 1 TO I END-PERFORM
+*ZC     61         PERFORM UNTIL,I,>,3
+         PERFORM UNTIL,I,>,3
+*ZC     61         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*ZC     62         ADD   1,TO,I
+         ADD   1,TO,I
+*ZC     62         END_PERFORM 
+         END_PERFORM 
+*            ADD 1 TO GOOD
+*ZC     62         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     63         IF    COUNT,NOT,=,3
+         IF    COUNT,NOT,=,3
+*ZC     64         PERFORM ERROR
+         PERFORM ERROR
+*ZC     64         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     64         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 3B WITH TEST AFTER'
+*ZC     65         DISPLAY 'TEST PERFORM FORMAT 3B WITH TEST AFTER'
+         DISPLAY 'TEST PERFORM FORMAT 3B WITH TEST AFTER'
+*            MOVE 1 TO I.
+*ZC     66         MOVE  1,TO,I
+         MOVE  1,TO,I
+         PERIOD 
+*            PERFORM WITH TEST AFTER UNTIL I>3 
+*ZC     67         PERFORM WITH,TEST,AFTER,UNTIL,I,>,3
+         PERFORM WITH,TEST,AFTER,UNTIL,I,>,3
+*              ADD 1 TO COUNT ADD 1 TO I END-PERFORM
+*ZC     68         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*ZC     69         ADD   1,TO,I
+         ADD   1,TO,I
+*ZC     69         END_PERFORM 
+         END_PERFORM 
+*            ADD 1 TO GOOD
+*ZC     69         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     70         IF    COUNT,NOT,=,3
+         IF    COUNT,NOT,=,3
+*      * FORMAT 4A
+*ZC     72         PERFORM ERROR
+         PERFORM ERROR
+*ZC     72         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     72         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 4A WITH TEST BEFORE'
+*ZC     73         DISPLAY 'TEST PERFORM FORMAT 4A WITH TEST BEFORE'
+         DISPLAY 'TEST PERFORM FORMAT 4A WITH TEST BEFORE'
+*            PERFORM TEST1 VARYING I FROM 1 BY 1 UNTIL I > 3
+*ZC     74         PERFORM TEST1,VARYING,I,FROM,1,BY,1,UNTIL,I,>,3
+         PERFORM TEST1,VARYING,I,FROM,1,BY,1,UNTIL,I,>,3
+*            ADD 1 TO GOOD
+*ZC     75         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF I NOT = 4 OR COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     76         IF    I,NOT,=,4,OR,COUNT,NOT,=,3
+         IF    I,NOT,=,4,OR,COUNT,NOT,=,3
+*ZC     77         PERFORM ERROR
+         PERFORM ERROR
+*ZC     77         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     77         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 4A WITH TEST AFTER'
+*ZC     78         DISPLAY 'TEST PERFORM FORMAT 4A WITH TEST AFTER'
+         DISPLAY 'TEST PERFORM FORMAT 4A WITH TEST AFTER'
+*            PERFORM TEST1 WITH TEST AFTER VARYING I FROM 1 BY 1 
+*                UNTIL I > 3
+*ZC     79         PERFORM TEST1,WITH,TEST,AFTER,VARYING,I,FROM,1,BY,1,X
+               UNTIL,I,>,3
+         PERFORM TEST1,WITH,TEST,AFTER,VARYING,I,FROM,1,BY,1,UNTIL,I,>,X
+               3
+*            ADD 1 TO GOOD
+*ZC     81         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF I NOT = 4 OR COUNT NOT = 4 PERFORM ERROR END-IF
+*ZC     82         IF    I,NOT,=,4,OR,COUNT,NOT,=,4
+         IF    I,NOT,=,4,OR,COUNT,NOT,=,4
+*      * FORMAT 4B
+*ZC     84         PERFORM ERROR
+         PERFORM ERROR
+*ZC     84         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     84         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 4B WITH TEST BEFORE'
+*ZC     85         DISPLAY 'TEST PERFORM FORMAT 4B WITH TEST BEFORE'
+         DISPLAY 'TEST PERFORM FORMAT 4B WITH TEST BEFORE'
+*            PERFORM VARYING I FROM 1 BY 1 UNTIL I>3 
+*ZC     86         PERFORM VARYING,I,FROM,1,BY,1,UNTIL,I,>,3
+         PERFORM VARYING,I,FROM,1,BY,1,UNTIL,I,>,3
+*                ADD 1 TO COUNT
+*ZC     87         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*                DISPLAY 'ADD 1 TO COUNT =' COUNT
+*            END-PERFORM
+*ZC     88         DISPLAY 'ADD 1 TO COUNT =',COUNT
+         DISPLAY 'ADD 1 TO COUNT =',COUNT
+*            ADD 1 TO GOOD
+*ZC     90         END_PERFORM 
+         END_PERFORM 
+*ZC     90         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF I NOT = 4 OR COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     91         IF    I,NOT,=,4,OR,COUNT,NOT,=,3
+         IF    I,NOT,=,4,OR,COUNT,NOT,=,3
+*ZC     92         PERFORM ERROR
+         PERFORM ERROR
+*ZC     92         END_IF 
+         END_IF 
+*            MOVE 0 TO COUNT.
+*ZC     92         MOVE  0,TO,COUNT
+         MOVE  0,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST PERFORM FORMAT 4B WITH TEST AFTER'
+*ZC     93         DISPLAY 'TEST PERFORM FORMAT 4B WITH TEST AFTER'
+         DISPLAY 'TEST PERFORM FORMAT 4B WITH TEST AFTER'
+*            PERFORM WITH TEST AFTER VARYING I FROM 1 BY 1 UNTIL I>3 
+*ZC     94         PERFORM WITH,TEST,AFTER,VARYING,I,FROM,1,BY,1,UNTIL,X
+               I,>,3
+         PERFORM WITH,TEST,AFTER,VARYING,I,FROM,1,BY,1,UNTIL,I,>,3
+*                ADD 1 TO COUNT 
+*ZC     95         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*                DISPLAY 'ADD 1 TO COUNT =' COUNT
+*            END-PERFORM
+*ZC     96         DISPLAY 'ADD 1 TO COUNT =',COUNT
+         DISPLAY 'ADD 1 TO COUNT =',COUNT
+*            ADD 1 TO GOOD
+*ZC     98         END_PERFORM 
+         END_PERFORM 
+*ZC     98         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*            IF I NOT = 4 OR COUNT NOT = 3 PERFORM ERROR END-IF
+*ZC     99         IF    I,NOT,=,4,OR,COUNT,NOT,=,3
+         IF    I,NOT,=,4,OR,COUNT,NOT,=,3
+*      * DISPLAY TOTALS
+*ZC    101         PERFORM ERROR
+         PERFORM ERROR
+*ZC    101         END_IF 
+         END_IF 
+*            DISPLAY 'TESTPM1 GOOD TESTS =' GOOD
+*ZC    101         DISPLAY 'TESTPM1 GOOD TESTS =',GOOD
+         DISPLAY 'TESTPM1 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC    102         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        ERROR.
+         LABEL ERROR
+*            ADD 1 TO ERRORS
+*ZC    104         ADD   1,TO,ERRORS
+         ADD   1,TO,ERRORS
+*            DISPLAY 'ERROR TOTAL =' ERRORS.
+*ZC    105         DISPLAY 'ERROR TOTAL =',ERRORS
+         DISPLAY 'ERROR TOTAL =',ERRORS
+         PERIOD 
+*        TEST1.
+         LABEL TEST1
+*            ADD 1 TO COUNT.
+*ZC    107         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+         PERIOD 
+*            DISPLAY 'TEST1 ADD 1 TO COUNT =' COUNT
+*ZC    108         DISPLAY 'TEST1 ADD 1 TO COUNT =',COUNT
+         DISPLAY 'TEST1 ADD 1 TO COUNT =',COUNT
+*        TEST2.
+         LABEL TEST2
+*            PERFORM TEST1
+*ZC    110         PERFORM TEST1
+         PERFORM TEST1
+*            PERFORM TEST1.
+*ZC    111         PERFORM TEST1
+         PERFORM TEST1
+         PERIOD 
+*        TEST1I.
+         LABEL TEST1I
+*            ADD 1 TO COUNT
+*ZC    113         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*            ADD 1 TO I.
+*ZC    114         ADD   1,TO,I
+         ADD   1,TO,I
+         PERIOD 
+*            DISPLAY 'TEST1I ADD 1 TO COUNT =' COUNT
+*ZC    115         DISPLAY 'TEST1I ADD 1 TO COUNT =',COUNT
+         DISPLAY 'TEST1I ADD 1 TO COUNT =',COUNT
+         PROCEDURE END
+         END   

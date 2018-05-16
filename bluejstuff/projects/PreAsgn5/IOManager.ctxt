@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=fileName
+comment0.target=java.util.ArrayList\ readCocaColaInformation(java.lang.String)
+comment1.params=fileName\ inventory
+comment1.target=boolean\ saveCocaColaInformation(java.lang.String,\ java.util.ArrayList)
+numComments=2

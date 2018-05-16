@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=maxNumItems\ id
+comment0.target=Slot(int,\ java.lang.String)
+comment1.params=
+comment1.target=java.lang.String\ getId()
+comment2.params=
+comment2.target=float\ getCost()
+comment3.params=cost
+comment3.target=void\ setCost(int)
+comment4.params=
+comment4.target=Product\ removeProduct()
+comment5.params=
+comment5.target=int\ getQuantity()
+comment6.params=p
+comment6.target=boolean\ addProduct(Product)
+numComments=7

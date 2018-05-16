@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Fish()
+comment0.text=\r\n\ @public\ Fish()\ sets\ default\ values\ for\ each\ fish\ variable\r\n
+comment1.params=newOnSite\ newMammal\ newTransfer\ newGills\ newDiet\ newName\ newWeight\ newAge
+comment1.target=Fish(boolean,\ boolean,\ boolean,\ boolean,\ java.lang.String,\ java.lang.String,\ double,\ int)
+comment1.text=\r\n\ @\ public\ Fish\ assigns\ the\ set\ method\ for\ each\ variable\ to\ be\ for\ a\ new\ variable\ of\ that\ type\r\n
+comment2.params=newGills
+comment2.target=void\ setGills(boolean)
+comment2.text=\r\n\ @setGills\ sets\ the\ variable\ gills\ to\ be\ newGills\r\n
+comment3.params=
+comment3.target=boolean\ getGills()
+comment3.text=\r\n\ @getGills()\ gets\ the\ gills\ variable\r\n
+comment4.params=
+comment4.target=java.lang.String\ toString()
+comment4.text=\r\n\ @toString()\ prints\ out\ the\ toString\ line\ describing\ all\ the\ Fish's\ stats\r\n
+numComments=5

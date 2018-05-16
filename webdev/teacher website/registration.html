@@ -1,0 +1,75 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head> 
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap-theme.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/js/bootstrap.min.js"></script>
+	<title> Register</title> 
+		<meta charset="utf-8">
+
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	
+	<link rel="stylesheet" href="event.css">
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js">
+	</script>
+	<![endif]-->
+	
+</head>
+
+<body>
+<div id="wrapper">
+
+<header>
+	
+	<h1>
+		Register
+	</h1>
+	
+</header>
+
+<nav>
+	<ul>
+		<li><a href="homepage.html">Home</a></li>
+		<li><a href="Login.html">Login</a></li>
+		<li><a href="Registration.html">Registration</a></li>
+		<li><a href="Student.html">Student</a></li>
+		<li><a href="Teacher.html">Teacher</a></li>
+	</ul>
+</nav>
+	
+<main>
+	<h2 id="marginAndPaddingSetter"> 
+		Enter Your Information To Register
+	</h2>
+	
+	<p>
+		
+		<br>Required fields are marked with an asterik(*).
+	</p>
+	<h3 id="marginAndPaddingSetter">
+	<form method="post" action="http://webdevbasics.net/scripts/javajam8.php">
+		
+		<label for="name"> * First Name:</label> <input type="text" name="myFirstName" id="FirstName" required></br>
+		<label for="name"> * Last Name:</label> <input type="text" name="myLastName" id="LastName" required></br>
+		<label for="name"> * ID Number:</label> <input type="text" name="myID" id="ID" pattern=".{9,}" maxlength="9" size="9" required></br>
+		<label for="name"> * E-mail:</label> <input type="email" name="myEmail" id="email" required></br>
+		<label for="password"> * Password:</label><input type="password" name="myPassword" id="password" required>
+		
+		<input id="marginSubmitButton" type="submit" value="Login">
+		
+	</form>
+	</h3>
+</main>
+
+<footer>
+	
+	</footer>
+	</div>
+</body>
+</html>

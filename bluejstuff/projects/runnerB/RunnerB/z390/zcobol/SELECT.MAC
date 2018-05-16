@@ -1,0 +1,191 @@
+        MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 04/07/08                                                 *
+.*********************************************************************
+.* 04/07/08 initial coding for global ZCOBOL
+.* 10/06/08 ZSTRMAC
+.* 01/02/09 add optional OPTIONAL, and default ORGANIZATION LINE SEQ.
+.* 09/07/09 RPI 1065 allow options in any order                       
+.*********************************************************************
+.* Add file name, ddname or dsname, and recfm to file table.
+.* See FD which generated DCB in WS and adds record name to file table.
+.* Notes:
+.*   1.  RECFM/BLKSIZE set at open after WS defines record name
+.*********************************************************************
+         SELECT 
+         COPY  ZC_WS
+         :&STATUS  SETC '' NO DEFAULT FILE STATUS FIELD
+         :&PARM_IX SETA 1
+         AIF   ('&SYSLIST(&PARM_IX)' EQ 'OPTIONAL')
+               :&PARM_IX SETA &PARM_IX+1            IGNORE OPTIONAL
+         AEND
+         :&FILE SETC '&SYSLIST(&PARM_IX)'
+         :&PARM_IX SETA &PARM_IX+1
+         AIF   ('&SYSLIST(&PARM_IX)' NE 'ASSIGN')
+               MNOTE 8,'SELECT ASSIGN TO NOT FOUND'
+               MEXIT
+         AEND
+         :&PARM_IX SETA &PARM_IX+1
+         AIF   ('&SYSLIST(&PARM_IX)' EQ 'TO')
+               :&PARM_IX SETA &PARM_IX+1
+         AEND
+         :&DDNAME SETC '&SYSLIST(&PARM_IX)'
+         :&PARM_IX SETA &PARM_IX+1
+         :&FILE_TOT SETA &FILE_TOT+1
+         :&FILE_NAME(&FILE_TOT) SETC '&FILE'
+         :&FILE_DDNAME(&FILE_TOT) SETC '&DDNAME'
+         :&ORG    SETC 'QSAM' QSAM,LSEQ,RRDS,KSDS
+         :&MODE   SETC 'SEQ'  SEQ,RAN,DYN
+         :&KEY    SETC '' INDEXED  KEY FIELD
+         :&XRBA   SETC '' RELATIVE KEY FIELD
+.*
+.* PROCESS OPTIONAL PARMS IN ANY ORDER
+.*
+       AWHILE  ('&SYSLIST(&PARM_IX)' NE '')
+         AIF   ('&SYSLIST(&PARM_IX)' EQ 'ORGANIZATION')
+               :&PARM_IX SETA &PARM_IX+1
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'IS') 
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND  
+               AIF   ('&SYSLIST(&PARM_IX)' EQ 'LINE'                   X
+                      AND '&SYSLIST(&PARM_IX+1)' EQ 'SEQUENTIAL')
+                     :&ORG  SETC 'LSEQ'
+                     :&MODE SETC 'SEQ'
+                     :&PARM_IX SETA &PARM_IX+2
+               AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'SEQUENTIAL')
+                     :&ORG SETC 'QSAM'        
+                     :&PARM_IX SETA &PARM_IX+1
+               AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'INDEXED')
+                     :&ORG SETC 'KSDS'        
+                     :&PARM_IX SETA &PARM_IX+1
+               AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'RELATIVE')
+                     :&ORG SETC 'RRDS'        
+                     :&PARM_IX SETA &PARM_IX+1
+               AELSE
+                     MNOTE 8,'SELECT UNKNOWN ORGANIZATION TYPE = &SYSLIX
+               ST(&PARM_IX)'
+                     :&PARM_IX SETA N'&SYSLIST+1
+               AEND
+         AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'ACCESS')
+               :&PARM_IX SETA &PARM_IX+1
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'MODE') 
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'IS') 
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'SEQUENTIAL') 
+                   :&PARM_IX SETA &PARM_IX+1
+                   :&MODE SETC 'SEQ'
+               AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'DYNAMIC') 
+                   :&PARM_IX SETA &PARM_IX+1
+                   :&MODE SETC 'DYN'
+               AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'RANDOM') 
+                   :&PARM_IX SETA &PARM_IX+1
+                   :&MODE SETC 'RAN'
+               AELSE
+                   MNOTE 8,'SELECT ACCESS MODE UNKNOWN - &SYSLIST(&PARMX
+               _IX)'
+                   :&PARM_IX SETA N'&SYSLIST+1
+               AEND
+         AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'RECORD')
+               :&PARM_IX SETA &PARM_IX+1
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'KEY')
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND    
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'IS')
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND    
+               :&KEY SETC '&SYSLIST(&PARM_IX)'
+               :&PARM_IX SETA &PARM_IX+1
+         AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'RELATIVE')
+               :&PARM_IX SETA &PARM_IX+1
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'KEY')
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND    
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'IS')
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND    
+               :&XRBA SETC '&SYSLIST(&PARM_IX)'
+               :&PARM_IX SETA &PARM_IX+1
+         AELSEIF ('&SYSLIST(&PARM_IX)' EQ 'FILE'                       X
+               OR '&SYSLIST(&PARM_IX)' EQ 'STATUS')
+               :&PARM_IX SETA &PARM_IX+1
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'STATUS')
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND
+               AIF ('&SYSLIST(&PARM_IX)' EQ 'IS') 
+                   :&PARM_IX SETA &PARM_IX+1
+               AEND
+               :&STATUS SETC '&SYSLIST(&PARM_IX)'
+               :&PARM_IX SETA &PARM_IX+1
+         AELSE
+               MNOTE 8,'SELECT UNKNOWN OPTION - &SYSLIST(&PARM_IX)'
+               :&PARM_IX SETA N'&SYSLIST+1
+         AEND
+       AEND
+.*
+.* SAVE FILE INFO
+.*
+       :&FILE_ORG(&FILE_TOT)    SETC '&ORG' 
+       :&FILE_MODE(&FILE_TOT)   SETC '&MODE' 
+       :&FILE_KEY(&FILE_TOT)    SETC '&KEY' 
+       :&FILE_XRBA(&FILE_TOT)   SETC '&XRBA' 
+       :&FILE_STATUS(&FILE_TOT) SETC '&STATUS'
+       AIF     ('&SYSLIST(&PARM_IX)' NE '')
+               MNOTE 8,'SELECT UNKNOWN OPTION - &SYSLIST(&PARM_IX)'
+               MEXIT
+       AEND
+       
+.*
+.* VALIDATE LINE SEQUENTIAL ASCII TEXT FILE TO/FROM FIXED RECORD
+.*
+       AIF ('&ORG' EQ 'LSEQ')
+           AIF ('&MODE' NE 'SEQ')
+               MNOTE 8,'SELECT INVALID LINE SEQUENTIAL MODE - &MODE'
+               MEXIT
+           AEND
+           AIF ('&KEY' NE '')
+               MNOTE 8,'SELECT INVALID LINE SEQUENTIAL KEY - &KEY'
+               MEXIT
+           AEND
+           AIF ('&XRBA' NE '')
+               MNOTE 8,'SELECT INVALID LINE SEQUENTIAL XRBA - &XRBA'
+               MEXIT
+           AEND
+       AELSEIF ('&ORG' EQ 'QSAM')
+           AIF ('&MODE' NE 'SEQ')
+               MNOTE 8,'SELECT INVALID SEQUENTIAL MODE - &MODE'
+               MEXIT
+           AEND
+           AIF ('&KEY' NE '')
+               MNOTE 8,'SELECT INVALID SEQUENTIAL KEY - &KEY'
+               MEXIT
+           AEND
+           AIF ('&XRBA' NE '')
+               MNOTE 8,'SELECT INVALID SEQUENTIAL XRBA - &XRBA'
+               MEXIT
+           AEND
+       AELSEIF ('&ORG' EQ 'KSDS')
+           AIF ('&KEY' EQ '')
+               MNOTE 8,'SELECT INVALID INDEXED KEY - &KEY'
+               MEXIT
+           AEND
+       AELSEIF ('&ORG' EQ 'RRDS')
+           AIF ('&KEY' NE '')
+               MNOTE 8,'SELECT INVALID RELATIVE KEY - &KEY'
+               MEXIT
+           AEND
+           AIF ('&XRBA' EQ '' AND '&MODE' NE 'SEQ')
+               MNOTE 8,'SELECT INVALID RELATIVE XRBA - &XRBA'
+               MEXIT
+           AEND
+       AELSE
+         MNOTE 8,'SELECT ORG NOT SUPPORTED YET - &ORG'
+         MEXIT
+       AEND
+         MEND

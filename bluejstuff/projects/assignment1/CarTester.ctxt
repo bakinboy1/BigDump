@@ -1,0 +1,5 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment0.text=\r\n\ main\ function\ of\ program.\r\n\ asks\ user\ for\ input\ to\ display\ certain\ object\ values\r\n\ contains\ mutated\ values\ for\ objects\r\n\ instatiates\ car\ mutated\ values\r\n
+numComments=1

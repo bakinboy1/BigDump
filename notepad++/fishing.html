@@ -1,0 +1,64 @@
+<html>
+  <head>
+    <title>Fishing Store Order Form</title>
+    <meta charset="utf-8">
+    <link href="fishing.css" rel="stylesheet">
+  </head>
+
+  <body>
+    <h1>Fishing Store Order Form</h1>
+    <p>We rent all of our fishing equipment by the week.</p>
+
+    <form method="post" name="form" action="javascript:void(0)">
+
+      <table border="0" width="39%" align="center">
+        <tr>
+          <td><b>Product Name</b></td>
+          <td><b>Price</b></td>
+          <td><b>Quantity</b></td>
+        </tr>
+        <tr>
+          <td>1 Fishing Rod &amp; Reel</td>
+          <td><input type="text" name="textRod" size="5" value="7.99"></td>
+          <td><select size="1" name="quantityRod">
+               <option selected value="0">0</option>
+               <option value="1">1</option>
+               <option value="2">2</option>
+               <option value="3">3</option>
+              </select></td>
+        </tr>
+        <tr>
+          <td>1 Tackle Box</td>
+          <td><input type="text" name="textBox" size="5" value="2.55"></td>
+          <td><select size="1" name="quantityBox">
+             <option selected value="0">0</option>
+             <option value="1">1</option>
+             <option value="2">2</option>
+             <option value="3">3</option>
+           </select></td>
+        </tr>
+      </table>
+
+      <p><input type="submit" value="Calculate your order" name="buttonSubmit" onClick="calcTotal()"> 
+      <p>Thank you for your purchase.</p>
+      <p>Your total is:</p>
+      <p><input type="text" name="textTotal" size="10" value="0.00"></p>
+      
+    </form>
+
+    <script language="javascript">
+      function calcTotal(){
+      var strRod, strBox, prRod, prBox, strTotal;
+      strRod=document.form.quantityRod.value;
+      strBox=document.form.quantityBox.value;
+      prRod=document.form.textRod.value;
+      prBox=document.form.textBox.value;
+
+      strRod=parseInt(strRod)* prRod;
+      strBox=parseInt(strBox)* prBox;
+      strTotal=(strRod + strBox)*1.075;
+      document.form.textTotal.value=strTotal;
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,188 @@
+TESTASM4  MZ390 START
+TESTASM4  MZ390 Copyright 2011 Automated Software Tools Corporation
+TESTASM4  MZ390 z390 is licensed under GNU General Public License
+TESTASM4  MZ390 program = ZCOBOL\TEST\TESTASM4.MLC
+TESTASM4  MZ390 options = W:\work\z390\z390.OPT=(time(60)) sysmac(W:\work\z390\mac+.) 
+  syscpy(W:\work\z390\mac+.) notiming stats
+TESTASM4  MZ390 final_options=ALIGN
+TESTASM4  MZ390 final_options=NOALLOW
+TESTASM4  MZ390 final_options=NOAMODE24
+TESTASM4  MZ390 final_options=AMODE31
+TESTASM4  MZ390 final_options=NOASCII
+TESTASM4  MZ390 final_options=ASM
+TESTASM4  MZ390 final_options=NOASSIST
+TESTASM4  MZ390 final_options=AUTOLINK
+TESTASM4  MZ390 final_options=NOBAL
+TESTASM4  MZ390 final_options=NOBS2000
+TESTASM4  MZ390 final_options=EDF
+TESTASM4  MZ390 final_options=NOCICS
+TESTASM4  MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+TESTASM4  MZ390 final_options=COMMENT
+TESTASM4  MZ390 final_options=CON
+TESTASM4  MZ390 final_options=NODUMP
+TESTASM4  MZ390 final_options=EPILOG
+TESTASM4  MZ390 final_options=NOERRSUM
+TESTASM4  MZ390 final_options=EXTEND
+TESTASM4  MZ390 final_options=FLOAT(DECIMAL)
+TESTASM4  MZ390 final_options=NOGUAM
+TESTASM4  MZ390 final_options=INIT
+TESTASM4  MZ390 final_options=LIST
+TESTASM4  MZ390 final_options=LISTCALL
+TESTASM4  MZ390 final_options=LISTUSE
+TESTASM4  MZ390 final_options=LOADHIGH
+TESTASM4  MZ390 final_options=NOMCALL
+TESTASM4  MZ390 final_options=NOMOD
+TESTASM4  MZ390 final_options=OBJ
+TESTASM4  MZ390 final_options=NOOBJHEX
+TESTASM4  MZ390 final_options=PC
+TESTASM4  MZ390 final_options=PCOPT
+TESTASM4  MZ390 final_options=NOPDSMEM8
+TESTASM4  MZ390 final_options=NOPRINTALL
+TESTASM4  MZ390 final_options=PROLOG
+TESTASM4  MZ390 final_options=PROTECT
+TESTASM4  MZ390 final_options=R64
+TESTASM4  MZ390 final_options=NOREFORMAT
+TESTASM4  MZ390 final_options=NOREGS
+TESTASM4  MZ390 final_options=RMODE24
+TESTASM4  MZ390 final_options=NORMODE31
+TESTASM4  MZ390 final_options=STATS
+TESTASM4  MZ390 final_options=NOTEST
+TESTASM4  MZ390 final_options=THREAD
+TESTASM4  MZ390 final_options=NOTIME
+TESTASM4  MZ390 final_options=NOTIMING
+TESTASM4  MZ390 final_options=NOTRACE
+TESTASM4  MZ390 final_options=NOTRACEA
+TESTASM4  MZ390 final_options=NOTRACEALL
+TESTASM4  MZ390 final_options=NOTRACEC
+TESTASM4  MZ390 final_options=NOTRACEG
+TESTASM4  MZ390 final_options=NOTRACEI
+TESTASM4  MZ390 final_options=NOTRACEL
+TESTASM4  MZ390 final_options=NOTRACEM
+TESTASM4  MZ390 final_options=NOTRACEP
+TESTASM4  MZ390 final_options=NOTRACEQ
+TESTASM4  MZ390 final_options=NOTRACES
+TESTASM4  MZ390 final_options=NOTRACET
+TESTASM4  MZ390 final_options=NOTRACEV
+TESTASM4  MZ390 final_options=TRAP
+TESTASM4  MZ390 final_options=NOTRUNC
+TESTASM4  MZ390 final_options=NOTS
+TESTASM4  MZ390 final_options=VCB
+TESTASM4  MZ390 final_options=WARN
+TESTASM4  MZ390 final_options=XREF
+TESTASM4  MZ390 final_options=ZSTRMAC
+TESTASM4  MZ390 final_options=CHKMAC=0
+TESTASM4  MZ390 final_options=CHKSRC=1
+TESTASM4  MZ390 final_options=ERR=100
+TESTASM4  MZ390 final_options=MAXCALL=50
+TESTASM4  MZ390 final_options=MAXDISPLAY=80
+TESTASM4  MZ390 final_options=MAXESD=1000
+TESTASM4  MZ390 final_options=MAXFILE=1000
+TESTASM4  MZ390 final_options=MAXGBL=100000
+TESTASM4  MZ390 final_options=MAXHEIGHT=600
+TESTASM4  MZ390 final_options=MAXLCL=100000
+TESTASM4  MZ390 final_options=MAXLEN=80
+TESTASM4  MZ390 final_options=MAXLINE=200000
+TESTASM4  MZ390 final_options=MAXLOG=1000000
+TESTASM4  MZ390 final_options=MAXPARM=10000
+TESTASM4  MZ390 final_options=MAXPASS=2
+TESTASM4  MZ390 final_options=MAXPC=50000
+TESTASM4  MZ390 final_options=MAXQUE=1000
+TESTASM4  MZ390 final_options=MAXRLD=10000
+TESTASM4  MZ390 final_options=MAXSIZE=52428800
+TESTASM4  MZ390 final_options=MAXSYM=50000
+TESTASM4  MZ390 final_options=MAXWARN=4
+TESTASM4  MZ390 final_options=MAXWIDTH=800
+TESTASM4  MZ390 final_options=MEM=1
+TESTASM4  MZ390 final_options=MINHEIGHT=150
+TESTASM4  MZ390 final_options=MINWIDTH=150
+TESTASM4  MZ390 final_options=MNOTE=0
+TESTASM4  MZ390 final_options=PARM=
+TESTASM4  MZ390 final_options=PROFILE=
+TESTASM4  MZ390 final_options=STATS=W:\work\z390\ZCOBOL\TEST\TESTASM4.STA
+TESTASM4  MZ390 final_options=SYSPARM=
+TESTASM4  MZ390 final_options=SYSTERM=W:\work\z390\ZCOBOL\TEST\TESTASM4.ERR
+TESTASM4  MZ390 final_options=TESTDD=
+TESTASM4  MZ390 final_options=TIME=60
+TESTASM4  MZ390 final_options=TRACE=
+TESTASM4  MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+TESTASM4  MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+TESTASM4  MZ390 final_options=Z390COMMAND=cmd.exe
+TESTASM4  MZ390 final_options=Z390EDITOR=notepad.exe
+TESTASM4  MZ390 final_options=INSTALL=
+TESTASM4  MZ390 final_options=IPL=
+TESTASM4  MZ390 final_options=LOG=
+TESTASM4  MZ390 final_options=SYS390=ZCOBOL\TEST\+linklib
+TESTASM4  MZ390 final_options=SYSBAL=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSCPY=W:\work\z390\mac+.
+TESTASM4  MZ390 final_options=SYSDAT=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSERR=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSLOG=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSLST=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSMAC=W:\work\z390\mac+.
+TESTASM4  MZ390 final_options=SYSMLC=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSPCH=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSPRN=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSOBJ=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSOPT=ZCOBOL\TEST\
+TESTASM4  MZ390 final_options=SYSTRC=ZCOBOL\TEST\
+TESTASM4  MZ390 total MLC/MAC loaded  = 211
+TESTASM4  MZ390 total BAL output lines= 74
+TESTASM4  MZ390 total BAL instructions= 16
+TESTASM4  MZ390 total macros          = 5
+TESTASM4  MZ390 total macro loads     = 5
+TESTASM4  MZ390 total macro calls     = 7
+TESTASM4  MZ390 total AENTRY blocks   = 0
+TESTASM4  MZ390 total ACALL  calls    = 0
+TESTASM4  MZ390 total AIF    blocks   = 4
+TESTASM4  MZ390 total ACASE  blocks   = 0
+TESTASM4  MZ390 total AWHILE calls    = 1
+TESTASM4  MZ390 total AUNTIL blocks   = 0
+TESTASM4  MZ390 total global set names= 61
+TESTASM4  MZ390 tot global seta cells = 2
+TESTASM4  MZ390 tot global setb cells = 77
+TESTASM4  MZ390 tot global setc cells = 42
+TESTASM4  MZ390 max local pos parms   = 2
+TESTASM4  MZ390 max local key parms   = 11
+TESTASM4  MZ390 max local set names   = 13
+TESTASM4  MZ390 max local seta cells  = 5
+TESTASM4  MZ390 max local setb cells  = 0
+TESTASM4  MZ390 max local setc cells  = 25
+TESTASM4  MZ390 total array expansions= 0
+TESTASM4  MZ390 total Keys            = 1573
+TESTASM4  MZ390 Key searches          = 2726
+TESTASM4  MZ390 Key avg comps         = 0
+TESTASM4  MZ390 Key max comps         = 3
+TESTASM4  MZ390 total macro line exec = 259
+TESTASM4  MZ390 total pcode line exec = 93
+TESTASM4  MZ390 total pcode line gen. = 38
+TESTASM4  MZ390 total pcode line reuse= 0
+TESTASM4  MZ390 total pcode op   gen. = 191
+TESTASM4  MZ390 total pcode op   exec = 540
+TESTASM4  MZ390 total pcode gen  opt  = 68
+TESTASM4  MZ390 total pcode exec opt  = 1
+TESTASM4  MZ390 FID=  1 ERR= 0 W:\work\z390\ZCOBOL\TEST\TESTASM4.MLC
+TESTASM4  MZ390 FID=  2 ERR= 0 W:\work\z390\mac\SUBENTRY.MAC
+TESTASM4  MZ390 FID=  3 ERR= 0 W:\work\z390\mac\WTO.MAC
+TESTASM4  MZ390 FID=  4 ERR= 0 W:\work\z390\mac\SUBEXIT.MAC
+TESTASM4  MZ390 FID=  5 ERR= 0 W:\work\z390\mac\EQUREGS.MAC
+TESTASM4  MZ390 total mnote warnings  = 0
+TESTASM4  MZ390 total mnote errors    = 0
+TESTASM4  MZ390 max   mnote level     = 0
+TESTASM4  MZ390 total mz390 errors    = 0
+TESTASM4  AZ390 BAL lines             = 74
+TESTASM4  AZ390 symbols               = 25
+TESTASM4  AZ390 Literals              = 0
+TESTASM4  AZ390 alloc passes          = 2
+TESTASM4  AZ390 Keys                  = 1344
+TESTASM4  AZ390 Key searches          = 1769
+TESTASM4  AZ390 Key avg comps         = 0
+TESTASM4  AZ390 Key max comps         = 2
+TESTASM4  AZ390 ESD symbols           = 1
+TESTASM4  AZ390 object bytes          = 295
+TESTASM4  AZ390 object rlds           = 0
+TESTASM4  AZ390 total mnote warnings  = 0
+TESTASM4  AZ390 total mnote errors    = 0
+TESTASM4  AZ390 max   mnote level     = 0
+TESTASM4  AZ390 total mz390 errors    = 0
+TESTASM4  AZ390 total az390 errors    = 0
+TESTASM4  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=1121

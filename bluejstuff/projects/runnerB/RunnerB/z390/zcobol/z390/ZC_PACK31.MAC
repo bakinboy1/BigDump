@@ -1,0 +1,92 @@
+         MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 03/12/09                                                 *
+.*********************************************************************
+.* 03/13/09 initial coding for use in GEN_MOVE/COMP/ADD/etc for Z to P   
+.* 08/03/09 RPI 1065 replace existing explicit length for source   
+.* 05/14/12 RPI 1215 correct logic for Z fields 16-30 bytes
+.*********************************************************************
+.* PACK 1 TO 31 ZD FIELD INTO PD FIELD 
+.*********************************************************************
+         ZC_PACK31 &P,&LP,&Z,&LZ
+         COPY  ZC_WS
+         :&SOURCE   SETC '&Z'            SOURCE ZD FIELD (MAY BE SIX)
+         :&ZLEN     SETA &LZ             SOURCE ZD LENGTH
+         :&TARGET   SETC '&P'            TARGET PD FIELD
+         :&PLEN     SETA &LP             TARGET PD LENGTH
+         :&ZOFF     SETA 0               OFFSET INTO SOURCE RPI 1215  
+         :&POFF     SETA 0               OFFSET INTO TARGET RPI 1215
+        AIF (&ZLEN GT &PLEN*2-1)
+            :&ZOFF SETA &ZLEN-(&PLEN*2-1) TRUNCATE Z TO FIT IN P
+            :&ZLEN SETA &PLEN*2-1
+        AEND         
+        AIF   (&ZLEN LE 15)
+         :&SLEN SETA &ZLEN
+         ACALL SET_SOURCE_LEN
+         PACK  &TARGET.(&PLEN),&ZOFF+&S_TEMP PACK #1 NORMAL
+         MEXIT
+        AEND 
+.*
+.* PACK Z GT 15 USING 2 OR 3 PACK INSTRUCTIONS
+.*
+           :&SLEN SETA 15
+           AIF (&ZLEN/2*2 EQ &ZLEN)
+               :&SLEN SETA &SLEN-1      PACK 1 LESS IF EVEN Z
+           AEND
+           ACALL SET_SOURCE_LEN         SET EXPLICIT SOURCE LEN
+           :&TLEN SETA 8
+           AIF (&PLEN GT &ZLEN/2+1)
+               :&TLEN SETA 8+&PLEN-(&ZLEN/2+1) PAD LONG P
+           AEND           
+         PACK  &TARGET.(&TLEN),&ZOFF+&S_TEMP PACK #1 FULL
+           :&ZLEN SETA &ZLEN-(&SLEN-1)
+           :&ZOFF SETA &ZOFF+(&SLEN-1)
+           :&PLEN SETA &PLEN-(&TLEN-1) SKIP FIRST PACKED BYTES
+           :&POFF SETA &POFF+(&TLEN-1) SET POFF TO OVERLAY LAST BYTE
+           AIF (&ZLEN GT 15)
+               :&SLEN SETA 15
+               ACALL SET_SOURCE_LEN         SET EXPLICIT SOURCE LEN          
+         PACK  &POFF+&TARGET.(8),&ZOFF+&S_TEMP PACK #2 FULL
+               :&ZLEN SETA &ZLEN-14
+               :&ZOFF SETA &ZOFF+14
+               :&POFF SETA &POFF+7
+               :&PLEN SETA &PLEN-7
+           AELSE
+               :&SLEN SETA &ZLEN
+               ACALL SET_SOURCE_LEN         SET EXPLICIT SOURCE LEN
+         PACK  &POFF+&TARGET.(&PLEN),&ZOFF+&S_TEMP  PACK #2 FINAL
+              :&ZLEN SETA 0
+           AEND
+           AIF (&ZLEN GT 0)
+               :&SLEN SETA &ZLEN
+               ACALL SET_SOURCE_LEN         SET EXPLICIT SOURCE LEN
+         PACK  &POFF+&TARGET.(&PLEN),&ZOFF+&S_TEMP  PACK #3 FINAL
+           AEND  
+.*
+.* SET SOURCE LEN - INSERT SLEN FOR SIX OR LABEL IN S_TEMP
+.*
+         AENTRY SET_SOURCE_LEN
+         AIF   ('&SOURCE'(1,1) LT '0')   IS THIS LABEL
+               :&S_TEMP SETC '&SOURCE.(&SLEN)'
+         AELSE
+               :&I   SETA ('&SOURCE' INDEX '(')
+               AIF   (&I GT 0)
+                     :&J SETA ('&SOURCE' INDEX ',')
+                     AIF (&J GT 0)     REPLACE EXPLICIT OFF(LEN,REG)
+                         :&S_TEMP SETC '&SOURCE'(1,&I).'&SLEN'.'&SOURCEX
+               '(&J,*)
+                     AELSE
+                         :&S_TEMP SETC '&SOURCE'(1,&I).'&SLEN,'.'&SOURCX
+               E'(&I+1,*)
+                     AEND
+               AELSE
+                     MNOTE 8,'ZC_PACK31 N(REG) FORMAT ERROR &SOURCE'
+                     MEXIT
+               AEND
+         AEND
+         AEND
+         MEND

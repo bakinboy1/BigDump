@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=array
+comment0.target=void\ fillArray(int[])
+comment1.params=array
+comment1.target=int[]\ copyArray(int[])
+comment2.params=array
+comment2.target=int\ alg1(int[])
+comment3.params=array
+comment3.target=int\ alg2(int[])
+comment4.params=lowerIndex\ higherIndex\ array
+comment4.target=int\ alg3(int,\ int,\ int[])
+comment5.params=i\ j\ array
+comment5.target=void\ exchangeNumbers(int,\ int,\ int[])
+comment6.params=args
+comment6.target=void\ main(java.lang.String[])
+numComments=7

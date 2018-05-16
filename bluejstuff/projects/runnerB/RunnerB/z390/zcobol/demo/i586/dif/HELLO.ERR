@@ -1,0 +1,12 @@
+Comparing files ZCOBOL\DEMO\I586\hello.ERR and ZCOBOL\DEMO\I586\SAVE\HELLO.ERR
+***** ZCOBOL\DEMO\I586\hello.ERR
+hello     MZ390 START
+hello     MZ390 MZ390E error 101         (1/3)3 missing copy  = hello_ZC_LABELS.CPY
+hello     MZ390 MZ390E error 266         (1/3)3 missing copy = hello_ZC_LABELS.CPY
+hello     MZ390 MZ390I FID=  1 ERR= 2 w:\work\z390\zcobol\demo\hello.MLC
+hello     MZ390 ENDED   RC=12 MEM(MB)= MB IO=6256
+***** ZCOBOL\DEMO\I586\SAVE\HELLO.ERR
+hello     MZ390 START
+hello     MZ390 ENDED   RC= 0 MEM(MB)= MB IO=4849
+*****
+

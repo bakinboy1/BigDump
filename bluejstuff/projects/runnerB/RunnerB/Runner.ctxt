@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=args
+comment0.target=void\ main(java.lang.String[])
+comment1.params=
+comment1.target=void\ run()
+comment2.params=
+comment2.target=Runner()
+comment3.params=
+comment3.target=CPU\ getCPU()
+comment4.params=
+comment4.target=java.lang.String\ getCodesPath()
+comment5.params=
+comment5.target=java.lang.String\ getz390Path()
+comment6.params=p
+comment6.target=void\ setCodesPath(java.lang.String)
+comment7.params=p
+comment7.target=void\ setz390Path(java.lang.String)
+comment8.params=
+comment8.target=javax.swing.JFrame\ getFrame()
+comment9.params=f
+comment9.target=void\ setFrame(javax.swing.JFrame)
+numComments=10

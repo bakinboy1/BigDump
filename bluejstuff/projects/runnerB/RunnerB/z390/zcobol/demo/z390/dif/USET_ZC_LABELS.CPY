@@ -1,0 +1,3 @@
+Comparing files ZCOBOL\DEMO\Z390\USET_ZC_LABELS.CPY and ZCOBOL\DEMO\Z390\SAVE\USET_ZC_LABELS.CPY
+FC: no differences encountered
+

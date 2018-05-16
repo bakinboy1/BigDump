@@ -1,0 +1,55 @@
+         ZCOBOL PGM='zcobol\test\TESTCPY1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s,syscpy(+zcobol\test))
+         COPY  TESTCPY1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTCPY1.
+         PROGRAM_ID TESTCPY1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  12/01/08.
+*      ***************************************************************
+*      * REGRESSION TEST NESTED COPY SUPPORT
+*      ***************************************************************
+         DATE_WRITTEN 12,/,01,/,08
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+*        COPY TESTCPYA.
+*      * TESTCPYA.CPZ 1 OF 4
+         WORKING_STORAGE SECTION
+*            77  TESTCPYA PIC X(20) VALUE 'HELLO FROM TESTCPYA'.
+*            COPY TESTCPYB.
+*      * TESTCPYB.CPZ 1 OF 3
+         WS      77,TESTCPYA,PIC,X(20),VALUE,'HELLO FROM TESTCPYA'
+*            77  TESTCPYB PIC X(20) VALUE 'HELLO FROM TESTCPYB'.
+*      * TESTCPYB.CPZ 3 OF 3
+*      * TESTCPYA.CPZ 4 OF 4
+         WS      77,TESTCPYB,PIC,X(20),VALUE,'HELLO FROM TESTCPYB'
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTCPY1 STARTING'
+*ZC     21         DISPLAY 'TESTCPY1 STARTING'
+         DISPLAY 'TESTCPY1 STARTING'
+*            DISPLAY 'TESTCPYA FROM TESTCPYA.CPZ =' TESTCPYA
+*ZC     22         DISPLAY 'TESTCPYA FROM TESTCPYA.CPZ =',TESTCPYA
+         DISPLAY 'TESTCPYA FROM TESTCPYA.CPZ =',TESTCPYA
+*            DISPLAY 'TESTCPYB FROM TESTCPYB.CPZ =' TESTCPYB
+*ZC     23         DISPLAY 'TESTCPYB FROM TESTCPYB.CPZ =',TESTCPYB
+         DISPLAY 'TESTCPYB FROM TESTCPYB.CPZ =',TESTCPYB
+*            DISPLAY 'TESTCPY1 ENDED OK'
+*ZC     24         DISPLAY 'TESTCPY1 ENDED OK'
+         DISPLAY 'TESTCPY1 ENDED OK'
+*            STOP RUN.
+*ZC     25         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

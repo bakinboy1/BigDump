@@ -1,0 +1,39 @@
+Z390I V1.5.06
+Copyright 2011 Automated Software Tools Corporation
+z390 is licensed under GNU General Public License
+Log file = C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390\z390_2016_1214_134002.LOG
+Enter command or help
+SZ390E error 37 file not selected
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 13:47:41 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASMLG demo\seive.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asmlg assemble, link, and go from mlc to 390 execution 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+13:47:41 seive     MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+MZ390E abort 39 file=1 line=0 file not found - demo\seive.mlc
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 1
+13:47:41 seive     MZ390 ENDED   RC=16 SEC= 0 MEM(MB)= 38 IO=3
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/14/16 13:47:41 CMD task ended TOT SEC=0 TOT LOG IO=15
+SZ390E error 71 previous command execution ended with rc =16
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 13:48:22 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASMLG demo\SIEVE null
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asmlg assemble, link, and go from mlc to 390 execution 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+TZ390E invalid option=null  (CMD-LINE/4)
+TZ390E abort error 21 - invalid options -  null
+z390_abort_request
+13:48:23 SIEVE     MZ390 ENDED   RC=16 SEC=1481741303 MEM(MB)= 10 IO=2
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/14/16 13:48:23 CMD task ended TOT SEC=1 TOT LOG IO=12
+Z390I total errors = 2

@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=addr\ myMemory\ psw\ registers
+comment0.target=SRAK(int,\ Memory,\ PSW,\ Registers)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ SRAK\r\n
+comment1.params=
+comment1.target=void\ execute()
+comment1.text=\r\n\ execute\ -\ emulates\ execution\ of\ a\ SRAK\ instruction\r\n\ \r\n
+numComments=2

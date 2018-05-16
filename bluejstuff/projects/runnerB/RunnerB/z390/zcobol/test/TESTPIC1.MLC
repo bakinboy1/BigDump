@@ -1,0 +1,415 @@
+         ZCOBOL PGM='zcobol\test\TESTPIC1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTPIC1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID. COMPTYPE.
+         PROGRAM_ID COMPTYPE
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+****************************************************************
+*       
+****************************************************************
+         WORKING_STORAGE SECTION
+*        01  Z-cobol-data-Types-comp-unsigned.
+         WS      01,Z_COBOL_DATA_TYPES_COMP_UNSIGNED
+*          03 comp-9-00 
+*             pic  9(00) comp 
+*                        value x'FF00'.
+         WS        03,COMP_9_00,PIC,9(00),COMP,VALUE,X'FF00'
+*          03 comp-9-01 
+*             pic  9(01) comp 
+*                        value x'FF01'.
+         WS        03,COMP_9_01,PIC,9(01),COMP,VALUE,X'FF01'
+*          03 comp-9-02 
+*             pic  9(02) comp 
+*                        value x'FF02'.
+         WS        03,COMP_9_02,PIC,9(02),COMP,VALUE,X'FF02'
+*          03 comp-9-03 
+*             pic  9(03) comp 
+*                        value x'FF03'.
+         WS        03,COMP_9_03,PIC,9(03),COMP,VALUE,X'FF03'
+*          03 comp-9-04 
+*             pic  9(04) comp 
+*                        value x'FF04'.
+         WS        03,COMP_9_04,PIC,9(04),COMP,VALUE,X'FF04'
+*          03 comp-9-05 
+*             pic  9(05) comp 
+*                        value x'FF05'.
+         WS        03,COMP_9_05,PIC,9(05),COMP,VALUE,X'FF05'
+*          03 comp-9-06 
+*             pic  9(06) comp 
+*                        value x'FF06'.
+         WS        03,COMP_9_06,PIC,9(06),COMP,VALUE,X'FF06'
+*          03 comp-9-07 
+*             pic  9(07) comp 
+*                        value x'FF07'.
+         WS        03,COMP_9_07,PIC,9(07),COMP,VALUE,X'FF07'
+*          03 comp-9-08 
+*             pic  9(08) comp 
+*                        value x'FF08'.
+         WS        03,COMP_9_08,PIC,9(08),COMP,VALUE,X'FF08'
+*          03 comp-9-09 
+*             pic  9(09) comp 
+*                        value x'FF000009'.
+         WS        03,COMP_9_09,PIC,9(09),COMP,VALUE,X'FF000009'
+*          03 comp-9-10 
+*             pic  9(10) comp 
+*                        value x'FF0000000000000A'.
+         WS        03,COMP_9_10,PIC,9(10),COMP,VALUE,X'FF0000000000000AX
+               '
+*          03 comp-9-11 
+*             pic  9(11) comp 
+*                        value x'FF0000000000000B'.
+         WS        03,COMP_9_11,PIC,9(11),COMP,VALUE,X'FF0000000000000BX
+               '
+*          03 comp-9-12 
+*             pic  9(12) comp 
+*                        value x'FF0000000000000C'.
+         WS        03,COMP_9_12,PIC,9(12),COMP,VALUE,X'FF0000000000000CX
+               '
+*          03 comp-9-13 
+*             pic  9(13) comp 
+*                        value x'FF0000000000000D'.
+         WS        03,COMP_9_13,PIC,9(13),COMP,VALUE,X'FF0000000000000DX
+               '
+*          03 comp-9-14 
+*             pic  9(14) comp 
+*                        value x'FF0000000000000E'.
+         WS        03,COMP_9_14,PIC,9(14),COMP,VALUE,X'FF0000000000000EX
+               '
+*          03 comp-9-15 
+*             pic  9(15) comp 
+*                        value x'FF0000000000000F'.
+         WS        03,COMP_9_15,PIC,9(15),COMP,VALUE,X'FF0000000000000FX
+               '
+*          03 comp-9-16 
+*             pic  9(16) comp 
+*                        value x'FF00000000000010'.
+         WS        03,COMP_9_16,PIC,9(16),COMP,VALUE,X'FF00000000000010X
+               '
+*          03 comp-9-17 
+*             pic  9(17) comp 
+*                        value x'FF00000000000011'.
+         WS        03,COMP_9_17,PIC,9(17),COMP,VALUE,X'FF00000000000011X
+               '
+*          03 comp-9-18 
+*             pic  9(18) comp 
+*                        value x'FF00000000000012'.
+         WS        03,COMP_9_18,PIC,9(18),COMP,VALUE,X'FF00000000000012X
+               '
+*          03 comp-9-19 
+*             pic  9(19) comp 
+*                        value x'FF000000000000000000000000000013'.
+         WS        03,COMP_9_19,PIC,9(19),COMP,VALUE,X'FF00000000000000X
+               0000000000000013'
+*          03 comp-9-20 
+*             pic  9(20) comp 
+*                        value x'FF000000000000000000000000000014'.
+         WS        03,COMP_9_20,PIC,9(20),COMP,VALUE,X'FF00000000000000X
+               0000000000000014'
+*          03 comp-9-21 
+*             pic  9(21) comp 
+*                        value x'FF000000000000000000000000000015'.
+         WS        03,COMP_9_21,PIC,9(21),COMP,VALUE,X'FF00000000000000X
+               0000000000000015'
+*          03 comp-9-22 
+*             pic  9(22) comp 
+*                        value x'FF000000000000000000000000000016'.
+         WS        03,COMP_9_22,PIC,9(22),COMP,VALUE,X'FF00000000000000X
+               0000000000000016'
+*          03 comp-9-23 
+*             pic  9(23) comp 
+*                        value x'FF000000000000000000000000000017'.
+         WS        03,COMP_9_23,PIC,9(23),COMP,VALUE,X'FF00000000000000X
+               0000000000000017'
+*          03 comp-9-24 
+*             pic  9(24) comp 
+*                        value x'FF000000000000000000000000000018'.
+         WS        03,COMP_9_24,PIC,9(24),COMP,VALUE,X'FF00000000000000X
+               0000000000000018'
+*          03 comp-9-25 
+*             pic  9(25) comp 
+*                        value x'FF000000000000000000000000000019'.
+         WS        03,COMP_9_25,PIC,9(25),COMP,VALUE,X'FF00000000000000X
+               0000000000000019'
+*          03 comp-9-26 
+*             pic  9(26) comp 
+*                        value x'FF00000000000000000000000000001A'.
+         WS        03,COMP_9_26,PIC,9(26),COMP,VALUE,X'FF00000000000000X
+               000000000000001A'
+*          03 comp-9-27 
+*             pic  9(27) comp 
+*                        value x'FF00000000000000000000000000001B'.
+         WS        03,COMP_9_27,PIC,9(27),COMP,VALUE,X'FF00000000000000X
+               000000000000001B'
+*          03 comp-9-28 
+*             pic  9(28) comp 
+*                        value x'FF00000000000000000000000000001C'.
+         WS        03,COMP_9_28,PIC,9(28),COMP,VALUE,X'FF00000000000000X
+               000000000000001C'
+*          03 comp-9-29 
+*             pic  9(29) comp 
+*                        value x'FF00000000000000000000000000001D'.
+         WS        03,COMP_9_29,PIC,9(29),COMP,VALUE,X'FF00000000000000X
+               000000000000001D'
+*          03 comp-9-30 
+*             pic  9(30) comp 
+*                        value x'FF00000000000000000000000000001E'.
+         WS        03,COMP_9_30,PIC,9(30),COMP,VALUE,X'FF00000000000000X
+               000000000000001E'
+*          03 comp-9-31 
+*             pic  9(31) comp 
+*                        value x'FF00000000000000000000000000001F'.
+         WS        03,COMP_9_31,PIC,9(31),COMP,VALUE,X'FF00000000000000X
+               000000000000001F'
+*          03 comp-9-32 
+*             pic  9(32) comp 
+*                        value x'FF000000000000000000000000000020'.
+         WS        03,COMP_9_32,PIC,9(32),COMP,VALUE,X'FF00000000000000X
+               0000000000000020'
+*          03 comp-9-33 
+*             pic  9(33) comp 
+*                        value x'FF000000000000000000000000000021'.
+         WS        03,COMP_9_33,PIC,9(33),COMP,VALUE,X'FF00000000000000X
+               0000000000000021'
+*          03 comp-9-34 
+*             pic  9(34) comp 
+*                        value x'FF000000000000000000000000000022'.
+         WS        03,COMP_9_34,PIC,9(34),COMP,VALUE,X'FF00000000000000X
+               0000000000000022'
+*          03 comp-9-35 
+*             pic  9(35) comp 
+*                        value x'FF000000000000000000000000000023'.
+         WS        03,COMP_9_35,PIC,9(35),COMP,VALUE,X'FF00000000000000X
+               0000000000000023'
+*          03 comp-9-36 
+*             pic  9(36) comp 
+*                        value x'FF000000000000000000000000000024'.
+         WS        03,COMP_9_36,PIC,9(36),COMP,VALUE,X'FF00000000000000X
+               0000000000000024'
+*          03 comp-9-37 
+*             pic  9(37) comp 
+*                        value x'FF000000000000000000000000000025'.
+         WS        03,COMP_9_37,PIC,9(37),COMP,VALUE,X'FF00000000000000X
+               0000000000000025'
+*          03 comp-9-38 
+*             pic  9(38) comp 
+*                        value x'FF000000000000000000000000000026'.
+         WS        03,COMP_9_38,PIC,9(38),COMP,VALUE,X'FF00000000000000X
+               0000000000000026'
+*          03 comp-9-39 
+*             pic  9(39) comp 
+*                        value x'FF000000000000000000000000000027'.
+*                                        
+         WS        03,COMP_9_39,PIC,9(39),COMP,VALUE,X'FF00000000000000X
+               0000000000000027'
+*        01  Z-cobol-data-Types-comp-Signed.
+*      ***************************************************************
+         WS      01,Z_COBOL_DATA_TYPES_COMP_SIGNED
+*          03 comp-S9-00 
+*              pic S9(00) comp 
+*                         value x'8000'.
+         WS        03,COMP_S9_00,PIC,S9(00),COMP,VALUE,X'8000'
+*          03 comp-S9-01 
+*              pic S9(01) comp 
+*                         value x'8001'.
+         WS        03,COMP_S9_01,PIC,S9(01),COMP,VALUE,X'8001'
+*          03 comp-S9-02 
+*              pic S9(02) comp 
+*                         value x'8002'.
+         WS        03,COMP_S9_02,PIC,S9(02),COMP,VALUE,X'8002'
+*          03 comp-S9-03 
+*              pic S9(03) comp 
+*                         value x'8003'.
+         WS        03,COMP_S9_03,PIC,S9(03),COMP,VALUE,X'8003'
+*          03 comp-S9-04 
+*              pic S9(04) comp 
+*                         value x'8004'.
+         WS        03,COMP_S9_04,PIC,S9(04),COMP,VALUE,X'8004'
+*          03 comp-S9-05 
+*              pic S9(05) comp 
+*                         value x'8005'.
+         WS        03,COMP_S9_05,PIC,S9(05),COMP,VALUE,X'8005'
+*          03 comp-S9-06 
+*              pic S9(06) comp 
+*                         value x'8006'.
+         WS        03,COMP_S9_06,PIC,S9(06),COMP,VALUE,X'8006'
+*          03 comp-S9-07 
+*              pic S9(07) comp 
+*                         value x'8007'.
+         WS        03,COMP_S9_07,PIC,S9(07),COMP,VALUE,X'8007'
+*          03 comp-S9-08 
+*              pic S9(08) comp 
+*                         value x'8008'.
+         WS        03,COMP_S9_08,PIC,S9(08),COMP,VALUE,X'8008'
+*          03 comp-S9-09 
+*              pic S9(09) comp 
+*                         value x'80000009'.
+         WS        03,COMP_S9_09,PIC,S9(09),COMP,VALUE,X'80000009'
+*          03 comp-S9-10 
+*              pic S9(10) comp 
+*                         value x'800000000000000A'.
+         WS        03,COMP_S9_10,PIC,S9(10),COMP,VALUE,X'80000000000000X
+               0A'
+*          03 comp-S9-11 
+*              pic S9(11) comp 
+*                         value x'800000000000000B'.
+         WS        03,COMP_S9_11,PIC,S9(11),COMP,VALUE,X'80000000000000X
+               0B'
+*          03 comp-S9-12 
+*              pic S9(12) comp 
+*                         value x'800000000000000C'.
+         WS        03,COMP_S9_12,PIC,S9(12),COMP,VALUE,X'80000000000000X
+               0C'
+*          03 comp-S9-13 
+*              pic S9(13) comp 
+*                         value x'800000000000000D'.
+         WS        03,COMP_S9_13,PIC,S9(13),COMP,VALUE,X'80000000000000X
+               0D'
+*          03 comp-S9-14 
+*              pic S9(14) comp 
+*                         value x'800000000000000E'.
+         WS        03,COMP_S9_14,PIC,S9(14),COMP,VALUE,X'80000000000000X
+               0E'
+*          03 comp-S9-15 
+*              pic S9(15) comp 
+*                         value x'800000000000000F'.
+         WS        03,COMP_S9_15,PIC,S9(15),COMP,VALUE,X'80000000000000X
+               0F'
+*          03 comp-S9-16 
+*              pic S9(16) comp 
+*                         value x'8000000000000010'.
+         WS        03,COMP_S9_16,PIC,S9(16),COMP,VALUE,X'80000000000000X
+               10'
+*          03 comp-S9-17 
+*              pic S9(17) comp 
+*                         value x'8000000000000011'.
+         WS        03,COMP_S9_17,PIC,S9(17),COMP,VALUE,X'80000000000000X
+               11'
+*          03 comp-S9-18 
+*              pic S9(18) comp 
+*                         value x'8000000000000012'.
+         WS        03,COMP_S9_18,PIC,S9(18),COMP,VALUE,X'80000000000000X
+               12'
+*          03 comp-S9-19 
+*              pic S9(19) comp 
+*                         value x'80000000000000000000000000000013'.
+         WS        03,COMP_S9_19,PIC,S9(19),COMP,VALUE,X'80000000000000X
+               000000000000000013'
+*          03 comp-S9-20 
+*              pic S9(20) comp 
+*                         value x'80000000000000000000000000000014'.
+         WS        03,COMP_S9_20,PIC,S9(20),COMP,VALUE,X'80000000000000X
+               000000000000000014'
+*          03 comp-S9-21 
+*              pic S9(21) comp 
+*                         value x'80000000000000000000000000000015'.
+         WS        03,COMP_S9_21,PIC,S9(21),COMP,VALUE,X'80000000000000X
+               000000000000000015'
+*          03 comp-S9-22 
+*              pic S9(22) comp 
+*                         value x'80000000000000000000000000000016'.
+         WS        03,COMP_S9_22,PIC,S9(22),COMP,VALUE,X'80000000000000X
+               000000000000000016'
+*          03 comp-S9-23 
+*              pic S9(23) comp 
+*                         value x'80000000000000000000000000000017'.
+         WS        03,COMP_S9_23,PIC,S9(23),COMP,VALUE,X'80000000000000X
+               000000000000000017'
+*          03 comp-S9-24 
+*              pic S9(24) comp 
+*                         value x'80000000000000000000000000000018'.
+         WS        03,COMP_S9_24,PIC,S9(24),COMP,VALUE,X'80000000000000X
+               000000000000000018'
+*          03 comp-S9-25 
+*              pic S9(25) comp 
+*                         value x'80000000000000000000000000000019'.
+         WS        03,COMP_S9_25,PIC,S9(25),COMP,VALUE,X'80000000000000X
+               000000000000000019'
+*          03 comp-S9-26 
+*              pic S9(26) comp 
+*                         value x'8000000000000000000000000000001A'.
+         WS        03,COMP_S9_26,PIC,S9(26),COMP,VALUE,X'80000000000000X
+               00000000000000001A'
+*          03 comp-S9-27 
+*              pic S9(27) comp 
+*                         value x'8000000000000000000000000000001B'.
+         WS        03,COMP_S9_27,PIC,S9(27),COMP,VALUE,X'80000000000000X
+               00000000000000001B'
+*          03 comp-S9-28 
+*              pic S9(28) comp 
+*                         value x'8000000000000000000000000000001C'.
+         WS        03,COMP_S9_28,PIC,S9(28),COMP,VALUE,X'80000000000000X
+               00000000000000001C'
+*          03 comp-S9-29 
+*              pic S9(29) comp 
+*                         value x'8000000000000000000000000000001D'.
+         WS        03,COMP_S9_29,PIC,S9(29),COMP,VALUE,X'80000000000000X
+               00000000000000001D'
+*          03 comp-S9-30 
+*              pic S9(30) comp 
+*                         value x'8000000000000000000000000000001E'.
+         WS        03,COMP_S9_30,PIC,S9(30),COMP,VALUE,X'80000000000000X
+               00000000000000001E'
+*          03 comp-S9-31 
+*              pic S9(31) comp 
+*                         value x'8000000000000000000000000000001F'.
+         WS        03,COMP_S9_31,PIC,S9(31),COMP,VALUE,X'80000000000000X
+               00000000000000001F'
+*          03 comp-S9-32 
+*              pic S9(32) comp 
+*                         value x'80000000000000000000000000000020'.
+         WS        03,COMP_S9_32,PIC,S9(32),COMP,VALUE,X'80000000000000X
+               000000000000000020'
+*          03 comp-S9-33 
+*              pic S9(33) comp 
+*                         value x'80000000000000000000000000000021'.
+         WS        03,COMP_S9_33,PIC,S9(33),COMP,VALUE,X'80000000000000X
+               000000000000000021'
+*          03 comp-S9-34 
+*              pic S9(34) comp 
+*                         value x'80000000000000000000000000000022'.
+         WS        03,COMP_S9_34,PIC,S9(34),COMP,VALUE,X'80000000000000X
+               000000000000000022'
+*          03 comp-S9-35 
+*              pic S9(35) comp 
+*                         value x'80000000000000000000000000000023'.
+         WS        03,COMP_S9_35,PIC,S9(35),COMP,VALUE,X'80000000000000X
+               000000000000000023'
+*          03 comp-S9-36 
+*              pic S9(36) comp 
+*                         value x'80000000000000000000000000000024'.
+         WS        03,COMP_S9_36,PIC,S9(36),COMP,VALUE,X'80000000000000X
+               000000000000000024'
+*          03 comp-S9-37 
+*              pic S9(37) comp 
+*                         value x'80000000000000000000000000000025'.
+         WS        03,COMP_S9_37,PIC,S9(37),COMP,VALUE,X'80000000000000X
+               000000000000000025'
+*          03 comp-S9-38 
+*              pic S9(38) comp 
+*                         value x'80000000000000000000000000000026'.
+         WS        03,COMP_S9_38,PIC,S9(38),COMP,VALUE,X'80000000000000X
+               000000000000000026'
+*          03 comp-S9-39 
+*              pic S9(39) comp 
+*                         value x'80000000000000000000000000000027'.
+*      ***************************************************************
+         WS        03,COMP_S9_39,PIC,S9(39),COMP,VALUE,X'80000000000000X
+               000000000000000027'
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*         Display 'Computational Data Types'.
+*ZC   DISPLAY 'Computational Data Types'
+         DISPLAY 'Computational Data Types'
+         PERIOD 
+*ZC   STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

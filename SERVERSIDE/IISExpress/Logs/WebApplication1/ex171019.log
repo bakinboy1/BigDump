@@ -1,0 +1,18 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-10-19 15:33:36
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-10-19 15:33:36 ::1 GET /WebForm1.aspx - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 4171
+2017-10-19 15:33:36 ::1 GET /style/Styles.css - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 200 0 0 6
+2017-10-19 15:33:36 ::1 GET /images/logo.gif - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 200 0 0 9
+2017-10-19 15:33:36 ::1 GET /favicon.ico - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-10-19 16:16:02
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-10-19 16:16:02 ::1 GET /WebForm1.aspx - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 3498
+2017-10-19 16:16:02 ::1 GET /style/Styles.css - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 304 0 0 6
+2017-10-19 16:16:02 ::1 GET /images/logo.gif - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 304 0 0 5
+2017-10-19 16:16:02 ::1 GET /WebResource.axd d=pynGkmcFUV13He1Qd6_TZLqrl_804u5_q4GufLG0xoT3SAfvtNin9zxrr2iRQ_wc9EhbmvARfDB65gK9oZIIqA2&t=636398991241906023 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 200 0 0 4
+2017-10-19 16:16:02 ::1 GET /WebResource.axd d=x2nkrMJGXkMELz33nwnakAZOJdZWMOddV6fhnP-z7FqNPI6UGwPJUGqnvckzn2GRGT06cA-n_3rdnxne93WjVvQxaXN4n3FckurOqJyjVd01&t=636398991241906023 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 200 0 0 2
+2017-10-19 16:16:08 ::1 POST /WebForm1.aspx - 50551 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50551/WebForm1.aspx 200 0 0 6

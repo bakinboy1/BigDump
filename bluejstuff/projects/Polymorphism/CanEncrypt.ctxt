@@ -1,0 +1,9 @@
+#BlueJ class context
+comment0.params=plaintext
+comment0.target=java.lang.String\ cesar(java.lang.String)
+comment0.text=\r\n\ This\ method\ is\ supposed\ to\ implement\ the\ shift\ by\ 3\ caesar\ cipher\r\n\ It\ abstract\ (i.e.,\ does\ notheting)\r\n\ Has\ no\ access\ specifier\r\n
+comment1.params=plaintext\ shiftAmount
+comment1.target=java.lang.String\ shiftByN(java.lang.String,\ int)
+comment2.params=plaintext\ key
+comment2.target=java.lang.String\ substitute(java.lang.String,\ char[])
+numComments=3

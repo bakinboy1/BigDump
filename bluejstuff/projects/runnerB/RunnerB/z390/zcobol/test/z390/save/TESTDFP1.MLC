@@ -1,0 +1,1621 @@
+         ZCOBOL PGM='zcobol\test\TESTDFP1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s,float(decimal))
+         COPY  TESTDFP1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTDFP1.
+         PROGRAM_ID TESTDFP1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  03/12/09.
+*      ***************************************************************
+*      * REGRESSION TEST DFP FLOATING POINT - REQUIRES FLOAT(DECIMAL)  X
+                 
+*      ***************************************************************
+*      * 03/23/09 RPI 1004 INITIAL CODING TO TEST DFP                  X
+                 
+*      ***************************************************************
+         DATE_WRITTEN 03,/,12,/,09
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+*      * THE FOLLOWING 3 TYPES ARE MAPPED TO DFP USING FLOAT(DECIMAL)
+*      * NOTE: FLOAT(DECIMAL) IS THE DEFAULT 
+         WORKING_STORAGE SECTION
+*        77 FLT-SRT FLOAT-SHORT.
+         WS      77,FLT_SRT,FLOAT_SHORT
+*        77 FLT-LNG FLOAT-LONG. 
+         WS      77,FLT_LNG,FLOAT_LONG
+*        77 FLT-EXT FLOAT-EXTENDED.
+*      * THE FOLLOWING 9 TYPES ALWAYS MAP TO HFP, BFP, AND DFP.
+         WS      77,FLT_EXT,FLOAT_EXTENDED
+*        77 HFP-SRT FLOAT-HEX-7      VALUE 1234567.
+         WS      77,HFP_SRT,FLOAT_HEX_7,VALUE,1234567
+*        77 HFP-LNG FLOAT-HEX-15     VALUE 123456789012345.
+         WS      77,HFP_LNG,FLOAT_HEX_15,VALUE,123456789012345
+*        77 HFP-EXT FLOAT-HEX-30 
+*                   VALUE 123456789012345678901234567890.
+         WS      77,HFP_EXT,FLOAT_HEX_30,VALUE,123456789012345678901234X
+               567890
+*        77 BFP-SRT FLOAT-BINARY-7   VALUE 1234567.
+         WS      77,BFP_SRT,FLOAT_BINARY_7,VALUE,1234567
+*        77 BFP-LNG FLOAT-BINARY-16  VALUE 1234567890123456.
+         WS      77,BFP_LNG,FLOAT_BINARY_16,VALUE,1234567890123456
+*        77 BFP-EXT FLOAT-BINARY-34
+*                   VALUE 1234567890123456789012345678901234.
+         WS      77,BFP_EXT,FLOAT_BINARY_34,VALUE,123456789012345678901X
+               2345678901234
+*        77 DFP-SRT FLOAT-DECIMAL-7  VALUE 1234567.
+         WS      77,DFP_SRT,FLOAT_DECIMAL_7,VALUE,1234567
+*        77 DFP-LNG FLOAT-DECIMAL-16 VALUE 1234567890123456.
+         WS      77,DFP_LNG,FLOAT_DECIMAL_16,VALUE,1234567890123456
+*        77 DFP-EXT FLOAT-DECIMAL-34
+*                   VALUE 1234567890123456789012345678901234.
+*      * THE FOLLOWING 4 TYPES DEFINE 16, 32, 64, AND 128 BINARY TYPES
+*      * NOTE 18 DIGIT DW LIMITED TO 16 DIGITS TO FIT IN BFP/DFP-LNG
+*      * NOTE 39 DIGIT QW LIMITED TO 34 DIGITS TO FIT IN BFP/DFP-EXT
+         WS      77,DFP_EXT,FLOAT_DECIMAL_34,VALUE,12345678901234567890X
+               12345678901234
+*        77 HW      COMP PIC S9(4)  VALUE 1234.
+         WS      77,HW,COMP,PIC,S9(4),VALUE,1234
+*        77 FW      COMP PIC S9(9)  VALUE 123456789.
+         WS      77,FW,COMP,PIC,S9(9),VALUE,123456789
+*        77 DW      COMP PIC S9(18) VALUE 1234567890123456.
+         WS      77,DW,COMP,PIC,S9(18),VALUE,1234567890123456
+*        77 QW      COMP PIC S9(39) 
+*                   VALUE 1234567890123456789012345678901234.
+*      * THE FOLLOWING 2 TYPES DEFINE 31 DIGIT PACKED AND ZONED DECIMAL
+         WS      77,QW,COMP,PIC,S9(39),VALUE,12345678901234567890123456X
+               78901234
+*        77 PD      COMP-3 PIC S9(31) 
+*                   VALUE 1234567890123456789012345678901.
+         WS      77,PD,COMP_3,PIC,S9(31),VALUE,123456789012345678901234X
+               5678901
+*        77 ZD             PIC S9(31) 
+*                   VALUE 1234567890123456789012345678901.
+         WS      77,ZD,PIC,S9(31),VALUE,1234567890123456789012345678901
+*        77 GOOD    COMP-3 PIC S9(4) VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,S9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTDFP1 STARTING'
+*ZC     47         DISPLAY 'TESTDFP1 STARTING'
+         DISPLAY 'TESTDFP1 STARTING'
+*            DISPLAY 'HFP-SRT=' HFP-SRT
+*ZC     48         DISPLAY 'HFP-SRT=',HFP_SRT
+         DISPLAY 'HFP-SRT=',HFP_SRT
+*            DISPLAY 'HFP-LNG=' HFP-LNG
+*ZC     49         DISPLAY 'HFP-LNG=',HFP_LNG
+         DISPLAY 'HFP-LNG=',HFP_LNG
+*            DISPLAY 'HFP-EXT=' HFP-EXT
+*ZC     50         DISPLAY 'HFP-EXT=',HFP_EXT
+         DISPLAY 'HFP-EXT=',HFP_EXT
+*            DISPLAY 'BFP-SRT=' BFP-SRT
+*ZC     51         DISPLAY 'BFP-SRT=',BFP_SRT
+         DISPLAY 'BFP-SRT=',BFP_SRT
+*            DISPLAY 'BFP-LNG=' BFP-LNG
+*ZC     52         DISPLAY 'BFP-LNG=',BFP_LNG
+         DISPLAY 'BFP-LNG=',BFP_LNG
+*            DISPLAY 'BFP-EXT=' BFP-EXT
+*ZC     53         DISPLAY 'BFP-EXT=',BFP_EXT
+         DISPLAY 'BFP-EXT=',BFP_EXT
+*            DISPLAY 'DFP-SRT=' DFP-SRT
+*ZC     54         DISPLAY 'DFP-SRT=',DFP_SRT
+         DISPLAY 'DFP-SRT=',DFP_SRT
+*            DISPLAY 'DFP-LNG=' DFP-LNG
+*ZC     55         DISPLAY 'DFP-LNG=',DFP_LNG
+         DISPLAY 'DFP-LNG=',DFP_LNG
+*            DISPLAY 'DFP-EXT=' DFP-EXT
+*ZC     56         DISPLAY 'DFP-EXT=',DFP_EXT
+         DISPLAY 'DFP-EXT=',DFP_EXT
+*            DISPLAY 'HW=' HW
+*ZC     57         DISPLAY 'HW=',HW
+         DISPLAY 'HW=',HW
+*            DISPLAY 'FW=' FW
+*ZC     58         DISPLAY 'FW=',FW
+         DISPLAY 'FW=',FW
+*            DISPLAY 'DW=' DW
+*ZC     59         DISPLAY 'DW=',DW
+         DISPLAY 'DW=',DW
+*            DISPLAY 'QW=' QW
+*ZC     60         DISPLAY 'QW=',QW
+         DISPLAY 'QW=',QW
+*            DISPLAY 'PD=' PD
+*ZC     61         DISPLAY 'PD=',PD
+         DISPLAY 'PD=',PD
+*            DISPLAY 'ZD=' ZD
+*ZC     62         DISPLAY 'ZD=',ZD
+         DISPLAY 'ZD=',ZD
+*            IF HFP-SRT = 1234567
+*ZC     63         IF    HFP_SRT,=,1234567
+         IF    HFP_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     64         PERFORM GOOD
+         PERFORM GOOD
+*ZC     64         ELSE  
+         ELSE  
+*ZC     64         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = 123456789012345
+*ZC     65         IF    HFP_LNG,=,123456789012345
+         IF    HFP_LNG,=,123456789012345
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     66         PERFORM GOOD
+         PERFORM GOOD
+*ZC     66         ELSE  
+         ELSE  
+*ZC     66         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = 123456789012345678901234567890
+*ZC     67         IF    HFP_EXT,=,123456789012345678901234567890
+         IF    HFP_EXT,=,123456789012345678901234567890
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     68         PERFORM GOOD
+         PERFORM GOOD
+*ZC     68         ELSE  
+         ELSE  
+*ZC     68         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = 1234567
+*ZC     69         IF    BFP_SRT,=,1234567
+         IF    BFP_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     70         PERFORM GOOD
+         PERFORM GOOD
+*ZC     70         ELSE  
+         ELSE  
+*ZC     70         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = 1234567890123456
+*ZC     71         IF    BFP_LNG,=,1234567890123456
+         IF    BFP_LNG,=,1234567890123456
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     72         PERFORM GOOD
+         PERFORM GOOD
+*ZC     72         ELSE  
+         ELSE  
+*ZC     72         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = 1234567890123456789012345678901234
+*ZC     73         IF    BFP_EXT,=,1234567890123456789012345678901234
+         IF    BFP_EXT,=,1234567890123456789012345678901234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     74         PERFORM GOOD
+         PERFORM GOOD
+*ZC     74         ELSE  
+         ELSE  
+*ZC     74         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = 1234567
+*ZC     75         IF    DFP_SRT,=,1234567
+         IF    DFP_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     76         PERFORM GOOD
+         PERFORM GOOD
+*ZC     76         ELSE  
+         ELSE  
+*ZC     76         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = 1234567890123456
+*ZC     77         IF    DFP_LNG,=,1234567890123456
+         IF    DFP_LNG,=,1234567890123456
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     78         PERFORM GOOD
+         PERFORM GOOD
+*ZC     78         ELSE  
+         ELSE  
+*ZC     78         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = 1234567890123456789012345678901234
+*ZC     79         IF    DFP_EXT,=,1234567890123456789012345678901234
+         IF    DFP_EXT,=,1234567890123456789012345678901234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     80         PERFORM GOOD
+         PERFORM GOOD
+*ZC     80         ELSE  
+         ELSE  
+*ZC     80         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = 1234
+*ZC     81         IF    HW,=,1234
+         IF    HW,=,1234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     82         PERFORM GOOD
+         PERFORM GOOD
+*ZC     82         ELSE  
+         ELSE  
+*ZC     82         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = 123456789
+*ZC     83         IF    FW,=,123456789
+         IF    FW,=,123456789
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     84         PERFORM GOOD
+         PERFORM GOOD
+*ZC     84         ELSE  
+         ELSE  
+*ZC     84         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = 1234567890123456                
+*ZC     85         IF    DW,=,1234567890123456
+         IF    DW,=,1234567890123456
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     86         PERFORM GOOD
+         PERFORM GOOD
+*ZC     86         ELSE  
+         ELSE  
+*ZC     86         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = 1234567890123456789012345678901234
+*ZC     87         IF    QW,=,1234567890123456789012345678901234
+         IF    QW,=,1234567890123456789012345678901234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     88         PERFORM GOOD
+         PERFORM GOOD
+*ZC     88         ELSE  
+         ELSE  
+*ZC     88         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = 1234567890123456789012345678901
+*ZC     89         IF    PD,=,1234567890123456789012345678901
+         IF    PD,=,1234567890123456789012345678901
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     90         PERFORM GOOD
+         PERFORM GOOD
+*ZC     90         ELSE  
+         ELSE  
+*ZC     90         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = 1234567890123456789012345678901
+*ZC     91         IF    ZD,=,1234567890123456789012345678901
+         IF    ZD,=,1234567890123456789012345678901
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC     92         PERFORM GOOD
+         PERFORM GOOD
+*ZC     92         ELSE  
+         ELSE  
+*      * TEST ADD
+*ZC     92         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-SRT
+*ZC     94         MOVE  0,TO,FLT_SRT
+         MOVE  0,TO,FLT_SRT
+*            ADD  HFP-SRT TO FLT-SRT
+*ZC     95         ADD   HFP_SRT,TO,FLT_SRT
+         ADD   HFP_SRT,TO,FLT_SRT
+*            IF   FLT-SRT = HFP-SRT  
+*ZC     96         IF    FLT_SRT,=,HFP_SRT
+         IF    FLT_SRT,=,HFP_SRT
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     97         PERFORM GOOD
+         PERFORM GOOD
+*ZC     97         ELSE  
+         ELSE  
+*ZC     97         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-LNG
+*ZC     98         MOVE  0,TO,FLT_LNG
+         MOVE  0,TO,FLT_LNG
+*            ADD  HFP-LNG TO FLT-LNG
+*ZC     99         ADD   HFP_LNG,TO,FLT_LNG
+         ADD   HFP_LNG,TO,FLT_LNG
+*            IF   FLT-LNG = HFP-LNG           
+*ZC    100         IF    FLT_LNG,=,HFP_LNG
+         IF    FLT_LNG,=,HFP_LNG
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    101         PERFORM GOOD
+         PERFORM GOOD
+*ZC    101         ELSE  
+         ELSE  
+*ZC    101         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-EXT
+*ZC    102         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  HFP-EXT TO FLT-EXT
+*ZC    103         ADD   HFP_EXT,TO,FLT_EXT
+         ADD   HFP_EXT,TO,FLT_EXT
+*            IF   FLT-EXT = HFP-EXT  
+*ZC    104         IF    FLT_EXT,=,HFP_EXT
+         IF    FLT_EXT,=,HFP_EXT
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    105         PERFORM GOOD
+         PERFORM GOOD
+*ZC    105         ELSE  
+         ELSE  
+*ZC    105         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-SRT
+*ZC    106         MOVE  0,TO,FLT_SRT
+         MOVE  0,TO,FLT_SRT
+*            ADD  BFP-SRT TO FLT-SRT
+*ZC    107         ADD   BFP_SRT,TO,FLT_SRT
+         ADD   BFP_SRT,TO,FLT_SRT
+*            IF   FLT-SRT = BFP-SRT
+*ZC    108         IF    FLT_SRT,=,BFP_SRT
+         IF    FLT_SRT,=,BFP_SRT
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    109         PERFORM GOOD
+         PERFORM GOOD
+*ZC    109         ELSE  
+         ELSE  
+*ZC    109         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-LNG
+*ZC    110         MOVE  0,TO,FLT_LNG
+         MOVE  0,TO,FLT_LNG
+*            ADD  BFP-LNG TO FLT-LNG
+*ZC    111         ADD   BFP_LNG,TO,FLT_LNG
+         ADD   BFP_LNG,TO,FLT_LNG
+*            IF   FLT-LNG = BFP-LNG
+*ZC    112         IF    FLT_LNG,=,BFP_LNG
+         IF    FLT_LNG,=,BFP_LNG
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    113         PERFORM GOOD
+         PERFORM GOOD
+*ZC    113         ELSE  
+         ELSE  
+*ZC    113         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-EXT
+*ZC    114         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  BFP-EXT TO FLT-EXT
+*ZC    115         ADD   BFP_EXT,TO,FLT_EXT
+         ADD   BFP_EXT,TO,FLT_EXT
+*            IF   FLT-EXT = BFP-EXT
+*ZC    116         IF    FLT_EXT,=,BFP_EXT
+         IF    FLT_EXT,=,BFP_EXT
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    117         PERFORM GOOD
+         PERFORM GOOD
+*ZC    117         ELSE  
+         ELSE  
+*ZC    117         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-SRT
+*ZC    118         MOVE  0,TO,FLT_SRT
+         MOVE  0,TO,FLT_SRT
+*            ADD  DFP-SRT TO FLT-SRT
+*ZC    119         ADD   DFP_SRT,TO,FLT_SRT
+         ADD   DFP_SRT,TO,FLT_SRT
+*            IF   FLT-SRT = DFP-SRT
+*ZC    120         IF    FLT_SRT,=,DFP_SRT
+         IF    FLT_SRT,=,DFP_SRT
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    121         PERFORM GOOD
+         PERFORM GOOD
+*ZC    121         ELSE  
+         ELSE  
+*ZC    121         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-LNG
+*ZC    122         MOVE  0,TO,FLT_LNG
+         MOVE  0,TO,FLT_LNG
+*            ADD  DFP-LNG TO FLT-LNG
+*ZC    123         ADD   DFP_LNG,TO,FLT_LNG
+         ADD   DFP_LNG,TO,FLT_LNG
+*            IF   FLT-LNG = DFP-LNG
+*ZC    124         IF    FLT_LNG,=,DFP_LNG
+         IF    FLT_LNG,=,DFP_LNG
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    125         PERFORM GOOD
+         PERFORM GOOD
+*ZC    125         ELSE  
+         ELSE  
+*ZC    125         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-EXT
+*ZC    126         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  DFP-EXT TO FLT-EXT
+*ZC    127         ADD   DFP_EXT,TO,FLT_EXT
+         ADD   DFP_EXT,TO,FLT_EXT
+*            IF   FLT-EXT = DFP-EXT
+*ZC    128         IF    FLT_EXT,=,DFP_EXT
+         IF    FLT_EXT,=,DFP_EXT
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    129         PERFORM GOOD
+         PERFORM GOOD
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE       0 TO FLT-SRT
+*ZC    130         MOVE  0,TO,FLT_SRT
+         MOVE  0,TO,FLT_SRT
+*            ADD  HW      TO FLT-SRT
+*ZC    131         ADD   HW,TO,FLT_SRT
+         ADD   HW,TO,FLT_SRT
+*            IF   FLT-SRT = 1234
+*ZC    132         IF    FLT_SRT,=,1234
+         IF    FLT_SRT,=,1234
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    133         PERFORM GOOD
+         PERFORM GOOD
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-LNG
+*ZC    134         MOVE  0,TO,FLT_LNG
+         MOVE  0,TO,FLT_LNG
+*            ADD  HW      TO FLT-LNG
+*ZC    135         ADD   HW,TO,FLT_LNG
+         ADD   HW,TO,FLT_LNG
+*            IF   FLT-LNG = 1234
+*ZC    136         IF    FLT_LNG,=,1234
+         IF    FLT_LNG,=,1234
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    137         PERFORM GOOD
+         PERFORM GOOD
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-EXT
+*ZC    138         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  HW      TO FLT-EXT
+*ZC    139         ADD   HW,TO,FLT_EXT
+         ADD   HW,TO,FLT_EXT
+*            IF   FLT-EXT = 1234      
+*ZC    140         IF    FLT_EXT,=,1234
+         IF    FLT_EXT,=,1234
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    141         PERFORM GOOD
+         PERFORM GOOD
+*ZC    141         ELSE  
+         ELSE  
+*ZC    141         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-LNG
+*ZC    142         MOVE  0,TO,FLT_LNG
+         MOVE  0,TO,FLT_LNG
+*            ADD  FW      TO FLT-LNG
+*ZC    143         ADD   FW,TO,FLT_LNG
+         ADD   FW,TO,FLT_LNG
+*            IF   FLT-LNG = 123456789
+*ZC    144         IF    FLT_LNG,=,123456789
+         IF    FLT_LNG,=,123456789
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    145         PERFORM GOOD
+         PERFORM GOOD
+*ZC    145         ELSE  
+         ELSE  
+*ZC    145         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-EXT
+*ZC    146         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  FW      TO FLT-EXT
+*ZC    147         ADD   FW,TO,FLT_EXT
+         ADD   FW,TO,FLT_EXT
+*            IF   FLT-EXT = 123456789
+*ZC    148         IF    FLT_EXT,=,123456789
+         IF    FLT_EXT,=,123456789
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    149         PERFORM GOOD
+         PERFORM GOOD
+*ZC    149         ELSE  
+         ELSE  
+*ZC    149         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-LNG
+*ZC    150         MOVE  0,TO,FLT_LNG
+         MOVE  0,TO,FLT_LNG
+*            ADD  DW      TO FLT-LNG
+*ZC    151         ADD   DW,TO,FLT_LNG
+         ADD   DW,TO,FLT_LNG
+*            IF   FLT-LNG = 1234567890123456
+*ZC    152         IF    FLT_LNG,=,1234567890123456
+         IF    FLT_LNG,=,1234567890123456
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    153         PERFORM GOOD
+         PERFORM GOOD
+*ZC    153         ELSE  
+         ELSE  
+*ZC    153         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-EXT
+*ZC    154         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  DW      TO FLT-EXT
+*ZC    155         ADD   DW,TO,FLT_EXT
+         ADD   DW,TO,FLT_EXT
+*            IF   FLT-EXT = 1234567890123456
+*ZC    156         IF    FLT_EXT,=,1234567890123456
+         IF    FLT_EXT,=,1234567890123456
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    157         PERFORM GOOD
+         PERFORM GOOD
+*ZC    157         ELSE  
+         ELSE  
+*ZC    157         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-EXT
+*ZC    158         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  QW      TO FLT-EXT
+*ZC    159         ADD   QW,TO,FLT_EXT
+         ADD   QW,TO,FLT_EXT
+*            IF   FLT-EXT = QW         
+*ZC    160         IF    FLT_EXT,=,QW
+         IF    FLT_EXT,=,QW
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    161         PERFORM GOOD
+         PERFORM GOOD
+*ZC    161         ELSE  
+         ELSE  
+*ZC    161         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-EXT
+*ZC    162         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  PD      TO FLT-EXT
+*ZC    163         ADD   PD,TO,FLT_EXT
+         ADD   PD,TO,FLT_EXT
+*            IF   FLT-EXT = PD                                
+*ZC    164         IF    FLT_EXT,=,PD
+         IF    FLT_EXT,=,PD
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    165         PERFORM GOOD
+         PERFORM GOOD
+*ZC    165         ELSE  
+         ELSE  
+*ZC    165         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0       TO FLT-EXT
+*ZC    166         MOVE  0,TO,FLT_EXT
+         MOVE  0,TO,FLT_EXT
+*            ADD  ZD      TO FLT-EXT
+*ZC    167         ADD   ZD,TO,FLT_EXT
+         ADD   ZD,TO,FLT_EXT
+*            IF   FLT-EXT = ZD                               
+*ZC    168         IF    FLT_EXT,=,ZD
+         IF    FLT_EXT,=,ZD
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    169         PERFORM GOOD
+         PERFORM GOOD
+*ZC    169         ELSE  
+         ELSE  
+*      * TEST SUBTRACT
+*ZC    169         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      HFP-SRT TO   FLT-SRT
+*ZC    171         MOVE  HFP_SRT,TO,FLT_SRT
+         MOVE  HFP_SRT,TO,FLT_SRT
+*            SUBTRACT  HFP-SRT FROM FLT-SRT
+*ZC    172         SUBTRACT HFP_SRT,FROM,FLT_SRT
+         SUBTRACT HFP_SRT,FROM,FLT_SRT
+*            IF   FLT-SRT = ZERO    
+*ZC    173         IF    FLT_SRT,=,ZERO
+         IF    FLT_SRT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    174         PERFORM GOOD
+         PERFORM GOOD
+*ZC    174         ELSE  
+         ELSE  
+*ZC    174         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      HFP-LNG TO   FLT-LNG
+*ZC    175         MOVE  HFP_LNG,TO,FLT_LNG
+         MOVE  HFP_LNG,TO,FLT_LNG
+*            SUBTRACT  HFP-LNG FROM FLT-LNG
+*ZC    176         SUBTRACT HFP_LNG,FROM,FLT_LNG
+         SUBTRACT HFP_LNG,FROM,FLT_LNG
+*            IF   FLT-LNG = ZERO                   
+*ZC    177         IF    FLT_LNG,=,ZERO
+         IF    FLT_LNG,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    178         PERFORM GOOD
+         PERFORM GOOD
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      HFP-EXT TO   FLT-EXT
+*ZC    179         MOVE  HFP_EXT,TO,FLT_EXT
+         MOVE  HFP_EXT,TO,FLT_EXT
+*            SUBTRACT  HFP-EXT FROM FLT-EXT
+*ZC    180         SUBTRACT HFP_EXT,FROM,FLT_EXT
+         SUBTRACT HFP_EXT,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                              
+*ZC    181         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    182         PERFORM GOOD
+         PERFORM GOOD
+*ZC    182         ELSE  
+         ELSE  
+*ZC    182         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      BFP-SRT TO   FLT-SRT
+*ZC    183         MOVE  BFP_SRT,TO,FLT_SRT
+         MOVE  BFP_SRT,TO,FLT_SRT
+*            SUBTRACT  BFP-SRT FROM FLT-SRT
+*ZC    184         SUBTRACT BFP_SRT,FROM,FLT_SRT
+         SUBTRACT BFP_SRT,FROM,FLT_SRT
+*            IF   FLT-SRT = ZERO                                       X
+                    
+*ZC    185         IF    FLT_SRT,=,ZERO
+         IF    FLT_SRT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    186         PERFORM GOOD
+         PERFORM GOOD
+*ZC    186         ELSE  
+         ELSE  
+*ZC    186         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      BFP-LNG TO   FLT-LNG
+*ZC    187         MOVE  BFP_LNG,TO,FLT_LNG
+         MOVE  BFP_LNG,TO,FLT_LNG
+*            SUBTRACT  BFP-LNG FROM FLT-LNG
+*ZC    188         SUBTRACT BFP_LNG,FROM,FLT_LNG
+         SUBTRACT BFP_LNG,FROM,FLT_LNG
+*            IF   FLT-LNG = ZERO                                       X
+                    
+*ZC    189         IF    FLT_LNG,=,ZERO
+         IF    FLT_LNG,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    190         PERFORM GOOD
+         PERFORM GOOD
+*ZC    190         ELSE  
+         ELSE  
+*ZC    190         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      BFP-EXT TO   FLT-EXT
+*ZC    191         MOVE  BFP_EXT,TO,FLT_EXT
+         MOVE  BFP_EXT,TO,FLT_EXT
+*            SUBTRACT  BFP-EXT FROM FLT-EXT
+*ZC    192         SUBTRACT BFP_EXT,FROM,FLT_EXT
+         SUBTRACT BFP_EXT,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    193         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    194         PERFORM GOOD
+         PERFORM GOOD
+*ZC    194         ELSE  
+         ELSE  
+*ZC    194         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      DFP-SRT TO   FLT-SRT
+*ZC    195         MOVE  DFP_SRT,TO,FLT_SRT
+         MOVE  DFP_SRT,TO,FLT_SRT
+*            SUBTRACT  DFP-SRT FROM FLT-SRT
+*ZC    196         SUBTRACT DFP_SRT,FROM,FLT_SRT
+         SUBTRACT DFP_SRT,FROM,FLT_SRT
+*            IF   FLT-SRT = ZERO                                       X
+                    
+*ZC    197         IF    FLT_SRT,=,ZERO
+         IF    FLT_SRT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    198         PERFORM GOOD
+         PERFORM GOOD
+*ZC    198         ELSE  
+         ELSE  
+*ZC    198         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      DFP-LNG TO   FLT-LNG
+*ZC    199         MOVE  DFP_LNG,TO,FLT_LNG
+         MOVE  DFP_LNG,TO,FLT_LNG
+*            SUBTRACT  DFP-LNG FROM FLT-LNG
+*ZC    200         SUBTRACT DFP_LNG,FROM,FLT_LNG
+         SUBTRACT DFP_LNG,FROM,FLT_LNG
+*            IF   FLT-LNG = ZERO                                       X
+                    
+*ZC    201         IF    FLT_LNG,=,ZERO
+         IF    FLT_LNG,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    202         PERFORM GOOD
+         PERFORM GOOD
+*ZC    202         ELSE  
+         ELSE  
+*ZC    202         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      DFP-EXT TO   FLT-EXT
+*ZC    203         MOVE  DFP_EXT,TO,FLT_EXT
+         MOVE  DFP_EXT,TO,FLT_EXT
+*            SUBTRACT  DFP-EXT FROM FLT-EXT
+*ZC    204         SUBTRACT DFP_EXT,FROM,FLT_EXT
+         SUBTRACT DFP_EXT,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    205         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    206         PERFORM GOOD
+         PERFORM GOOD
+*ZC    206         ELSE  
+         ELSE  
+*ZC    206         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      HW      TO   FLT-SRT
+*ZC    207         MOVE  HW,TO,FLT_SRT
+         MOVE  HW,TO,FLT_SRT
+*            SUBTRACT  HW      FROM FLT-SRT
+*ZC    208         SUBTRACT HW,FROM,FLT_SRT
+         SUBTRACT HW,FROM,FLT_SRT
+*            IF   FLT-SRT = ZERO                                       X
+                    
+*ZC    209         IF    FLT_SRT,=,ZERO
+         IF    FLT_SRT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    210         PERFORM GOOD
+         PERFORM GOOD
+*ZC    210         ELSE  
+         ELSE  
+*ZC    210         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      HW      TO   FLT-LNG
+*ZC    211         MOVE  HW,TO,FLT_LNG
+         MOVE  HW,TO,FLT_LNG
+*            SUBTRACT  HW      FROM FLT-LNG
+*ZC    212         SUBTRACT HW,FROM,FLT_LNG
+         SUBTRACT HW,FROM,FLT_LNG
+*            IF   FLT-LNG = ZERO                                       X
+                    
+*ZC    213         IF    FLT_LNG,=,ZERO
+         IF    FLT_LNG,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    214         PERFORM GOOD
+         PERFORM GOOD
+*ZC    214         ELSE  
+         ELSE  
+*ZC    214         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      HW      TO   FLT-EXT
+*ZC    215         MOVE  HW,TO,FLT_EXT
+         MOVE  HW,TO,FLT_EXT
+*            SUBTRACT  HW      FROM FLT-EXT
+*ZC    216         SUBTRACT HW,FROM,FLT_EXT
+         SUBTRACT HW,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    217         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    218         PERFORM GOOD
+         PERFORM GOOD
+*ZC    218         ELSE  
+         ELSE  
+*ZC    218         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      FW      TO   FLT-LNG
+*ZC    219         MOVE  FW,TO,FLT_LNG
+         MOVE  FW,TO,FLT_LNG
+*            SUBTRACT  FW      FROM FLT-LNG
+*ZC    220         SUBTRACT FW,FROM,FLT_LNG
+         SUBTRACT FW,FROM,FLT_LNG
+*            IF   FLT-LNG = ZERO                                       X
+                    
+*ZC    221         IF    FLT_LNG,=,ZERO
+         IF    FLT_LNG,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    222         PERFORM GOOD
+         PERFORM GOOD
+*ZC    222         ELSE  
+         ELSE  
+*ZC    222         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      FW      TO   FLT-EXT
+*ZC    223         MOVE  FW,TO,FLT_EXT
+         MOVE  FW,TO,FLT_EXT
+*            SUBTRACT  FW      FROM FLT-EXT
+*ZC    224         SUBTRACT FW,FROM,FLT_EXT
+         SUBTRACT FW,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    225         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    226         PERFORM GOOD
+         PERFORM GOOD
+*ZC    226         ELSE  
+         ELSE  
+*ZC    226         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      DW      TO   FLT-LNG
+*ZC    227         MOVE  DW,TO,FLT_LNG
+         MOVE  DW,TO,FLT_LNG
+*            SUBTRACT  DW      FROM FLT-LNG
+*ZC    228         SUBTRACT DW,FROM,FLT_LNG
+         SUBTRACT DW,FROM,FLT_LNG
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    229         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    230         PERFORM GOOD
+         PERFORM GOOD
+*ZC    230         ELSE  
+         ELSE  
+*ZC    230         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      DW      TO   FLT-EXT
+*ZC    231         MOVE  DW,TO,FLT_EXT
+         MOVE  DW,TO,FLT_EXT
+*            SUBTRACT  DW      FROM FLT-EXT
+*ZC    232         SUBTRACT DW,FROM,FLT_EXT
+         SUBTRACT DW,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    233         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    234         PERFORM GOOD
+         PERFORM GOOD
+*ZC    234         ELSE  
+         ELSE  
+*ZC    234         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      QW      TO   FLT-EXT
+*ZC    235         MOVE  QW,TO,FLT_EXT
+         MOVE  QW,TO,FLT_EXT
+*            SUBTRACT  QW      FROM FLT-EXT
+*ZC    236         SUBTRACT QW,FROM,FLT_EXT
+         SUBTRACT QW,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    237         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    238         PERFORM GOOD
+         PERFORM GOOD
+*ZC    238         ELSE  
+         ELSE  
+*ZC    238         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      PD      TO   FLT-EXT
+*ZC    239         MOVE  PD,TO,FLT_EXT
+         MOVE  PD,TO,FLT_EXT
+*            SUBTRACT  PD      FROM FLT-EXT
+*ZC    240         SUBTRACT PD,FROM,FLT_EXT
+         SUBTRACT PD,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    241         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    242         PERFORM GOOD
+         PERFORM GOOD
+*ZC    242         ELSE  
+         ELSE  
+*ZC    242         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      ZD      TO   FLT-EXT
+*ZC    243         MOVE  ZD,TO,FLT_EXT
+         MOVE  ZD,TO,FLT_EXT
+*            SUBTRACT  ZD      FROM FLT-EXT
+*ZC    244         SUBTRACT ZD,FROM,FLT_EXT
+         SUBTRACT ZD,FROM,FLT_EXT
+*            IF   FLT-EXT = ZERO                                       X
+                    
+*ZC    245         IF    FLT_EXT,=,ZERO
+         IF    FLT_EXT,=,ZERO
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    246         PERFORM GOOD
+         PERFORM GOOD
+*ZC    246         ELSE  
+         ELSE  
+*      * TEST MULTIPLY
+*ZC    246         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   FLT-SRT
+*ZC    248         MOVE  10,TO,FLT_SRT
+         MOVE  10,TO,FLT_SRT
+*            MOVE      123456  TO   HFP-SRT
+*ZC    249         MOVE  123456,TO,HFP_SRT
+         MOVE  123456,TO,HFP_SRT
+*            MULTIPLY  HFP-SRT BY   FLT-SRT
+*ZC    250         MULTIPLY HFP_SRT,BY,FLT_SRT
+         MULTIPLY HFP_SRT,BY,FLT_SRT
+*            IF   FLT-SRT = 1234560
+*ZC    251         IF    FLT_SRT,=,1234560
+         IF    FLT_SRT,=,1234560
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    252         PERFORM GOOD
+         PERFORM GOOD
+*ZC    252         ELSE  
+         ELSE  
+*ZC    252         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10              TO FLT-LNG
+*ZC    253         MOVE  10,TO,FLT_LNG
+         MOVE  10,TO,FLT_LNG
+*            MOVE      123456789012345 TO HFP-LNG
+*ZC    254         MOVE  123456789012345,TO,HFP_LNG
+         MOVE  123456789012345,TO,HFP_LNG
+*            MULTIPLY  HFP-LNG         BY FLT-LNG
+*ZC    255         MULTIPLY HFP_LNG,BY,FLT_LNG
+         MULTIPLY HFP_LNG,BY,FLT_LNG
+*            IF   FLT-LNG = 1234567890123450                           X
+                              
+*ZC    256         IF    FLT_LNG,=,1234567890123450
+         IF    FLT_LNG,=,1234567890123450
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    257         PERFORM GOOD
+         PERFORM GOOD
+*ZC    257         ELSE  
+         ELSE  
+*ZC    257         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                TO FLT-EXT
+*ZC    258         MOVE  10,TO,FLT_EXT
+         MOVE  10,TO,FLT_EXT
+*            MOVE      12345678901234567890123456789     TO HFP-EXT
+*ZC    259         MOVE  12345678901234567890123456789,TO,HFP_EXT
+         MOVE  12345678901234567890123456789,TO,HFP_EXT
+*            MULTIPLY  HFP-EXT                           BY FLT-EXT
+*ZC    260         MULTIPLY HFP_EXT,BY,FLT_EXT
+         MULTIPLY HFP_EXT,BY,FLT_EXT
+*            IF   FLT-EXT = 123456789012345678901234567890             X
+                                            
+*ZC    261         IF    FLT_EXT,=,123456789012345678901234567890
+         IF    FLT_EXT,=,123456789012345678901234567890
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    262         PERFORM GOOD
+         PERFORM GOOD
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   FLT-SRT
+*ZC    263         MOVE  10,TO,FLT_SRT
+         MOVE  10,TO,FLT_SRT
+*            MOVE      123456  TO   BFP-SRT
+*ZC    264         MOVE  123456,TO,BFP_SRT
+         MOVE  123456,TO,BFP_SRT
+*            MULTIPLY  BFP-SRT BY   FLT-SRT
+*ZC    265         MULTIPLY BFP_SRT,BY,FLT_SRT
+         MULTIPLY BFP_SRT,BY,FLT_SRT
+*            IF   FLT-SRT = 1234560                                    X
+                     
+*ZC    266         IF    FLT_SRT,=,1234560
+         IF    FLT_SRT,=,1234560
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    267         PERFORM GOOD
+         PERFORM GOOD
+*ZC    267         ELSE  
+         ELSE  
+*ZC    267         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                TO   FLT-LNG
+*ZC    268         MOVE  10,TO,FLT_LNG
+         MOVE  10,TO,FLT_LNG
+*            MOVE      123456789012345   TO   BFP-LNG
+*ZC    269         MOVE  123456789012345,TO,BFP_LNG
+         MOVE  123456789012345,TO,BFP_LNG
+*            MULTIPLY  BFP-LNG BY   FLT-LNG
+*ZC    270         MULTIPLY BFP_LNG,BY,FLT_LNG
+         MULTIPLY BFP_LNG,BY,FLT_LNG
+*            IF   FLT-LNG = 1234567890123450                           X
+                              
+*ZC    271         IF    FLT_LNG,=,1234567890123450
+         IF    FLT_LNG,=,1234567890123450
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    272         PERFORM GOOD
+         PERFORM GOOD
+*ZC    272         ELSE  
+         ELSE  
+*ZC    272         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                TO FLT-EXT
+*ZC    273         MOVE  10,TO,FLT_EXT
+         MOVE  10,TO,FLT_EXT
+*            MOVE      123456789012345678901234567890123 TO BFP-EXT
+*ZC    274         MOVE  123456789012345678901234567890123,TO,BFP_EXT
+         MOVE  123456789012345678901234567890123,TO,BFP_EXT
+*            MULTIPLY  BFP-EXT BY   FLT-EXT
+*ZC    275         MULTIPLY BFP_EXT,BY,FLT_EXT
+         MULTIPLY BFP_EXT,BY,FLT_EXT
+*            IF   FLT-EXT = 1234567890123456789012345678901230         X
+                                                
+*ZC    276         IF    FLT_EXT,=,1234567890123456789012345678901230
+         IF    FLT_EXT,=,1234567890123456789012345678901230
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    277         PERFORM GOOD
+         PERFORM GOOD
+*ZC    277         ELSE  
+         ELSE  
+*ZC    277         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   FLT-SRT
+*ZC    278         MOVE  10,TO,FLT_SRT
+         MOVE  10,TO,FLT_SRT
+*            MOVE      123456  TO   DFP-SRT
+*ZC    279         MOVE  123456,TO,DFP_SRT
+         MOVE  123456,TO,DFP_SRT
+*            MULTIPLY  DFP-SRT BY   FLT-SRT
+*ZC    280         MULTIPLY DFP_SRT,BY,FLT_SRT
+         MULTIPLY DFP_SRT,BY,FLT_SRT
+*            IF   FLT-SRT = 1234560                                    X
+                     
+*ZC    281         IF    FLT_SRT,=,1234560
+         IF    FLT_SRT,=,1234560
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    282         PERFORM GOOD
+         PERFORM GOOD
+*ZC    282         ELSE  
+         ELSE  
+*ZC    282         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                TO   FLT-LNG
+*ZC    283         MOVE  10,TO,FLT_LNG
+         MOVE  10,TO,FLT_LNG
+*            MOVE      123456789012345   TO   DFP-LNG
+*ZC    284         MOVE  123456789012345,TO,DFP_LNG
+         MOVE  123456789012345,TO,DFP_LNG
+*            MULTIPLY  DFP-LNG BY   FLT-LNG
+*ZC    285         MULTIPLY DFP_LNG,BY,FLT_LNG
+         MULTIPLY DFP_LNG,BY,FLT_LNG
+*            IF   FLT-LNG = 1234567890123450                           X
+                              
+*ZC    286         IF    FLT_LNG,=,1234567890123450
+         IF    FLT_LNG,=,1234567890123450
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    287         PERFORM GOOD
+         PERFORM GOOD
+*ZC    287         ELSE  
+         ELSE  
+*ZC    287         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   FLT-EXT
+*ZC    288         MOVE  10,TO,FLT_EXT
+         MOVE  10,TO,FLT_EXT
+*            MOVE      123456789012345678901234567890123 TO DFP-EXT
+*ZC    289         MOVE  123456789012345678901234567890123,TO,DFP_EXT
+         MOVE  123456789012345678901234567890123,TO,DFP_EXT
+*            MULTIPLY  DFP-EXT BY   FLT-EXT
+*ZC    290         MULTIPLY DFP_EXT,BY,FLT_EXT
+         MULTIPLY DFP_EXT,BY,FLT_EXT
+*            IF   FLT-EXT = 1234567890123456789012345678901230         X
+                                                
+*ZC    291         IF    FLT_EXT,=,1234567890123456789012345678901230
+         IF    FLT_EXT,=,1234567890123456789012345678901230
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    292         PERFORM GOOD
+         PERFORM GOOD
+*ZC    292         ELSE  
+         ELSE  
+*ZC    292         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   FLT-SRT
+*ZC    293         MOVE  10,TO,FLT_SRT
+         MOVE  10,TO,FLT_SRT
+*            MOVE      12345   TO   HW      
+*ZC    294         MOVE  12345,TO,HW
+         MOVE  12345,TO,HW
+*            MULTIPLY  HW      BY   FLT-SRT
+*ZC    295         MULTIPLY HW,BY,FLT_SRT
+         MULTIPLY HW,BY,FLT_SRT
+*            IF   FLT-SRT = 123450                                     X
+                    
+*ZC    296         IF    FLT_SRT,=,123450
+         IF    FLT_SRT,=,123450
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    297         PERFORM GOOD
+         PERFORM GOOD
+*ZC    297         ELSE  
+         ELSE  
+*ZC    297         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10          TO   FLT-LNG
+*ZC    298         MOVE  10,TO,FLT_LNG
+         MOVE  10,TO,FLT_LNG
+*            MOVE      123456789   TO   FW      
+*ZC    299         MOVE  123456789,TO,FW
+         MOVE  123456789,TO,FW
+*            MULTIPLY  FW          BY   FLT-LNG
+*ZC    300         MULTIPLY FW,BY,FLT_LNG
+         MULTIPLY FW,BY,FLT_LNG
+*            IF   FLT-LNG = 1234567890                                 X
+                        
+*ZC    301         IF    FLT_LNG,=,1234567890
+         IF    FLT_LNG,=,1234567890
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    302         PERFORM GOOD
+         PERFORM GOOD
+*ZC    302         ELSE  
+         ELSE  
+*ZC    302         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                TO   FLT-LNG
+*ZC    303         MOVE  10,TO,FLT_LNG
+         MOVE  10,TO,FLT_LNG
+*            MOVE      123456789012345   TO   DW      
+*ZC    304         MOVE  123456789012345,TO,DW
+         MOVE  123456789012345,TO,DW
+*            MULTIPLY  DW                BY   FLT-LNG
+*ZC    305         MULTIPLY DW,BY,FLT_LNG
+         MULTIPLY DW,BY,FLT_LNG
+*            IF   FLT-LNG = 1234567890123450                           X
+                              
+*ZC    306         IF    FLT_LNG,=,1234567890123450
+         IF    FLT_LNG,=,1234567890123450
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    307         PERFORM GOOD
+         PERFORM GOOD
+*ZC    307         ELSE  
+         ELSE  
+*ZC    307         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                TO FLT-EXT
+*ZC    308         MOVE  10,TO,FLT_EXT
+         MOVE  10,TO,FLT_EXT
+*            MOVE      123456789012345678901234567890123 TO QW      
+*ZC    309         MOVE  123456789012345678901234567890123,TO,QW
+         MOVE  123456789012345678901234567890123,TO,QW
+*            MULTIPLY  QW                                BY   FLT-EXT
+*ZC    310         MULTIPLY QW,BY,FLT_EXT
+         MULTIPLY QW,BY,FLT_EXT
+*            IF   FLT-EXT = 1234567890123456789012345678901230         X
+                                                
+*ZC    311         IF    FLT_EXT,=,1234567890123456789012345678901230
+         IF    FLT_EXT,=,1234567890123456789012345678901230
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    312         PERFORM GOOD
+         PERFORM GOOD
+*ZC    312         ELSE  
+         ELSE  
+*ZC    312         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                               TO   FLT-EXT
+*ZC    313         MOVE  10,TO,FLT_EXT
+         MOVE  10,TO,FLT_EXT
+*            MOVE      123456789012345678901234567890   TO   PD      
+*ZC    314         MOVE  123456789012345678901234567890,TO,PD
+         MOVE  123456789012345678901234567890,TO,PD
+*            MULTIPLY  PD                               BY   FLT-EXT
+*ZC    315         MULTIPLY PD,BY,FLT_EXT
+         MULTIPLY PD,BY,FLT_EXT
+*            IF   FLT-EXT = 1234567890123456789012345678900            X
+                                             
+*ZC    316         IF    FLT_EXT,=,1234567890123456789012345678900
+         IF    FLT_EXT,=,1234567890123456789012345678900
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    317         PERFORM GOOD
+         PERFORM GOOD
+*ZC    317         ELSE  
+         ELSE  
+*ZC    317         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                               TO   FLT-EXT
+*ZC    318         MOVE  10,TO,FLT_EXT
+         MOVE  10,TO,FLT_EXT
+*            MOVE      123456789012345678901234567890   TO   ZD      
+*ZC    319         MOVE  123456789012345678901234567890,TO,ZD
+         MOVE  123456789012345678901234567890,TO,ZD
+*            MULTIPLY  ZD                               BY   FLT-EXT
+*ZC    320         MULTIPLY ZD,BY,FLT_EXT
+         MULTIPLY ZD,BY,FLT_EXT
+*            IF   FLT-EXT = 1234567890123456789012345678900            X
+                                             
+*ZC    321         IF    FLT_EXT,=,1234567890123456789012345678900
+         IF    FLT_EXT,=,1234567890123456789012345678900
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    322         PERFORM GOOD
+         PERFORM GOOD
+*ZC    322         ELSE  
+         ELSE  
+*      * TEST DIVIDE
+*ZC    322         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   HFP-SRT
+*ZC    324         MOVE  10,TO,HFP_SRT
+         MOVE  10,TO,HFP_SRT
+*            MOVE      1234560 TO   FLT-SRT
+*ZC    325         MOVE  1234560,TO,FLT_SRT
+         MOVE  1234560,TO,FLT_SRT
+*            DIVIDE    HFP-SRT INTO FLT-SRT
+*ZC    326         DIVIDE HFP_SRT,INTO,FLT_SRT
+         DIVIDE HFP_SRT,INTO,FLT_SRT
+*            IF   FLT-SRT = 123456
+*ZC    327         IF    FLT_SRT,=,123456
+         IF    FLT_SRT,=,123456
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    328         PERFORM GOOD
+         PERFORM GOOD
+*ZC    328         ELSE  
+         ELSE  
+*ZC    328         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10               TO   HFP-LNG
+*ZC    329         MOVE  10,TO,HFP_LNG
+         MOVE  10,TO,HFP_LNG
+*            MOVE      1234567890123450 TO   FLT-LNG
+*ZC    330         MOVE  1234567890123450,TO,FLT_LNG
+         MOVE  1234567890123450,TO,FLT_LNG
+*            DIVIDE    HFP-LNG          INTO FLT-LNG
+*ZC    331         DIVIDE HFP_LNG,INTO,FLT_LNG
+         DIVIDE HFP_LNG,INTO,FLT_LNG
+*            IF   FLT-LNG = 123456789012345                            X
+                             
+*ZC    332         IF    FLT_LNG,=,123456789012345
+         IF    FLT_LNG,=,123456789012345
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    333         PERFORM GOOD
+         PERFORM GOOD
+*ZC    333         ELSE  
+         ELSE  
+*ZC    333         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                 TO   HFP-EXT
+*ZC    334         MOVE  10,TO,HFP_EXT
+         MOVE  10,TO,HFP_EXT
+*            MOVE      1234567890123456789012345678901230 TO   FLT-EXT
+*ZC    335         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+*            DIVIDE    HFP-EXT                            INTO FLT-EXT
+*ZC    336         DIVIDE HFP_EXT,INTO,FLT_EXT
+         DIVIDE HFP_EXT,INTO,FLT_EXT
+*            IF   FLT-EXT = 123456789012345678901234567890123          X
+                                               
+*ZC    337         IF    FLT_EXT,=,123456789012345678901234567890123
+         IF    FLT_EXT,=,123456789012345678901234567890123
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    338         PERFORM GOOD
+         PERFORM GOOD
+*ZC    338         ELSE  
+         ELSE  
+*ZC    338         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   BFP-SRT
+*ZC    339         MOVE  10,TO,BFP_SRT
+         MOVE  10,TO,BFP_SRT
+*            MOVE      1234560 TO   FLT-SRT
+*ZC    340         MOVE  1234560,TO,FLT_SRT
+         MOVE  1234560,TO,FLT_SRT
+*            DIVIDE    BFP-SRT INTO FLT-SRT
+*ZC    341         DIVIDE BFP_SRT,INTO,FLT_SRT
+         DIVIDE BFP_SRT,INTO,FLT_SRT
+*            IF   FLT-SRT = 123456                                     X
+                    
+*ZC    342         IF    FLT_SRT,=,123456
+         IF    FLT_SRT,=,123456
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    343         PERFORM GOOD
+         PERFORM GOOD
+*ZC    343         ELSE  
+         ELSE  
+*ZC    343         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10               TO   BFP-LNG
+*ZC    344         MOVE  10,TO,BFP_LNG
+         MOVE  10,TO,BFP_LNG
+*            MOVE      1234567890123450 TO   FLT-LNG
+*ZC    345         MOVE  1234567890123450,TO,FLT_LNG
+         MOVE  1234567890123450,TO,FLT_LNG
+*            DIVIDE    BFP-LNG          INTO FLT-LNG
+*ZC    346         DIVIDE BFP_LNG,INTO,FLT_LNG
+         DIVIDE BFP_LNG,INTO,FLT_LNG
+*            IF   FLT-LNG = 123456789012345                            X
+                            
+*ZC    347         IF    FLT_LNG,=,123456789012345
+         IF    FLT_LNG,=,123456789012345
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    348         PERFORM GOOD
+         PERFORM GOOD
+*ZC    348         ELSE  
+         ELSE  
+*ZC    348         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                 TO   BFP-EXT
+*ZC    349         MOVE  10,TO,BFP_EXT
+         MOVE  10,TO,BFP_EXT
+*            MOVE      1234567890123456789012345678901230 TO   FLT-EXT
+*ZC    350         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+*            DIVIDE    BFP-EXT                            INTO FLT-EXT
+*ZC    351         DIVIDE BFP_EXT,INTO,FLT_EXT
+         DIVIDE BFP_EXT,INTO,FLT_EXT
+*            IF   FLT-EXT = 123456789012345678901234567890123          X
+                                               
+*ZC    352         IF    FLT_EXT,=,123456789012345678901234567890123
+         IF    FLT_EXT,=,123456789012345678901234567890123
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    353         PERFORM GOOD
+         PERFORM GOOD
+*ZC    353         ELSE  
+         ELSE  
+*ZC    353         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10       TO   DFP-SRT
+*ZC    354         MOVE  10,TO,DFP_SRT
+         MOVE  10,TO,DFP_SRT
+*            MOVE      1234560  TO   FLT-SRT
+*ZC    355         MOVE  1234560,TO,FLT_SRT
+         MOVE  1234560,TO,FLT_SRT
+*            DIVIDE    DFP-SRT  INTO FLT-SRT
+*ZC    356         DIVIDE DFP_SRT,INTO,FLT_SRT
+         DIVIDE DFP_SRT,INTO,FLT_SRT
+*            IF   FLT-SRT = 123456                                     X
+                    
+*ZC    357         IF    FLT_SRT,=,123456
+         IF    FLT_SRT,=,123456
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    358         PERFORM GOOD
+         PERFORM GOOD
+*ZC    358         ELSE  
+         ELSE  
+*ZC    358         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10               TO   DFP-LNG
+*ZC    359         MOVE  10,TO,DFP_LNG
+         MOVE  10,TO,DFP_LNG
+*            MOVE      1234567890123450 TO   FLT-LNG
+*ZC    360         MOVE  1234567890123450,TO,FLT_LNG
+         MOVE  1234567890123450,TO,FLT_LNG
+*            DIVIDE    DFP-LNG          INTO FLT-LNG
+*ZC    361         DIVIDE DFP_LNG,INTO,FLT_LNG
+         DIVIDE DFP_LNG,INTO,FLT_LNG
+*            IF   FLT-LNG = 123456789012345                            X
+                            
+*ZC    362         IF    FLT_LNG,=,123456789012345
+         IF    FLT_LNG,=,123456789012345
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    363         PERFORM GOOD
+         PERFORM GOOD
+*ZC    363         ELSE  
+         ELSE  
+*ZC    363         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                 TO   DFP-EXT
+*ZC    364         MOVE  10,TO,DFP_EXT
+         MOVE  10,TO,DFP_EXT
+*            MOVE      1234567890123456789012345678901230 TO   FLT-EXT
+*ZC    365         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+*            DIVIDE    DFP-EXT                            INTO FLT-EXT 
+*ZC    366         DIVIDE DFP_EXT,INTO,FLT_EXT
+         DIVIDE DFP_EXT,INTO,FLT_EXT
+*            IF   FLT-EXT = 123456789012345678901234567890123          X
+                                               
+*ZC    367         IF    FLT_EXT,=,123456789012345678901234567890123
+         IF    FLT_EXT,=,123456789012345678901234567890123
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    368         PERFORM GOOD
+         PERFORM GOOD
+*ZC    368         ELSE  
+         ELSE  
+*ZC    368         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10      TO   HW 
+*ZC    369         MOVE  10,TO,HW
+         MOVE  10,TO,HW
+*            MOVE      1234560 TO   FLT-SRT      
+*ZC    370         MOVE  1234560,TO,FLT_SRT
+         MOVE  1234560,TO,FLT_SRT
+*            DIVIDE    HW      INTO FLT-SRT
+*ZC    371         DIVIDE HW,INTO,FLT_SRT
+         DIVIDE HW,INTO,FLT_SRT
+*            IF   FLT-SRT = 123456                                     X
+                    
+*ZC    372         IF    FLT_SRT,=,123456
+         IF    FLT_SRT,=,123456
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    373         PERFORM GOOD
+         PERFORM GOOD
+*ZC    373         ELSE  
+         ELSE  
+*ZC    373         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10               TO   FW     
+*ZC    374         MOVE  10,TO,FW
+         MOVE  10,TO,FW
+*            MOVE      1234567890123450 TO   FLT-LNG 
+*ZC    375         MOVE  1234567890123450,TO,FLT_LNG
+         MOVE  1234567890123450,TO,FLT_LNG
+*            DIVIDE    FW               INTO FLT-LNG
+*ZC    376         DIVIDE FW,INTO,FLT_LNG
+         DIVIDE FW,INTO,FLT_LNG
+*            IF   FLT-LNG = 123456789012345                            X
+                             
+*ZC    377         IF    FLT_LNG,=,123456789012345
+         IF    FLT_LNG,=,123456789012345
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    378         PERFORM GOOD
+         PERFORM GOOD
+*ZC    378         ELSE  
+         ELSE  
+*ZC    378         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10               TO   DW     
+*ZC    379         MOVE  10,TO,DW
+         MOVE  10,TO,DW
+*            MOVE      1234567890123450 TO   FLT-LNG 
+*ZC    380         MOVE  1234567890123450,TO,FLT_LNG
+         MOVE  1234567890123450,TO,FLT_LNG
+*            DIVIDE    DW               INTO FLT-LNG
+*ZC    381         DIVIDE DW,INTO,FLT_LNG
+         DIVIDE DW,INTO,FLT_LNG
+*            IF   FLT-LNG = 123456789012345                            X
+                             
+*ZC    382         IF    FLT_LNG,=,123456789012345
+         IF    FLT_LNG,=,123456789012345
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    383         PERFORM GOOD
+         PERFORM GOOD
+*ZC    383         ELSE  
+         ELSE  
+*ZC    383         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                 TO   QW      
+*ZC    384         MOVE  10,TO,QW
+         MOVE  10,TO,QW
+*            MOVE      1234567890123456789012345678901230 TO   FLT-EXT 
+*ZC    385         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+*            DIVIDE    QW                                 INTO FLT-EXT
+*ZC    386         DIVIDE QW,INTO,FLT_EXT
+         DIVIDE QW,INTO,FLT_EXT
+*            IF   FLT-EXT = 123456789012345678901234567890123          X
+                                               
+*ZC    387         IF    FLT_EXT,=,123456789012345678901234567890123
+         IF    FLT_EXT,=,123456789012345678901234567890123
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    388         PERFORM GOOD
+         PERFORM GOOD
+*ZC    388         ELSE  
+         ELSE  
+*ZC    388         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                  TO   PD     X
+                
+*ZC    389         MOVE  10,TO,PD
+         MOVE  10,TO,PD
+*            MOVE      1234567890123456789012345678901230  TO   FLT-EXTX
+                
+*ZC    390         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+*            DIVIDE    PD                                  INTO FLT-EXT
+*ZC    391         DIVIDE PD,INTO,FLT_EXT
+         DIVIDE PD,INTO,FLT_EXT
+*            IF   FLT-EXT = 123456789012345678901234567890123          X
+                                               
+*ZC    392         IF    FLT_EXT,=,123456789012345678901234567890123
+         IF    FLT_EXT,=,123456789012345678901234567890123
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    393         PERFORM GOOD
+         PERFORM GOOD
+*ZC    393         ELSE  
+         ELSE  
+*ZC    393         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE      10                                  TO   ZD     
+*ZC    394         MOVE  10,TO,ZD
+         MOVE  10,TO,ZD
+*            MOVE      1234567890123456789012345678901230  TO   FLT-EXTX
+                
+*ZC    395         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+         MOVE  1234567890123456789012345678901230,TO,FLT_EXT
+*            DIVIDE    ZD                                  INTO FLT-EXT
+*ZC    396         DIVIDE ZD,INTO,FLT_EXT
+         DIVIDE ZD,INTO,FLT_EXT
+*            IF   FLT-EXT = 123456789012345678901234567890123          X
+                                               
+*ZC    397         IF    FLT_EXT,=,123456789012345678901234567890123
+         IF    FLT_EXT,=,123456789012345678901234567890123
+*                 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    398         PERFORM GOOD
+         PERFORM GOOD
+*ZC    398         ELSE  
+         ELSE  
+*ZC    398         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTDFP1 GOOD TESTS =' GOOD
+*ZC    399         DISPLAY 'TESTDFP1 GOOD TESTS =',GOOD
+         DISPLAY 'TESTDFP1 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC    400         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC    402         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            MOVE 16 TO RETURN-CODE 
+*ZC    404         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    405         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

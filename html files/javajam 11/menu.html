@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<meta name="viewport" content="width=device-width, initial-scale1.0">
+	<head>
+	<!--[if lt IE 9]>
+	<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+	<![endif]-->
+	
+		<title>JavaJam Coffee House Menu</title>
+		<link rel="stylesheet" type="text/css" href="javajam.css">
+			<meta charset="utf-8">
+<script>
+
+		var description = new Array("Cafe au Lait", "Iced Cappuccino", "Americano", "Dirty Chai", "Latte", "Mocha");
+		var pictures = new Array(5);
+		var counter = 0;
+
+
+		function initialize(){
+		  // sets up the array with some startin values
+		  // Andy Harris
+		  pictures[0] = new Image(215, 190);
+		  pictures[0].src = "coffeeImages/cafeaulait.jpg";
+		  pictures[1] = new Image(215, 190);
+		  pictures[1].src = "coffeeImages/cappuchino.jpg";
+		  pictures[2] = new Image(215, 190);
+		  pictures[2].src = "coffeeImages/americano.jpg";
+		  pictures[3] = new Image(215, 190);
+		  pictures[3].src = "coffeeImages/dirtychai.jpg";
+		  pictures[4] = new Image(215, 190);
+		  pictures[4].src = "coffeeImages/latte.jpg";
+		  pictures[5] = new Image(215, 190);
+		  pictures[5].src = "coffeeImages/mocha.jpg";
+
+		} // end initialize 
+
+		function upDate(){
+		  //increments the counter and shows the next description
+		  counter++;
+		  if (counter > 5){
+		    counter = 0;
+		  } // end if
+		  document.imgDisplay.src = pictures[counter].src;
+		  document.myForm.txtDescription.value = description[counter];
+		} // end upDate
+
+		</script>
+			</head>
+
+			<body onload = "initialize()">
+				<div id= "wrapper">
+					<nav >
+						<img src="javajamlogo.jpg" alt="Drawing of a hot cup of coffee"
+						 width="auto" height="auto" >
+						<ul>
+						<li><a href="index.html">Home</a></li>	
+						<li><a href="menu.html">Menu</a></li>	
+						<li><a href="music.html">Music</a></li>
+						<li><a href="jobs.html">Jobs</a></li>	
+						<li><a href="https://goo.gl/g9KQNo">Location</a></li>
+						</ul>
+						<form name = "myForm">
+				<img src = "coffeeImages/cafeaulait.jpg" alt = "imgDisplay" name = "imgDisplay" height = "215" width = "190">
+				<br>
+
+				<input type = "text" name = "txtDescription" value = "Cafe au Lait">
+				<br>
+				<input type = "button" value = "next" onClick = "upDate()">
+			</form>
+					</nav>
+					<main>
+						<h1>JavaJam Coffee House</h1>
+						<div id="heromugs"></div>
+							<h2>Coffee at JavaJam</h2>
+							<p>
+							Indulge in our locally roasted free-trade coffee and enjoy the aroma, the<br> smooth taste,
+							the caffeine! Join our Mug Club and get a 10% discount on<br> each cup of coffee you 
+							purchase -- ask the barista for details.
+							</p>
+							
+								
+								<table border="0" align="center">
+								<tr>
+								<th>Menu Item</th>
+								<th>Description</th>
+								<th>Price</th>
+								</tr>
+								<tr>
+								<td><strong>Just Java</strong></td>
+								<td>Regular house blend, decaffeinated coffee, or flavor of the day.</td><br>
+									<td>Endless Cup $2.00</td>
+								</tr>
+								<tr>
+								<td><strong>Cafe au Lait</strong></td>
+								<td>House blended coffee infused into a smooth, steamed milk.</td><br>
+												<td>Single $2.00<br> Double $3.00</td>
+								</tr>
+								<tr>
+								<td><strong>Iced Cappuccino</strong></td>
+								<td>Sweetened espresso blended with icy-cold milk and served in a chilled glass</td><br>
+															<td>Single $4.75<br> Double $5.75</td>
+								</tr>
+								<tr>
+								<td><strong>Americano</strong></td>
+								<td>Like coffee, but with more freedom</td>
+								<td>Single $2.75 <br> Double $5.00 </td>
+								</tr>
+
+								<tr>
+								<td><strong>Dirty Chai</strong></td>
+								<td>Imagine a Chai tea, now throw some coffee in it</td>
+								<td>Single $3.75 <br> Double $6.00 </td>
+								</tr>
+
+								<tr>
+								<td><strong>Latte</strong></td>
+								<td>Everyone knows what a Latte is</td>
+								<td>Single $2.75 <br> Double $5.00 </td>
+								</tr>
+
+								<tr>
+								<td><strong>Mocha</strong></td>
+								<td>Coffee and milk i think. </td>
+								<td>Single $2.75 <br> Double $5.00 </td>
+								</tr>
+								</table>
+								
+									
+															
+														</main>
+														<footer>
+														Copyright &copy; JavaJam Coffee House <br>
+																<a href="fabianhucke@gmail.com">Fabian Hucke</a>
+								<div>
+								"This page was last modified on: date" <p id="x"></p>
+								<script>  var x = new Date(document.lastModified);
+								document.getElementById("x").innerHTML=x;
+								</script>
+		  
+								</div>
+															</footer>
+														</div>
+													</body>
+												</html>

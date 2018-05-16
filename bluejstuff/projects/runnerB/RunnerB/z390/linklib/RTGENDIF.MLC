@@ -1,0 +1,109 @@
+         TITLE 'RTGENDIF - READ DIF DIR FILES AND CHK FOR MATCHES'     
+*********************************************************************
+* Copyright 2008 Automated Software Tools Corporation               *
+* This source code is part of z390 assembler/emulator package       *
+* The z390 package is distributed under GNU general public license  *
+* Author - Don Higgins                                              *
+* Date   - 09/05/08                                                 *
+*********************************************************************
+* 09/05/08 RPI 797 READ FILENAMES FOR DIF DIR, GEN ERASE FOR MATCHES
+* 09/18/08 rpi 911 replace ASELECT>ACASE, APM>ACALL               
+* 10/29/08 RPI 936 support mult Win ver with diff DIR column settings
+*********************************************************************
+*
+*  RTGENDIR READS FILE &SYSPARM.DAT AND GENERATES &SYSPARM.PCH
+*
+*  The input file is Windows dir command listing for dif compares
+*  The ouput file is erase commands for files that had no differeces.
+*
+*********************************************************************
+         :&TOT_FILES SETA 0
+         :&TOT_MATCH SETA 0
+         :&FILE    SETC  ''
+         :&TEXT    SETC  ''
+         :&DIF_DIR SETC  ''
+         :&MIN_OFF SETA  10 MINIMUM OFFSET FOR DIR/FILE RECORDS 
+         :&DIR_OFF SETA  0  OFFSET TO START OF <DIR>
+         :&DSN_OFF SETA  0  OFFSET TO START OF .. OR FILE NAME 
+         MNOTE 'RTGENDIF SYSPARM=&SYSPARM'
+         ACALL   INIT_DIF_DIR
+         ACALL   READ_TEXT
+         AWHILE ('&TEXT' NE '')
+               ACTR 100
+               ACALL  PROC_TEXT
+               ACALL  READ_TEXT
+         AEND
+         MNOTE 'RTGENDIF FILES=&TOT_FILES MATCHES=&TOT_MATCH'
+         :&TOT_FILES SETA &TOT_FILES-1  SUBTRACT RTGENDIR.BAT
+         PUNCH '',ID=1,DSNAME='&DIF_DIR\RT_DIF_TOT_FILES_&TOT_FILES..TXX
+               T'
+         PUNCH '',ID=1,DSNAME='&DIF_DIR\RT_DIF_TOT_MATCH_&TOT_MATCH..TXX
+               T'
+.*
+.* INIT_DIF_DIR (SET DIF_DIR FROM SYSPARM
+.*
+         AENTRY INIT_DIF_DIR
+         :&IS SETA 0
+         :&I  SETA 1
+         AWHILE (&I LT K'&SYSPARM)
+             AIF ('&SYSPARM'(&I,1) EQ '\')
+                 :&IS SETA &I
+             AEND
+             :&I SETA &I+1
+         AEND
+         AIF   (&IS GT 1)
+               :&DIF_DIR SETC '&SYSPARM'(1,&IS-1)
+         AELSE
+               MNOTE 8,'RTGENDIF DIF DIR NOT FOUND IN SYSPARM'
+               MEXIT
+         AEND
+         AEND
+.*
+.* READ TEXT FROM DIR LISTING
+.*
+         AENTRY READ_TEXT
+         :&TEXT AREAD DSNAME='&SYSPARM'
+         AEND
+.*
+.* PROC_TEXT (CHECK FILES FOR FC MATCH AND GEN ERASE)
+.*
+         AENTRY PROC_TEXT  
+         AIF  (K'&TEXT GT &MIN_OFF)             SKIP LINES < MIN OFFSET
+           AIF  ('&TEXT'(3,1)  EQ '/')          SKIP IF NO MM/DD/YYYY
+             AIF  (&DIR_OFF GT 0)               HAS DIR_OFF BEEN SET
+               AIF  ('&TEXT'(&DIR_OFF,5) NE '<DIR>')    SKIP DIRS
+                     :&FILE    SETC (UPPER '&TEXT'(40,265))
+                     :&TOT_FILES SETA &TOT_FILES+1
+                     ACALL CHK_FILE
+               AEND
+             AELSE                              NO SEARCH FOR FIRST DIR
+               :&DIR_OFF SETA ('&TEXT' INDEX '<DIR>')    SET DIR OFFSET
+               AIF  (&DIR_OFF GT 0)
+                    :&FILE_OFF SETA ('&TEXT' INDEX '.')  SET FILE OFFSET
+                    AIF  (&FILE_OFF GT &DIR_OFF)
+                         :&MIN_OFF SETA &FILE_OFF        UPDATE MINIMUM
+                    AELSE
+                         MNOTE 8,'RTGENDIF DIR FORMAT UNKNOWN - &TEXT'
+                         MEXIT
+                    AEND
+               AEND
+           AEND
+         AEND
+         AEND
+.*
+.* CHK_FILE
+.*
+         AENTRY CHK_FILE
+         :&LINE1 AREAD ID=1,DSNAME='&DIF_DIR\&FILE'
+         AIF   ('&LINE1' NE '')
+               :&LINE2   AREAD ID=1,DSNAME='&DIF_DIR\&FILE'
+               AIF  ('&LINE2' NE '')
+                    AIF ('&LINE2'(1,10) EQ 'FC: no dif')
+                        :&TOT_MATCH SETA &TOT_MATCH+1
+                        PUNCH 'ERASE &DIF_DIR\&FILE',DSNAME='&SYSPARM..X
+               BAT',ID=0
+                    AEND
+               AEND
+         AEND
+         AEND
+         END

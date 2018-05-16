@@ -1,0 +1,9 @@
+13:40:42 MAPLOGO   LZ390 START USING z390 V1.5.06 ON J2SE 1.6.0_31 05/21/12
+LZ390I Copyright 2011 Automated Software Tools Corporation
+LZ390I z390 is licensed under GNU General Public License
+LZ390I options = W:\work\z390\z390.OPT=(time(60))
+LZ390I program = cics\MAPLOGO.OBJ
+LZ390I ESD=MAPLOGO  LOC=00000000 LEN=000001C8
+LZ390I INCLUDE = cics\MAPLOGO.OBJ
+LZ390I total errors         = 0
+13:40:42 MAPLOGO   LZ390 ENDED   RC= 0 SEC= 0 MEM(MB)=  8 IO=110

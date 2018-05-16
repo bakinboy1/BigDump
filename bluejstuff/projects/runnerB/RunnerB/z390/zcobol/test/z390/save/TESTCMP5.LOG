@@ -1,0 +1,10 @@
+TESTCMP5  EZ390 START
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = zcobol\test\TESTCMP5.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+TESTCMP5 TEST SCALED COMPARES
+ TOTAL GOOD =    225  TOTAL BAD =     0
+EZ390I total errors         = 0
+TESTCMP5  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=318 INS=10607

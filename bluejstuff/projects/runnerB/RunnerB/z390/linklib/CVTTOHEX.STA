@@ -1,0 +1,189 @@
+CVTTOHEX  MZ390 START
+CVTTOHEX  MZ390 Copyright 2011 Automated Software Tools Corporation
+CVTTOHEX  MZ390 z390 is licensed under GNU General Public License
+CVTTOHEX  MZ390 program = linklib\CVTTOHEX.MLC
+CVTTOHEX  MZ390 options = W:\work\z390\z390.OPT=(time(60)) bal notiming sysmac(mac) 
+  syscpy(mac) stats systerm(linklib\rtlink)
+CVTTOHEX  MZ390 final_options=ALIGN
+CVTTOHEX  MZ390 final_options=NOALLOW
+CVTTOHEX  MZ390 final_options=NOAMODE24
+CVTTOHEX  MZ390 final_options=AMODE31
+CVTTOHEX  MZ390 final_options=NOASCII
+CVTTOHEX  MZ390 final_options=ASM
+CVTTOHEX  MZ390 final_options=NOASSIST
+CVTTOHEX  MZ390 final_options=AUTOLINK
+CVTTOHEX  MZ390 final_options=BAL
+CVTTOHEX  MZ390 final_options=NOBS2000
+CVTTOHEX  MZ390 final_options=EDF
+CVTTOHEX  MZ390 final_options=NOCICS
+CVTTOHEX  MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+CVTTOHEX  MZ390 final_options=COMMENT
+CVTTOHEX  MZ390 final_options=CON
+CVTTOHEX  MZ390 final_options=NODUMP
+CVTTOHEX  MZ390 final_options=EPILOG
+CVTTOHEX  MZ390 final_options=NOERRSUM
+CVTTOHEX  MZ390 final_options=EXTEND
+CVTTOHEX  MZ390 final_options=FLOAT(DECIMAL)
+CVTTOHEX  MZ390 final_options=NOGUAM
+CVTTOHEX  MZ390 final_options=INIT
+CVTTOHEX  MZ390 final_options=LIST
+CVTTOHEX  MZ390 final_options=LISTCALL
+CVTTOHEX  MZ390 final_options=LISTUSE
+CVTTOHEX  MZ390 final_options=LOADHIGH
+CVTTOHEX  MZ390 final_options=NOMCALL
+CVTTOHEX  MZ390 final_options=NOMOD
+CVTTOHEX  MZ390 final_options=OBJ
+CVTTOHEX  MZ390 final_options=NOOBJHEX
+CVTTOHEX  MZ390 final_options=PC
+CVTTOHEX  MZ390 final_options=PCOPT
+CVTTOHEX  MZ390 final_options=NOPDSMEM8
+CVTTOHEX  MZ390 final_options=NOPRINTALL
+CVTTOHEX  MZ390 final_options=PROLOG
+CVTTOHEX  MZ390 final_options=PROTECT
+CVTTOHEX  MZ390 final_options=R64
+CVTTOHEX  MZ390 final_options=NOREFORMAT
+CVTTOHEX  MZ390 final_options=NOREGS
+CVTTOHEX  MZ390 final_options=RMODE24
+CVTTOHEX  MZ390 final_options=NORMODE31
+CVTTOHEX  MZ390 final_options=STATS
+CVTTOHEX  MZ390 final_options=NOTEST
+CVTTOHEX  MZ390 final_options=THREAD
+CVTTOHEX  MZ390 final_options=NOTIME
+CVTTOHEX  MZ390 final_options=NOTIMING
+CVTTOHEX  MZ390 final_options=NOTRACE
+CVTTOHEX  MZ390 final_options=NOTRACEA
+CVTTOHEX  MZ390 final_options=NOTRACEALL
+CVTTOHEX  MZ390 final_options=NOTRACEC
+CVTTOHEX  MZ390 final_options=NOTRACEG
+CVTTOHEX  MZ390 final_options=NOTRACEI
+CVTTOHEX  MZ390 final_options=NOTRACEL
+CVTTOHEX  MZ390 final_options=NOTRACEM
+CVTTOHEX  MZ390 final_options=NOTRACEP
+CVTTOHEX  MZ390 final_options=NOTRACEQ
+CVTTOHEX  MZ390 final_options=NOTRACES
+CVTTOHEX  MZ390 final_options=NOTRACET
+CVTTOHEX  MZ390 final_options=NOTRACEV
+CVTTOHEX  MZ390 final_options=TRAP
+CVTTOHEX  MZ390 final_options=NOTRUNC
+CVTTOHEX  MZ390 final_options=NOTS
+CVTTOHEX  MZ390 final_options=VCB
+CVTTOHEX  MZ390 final_options=WARN
+CVTTOHEX  MZ390 final_options=XREF
+CVTTOHEX  MZ390 final_options=ZSTRMAC
+CVTTOHEX  MZ390 final_options=CHKMAC=0
+CVTTOHEX  MZ390 final_options=CHKSRC=1
+CVTTOHEX  MZ390 final_options=ERR=100
+CVTTOHEX  MZ390 final_options=MAXCALL=50
+CVTTOHEX  MZ390 final_options=MAXDISPLAY=80
+CVTTOHEX  MZ390 final_options=MAXESD=1000
+CVTTOHEX  MZ390 final_options=MAXFILE=1000
+CVTTOHEX  MZ390 final_options=MAXGBL=100000
+CVTTOHEX  MZ390 final_options=MAXHEIGHT=600
+CVTTOHEX  MZ390 final_options=MAXLCL=100000
+CVTTOHEX  MZ390 final_options=MAXLEN=80
+CVTTOHEX  MZ390 final_options=MAXLINE=200000
+CVTTOHEX  MZ390 final_options=MAXLOG=1000000
+CVTTOHEX  MZ390 final_options=MAXPARM=10000
+CVTTOHEX  MZ390 final_options=MAXPASS=2
+CVTTOHEX  MZ390 final_options=MAXPC=50000
+CVTTOHEX  MZ390 final_options=MAXQUE=1000
+CVTTOHEX  MZ390 final_options=MAXRLD=10000
+CVTTOHEX  MZ390 final_options=MAXSIZE=52428800
+CVTTOHEX  MZ390 final_options=MAXSYM=50000
+CVTTOHEX  MZ390 final_options=MAXWARN=4
+CVTTOHEX  MZ390 final_options=MAXWIDTH=800
+CVTTOHEX  MZ390 final_options=MEM=1
+CVTTOHEX  MZ390 final_options=MINHEIGHT=150
+CVTTOHEX  MZ390 final_options=MINWIDTH=150
+CVTTOHEX  MZ390 final_options=MNOTE=0
+CVTTOHEX  MZ390 final_options=PARM=
+CVTTOHEX  MZ390 final_options=PROFILE=
+CVTTOHEX  MZ390 final_options=STATS=W:\work\z390\linklib\CVTTOHEX.STA
+CVTTOHEX  MZ390 final_options=SYSPARM=
+CVTTOHEX  MZ390 final_options=SYSTERM=W:\work\z390\linklib\rtlink.ERR
+CVTTOHEX  MZ390 final_options=TESTDD=
+CVTTOHEX  MZ390 final_options=TIME=60
+CVTTOHEX  MZ390 final_options=TRACE=
+CVTTOHEX  MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+CVTTOHEX  MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+CVTTOHEX  MZ390 final_options=Z390COMMAND=cmd.exe
+CVTTOHEX  MZ390 final_options=Z390EDITOR=notepad.exe
+CVTTOHEX  MZ390 final_options=INSTALL=
+CVTTOHEX  MZ390 final_options=IPL=
+CVTTOHEX  MZ390 final_options=LOG=
+CVTTOHEX  MZ390 final_options=SYS390=linklib\+linklib
+CVTTOHEX  MZ390 final_options=SYSBAL=linklib\
+CVTTOHEX  MZ390 final_options=SYSCPY=mac
+CVTTOHEX  MZ390 final_options=SYSDAT=linklib\
+CVTTOHEX  MZ390 final_options=SYSERR=linklib\
+CVTTOHEX  MZ390 final_options=SYSLOG=linklib\
+CVTTOHEX  MZ390 final_options=SYSLST=linklib\
+CVTTOHEX  MZ390 final_options=SYSMAC=mac
+CVTTOHEX  MZ390 final_options=SYSMLC=linklib\
+CVTTOHEX  MZ390 final_options=SYSPCH=linklib\
+CVTTOHEX  MZ390 final_options=SYSPRN=linklib\
+CVTTOHEX  MZ390 final_options=SYSOBJ=linklib\
+CVTTOHEX  MZ390 final_options=SYSOPT=linklib\
+CVTTOHEX  MZ390 final_options=SYSTRC=linklib\
+CVTTOHEX  MZ390 total MLC/MAC loaded  = 191
+CVTTOHEX  MZ390 total BAL output lines= 81
+CVTTOHEX  MZ390 total BAL instructions= 16
+CVTTOHEX  MZ390 total macros          = 4
+CVTTOHEX  MZ390 total macro loads     = 4
+CVTTOHEX  MZ390 total macro calls     = 3
+CVTTOHEX  MZ390 total AENTRY blocks   = 0
+CVTTOHEX  MZ390 total ACALL  calls    = 0
+CVTTOHEX  MZ390 total AIF    blocks   = 4
+CVTTOHEX  MZ390 total ACASE  blocks   = 0
+CVTTOHEX  MZ390 total AWHILE calls    = 1
+CVTTOHEX  MZ390 total AUNTIL blocks   = 0
+CVTTOHEX  MZ390 total global set names= 61
+CVTTOHEX  MZ390 tot global seta cells = 2
+CVTTOHEX  MZ390 tot global setb cells = 77
+CVTTOHEX  MZ390 tot global setc cells = 42
+CVTTOHEX  MZ390 max local pos parms   = 1
+CVTTOHEX  MZ390 max local key parms   = 11
+CVTTOHEX  MZ390 max local set names   = 17
+CVTTOHEX  MZ390 max local seta cells  = 5
+CVTTOHEX  MZ390 max local setb cells  = 0
+CVTTOHEX  MZ390 max local setc cells  = 137
+CVTTOHEX  MZ390 total array expansions= 1
+CVTTOHEX  MZ390 total Keys            = 1500
+CVTTOHEX  MZ390 Key searches          = 2624
+CVTTOHEX  MZ390 Key avg comps         = 0
+CVTTOHEX  MZ390 Key max comps         = 3
+CVTTOHEX  MZ390 total macro line exec = 1066
+CVTTOHEX  MZ390 total pcode line exec = 901
+CVTTOHEX  MZ390 total pcode line gen. = 37
+CVTTOHEX  MZ390 total pcode line reuse= 0
+CVTTOHEX  MZ390 total pcode op   gen. = 201
+CVTTOHEX  MZ390 total pcode op   exec = 3649
+CVTTOHEX  MZ390 total pcode gen  opt  = 67
+CVTTOHEX  MZ390 total pcode exec opt  = 3
+CVTTOHEX  MZ390 FID=  1 ERR= 0 W:\work\z390\linklib\CVTTOHEX.MLC
+CVTTOHEX  MZ390 FID=  2 ERR= 0 W:\work\z390\mac\ASMMSP.CPY
+CVTTOHEX  MZ390 FID=  3 ERR= 0 W:\work\z390\mac\ZSTRMAC.CPY
+CVTTOHEX  MZ390 FID=  4 ERR= 0 W:\work\z390\mac\SUBENTRY.MAC
+CVTTOHEX  MZ390 FID=  5 ERR= 0 W:\work\z390\mac\SUBEXIT.MAC
+CVTTOHEX  MZ390 FID=  6 ERR= 0 W:\work\z390\mac\EQUREGS.MAC
+CVTTOHEX  MZ390 total mnote warnings  = 0
+CVTTOHEX  MZ390 total mnote errors    = 0
+CVTTOHEX  MZ390 max   mnote level     = 0
+CVTTOHEX  MZ390 total mz390 errors    = 0
+CVTTOHEX  AZ390 BAL lines             = 81
+CVTTOHEX  AZ390 symbols               = 18
+CVTTOHEX  AZ390 Literals              = 0
+CVTTOHEX  AZ390 alloc passes          = 2
+CVTTOHEX  AZ390 Keys                  = 1337
+CVTTOHEX  AZ390 Key searches          = 1735
+CVTTOHEX  AZ390 Key avg comps         = 0
+CVTTOHEX  AZ390 Key max comps         = 2
+CVTTOHEX  AZ390 ESD symbols           = 1
+CVTTOHEX  AZ390 object bytes          = 656
+CVTTOHEX  AZ390 object rlds           = 0
+CVTTOHEX  AZ390 total mnote warnings  = 0
+CVTTOHEX  AZ390 total mnote errors    = 0
+CVTTOHEX  AZ390 max   mnote level     = 0
+CVTTOHEX  AZ390 total mz390 errors    = 0
+CVTTOHEX  AZ390 total az390 errors    = 0
+CVTTOHEX  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=1288

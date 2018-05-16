@@ -1,0 +1,72 @@
+         TITLE 'RTGENDIR - READ DIR LISTING AND OUTPUT FILE NAMES'
+*********************************************************************
+* Copyright 2006 Automated Software Tools Corporation               *
+* This source code is part of z390 assembler/emulator package       *
+* The z390 package is distributed under GNU general public license  *
+* Author - Don Higgins                                              *
+* Date   - 08/12/06                                                 *
+*********************************************************************
+* 08/12/06 RPI 363 REPACKAGE MVS_MACLIB.ZIP AND Z390_RT.ZIP RT TESTS
+* 04/19/08 RPI 833 add SETC quotes for HLASM compatibilitys               
+* 09/05/08 RPI 797 upgrade to use ZSTRMAC structured programming
+* 09/18/08 RPI 911 replace ASELECT>ACASE, ACALL>ACALL               
+* 10/28/08 RPI 936 support mult Win ver with diff DIR column settings
+* 03/24/11 RPI 1139 fix strings in SETA for NOALLOW
+*********************************************************************
+*
+*  RTGENDIR READS FILE &SYSPARM.DAT AND GENERATES &SYSPARM.PCH
+*
+*  The input file is any Windows dir command listing wihout /w.
+*  The ouput file is file names only (strip time stamps etc.)
+*
+*********************************************************************
+         :&TOT_FILES SETA 0
+         :&FILE    SETC  ''
+         :&TEXT    SETC  ''
+         :&MIN_OFF SETA  10 MINIMUM OFFSET FOR DIR/FILE RECORDS 
+         :&DIR_OFF SETA  0  OFFSET TO START OF <DIR>
+         :&DSN_OFF SETA  0  OFFSET TO START OF .. OR FILE NAME 
+         MNOTE 'RTGENDIR SYSPARM=&SYSPARM'
+         ACALL   READ_TEXT
+         AWHILE ('&TEXT' NE '')
+               ACTR 100
+               ACALL  PROC_TEXT
+               ACALL  READ_TEXT
+         AEND
+         MNOTE 'RTGENDIR FILES=&TOT_FILES'
+.*
+.* READ_TEXT
+.*
+         AENTRY READ_TEXT
+         :&TEXT AREAD ID=0,DSNAME='&SYSPARM'
+         AEND
+.*
+.* PROC_TEXT - PUNCH FILE NAMES IF NOT RTGEN*.*
+.*
+         AENTRY PROC_TEXT  
+         AIF  (K'&TEXT GT &MIN_OFF)             SKIP LINES < MIN OFFSET
+           AIF  ('&TEXT'(3,1)  EQ '/')          SKIP IF NO MM/DD/YYYY
+             AIF  (&DIR_OFF GT 0)               HAS DIR_OFF BEEN SET
+               AIF  ('&TEXT'(&DIR_OFF,5) NE '<DIR>')    SKIP DIRS
+                 AIF ('&TEXT'(&FILE_OFF,5) NE 'RTGEN')  SKIP RTGEN???
+                     :&FILE SETC (UPPER '&TEXT'(&FILE_OFF,265))
+                     :&TOT_FILES SETA &TOT_FILES+1
+                     PUNCH '&FILE',DSNAME='&SYSPARM'
+                 AEND
+               AEND
+             AELSE                              NO SEARCH FOR FIRST DIR
+               :&DIR_OFF SETA ('&TEXT' INDEX '<DIR>') 
+               AIF  (&DIR_OFF GT 0)
+                    :&FILE_OFF SETA ('&TEXT' INDEX '.')
+                    AIF  (&FILE_OFF GT &DIR_OFF)
+                         :&MIN_OFF SETA &FILE_OFF        UPDATE MINIMUM
+                    AELSE
+                         MNOTE 8,'RTGENDIR DIR FORMAT UNKNOWN - &TEXT'
+                         MEXIT
+                    AEND
+               AEND 
+             AEND
+           AEND
+         AEND
+         AEND
+         END

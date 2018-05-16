@@ -1,0 +1,461 @@
+***********************************************************************
+* Copyright 2006 Automated Software Tools Corporation                 *
+* This source code is part of z390 assembler/emulator package         *
+* The z390 package is distributed under GNU general public license    *
+* Author - Don Higgins                                                *
+***********************************************************************
+*
+* CEMT FUNCTIONS
+*   THE FULL SYSTAX IS SUPPORTED, EG. CEMT PERFORM SHUTDOWN IMMEDIATE
+*   THE FOLLOWING MINIMUMS ARE TESTED
+*
+*   I SYS        REQUEST Z390CICS.INI INFO AND DISPLAY
+*   I TER        REQUEST TERMINAL INFO AND DISPLAY
+*   I TRA        PCT DISPLAY
+*   I FI         FILE DISPLAY
+*   I ENQ        ENQ DISPLAY
+*
+*   S TER OUT    CLOSES THE Z390KCP THREAD (CLIENT)
+*
+*   S FI         FILE MODIFY
+*
+*   P SHU        CLOSES THE Z390KCP THREAD (CLIENT)
+*                WHEN ALL ACTIVE TASKS HAVE ENDED, CLOSE SERVER
+*
+*   P SHU IMM    CLOSE THE SERVER
+*
+         DFHEISTG
+EICOMM   DS    X
+*
+Z390CEMT DFHEIENT CODEREG=(R12,R3)
+*
+         ST    DFHEIBR,EIBADDR    SAVE EIB ADDRESS
+         ST    TCTTEAR,TCTADDR    SAVE TCTTE ADDRESS
+         MVI   COMM,X'00'         CLEAR PARM COMMAREA
+         ICM   R6,15,TCTTECA      ANY COMMAREA ?
+         BZ    NOCOMM             EXIT IF NONE
+* WE HAVE A COMMAREA
+         MVC   COMM,0(R6)         SET IN PARM
+         B     IFIL               EXIT
+*
+NOCOMM   EQU   *
+         EXEC  CICS HANDLE AID CLEAR(TERMINAT)
+         L     R6,TCTTEDA         INITIAL TIOA (NULL TERMINATED)
+         AHI   R6,3               MISS AID, CURSOR ADDRESS
+         CLI   0(R6),SBA          PRECEDING SBA ?
+         BNE   NOSBA              EXIT IF NOT
+         AHI   R6,3               MISS SBA
+NOSBA    EQU   *
+         AHI   R6,4               MISS CEMT
+PARSGO   EQU   *
+* CLEAR PARSE AREAS
+         LA    R8,CEMTPARM        AREA TO CLEAR
+         LA    R9,CEMTPLEN*CEMTPNUM LENGTH TO CLEAR
+         LR    R14,R8             AREA TO CLEAR
+         SR    R15,R15            CLEAR SECOND LENGTH
+         MVCLE R8,R14,X'00'       CLEAR PARSE AREAS
+*
+* FIND PARMS
+*
+         LA    R7,CEMTPARM        PARSE AREAS
+         LA    R14,CEMTPNUM       MAXIMUM AREAS
+PARMLOOP EQU   *
+         LR    R1,R7              SAVE PARSE AREA ADDRESS
+* FIND START OF NEXT PARM
+* R6=CURRENT LOCATION
+NEXTPARM EQU   *
+         CLI   0(R6),X'00'        TIOA DONE ?
+         BE    PROCESS            EXIT IF IT IS
+         CLI   0(R6),C' '         FIND BLANK ?
+         BNE   FOUND              EXIT WHEN PARM FOUND
+         AHI   R6,1               BUMP TIOA POINTER
+         B     NEXTPARM           LOOP
+*
+FOUND    EQU   *
+* EXTRACT PARM
+* R6=1ST PARM CHAR
+* R7=PARM LOCATION
+         SR    R8,R8              ZERO PARM LENGTH
+EXTRLOOP EQU   *
+         TM    0(R6),X'BF'        END OF PARM (BLANK OR X'00') ?
+         BE    DUNPARM            RETURN IF IT IS
+         CHI   R8,CEMTPLEN+1      TOO MANY CHARS ?
+         BE    PARSERR1           YES, ERROR IF TOO MANY
+         MVC   0(1,R7),0(R6)      MOVE PARM CHAR
+         AHI   R6,1               BUMP TIOA POINTER
+         AHI   R7,1               BUMP PARM POINTER
+         AHI   R8,1               COUNT THEM
+         B     EXTRLOOP           LOOP
+*
+DUNPARM  EQU   *
+         LA    R7,CEMTPLEN(R1)    NEXT PARSE AREA
+         BCT   R14,PARMLOOP       LOOP
+*
+PROCESS  EQU   *
+* ALL PARMS TO UPPER CASE AND BLANK FILL
+         LA    R7,CEMTPARM        PARSE AREAS
+         LA    R14,CEMTPNUM       MAXIMUM AREAS
+UPPLOOP  EQU   *
+         OC    0(CEMTPLEN,R7),BLANKS CONVERT TO UPPER CASE
+         AHI   R7,CEMTPLEN        BUMP POINTER
+         BCT   R14,UPPLOOP        LOOP
+* SYNTAX CHECKS
+         CLI   PARSE1,C'I'        INQUIRE ?
+         BNE   TRYS               EXIT IF NOT
+* CEMT I
+         CLC   PARSE2(3),=C'SYS'  I SYS ?
+         BE    ISYS               EXIT IF IT IS
+         CLC   PARSE2(3),=C'TER'  I TER ?
+         BE    ITER               EXIT IF IT IS
+         CLC   PARSE2(3),=C'TRA'  I TRA ?
+         BE    ITRN               EXIT IF IT IS
+         CLC   PARSE2(2),=C'FI'   I FI ?
+         BE    IFIL               EXIT IF IT IS
+         CLC   PARSE2(3),=C'ENQ'  I ENQ ?
+         BE    IENQ               EXIT IF IT IS
+         B     PARSERRI           EXIT IF BAD INQUIRE
+BLANKS   DC    (CEMTPLEN)C' '
+*
+IENQ     DS    0H
+* PROCESS CEMT I ENQ, IGNORE OTHER PARMS
+         L     R15,=V(CEMTIENQ)   R15=CEMT I ENQ PROCESSOR
+         LA    R1,CEMTPARM        R1=PARSED PARAMETERS
+         BAKR  0,R15              STACK REGS AND GO
+         B     RETURN             EXIT
+*
+ISYS     EQU   *
+* PROCESS CEMT I SYS, IGNORE OTHER PARMS
+         L     R15,=V(CEMTISYS)   R15=CEMT I SYS PROCESSOR
+         LA    R1,CEMTPARM        R1=PARSED PARAMETERS
+         BAKR  0,R15              STACK REGS AND GO
+         B     RETURN             EXIT
+*
+ITER     EQU   *
+* PROCESS CEMT I TER, IGNORE OTHER PARMS
+         L     R15,=V(CEMTITER)   R15=CEMT I TER PROCESSOR
+         LA    R1,CEMTPARM        R1=PARSED PARAMETERS
+         BAKR  0,R15              STACK REGS AND GO
+         B     RETURN             END OF PROGRAM
+*
+ITRN     EQU   *
+* PROCESS CEMT I TRN, IGNORE OTHER PARMS
+         L     R15,=V(CEMTITRN)   R15=CEMT I TRN PROCESSOR
+         LA    R1,CEMTPARM        R1=PARSED PARAMETERS
+         BAKR  0,R15              STACK REGS AND GO
+         B     RETURN             END OF PROGRAM
+*
+IFIL     EQU   *
+* PROCESS CEMT I/S FI
+         L     R15,=V(CEMTFILE)   R15=CEMT I/S FI PROCESSOR
+         LA    R1,CEMTPARM        R1=PARSED PARAMETERS
+         BAKR  0,R15              STACK REGS AND GO
+*
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         BZ    IFILOK             EXIT IF NONE
+         CLI   EIBRESP,X'FF'      SPECIAL RESPONSE ?
+         MVI   EIBRESP,X'00'      RESET SPECIAL CODE
+         BNE   PARSBAD            EXIT IF NOT
+* OVERRIDE CEMT COMMAND
+         L     R6,TCTTEDA         POINT TO NEW INPUT
+         B     PARSGO             EXIT
+*
+PARSBAD  EQU   *
+* ANY CONDITION FROM SEND/RECEIVE MAP
+* ANY CONDITION FROM SET FILE
+         LA    R6,SBATAB          R6=SBA TABLE
+         LA    R7,PARSDATA        OUTPUT DATA
+         LA    R8,PARSE1          INPUT DATA
+         LA    R9,20              DISPLAY LIMIT
+PARSDSLP EQU   *
+         MVC   0(3,R7),0(R6)      MOVE SBA
+         MVC   3(CEMTPLEN,R7),0(R8) MOVE PARM
+         AHI   R6,3               BUMP SBA TABLE POINTER
+         AHI   R7,CEMTPLEN+3      BUMP OUTPUT DATA POINTER
+         AHI   R8,CEMTPLEN        BUMP INPUT DATA POINTER
+         BCT   R9,PARSDSLP        LOOP
+*
+         MVC   PARSERR,=C'INVREQ ' SET ERROR
+         CLC   EIBRESP,DFHRESP(INVREQ) IS IT INVREQ ?
+         BE    PARSINVQ           EXIT IF IT IS
+         DC    H'0'               ADD OTHER CONDITIONS WHEN ENCOUNTERED
+PARSINVQ EQU   *
+         L     R6,EIBRESP2        R8=RESP2
+         CVD   R6,DEC             CONVERT TO DECIMAL
+         MVC   WORK(4),=X'40202020' MOVE EDIT WORD
+         ED    WORK(4),DEC+6      EDIT RESP2
+         MVC   PARSRSP2+1(2),WORK+2 MOVE RESP2
+         MVC   PARSFILE,EIBRSRCE  MOVE FILENAME
+         EXEC  CICS SEND FROM(PARSSYNX) LENGTH(PARSDATL)
+         B     RETURN             EXIT
+*
+IFILOK   EQU   *
+         CLI   COMM,X'00'         ANY COMMAREA SET ?
+         BE    RETURN             EXIT IF NOT
+         MVC   EICOMM,COMM        SET UP COMMAREA
+         EXEC  CICS RETURN TRANSID('CEMT') COMMAREA(EICOMM)
+*
+TRYS     EQU   *
+* SYNTAX CHECK
+         CLI   PARSE1,C'S'        SET ?
+         BNE   TRYP               EXIT IF NOT
+         CLC   PARSE2(2),=C'FI'   S FI ?
+         BE    IFIL               EXIT IF IT IS
+         CLC   PARSE2(3),=C'TER'  S TER ?
+         BNE   PARSERRS           EXIT IF BAD SET
+         CLC   PARSE3(3),=C'OUT'  S TER OUT ?
+         BNE   PARSERRS           EXIT IF BAD SET
+STER     EQU   *
+* PROCESS CEMT S TER OUT
+         MVI   TCTTETS,X'FF'      SET SHUTTERM REQUEST
+         B     RETURN             END OF PROGRAM
+*
+TRYP     EQU   *
+         CLI   PARSE1,C'P'        PERFORM ?
+         BNE   PARSERR1           EXIT IF BAD 1ST PARM
+PSHU     EQU   *
+         L     R8,CEMTI           R8=MESSAGE LENGTH
+         CLC   PARSE2(3),=C'SHU'  P SHU ?
+         BNE   PARSERRP           EXIT IF BAD PERFORM
+         MVC   CEMTIREQ,=C'FE02'  SET REQUEST CODE
+         MVC   CEMTITRM,TCTTETI   SET TERMID
+         CLC   PARSE3(3),=C'IMM'  P SHU IMM ?
+         BNE   PSEND              EXIT IF NOT
+         MVC   CEMTIREQ,=C'FE03'  SET REQUEST CODE
+PSEND    EQU   *
+         TCPIO SEND,MSG=CEMTI,LMSG=(R8),PORT=3900
+         LTR   R15,R15            CHECK RC ?
+         BNZ   TCPIOERR           EXIT IF BAD
+         B     RETURN             EXIT
+*
+PARSERR1 EQU   *
+* MISSING OR BAD 1ST PARAMETER
+* PARAMETER TOO LONG
+* ROW 1 0-79     HEAD
+* ROW 2 80-159
+* ROW 3 160-239  INQUIRE
+* ROW 4 240-319  SET
+* ROW 5 320-399  PERFORM
+* CLEAR PARSE AREAS
+         LA    R8,CEMTPARM        AREA TO CLEAR
+         LA    R9,CEMTPLEN*CEMTPNUM LENGTH TO CLEAR
+         LR    R14,R8             AREA TO CLEAR
+         SR    R15,R15            CLEAR SECOND LENGTH
+         MVCLE R8,R14,X'00'       CLEAR PARSE AREAS
+         EXEC  CICS SEND FROM(CONVP1) LENGTH(CONVP1L)
+         BAL   R9,RECEIVE         RECEIVE
+         CLC   EIBCPOSN,=H'160'   CURSOR BEFORE SELECTIONS ?
+         BL    PARSERR1           EXIT IF IT IS
+         CLC   EIBCPOSN,=H'399'   CURSOR AFTER SELECTIONS ?
+         BH    PARSERR1           EXIT IF IT IS
+         CLC   EIBCPOSN,=H'320'   PERFORM ?
+         BH    PARSERRP           EXIT IF IT IS
+         CLC   EIBCPOSN,=H'240'   SET ?
+         BH    PARSERRS           EXIT IF IT IS
+         CLC   EIBCPOSN,=H'160'   INQUIRE ?
+         BH    PARSERRI           EXIT IF IT IS
+         B     PARSERR1           EXIT
+*
+PARSERRI EQU   *
+* MISSING OR BAD CEMT I
+* ROW 1 0-79     HEAD
+* ROW 2 80-159
+* ROW 3 160-239  ENQUEUE
+* ROW 3 240-319  FILE
+* ROW 4 320-399  TERMINAL
+* ROW 5 400-479  TRANSACTION
+* ROW 6 480-559  SYSTEM
+         MVI   PARSE1,C'I'        SET I
+         EXEC  CICS SEND FROM(CONVPI) LENGTH(CONVPIL)
+         BAL   R9,RECEIVE         RECEIVE
+         CLC   EIBCPOSN,=H'160'   CURSOR BEFORE SELECTIONS ?
+         BL    PARSERRI           EXIT IF IT IS
+         CLC   EIBCPOSN,=H'559'   CURSOR AFTER SELECTIONS ?
+         BH    PARSERRI           EXIT IF IT IS
+         MVC   PARSE2(3),=C'SYS'  SET SYSTEM
+         CLC   EIBCPOSN,=H'480'   SYSTEM ?
+         BH    ISYS               EXIT IF IT IS
+         MVC   PARSE2(3),=C'TRA'  SET TRANSACTION
+         CLC   EIBCPOSN,=H'400'   TRANSACTION ?
+         BH    ITRN               EXIT IF IT IS
+         MVC   PARSE2(3),=C'TER'  SET TERMINAL
+         CLC   EIBCPOSN,=H'320'   TERMINAL ?
+         BH    ITER               EXIT IF IT IS
+         MVC   PARSE2(3),=C'FIL'  SET FILE
+         CLC   EIBCPOSN,=H'240'   FILE ?
+         BH    IFIL               EXIT IF IT IS
+         MVC   PARSE2(3),=C'ENQ'  SET ENQUEUE
+         CLC   EIBCPOSN,=H'160'   ENQUEUE ?
+         BH    IENQ               EXIT IF IT IS
+         B     PARSERRI           EXIT
+*
+PARSERRS EQU   *
+* MISSING OR BAD CEMT S
+* SET FIL NOT DISPLAYED AS IT REQUIRES A FILE AND OTHER PARAMETERS
+* ROW 1 0-79     HEAD
+* ROW 2 80-159
+* ROW 3 160-239  TERMINAL OUTOFSERVICE
+         MVI   PARSE1,C'S'        SET S
+         EXEC  CICS SEND FROM(CONVPS) LENGTH(CONVPSL)
+         BAL   R9,RECEIVE         RECEIVE
+         CLC   EIBCPOSN,=H'160'   CURSOR BEFORE SELECTIONS ?
+         BL    PARSERRS           EXIT IF IT IS
+         CLC   EIBCPOSN,=H'239'   CURSOR AFTER SELECTIONS ?
+         BH    PARSERRS           EXIT IF IT IS
+         MVC   PARSE2(3),=C'TER'  SET TERMINAL
+         MVC   PARSE3(3),=C'OUT'  SET OUTOFSERVICE
+         CLC   EIBCPOSN,=H'160'   TERMINAL OUT ?
+         BH    STER               EXIT IF IT IS
+         B     PARSERRS           EXIT
+*
+PARSERRP EQU   *
+* MISSING OR BAD CEMT P
+* ROW 1 0-79     HEAD
+* ROW 2 80-159
+* ROW 3 160-239  PERFORM SHUTDOWN
+* ROW 3 240-319  PERFORM SHUTDOWN IMMEDIATE
+         MVI   PARSE1,C'P'        SET P
+         EXEC  CICS SEND FROM(CONVPP) LENGTH(CONVPPL)
+         BAL   R9,RECEIVE         RECEIVE
+         CLC   EIBCPOSN,=H'160'   CURSOR BEFORE SELECTIONS ?
+         BL    PARSERRP           EXIT IF IT IS
+         CLC   EIBCPOSN,=H'319'   CURSOR AFTER SELECTIONS ?
+         BH    PARSERRP           EXIT IF IT IS
+         MVC   PARSE2(3),=C'SHU'  SET SHUTDOWN
+         MVC   PARSE3(3),=C'IMM'  SET IMMEDIATE
+         CLC   EIBCPOSN,=H'240'   SHUTDOWN IMMEDIATE ?
+         BH    PSHU               EXIT IF IT IS
+         MVC   PARSE3(3),=C'   '  NO IMMEDIATE
+         CLC   EIBCPOSN,=H'160'   SHUTDOWN ?
+         BH    PSHU               EXIT IF IT IS
+         B     PARSERRP           EXIT
+*
+TCPIOERR EQU   *
+         EXEC  CICS SEND FROM(TCPERR) LENGTH(TCPERRL)
+         B     RETURN             EXIT
+*
+TERMINAT EQU   *
+         EXEC  CICS SEND FROM(CEMTCLR) LENGTH(CEMTCLRL)
+*
+RETURN   EQU   *
+         EXEC  CICS RETURN
+*
+* SUBROUTINES
+*
+RECEIVE  EQU   *
+         XC    RCVEAREA,RCVEAREA  CLEAR RECEIVE AREA
+         EXEC  CICS RECEIVE INTO(RCVEAREA) LENGTH(RCVELEN)
+         BR    R9                 RETURN
+*
+         CEMTPARM
+*
+CEMTI    DS    0F
+* REQUEST INFO
+* FE02  REQUEST P SHU
+* FE03  REQUEST P SHU IMM
+         DC    A(CEMTIEND-*)
+CEMTIREQ DS    CL4                REQUEST ID
+CEMTITRM DS    CL4                TERMID
+         DC    C'CEMT'            TRANSID
+         DC    C' '               TRANSID TYPE
+         DS    PL4                TASK NO.
+CEMTIEND EQU   *
+*
+CONVP1   EQU   *
+         TN3270 ESC,WRT_EW,WCC_KD,(SBA,1,1),(SF,ATT_UA_MDT),IC
+         DC    C'CEMT'
+         TN3270 (SBA,1,78),(SF,ATT_PA)
+         TN3270 (SBA,3,6)
+         DC    C'Inquire'
+         TN3270 (SBA,4,6)
+         DC    C'Set'
+         TN3270 (SBA,5,6)
+         DC    C'Perform'
+CONVP1L  DC    AL2(*-CONVP1)
+*
+CONVPI   EQU   *
+         TN3270 ESC,WRT_EW,WCC_KD,(SBA,1,1),(SF,ATT_UA_MDT),IC
+         DC    C'CEMT I'
+         TN3270 (SBA,1,78),(SF,ATT_PA)
+         TN3270 (SBA,3,6)
+         DC    C'ENQueue'
+         TN3270 (SBA,4,6)
+         DC    C'FILe'
+         TN3270 (SBA,5,6)
+         DC    C'TERminal'
+         TN3270 (SBA,6,6)
+         DC    C'TRAnsaction'
+         TN3270 (SBA,7,6)
+         DC    C'SYStem'
+CONVPIL  DC    AL2(*-CONVPI)
+*
+CONVPS   EQU   *
+         TN3270 ESC,WRT_EW,WCC_KD,(SBA,1,1),(SF,ATT_UA_MDT),IC
+         DC    C'CEMT S'
+         TN3270 (SBA,1,78),(SF,ATT_PA)
+         TN3270 (SBA,3,6)
+         DC    C'TERminal OUTofservice'
+CONVPSL  DC    AL2(*-CONVPS)
+*
+CONVPP   EQU   *
+         TN3270 ESC,WRT_EW,WCC_KD,(SBA,1,1),(SF,ATT_UA_MDT),IC
+         DC    C'CEMT P'
+         TN3270 (SBA,1,78),(SF,ATT_PA)
+         TN3270 (SBA,3,6)
+         DC    C'PERform SHUtdown'
+         TN3270 (SBA,4,6)
+         DC    C'PERform SHUtdown IMMediate'
+CONVPPL  DC    AL2(*-CONVPP)
+*
+CEMTCLR  EQU   *
+         TN3270 ESC,WRT_EW,WCC_KD CLEAR SCREEN
+CEMTCLRL DC    AL2(*-CEMTCLR)
+*
+TCPERR   EQU   *
+         TN3270 WCC_KD,(SBA,3,2)
+         DC    C'CEMT TCPIO ERROR'
+TCPERRL  DC    AL2(*-TCPERR)
+*
+PARSSYNX EQU   *
+* ERROR RETURN FROM SET FILE
+* ONLY 1ST 20 PARMS ARE DISPLAYED
+         TN3270 WCC_KD
+PARSDATA EQU   *
+         DS    20XL(CEMTPLEN+3)   SBA+PARM
+         TN3270 (SBA,24,2)
+         DC    C'ERROR RAISED: '
+PARSERR  DC    C'INVREQ '
+PARSRSP2 DC    C'/.. '
+PARSFILE DS    CL8
+PARSDATL DC    AL2(*-PARSSYNX)
+*
+RCVELEN  DS    AL2                RECEIVED LENGTH
+RCVEAREA DC    XL80'00'           RECEIVE AREA
+*
+SBATAB   EQU   *
+         TN3270 (SBA,2,2)
+         TN3270 (SBA,3,2)
+         TN3270 (SBA,4,2)
+         TN3270 (SBA,5,2)
+         TN3270 (SBA,6,2)
+         TN3270 (SBA,7,2)
+         TN3270 (SBA,8,2)
+         TN3270 (SBA,9,2)
+         TN3270 (SBA,10,2)
+         TN3270 (SBA,11,2)
+         TN3270 (SBA,12,2)
+         TN3270 (SBA,13,2)
+         TN3270 (SBA,14,2)
+         TN3270 (SBA,15,2)
+         TN3270 (SBA,16,2)
+         TN3270 (SBA,17,2)
+         TN3270 (SBA,18,2)
+         TN3270 (SBA,19,2)
+         TN3270 (SBA,20,2)
+         TN3270 (SBA,21,2)
+*
+DEC      DC    PL8'0'
+WORK     DS    XL4
+*
+         TN3270 SYMBOLS
+         END
+

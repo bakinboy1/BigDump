@@ -1,0 +1,12 @@
+Milan
+1.5
+April 25, 2016
+true
+General Leah
+5.0
+April 25, 2050
+false
+Apollo Creed
+10.0
+December 25, 1989
+false

@@ -1,0 +1,21 @@
+#BlueJ class context
+comment0.params=addr\ myMemory\ psw\ registers
+comment0.target=RIEbInstruction(int,\ Memory,\ PSW,\ Registers)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ RRSInstruction\r\n
+comment1.params=
+comment1.target=Register\ getReg1()
+comment2.params=
+comment2.target=int\ getReg1No()
+comment3.params=
+comment3.target=Register\ getReg2()
+comment4.params=
+comment4.target=int\ getReg2No()
+comment5.params=
+comment5.target=int\ getRI4()
+comment6.params=
+comment6.target=int\ getEffectiveAddress()
+comment7.params=
+comment7.target=int\ getMask()
+comment8.params=
+comment8.target=void\ execute()
+numComments=9

@@ -1,0 +1,31 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-10-31 16:05:31
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-10-31 16:05:31 ::1 GET /lab10.aspx - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 9906
+2017-10-31 16:05:31 ::1 GET /favicon.ico - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:51310/lab10.aspx 404 0 2 4
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-10-31 16:13:14
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-10-31 16:13:14 ::1 GET /lab10.aspx - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 2849
+2017-10-31 16:13:14 ::1 GET /favicon.ico - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:51310/lab10.aspx 404 0 2 3
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-10-31 16:13:46
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-10-31 16:13:46 ::1 GET /lab10.aspx - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 2448
+2017-10-31 16:13:46 ::1 GET /favicon.ico - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:51310/lab10.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-10-31 16:23:54
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-10-31 16:23:54 ::1 GET /lab10.aspx - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 2436
+2017-10-31 16:23:54 ::1 GET /favicon.ico - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:51310/lab10.aspx 404 0 2 3
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-10-31 16:25:04
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-10-31 16:25:04 ::1 GET /lab10.aspx - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 2642
+2017-10-31 16:25:04 ::1 GET /favicon.ico - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:51310/lab10.aspx 404 0 2 5
+2017-10-31 16:25:11 ::1 POST /lab10.aspx - 51310 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:51310/lab10.aspx 200 0 0 76

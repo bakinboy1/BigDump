@@ -1,0 +1,14 @@
+         LABEL KEYPRES1
+         LABEL BADKEY1
+         LABEL GOTPF4
+         LABEL KEYPRES2
+         LABEL BADKEY2
+         LABEL GOTPF5
+         LABEL KEYPRES3
+         LABEL BADKEY3
+         LABEL GOTPF6
+         LABEL NEXT1
+         LABEL NEXT2
+         LABEL ALLDONE
+         LABEL GOTPGMER
+         LABEL GOTERROR

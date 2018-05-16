@@ -1,0 +1,537 @@
+TESTINT1  ZC390 START
+TESTINT1  ZC390 Copyright 2011 Automated Software Tools Corporation
+TESTINT1  ZC390 z390 is licensed under GNU General Public License
+TESTINT1  ZC390 program = zcobol\test\TESTINT1
+TESTINT1  ZC390 options = W:\work\z390\z390.OPT=(time(60)) SYSCPY(+zcobol+zcobol\z390) 
+  notiming stats
+TESTINT1  ZC390 total CBL lines in  =268
+TESTINT1  ZC390 total MLC lines out =2181
+TESTINT1  ZC390 total errors        =0
+TESTINT1  ZC390 ENDED   RC= 0 MEM(MB)= MB IO=9
+TESTINT1  MZ390 START
+TESTINT1  MZ390 Copyright 2011 Automated Software Tools Corporation
+TESTINT1  MZ390 z390 is licensed under GNU General Public License
+TESTINT1  MZ390 program = zcobol\test\TESTINT1.MLC
+TESTINT1  MZ390 options = W:\work\z390\z390.OPT=(time(60)) @zcobol\z390\ZC390CLG=(
+  sysmac(+zcobol+zcobol\z390+mac+cics) syscpy(+zcobol+zcobol\z390+mac+cics) 
+  BAL NOLISTCALL MAXGBL(1500000)) notiming stats
+TESTINT1  MZ390 final_options=ALIGN
+TESTINT1  MZ390 final_options=NOALLOW
+TESTINT1  MZ390 final_options=NOAMODE24
+TESTINT1  MZ390 final_options=AMODE31
+TESTINT1  MZ390 final_options=NOASCII
+TESTINT1  MZ390 final_options=ASM
+TESTINT1  MZ390 final_options=NOASSIST
+TESTINT1  MZ390 final_options=AUTOLINK
+TESTINT1  MZ390 final_options=BAL
+TESTINT1  MZ390 final_options=NOBS2000
+TESTINT1  MZ390 final_options=EDF
+TESTINT1  MZ390 final_options=NOCICS
+TESTINT1  MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+TESTINT1  MZ390 final_options=COMMENT
+TESTINT1  MZ390 final_options=CON
+TESTINT1  MZ390 final_options=NODUMP
+TESTINT1  MZ390 final_options=EPILOG
+TESTINT1  MZ390 final_options=NOERRSUM
+TESTINT1  MZ390 final_options=EXTEND
+TESTINT1  MZ390 final_options=FLOAT(DECIMAL)
+TESTINT1  MZ390 final_options=NOGUAM
+TESTINT1  MZ390 final_options=INIT
+TESTINT1  MZ390 final_options=LIST
+TESTINT1  MZ390 final_options=NOLISTCALL
+TESTINT1  MZ390 final_options=LISTUSE
+TESTINT1  MZ390 final_options=LOADHIGH
+TESTINT1  MZ390 final_options=NOMCALL
+TESTINT1  MZ390 final_options=NOMOD
+TESTINT1  MZ390 final_options=OBJ
+TESTINT1  MZ390 final_options=NOOBJHEX
+TESTINT1  MZ390 final_options=PC
+TESTINT1  MZ390 final_options=PCOPT
+TESTINT1  MZ390 final_options=NOPDSMEM8
+TESTINT1  MZ390 final_options=NOPRINTALL
+TESTINT1  MZ390 final_options=PROLOG
+TESTINT1  MZ390 final_options=PROTECT
+TESTINT1  MZ390 final_options=R64
+TESTINT1  MZ390 final_options=NOREFORMAT
+TESTINT1  MZ390 final_options=NOREGS
+TESTINT1  MZ390 final_options=RMODE24
+TESTINT1  MZ390 final_options=NORMODE31
+TESTINT1  MZ390 final_options=STATS
+TESTINT1  MZ390 final_options=NOTEST
+TESTINT1  MZ390 final_options=THREAD
+TESTINT1  MZ390 final_options=NOTIME
+TESTINT1  MZ390 final_options=NOTIMING
+TESTINT1  MZ390 final_options=NOTRACE
+TESTINT1  MZ390 final_options=NOTRACEA
+TESTINT1  MZ390 final_options=NOTRACEALL
+TESTINT1  MZ390 final_options=NOTRACEC
+TESTINT1  MZ390 final_options=NOTRACEG
+TESTINT1  MZ390 final_options=NOTRACEI
+TESTINT1  MZ390 final_options=NOTRACEL
+TESTINT1  MZ390 final_options=NOTRACEM
+TESTINT1  MZ390 final_options=NOTRACEP
+TESTINT1  MZ390 final_options=NOTRACEQ
+TESTINT1  MZ390 final_options=NOTRACES
+TESTINT1  MZ390 final_options=NOTRACET
+TESTINT1  MZ390 final_options=NOTRACEV
+TESTINT1  MZ390 final_options=TRAP
+TESTINT1  MZ390 final_options=NOTRUNC
+TESTINT1  MZ390 final_options=NOTS
+TESTINT1  MZ390 final_options=VCB
+TESTINT1  MZ390 final_options=WARN
+TESTINT1  MZ390 final_options=XREF
+TESTINT1  MZ390 final_options=ZSTRMAC
+TESTINT1  MZ390 final_options=CHKMAC=0
+TESTINT1  MZ390 final_options=CHKSRC=1
+TESTINT1  MZ390 final_options=ERR=100
+TESTINT1  MZ390 final_options=MAXCALL=50
+TESTINT1  MZ390 final_options=MAXDISPLAY=80
+TESTINT1  MZ390 final_options=MAXESD=1000
+TESTINT1  MZ390 final_options=MAXFILE=1000
+TESTINT1  MZ390 final_options=MAXGBL=1500000
+TESTINT1  MZ390 final_options=MAXHEIGHT=600
+TESTINT1  MZ390 final_options=MAXLCL=100000
+TESTINT1  MZ390 final_options=MAXLEN=80
+TESTINT1  MZ390 final_options=MAXLINE=200000
+TESTINT1  MZ390 final_options=MAXLOG=1000000
+TESTINT1  MZ390 final_options=MAXPARM=10000
+TESTINT1  MZ390 final_options=MAXPASS=2
+TESTINT1  MZ390 final_options=MAXPC=50000
+TESTINT1  MZ390 final_options=MAXQUE=1000
+TESTINT1  MZ390 final_options=MAXRLD=10000
+TESTINT1  MZ390 final_options=MAXSIZE=52428800
+TESTINT1  MZ390 final_options=MAXSYM=50000
+TESTINT1  MZ390 final_options=MAXWARN=4
+TESTINT1  MZ390 final_options=MAXWIDTH=800
+TESTINT1  MZ390 final_options=MEM=1
+TESTINT1  MZ390 final_options=MINHEIGHT=150
+TESTINT1  MZ390 final_options=MINWIDTH=150
+TESTINT1  MZ390 final_options=MNOTE=0
+TESTINT1  MZ390 final_options=PARM=
+TESTINT1  MZ390 final_options=PROFILE=
+TESTINT1  MZ390 final_options=STATS=W:\work\z390\zcobol\test\TESTINT1.STA
+TESTINT1  MZ390 final_options=SYSPARM=
+TESTINT1  MZ390 final_options=SYSTERM=W:\work\z390\zcobol\test\TESTINT1.ERR
+TESTINT1  MZ390 final_options=TESTDD=
+TESTINT1  MZ390 final_options=TIME=60
+TESTINT1  MZ390 final_options=TRACE=
+TESTINT1  MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+TESTINT1  MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+TESTINT1  MZ390 final_options=Z390COMMAND=cmd.exe
+TESTINT1  MZ390 final_options=Z390EDITOR=notepad.exe
+TESTINT1  MZ390 final_options=INSTALL=
+TESTINT1  MZ390 final_options=IPL=
+TESTINT1  MZ390 final_options=LOG=
+TESTINT1  MZ390 final_options=SYS390=zcobol\test\+linklib
+TESTINT1  MZ390 final_options=SYSBAL=zcobol\test\
+TESTINT1  MZ390 final_options=SYSCPY=zcobol\test\+zcobol+zcobol\z390+mac+cics
+TESTINT1  MZ390 final_options=SYSDAT=zcobol\test\
+TESTINT1  MZ390 final_options=SYSERR=zcobol\test\
+TESTINT1  MZ390 final_options=SYSLOG=zcobol\test\
+TESTINT1  MZ390 final_options=SYSLST=zcobol\test\
+TESTINT1  MZ390 final_options=SYSMAC=zcobol\test\+zcobol+zcobol\z390+mac+cics
+TESTINT1  MZ390 final_options=SYSMLC=zcobol\test\
+TESTINT1  MZ390 final_options=SYSPCH=zcobol\test\
+TESTINT1  MZ390 final_options=SYSPRN=zcobol\test\
+TESTINT1  MZ390 final_options=SYSOBJ=zcobol\test\
+TESTINT1  MZ390 final_options=SYSOPT=zcobol\test\
+TESTINT1  MZ390 final_options=SYSTRC=zcobol\test\
+TESTINT1  MZ390 total MLC/MAC loaded  = 25728
+TESTINT1  MZ390 total BAL output lines= 2626
+TESTINT1  MZ390 total BAL instructions= 74
+TESTINT1  MZ390 total macros          = 53
+TESTINT1  MZ390 total macro loads     = 53
+TESTINT1  MZ390 total macro calls     = 2048
+TESTINT1  MZ390 total AENTRY blocks   = 255
+TESTINT1  MZ390 total ACALL  calls    = 888
+TESTINT1  MZ390 total AIF    blocks   = 1234
+TESTINT1  MZ390 total ACASE  blocks   = 130
+TESTINT1  MZ390 total AWHILE calls    = 101
+TESTINT1  MZ390 total AUNTIL blocks   = 0
+TESTINT1  MZ390 total global set names= 425
+TESTINT1  MZ390 tot global seta cells = 323034
+TESTINT1  MZ390 tot global setb cells = 40398
+TESTINT1  MZ390 tot global setc cells = 181780
+TESTINT1  MZ390 max local pos parms   = 36
+TESTINT1  MZ390 max local key parms   = 12
+TESTINT1  MZ390 max local set names   = 103
+TESTINT1  MZ390 max local seta cells  = 293
+TESTINT1  MZ390 max local setb cells  = 54
+TESTINT1  MZ390 max local setc cells  = 35
+TESTINT1  MZ390 total array expansions= 0
+TESTINT1  MZ390 total Keys            = 312784
+TESTINT1  MZ390 Key searches          = 3230722
+TESTINT1  MZ390 Key avg comps         = 1
+TESTINT1  MZ390 Key max comps         = 8
+TESTINT1  MZ390 total macro line exec = 356176
+TESTINT1  MZ390 total pcode line exec = 73998
+TESTINT1  MZ390 total pcode line gen. = 2286
+TESTINT1  MZ390 total pcode line reuse= 0
+TESTINT1  MZ390 total pcode op   gen. = 8187
+TESTINT1  MZ390 total pcode op   exec = 277464
+TESTINT1  MZ390 total pcode gen  opt  = 2376
+TESTINT1  MZ390 total pcode exec opt  = 61
+TESTINT1  MZ390 FID=  1 ERR= 0 W:\work\z390\zcobol\test\TESTINT1.MLC
+TESTINT1  MZ390 FID=  2 ERR= 0 W:\work\z390\zcobol\test\TESTINT1_ZC_LABELS.CPY
+TESTINT1  MZ390 FID=  3 ERR= 0 W:\work\z390\zcobol\ZCOBOL.MAC
+TESTINT1  MZ390 FID=  4 ERR= 0 W:\work\z390\zcobol\ZC_WS.CPY
+TESTINT1  MZ390 FID=  5 ERR= 0 W:\work\z390\zcobol\ZC_KEYS.CPY
+TESTINT1  MZ390 FID=  6 ERR= 0 W:\work\z390\zcobol\z390\GEN_COMMENT.MAC
+TESTINT1  MZ390 FID=  7 ERR= 0 W:\work\z390\zcobol\LABEL.MAC
+TESTINT1  MZ390 FID=  8 ERR= 0 W:\work\z390\zcobol\z390\GEN_LABEL.MAC
+TESTINT1  MZ390 FID=  9 ERR= 0 W:\work\z390\zcobol\IDENTIFICATION.MAC
+TESTINT1  MZ390 FID= 10 ERR= 0 W:\work\z390\zcobol\PROGRAM_ID.MAC
+TESTINT1  MZ390 FID= 11 ERR= 0 W:\work\z390\zcobol\z390\GEN_ID.MAC
+TESTINT1  MZ390 FID= 12 ERR= 0 W:\work\z390\zcobol\z390\ZC390CVT.CPY
+TESTINT1  MZ390 FID= 13 ERR= 0 W:\work\z390\zcobol\z390\ZC390PVT.CPY
+TESTINT1  MZ390 FID= 14 ERR= 0 W:\work\z390\zcobol\z390\ZC_EQUS.CPY
+TESTINT1  MZ390 FID= 15 ERR= 0 W:\work\z390\zcobol\z390\ZC_PFPO.CPY
+TESTINT1  MZ390 FID= 16 ERR= 0 W:\work\z390\mac\SAVE.MAC
+TESTINT1  MZ390 FID= 17 ERR= 0 W:\work\z390\mac\LOAD.MAC
+TESTINT1  MZ390 FID= 18 ERR= 0 W:\work\z390\mac\WTO.MAC
+TESTINT1  MZ390 FID= 19 ERR= 0 W:\work\z390\zcobol\WS.MAC
+TESTINT1  MZ390 FID= 20 ERR= 0 W:\work\z390\zcobol\ZCGETFLD.CPY
+TESTINT1  MZ390 FID= 21 ERR= 0 W:\work\z390\zcobol\ZCNUMLIT.CPY
+TESTINT1  MZ390 FID= 22 ERR= 0 W:\work\z390\zcobol\ZC_SYM_INDEX.MAC
+TESTINT1  MZ390 FID= 23 ERR= 0 W:\work\z390\zcobol\ZC_SYM_FIND.MAC
+TESTINT1  MZ390 FID= 24 ERR= 0 W:\work\z390\zcobol\ZC_PIC_LEN.MAC
+TESTINT1  MZ390 FID= 25 ERR= 0 W:\work\z390\zcobol\AUTHOR.MAC
+TESTINT1  MZ390 FID= 26 ERR= 0 W:\work\z390\zcobol\ENVIRONMENT.MAC
+TESTINT1  MZ390 FID= 27 ERR= 0 W:\work\z390\zcobol\DATA.MAC
+TESTINT1  MZ390 FID= 28 ERR= 0 W:\work\z390\zcobol\WORKING_STORAGE.MAC
+TESTINT1  MZ390 FID= 29 ERR= 0 W:\work\z390\zcobol\PROCEDURE.MAC
+TESTINT1  MZ390 FID= 30 ERR= 0 W:\work\z390\zcobol\z390\GEN_PROC_START.MAC
+TESTINT1  MZ390 FID= 31 ERR= 0 W:\work\z390\zcobol\PERIOD.MAC
+TESTINT1  MZ390 FID= 32 ERR= 0 W:\work\z390\zcobol\z390\GEN_BASE_RESET.MAC
+TESTINT1  MZ390 FID= 33 ERR= 0 W:\work\z390\zcobol\IF.MAC
+TESTINT1  MZ390 FID= 34 ERR= 0 W:\work\z390\zcobol\ZCDFHLIT.CPY
+TESTINT1  MZ390 FID= 35 ERR= 0 W:\work\z390\zcobol\ZC_DFHRESP.CPY
+TESTINT1  MZ390 FID= 36 ERR= 0 W:\work\z390\zcobol\ZC_DFHVALUE.CPY
+TESTINT1  MZ390 FID= 37 ERR= 0 W:\work\z390\zcobol\z390\GEN_BASE.MAC
+TESTINT1  MZ390 FID= 38 ERR= 0 W:\work\z390\zcobol\z390\GEN_COMP.MAC
+TESTINT1  MZ390 FID= 39 ERR= 0 W:\work\z390\zcobol\z390\GEN_BC.MAC
+TESTINT1  MZ390 FID= 40 ERR= 0 W:\work\z390\zcobol\ZCGETLAB.CPY
+TESTINT1  MZ390 FID= 41 ERR= 0 W:\work\z390\zcobol\PERFORM.MAC
+TESTINT1  MZ390 FID= 42 ERR= 0 W:\work\z390\zcobol\z390\GEN_PERFORM.MAC
+TESTINT1  MZ390 FID= 43 ERR= 0 W:\work\z390\zcobol\ELSE.MAC
+TESTINT1  MZ390 FID= 44 ERR= 0 W:\work\z390\zcobol\z390\GEN_B.MAC
+TESTINT1  MZ390 FID= 45 ERR= 0 W:\work\z390\zcobol\END_IF.MAC
+TESTINT1  MZ390 FID= 46 ERR= 0 W:\work\z390\zcobol\z390\ZC_PACK31.MAC
+TESTINT1  MZ390 FID= 47 ERR= 0 W:\work\z390\zcobol\MOVE.MAC
+TESTINT1  MZ390 FID= 48 ERR= 0 W:\work\z390\zcobol\z390\GEN_MOVE.MAC
+TESTINT1  MZ390 FID= 49 ERR= 0 W:\work\z390\zcobol\ADD.MAC
+TESTINT1  MZ390 FID= 50 ERR= 0 W:\work\z390\zcobol\z390\GEN_ADD.MAC
+TESTINT1  MZ390 FID= 51 ERR= 0 W:\work\z390\zcobol\ZCRSTLAB.CPY
+TESTINT1  MZ390 FID= 52 ERR= 0 W:\work\z390\zcobol\SUBTRACT.MAC
+TESTINT1  MZ390 FID= 53 ERR= 0 W:\work\z390\zcobol\z390\GEN_SUB.MAC
+TESTINT1  MZ390 FID= 54 ERR= 0 W:\work\z390\zcobol\MULTIPLY.MAC
+TESTINT1  MZ390 FID= 55 ERR= 0 W:\work\z390\zcobol\z390\GEN_MPY.MAC
+TESTINT1  MZ390 FID= 56 ERR= 0 W:\work\z390\zcobol\DIVIDE.MAC
+TESTINT1  MZ390 FID= 57 ERR= 0 W:\work\z390\zcobol\z390\GEN_DIV.MAC
+TESTINT1  MZ390 FID= 58 ERR= 0 W:\work\z390\zcobol\z390\ZC_LPQR.MAC
+TESTINT1  MZ390 FID= 59 ERR= 0 W:\work\z390\zcobol\z390\ZC_UNPK31.MAC
+TESTINT1  MZ390 FID= 60 ERR= 0 W:\work\z390\zcobol\DISPLAY.MAC
+TESTINT1  MZ390 FID= 61 ERR= 0 W:\work\z390\zcobol\z390\GEN_DISPLAY.MAC
+TESTINT1  MZ390 FID= 62 ERR= 0 W:\work\z390\zcobol\STOP.MAC
+TESTINT1  MZ390 FID= 63 ERR= 0 W:\work\z390\zcobol\z390\GEN_STOP.MAC
+TESTINT1  MZ390 FID= 64 ERR= 0 W:\work\z390\zcobol\z390\GEN_PROC_END.MAC
+TESTINT1  MZ390 FID= 65 ERR= 0 W:\work\z390\zcobol\ZC_DATA_LIST.MAC
+TESTINT1  MZ390 FID= 66 ERR= 0 W:\work\z390\zcobol\z390\GEN_WS.MAC
+TESTINT1  MZ390 FID= 67 ERR= 0 W:\work\z390\zcobol\ZC_STATS.MAC
+TESTINT1  MZ390 total mnote warnings  = 0
+TESTINT1  MZ390 total mnote errors    = 0
+TESTINT1  MZ390 max   mnote level     = 0
+TESTINT1  MZ390 total mz390 errors    = 0
+TESTINT1  AZ390 BAL lines             = 2626
+TESTINT1  AZ390 symbols               = 359
+TESTINT1  AZ390 Literals              = 71
+TESTINT1  AZ390 alloc passes          = 3
+TESTINT1  AZ390 Keys                  = 1749
+TESTINT1  AZ390 Key searches          = 30027
+TESTINT1  AZ390 Key avg comps         = 1
+TESTINT1  AZ390 Key max comps         = 4
+TESTINT1  AZ390 ESD symbols           = 4
+TESTINT1  AZ390 object bytes          = 8707
+TESTINT1  AZ390 object rlds           = 0
+TESTINT1  AZ390 total mnote warnings  = 0
+TESTINT1  AZ390 total mnote errors    = 0
+TESTINT1  AZ390 max   mnote level     = 0
+TESTINT1  AZ390 total mz390 errors    = 0
+TESTINT1  AZ390 total az390 errors    = 0
+TESTINT1  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=76183
+TESTINT1  LZ390 START
+TESTINT1  LZ390 Copyright 2011 Automated Software Tools Corporation
+TESTINT1  LZ390 z390 is licensed under GNU General Public License
+TESTINT1  LZ390 options = W:\work\z390\z390.OPT=(time(60)) SYSOBJ(+zcobol\z390) notiming 
+  stats
+TESTINT1  LZ390 program = zcobol\test\TESTINT1.OBJ
+TESTINT1  LZ390 final_options=ALIGN
+TESTINT1  LZ390 final_options=NOALLOW
+TESTINT1  LZ390 final_options=NOAMODE24
+TESTINT1  LZ390 final_options=AMODE31
+TESTINT1  LZ390 final_options=NOASCII
+TESTINT1  LZ390 final_options=ASM
+TESTINT1  LZ390 final_options=NOASSIST
+TESTINT1  LZ390 final_options=AUTOLINK
+TESTINT1  LZ390 final_options=NOBAL
+TESTINT1  LZ390 final_options=NOBS2000
+TESTINT1  LZ390 final_options=EDF
+TESTINT1  LZ390 final_options=NOCICS
+TESTINT1  LZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+TESTINT1  LZ390 final_options=COMMENT
+TESTINT1  LZ390 final_options=CON
+TESTINT1  LZ390 final_options=NODUMP
+TESTINT1  LZ390 final_options=EPILOG
+TESTINT1  LZ390 final_options=NOERRSUM
+TESTINT1  LZ390 final_options=EXTEND
+TESTINT1  LZ390 final_options=FLOAT(DECIMAL)
+TESTINT1  LZ390 final_options=NOGUAM
+TESTINT1  LZ390 final_options=INIT
+TESTINT1  LZ390 final_options=LIST
+TESTINT1  LZ390 final_options=LISTCALL
+TESTINT1  LZ390 final_options=LISTUSE
+TESTINT1  LZ390 final_options=LOADHIGH
+TESTINT1  LZ390 final_options=NOMCALL
+TESTINT1  LZ390 final_options=NOMOD
+TESTINT1  LZ390 final_options=OBJ
+TESTINT1  LZ390 final_options=NOOBJHEX
+TESTINT1  LZ390 final_options=PC
+TESTINT1  LZ390 final_options=PCOPT
+TESTINT1  LZ390 final_options=NOPDSMEM8
+TESTINT1  LZ390 final_options=NOPRINTALL
+TESTINT1  LZ390 final_options=PROLOG
+TESTINT1  LZ390 final_options=PROTECT
+TESTINT1  LZ390 final_options=R64
+TESTINT1  LZ390 final_options=NOREFORMAT
+TESTINT1  LZ390 final_options=NOREGS
+TESTINT1  LZ390 final_options=RMODE24
+TESTINT1  LZ390 final_options=NORMODE31
+TESTINT1  LZ390 final_options=STATS
+TESTINT1  LZ390 final_options=NOTEST
+TESTINT1  LZ390 final_options=THREAD
+TESTINT1  LZ390 final_options=NOTIME
+TESTINT1  LZ390 final_options=NOTIMING
+TESTINT1  LZ390 final_options=NOTRACE
+TESTINT1  LZ390 final_options=NOTRACEA
+TESTINT1  LZ390 final_options=NOTRACEALL
+TESTINT1  LZ390 final_options=NOTRACEC
+TESTINT1  LZ390 final_options=NOTRACEG
+TESTINT1  LZ390 final_options=NOTRACEI
+TESTINT1  LZ390 final_options=NOTRACEL
+TESTINT1  LZ390 final_options=NOTRACEM
+TESTINT1  LZ390 final_options=NOTRACEP
+TESTINT1  LZ390 final_options=NOTRACEQ
+TESTINT1  LZ390 final_options=NOTRACES
+TESTINT1  LZ390 final_options=NOTRACET
+TESTINT1  LZ390 final_options=NOTRACEV
+TESTINT1  LZ390 final_options=TRAP
+TESTINT1  LZ390 final_options=NOTRUNC
+TESTINT1  LZ390 final_options=NOTS
+TESTINT1  LZ390 final_options=VCB
+TESTINT1  LZ390 final_options=WARN
+TESTINT1  LZ390 final_options=XREF
+TESTINT1  LZ390 final_options=ZSTRMAC
+TESTINT1  LZ390 final_options=CHKMAC=0
+TESTINT1  LZ390 final_options=CHKSRC=1
+TESTINT1  LZ390 final_options=ERR=100
+TESTINT1  LZ390 final_options=MAXCALL=50
+TESTINT1  LZ390 final_options=MAXDISPLAY=80
+TESTINT1  LZ390 final_options=MAXESD=1000
+TESTINT1  LZ390 final_options=MAXFILE=1000
+TESTINT1  LZ390 final_options=MAXGBL=100000
+TESTINT1  LZ390 final_options=MAXHEIGHT=600
+TESTINT1  LZ390 final_options=MAXLCL=100000
+TESTINT1  LZ390 final_options=MAXLEN=80
+TESTINT1  LZ390 final_options=MAXLINE=200000
+TESTINT1  LZ390 final_options=MAXLOG=1000000
+TESTINT1  LZ390 final_options=MAXPARM=10000
+TESTINT1  LZ390 final_options=MAXPASS=2
+TESTINT1  LZ390 final_options=MAXPC=50000
+TESTINT1  LZ390 final_options=MAXQUE=1000
+TESTINT1  LZ390 final_options=MAXRLD=10000
+TESTINT1  LZ390 final_options=MAXSIZE=52428800
+TESTINT1  LZ390 final_options=MAXSYM=50000
+TESTINT1  LZ390 final_options=MAXWARN=4
+TESTINT1  LZ390 final_options=MAXWIDTH=800
+TESTINT1  LZ390 final_options=MEM=1
+TESTINT1  LZ390 final_options=MINHEIGHT=150
+TESTINT1  LZ390 final_options=MINWIDTH=150
+TESTINT1  LZ390 final_options=MNOTE=0
+TESTINT1  LZ390 final_options=PARM=
+TESTINT1  LZ390 final_options=PROFILE=
+TESTINT1  LZ390 final_options=STATS=W:\work\z390\zcobol\test\TESTINT1.STA
+TESTINT1  LZ390 final_options=SYSPARM=
+TESTINT1  LZ390 final_options=SYSTERM=W:\work\z390\zcobol\test\TESTINT1.ERR
+TESTINT1  LZ390 final_options=TESTDD=
+TESTINT1  LZ390 final_options=TIME=60
+TESTINT1  LZ390 final_options=TRACE=
+TESTINT1  LZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+TESTINT1  LZ390 final_options=Z390BROWSER=cmd.exe /c Start
+TESTINT1  LZ390 final_options=Z390COMMAND=cmd.exe
+TESTINT1  LZ390 final_options=Z390EDITOR=notepad.exe
+TESTINT1  LZ390 final_options=INSTALL=
+TESTINT1  LZ390 final_options=IPL=
+TESTINT1  LZ390 final_options=LOG=
+TESTINT1  LZ390 final_options=SYS390=zcobol\test\+linklib
+TESTINT1  LZ390 final_options=SYSBAL=zcobol\test\
+TESTINT1  LZ390 final_options=SYSCPY=zcobol\test\
+TESTINT1  LZ390 final_options=SYSDAT=zcobol\test\
+TESTINT1  LZ390 final_options=SYSERR=zcobol\test\
+TESTINT1  LZ390 final_options=SYSLOG=zcobol\test\
+TESTINT1  LZ390 final_options=SYSLST=zcobol\test\
+TESTINT1  LZ390 final_options=SYSMAC=zcobol\test\
+TESTINT1  LZ390 final_options=SYSMLC=zcobol\test\
+TESTINT1  LZ390 final_options=SYSPCH=zcobol\test\
+TESTINT1  LZ390 final_options=SYSPRN=zcobol\test\
+TESTINT1  LZ390 final_options=SYSOBJ=zcobol\test\+zcobol\z390
+TESTINT1  LZ390 final_options=SYSOPT=zcobol\test\
+TESTINT1  LZ390 final_options=SYSTRC=zcobol\test\
+TESTINT1  LZ390 Stats total obj files = 1
+TESTINT1  LZ390 Stats total esds      = 1
+TESTINT1  LZ390 Stats total csects    = 1
+TESTINT1  LZ390 Stats total entries   = 0
+TESTINT1  LZ390 Stats missing wxtrn's = 0
+TESTINT1  LZ390 Stats Keys            = 1
+TESTINT1  LZ390 Stats Key searches    = 2
+TESTINT1  LZ390 Stats Key avg comps   = 0
+TESTINT1  LZ390 Stats Key max comps   = 1
+TESTINT1  LZ390 Stats total obj byte  = 8707
+TESTINT1  LZ390 Stats total obj rlds  = 0
+TESTINT1  LZ390 total errors          = 0
+TESTINT1  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=1267
+TESTINT1  EZ390 START
+TESTINT1  EZ390 Copyright 2011 Automated Software Tools Corporation
+TESTINT1  EZ390 z390 is licensed under GNU General Public License
+TESTINT1  EZ390 program = zcobol\test\TESTINT1.390
+TESTINT1  EZ390 options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+TESTINT1  EZ390 final_options=ALIGN
+TESTINT1  EZ390 final_options=NOALLOW
+TESTINT1  EZ390 final_options=NOAMODE24
+TESTINT1  EZ390 final_options=AMODE31
+TESTINT1  EZ390 final_options=NOASCII
+TESTINT1  EZ390 final_options=ASM
+TESTINT1  EZ390 final_options=NOASSIST
+TESTINT1  EZ390 final_options=AUTOLINK
+TESTINT1  EZ390 final_options=NOBAL
+TESTINT1  EZ390 final_options=NOBS2000
+TESTINT1  EZ390 final_options=EDF
+TESTINT1  EZ390 final_options=NOCICS
+TESTINT1  EZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+TESTINT1  EZ390 final_options=COMMENT
+TESTINT1  EZ390 final_options=CON
+TESTINT1  EZ390 final_options=NODUMP
+TESTINT1  EZ390 final_options=EPILOG
+TESTINT1  EZ390 final_options=NOERRSUM
+TESTINT1  EZ390 final_options=EXTEND
+TESTINT1  EZ390 final_options=FLOAT(DECIMAL)
+TESTINT1  EZ390 final_options=NOGUAM
+TESTINT1  EZ390 final_options=INIT
+TESTINT1  EZ390 final_options=LIST
+TESTINT1  EZ390 final_options=LISTCALL
+TESTINT1  EZ390 final_options=LISTUSE
+TESTINT1  EZ390 final_options=LOADHIGH
+TESTINT1  EZ390 final_options=NOMCALL
+TESTINT1  EZ390 final_options=NOMOD
+TESTINT1  EZ390 final_options=OBJ
+TESTINT1  EZ390 final_options=NOOBJHEX
+TESTINT1  EZ390 final_options=PC
+TESTINT1  EZ390 final_options=PCOPT
+TESTINT1  EZ390 final_options=NOPDSMEM8
+TESTINT1  EZ390 final_options=NOPRINTALL
+TESTINT1  EZ390 final_options=PROLOG
+TESTINT1  EZ390 final_options=PROTECT
+TESTINT1  EZ390 final_options=R64
+TESTINT1  EZ390 final_options=NOREFORMAT
+TESTINT1  EZ390 final_options=NOREGS
+TESTINT1  EZ390 final_options=RMODE24
+TESTINT1  EZ390 final_options=NORMODE31
+TESTINT1  EZ390 final_options=STATS
+TESTINT1  EZ390 final_options=NOTEST
+TESTINT1  EZ390 final_options=THREAD
+TESTINT1  EZ390 final_options=NOTIME
+TESTINT1  EZ390 final_options=NOTIMING
+TESTINT1  EZ390 final_options=NOTRACE
+TESTINT1  EZ390 final_options=NOTRACEA
+TESTINT1  EZ390 final_options=NOTRACEALL
+TESTINT1  EZ390 final_options=NOTRACEC
+TESTINT1  EZ390 final_options=NOTRACEG
+TESTINT1  EZ390 final_options=NOTRACEI
+TESTINT1  EZ390 final_options=NOTRACEL
+TESTINT1  EZ390 final_options=NOTRACEM
+TESTINT1  EZ390 final_options=NOTRACEP
+TESTINT1  EZ390 final_options=NOTRACEQ
+TESTINT1  EZ390 final_options=NOTRACES
+TESTINT1  EZ390 final_options=NOTRACET
+TESTINT1  EZ390 final_options=NOTRACEV
+TESTINT1  EZ390 final_options=TRAP
+TESTINT1  EZ390 final_options=NOTRUNC
+TESTINT1  EZ390 final_options=NOTS
+TESTINT1  EZ390 final_options=VCB
+TESTINT1  EZ390 final_options=WARN
+TESTINT1  EZ390 final_options=XREF
+TESTINT1  EZ390 final_options=ZSTRMAC
+TESTINT1  EZ390 final_options=CHKMAC=0
+TESTINT1  EZ390 final_options=CHKSRC=1
+TESTINT1  EZ390 final_options=ERR=100
+TESTINT1  EZ390 final_options=MAXCALL=50
+TESTINT1  EZ390 final_options=MAXDISPLAY=80
+TESTINT1  EZ390 final_options=MAXESD=1000
+TESTINT1  EZ390 final_options=MAXFILE=1000
+TESTINT1  EZ390 final_options=MAXGBL=100000
+TESTINT1  EZ390 final_options=MAXHEIGHT=600
+TESTINT1  EZ390 final_options=MAXLCL=100000
+TESTINT1  EZ390 final_options=MAXLEN=80
+TESTINT1  EZ390 final_options=MAXLINE=200000
+TESTINT1  EZ390 final_options=MAXLOG=1000000
+TESTINT1  EZ390 final_options=MAXPARM=10000
+TESTINT1  EZ390 final_options=MAXPASS=2
+TESTINT1  EZ390 final_options=MAXPC=50000
+TESTINT1  EZ390 final_options=MAXQUE=1000
+TESTINT1  EZ390 final_options=MAXRLD=10000
+TESTINT1  EZ390 final_options=MAXSIZE=52428800
+TESTINT1  EZ390 final_options=MAXSYM=50000
+TESTINT1  EZ390 final_options=MAXWARN=4
+TESTINT1  EZ390 final_options=MAXWIDTH=800
+TESTINT1  EZ390 final_options=MEM=1
+TESTINT1  EZ390 final_options=MINHEIGHT=150
+TESTINT1  EZ390 final_options=MINWIDTH=150
+TESTINT1  EZ390 final_options=MNOTE=0
+TESTINT1  EZ390 final_options=PARM=
+TESTINT1  EZ390 final_options=PROFILE=
+TESTINT1  EZ390 final_options=STATS=W:\work\z390\zcobol\test\TESTINT1.STA
+TESTINT1  EZ390 final_options=SYSPARM=
+TESTINT1  EZ390 final_options=SYSTERM=W:\work\z390\zcobol\test\TESTINT1.ERR
+TESTINT1  EZ390 final_options=TESTDD=
+TESTINT1  EZ390 final_options=TIME=60
+TESTINT1  EZ390 final_options=TRACE=
+TESTINT1  EZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+TESTINT1  EZ390 final_options=Z390BROWSER=cmd.exe /c Start
+TESTINT1  EZ390 final_options=Z390COMMAND=cmd.exe
+TESTINT1  EZ390 final_options=Z390EDITOR=notepad.exe
+TESTINT1  EZ390 final_options=INSTALL=
+TESTINT1  EZ390 final_options=IPL=
+TESTINT1  EZ390 final_options=LOG=W:\work\z390\zcobol\test\TESTINT1.LOG
+TESTINT1  EZ390 final_options=SYS390=zcobol\test\+linklib+zcobol\z390
+TESTINT1  EZ390 final_options=SYSBAL=zcobol\test\
+TESTINT1  EZ390 final_options=SYSCPY=zcobol\test\
+TESTINT1  EZ390 final_options=SYSDAT=zcobol\test\
+TESTINT1  EZ390 final_options=SYSERR=zcobol\test\
+TESTINT1  EZ390 final_options=SYSLOG=zcobol\test\
+TESTINT1  EZ390 final_options=SYSLST=zcobol\test\
+TESTINT1  EZ390 final_options=SYSMAC=zcobol\test\
+TESTINT1  EZ390 final_options=SYSMLC=zcobol\test\
+TESTINT1  EZ390 final_options=SYSPCH=zcobol\test\
+TESTINT1  EZ390 final_options=SYSPRN=zcobol\test\
+TESTINT1  EZ390 final_options=SYSOBJ=zcobol\test\
+TESTINT1  EZ390 final_options=SYSOPT=zcobol\test\
+TESTINT1  EZ390 final_options=SYSTRC=zcobol\test\
+TESTINT1  EZ390 TCPIO operations      = 0
+TESTINT1  EZ390 DCB operations        = 0
+TESTINT1  EZ390 VSAM operations       = 0
+TESTINT1  EZ390 Keys                  = 2468
+TESTINT1  EZ390 Key searches          = 4
+TESTINT1  EZ390 Key avg comps         = 0
+TESTINT1  EZ390 Key max comps         = 1
+TESTINT1  EZ390 total errors          = 0
+TESTINT1  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=317 INS=3326

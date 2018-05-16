@@ -1,0 +1,5258 @@
+*    ZCOBOL PGM='cics\TESTVSC2' VER=V1.5.06 05/21/12 13:48:47 
+*    ZCOBOL OPTIONS=(CICS) 
+         COPY  TESTVSC2_ZC_LABELS.CPY
+*      ****************************************************************X
+                              *
+*      * Copyright 2006 Automated Software Tools Corporation           X
+                              *
+*      * This source code is part of z390 assembler/emulator package   X
+                              *
+*      * The z390 package is distributed under GNU general public      X
+                              *
+*      * license                                                       X
+                              *
+*      * Author - Don Higgins                                          X
+                              *
+*      ****************************************************************X
+                              *
+*         IDENTIFICATION DIVISION.
+*      * TEST VSAM 2 (COBOL)
+*      * RRDS/FIX MYFILE06 READ/RRN  3 REC  3  Merry Wives of Windsor
+*      * RRDS/FIX MYFILE06 READ/RRN  2 REC  2  Two Gentlemen of Verona
+*      * RRDS/FIX MYFILE06 READ/RRN  1 REC  1  The Tempest
+*      * RRDS/VAR MYFILE07 READ/RRN  5 REC  1  All's Well That Ends WelX
+                              l
+*      * RRDS/VAR MYFILE07 READ/RRN 10 REC  3  The Winter's Tale
+*      * NOTFND       CONDITION RAISED (READ INVALID RRN)
+*      * ILLOGIC      CONDITION RAISED (READ WITH RBA)
+*      * LENGERR      CONDITION RAISED         The Ta
+*      * RRDS/VAR MYFILE07 BROWSE FORWARD RRN 7-11 (READ RECS 2-4)
+*      *                                       The Taming of the Shrew
+*      *                                       The Winter's Tale
+*      *                                       The Comedy of Errors
+*      * RRDS/VAR MYFILE07 BROWSE BACK    RRN 11-8 (READ RECS 4-2)
+*      *                                       The Comedy of Errors
+*      *                                       The Winter's Tale
+*      *                                       The Taming of the Shrew
+*      * RRDS/VAR MYFILE07 BROWSE RANDOM  RRN 17 (REC 7) NEXT
+*      *                                       First Part of Henry IV
+*      *                                  RRN 22 (REC 6) PREV
+*      *                                       Richard II
+*      *                                  RRN 1  (REC 1)
+*      *                                       All's Well That Ends WelX
+                              l
+*      * ENDFILE      CONDITION RAISED (READNEXT RRN 99 BEYOND END)
+*      * ENDFILE      CONDITION RAISED (READPREV RRN 1)
+*      * RRDS COMPLEX TEST...DONE IN THIS SEQUENCE
+*      *    BROWSE FORWARD MYFILE06 RRN 6-9  (RECS 5-7)
+*      *    BROWSE BACK    MYFILE06 RRN 10-6 (RECS 7-5)
+*      *                                       Measure for Measure
+*      *                                       A Midsummer Night's DreaX
+                              m
+*      *                                       Much Ado About Nothing
+*      *                                       Much Ado About Nothing
+*      *                                       A Midsummer Night's DreaX
+                              m
+*      *                                       Measure for Measure
+*      * RRDS/VAR MYFILE07, RRN 10 (RECS 3-5), RESETBR, RRN 99
+*      *                                                     (RECS 10-8X
+                              )
+*      *                                       The Winter's Tale
+*      *                                       The Comedy of Errors
+*      *                                       King John
+*      *                                       Henry V
+*      *                                       Second Part of Henry IV
+*      *                                       First Part of Henry IV
+*         PROGRAM-ID. TESTVSC2.
+         PRINT NOLIST,NOGEN,NOLISTUSE    SET LIST OPTION FOR INTERNAL CX
+               ODE
+DFHEIBR  EQU   11
+         USING DFHEIBLK_DSECT,DFHEIBR
+*
+* TERMINAL CONTROL TABLE - TERMINAL ENTRY
+*
+DFHTCTTE DSECT 
+TCTTEHED DS    CL8         'DFHTCTTE'
+TCTTETI  DS    CL4         TERMINAL ID
+TCTTEDA  DS    AL4         A(TIOA)
+TCTTETC  DS    CL4         NEXT TRANSID
+TCTTEINT DS    CL4         INITIAL TRANSID
+TCTTECA  DS    AL4         RETURN COMMAREA ADDRESS
+TCTTECAL DS    XL2         RETURN COMMAREA ADDRESS LENGTH
+TCTTELNK DS    XL2         RETURN LINK LEVEL, 0 RETURNS TO Z390KCP
+TCTTELKA DS    AL4         LINK LEVEL AREA POINTER
+*                          EACH 4-BYTE ENTRY HAS THE DSA ADDRESS
+TCTTEABD DS    AL4         HANDLE ABEND BLOCK
+TCTTESCC DS    AL4         STORAGE CONTROL CHAIN
+TCTTEPCT DS    AL4         ADDRESS OF DFHPCT
+TCTTEIMM DS    X           FF=RETURN IMMEDIATE
+TCTTETS  DS    X           FF=SHUTDOWN REQUEST
+TCTTETYP DS    C           TRANSID START TYPE (FROM Z390KCP/KCPGOTYP)
+*                             A = .INI INITIAL TRANSID
+*                             B = SCREEN INPUT
+*                             C = RETURN TRANSID()
+*                             D = IC START-NO DATA
+*                             E = IC START-DATA
+TCTTECND DS    X           FF=XCTL COMMAREA MUST BE FREED ON RETURN
+TCTTEEDF DS    X           FF=EDF IS ACTIVE
+TCTTEEBA DS    X           CEDF INTERCEPT INDICATOR
+*                             00='BEFORE'
+*                             FE='AFTER' LINK/XCTL/RETURN FAIL
+*                             FF='AFTER'
+TCTTEEDL DS    X           CEDF LINKAGE INDICATOR
+*                             00=NORMAL LINKAGE
+*                             FE=SPECIAL LINKAGE
+*                             FF=DIRECT LINKAGE
+TCTTEEDT DS    CL4         TERMID FOR EDF OUTPUT
+TCTTEEDA DS    AL4         ADDRESS OF EDF PROCESSOR LCLCEDF
+TCTTEQFN DS    PL3         SEQUENTIAL TERMINAL FILE NUMBER
+TCTTEQFO DS    X           FF=CURRENT SEQUENTIAL FILE IS OPEN
+TCTTEQFL DS    AL4         ADDRESS OF SEQUENTIAL TERMINAL FILENAME
+TCTTEQDI DS    AL4         ADDRESS OF RECEIVE DCB
+TCTTEQDO DS    AL4         ADDRESS OF SEND DCB
+TCTTECWA DS    AL4         ADDRESS OF LOCAL CWA COPY
+TCTTECWL DS    XL4         LENGTH OF LOCAL CWA COPY
+TCTTELCL DS    AL4         ADDRESS OF LCL MODULE INDEXER
+TCTTEIQF DS    X           FF=INQUIRE FILE BROWSE IN PROGRESS
+TCTTEIFN DS    CL8         INQUIRE FILE CURRENT POSITION
+TCTTECHN DS    CL16        PASSED CHANNEL NAME
+TCTTECAQ DS    AL4         ANCHOR FOR CHANNEL CHAIN
+TCTTETKN DS    XL4         TOKEN FOR STARTBROWSE CONTAINER
+TCTTECHW DS    AL4         ADDRESS OF CHWA (STARTBROWSE CONTAINER)
+* FIELDS FOR ASSIGN
+TCTTEABP DS    X           ABDUMP INDICATOR
+TCTTEABG DS    CL8         ABENDING PROGRAM
+TCTTEPSW DS    XL8         ASRA PSW
+TCTTEASR DS    XL64        ASRA REGS
+TCTTEINV DS    CL8         INVOKING PROGRAM
+TCTTERET DS    CL8         RETURN PROGRAM
+TCTTELNA EQU   *-TCTTEABP  ASSIGN FIELDS TO CLEAR
+TCTTEABC DS    CL4         ABCODE OR BLANK
+TCTTENXT DS    CL4         RETURN TRANSID OR BLANK
+TCTTEMCL DS    AL2         MAP COLUMN
+TCTTEMHT DS    AL2         MAP HEIGHT
+TCTTEMLN DS    AL2         MAP LINE
+TCTTEMWH DS    AL2         MAP WIDTH
+TCTTELEN EQU   *-DFHTCTTE
+TCTTEAR  EQU   10
+         USING DFHTCTTE,TCTTEAR
+R0     EQU 0
+R1     EQU 1
+R2     EQU 2
+R3     EQU 3
+R4     EQU 4
+R5     EQU 5
+R6     EQU 6
+R7     EQU 7
+R8     EQU 8
+R9     EQU 9
+R10    EQU 10
+R11    EQU 11
+R12    EQU 12
+R13    EQU 13
+R14    EQU 14
+R15    EQU 15
+TESTVSC2 CSECT 
+*            R1 >>> A(EIB,COMMAREA)
+*            R2 >>> P0E02 (LINK) OR P0E04 (XCTL) PARMS
+* TCTTEAR (R10) >>> TCTTE
+* DFHEIBR (R11) >>> EIB
+*         (R14) >>> RETURN ADDRESS (LINK ONLY)
+*
+         L     R2,0(R2)           R2=P0E02/P0E04 PARM POINTER
+         STRL  R2,CICS_EIENT_0053_PARMPNTR SAVE IT
+* ENTRY IS ONLY BY DIRECT BRANCH FROM MODULES LCL0E02 (LINK)
+* OR LCL0E04 (XCTL)
+         LR    R2,R1              R2=SAVE USER PARM POINTER
+* DON'T SAVE THE REGS IF XCTL, THIS ISN'T A NEW LINK LEVEL
+         CHHSI EIBFN,X'0E04'      XCTL ?
+         JE    CICS_EIENT_0053_NOSAVE EXIT IF IT IS
+* FIND LAST LINKER AND ESTABLISH LINKAGE
+         LH    R15,TCTTELNK       R15=CURRENT LINK LEVEL
+         AHI   R15,-1             -1
+         SLL   R15,2              *4
+         L     R1,TCTTELKA        R0=LKA ADDRESS
+         AR    R1,R15             INDEX TO LAST LINK-LEVEL ENTRY
+         L     R13,0(R1)          SAVE AREA OF LAST LINK-LEVEL
+         STM   14,12,12+4*(14-14)(13)
+CICS_EIENT_0053_NOSAVE     EQU *
+*
+* GETMAIN THE DSA, AND SET UP THE CHAIN
+*
+         IILF  R1,(DFHEIEND-DFHEISTG) R1=DSA LENGTH RPI 1181
+         LA    0,B'00'
+         SVC   4 GMAIN R0=(X'02'=31B,X'01'=COND),R1=LEN OUT(R0=L,R1=A)
+* DON'T SAVE THE REGS IF XCTL, THIS ISN'T A NEW LINK LEVEL
+         CHHSI EIBFN,X'0E04'      XCTL ?
+         JE    CICS_EIENT_0053_NOSAVE2 EXIT IF IT IS
+         ST    R1,8(R13)          SAVE NEW DSA SAVE AREA IN PRIOR SAVE
+         ST    R13,4(R1)          SAVE OLD SAVE AREA IN NEW DSA SAVE
+CICS_EIENT_0053_NOSAVE2     EQU *
+         LR    R13,R1             DSA BASE 1
+         USING DFHEISTG,R13
+         XC    DFHEICAP(DFHEIUSR-DFHEICAP),DFHEICAP CLEAR PREFIX DSA
+*
+* SAVE DSA LENGTH
+*
+         ST    R0,DFHEILEN        SAVE DSA LENGTH FOR FREEMAIN
+*
+* SET EIB AND COMMAREA ADDRESSES
+*
+         MVC   DFHEIEIB,0(R2)     SET EIB ADDRESS IN DSA
+         MVC   DFHEICAP,4(R2)     SET COMMAREA ADDRESS IN DSA
+*
+* IF WE CAME FROM XCTL, WE MUST FREE THE PARM STORAGE AREA
+*
+         CHHSI EIBFN,X'0E04'      XCTL ?
+         JNE   CICS_EIENT_0053_01 EXIT IF NOT
+         LA    R0,8               LENGTH OF 8
+         LR    1,R2
+         SVC   5 FREEMAIN R0=LEN, R1=ADDR
+         LA    R2,DFHEIEIB        NEW PARM POSITION FOR ZCOBOL
+CICS_EIENT_0053_01     DS 0H
+*
+* FIND OUR LKA ENTRY AND STORE OUR DSA ADDRESS
+*
+         LH    R15,TCTTELNK       R15=CURRENT LINK LEVEL
+         SLL   R15,2              *4
+         L     R1,TCTTELKA        R1=LKA ADDRESS
+         AR    R1,R15             INDEX TO OUR LINK LEVEL ENTRY
+         ST    R13,0(R1)          SAVE OUR DSA ADDRESS
+         MVC   DFHEIINV,TCTTEINV  SET INVOKING PROGRAM FOR ASSIGN
+         MVC   DFHEIRET,TCTTERET  SET RETURN PROGRAM FOR ASSIGN
+         MVC   DFHEICHN,TCTTECHN  SET CHANNEL FOR ASSIGN
+*
+         CLI   TCTTEEDF,X'FF'     EDF ON ?
+         JNE   CICS_EIENT_0053_NOEDFA EXIT IF NOT
+* PROGRAM INITIATION
+         MVI   TCTTEEBA,X'FF'     SET 'AFTER' INTERCEPT
+         MVI   TCTTEEDL,X'FE'     SET SPECIAL LINKAGE
+         L     R15,TCTTEEDA       R15=EDF PROCESSOR ADDRESS
+         BAKR  0,R15              STACK REGS AND GO
+         J     CICS_EIENT_0053_NOEDFA EXIT
+CICS_EIENT_0053_PARMPNTR     DS AL4 SAVE P0E02/P0E04 PARM POINTER
+*
+CICS_EIENT_0053_NOEDFA     DS 0H
+         CNOP  4,8             FORCE ZC390PVT TO DOUBLEWORD BOUNDARY
+         BRAS  ZC_R8,ZC_LOAD
+         USING *,ZC_R8            BASE FOR LOAD AND CICS V5 USE
+*
+*  THESE FIELDS MUST BE KEPT IN SYNC WITH zcobol\ZC390PVT.CPY
+*
+         DC    CL8'TESTVSC2'    PVTPGM   ZCOBOL PGM NAME
+         DC    CL8'05/21/12'   PVTDATE  ZCOBOL COMPILE DATE
+         DC    CL8'13.48'   PVTTIME  ZCOBOL COMPILE TIME
+         DC    CL8'V1.5.06'    PVTVER   ZCOBOL COMPILER VERSION
+         DC    C'1'     PVTCICS  ZCOBOL EXEC CICS PGM
+         DC    C'1'   PVTEXTND ZCOBOL EXTENDED PRECISION
+         DC    C'0'    PVTTRUNC ZCOBOL TRUNCATE TO PICTURE
+         DC    C'1'      PVTR64   ZCOBOL USE 64 BIT REGISTERS
+         DC    H'80' MAX DISPLAY LINE LEN  RPI 1118
+         DS    XL10            RESERVED
+ZC_LOAD  DS    0H
+         LA    0,=CL8'ZC390LIB'
+         SR    15,15 USE DEFAULT SYS390 SEARCH
+         SVC   8 LOAD R0=A(NAME) R15=DDNAME/DSNAME ADDR OR 0
+         LTR   ZC_R15,ZC_R15
+         JZ    ZC_LOAD_OK
+         BRAS  1,*+(WTO#0063_EOT-*+1)/2*2
+         DC    AL2(WTO#0063_EOT-*,0),C'ZC390LIB NOT FOUND'
+WTO#0063_EOT     EQU *
+         SVC   35
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+ZC_LOAD_OK DS  0H
+         LR    ZC_R9,ZC_R0
+         USING ZC390CVT,ZC_R9    R9=CVT
+         CLC   ZCVT_ID,=C'ZCVT'              CHECK ZCVT ID AND LENGTH
+         JNE   ZC_VER_ERR                    IN ZC390LIB.390 MATCH
+         CLC   ZCVT_LEN,=A(ZCVT_END-ZCVT_ID) ZCOBOL PGM COMPILED ID/LEN
+         BNE   ZC_VER_ERR
+         L     ZC_R15,ZCVT_ZC390NUC
+         BASR  ZC_R14,ZC_R15 CALL ZC390NUC TO VERIFY VER, OPTIONS
+         J     ZC_VER_OK
+ZC_VER_ERR DS 0H
+         BRAS  1,*+(WTO#0064_EOT-*+1)/2*2
+         DC    AL2(WTO#0064_EOT-*,0),C'ZC390LIB ZCVT VERIFY ERROR'
+WTO#0064_EOT     EQU *
+         SVC   35
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+         LTORG 
+         PUSH  PRINT,NOPRINT
+         PRINT OFF,NOPRINT
+ZC_R0    EQU   0
+ZC_R1    EQU   1
+ZC_R2    EQU   2
+ZC_R3    EQU   3
+ZC_R4    EQU   4
+ZC_R5    EQU   5
+ZC_R6    EQU   6
+ZC_R7    EQU   7
+ZC_R8    EQU   8
+ZC_R9    EQU   9
+ZC_R10   EQU  10
+ZC_R11   EQU  11
+ZC_R12   EQU  12
+ZC_R13   EQU  13
+ZC_R14   EQU  14
+ZC_R15   EQU  15
+ZC_F0    EQU   0
+ZC_F1    EQU   1
+ZC_F2    EQU   2
+ZC_F3    EQU   3
+ZC_F4    EQU   4
+ZC_F5    EQU   5
+ZC_F6    EQU   6
+ZC_F7    EQU   7
+ZC_F8    EQU   8
+ZC_F9    EQU   9
+ZC_F10   EQU  10
+ZC_F11   EQU  11
+ZC_F12   EQU  12
+ZC_F13   EQU  13
+ZC_F14   EQU  14
+ZC_F15   EQU  15
+ZC_H     EQU   2   HIGH
+ZC_L     EQU   4   LOW
+ZC_E     EQU   8   EQUAL
+ZC_NH    EQU   13  NOT HIGHT
+ZC_NL    EQU   11  NOT LOW
+ZC_NE    EQU   7   NOT EQUAL
+ZC_O     EQU   1   OVERFLOW
+ZC_P     EQU   2   POSITIVE
+ZC_M     EQU   4   MINUS
+ZC_Z     EQU   8   ZERO
+ZC_NP    EQU   13  NOT POSITIVE
+ZC_NM    EQU   11  NOT MINUS
+ZC_NZ    EQU   7   NOT ZERO
+ZC_NO    EQU   14  NOT OVERFLOW
+ZC_EQ    EQU   8   EQUAL
+ZC_GT    EQU   2   GREATER THAN
+ZC_LT    EQU   4   LESS    THAN
+ZC_GE    EQU   11  GREATER THAN OR EQUAL
+ZC_LE    EQU   13  LESS    THAN OR EQUAL
+         POP   PRINT,NOPRINT
+PFPO_TEST    EQU  X'80' PFPO TEST IF VALID OPCODE (NOT SUPPORTED YET)
+PFPO_RADIX   EQU  1 PFPO OPCODE - CONVERT FROM ONE RADIX TO ANOTHER
+PFPO_RND     EQU  0 PFOP ROUNDING OPTION (ONLY DEFAULT ALLOWED)
+PFPO_TYPE_EH EQU  0 EH HFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DH EQU  1 ED HFP LONG      64 BITS 15 DIGITS
+PFPO_TYPE_LH EQU  2 EL HFP EXTENDED 128 BITS 30 DIGITS
+PFPO_TYPE_EB EQU  5 EB BFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DB EQU  6 DB BFP LONG      64 BITS 16 DIGITS
+PFPO_TYPE_LB EQU  7 LB BFP EXTENDED 128 BITS 34 DIGITS
+PFPO_TYPE_ED EQU  8 ED DFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DD EQU  9 DD DFP LONG      64 BITS 16 DIGITS
+PFPO_TYPE_LD EQU 10 LD DFP EXTENDED 128 BITS 34 DIGITS
+ZC_VER_OK DS   0H
+ZC390CVT DSECT                ZCOBOL CVT AT ENTRY TO ZC390LIB.390
+ZCVT_ID            DC    C'ZCVT'             ZCVT ID  VERIFIED BY ZCOB
+ZCVT_LEN           DC    A(ZCVT_END-ZCVT_ID) ZCVT LEN VERIFIED BY ZCOB
+ZCVT_VER           DC    CL8'V1.5.06'    ZCVT VER VERIFIED BY ZC390NUC
+ZCVT_ZC390NUC  DC V(ZC390NUC)      MODULE  SYSTEM ROUTINE MODULE INIT
+ZCVT_CALL           DC V(CALL)       ENTRY R0=A(PGM),R1=A(PARMLIST)
+ZCVT_CMP64R32       DC V(CMP64R32)   ENTRY COMPARE R0-1=FLD1 R2-3=FLD2
+ZCVT_CVTLBTQ        DC V(CVTLBTQ)    ENTRY CVT LB IN F4-6 TO Q IN R0-1
+ZCVT_CVTLDTP        DC V(CVTLDTP)    ENTRY CVT LD IN F0-2 TO PL31 R0-1
+ZCVT_CVTQTLB        DC V(CVTQTLB)    ENTRY CVT Q IN R0-1 TO LB IN F4-6
+ZCVT_DIV64R32       DC V(DIV64R32)   ENTRY DIVIDE R0-1=N64, R2-3=MAX64
+ZCVT_DIVQ128        DC V(DIVQ128)    ENTRY DIVIDE Q128 R0-R1 BY R2-R3
+ZCVT_GOBACK         DC V(GOBACK)     ENTRY R1=RC
+ZCVT_MPYQ128        DC V(MPYQ128)    ENTRY MULTIPLY Q128 R0-R1 BY R2-R3
+ZCVT_OSE64R32       DC V(OSE64R32)   ENTRY ON SIZE ERR R0-1=N, R2-3=MAX
+ZCVT_PERFORM        DC V(PERFORM)    ENTRY R14=PGTAR,R0=PGEXT,R1=PMRET
+ZCVT_PMCHECK        DC V(PMCHECK)    ENTRY R14=RETURN TO NEXT INSTR.
+ZCVT_ROUNDF         DC V(ROUNDF)     ENTRY R0=REM,R1=QUO,R2=DIVISOR
+ZCVT_STACKORG       DC V(STACKORG)   ENTRY PERFORM STACK ORIGIN
+ZCVT_STACKPTR       DC V(STACKPTR)   ENTRY CUR ENTRY A(PG_END+4,RET)
+ZCVT_STACKEND       DC V(STACKEND)   ENTRY PERFORM STACK END
+ZCVT_STOPRUN        DC V(STOPRUN)    ENTRY R1=RC
+ZCVT_TALPHAX        DC V(TALPHAX)    ENTRY TEST ALPHABETIC X
+ZCVT_TNUMP          DC V(TNUMP)      ENTRY TEST NUMERIC P
+ZCVT_TNUMX          DC V(TNUMX)      ENTRY TEST NUMERIC X
+ZCVT_TNUMZ          DC V(TNUMZ)      ENTRY TEST NUMERIC Z
+*
+* ADDITIONAL SEPARATE MODULES LINKED WITH Z390NUC IN ZC390LIB.390
+*
+ZCVT_ABORT     DC V(ABORT)         MODULE  R1=ABORT ERROR MSG #
+ZCVT_ABORT_ALTER   EQU    1 ABORT ALTER DUE TO BRC NOT FOUND AT TARGET
+ZCVT_ABORT_CALL    EQU    2 ABORT DYNAMIC CALL - PGM NOT FOUND
+ZCVT_ABORT_DISPLAY EQU    3 ABORT DISPLAY DUE TO BUFFER EXCEEDED
+ZCVT_ABORT_OPEN    EQU    4 ABORT OPEN  INVALID DCB
+ZCVT_ABORT_STACK   EQU    6 ABORT PEROFRM STACK OVERFLOW
+ZCVT_ABORT_VERSION EQU    7 ABORT ZC390NUC INIT ZCOBOL VERSION ERROR
+ZCVT_ABORT_INT128  EQU    8 ABORT INTEGER 128 CONVERSION OVERFLO
+ZCVT_ABORT_DIVQ    EQU    9 ABORT DIVIDE Q IF DIVISOR 0 OR > 2**63
+ZCVT_ABORT_CICS    EQU   10 ABORT THIS PGM REQUIRES EXEC CICS TRANS MGR
+ZCVT_ABORT_ACCEPT  EQU   11 ABORT ACCEPT EOF
+ZCVT_ABORT_MAXERR  EQU   11 ABORT MAX ERROR CODE
+ZCVT_ACCEPT    DC V(ACCEPT)        MODULE  R1=A(TYPE,FLD_ADD,FLD_LEN)
+ZCVT_ACCEPT_DEFAULT EQU   1 INPUT DEFAULT DDNAME=SYSIN
+ZCVT_ACCEPT_CONSOLE EQU   2 INPUT VIA WTOR FROM CONSOLE
+ZCVT_ACCEPT_DDNAME  EQU   3 INPUT FROM DDNAME WITH DDNAME ADDR IN R3
+ZCVT_ACCEPT_DATE    EQU   4 RETURN DAY OF WEEK PIC 9(8) MMDDYYYY
+ZCVT_ACCEPT_TIME    EQU   5 RETURN DAY OF WEEK PIC 9(8) HHMMSSTH
+ZCVT_ACCEPT_DOW     EQU   6 RETURN DAY OF WEEK PIC 9 1-7
+ZCVT_DISPLAY   DC V(DISPLAY)       MODULE  R1=A(ADDR,LEN,TYPE)
+ZCVT_INSPECT   DC V(INSPECT)       MODULE  R0=TYPE,R1=PARMLIST
+ZCVT_TALLYING      EQU   0 INSPECT TALLYING
+ZCVT_REPLACING     EQU   4 INSPECT REPLACING
+ZCVT_CONVERTING    EQU   8 INSPECT CONVERTING
+*
+* SHARED DATA AREAS
+*
+ZCVT_PVTMAXDL  DS H          MAXIMUM DISPLAY LINE LENGTH  RPI 1118
+               DS 0D
+ZCVT_ZERO      DC XL16'00'   BINARY ZEROS
+ZCVT_HIGH_VALUES DC 0XL16,16X'FF' BINARY FF'S     RPI 1181
+ZCVT_PWORK     DS PL8        CVD/CVB WORK
+ZCVT_PWORK1    DS PL16       DIV DIVIDEND, CVDG/CVBG WORK
+ZCVT_PWORK2    DS PL16       DIV DIVISOR
+ZCVT_PWORK3    DS PL16       DIV QUOTIENT
+ZCVT_PWORK4    DS PL16       DIV REMAINDER
+ZCVT_NDDX      DS XL16       DIV DIVIDEND HOLD AREA
+ZCVT_WORKAREA  DS XL256      GEN_INSPECT PARMS, GEN_EDIT WORK, ETC.
+*
+* END OF ZC390CVT
+*
+ZCVT_END   EQU   *
+ZC390PVT DSECT 
+PVTPGM   DS    CL8  ZCOBOL PGM NAME
+PVTDATE  DS    CL8  ZCOBOL COMPILE DATE
+PVTTIME  DS    CL8  ZCOBOL COMPILE TIME
+PVTVER   DS    CL8  ZCOBOL COMPILER VERSION
+PVTCICS  DS    C    ZCOBOL EXEC CICS PGM
+PVTEXTND DS    C    ZCOBOL EXTENDED PRECISION
+PVTTRUNC DS    C    ZCOBOL TRUNCATE TO PICTURE
+PVTR64   DS    C    ZCOBOL USE 64 BIT REGISTERS
+PVTMAXDL DS    H    ZCOBOL MAX DISPLAY LINE LENGTH
+         DS    XL10 RESERVED
+DFHEISTG DSECT 
+         DS    18F  SAVE AREA
+DFHEIEIB DS    A    EIB POINTER
+DFHEICAP DS    A    COMMAREA POINTER
+DFHEICAL DS    H    COMMAREA LENGTH, COPY OF EIBCALEN
+DFHEILEN DS    A    LENGTH OF DSA SET BY DFHEIENT
+DFHEIAID DS    A    ADDRESS OF HANDLE AID BLOCK (DSECT=DFHADBLK)
+DFHEIHCN DS    A    ADDRESS OF HANDLE CONDITION BLOCK (DSECT=DFHHCBLK)
+DFHEIINV DS    CL8  INVOKING PROGRAM FOR ASSIGN
+DFHEIRET DS    CL8  RETURN PROGRAM FOR ASSIGN
+DFHEICHN DS    CL16 CHANNEL FOR ASSIGN
+DFHEIUSR DS    0D   USER PROGRAM STORAGE (SEE DFHEIEND FOR END)
+ZC_WS    EQU   DFHEISTG
+*         ENVIRONMENT DIVISION.
+*         DATA DIVISION.
+         PRINT DATA
+*         WORKING-STORAGE SECTION.
+*         77  MYDATA   PIC X(50).
+*         77  MYLEN    PIC 9(4)  COMP.
+*         77  MYRID    PIC 9(8)  COMP.
+*         77  MYRID1   PIC 9(8)  COMP.
+*         77  MYRID2   PIC 9(9)  COMP.
+*         77  FOP1     PIC X(4)   VALUE X'C311C260'.
+*         77  FOP2     PIC X(4)   VALUE X'C311C3F0'.
+*         77  FOP3     PIC X(4)   VALUE X'C311C540'.
+*         77  FOP4     PIC X(4)   VALUE X'C311C650'.
+*         77  FOP5     PIC X(4)   VALUE X'C311C760'.
+*         77  FOP6     PIC X(4)   VALUE X'C311C8F0'.
+*         77  FOP7     PIC X(4)   VALUE X'C3114A40'.
+*         77  FOP8     PIC X(4)   VALUE X'C3114B50'.
+*         77  FOP9     PIC X(4)   VALUE X'C3114C60'.
+*         77  FOP10    PIC X(4)   VALUE X'C3114DF0'.
+*         77  FOP11    PIC X(4)   VALUE X'C3114F40'.
+*         77  FOP12    PIC X(4)   VALUE X'C3115050'.
+*         77  FOP13    PIC X(4)   VALUE X'C311D160'.
+*         77  FOP14    PIC X(4)   VALUE X'C311D2F0'.
+*         77  FOP15    PIC X(4)   VALUE X'C311D440'.
+*         77  FOP16    PIC X(4)   VALUE X'C311D550'.
+*         77  FOP17    PIC X(4)   VALUE X'C311D660'.
+*         77  FOP18    PIC X(4)   VALUE X'C311D7F0'.
+*         77  FOP19    PIC X(4)   VALUE X'C311D940'.
+*         77  FOP20    PIC X(4)   VALUE X'C3115A50'.
+*         77  FOP21    PIC X(4)   VALUE X'C3115B60'.
+*         77  FOP1C2   PIC X(4)   VALUE X'C311C3C9'.
+*      * RRDS MYFILE06 READ   RBA REC  3
+*         01  FOPLINE.
+*             02  FOPSBA   PIC X(4).
+*             02  FOPTYPE  PIC X(4).
+*             02  FILLER   PIC X     VALUE '/'.
+*             02  FOPFIXVR PIC X(3).
+*             02  FILLER   PIC X     VALUE SPACE.
+*             02  FOPNAME  PIC X(8).
+*             02  FILLER   PIC X     VALUE SPACE.
+*             02  FOPFUNC  PIC X(8)  VALUE 'READNEXT'.
+*             02  FILLER   PIC X     VALUE SPACE.
+*             02  FOPMETH  PIC X(4)  VALUE 'XRBA'.
+*             02  FILLER   PIC X(4)  VALUE ' REC'.
+*             02  FOPRECNO PIC X(3).
+*             02  FILLER   PIC X     VALUE SPACE.
+*             02  FOPSEP   PIC X     VALUE SPACE.
+*         77  FOPL     PIC 9(4) COMP.
+*         01  FHAND.
+*             02  FHASBA   PIC X(4).
+*             02  FHANDCON.
+*                 03  FILLER   PIC X(8) VALUE SPACES.
+*                 03  FHALNG   PIC X(2).
+*                 03  FILLER   PIC X(2) VALUE SPACES.
+*             02  FILLER   REDEFINES FHANDCON.
+*                 03  FILLER   PIC X(8) VALUE SPACES.
+*                 03  FHAILL   PIC X(3).
+*                 03  FILLER   PIC X    VALUE SPACE.
+*             02  FILLER   PIC X(18) VALUE ' CONDITION RAISED '.
+*             02  FHFDBK1  PIC X(2).
+*             02  FILLER   PIC X     VALUE SPACE.
+*             02  FHFDBK2  PIC X(2).
+*             02  FILLER   PIC X(4)  VALUE SPACES.
+*             02  FHSEP    PIC X     VALUE SPACE.
+*         77  FHANDL   PIC 9(4) COMP.
+*         01  ENDMSG.
+*             02  FILLER   PIC X(4)  VALUE X'C3115CF0'.
+*             02  FILLER   PIC X(31)
+*                          VALUE 'TESTVSC2 COMPLETED, PRESS CLEAR'.
+*         77  ENDMSGL  PIC 9(4) COMP.
+*         01  FILLER.
+*             02  WORK1A   PIC 9(4).
+*             02  FILLER   REDEFINES WORK1A.
+*                 03  FILLER   PIC X(2).
+*                 03  WORK1B   PIC X(2).
+*             02  FILLER   REDEFINES WORK1A.
+*                 03  FILLER   PIC X(1).
+*                 03  WORK1C   PIC X(3).
+*         01  WORK2.
+*             02  FILLER PIC X.
+*             02  FDBK1  PIC X.
+*             02  FDBK2  PIC X.
+*             02  FILLER PIC X(3).
+*      * GO TO DEPENDING CONTROL
+*      *   1=VSAMRTN1
+*      *   2=VSAMRTN2
+*      *   3=VSAMRTN3
+*      *   4=VSAMRTN4
+*      *   5=VSAMRTN5
+*      *   6=ABEND
+*         77  DEPCTRL   PIC 9(4) COMP.
+*         77  ENDFLENO  PIC 9(4) COMP.
+*         77  LOOPCTRL  PIC 9(2) COMP.
+*      * EXEC INTERFACE BLOCK
+*            02  EIBHEAD  PIC X(8).
+*            02  EIBTIME  PIC 9(7) COMP-3.
+*            02  EIBDATE  PIC 9(7) COMP-3.
+*            02  EIBTRNID PIC X(4).
+*            02  EIBTASKN PIC 9(7) COMP-3.
+*            02  EIBTRMID PIC X(4).
+*            02  FILLER   PIC X(2).
+*            02  EIBCPOSN PIC 9(4) COMP.
+*            02  EIBCALEN PIC 9(4) COMP.
+*            02  EIBAID   PIC X.
+*            02  EIBFN    PIC 9(4) COMP.
+*            02  EIBRCODE PIC X(6).
+*            02  EIBREQID PIC X(8).
+*            02  EIBDS    PIC X(8).
+*            02  EIBRSRCE PIC X(8).
+*            02  EIBRESP  PIC 9(9) COMP.
+*            02  EIBRESP2 PIC 9(9) COMP.
+*            02  EIBPROG  PIC X(8).
+*            02  EIBDTFRM PIC X.
+         PRINT LIST,GEN,LISTUSE TURN PRINT LISTING ON FOR USER CODE GEN
+TESTVSC2 CSECT                SWITCH TO PROCEDURE CODE AHEAD OF WS
+         L     ZC_R0,0(ZC_R2)          LOAD PARM ADDR FROM PARMLIST
+         ST    ZC_R0,ZC_DFHEIBLK_PTR STORE PARM POINTER
+         L     ZC_R0,4(ZC_R2)          LOAD PARM ADDR FROM PARMLIST
+         ST    ZC_R0,ZC_DFHCOMMAREA_PTR STORE PARM POINTER
+         LARL  ZC_R1,=XL4'C311C260'
+          MVC   FOP1,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311C3F0'
+          MVC   FOP2,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311C540'
+          MVC   FOP3,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311C650'
+          MVC   FOP4,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311C760'
+          MVC   FOP5,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311C8F0'
+          MVC   FOP6,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3114A40'
+          MVC   FOP7,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3114B50'
+          MVC   FOP8,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3114C60'
+          MVC   FOP9,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3114DF0'
+          MVC   FOP10,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3114F40'
+          MVC   FOP11,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3115050'
+          MVC   FOP12,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311D160'
+          MVC   FOP13,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311D2F0'
+          MVC   FOP14,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311D440'
+          MVC   FOP15,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311D550'
+          MVC   FOP16,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311D660'
+          MVC   FOP17,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311D7F0'
+          MVC   FOP18,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311D940'
+          MVC   FOP19,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3115A50'
+          MVC   FOP20,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C3115B60'
+          MVC   FOP21,0(ZC_R1)
+         LARL  ZC_R1,=XL4'C311C3C9'
+          MVC   FOP1C2,0(ZC_R1)
+         MVI   ZC_FILLER_V1,C'/'
+         MVI   ZC_FILLER_V2,C' '
+         MVI   ZC_FILLER_V3,C' '
+         LARL  ZC_R1,=CL8'READNEXT'
+          MVC   FOPFUNC,0(ZC_R1)
+         MVI   ZC_FILLER_V4,C' '
+         LARL  ZC_R1,=CL4'XRBA'
+          MVC   FOPMETH,0(ZC_R1)
+         LARL  ZC_R1,=CL4' REC'
+          MVC   ZC_FILLER_V5,0(ZC_R1)
+         MVI   ZC_FILLER_V6,C' '
+         MVI   FOPSEP,C' '
+         MVI   ZC_FILLER_V7,C' '
+         MVC   ZC_FILLER_V7+1(8-1),ZC_FILLER_V7
+         MVI   ZC_FILLER_V8,C' '
+         MVC   ZC_FILLER_V8+1(2-1),ZC_FILLER_V8
+         MVI   ZC_FILLER_V9,C' '
+         MVC   ZC_FILLER_V9+1(8-1),ZC_FILLER_V9
+         MVI   ZC_FILLER_V10,C' '
+         LARL  ZC_R1,=CL18' CONDITION RAISED '
+          MVC   ZC_FILLER_V11,0(ZC_R1)
+         MVI   ZC_FILLER_V12,C' '
+         MVI   ZC_FILLER_V13,C' '
+         MVC   ZC_FILLER_V13+1(4-1),ZC_FILLER_V13
+         MVI   FHSEP,C' '
+         LARL  ZC_R1,=XL4'C3115CF0'
+          MVC   ZC_FILLER_V14,0(ZC_R1)
+         LARL  ZC_R1,=CL32'TESTVSC2 COMPLETED, PRESS CLEAR'
+          MVC   ZC_FILLER_V15,0(ZC_R1)
+         LARL  ZC_R1,=CL8'ZCWSID1'
+          MVC   ZC_WS_ID1,0(ZC_R1)
+         MVI   ZC_FILLER_V16,C' '
+         MVI   ZC_FILLER_V17,C' '
+         MVI   ZC_FILLER_V18,C' '
+         MVI   ZC_FILLER_V19,C' '
+         MVI   ZC_FILLER_V20,C' '
+          MVI   TRUE,C'1'
+          MVI   FALSE,C'0'
+          MVHHI RETURN_CODE,0
+*
+*             MOVE LENGTH OF FOPLINE  TO FOPL.
+*ZC    172         MOVE  LENGTH,OF,FOPLINE,TO,FOPL
+          MVHHI FOPL,44
+*             SUBTRACT 1 FROM FOPL.
+*ZC    173         SUBTRACT 1,FROM,FOPL
+         LH    ZC_R0,FOPL
+         AHI   ZC_R0,-1
+         STH   ZC_R0,FOPL
+*             MOVE LENGTH OF FHAND    TO FHANDL.
+*ZC    174         MOVE  LENGTH,OF,FHAND,TO,FHANDL
+          MVHHI FHANDL,44
+*             SUBTRACT 1 FROM FHANDL.
+*ZC    175         SUBTRACT 1,FROM,FHANDL
+         LH    ZC_R0,FHANDL
+         AHI   ZC_R0,-1
+         STH   ZC_R0,FHANDL
+*             MOVE LENGTH OF ENDMSG   TO ENDMSGL.
+*      *  CLI   FOPSEP+1,C' '      SEND LENGTH ADJUSTED ?
+*      *  BNE   NOTADJL            EXIT IF NOT
+*ZC    176         MOVE  LENGTH,OF,ENDMSG,TO,ENDMSGL
+          MVHHI ENDMSGL,35
+*             IF FOPSEP NOT = SPACE THEN GO TO NOTADJL.
+*ZC    179         IF    FOPSEP,NOT,=,SPACE,THEN
+         CLI   FOPSEP,C' '
+         BRC   15-ZC_NE,PG_IF_1_1
+*      *  MVI   FOPSEP+1,C'|'      SET SEPARATOR
+*ZC    179         GO    TO,NOTADJL
+         J     PG_NOTADJL
+PG_IF_1_1    DS    0H  &TYPE
+*             MOVE '|' TO FOPSEP.
+*      *  LH    R7,FOPL            MESSAGE LENGTH
+*      *  AHI   R7,1               LENGTHEN BY 1
+*      *  STH   R7,FOPL            STORE BACK
+*ZC    181         MOVE  '|',TO,FOPSEP
+         MVI   FOPSEP,C'|'
+*             ADD 1 TO FOPL.
+*      * NOTADJL  EQU   *
+*ZC    185         ADD   1,TO,FOPL
+         LH    ZC_R0,FOPL
+         AHI   ZC_R0,1
+         STH   ZC_R0,FOPL
+*         NOTADJL.
+*      *  CLI   FHSEP,C' '         SEND CONDITION LENGTH ADJUSTED ?
+*      *  BNE   NOTADJC            EXIT IF NOT
+PG_NOTADJL DS  0H
+*             IF FHSEP NOT = SPACE THEN GO TO NOTADJC.
+*ZC    190         IF    FHSEP,NOT,=,SPACE,THEN
+         CLI   FHSEP,C' '
+         BRC   15-ZC_NE,PG_IF_2_1
+*      *  MVI   FHSEP,C'|'         SET SEPARATOR
+*ZC    190         GO    TO,NOTADJC
+         J     PG_NOTADJC
+PG_IF_2_1    DS    0H  &TYPE
+*             MOVE '|' TO FHSEP.
+*      *  LH    R7,FHANDL          MESSAGE LENGTH
+*      *  AHI   R7,1               LENGTHEN BY 1
+*      *  STH   R7,FHANDL          STORE BACK
+*ZC    192         MOVE  '|',TO,FHSEP
+         MVI   FHSEP,C'|'
+*             ADD 1 TO FHANDL.
+*      * NOTADJC  EQU   *
+*ZC    196         ADD   1,TO,FHANDL
+         LH    ZC_R0,FHANDL
+         AHI   ZC_R0,1
+         STH   ZC_R0,FHANDL
+*         NOTADJC.
+*      *  MVC   FOPTYPE,=C'RRDS'   SET FILE TYPE IN MESSAGE
+*      *  MVC   FOPFIXVR,=C'FIX'   SET FIX/VAR IN MESSAGE
+*      *  MVC   FOPNAME,=C'MYFILE06' SET FILENAME IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'READ' SET FUNCTION IN MESSAGE
+*      *  MVC   FOPMETH,=CL4'RRN'  SET METHOD IN MESSAGE
+*      *  MVC   MYRID,=F'3'        RECORD 3
+*      *  MVC   MYLEN,=H'30'       SET MAXIMUM LENGTH
+PG_NOTADJL_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_NOTADJC DS  0H
+*             MOVE 'RRDS'     TO FOPTYPE.
+*ZC    206         MOVE  'RRDS',TO,FOPTYPE
+         LARL  ZC_R1,=CL4'RRDS'
+          MVC   FOPTYPE,0(ZC_R1)
+*             MOVE 'FIX'      TO FOPFIXVR.
+*ZC    207         MOVE  'FIX',TO,FOPFIXVR
+         LARL  ZC_R1,=CL4'FIX'
+          MVC   FOPFIXVR,0(ZC_R1)
+*             MOVE 'MYFILE06' TO FOPNAME.
+*ZC    208         MOVE  'MYFILE06',TO,FOPNAME
+         LARL  ZC_R1,=CL8'MYFILE06'
+          MVC   FOPNAME,0(ZC_R1)
+*             MOVE 'READ    ' TO FOPFUNC.
+*ZC    209         MOVE  'READ    ',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'READ    '
+          MVC   FOPFUNC,0(ZC_R1)
+*             MOVE 'RRN '     TO FOPMETH.
+*ZC    210         MOVE  'RRN ',TO,FOPMETH
+         LARL  ZC_R1,=CL4'RRN '
+          MVC   FOPMETH,0(ZC_R1)
+*             MOVE 3          TO MYRID.
+*ZC    211         MOVE  3,TO,MYRID
+          MVHI  MYRID,3
+*             MOVE 30         TO MYLEN.
+*ZC    212         MOVE  30,TO,MYLEN
+          MVHHI MYLEN,30
+*             EXEC CICS READ FILE('MYFILE06') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    213         EXEC  CICS,READ,FILE('MYFILE06'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_0664 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_0664    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_0664   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_0664   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_0664) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602    DS    0H
+P0602FN  DS    XL2                FUNCTION CODE
+P0602EIB DS    AL4                EIB
+P0602TCT DS    AL4                TCTTE
+P0602FIL DS    CL8                FILENAME
+P0602SET DS    X                  FF=SET IS SPECIFIED
+         DS    X
+P0602STA DS    AL4                ADDRESS FOR SET
+P0602INT DS    AL4                ADDRESS OF INTO
+P0602LEN DS    XL4                LENGTH
+P0602LAD DS    AL4                ADDRESS OF LENGTH IF LABEL
+P0602FAD DS    AL4                ADDRESS OF FLENGTH IF LABEL
+P0602KIN DS    X                  FF=KEYLENGTH IS VALID
+         DS    X
+P0602KLN DS    XL2                KEYLENGTH
+P0602RID DS    XL128              RIDFLD
+P0602LRD DS    X                  L'RIDFLD FOR EDF
+         DS    X
+P0602GEN DS    X                  FF=GENERIC
+         DS    X
+P0602RBA DS    X                  FF=RBA
+         DS    X
+P0602XRB DS    X                  FF=XRBA
+         DS    X
+P0602RRN DS    X                  FF=RRN
+         DS    X
+P0602GTE DS    X                  00=EQUAL FF=GTEQ
+         DS    X
+P0602EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0602EDS DS    AL4                DSA ADDRESS FOR EDF
+P0602EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0602EDL DS    XL2                DSA LENGTH FOR EDF
+P0602NED DS    X                  FF=NOEDF
+         DS    X
+P0602NOH DS    X                  FF=NOHANDLE
+         DS    X
+P0602RSP DS    AL4                RESP
+P0602RS2 DS    AL4                RESP2
+P0602END EQU   *                  END MARKER
+*
+P0602BYP_0664    DS 0H
+*                       RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   FWTSBA,FOP1        MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'  3'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    216         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE FOP1  TO FOPSBA.
+*ZC    220         MOVE  FOP1,TO,FOPSBA
+         MVC   FOPSBA,FOP1  ALIGN LEFT X OTHER
+*             MOVE '  3' TO FOPRECNO.
+*ZC    221         MOVE  '  3',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  3'
+          MVC   FOPRECNO,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    222         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_0699 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_0699    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_0699   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_0699   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_0699) ENTRYPOINT FOR IGNORE CONDITION
+*
+         J     P0404BYP_0699   EXIT
+*
+P0404    DS    0H
+P0404FN  DS    XL2                FUNCTION CODE
+P0404EIB DS    AL4                EIB
+P0404TCT DS    AL4                TCTTE
+P0404FRM DS    AL4                FROM
+P0404LEN DS    XL2                LENGTH
+P0404EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0404EDS DS    AL4                DSA ADDRESS FOR EDF
+P0404EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0404EDL DS    XL2                DSA LENGTH FOR EDF
+P0404NED DS    X                  FF=NOEDF
+         DS    X
+P0404NOH DS    X                  FF=NOHANDLE
+         DS    X
+P0404RSP DS    AL4                RESP
+P0404RS2 DS    AL4                RESP2
+P0404END EQU   *                  END MARKER
+*
+P0404BYP_0699    DS 0H
+*      *  MVC   MYRID,=F'2'        RECORD 2
+*      *  MVC   MYLEN,=H'30'       SET MAXIMUM LENGTH
+*             MOVE 2  TO MYRID.
+*ZC    225         MOVE  2,TO,MYRID
+          MVHI  MYRID,2
+*             MOVE 30 TO MYLEN.
+*ZC    226         MOVE  30,TO,MYLEN
+          MVHHI MYLEN,30
+*             EXEC CICS READ FILE('MYFILE06') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    227         EXEC  CICS,READ,FILE('MYFILE06'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_0723 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_0723    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_0723   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_0723   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_0723) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602BYP_0723    DS 0H
+*                       RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   FWTSBA,FOP2        MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'  2'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    230         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE FOP2  TO FOPSBA.
+*ZC    234         MOVE  FOP2,TO,FOPSBA
+         MVC   FOPSBA,FOP2  ALIGN LEFT X OTHER
+*             MOVE '  2' TO FOPRECNO.
+*ZC    235         MOVE  '  2',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  2'
+          MVC   FOPRECNO,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    236         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_0757 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_0757    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_0757   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_0757   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_0757) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_0757    DS 0H
+*      *  MVC   MYRID,=F'1'        RECORD 1
+*      *  MVC   MYLEN,=H'30'       SET MAXIMUM LENGTH
+*             MOVE 1  TO MYRID.
+*ZC    239         MOVE  1,TO,MYRID
+          MVHI  MYRID,1
+*             MOVE 30 TO MYLEN.
+*ZC    240         MOVE  30,TO,MYLEN
+          MVHHI MYLEN,30
+*             EXEC CICS READ FILE('MYFILE06') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    241         EXEC  CICS,READ,FILE('MYFILE06'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_0780 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_0780    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_0780   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_0780   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_0780) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602BYP_0780    DS 0H
+*                       RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   FWTSBA,FOP3        MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'  1'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    244         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE FOP3  TO FOPSBA.
+*ZC    248         MOVE  FOP3,TO,FOPSBA
+         MVC   FOPSBA,FOP3  ALIGN LEFT X OTHER
+*             MOVE '  1' TO FOPRECNO.
+*ZC    249         MOVE  '  1',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  1'
+          MVC   FOPRECNO,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    250         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_0814 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_0814    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_0814   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_0814   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_0814) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_0814    DS 0H
+*      *  MVC   FOPFIXVR,=C'VAR'   SET FIX/VAR IN MESSAGE
+*      *  MVC   FOPNAME,=C'MYFILE07' SET FILENAME IN MESSAGE
+*      *  MVC   MYRID,=F'5'        RRN 5  RECORD 1
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*             MOVE 'VAR'      TO FOPFIXVR.
+*ZC    255         MOVE  'VAR',TO,FOPFIXVR
+         LARL  ZC_R1,=CL4'VAR'
+          MVC   FOPFIXVR,0(ZC_R1)
+*             MOVE 'MYFILE07' TO FOPNAME.
+*ZC    256         MOVE  'MYFILE07',TO,FOPNAME
+         LARL  ZC_R1,=CL8'MYFILE07'
+          MVC   FOPNAME,0(ZC_R1)
+*             MOVE 5          TO MYRID.
+*ZC    257         MOVE  5,TO,MYRID
+          MVHI  MYRID,5
+*             MOVE 50         TO MYLEN.
+*ZC    258         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READ FILE('MYFILE07') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    259         EXEC  CICS,READ,FILE('MYFILE07'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_0847 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_0847    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_0847   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_0847   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_0847) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602BYP_0847    DS 0H
+*                       RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   FWTSBA,FOP4        MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'  5'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    262         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE FOP4  TO FOPSBA.
+*ZC    266         MOVE  FOP4,TO,FOPSBA
+         MVC   FOPSBA,FOP4  ALIGN LEFT X OTHER
+*             MOVE '  5' TO FOPRECNO.
+*ZC    267         MOVE  '  5',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  5'
+          MVC   FOPRECNO,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    268         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_0881 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_0881    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_0881   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_0881   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_0881) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_0881    DS 0H
+*      *  MVC   MYRID,=F'10'       RRN 10  RECORD 3
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*             MOVE 10 TO MYRID.
+*ZC    271         MOVE  10,TO,MYRID
+          MVHI  MYRID,10
+*             MOVE 50 TO MYLEN.
+*ZC    272         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READ FILE('MYFILE07') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    273         EXEC  CICS,READ,FILE('MYFILE07'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_0904 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_0904    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_0904   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_0904   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_0904) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602BYP_0904    DS 0H
+*                       RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   FWTSBA,FOP5        MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C' 10'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    276         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE FOP5  TO FOPSBA.
+*ZC    280         MOVE  FOP5,TO,FOPSBA
+         MVC   FOPSBA,FOP5  ALIGN LEFT X OTHER
+*             MOVE ' 10' TO FOPRECNO.
+*ZC    281         MOVE  ' 10',TO,FOPRECNO
+         LARL  ZC_R1,=CL4' 10'
+          MVC   FOPRECNO,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    282         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_0938 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_0938    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_0938   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_0938   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_0938) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_0938    DS 0H
+*      * RAISE SOME CONDITIONS, WE MAY NOT DO ALL THESE FOR EVERY
+*      * FUNCTION
+*             EXEC CICS HANDLE CONDITION
+*                  NOTFND(VSAMNOTF)
+*                  LENGERR(VSAMLNG)
+*                  ENDFILE(VSAMENDF)
+*                  ILLOGIC(VSAMILL)
+*ZC    287         EXEC  CICS,HANDLE,CONDITION,NOTFND(VSAMNOTF),LENGERRX
+               (VSAMLNG),ENDFILE(VSAMENDF),ILLOGIC(VSAMILL)
+         LARL  R1,P0204         ADDRESS SOURCE
+         LARL  R15,P0204        ADDRESS TARGET
+         XC    0(P0204END-P0204,R15),0(R1) XC IT
+         LARL  R1,=X'0204'         ADDRESS SOURCE
+         LARL  R15,P0204FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0204FN,R15),0(R1) MVC IT
+         LARL  R1,P0204EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0204TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0204CND        R1=ADDRESS CONDITION NUMBERS
+         LARL  R14,P0204ADR       R14=ADDRESSES OR FF IF CANCEL
+         MVI   0(R1),13       SET CONDITION NUMBER
+         LARL  R0,PG_VSAMNOTF     R0=LABEL (COBOL)
+         ST    R0,0(R14)          SAVE IT
+         AHI   R1,1               BUMP CONDITION NUMBER POINTER
+         AHI   R14,4              BUMP CONDITION ADDRESS POINTER
+         MVI   0(R1),22       SET CONDITION NUMBER
+         LARL  R0,PG_VSAMLNG     R0=LABEL (COBOL)
+         ST    R0,0(R14)          SAVE IT
+         AHI   R1,1               BUMP CONDITION NUMBER POINTER
+         AHI   R14,4              BUMP CONDITION ADDRESS POINTER
+         MVI   0(R1),20       SET CONDITION NUMBER
+         LARL  R0,PG_VSAMENDF     R0=LABEL (COBOL)
+         ST    R0,0(R14)          SAVE IT
+         AHI   R1,1               BUMP CONDITION NUMBER POINTER
+         AHI   R14,4              BUMP CONDITION ADDRESS POINTER
+         MVI   0(R1),21       SET CONDITION NUMBER
+         LARL  R0,PG_VSAMILL     R0=LABEL (COBOL)
+         ST    R0,0(R14)          SAVE IT
+         AHI   R1,1               BUMP CONDITION NUMBER POINTER
+         AHI   R14,4              BUMP CONDITION ADDRESS POINTER
+         LA    R0,DFHEIHCN        ADDRESS OF DFHEIHCN
+         LARL  R1,P0204HCN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0204EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0204EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0204EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0204EDF_0951 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0204EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0204)       R1=LCL MODULE PARAMETER LIST
+P0204EDF_0951    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         J     P0204BYP_0951   EXIT
+*
+P0204    DS    0H
+P0204FN  DS    XL2                FUNCTION CODE
+P0204EIB DS    AL4                EIB
+P0204TCT DS    AL4                TCTTE
+P0204HCN DS    AL4                A(DFHEIHCN)
+P0204CND DS    XL30               ROOM FOR 30 CONDITIONS
+P0204ADR DS    30AL4              ROOM FOR 30 ADDRESSES, FF......=CLEAR
+P0204EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0204EDS DS    AL4                DSA ADDRESS FOR EDF
+P0204EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0204EDL DS    XL2                DSA LENGTH FOR EDF
+P0204NED DS    X                  FF=NOEDF
+         DS    X
+P0204RSP DS    AL4                RESP
+P0204RS2 DS    AL4                RESP2
+P0204END EQU   *                  END MARKER
+*
+P0204BYP_0951    DS 0H
+*                  END-EXEC.
+*      * NOTFND
+*      *  MVC   FWTSBA,FOP6        MOVE WCC,SBA
+*      *  MVC   FOPNAME,=CL8'MYFILE06' SET FILENAME IN MESSAGE
+*      *  MVC   FOPRECNO,=C'  4'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*             MOVE FOP6       TO FOPSBA.
+*ZC    298         MOVE  FOP6,TO,FOPSBA
+         MVC   FOPSBA,FOP6  ALIGN LEFT X OTHER
+*             MOVE 'MYFILE06' TO FOPNAME.
+*ZC    299         MOVE  'MYFILE06',TO,FOPNAME
+         LARL  ZC_R1,=CL8'MYFILE06'
+          MVC   FOPNAME,0(ZC_R1)
+*             MOVE '  4'      TO FOPRECNO.
+*ZC    300         MOVE  '  4',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  4'
+          MVC   FOPRECNO,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    301         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_0982 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_0982    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_0982   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_0982   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_0982) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_0982    DS 0H
+*      *  MVC   MYRID,=F'4'        RECORD 4  EMPTY RECORD
+*      *  MVC   MYLEN,=H'30'       SET MAXIMUM LENGTH
+*             MOVE 4  TO MYRID.
+*ZC    304         MOVE  4,TO,MYRID
+          MVHI  MYRID,4
+*             MOVE 30 TO MYLEN.
+*      *  LA    R7,VSAMRTN1        R7=HANDLE RETURN
+*ZC    305         MOVE  30,TO,MYLEN
+          MVHHI MYLEN,30
+*             MOVE 1    TO DEPCTRL.
+*ZC    307         MOVE  1,TO,DEPCTRL
+          MVHHI DEPCTRL,1
+*             EXEC CICS READ FILE('MYFILE06') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    308         EXEC  CICS,READ,FILE('MYFILE06'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_1010 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_1010    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_1010   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_1010   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_1010) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602BYP_1010    DS 0H
+*                       RIDFLD(MYRID) RRN END-EXEC.
+*      * VSAMRTN1 DS    0H
+*         VSAMRTN1.
+*      * ILLOGIC
+*      *  MVC   FWTSBA,FOP8        MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'  2'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FOPMETH,=CL4'RBA'  SET METHOD IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+PG_NOTADJC_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMRTN1 DS 0H
+*             MOVE FOP8   TO FOPSBA.
+*ZC    317         MOVE  FOP8,TO,FOPSBA
+         MVC   FOPSBA,FOP8  ALIGN LEFT X OTHER
+*             MOVE '  2'  TO FOPRECNO.
+*ZC    318         MOVE  '  2',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  2'
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'RBA ' TO FOPMETH.
+*ZC    319         MOVE  'RBA ',TO,FOPMETH
+         LARL  ZC_R1,=CL4'RBA '
+          MVC   FOPMETH,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    320         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1048 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1048    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1048   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1048   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1048) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1048    DS 0H
+*      *  MVC   MYRID,=F'2'        RECORD 2
+*      *  MVC   MYLEN,=H'30'       SET MAXIMUM LENGTH
+*             MOVE 2  TO MYRID.
+*ZC    323         MOVE  2,TO,MYRID
+          MVHI  MYRID,2
+*             MOVE 30 TO MYLEN.
+*      *  LA    R7,VSAMRTN2        R7=HANDLE RETURN
+*ZC    324         MOVE  30,TO,MYLEN
+          MVHHI MYLEN,30
+*             MOVE 2 TO DEPCTRL.
+*ZC    326         MOVE  2,TO,DEPCTRL
+          MVHHI DEPCTRL,2
+*             EXEC CICS READ FILE('MYFILE06') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    327         EXEC  CICS,READ,FILE('MYFILE06'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RBA
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID+4     ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RBA         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_1076 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_1076    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_1076   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_1076   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_1076) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602BYP_1076    DS 0H
+*                       RIDFLD(MYRID) RBA END-EXEC.
+*      * VSAMRTN2 DS    0H
+*         VSAMRTN2.
+*      * LENGERR/11
+*      *  MVC   FWTSBA,FOP10       MOVE WCC,SBA
+*      *  MVC   FOPNAME,=CL8'MYFILE07' SET FILENAME IN MESSAGE
+*      *  MVC   FOPRECNO,=C'  8'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FOPMETH,=CL4'RRN'  SET METHOD IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+PG_VSAMRTN1_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMRTN2 DS 0H
+*             MOVE FOP10      TO FOPSBA.
+*ZC    337         MOVE  FOP10,TO,FOPSBA
+         MVC   FOPSBA,FOP10  ALIGN LEFT X OTHER
+*             MOVE 'MYFILE07' TO FOPNAME.
+*ZC    338         MOVE  'MYFILE07',TO,FOPNAME
+         LARL  ZC_R1,=CL8'MYFILE07'
+          MVC   FOPNAME,0(ZC_R1)
+*             MOVE '  8'      TO FOPRECNO.
+*ZC    339         MOVE  '  8',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  8'
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'RRN ' TO FOPMETH.
+*ZC    340         MOVE  'RRN ',TO,FOPMETH
+         LARL  ZC_R1,=CL4'RRN '
+          MVC   FOPMETH,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    341         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1119 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1119    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1119   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1119   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1119) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1119    DS 0H
+*      *  MVC   MYRID,=F'8'        RECORD 8
+*      *  MVC   MYLEN,=H'6'        LENGTH TOO SHORT
+*             MOVE 8 TO MYRID.
+*ZC    344         MOVE  8,TO,MYRID
+          MVHI  MYRID,8
+*             MOVE 6 TO MYLEN.
+*      *  LA    R7,VSAMRTN3        R7=HANDLE RETURN
+*ZC    345         MOVE  6,TO,MYLEN
+          MVHHI MYLEN,6
+*             MOVE 3 TO DEPCTRL.
+*ZC    347         MOVE  3,TO,DEPCTRL
+          MVHHI DEPCTRL,3
+*             EXEC CICS READ FILE('MYFILE07') INTO(MYDATA) LENGTH(MYLENX
+                              )
+*ZC    348         EXEC  CICS,READ,FILE('MYFILE07'),INTO(MYDATA),LENGTHX
+               (MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0602         ADDRESS SOURCE
+         LARL  R15,P0602        ADDRESS TARGET
+         XC    0(P0602END-P0602,R15),0(R1) XC IT
+         LARL  R1,=X'0602'         ADDRESS SOURCE
+         LARL  R15,P0602FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0602FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0602FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P0602INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0602LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0602LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0602RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0602RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0602EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0602TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0602EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0602EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0602EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0602EDF_1147 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0602EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0602)       R1=LCL MODULE PARAMETER LIST
+P0602EDF_1147    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0602NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0602BYP_1147   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0602BYP_1147   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0602BYP_1147) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0602BYP_1147    DS 0H
+*                       RIDFLD(MYRID) RRN END-EXEC.
+*      * VSAMRTN3 DS    0H
+*         VSAMRTN3.
+*      *  MVC   MYLEN,=H'6'        LENGTH REQUESTED
+PG_VSAMRTN2_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMRTN3 DS 0H
+*             MOVE 6 TO MYLEN.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*ZC    353         MOVE  6,TO,MYLEN
+          MVHHI MYLEN,6
+*             PERFORM WQTS.
+*      *  SR    R7,R7              NO ERROR RETURN
+*ZC    355         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE 6 TO DEPCTRL.
+*      * START BROWSE, POINT AT EMPTY SLOT 7
+*      *  MVC   FWTSBA,FOP12       MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'  7'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'STARTBR' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    357         MOVE  6,TO,DEPCTRL
+          MVHHI DEPCTRL,6
+*             MOVE FOP12      TO FOPSBA.
+*ZC    363         MOVE  FOP12,TO,FOPSBA
+         MVC   FOPSBA,FOP12  ALIGN LEFT X OTHER
+*             MOVE '  7'      TO FOPRECNO.
+*ZC    364         MOVE  '  7',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  7'
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'STARTBR ' TO FOPFUNC.
+*ZC    365         MOVE  'STARTBR ',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'STARTBR '
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    366         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1199 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1199    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1199   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1199   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1199) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1199    DS 0H
+*      *  MVC   MYRID,=F'7'        RECORD 7 (EMPTY SLOT)
+*             MOVE 7 TO MYRID.
+*ZC    368         MOVE  7,TO,MYRID
+          MVHI  MYRID,7
+*             EXEC CICS STARTBR FILE('MYFILE07') RIDFLD(MYRID) RRN
+*ZC    369         EXEC  CICS,STARTBR,FILE('MYFILE07'),RIDFLD(MYRID),RRX
+                              N
+         LARL  R1,P060C         ADDRESS SOURCE
+         LARL  R15,P060C        ADDRESS TARGET
+         XC    0(P060CEND-P060C,R15),0(R1) XC IT
+         LARL  R1,=X'060C'         ADDRESS SOURCE
+         LARL  R15,P060CFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060CARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060CLRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P060CFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFIL,R15),0(R1) MVC IT
+         LARL  R15,P060CRID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P060CRRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P060CEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060CTCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060CEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060CEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060CEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060CEDF_1217 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060CEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060C)       R1=LCL MODULE PARAMETER LIST
+P060CEDF_1217    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060CNOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060CBYP_1217   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060CBYP_1217   EXIT IF NONE
+* INVREQ, FILENOTFOUND, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060CBYP_1217) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060C    DS    0H
+P060CFN  DS    XL2                FUNCTION CODE
+P060CEIB DS    AL4                EIB
+P060CTCT DS    AL4                TCTTE
+P060CFIL DS    CL8                FILENAME
+P060CKIN DS    X                  FF=KEYLENGTH IS VALID
+         DS    X
+P060CKLN DS    XL2                KEYLENGTH
+P060CRID DS    XL128              RIDFLD
+P060CARD DS    AL4                A(RIDFLD)
+P060CLRD DS    X                  L'RIDFLD
+         DS    X
+P060CGEN DS    X                  FF=GENERIC
+         DS    X
+P060CRBA DS    X                  FF=RBA
+         DS    X
+P060CXRB DS    X                  FF=XRBA
+         DS    X
+P060CRRN DS    X                  FF=RRN
+         DS    X
+P060CGTE DS    X                  00=EQUAL FF=GTEQ
+         DS    X
+P060CREQ DS    XL2                REQID
+P060CEDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P060CEDS DS    AL4                DSA ADDRESS FOR EDF
+P060CEDC DS    XL2                CICS DSA LENGTH FOR EDF
+P060CEDL DS    XL2                DSA LENGTH FOR EDF
+P060CNED DS    X                  FF=NOEDF
+         DS    X
+P060CNOH DS    X                  FF=NOHANDLE
+         DS    X
+P060CRSP DS    AL4                RESP
+P060CRS2 DS    AL4                RESP2
+P060CEND EQU   *                  END MARKER
+*
+P060CBYP_1217    DS 0H
+*                       END-EXEC.
+*      * READNEXT 3 RECORDS
+*      *  MVC   FWTSBA,FOP13       MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'S  '   SET RECORD NUMBERS IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'READNEXT' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*             MOVE FOP13      TO FOPSBA.
+*ZC    376         MOVE  FOP13,TO,FOPSBA
+         MVC   FOPSBA,FOP13  ALIGN LEFT X OTHER
+*             MOVE 'S  '      TO FOPRECNO.
+*ZC    377         MOVE  'S  ',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'S  '
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'READNEXT' TO FOPFUNC.
+*ZC    378         MOVE  'READNEXT',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'READNEXT'
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    379         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1252 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1252    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1252   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1252   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1252) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1252    DS 0H
+*      *  LA    R8,3               READ 3 FORWARDS
+*             MOVE 1 TO LOOPCTRL.
+*      * RDNXLOOP EQU   *
+*ZC    381         MOVE  1,TO,LOOPCTRL
+          MVHHI LOOPCTRL,1
+*         RDNXLOOP.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+PG_VSAMRTN3_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_RDNXLOOP DS 0H
+*             MOVE 50 TO MYLEN.
+*ZC    385         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READNEXT FILE('MYFILE07') INTO(MYDATA)
+*ZC    386         EXEC  CICS,READNEXT,FILE('MYFILE07'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P060E         ADDRESS SOURCE
+         LARL  R15,P060E        ADDRESS TARGET
+         XC    0(P060EEND-P060E,R15),0(R1) XC IT
+         LARL  R1,=X'060E'         ADDRESS SOURCE
+         LARL  R15,P060EFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060EARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060ELRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P060EFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P060EINT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         R0=LENGTH FROM LABEL
+         LARL  R1,P060ELEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P060ELAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P060ERID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P060ERRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P060EEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060ETCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060EEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060EEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060EEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060EEDF_1278 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060EEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060E)       R1=LCL MODULE PARAMETER LIST
+P060EEDF_1278    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060ENOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060EBYP_1278   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060EBYP_1278   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060EBYP_1278) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060E    DS    0H
+P060EFN  DS    XL2                FUNCTION CODE
+P060EEIB DS    AL4                EIB
+P060ETCT DS    AL4                TCTTE
+P060EFIL DS    CL8                FILENAME
+P060ESET DS    X                  FF=SET IS SPECIFIED
+         DS    X
+P060ESTA DS    AL4                ADDRESS FOR SET
+P060EINT DS    AL4                ADDRESS OF INTO
+P060ELEN DS    XL4                LENGTH
+P060ELAD DS    AL4                ADDRESS OF LENGTH IF LABEL
+P060EFAD DS    AL4                ADDRESS OF FLENGTH IF LABEL
+P060EKIN DS    X                  FF=KEYLENGTH IS VALID
+         DS    X
+P060EKLN DS    XL2                KEYLENGTH
+P060ERID DS    XL128              RIDFLD
+P060EARD DS    AL4                A(RIDFLD)
+P060ELRD DS    X                  L'RIDFLD
+         DS    X
+P060ERBA DS    X                  FF=RBA
+         DS    X
+P060EXRB DS    X                  FF=XRBA
+         DS    X
+P060ERRN DS    X                  FF=RRN
+         DS    X
+P060EREQ DS    XL2                REQID
+P060EEDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P060EEDS DS    AL4                DSA ADDRESS FOR EDF
+P060EEDC DS    XL2                CICS DSA LENGTH FOR EDF
+P060EEDL DS    XL2                DSA LENGTH FOR EDF
+P060ENED DS    X                  FF=NOEDF
+         DS    X
+P060ENOH DS    X                  FF=NOHANDLE
+         DS    X
+P060ERSP DS    AL4                RESP
+P060ERS2 DS    AL4                RESP2
+P060EEND EQU   *                  END MARKER
+*
+P060EBYP_1278    DS 0H
+*                       LENGTH(MYLEN) RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  BCT   R8,RDNXLOOP        LOOP
+*ZC    389         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             ADD 1 TO LOOPCTRL.
+*ZC    391         ADD   1,TO,LOOPCTRL
+         LH    ZC_R0,LOOPCTRL
+         AHI   ZC_R0,1
+         STH   ZC_R0,LOOPCTRL
+*             IF LOOPCTRL NOT = 4 THEN GO TO RDNXLOOP.
+*ZC    392         IF    LOOPCTRL,NOT,=,4,THEN
+         LH    0,LOOPCTRL
+         CHI   0,4
+         BRC   15-ZC_NE,PG_IF_3_1
+*      * READPREV 3 RECORDS
+*      *  MVC   FWTSBA,FOP14       MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'S  '   SET RECORD NUMBERS IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'READPREV' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    392         GO    TO,RDNXLOOP
+         J     PG_RDNXLOOP
+PG_IF_3_1    DS    0H  &TYPE
+*             MOVE FOP14      TO FOPSBA.
+*ZC    398         MOVE  FOP14,TO,FOPSBA
+         MVC   FOPSBA,FOP14  ALIGN LEFT X OTHER
+*             MOVE 'S  '      TO FOPRECNO.
+*ZC    399         MOVE  'S  ',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'S  '
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'READPREV' TO FOPFUNC.
+*ZC    400         MOVE  'READPREV',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'READPREV'
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    401         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1339 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1339    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1339   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1339   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1339) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1339    DS 0H
+*      *  LA    R8,3               READ 3 BACKWARDS
+*             MOVE 1 TO LOOPCTRL.
+*      * RDPVLOOP EQU   *
+*ZC    403         MOVE  1,TO,LOOPCTRL
+          MVHHI LOOPCTRL,1
+*         RDPVLOOP.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+PG_RDNXLOOP_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_RDPVLOOP DS 0H
+*             MOVE 50 TO MYLEN.
+*ZC    407         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READPREV FILE('MYFILE07') INTO(MYDATA)
+*ZC    408         EXEC  CICS,READPREV,FILE('MYFILE07'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0610         ADDRESS SOURCE
+         LARL  R15,P0610        ADDRESS TARGET
+         XC    0(P0610END-P0610,R15),0(R1) XC IT
+         LARL  R1,=X'0610'         ADDRESS SOURCE
+         LARL  R15,P0610FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P0610ARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P0610LRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0610FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           INTO ADDRESS
+         LARL  R1,P0610INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0610LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0610LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0610RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0610RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0610EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0610TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0610EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0610EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0610EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0610EDF_1365 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0610EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0610)       R1=LCL MODULE PARAMETER LIST
+P0610EDF_1365    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0610NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0610BYP_1365   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0610BYP_1365   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0610BYP_1365) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0610    DS    0H
+P0610FN  DS    XL2                FUNCTION CODE
+P0610EIB DS    AL4                EIB
+P0610TCT DS    AL4                TCTTE
+P0610FIL DS    CL8                FILENAME
+P0610SET DS    X                  FF=SET IS SPECIFIED
+         DS    X
+P0610STA DS    AL4                ADDRESS FOR SET
+P0610INT DS    AL4                ADDRESS OF INTO
+P0610LEN DS    XL4                LENGTH
+P0610LAD DS    AL4                ADDRESS OF LENGTH IF LABEL
+P0610FAD DS    AL4                ADDRESS OF FLENGTH IF LABEL
+P0610KIN DS    X                  FF=KEYLENGTH IS VALID
+         DS    X
+P0610KLN DS    XL2                KEYLENGTH
+P0610RID DS    XL128              RIDFLD
+P0610ARD DS    AL4                A(RIDFLD)
+P0610LRD DS    X                  L'RIDFLD
+         DS    X
+P0610RBA DS    X                  FF=RBA
+         DS    X
+P0610XRB DS    X                  FF=XRBA
+         DS    X
+P0610RRN DS    X                  FF=RRN
+         DS    X
+P0610REQ DS    XL2                REQID
+P0610EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0610EDS DS    AL4                DSA ADDRESS FOR EDF
+P0610EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0610EDL DS    XL2                DSA LENGTH FOR EDF
+P0610NED DS    X                  FF=NOEDF
+         DS    X
+P0610NOH DS    X                  FF=NOHANDLE
+         DS    X
+P0610RSP DS    AL4                RESP
+P0610RS2 DS    AL4                RESP2
+P0610END EQU   *                  END MARKER
+*
+P0610BYP_1365    DS 0H
+*                       LENGTH(MYLEN) RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  BCT   R8,RDPVLOOP        LOOP
+*ZC    411         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             ADD 1 TO LOOPCTRL.
+*ZC    413         ADD   1,TO,LOOPCTRL
+         LH    ZC_R0,LOOPCTRL
+         AHI   ZC_R0,1
+         STH   ZC_R0,LOOPCTRL
+*             IF LOOPCTRL NOT = 4 THEN GO TO RDPVLOOP.
+*ZC    414         IF    LOOPCTRL,NOT,=,4,THEN
+         LH    0,LOOPCTRL
+         CHI   0,4
+         BRC   15-ZC_NE,PG_IF_4_1
+*      * READ RANDOM 3 RECORDS
+*      *  MVC   FWTSBA,FOP15       MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'S  '   SET RECORD NUMBERS IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'READ RND' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    414         GO    TO,RDPVLOOP
+         J     PG_RDPVLOOP
+PG_IF_4_1    DS    0H  &TYPE
+*             MOVE FOP15      TO FOPSBA.
+*ZC    420         MOVE  FOP15,TO,FOPSBA
+         MVC   FOPSBA,FOP15  ALIGN LEFT X OTHER
+*             MOVE 'S  '      TO FOPRECNO.
+*ZC    421         MOVE  'S  ',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'S  '
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'READ RND' TO FOPFUNC.
+*ZC    422         MOVE  'READ RND',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'READ RND'
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    423         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1426 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1426    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1426   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1426   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1426) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1426    DS 0H
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*      *  MVC   MYRID,=F'17'       RRN 17
+*             MOVE 50 TO MYLEN.
+*ZC    426         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             MOVE 17 TO MYRID.
+*      * POINT AT RRN 17, READ RECORD 7
+*ZC    427         MOVE  17,TO,MYRID
+          MVHI  MYRID,17
+*             EXEC CICS READNEXT FILE('MYFILE07') INTO(MYDATA)
+*ZC    429         EXEC  CICS,READNEXT,FILE('MYFILE07'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P060E         ADDRESS SOURCE
+         LARL  R15,P060E        ADDRESS TARGET
+         XC    0(P060EEND-P060E,R15),0(R1) XC IT
+         LARL  R1,=X'060E'         ADDRESS SOURCE
+         LARL  R15,P060EFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060EARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060ELRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P060EFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P060EINT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         R0=LENGTH FROM LABEL
+         LARL  R1,P060ELEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P060ELAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P060ERID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P060ERRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P060EEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060ETCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060EEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060EEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060EEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060EEDF_1449 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060EEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060E)       R1=LCL MODULE PARAMETER LIST
+P060EEDF_1449    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060ENOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060EBYP_1449   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060EBYP_1449   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060EBYP_1449) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060EBYP_1449    DS 0H
+*                       LENGTH(MYLEN) RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*      *  MVC   MYRID,=F'22'       RRN 22
+*ZC    432         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE 50 TO MYLEN.
+*ZC    435         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             MOVE 22 TO MYRID.
+*      * POINT AT RRN 22, READ RECORD 6
+*ZC    436         MOVE  22,TO,MYRID
+          MVHI  MYRID,22
+*             EXEC CICS READPREV FILE('MYFILE07') INTO(MYDATA)
+*ZC    438         EXEC  CICS,READPREV,FILE('MYFILE07'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0610         ADDRESS SOURCE
+         LARL  R15,P0610        ADDRESS TARGET
+         XC    0(P0610END-P0610,R15),0(R1) XC IT
+         LARL  R1,=X'0610'         ADDRESS SOURCE
+         LARL  R15,P0610FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P0610ARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P0610LRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0610FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           INTO ADDRESS
+         LARL  R1,P0610INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0610LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0610LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0610RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0610RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0610EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0610TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0610EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0610EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0610EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0610EDF_1482 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0610EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0610)       R1=LCL MODULE PARAMETER LIST
+P0610EDF_1482    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0610NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0610BYP_1482   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0610BYP_1482   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0610BYP_1482) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0610BYP_1482    DS 0H
+*                       LENGTH(MYLEN) RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*      *  MVC   MYRID,=F'1'        RRN 1
+*ZC    441         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE 50 TO MYLEN.
+*ZC    444         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             MOVE 1  TO MYRID.
+*      * POINT AT RRN 1, READ RECORD 1
+*ZC    445         MOVE  1,TO,MYRID
+          MVHI  MYRID,1
+*             EXEC CICS READNEXT FILE('MYFILE07') INTO(MYDATA)
+*ZC    447         EXEC  CICS,READNEXT,FILE('MYFILE07'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P060E         ADDRESS SOURCE
+         LARL  R15,P060E        ADDRESS TARGET
+         XC    0(P060EEND-P060E,R15),0(R1) XC IT
+         LARL  R1,=X'060E'         ADDRESS SOURCE
+         LARL  R15,P060EFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060EARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060ELRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P060EFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P060EINT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         R0=LENGTH FROM LABEL
+         LARL  R1,P060ELEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P060ELAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P060ERID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P060ERRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P060EEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060ETCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060EEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060EEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060EEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060EEDF_1515 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060EEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060E)       R1=LCL MODULE PARAMETER LIST
+P060EEDF_1515    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060ENOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060EBYP_1515   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060EBYP_1515   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060EBYP_1515) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060EBYP_1515    DS 0H
+*                       LENGTH(MYLEN) RIDFLD(MYRID) RRN END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      * END BROWSE
+*      *  MVC   FWTSBA,FOP16       MOVE WCC,SBA
+*      *  MVC   FOPRECNO,=C'   '   SET RECORD NUMBERS IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'ENDBR' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*ZC    450         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE FOP16      TO FOPSBA.
+*ZC    456         MOVE  FOP16,TO,FOPSBA
+         MVC   FOPSBA,FOP16  ALIGN LEFT X OTHER
+*             MOVE SPACES     TO FOPRECNO.
+*ZC    457         MOVE  SPACES,TO,FOPRECNO
+         MVI   FOPRECNO,C' '
+         MVC   FOPRECNO+1(3-1),FOPRECNO
+*             MOVE 'ENDBR   ' TO FOPFUNC.
+*ZC    458         MOVE  'ENDBR   ',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'ENDBR   '
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    459         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1557 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1557    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1557   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1557   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1557) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1557    DS 0H
+*             EXEC CICS ENDBR FILE('MYFILE07') END-EXEC.
+*ZC    460         EXEC  CICS,ENDBR,FILE('MYFILE07')
+         LARL  R1,P0612         ADDRESS SOURCE
+         LARL  R15,P0612        ADDRESS TARGET
+         XC    0(P0612END-P0612,R15),0(R1) XC IT
+         LARL  R1,=X'0612'         ADDRESS SOURCE
+         LARL  R15,P0612FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0612FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FIL,R15),0(R1) MVC IT
+         LARL  R1,P0612EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0612TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0612EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0612EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0612EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0612EDF_1570 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0612EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0612)       R1=LCL MODULE PARAMETER LIST
+P0612EDF_1570    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0612NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0612BYP_1570   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0612BYP_1570   EXIT IF NONE
+* INVREQ, FILENOTFOUND, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0612BYP_1570) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0612    DS    0H
+P0612FN  DS    XL2                FUNCTION CODE
+P0612EIB DS    AL4                EIB
+P0612TCT DS    AL4                TCTTE
+P0612FIL DS    CL8                FILENAME
+P0612REQ DS    XL2                REQID
+P0612EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0612EDS DS    AL4                DSA ADDRESS FOR EDF
+P0612EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0612EDL DS    XL2                DSA LENGTH FOR EDF
+P0612NED DS    X                  FF=NOEDF
+         DS    X
+P0612NOH DS    X                  FF=NOHANDLE
+         DS    X
+P0612RSP DS    AL4                RESP
+P0612RS2 DS    AL4                RESP2
+P0612END EQU   *                  END MARKER
+*
+P0612BYP_1570    DS 0H
+*      * ENDFILE 1 RAISED BY READING FORWARD FROM END
+*      *  MVC   FWTSBA,FOP17       MOVE WCC,SBA
+*      *  MVC   FOPNAME,=CL8'MYFILE06' SET FILENAME IN MESSAGE
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*      *  MVC   MYRID,=F'99'       RRN 99   RRN BEYOND END
+*      *  MVC   FOPRECNO,=C' 99'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'READNEXT' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*             MOVE FOP17      TO FOPSBA.
+*ZC    469         MOVE  FOP17,TO,FOPSBA
+         MVC   FOPSBA,FOP17  ALIGN LEFT X OTHER
+*             MOVE 'MYFILE06' TO FOPNAME.
+*ZC    470         MOVE  'MYFILE06',TO,FOPNAME
+         LARL  ZC_R1,=CL8'MYFILE06'
+          MVC   FOPNAME,0(ZC_R1)
+*             MOVE 50         TO MYLEN.
+*ZC    471         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             MOVE 99         TO MYRID.
+*ZC    472         MOVE  99,TO,MYRID
+          MVHI  MYRID,99
+*             MOVE ' 99'      TO FOPRECNO.
+*ZC    473         MOVE  ' 99',TO,FOPRECNO
+         LARL  ZC_R1,=CL4' 99'
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'READNEXT' TO FOPFUNC.
+*ZC    474         MOVE  'READNEXT',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'READNEXT'
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    475         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1617 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1617    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1617   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1617   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1617) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1617    DS 0H
+*      *  MVI   ENDFLENO,C'1'      SET 1ST ENDFILE
+*             MOVE 1 TO ENDFLENO.
+*      *  LA    R7,VSAMRTN4        R7=HANDLE RETURN
+*ZC    477         MOVE  1,TO,ENDFLENO
+          MVHHI ENDFLENO,1
+*             MOVE 4 TO DEPCTRL.
+*ZC    479         MOVE  4,TO,DEPCTRL
+          MVHHI DEPCTRL,4
+*             EXEC CICS STARTBR FILE('MYFILE06') RIDFLD(MYRID) RRN
+*ZC    480         EXEC  CICS,STARTBR,FILE('MYFILE06'),RIDFLD(MYRID),RRX
+                              N
+         LARL  R1,P060C         ADDRESS SOURCE
+         LARL  R15,P060C        ADDRESS TARGET
+         XC    0(P060CEND-P060C,R15),0(R1) XC IT
+         LARL  R1,=X'060C'         ADDRESS SOURCE
+         LARL  R15,P060CFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060CARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060CLRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P060CFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFIL,R15),0(R1) MVC IT
+         LARL  R15,P060CRID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P060CRRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P060CEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060CTCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060CEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060CEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060CEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060CEDF_1640 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060CEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060C)       R1=LCL MODULE PARAMETER LIST
+P060CEDF_1640    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060CNOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060CBYP_1640   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060CBYP_1640   EXIT IF NONE
+* INVREQ, FILENOTFOUND, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060CBYP_1640) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060CBYP_1640    DS 0H
+*                       END-EXEC.
+*             EXEC CICS READNEXT FILE('MYFILE06') INTO(MYDATA)
+*ZC    482         EXEC  CICS,READNEXT,FILE('MYFILE06'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P060E         ADDRESS SOURCE
+         LARL  R15,P060E        ADDRESS TARGET
+         XC    0(P060EEND-P060E,R15),0(R1) XC IT
+         LARL  R1,=X'060E'         ADDRESS SOURCE
+         LARL  R15,P060EFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060EARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060ELRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P060EFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P060EINT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         R0=LENGTH FROM LABEL
+         LARL  R1,P060ELEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P060ELAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P060ERID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P060ERRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P060EEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060ETCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060EEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060EEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060EEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060EEDF_1656 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060EEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060E)       R1=LCL MODULE PARAMETER LIST
+P060EEDF_1656    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060ENOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060EBYP_1656   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060EBYP_1656   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060EBYP_1656) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060EBYP_1656    DS 0H
+*                       LENGTH(MYLEN) RIDFLD(MYRID) RRN END-EXEC.
+*      * VSAMRTN4 DS    0H
+*         VSAMRTN4.
+*      * ENDFILE 2 RAISED BY READING BACK FROM START
+*      *  MVC   FWTSBA,FOP19       MOVE WCC,SBA
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*      *  MVC   MYRID,=F'1'        RRN 1  FIRST RECORD
+*      *  MVC   FOPRECNO,=C'  1'   SET RECORD NUMBER IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'READPREV' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+PG_RDPVLOOP_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMRTN4 DS 0H
+*             MOVE FOP19      TO FOPSBA.
+*ZC    493         MOVE  FOP19,TO,FOPSBA
+         MVC   FOPSBA,FOP19  ALIGN LEFT X OTHER
+*             MOVE 50         TO MYLEN.
+*ZC    494         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             MOVE 1          TO MYRID.
+*ZC    495         MOVE  1,TO,MYRID
+          MVHI  MYRID,1
+*             MOVE '  1'      TO FOPRECNO.
+*ZC    496         MOVE  '  1',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'  1'
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'READPREV' TO FOPFUNC.
+*ZC    497         MOVE  'READPREV',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'READPREV'
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    498         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1706 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1706    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1706   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1706   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1706) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1706    DS 0H
+*      *  MVI   ENDFLENO,C'2'      SET 2ND ENDFILE
+*             MOVE 2 TO ENDFLENO.
+*      *  LA    R7,VSAMRTN5        R7=HANDLE RETURN
+*ZC    500         MOVE  2,TO,ENDFLENO
+          MVHHI ENDFLENO,2
+*             MOVE 5 TO DEPCTRL.
+*ZC    502         MOVE  5,TO,DEPCTRL
+          MVHHI DEPCTRL,5
+*             EXEC CICS READPREV FILE('MYFILE06') INTO(MYDATA)
+*ZC    503         EXEC  CICS,READPREV,FILE('MYFILE06'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID),RRN
+         LARL  R1,P0610         ADDRESS SOURCE
+         LARL  R15,P0610        ADDRESS TARGET
+         XC    0(P0610END-P0610,R15),0(R1) XC IT
+         LARL  R1,=X'0610'         ADDRESS SOURCE
+         LARL  R15,P0610FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FN,R15),0(R1) MVC IT
+         LA    R0,MYRID         R0=ADDRESS OF RIDFLD
+         LARL  R1,P0610ARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P0610LRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0610FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           INTO ADDRESS
+         LARL  R1,P0610INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0610LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0610LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0610RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID   MOVE RIDFLD
+         LARL  R1,P0610RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,P0610EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0610TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0610EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0610EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0610EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0610EDF_1729 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0610EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0610)       R1=LCL MODULE PARAMETER LIST
+P0610EDF_1729    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0610NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0610BYP_1729   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0610BYP_1729   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0610BYP_1729) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0610BYP_1729    DS 0H
+*                       LENGTH(MYLEN) RIDFLD(MYRID) RRN END-EXEC.
+*      * VSAMRTN5 DS    0H
+*         VSAMRTN5.
+PG_VSAMRTN4_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMRTN5 DS 0H
+*             EXEC CICS ENDBR FILE('MYFILE06') END-EXEC.
+*ZC    507         EXEC  CICS,ENDBR,FILE('MYFILE06')
+         LARL  R1,P0612         ADDRESS SOURCE
+         LARL  R15,P0612        ADDRESS TARGET
+         XC    0(P0612END-P0612,R15),0(R1) XC IT
+         LARL  R1,=X'0612'         ADDRESS SOURCE
+         LARL  R15,P0612FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0612FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FIL,R15),0(R1) MVC IT
+         LARL  R1,P0612EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0612TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0612EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0612EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0612EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0612EDF_1751 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0612EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0612)       R1=LCL MODULE PARAMETER LIST
+P0612EDF_1751    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0612NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0612BYP_1751   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0612BYP_1751   EXIT IF NONE
+* INVREQ, FILENOTFOUND, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0612BYP_1751) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0612BYP_1751    DS 0H
+*      * COMPLEX TEST, 2 OVERLAPPING BROWSES OF SAME FILE
+*      *  MVC   FWTSBA,FOP21       MOVE WCC,SBA
+*      *  MVC   FOPNAME,=CL8'COMPLEX' SET FILENAME IN MESSAGE
+*      *  MVC   FOPRECNO,=C'S  '   SET RECORD NUMBERS IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'COMPLEX' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*             MOVE FOP21      TO FOPSBA.
+*ZC    514         MOVE  FOP21,TO,FOPSBA
+         MVC   FOPSBA,FOP21  ALIGN LEFT X OTHER
+*             MOVE 'COMPLEX ' TO FOPNAME.
+*ZC    515         MOVE  'COMPLEX ',TO,FOPNAME
+         LARL  ZC_R1,=CL8'COMPLEX '
+          MVC   FOPNAME,0(ZC_R1)
+*             MOVE 'S  '      TO FOPRECNO.
+*ZC    516         MOVE  'S  ',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'S  '
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'COMPLEX ' TO FOPFUNC.
+*ZC    517         MOVE  'COMPLEX ',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'COMPLEX '
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    518         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1787 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1787    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1787   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1787   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1787) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1787    DS 0H
+*      *  MVC   MYRID1,=F'6'       RRN 6  RECORD 5
+*             MOVE 6 TO MYRID1.
+*ZC    520         MOVE  6,TO,MYRID1
+          MVHI  MYRID1,6
+*             EXEC CICS STARTBR FILE('MYFILE06') RIDFLD(MYRID1) RRN
+*ZC    521         EXEC  CICS,STARTBR,FILE('MYFILE06'),RIDFLD(MYRID1),RX
+               RN,REQID(1)
+         LARL  R1,P060C         ADDRESS SOURCE
+         LARL  R15,P060C        ADDRESS TARGET
+         XC    0(P060CEND-P060C,R15),0(R1) XC IT
+         LARL  R1,=X'060C'         ADDRESS SOURCE
+         LARL  R15,P060CFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFN,R15),0(R1) MVC IT
+         LA    R0,MYRID1         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060CARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID1       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060CLRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P060CFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFIL,R15),0(R1) MVC IT
+         LARL  R15,P060CRID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID1   MOVE RIDFLD
+         LARL  R1,P060CRRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P060CREQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CREQ,R15),0(R1) MVC IT
+         LARL  R1,P060CEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060CTCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060CEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060CEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060CEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060CEDF_1805 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060CEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060C)       R1=LCL MODULE PARAMETER LIST
+P060CEDF_1805    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060CNOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060CBYP_1805   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060CBYP_1805   EXIT IF NONE
+* INVREQ, FILENOTFOUND, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060CBYP_1805) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060CBYP_1805    DS 0H
+*                       REQID(1) END-EXEC.
+*      *  MVC   MYRID2,=F'10'      RRN 10 RECORD 8(BACK TO 7)
+*             MOVE 10 TO MYRID2.
+*ZC    524         MOVE  10,TO,MYRID2
+          MVHI  MYRID2,10
+*             EXEC CICS STARTBR FILE('MYFILE06') RIDFLD(MYRID2) RRN
+*ZC    525         EXEC  CICS,STARTBR,FILE('MYFILE06'),RIDFLD(MYRID2),RX
+               RN,REQID(2)
+         LARL  R1,P060C         ADDRESS SOURCE
+         LARL  R15,P060C        ADDRESS TARGET
+         XC    0(P060CEND-P060C,R15),0(R1) XC IT
+         LARL  R1,=X'060C'         ADDRESS SOURCE
+         LARL  R15,P060CFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFN,R15),0(R1) MVC IT
+         LA    R0,MYRID2         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060CARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID2       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060CLRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P060CFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFIL,R15),0(R1) MVC IT
+         LARL  R15,P060CRID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID2   MOVE RIDFLD
+         LARL  R1,P060CRRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(2)         ADDRESS SOURCE
+         LARL  R15,P060CREQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CREQ,R15),0(R1) MVC IT
+         LARL  R1,P060CEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060CTCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060CEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060CEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060CEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060CEDF_1827 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060CEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060C)       R1=LCL MODULE PARAMETER LIST
+P060CEDF_1827    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060CNOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060CBYP_1827   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060CBYP_1827   EXIT IF NONE
+* INVREQ, FILENOTFOUND, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060CBYP_1827) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060CBYP_1827    DS 0H
+*                       REQID(2) END-EXEC.
+*      *  LA    R8,3               R8=LOOP LIMIT
+*             MOVE 1 TO LOOPCTRL.
+*      * PLEXLOOP EQU   *
+*ZC    528         MOVE  1,TO,LOOPCTRL
+          MVHHI LOOPCTRL,1
+*         PLEXLOOP.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+PG_VSAMRTN5_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_PLEXLOOP DS 0H
+*             MOVE 50 TO MYLEN.
+*ZC    532         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READNEXT FILE('MYFILE06') INTO(MYDATA)
+*                       LENGTH(MYLEN) RIDFLD(MYRID1) RRN REQID(1)
+*ZC    533         EXEC  CICS,READNEXT,FILE('MYFILE06'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID1),RRN,REQID(1)
+         LARL  R1,P060E         ADDRESS SOURCE
+         LARL  R15,P060E        ADDRESS TARGET
+         XC    0(P060EEND-P060E,R15),0(R1) XC IT
+         LARL  R1,=X'060E'         ADDRESS SOURCE
+         LARL  R15,P060EFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFN,R15),0(R1) MVC IT
+         LA    R0,MYRID1         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060EARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID1       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060ELRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P060EFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P060EINT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         R0=LENGTH FROM LABEL
+         LARL  R1,P060ELEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P060ELAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P060ERID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID1   MOVE RIDFLD
+         LARL  R1,P060ERRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P060EREQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EREQ,R15),0(R1) MVC IT
+         LARL  R1,P060EEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060ETCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060EEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060EEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060EEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060EEDF_1857 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060EEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060E)       R1=LCL MODULE PARAMETER LIST
+P060EEDF_1857    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060ENOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060EBYP_1857   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060EBYP_1857   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060EBYP_1857) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060EBYP_1857    DS 0H
+*                       END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+*ZC    537         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             MOVE 50 TO MYLEN.
+*ZC    539         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READPREV FILE('MYFILE06') INTO(MYDATA)
+*                       LENGTH(MYLEN) RIDFLD(MYRID2) RRN REQID(2)
+*ZC    540         EXEC  CICS,READPREV,FILE('MYFILE06'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID2),RRN,REQID(2)
+         LARL  R1,P0610         ADDRESS SOURCE
+         LARL  R15,P0610        ADDRESS TARGET
+         XC    0(P0610END-P0610,R15),0(R1) XC IT
+         LARL  R1,=X'0610'         ADDRESS SOURCE
+         LARL  R15,P0610FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FN,R15),0(R1) MVC IT
+         LA    R0,MYRID2         R0=ADDRESS OF RIDFLD
+         LARL  R1,P0610ARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID2       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P0610LRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0610FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           INTO ADDRESS
+         LARL  R1,P0610INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0610LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0610LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0610RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID2   MOVE RIDFLD
+         LARL  R1,P0610RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(2)         ADDRESS SOURCE
+         LARL  R15,P0610REQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610REQ,R15),0(R1) MVC IT
+         LARL  R1,P0610EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0610TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0610EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0610EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0610EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0610EDF_1886 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0610EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0610)       R1=LCL MODULE PARAMETER LIST
+P0610EDF_1886    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0610NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0610BYP_1886   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0610BYP_1886   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0610BYP_1886) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0610BYP_1886    DS 0H
+*                       END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  BCT   R8,PLEXLOOP        LOOP
+*ZC    544         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             ADD 1 TO LOOPCTRL.
+*ZC    546         ADD   1,TO,LOOPCTRL
+         LH    ZC_R0,LOOPCTRL
+         AHI   ZC_R0,1
+         STH   ZC_R0,LOOPCTRL
+*             IF LOOPCTRL NOT = 4 THEN GO TO PLEXLOOP.
+*ZC    547         IF    LOOPCTRL,NOT,=,4,THEN
+         LH    0,LOOPCTRL
+         CHI   0,4
+         BRC   15-ZC_NE,PG_IF_5_1
+*ZC    547         GO    TO,PLEXLOOP
+         J     PG_PLEXLOOP
+PG_IF_5_1    DS    0H  &TYPE
+*             EXEC CICS ENDBR FILE('MYFILE06') REQID(1) END-EXEC.
+*ZC    548         EXEC  CICS,ENDBR,FILE('MYFILE06'),REQID(1)
+         LARL  R1,P0612         ADDRESS SOURCE
+         LARL  R15,P0612        ADDRESS TARGET
+         XC    0(P0612END-P0612,R15),0(R1) XC IT
+         LARL  R1,=X'0612'         ADDRESS SOURCE
+         LARL  R15,P0612FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0612FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FIL,R15),0(R1) MVC IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P0612REQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612REQ,R15),0(R1) MVC IT
+         LARL  R1,P0612EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0612TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0612EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0612EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0612EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0612EDF_1929 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0612EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0612)       R1=LCL MODULE PARAMETER LIST
+P0612EDF_1929    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0612NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0612BYP_1929   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0612BYP_1929   EXIT IF NONE
+* INVREQ, FILENOTFOUND, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0612BYP_1929) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0612BYP_1929    DS 0H
+*             EXEC CICS ENDBR FILE('MYFILE06') REQID(2) END-EXEC.
+*ZC    549         EXEC  CICS,ENDBR,FILE('MYFILE06'),REQID(2)
+         LARL  R1,P0612         ADDRESS SOURCE
+         LARL  R15,P0612        ADDRESS TARGET
+         XC    0(P0612END-P0612,R15),0(R1) XC IT
+         LARL  R1,=X'0612'         ADDRESS SOURCE
+         LARL  R15,P0612FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE06'         ADDRESS SOURCE
+         LARL  R15,P0612FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FIL,R15),0(R1) MVC IT
+         LARL  R1,=AL2(2)         ADDRESS SOURCE
+         LARL  R15,P0612REQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612REQ,R15),0(R1) MVC IT
+         LARL  R1,P0612EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0612TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0612EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0612EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0612EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0612EDF_1943 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0612EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0612)       R1=LCL MODULE PARAMETER LIST
+P0612EDF_1943    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0612NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0612BYP_1943   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0612BYP_1943   EXIT IF NONE
+* INVREQ, FILENOTFOUND, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0612BYP_1943) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0612BYP_1943    DS 0H
+*      * MYFILE07, RRN 10 (RECS 3-5), RESETBR, RRN 99 (RECS 10-8)
+*      *  MVC   FWTSBA,FOP1C2      MOVE WCC,SBA
+*      *  MVI   FOPSEP+1,C' '      RESET SEPARATOR
+*      *  LH    R7,FOPL            MESSAGE LENGTH
+*      *  AHI   R7,-1              SHORTEN BY 1
+*      *  STH   R7,FOPL            STORE BACK
+*      *  MVC   FOPNAME,=CL8'MYFILE07' SET FILENAME IN MESSAGE
+*      *  MVC   FOPRECNO,=C'S  '   SET RECORD NUMBERS IN MESSAGE
+*      *  MVC   FOPFUNC,=CL8'RESETBR' SET FUNCTION IN MESSAGE
+*      *  MVC   FWTMSG,FOPTYPE     MOVE MESSAGE TEXT
+*             MOVE FOP1C2     TO FOPSBA.
+*ZC    560         MOVE  FOP1C2,TO,FOPSBA
+         MVC   FOPSBA,FOP1C2  ALIGN LEFT X OTHER
+*             MOVE SPACE      TO FOPSEP
+*ZC    561         MOVE  SPACE,TO,FOPSEP
+         MVI   FOPSEP,C' '
+*             SUBTRACT 1 FROM FOPL.
+*ZC    562         SUBTRACT 1,FROM,FOPL
+         LH    ZC_R0,FOPL
+         AHI   ZC_R0,-1
+         STH   ZC_R0,FOPL
+*             MOVE 'MYFILE07' TO FOPNAME.
+*ZC    563         MOVE  'MYFILE07',TO,FOPNAME
+         LARL  ZC_R1,=CL8'MYFILE07'
+          MVC   FOPNAME,0(ZC_R1)
+*             MOVE 'S  '      TO FOPRECNO.
+*ZC    564         MOVE  'S  ',TO,FOPRECNO
+         LARL  ZC_R1,=CL4'S  '
+          MVC   FOPRECNO,0(ZC_R1)
+*             MOVE 'RESETBR ' TO FOPFUNC.
+*ZC    565         MOVE  'RESETBR ',TO,FOPFUNC
+         LARL  ZC_R1,=CL8'RESETBR '
+          MVC   FOPFUNC,0(ZC_R1)
+*             EXEC CICS SEND FROM(FOPLINE) LENGTH(FOPL) END-EXEC.
+*ZC    566         EXEC  CICS,SEND,FROM(FOPLINE),LENGTH(FOPL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FOPL   SET LENGTH FROM LABEL
+         LA    R0,FOPLINE           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_1991 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_1991    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_1991   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_1991   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_1991) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_1991    DS 0H
+*      *  MVC   MYRID1,=F'10'      RRN 3  RECORD 3
+*             MOVE 10 TO MYRID1.
+*ZC    568         MOVE  10,TO,MYRID1
+          MVHI  MYRID1,10
+*             EXEC CICS STARTBR FILE('MYFILE07') RIDFLD(MYRID1) RRN
+*ZC    569         EXEC  CICS,STARTBR,FILE('MYFILE07'),RIDFLD(MYRID1),RX
+               RN,REQID(1)
+         LARL  R1,P060C         ADDRESS SOURCE
+         LARL  R15,P060C        ADDRESS TARGET
+         XC    0(P060CEND-P060C,R15),0(R1) XC IT
+         LARL  R1,=X'060C'         ADDRESS SOURCE
+         LARL  R15,P060CFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFN,R15),0(R1) MVC IT
+         LA    R0,MYRID1         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060CARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID1       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060CLRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P060CFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CFIL,R15),0(R1) MVC IT
+         LARL  R15,P060CRID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID1   MOVE RIDFLD
+         LARL  R1,P060CRRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P060CREQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060CREQ,R15),0(R1) MVC IT
+         LARL  R1,P060CEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060CTCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060CEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060CEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060CEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060CEDF_2009 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060CEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060C)       R1=LCL MODULE PARAMETER LIST
+P060CEDF_2009    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060CNOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060CBYP_2009   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060CBYP_2009   EXIT IF NONE
+* INVREQ, FILENOTFOUND, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060CBYP_2009) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060CBYP_2009    DS 0H
+*                       REQID(1) END-EXEC.
+*      *  LA    R8,3               R8=LOOP LIMIT
+*             MOVE 1 TO LOOPCTRL.
+*      * RSBRLP1  EQU   *
+*ZC    572         MOVE  1,TO,LOOPCTRL
+          MVHHI LOOPCTRL,1
+*         RSBRLP1.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+PG_PLEXLOOP_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_RSBRLP1 DS  0H
+*             MOVE 50 TO MYLEN.
+*ZC    576         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READNEXT FILE('MYFILE07') INTO(MYDATA)
+*                       LENGTH(MYLEN) RIDFLD(MYRID1) RRN REQID(1)
+*ZC    577         EXEC  CICS,READNEXT,FILE('MYFILE07'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID1),RRN,REQID(1)
+         LARL  R1,P060E         ADDRESS SOURCE
+         LARL  R15,P060E        ADDRESS TARGET
+         XC    0(P060EEND-P060E,R15),0(R1) XC IT
+         LARL  R1,=X'060E'         ADDRESS SOURCE
+         LARL  R15,P060EFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFN,R15),0(R1) MVC IT
+         LA    R0,MYRID1         R0=ADDRESS OF RIDFLD
+         LARL  R1,P060EARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID1       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P060ELRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P060EFIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EFIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=INTO ADDRESS
+         LARL  R1,P060EINT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         R0=LENGTH FROM LABEL
+         LARL  R1,P060ELEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P060ELAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P060ERID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID1   MOVE RIDFLD
+         LARL  R1,P060ERRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P060EREQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P060EREQ,R15),0(R1) MVC IT
+         LARL  R1,P060EEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P060ETCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P060EEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P060EEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P060EEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P060EEDF_2039 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P060EEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P060E)       R1=LCL MODULE PARAMETER LIST
+P060EEDF_2039    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P060ENOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P060EBYP_2039   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P060EBYP_2039   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P060EBYP_2039) ENTRYPOINT FOR IGNORE CONDITION
+*
+P060EBYP_2039    DS 0H
+*                       END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  BCT   R8,RSBRLP1         LOOP
+*ZC    581         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             ADD 1 TO LOOPCTRL.
+*ZC    583         ADD   1,TO,LOOPCTRL
+         LH    ZC_R0,LOOPCTRL
+         AHI   ZC_R0,1
+         STH   ZC_R0,LOOPCTRL
+*             IF LOOPCTRL NOT = 4 THEN GO TO RSBRLP1.
+*ZC    584         IF    LOOPCTRL,NOT,=,4,THEN
+         LH    0,LOOPCTRL
+         CHI   0,4
+         BRC   15-ZC_NE,PG_IF_6_1
+*      *  MVC   MYRID1,=F'99'      RRN 99  PAST END
+*ZC    584         GO    TO,RSBRLP1
+         J     PG_RSBRLP1
+PG_IF_6_1    DS    0H  &TYPE
+*             MOVE 99 TO MYRID1.
+*ZC    586         MOVE  99,TO,MYRID1
+          MVHI  MYRID1,99
+*             EXEC CICS RESETBR FILE('MYFILE07') RIDFLD(MYRID1) RRN
+*ZC    587         EXEC  CICS,RESETBR,FILE('MYFILE07'),RIDFLD(MYRID1),RX
+               RN,REQID(1)
+         LARL  R1,P0614         ADDRESS SOURCE
+         LARL  R15,P0614        ADDRESS TARGET
+         XC    0(P0614END-P0614,R15),0(R1) XC IT
+         LARL  R1,=X'0614'         ADDRESS SOURCE
+         LARL  R15,P0614FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0614FN,R15),0(R1) MVC IT
+         LA    R0,MYRID1         R0=ADDRESS OF RIDFLD
+         LARL  R1,P0614ARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID1       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P0614LRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0614FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0614FIL,R15),0(R1) MVC IT
+         LARL  R15,P0614RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID1   MOVE RIDFLD
+         LARL  R1,P0614RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P0614REQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0614REQ,R15),0(R1) MVC IT
+         LARL  R1,P0614EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0614TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0614EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0614EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0614EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0614EDF_2087 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0614EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0614)       R1=LCL MODULE PARAMETER LIST
+P0614EDF_2087    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0614NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0614BYP_2087   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0614BYP_2087   EXIT IF NONE
+* INVREQ, FILENOTFOUND, NOTFND, NOTOPEN, DISABLED, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0614BYP_2087) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0614    DS    0H
+P0614FN  DS    XL2                FUNCTION CODE
+P0614EIB DS    AL4                EIB
+P0614TCT DS    AL4                TCTTE
+P0614FIL DS    CL8                FILENAME
+P0614KLN DS    XL2                KEYLENGTH
+P0614RID DS    XL128              RIDFLD
+P0614ARD DS    AL4                A(RIDFLD)
+P0614KIN DS    X                  FF=KEYLENGTH IS VALID
+         DS    X
+P0614LRD DS    X                  L'RIDFLD
+         DS    X
+P0614GEN DS    X                  FF=GENERIC
+         DS    X
+P0614RBA DS    X                  FF=RBA
+         DS    X
+P0614XRB DS    X                  FF=XRBA
+         DS    X
+P0614RRN DS    X                  FF=RRN
+         DS    X
+P0614GTE DS    X                  00=EQUAL FF=GTEQ
+         DS    X
+P0614REQ DS    XL2                REQID
+P0614EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0614EDS DS    AL4                DSA ADDRESS FOR EDF
+P0614EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0614EDL DS    XL2                DSA LENGTH FOR EDF
+P0614NED DS    X                  FF=NOEDF
+         DS    X
+P0614NOH DS    X                  FF=NOHANDLE
+         DS    X
+P0614RSP DS    AL4                RESP
+P0614RS2 DS    AL4                RESP2
+P0614END EQU   *                  END MARKER
+*
+P0614BYP_2087    DS 0H
+*                       REQID(1) END-EXEC.
+*      *  LA    R8,3               R8=LOOP LIMIT
+*             MOVE 1 TO LOOPCTRL.
+*      * RSBRLP2  EQU   *
+*ZC    590         MOVE  1,TO,LOOPCTRL
+          MVHHI LOOPCTRL,1
+*         RSBRLP2.
+*      *  MVC   MYLEN,=H'50'       SET MAXIMUM LENGTH
+PG_RSBRLP1_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_RSBRLP2 DS  0H
+*             MOVE 50 TO MYLEN.
+*ZC    594         MOVE  50,TO,MYLEN
+          MVHHI MYLEN,50
+*             EXEC CICS READPREV FILE('MYFILE07') INTO(MYDATA)
+*                       LENGTH(MYLEN) RIDFLD(MYRID1) RRN REQID(1)
+*ZC    595         EXEC  CICS,READPREV,FILE('MYFILE07'),INTO(MYDATA),LEX
+               NGTH(MYLEN),RIDFLD(MYRID1),RRN,REQID(1)
+         LARL  R1,P0610         ADDRESS SOURCE
+         LARL  R15,P0610        ADDRESS TARGET
+         XC    0(P0610END-P0610,R15),0(R1) XC IT
+         LARL  R1,=X'0610'         ADDRESS SOURCE
+         LARL  R15,P0610FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FN,R15),0(R1) MVC IT
+         LA    R0,MYRID1         R0=ADDRESS OF RIDFLD
+         LARL  R1,P0610ARD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,L'MYRID1       SET NUMERIC RIDFLD LENGTH
+         LARL  R1,P0610LRD         ADDRESS TARGET
+         STC   R0,0(R1)      STC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0610FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610FIL,R15),0(R1) MVC IT
+         LA    R0,MYDATA           INTO ADDRESS
+         LARL  R1,P0610INT         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0610LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LA    R0,MYLEN         R0=ADDRESS OF LENGTH
+         LARL  R1,P0610LAD         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R15,P0610RID       ADDRESS TARGET
+         MVC   0(4,R15),MYRID1   MOVE RIDFLD
+         LARL  R1,P0610RRN         ADDRESS TARGET
+         MVI   0(R1),X'FF'      MVI IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P0610REQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0610REQ,R15),0(R1) MVC IT
+         LARL  R1,P0610EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0610TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0610EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0610EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0610EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0610EDF_2118 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0610EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0610)       R1=LCL MODULE PARAMETER LIST
+P0610EDF_2118    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0610NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0610BYP_2118   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0610BYP_2118   EXIT IF NONE
+* INVREQ, FILENOTFOUND, LENGERR, NOTFND, NOTOPEN, DISABLED, ENDFILE
+* ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0610BYP_2118) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0610BYP_2118    DS 0H
+*                       END-EXEC.
+*      *  BAL   R9,WQTS            WRITE IT TO TS Q
+*             PERFORM WQTS.
+*      *  BCT   R8,RSBRLP2         LOOP
+*ZC    599         PERFORM WQTS
+         LARL  ZC_R14,PG_WQTS
+         LARL  ZC_R0,PG_WQTS_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             ADD 1 TO LOOPCTRL.
+*ZC    601         ADD   1,TO,LOOPCTRL
+         LH    ZC_R0,LOOPCTRL
+         AHI   ZC_R0,1
+         STH   ZC_R0,LOOPCTRL
+*             IF LOOPCTRL NOT = 4 THEN GO TO RSBRLP2.
+*ZC    602         IF    LOOPCTRL,NOT,=,4,THEN
+         LH    0,LOOPCTRL
+         CHI   0,4
+         BRC   15-ZC_NE,PG_IF_7_1
+*ZC    602         GO    TO,RSBRLP2
+         J     PG_RSBRLP2
+PG_IF_7_1    DS    0H  &TYPE
+*             EXEC CICS ENDBR FILE('MYFILE07') REQID(1) END-EXEC.
+*ZC    603         EXEC  CICS,ENDBR,FILE('MYFILE07'),REQID(1)
+         LARL  R1,P0612         ADDRESS SOURCE
+         LARL  R15,P0612        ADDRESS TARGET
+         XC    0(P0612END-P0612,R15),0(R1) XC IT
+         LARL  R1,=X'0612'         ADDRESS SOURCE
+         LARL  R15,P0612FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FN,R15),0(R1) MVC IT
+         LARL  R1,=CL8'MYFILE07'         ADDRESS SOURCE
+         LARL  R15,P0612FIL        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612FIL,R15),0(R1) MVC IT
+         LARL  R1,=AL2(1)         ADDRESS SOURCE
+         LARL  R15,P0612REQ        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0612REQ,R15),0(R1) MVC IT
+         LARL  R1,P0612EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0612TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0612EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0612EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0612EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0612EDF_2161 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0612EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0612)       R1=LCL MODULE PARAMETER LIST
+P0612EDF_2161    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0612NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0612BYP_2161   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0612BYP_2161   EXIT IF NONE
+* INVREQ, FILENOTFOUND, ILLOGIC
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0612BYP_2161) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0612BYP_2161    DS 0H
+*             EXEC CICS SEND FROM(ENDMSG) LENGTH(ENDMSGL) END-EXEC.
+*ZC    604         EXEC  CICS,SEND,FROM(ENDMSG),LENGTH(ENDMSGL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),ENDMSGL   SET LENGTH FROM LABEL
+         LA    R0,ENDMSG           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_2175 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_2175    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_2175   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_2175   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_2175) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_2175    DS 0H
+*             EXEC CICS RETURN END-EXEC.
+*ZC    605         EXEC  CICS,RETURN
+         LARL  R1,P0E08         ADDRESS SOURCE
+         LARL  R15,P0E08        ADDRESS TARGET
+         XC    0(P0E08END-P0E08,R15),0(R1) XC IT
+         LARL  R1,=X'0E08'         ADDRESS SOURCE
+         LARL  R15,P0E08FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0E08FN,R15),0(R1) MVC IT
+         LARL  R1,P0E08EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0E08EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0E08EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+* SPECIAL LINKAGE
+         LARL  R0,P0E08EDF_2188 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0E08EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0E08           R1=PARAMETER LIST
+         LARL  R14,P0E08RTN_2188 RETURN ADDRESS
+         LRL   R15,=V(LCL0E08)    R15=EXTERNAL RETURN MODULE ADDRESS
+P0E08EDF_2188    EQU *
+         BR    R15                GO TO IT
+*
+P0E08RTN_2188    EQU *
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0E08BYP_2188   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(0)             IGNORE HERE IS NOT PERMITTED
+*
+P0E08    DS    0H
+P0E08FN  DS    XL2                FUNCTION CODE
+P0E08TRN DS    CL4                TRANSID
+P0E08COM DS    AL4                COMMAREA ADDRESS
+P0E08CLN DS    XL2                COMMAREA LENGTH
+P0E08CHN DS    CL16               CHANNEL NAME
+P0E08IMM DS    X                  FF=IMMEDIATE
+         DS    X
+P0E08CNR DS    X                  FF=CLEANER
+         DS    X
+P0E08EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0E08EDS DS    AL4                DSA ADDRESS FOR EDF
+P0E08EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0E08EDL DS    XL2                DSA LENGTH FOR EDF
+P0E08NED DS    X                  FF=NOEDF
+         DS    X
+P0E08RSP DS    AL4                RESP
+P0E08RS2 DS    AL4                RESP2
+P0E08END EQU   *                  END MARKER
+*
+P0E08BYP_2188    DS 0H
+*      * HANDLE ROUTINES
+*      * VSAMNOTF EQU   *
+*         VSAMNOTF.
+*      *  MVC   FWTSBA,FOP7        MOVE WCC,SBA
+*      *  MVC   FHANDCON,=CL12'NOTFND' MOVE CONDITION
+PG_RSBRLP2_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMNOTF DS 0H
+*             MOVE FOP7           TO FHASBA.
+*ZC    613         MOVE  FOP7,TO,FHASBA
+         MVC   FHASBA,FOP7  ALIGN LEFT X OTHER
+*             MOVE 'NOTFND      ' TO FHANDCON.
+*      *  BAL   R9,HEXFDBK         DISPLAY FEEDBACK CODES
+*ZC    614         MOVE  'NOTFND      ',TO,FHANDCON
+         LARL  ZC_R1,=CL12'NOTFND      '
+          MVC   FHANDCON,0(ZC_R1)
+*             PERFORM HEXFDBK.
+*      *  B     FWTHSEND           EXIT
+*ZC    616         PERFORM HEXFDBK
+         LARL  ZC_R14,PG_HEXFDBK
+         LARL  ZC_R0,PG_HEXFDBK_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             GO TO FWTHSEND.
+*      * VSAMILL  DS    0H
+*ZC    618         GO    TO,FWTHSEND
+         J     PG_FWTHSEND
+*         VSAMILL.
+*      *  MVC   FWTSBA,FOP9        MOVE WCC,SBA
+PG_VSAMNOTF_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMILL DS  0H
+*             MOVE FOP9 TO FHASBA.
+*      *  L     R8,EIBRESP2        R8=RESP2
+*      *  CVD   R8,DEC             CONVERT TO DECIMAL
+*      *  XC    FHANDCON,FHANDCON  CLEAR CONDITION
+*      *  MVC   FHANDCON+7(4),=X'40202020' MOVE EDIT WORD
+*      *  ED    FHANDCON+7(4),DEC+6 EDIT RESP2
+*      *  MVC   FHANDCON(8),=C'ILLOGIC/' MOVE CONDITION
+*ZC    622         MOVE  FOP9,TO,FHASBA
+         MVC   FHASBA,FOP9  ALIGN LEFT X OTHER
+*             MOVE 'ILLOGIC/    ' TO FHANDCON.
+*ZC    629         MOVE  'ILLOGIC/    ',TO,FHANDCON
+         LARL  ZC_R1,=CL12'ILLOGIC/    '
+          MVC   FHANDCON,0(ZC_R1)
+*             MOVE EIBRESP2 TO WORK1A.
+*ZC    630         MOVE  EIBRESP2,TO,WORK1A
+         L     0,EIBRESP2
+         CVD   0,ZCVT_PWORK
+         UNPK  0+WORK1A(4),5+ZCVT_PWORK(3) UNPK #1 NORMAL
+         OI    4-1+WORK1A,X'F0'  RPI 1065
+*             MOVE WORK1C TO FHAILL.
+*      *  BAL   R9,HEXFDBK         DISPLAY FEEDBACK CODES
+*ZC    631         MOVE  WORK1C,TO,FHAILL
+         MVC   FHAILL,WORK1C  ALIGN LEFT X OTHER
+*             PERFORM HEXFDBK.
+*      *  B     FWTHSEND           EXIT
+*ZC    633         PERFORM HEXFDBK
+         LARL  ZC_R14,PG_HEXFDBK
+         LARL  ZC_R0,PG_HEXFDBK_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             GO TO FWTHSEND.
+*      * VSAMLNG  DS    0H
+*ZC    635         GO    TO,FWTHSEND
+         J     PG_FWTHSEND
+*         VSAMLNG.
+*      *  MVC   FWTSBA,FOP11       MOVE WCC,SBA
+PG_VSAMILL_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMLNG DS  0H
+*             MOVE FOP11 TO FHASBA.
+*      *  L     R8,EIBRESP2        R8=RESP2
+*      *  CVD   R8,DEC             CONVERT TO DECIMAL
+*      *  XC    FHANDCON,FHANDCON  CLEAR CONDITION
+*      *  MVC   FHANDCON+6(4),=X'40202020' MOVE EDIT WORD
+*      *  ED    FHANDCON+6(4),DEC+6 EDIT RESP2
+*      *  MVC   FHANDCON(8),=C'LENGERR/' MOVE CONDITION
+*ZC    639         MOVE  FOP11,TO,FHASBA
+         MVC   FHASBA,FOP11  ALIGN LEFT X OTHER
+*             MOVE 'LENGERR/    ' TO FHANDCON.
+*ZC    646         MOVE  'LENGERR/    ',TO,FHANDCON
+         LARL  ZC_R1,=CL12'LENGERR/    '
+          MVC   FHANDCON,0(ZC_R1)
+*             MOVE EIBRESP2 TO WORK1A.
+*ZC    647         MOVE  EIBRESP2,TO,WORK1A
+         L     0,EIBRESP2
+         CVD   0,ZCVT_PWORK
+         UNPK  0+WORK1A(4),5+ZCVT_PWORK(3) UNPK #1 NORMAL
+         OI    4-1+WORK1A,X'F0'  RPI 1065
+*             MOVE WORK1B TO FHALNG.
+*      *  BAL   R9,HEXFDBK         DISPLAY FEEDBACK CODES
+*ZC    648         MOVE  WORK1B,TO,FHALNG
+         MVC   FHALNG,WORK1B  ALIGN LEFT X OTHER
+*             PERFORM HEXFDBK.
+*      *  B     FWTHSEND           EXIT
+*ZC    650         PERFORM HEXFDBK
+         LARL  ZC_R14,PG_HEXFDBK
+         LARL  ZC_R0,PG_HEXFDBK_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*             GO TO FWTHSEND.
+*      * VSAMENDF DS    0H
+*ZC    652         GO    TO,FWTHSEND
+         J     PG_FWTHSEND
+*         VSAMENDF.
+*      *  CLI   ENDFLENO,C'1'      1ST ?
+*      *  BE    ENDFLEGO           EXIT IF IT IS
+PG_VSAMLNG_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_VSAMENDF DS 0H
+*             GO TO ENDF1 ENDF2 DEPENDING ON ENDFLENO.
+*ZC    657         GO    TO,ENDF1,ENDF2,DEPENDING,ON,ENDFLENO
+         LH    ZC_R1,ENDFLENO
+         CHI   ZC_R1,1
+         JL    PG_ZC_GO_TAB_1+4*2
+         CHI   ZC_R1,2
+         JH    PG_ZC_GO_TAB_1+4*2
+         SLL   ZC_R1,2
+         LARL  ZC_R2,PG_ZC_GO_TAB_1-4
+         B     0(ZC_R1,ZC_R2)
+PG_ZC_GO_TAB_1 DS  0H  &TYPE
+         J     PG_ENDF1
+         J     PG_ENDF2
+*             GO TO ABEND.
+*ZC    658         GO    TO,ABEND
+         J     PG_ABEND
+*         ENDF1.
+*      *  MVC   FWTSBA,FOP18       MOVE WCC,SBA
+PG_VSAMENDF_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_ENDF1 DS    0H
+*             MOVE FOP18 TO FHASBA.
+*ZC    661         MOVE  FOP18,TO,FHASBA
+         MVC   FHASBA,FOP18  ALIGN LEFT X OTHER
+*             GO TO ENDFEND.
+*ZC    662         GO    TO,ENDFEND
+         J     PG_ENDFEND
+*         ENDF2.
+*      *  MVC   FWTSBA,FOP20       MOVE WCC,SBA
+PG_ENDF1_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_ENDF2 DS    0H
+*             MOVE FOP20 TO FHASBA.
+*      * ENDFLEGO EQU   *
+*ZC    665         MOVE  FOP20,TO,FHASBA
+         MVC   FHASBA,FOP20  ALIGN LEFT X OTHER
+*         ENDFEND.
+*      *  MVC   FHANDCON,=CL12'ENDFILE' MOVE CONDITION
+PG_ENDF2_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_ENDFEND DS  0H
+*             MOVE 'ENDFILE     ' TO FHANDCON.
+*      *  BAL   R9,HEXFDBK         DISPLAY FEEDBACK CODES
+*ZC    669         MOVE  'ENDFILE     ',TO,FHANDCON
+         LARL  ZC_R1,=CL12'ENDFILE     '
+          MVC   FHANDCON,0(ZC_R1)
+*             PERFORM HEXFDBK.
+*      * FWTHSEND EQU   *
+*ZC    671         PERFORM HEXFDBK
+         LARL  ZC_R14,PG_HEXFDBK
+         LARL  ZC_R0,PG_HEXFDBK_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*         FWTHSEND.
+*      *  MVC   FWTMSG,FHANDCON    MOVE MESSAGE TEXT
+PG_ENDFEND_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_FWTHSEND DS 0H
+*             EXEC CICS SEND FROM(FHAND) LENGTH(FHANDL) END-EXEC.
+*ZC    675         EXEC  CICS,SEND,FROM(FHAND),LENGTH(FHANDL)
+         LARL  R1,P0404         ADDRESS SOURCE
+         LARL  R15,P0404        ADDRESS TARGET
+         XC    0(P0404END-P0404,R15),0(R1) XC IT
+         LARL  R1,=X'0404'         ADDRESS SOURCE
+         LARL  R15,P0404FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0404FN,R15),0(R1) MVC IT
+         LARL  R15,P0404LEN       ADDRESS TARGET
+         MVC   0(2,R15),FHANDL   SET LENGTH FROM LABEL
+         LA    R0,FHAND           FROM ADDRESS
+         LARL  R1,P0404FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0404EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0404TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0404EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0404EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0404EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0404EDF_2356 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0404EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0404)       R1=LCL MODULE PARAMETER LIST
+P0404EDF_2356    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0404NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0404BYP_2356   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0404BYP_2356   EXIT IF NONE
+* INVREQ
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0404BYP_2356) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0404BYP_2356    DS 0H
+*      *  BR    R7                 RETURN TO MAIN LINE
+*             GO TO VSAMRTN1 VSAMRTN2 VSAMRTN3 VSAMRTN4 VSAMRTN5 ABEND
+*                   DEPENDING ON DEPCTRL.
+*ZC    677         GO    TO,VSAMRTN1,VSAMRTN2,VSAMRTN3,VSAMRTN4,VSAMRTNX
+               5,ABEND,DEPENDING,ON,DEPCTRL
+         LH    ZC_R1,DEPCTRL
+         CHI   ZC_R1,1
+         JL    PG_ZC_GO_TAB_2+4*6
+         CHI   ZC_R1,6
+         JH    PG_ZC_GO_TAB_2+4*6
+         SLL   ZC_R1,2
+         LARL  ZC_R2,PG_ZC_GO_TAB_2-4
+         B     0(ZC_R1,ZC_R2)
+PG_ZC_GO_TAB_2 DS  0H  &TYPE
+         J     PG_VSAMRTN1
+         J     PG_VSAMRTN2
+         J     PG_VSAMRTN3
+         J     PG_VSAMRTN4
+         J     PG_VSAMRTN5
+         J     PG_ABEND
+*         ABEND.
+PG_FWTHSEND_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_ABEND DS    0H
+*             EXEC CICS ABEND ABCODE('VSC2') END-EXEC.
+*ZC    680         EXEC  CICS,ABEND,ABCODE('VSC2')
+         LARL  R1,P0E0C         ADDRESS SOURCE
+         LARL  R15,P0E0C        ADDRESS TARGET
+         XC    0(P0E0CEND-P0E0C,R15),0(R1) XC IT
+         LARL  R1,=X'0E0C'         ADDRESS SOURCE
+         LARL  R15,P0E0CFN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0E0CFN,R15),0(R1) MVC IT
+         LARL  R1,=CL4'VSC2'         ADDRESS SOURCE
+         LARL  R15,CICS_ABEND_2385_ABCODE        ADDRESS TARGET AS LABEX
+               L
+         MVC   0(L'CICS_ABEND_2385_ABCODE,R15),0(R1) MVC IT
+         LARL  R1,=CL4'VSC2'         ADDRESS SOURCE
+         LARL  R15,P0E0CABC        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0E0CABC,R15),0(R1) MVC IT
+         LARL  R1,P0E0CEIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0E0CTCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0E0CEDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0E0CEDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0E0CEDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0E0CEDF_2385 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0E0CEDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0E0C)       R1=LCL MODULE PARAMETER LIST
+P0E0CEDF_2385    EQU *
+         BAKR  0,R15              STACK REGS AND GO
+         DC    X'0000'            ABEND POINT
+         DC    X'FE'              FE=TAKE DUMP  FF=NODUMP
+         DC    C'ABEND'           MARKER
+CICS_ABEND_2385_ABCODE     DC CL4' ' ABEND CODE IF ANY
+*
+P0E0C    DS    0H
+P0E0CFN  DS    XL2                FUNCTION CODE
+P0E0CEIB DS    AL4                EIB
+P0E0CTCT DS    AL4                TCTTE
+P0E0CABC DS    CL4                ABCODE
+P0E0CNOD DS    X                  FF=NODUMP
+         DS    X
+P0E0CCAN DS    X                  FF=CANCEL
+         DS    X
+P0E0CEDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0E0CEDS DS    AL4                DSA ADDRESS FOR EDF
+P0E0CEDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0E0CEDL DS    XL2                DSA LENGTH FOR EDF
+P0E0CNED DS    X                  FF=NOEDF
+         DS    X
+P0E0CNOH DS    X                  FF=NOHANDLE
+         DS    X
+P0E0CRSP DS    AL4                RESP
+P0E0CRS2 DS    AL4                RESP2
+P0E0CEND EQU   *                  END MARKER
+*
+*      * SUBROUTINES
+*      * WQTS     DS    0H
+*         WQTS.
+PG_ABEND_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_WQTS  DS    0H
+*             EXEC CICS WRITEQ TS QUEUE('VSC2') FROM(MYDATA)
+*ZC    686         EXEC  CICS,WRITEQ,TS,QUEUE('VSC2'),FROM(MYDATA),LENGX
+               TH(MYLEN)
+         LARL  R1,P0A02         ADDRESS SOURCE
+         LARL  R15,P0A02        ADDRESS TARGET
+         XC    0(P0A02END-P0A02,R15),0(R1) XC IT
+         LARL  R1,=X'0A02'         ADDRESS SOURCE
+         LARL  R15,P0A02FN        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0A02FN,R15),0(R1) MVC IT
+         LARL  R1,=CL16'VSC2'         ADDRESS SOURCE
+         LARL  R15,P0A02QNM        ADDRESS TARGET AS LABEL
+         MVC   0(L'P0A02QNM,R15),0(R1) MVC IT
+         LA    R0,MYDATA           R0=FROM ADDRESS FROM LABEL
+         LARL  R1,P0A02FRM         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LH    R0,MYLEN         SET LENGTH FROM LABEL
+         LARL  R1,P0A02LEN         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         LARL  R1,P0A02EIB         ADDRESS TARGET
+         ST    DFHEIBR,0(R1)      ST IT
+         LARL  R1,P0A02TCT         ADDRESS TARGET
+         ST    TCTTEAR,0(R1)      ST IT
+         LARL  R1,P0A02EDS         ADDRESS TARGET
+         ST    R13,0(R1)      ST IT
+         L     R0,DFHEILEN        DSA LENGTH
+         LARL  R1,P0A02EDL         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LA    R0,DFHEIUSR        DSA USER AREA
+         SR    R0,R13             R0=CICS DSA LENGTH
+         LARL  R1,P0A02EDC         ADDRESS TARGET
+         STH   R0,0(R1)      STH IT
+         LARL  R0,P0A02EDF_2402 ADDRESS ORIGIN FOR CEDF
+         LARL  R1,P0A02EDF         ADDRESS TARGET
+         ST    R0,0(R1)      ST IT
+         L     R15,TCTTELCL       R15=LCL MODULE INDEXER
+         LARL  R1,=A(P0A02)       R1=LCL MODULE PARAMETER LIST
+P0A02EDF_2402    DS 0H
+         BAKR  0,R15              STACK REGS AND GO
+         LARL  R1,P0A02NOH         ADDRESS TARGET
+         CLI   0(R1),X'FF'      CLI IT
+         JE    P0A02BYP_2402   EXIT IF IT IS
+         OC    EIBRESP,EIBRESP    ANY BAD RESPONSE ?
+         JZ    P0A02BYP_2402   EXIT IF NONE
+* INVREQ, ITEMERR, LENGERR, QIDERR, IOERR
+         DC    AL3(0),C'ABEND'    MARKER FOR Z390KCP ESTAE
+         DC    AL4(P0A02BYP_2402) ENTRYPOINT FOR IGNORE CONDITION
+*
+P0A02    DS    0H
+P0A02FN  DS    XL2                FUNCTION CODE
+P0A02EIB DS    AL4                EIB
+P0A02TCT DS    AL4                TCTTE
+P0A02QNM DS    CL16               QUEUE NAME
+P0A02ITM DS    XL2                ITEM
+P0A02LEN DS    XL4                LENGTH
+P0A02FRM DS    AL4                ADDRESS OF FROM
+P0A02NUM DS    AL4                ADDRESS OF NUMITEMS
+P0A02ICM DS    CL4                ICTERM
+P0A02ICN DS    CL4                ICTRAN
+P0A02EDF DS    AL4                ORIGIN ADDRESS FOR CEDF
+P0A02EDS DS    AL4                DSA ADDRESS FOR EDF
+P0A02EDC DS    XL2                CICS DSA LENGTH FOR EDF
+P0A02EDL DS    XL2                DSA LENGTH FOR EDF
+P0A02NED DS    X                  FF=NOEDF
+         DS    X
+P0A02NOH DS    X                  FF=NOHANDLE
+         DS    X
+P0A02RSP DS    AL4                RESP
+P0A02RS2 DS    AL4                RESP2
+P0A02END EQU   *                  END MARKER
+*
+P0A02BYP_2402    DS 0H
+*                       LENGTH(MYLEN) END-EXEC.
+*      *  BR    R9                 RETURN
+*      * HEXFDBK  DS    0H
+*         HEXFDBK.
+*      *  UNPK  WORK(5),EIBRCODE+1(3) UNPACK VSAM FEEDBACK CODES
+*      *  TR    WORK(4),TABLE-240  TRANSLATE TO PRINTABLE HEX
+*      *  MVC   FHFDBK1,WORK       MOVE FDBK RETURN
+*      *  MVC   FHFDBK2,WORK+2     MOVE FDBK CODE
+PG_WQTS_END L  ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_HEXFDBK DS  0H
+*             MOVE EIBRCODE TO WORK2.
+*ZC    695         MOVE  EIBRCODE,TO,WORK2
+         MVC   WORK2,EIBRCODE  ALIGN LEFT X OTHER
+*             IF FDBK1 = X'00' THEN MOVE '00' TO FHFDBK1.
+*ZC    696         IF    FDBK1,=,X'00',THEN
+         CLI   FDBK1,X'00'
+         BRC   15-ZC_EQ,PG_IF_8_1
+*ZC    696         MOVE  '00',TO,FHFDBK1
+         LARL  ZC_R1,=CL2'00'
+          MVC   FHFDBK1,0(ZC_R1)
+PG_IF_8_1    DS    0H  &TYPE
+*             IF FDBK1 = X'08' THEN MOVE '08' TO FHFDBK1.
+*ZC    697         IF    FDBK1,=,X'08',THEN
+         CLI   FDBK1,X'08'
+         BRC   15-ZC_EQ,PG_IF_9_1
+*ZC    697         MOVE  '08',TO,FHFDBK1
+         LARL  ZC_R1,=CL2'08'
+          MVC   FHFDBK1,0(ZC_R1)
+PG_IF_9_1    DS    0H  &TYPE
+*             IF FDBK2 = X'00' THEN MOVE '00' TO FHFDBK2.
+*ZC    698         IF    FDBK2,=,X'00',THEN
+         CLI   FDBK2,X'00'
+         BRC   15-ZC_EQ,PG_IF_10_1
+*ZC    698         MOVE  '00',TO,FHFDBK2
+         LARL  ZC_R1,=CL2'00'
+          MVC   FHFDBK2,0(ZC_R1)
+PG_IF_10_1   DS    0H  &TYPE
+*             IF FDBK2 = X'04' THEN MOVE '04' TO FHFDBK2.
+*ZC    699         IF    FDBK2,=,X'04',THEN
+         CLI   FDBK2,X'04'
+         BRC   15-ZC_EQ,PG_IF_11_1
+*ZC    699         MOVE  '04',TO,FHFDBK2
+         LARL  ZC_R1,=CL2'04'
+          MVC   FHFDBK2,0(ZC_R1)
+PG_IF_11_1   DS    0H  &TYPE
+*             IF FDBK2 = X'10' THEN MOVE '10' TO FHFDBK2.
+*ZC    700         IF    FDBK2,=,X'10',THEN
+         CLI   FDBK2,X'10'
+         BRC   15-ZC_EQ,PG_IF_12_1
+*ZC    700         MOVE  '10',TO,FHFDBK2
+         LARL  ZC_R1,=CL2'10'
+          MVC   FHFDBK2,0(ZC_R1)
+PG_IF_12_1   DS    0H  &TYPE
+*             IF FDBK2 = X'68' THEN MOVE '68' TO FHFDBK2.
+*ZC    701         IF    FDBK2,=,X'68',THEN
+         CLI   FDBK2,X'68'
+         BRC   15-ZC_EQ,PG_IF_13_1
+*      *  BR    R9                 RETURN
+*ZC    701         MOVE  '68',TO,FHFDBK2
+         LARL  ZC_R1,=CL2'68'
+          MVC   FHFDBK2,0(ZC_R1)
+PG_IF_13_1   DS    0H  &TYPE
+PG_HEXFDBK_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+SN_END_PROCEDURE DS 0H SECTION
+*        PROCEDURE END
+         LH    ZC_R1,RETURN_CODE
+         L     ZC_R15,ZCVT_GOBACK
+         BASR  ZC_R14,ZC_R15
+         LTORG 
+*    ZCOBOL WORKING STORAGE SECTION DATA ITEMS 
+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC  X
+                     VALUE 
+*    01  MYDATA                         00000080 00000032 1   X   X(50)X
+                      
+*    01  MYLEN                          000000B2 00000002 1   H   9(4) X
+                      
+*    01  MYRID                          000000B4 00000004 1   F   9(8) X
+                      
+*    01  MYRID1                         000000B8 00000004 1   F   9(8) X
+                      
+*    01  MYRID2                         000000BC 00000004 1   F   9(9) X
+                      
+*    01  FOP1                           000000C0 00000004 1   X   X(4) X
+                     X''C311C260'' 
+*    01  FOP2                           000000C4 00000004 1   X   X(4) X
+                     X''C311C3F0'' 
+*    01  FOP3                           000000C8 00000004 1   X   X(4) X
+                     X''C311C540'' 
+*    01  FOP4                           000000CC 00000004 1   X   X(4) X
+                     X''C311C650'' 
+*    01  FOP5                           000000D0 00000004 1   X   X(4) X
+                     X''C311C760'' 
+*    01  FOP6                           000000D4 00000004 1   X   X(4) X
+                     X''C311C8F0'' 
+*    01  FOP7                           000000D8 00000004 1   X   X(4) X
+                     X''C3114A40'' 
+*    01  FOP8                           000000DC 00000004 1   X   X(4) X
+                     X''C3114B50'' 
+*    01  FOP9                           000000E0 00000004 1   X   X(4) X
+                     X''C3114C60'' 
+*    01  FOP10                          000000E4 00000004 1   X   X(4) X
+                     X''C3114DF0'' 
+*    01  FOP11                          000000E8 00000004 1   X   X(4) X
+                     X''C3114F40'' 
+*    01  FOP12                          000000EC 00000004 1   X   X(4) X
+                     X''C3115050'' 
+*    01  FOP13                          000000F0 00000004 1   X   X(4) X
+                     X''C311D160'' 
+*    01  FOP14                          000000F4 00000004 1   X   X(4) X
+                     X''C311D2F0'' 
+*    01  FOP15                          000000F8 00000004 1   X   X(4) X
+                     X''C311D440'' 
+*    01  FOP16                          000000FC 00000004 1   X   X(4) X
+                     X''C311D550'' 
+*    01  FOP17                          00000100 00000004 1   X   X(4) X
+                     X''C311D660'' 
+*    01  FOP18                          00000104 00000004 1   X   X(4) X
+                     X''C311D7F0'' 
+*    01  FOP19                          00000108 00000004 1   X   X(4) X
+                     X''C311D940'' 
+*    01  FOP20                          0000010C 00000004 1   X   X(4) X
+                     X''C3115A50'' 
+*    01  FOP21                          00000110 00000004 1   X   X(4) X
+                     X''C3115B60'' 
+*    01  FOP1C2                         00000114 00000004 1   X   X(4) X
+                     X''C311C3C9'' 
+*    01  FOPLINE                        00000118 0000002C 1   X        X
+                      
+*    02  FOPSBA                         00000118 00000004 1   X   X(4) X
+                      
+*    02  FOPTYPE                        0000011C 00000004 1   X   X(4) X
+                      
+*    02  ZC_FILLER_V1                   00000120 00000001 1   X   X    X
+                     ''/'' 
+*    02  FOPFIXVR                       00000121 00000003 1   X   X(3) X
+                      
+*    02  ZC_FILLER_V2                   00000124 00000001 1   X   X    X
+                     SPACE 
+*    02  FOPNAME                        00000125 00000008 1   X   X(8) X
+                      
+*    02  ZC_FILLER_V3                   0000012D 00000001 1   X   X    X
+                     SPACE 
+*    02  FOPFUNC                        0000012E 00000008 1   X   X(8) X
+                     ''READNEXT'' 
+*    02  ZC_FILLER_V4                   00000136 00000001 1   X   X    X
+                     SPACE 
+*    02  FOPMETH                        00000137 00000004 1   X   X(4) X
+                     ''XRBA'' 
+*    02  ZC_FILLER_V5                   0000013B 00000004 1   X   X(4) X
+                     '' REC'' 
+*    02  FOPRECNO                       0000013F 00000003 1   X   X(3) X
+                      
+*    02  ZC_FILLER_V6                   00000142 00000001 1   X   X    X
+                     SPACE 
+*    02  FOPSEP                         00000143 00000001 1   X   X    X
+                     SPACE 
+*    01  FOPL                           00000144 00000002 1   H   9(4) X
+                      
+*    01  FHAND                          00000146 0000002C 1   X        X
+                      
+*    02  FHASBA                         00000146 00000004 1   X   X(4) X
+                      
+*    02  FHANDCON                       0000014A 0000000C 1   X        X
+                      
+*    03  ZC_FILLER_V7                   0000014A 00000008 1   X   X(8) X
+                     SPACES 
+*    03  FHALNG                         00000152 00000002 1   X   X(2) X
+                      
+*    03  ZC_FILLER_V8                   00000154 00000002 1   X   X(2) X
+                     SPACES 
+*    02  FILLER                         0000014A 0000000C 1   X        X
+                      
+*    03  ZC_FILLER_V9                   0000014A 00000008 1   X   X(8) X
+                     SPACES 
+*    03  FHAILL                         00000152 00000003 1   X   X(3) X
+                      
+*    03  ZC_FILLER_V10                  00000155 00000001 1   X   X    X
+                     SPACE 
+*    02  ZC_FILLER_V11                  00000156 00000012 1   X   X(18)X
+                     '' CONDITION RAISED '' 
+*    02  FHFDBK1                        00000168 00000002 1   X   X(2) X
+                      
+*    02  ZC_FILLER_V12                  0000016A 00000001 1   X   X    X
+                     SPACE 
+*    02  FHFDBK2                        0000016B 00000002 1   X   X(2) X
+                      
+*    02  ZC_FILLER_V13                  0000016D 00000004 1   X   X(4) X
+                     SPACES 
+*    02  FHSEP                          00000171 00000001 1   X   X    X
+                     SPACE 
+*    01  FHANDL                         00000172 00000002 1   H   9(4) X
+                      
+*    01  ENDMSG                         00000174 00000023 1   X        X
+                      
+*    02  ZC_FILLER_V14                  00000174 00000004 1   X   X(4) X
+                     X''C3115CF0'' 
+*    02  ZC_FILLER_V15                  00000178 0000001F 1   X   X(31)X
+                     ''TESTVSC2 COMPLETED, PRESS CLEAR'' 
+*    01  ENDMSGL                        00000197 00000002 1   H   9(4) X
+                      
+*    01  FILLER                         00000199 00000004 1   X        X
+                      
+*    02  WORK1A                         00000199 00000004 1   Z   9(4) X
+                      
+*    02  FILLER                         00000199 00000004 1   X        X
+                      
+*    03  FILLER                         00000199 00000002 1   X   X(2) X
+                      
+*    03  WORK1B                         0000019B 00000002 1   X   X(2) X
+                      
+*    02  FILLER                         00000199 00000004 1   X        X
+                      
+*    03  FILLER                         00000199 00000001 1   X   X(1) X
+                      
+*    03  WORK1C                         0000019A 00000003 1   X   X(3) X
+                      
+*    01  WORK2                          0000019D 00000006 1   X        X
+                      
+*    02  FILLER                         0000019D 00000001 1   X   X    X
+                      
+*    02  FDBK1                          0000019E 00000001 1   X   X    X
+                      
+*    02  FDBK2                          0000019F 00000001 1   X   X    X
+                      
+*    02  FILLER                         000001A0 00000003 1   X   X(3) X
+                      
+*    01  DEPCTRL                        000001A3 00000002 1   H   9(4) X
+                      
+*    01  ENDFLENO                       000001A5 00000002 1   H   9(4) X
+                      
+*    01  LOOPCTRL                       000001A7 00000002 1   H   9(2) X
+                      
+*    01  ZC_WS_ID1                      000001A9 00000007 1   X   X(7) X
+                     ''ZCWSID1'' 
+*    01  DEBUG_ITEM                     000001B0 00000058 1   X        X
+                      
+*    02  DEBUG_LINE                     000001B0 00000006 1   X   X(6) X
+                      
+*    02  ZC_FILLER_V16                  000001B6 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_NAME                     000001B7 0000001E 1   X   X(30)X
+                      
+*    02  ZC_FILLER_V17                  000001D5 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_1                    000001D6 00000004 1   Z   9999 X
+                      
+*    02  ZC_FILLER_V18                  000001DA 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_2                    000001DB 00000004 1   Z   9999 X
+                      
+*    02  ZC_FILLER_V19                  000001DF 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_3                    000001E0 00000004 1   Z   9999 X
+                      
+*    02  ZC_FILLER_V20                  000001E4 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_CONTENTS                 000001E5 00000023 1   X   X(35)X
+                      
+*    01  TRUE                           00000208 00000001 1   Z   9    X
+                     1 
+*    01  FALSE                          00000209 00000001 1   Z   9    X
+                     0 
+*    01  RETURN_CODE                    0000020A 00000002 1   H   9(4) X
+                     0 
+*    01  ZC_DFHCOMMAREA_PTR             0000020C 00000004 1   A        X
+                      
+*    01  ZC_DFHEIBLK_PTR                00000210 00000004 1   A        X
+                      
+*    01  ZC_ZC_LK_END_PTR               00000214 00000004 1   A        X
+                      
+DFHEISTG DSECT 
+ZC_WS_LOC_1  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+MYDATA   DS  CL50
+ZC_WS_LOC_2  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+MYLEN    DS  HL2
+ZC_WS_LOC_3  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+MYRID    DS  FL4
+ZC_WS_LOC_4  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+MYRID1   DS  FL4
+ZC_WS_LOC_5  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+MYRID2   DS  FL4
+ZC_WS_LOC_6  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP1     DC XL4'C311C260'
+ZC_WS_LOC_7  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP2     DC XL4'C311C3F0'
+ZC_WS_LOC_8  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP3     DC XL4'C311C540'
+ZC_WS_LOC_9  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP4     DC XL4'C311C650'
+ZC_WS_LOC_10 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP5     DC XL4'C311C760'
+ZC_WS_LOC_11 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP6     DC XL4'C311C8F0'
+ZC_WS_LOC_12 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP7     DC XL4'C3114A40'
+ZC_WS_LOC_13 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP8     DC XL4'C3114B50'
+ZC_WS_LOC_14 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP9     DC XL4'C3114C60'
+ZC_WS_LOC_15 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP10    DC XL4'C3114DF0'
+ZC_WS_LOC_16 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP11    DC XL4'C3114F40'
+ZC_WS_LOC_17 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP12    DC XL4'C3115050'
+ZC_WS_LOC_18 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP13    DC XL4'C311D160'
+ZC_WS_LOC_19 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP14    DC XL4'C311D2F0'
+ZC_WS_LOC_20 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP15    DC XL4'C311D440'
+ZC_WS_LOC_21 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP16    DC XL4'C311D550'
+ZC_WS_LOC_22 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP17    DC XL4'C311D660'
+ZC_WS_LOC_23 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP18    DC XL4'C311D7F0'
+ZC_WS_LOC_24 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP19    DC XL4'C311D940'
+ZC_WS_LOC_25 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP20    DC XL4'C3115A50'
+ZC_WS_LOC_26 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP21    DC XL4'C3115B60'
+ZC_WS_LOC_27 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOP1C2   DC XL4'C311C3C9'
+ZC_WS_LOC_28 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPLINE  DS  0CL44
+ZC_WS_LOC_29 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPSBA   DS  CL4
+ZC_WS_LOC_30 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPTYPE  DS  CL4
+ZC_WS_LOC_31 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V1 DC CL1'/'
+ZC_WS_LOC_32 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPFIXVR DS  CL3
+ZC_WS_LOC_33 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V2 DC CL1' '
+ZC_WS_LOC_34 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPNAME  DS  CL8
+ZC_WS_LOC_35 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V3 DC CL1' '
+ZC_WS_LOC_36 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPFUNC  DC CL8'READNEXT'
+ZC_WS_LOC_37 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V4 DC CL1' '
+ZC_WS_LOC_38 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPMETH  DC CL4'XRBA'
+ZC_WS_LOC_39 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V5 DC CL4' REC'
+ZC_WS_LOC_40 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPRECNO DS  CL3
+ZC_WS_LOC_41 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V6 DC CL1' '
+ZC_WS_LOC_42 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPSEP   DC CL1' '
+ZC_WS_LOC_43 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FOPL     DS  HL2
+ZC_WS_LOC_44 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHAND    DS  0CL44
+ZC_WS_LOC_45 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHASBA   DS  CL4
+ZC_WS_LOC_46 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHANDCON DS  0CL12
+ZC_WS_LOC_47 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V7 DC CL8' '
+ZC_WS_LOC_48 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHALNG   DS  CL2
+ZC_WS_LOC_49 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V8 DC CL2' '
+         ORG   FHANDCON  START REDEFINE
+ZC_WS_LOC_50 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  0CL12
+ZC_WS_LOC_51 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V9 DC CL8' '
+ZC_WS_LOC_52 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHAILL   DS  CL3
+ZC_WS_LOC_53 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V10 DC CL1' '
+ZC_WS_LOC_54 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V11 DC CL18' CONDITION RAISED '
+ZC_WS_LOC_55 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHFDBK1  DS  CL2
+ZC_WS_LOC_56 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V12 DC CL1' '
+ZC_WS_LOC_57 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHFDBK2  DS  CL2
+ZC_WS_LOC_58 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V13 DC CL4' '
+ZC_WS_LOC_59 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHSEP    DC CL1' '
+ZC_WS_LOC_60 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FHANDL   DS  HL2
+ZC_WS_LOC_61 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ENDMSG   DS  0CL35
+ZC_WS_LOC_62 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V14 DC XL4'C3115CF0'
+ZC_WS_LOC_63 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V15 DC CL31'TESTVSC2 COMPLETED, PRESS CLEAR'
+ZC_WS_LOC_64 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ENDMSGL  DS  HL2
+ZC_WS_LOC_65 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  0CL4
+ZC_WS_LOC_66 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+WORK1A   DS  ZL4
+         ORG   WORK1A  START REDEFINE
+ZC_WS_LOC_67 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  0CL4
+ZC_WS_LOC_68 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  CL2
+ZC_WS_LOC_69 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+WORK1B   DS  CL2
+         ORG   WORK1A  START REDEFINE
+ZC_WS_LOC_70 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  0CL4
+ZC_WS_LOC_71 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  CL1
+ZC_WS_LOC_72 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+WORK1C   DS  CL3
+ZC_WS_LOC_73 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+WORK2    DS  0CL6
+ZC_WS_LOC_74 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  CL1
+ZC_WS_LOC_75 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FDBK1    DS  CL1
+ZC_WS_LOC_76 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FDBK2    DS  CL1
+ZC_WS_LOC_77 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  CL3
+ZC_WS_LOC_78 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEPCTRL  DS  HL2
+ZC_WS_LOC_79 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ENDFLENO DS  HL2
+ZC_WS_LOC_80 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+LOOPCTRL DS  HL2
+ZC_WS_LOC_81 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_WS_ID1 DC CL7'ZCWSID1'
+ZC_WS_LOC_104 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_ITEM DS 0CL88
+ZC_WS_LOC_105 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_LINE DS CL6
+ZC_WS_LOC_106 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V16 DC CL1' '
+ZC_WS_LOC_107 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_NAME DS CL30
+ZC_WS_LOC_108 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V17 DC CL1' '
+ZC_WS_LOC_109 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_1 DS ZL4
+ZC_WS_LOC_110 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V18 DC CL1' '
+ZC_WS_LOC_111 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_2 DS ZL4
+ZC_WS_LOC_112 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V19 DC CL1' '
+ZC_WS_LOC_113 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_3 DS ZL4
+ZC_WS_LOC_114 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_FILLER_V20 DC CL1' '
+ZC_WS_LOC_115 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_CONTENTS DS CL35
+ZC_WS_LOC_116 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TRUE     DC CL1'1'
+ZC_WS_LOC_117 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FALSE    DC CL1'0'
+ZC_WS_LOC_118 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+RETURN_CODE DC AL2(0)                  RPI 1065
+ZC_WS_LOC_119 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_DFHCOMMAREA_PTR DS AL4
+ZC_WS_LOC_120 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_DFHEIBLK_PTR DS AL4
+ZC_WS_LOC_121 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_ZC_LK_END_PTR DS AL4
+*    ZCOBOL LINKAGE SECTION DATA ITEMS 
+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC  X
+                     VALUE 
+*    01  DFHCOMMAREA                    00000000 00000054 1   X        X
+                      
+*    01  DFHEIBLK                       00000000 00000054 1   X        X
+                      
+*    02  EIBHEAD                        00000000 00000008 1   X   X(8) X
+                      
+*    02  EIBTIME                        00000008 00000004 1   P   9(7) X
+                      
+*    02  EIBDATE                        0000000C 00000004 1   P   9(7) X
+                      
+*    02  EIBTRNID                       00000010 00000004 1   X   X(4) X
+                      
+*    02  EIBTASKN                       00000014 00000004 1   P   9(7) X
+                      
+*    02  EIBTRMID                       00000018 00000004 1   X   X(4) X
+                      
+*    02  FILLER                         0000001C 00000002 1   X   X(2) X
+                      
+*    02  EIBCPOSN                       0000001E 00000002 1   H   9(4) X
+                      
+*    02  EIBCALEN                       00000020 00000002 1   H   9(4) X
+                      
+*    02  EIBAID                         00000022 00000001 1   X   X    X
+                      
+*    02  EIBFN                          00000023 00000002 1   H   9(4) X
+                      
+*    02  EIBRCODE                       00000025 00000006 1   X   X(6) X
+                      
+*    02  EIBREQID                       0000002B 00000008 1   X   X(8) X
+                      
+*    02  EIBDS                          00000033 00000008 1   X   X(8) X
+                      
+*    02  EIBRSRCE                       0000003B 00000008 1   X   X(8) X
+                      
+*    02  EIBRESP                        00000043 00000004 1   F   9(9) X
+                      
+*    02  EIBRESP2                       00000047 00000004 1   F   9(9) X
+                      
+*    02  EIBPROG                        0000004B 00000008 1   X   X(8) X
+                      
+*    02  EIBDTFRM                       00000053 00000001 1   X   X    X
+                      
+*    01  ZC_LK_END                      00000000 00000001 1   X   X    X
+                      
+DFHEISTG DSECT 
+DFHCOMMAREA_DSECT DSECT 
+ZC_LK_LOC_82 EQU *-DFHCOMMAREA CHECK &SYM_NAME(&I) LK LOC
+DFHCOMMAREA DS 0CL84
+DFHEIBLK_DSECT DSECT 
+ZC_LK_LOC_83 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+DFHEIBLK DS  0CL84
+ZC_LK_LOC_84 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBHEAD  DS  CL8
+ZC_LK_LOC_85 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBTIME  DS  PL4
+ZC_LK_LOC_86 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBDATE  DS  PL4
+ZC_LK_LOC_87 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBTRNID DS  CL4
+ZC_LK_LOC_88 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBTASKN DS  PL4
+ZC_LK_LOC_89 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBTRMID DS  CL4
+ZC_LK_LOC_90 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+         DS  CL2
+ZC_LK_LOC_91 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBCPOSN DS  HL2
+ZC_LK_LOC_92 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBCALEN DS  HL2
+ZC_LK_LOC_93 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBAID   DS  CL1
+ZC_LK_LOC_94 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBFN    DS  HL2
+ZC_LK_LOC_95 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBRCODE DS  CL6
+ZC_LK_LOC_96 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBREQID DS  CL8
+ZC_LK_LOC_97 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBDS    DS  CL8
+ZC_LK_LOC_98 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBRSRCE DS  CL8
+ZC_LK_LOC_99 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBRESP  DS  FL4
+ZC_LK_LOC_100 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBRESP2 DS  FL4
+ZC_LK_LOC_101 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBPROG  DS  CL8
+ZC_LK_LOC_102 EQU *-DFHEIBLK CHECK &SYM_NAME(&I) LK LOC
+EIBDTFRM DS  CL1
+ZC_LK_END_DSECT DSECT 
+ZC_LK_LOC_103 EQU *-ZC_LK_END CHECK &SYM_NAME(&I) LK LOC
+ZC_LK_END DS CL1
+DFHEISTG DSECT 
+ZC_WS_DIFF EQU  *-ZC_WS-536  DIFF BETWEEN ALLOC AND CALC WS
+ZC_WS_END DS   0D
+         MNOTE *,'ZCOBOL TOTAL SYMBOLS                 = 121'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL DUPLICATES       = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL MAX DUP CHAIN    = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL LEVEL 88         = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL SET INDEXES      = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL LINKAGE SECTIONS = 3'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE SECTIONS      = 0'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPHS    = 23'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPH DUP = 0'
+DFHEISTG DSECT 
+         ORG 
+DFHEIEND EQU   *
+         END 

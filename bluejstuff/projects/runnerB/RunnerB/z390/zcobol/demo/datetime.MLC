@@ -1,0 +1,241 @@
+         ZCOBOL PGM='zcobol\demo\datetime',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  datetime_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.  FORMAT-DATE-EXAMPLE.
+         PROGRAM_ID FORMAT_DATE_EXAMPLE
+*        AUTHOR.      BILL ROGERS.
+*      * http://web.sxu.edu/rogers/cobol/datetime.html
+         AUTHOR BILL,ROGERS
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01 SYSTEM-WEEKDAY            PIC 9.
+         WS      01,SYSTEM_WEEKDAY,PIC,9
+*        01 SYSTEM-DATE.
+         WS      01,SYSTEM_DATE
+*           02 SYSTEM-YEAR            PIC 99.
+         WS        02,SYSTEM_YEAR,PIC,99
+*           02 SYSTEM-MONTH           PIC 99.
+         WS        02,SYSTEM_MONTH,PIC,99
+*           02 SYSTEM-DAY             PIC 99.
+         WS        02,SYSTEM_DAY,PIC,99
+*        01 SYSTEM-TIME.
+         WS      01,SYSTEM_TIME
+*           02 SYSTEM-HOUR            PIC 99.
+         WS        02,SYSTEM_HOUR,PIC,99
+*           02 SYSTEM-MINUTE          PIC 99.
+         WS        02,SYSTEM_MINUTE,PIC,99
+*           02 SYSTEM-SECOND          PIC 99.
+         WS        02,SYSTEM_SECOND,PIC,99
+*           02 SYSTEM-HUNDREDTH       PIC 99.
+         WS        02,SYSTEM_HUNDREDTH,PIC,99
+*        01 HEADER-LINE.
+         WS      01,HEADER_LINE
+*           02 HEADER-WEEKDAY         PIC X(3).
+         WS        02,HEADER_WEEKDAY,PIC,X(3)
+*           02                        PIC X        VALUE SPACE.
+         WS        02,PIC,X,VALUE,SPACE
+*           02 HEADER-MONTH           PIC X(3).
+         WS        02,HEADER_MONTH,PIC,X(3)
+*           02                        PIC X        VALUE SPACE.
+         WS        02,PIC,X,VALUE,SPACE
+*           02 HEADER-DAY             PIC Z9.
+         WS        02,HEADER_DAY,PIC,Z9
+*           02                        PIC X        VALUE SPACE.
+         WS        02,PIC,X,VALUE,SPACE
+*           02 HEADER-HOUR            PIC Z9.
+         WS        02,HEADER_HOUR,PIC,Z9
+*           02                        PIC X        VALUE ':'.
+         WS        02,PIC,X,VALUE,':'
+*           02 HEADER-MINUTE          PIC 99.
+         WS        02,HEADER_MINUTE,PIC,99
+*           02                        PIC X        VALUE SPACE.
+         WS        02,PIC,X,VALUE,SPACE
+*           02 HEADER-AM-PM           PIC X(2).
+         WS        02,HEADER_AM_PM,PIC,X(2)
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'DATETIME STARTED'
+*ZC     32         DISPLAY 'DATETIME STARTED'
+         DISPLAY 'DATETIME STARTED'
+*            ACCEPT SYSTEM-WEEKDAY FROM DAY-OF-WEEK.
+*ZC     33         ACCEPT SYSTEM_WEEKDAY,FROM,DAY_OF_WEEK
+         ACCEPT SYSTEM_WEEKDAY,FROM,DAY_OF_WEEK
+         PERIOD 
+*            ACCEPT SYSTEM-DATE FROM DATE.
+*ZC     34         ACCEPT SYSTEM_DATE,FROM,DATE
+         ACCEPT SYSTEM_DATE,FROM,DATE
+         PERIOD 
+*            ACCEPT SYSTEM-TIME FROM TIME.
+*ZC     35         ACCEPT SYSTEM_TIME,FROM,TIME
+         ACCEPT SYSTEM_TIME,FROM,TIME
+         PERIOD 
+*            EVALUATE SYSTEM-WEEKDAY
+*ZC     36         EVALUATE SYSTEM_WEEKDAY
+         EVALUATE SYSTEM_WEEKDAY
+*                WHEN  2  MOVE 'Mon' TO HEADER-WEEKDAY
+*ZC     37         WHEN  2
+         WHEN  2
+*ZC     37         MOVE  'Mon',TO,HEADER_WEEKDAY
+         MOVE  'Mon',TO,HEADER_WEEKDAY
+*                WHEN  3  MOVE 'Tue' TO HEADER-WEEKDAY
+*ZC     38         WHEN  3
+         WHEN  3
+*ZC     38         MOVE  'Tue',TO,HEADER_WEEKDAY
+         MOVE  'Tue',TO,HEADER_WEEKDAY
+*                WHEN  4  MOVE 'Wed' TO HEADER-WEEKDAY
+*ZC     39         WHEN  4
+         WHEN  4
+*ZC     39         MOVE  'Wed',TO,HEADER_WEEKDAY
+         MOVE  'Wed',TO,HEADER_WEEKDAY
+*                WHEN  5  MOVE 'Thu' TO HEADER-WEEKDAY
+*ZC     40         WHEN  5
+         WHEN  5
+*ZC     40         MOVE  'Thu',TO,HEADER_WEEKDAY
+         MOVE  'Thu',TO,HEADER_WEEKDAY
+*                WHEN  6  MOVE 'Fri' TO HEADER-WEEKDAY
+*ZC     41         WHEN  6
+         WHEN  6
+*ZC     41         MOVE  'Fri',TO,HEADER_WEEKDAY
+         MOVE  'Fri',TO,HEADER_WEEKDAY
+*                WHEN  7  MOVE 'Sat' TO HEADER-WEEKDAY
+*ZC     42         WHEN  7
+         WHEN  7
+*ZC     42         MOVE  'Sat',TO,HEADER_WEEKDAY
+         MOVE  'Sat',TO,HEADER_WEEKDAY
+*                WHEN  1  MOVE 'Sun' TO HEADER-WEEKDAY
+*ZC     43         WHEN  1
+         WHEN  1
+*ZC     43         MOVE  'Sun',TO,HEADER_WEEKDAY
+         MOVE  'Sun',TO,HEADER_WEEKDAY
+*            END-EVALUATE.
+*ZC     44         END_EVALUATE 
+         END_EVALUATE 
+         PERIOD 
+*            EVALUATE SYSTEM-MONTH
+*ZC     45         EVALUATE SYSTEM_MONTH
+         EVALUATE SYSTEM_MONTH
+*                WHEN  1  MOVE 'Jan' TO HEADER-MONTH
+*ZC     46         WHEN  1
+         WHEN  1
+*ZC     46         MOVE  'Jan',TO,HEADER_MONTH
+         MOVE  'Jan',TO,HEADER_MONTH
+*                WHEN  2  MOVE 'Feb' TO HEADER-MONTH
+*ZC     47         WHEN  2
+         WHEN  2
+*ZC     47         MOVE  'Feb',TO,HEADER_MONTH
+         MOVE  'Feb',TO,HEADER_MONTH
+*                WHEN  3  MOVE 'Mar' TO HEADER-MONTH
+*ZC     48         WHEN  3
+         WHEN  3
+*ZC     48         MOVE  'Mar',TO,HEADER_MONTH
+         MOVE  'Mar',TO,HEADER_MONTH
+*                WHEN  4  MOVE 'Apr' TO HEADER-MONTH
+*ZC     49         WHEN  4
+         WHEN  4
+*ZC     49         MOVE  'Apr',TO,HEADER_MONTH
+         MOVE  'Apr',TO,HEADER_MONTH
+*                WHEN  5  MOVE 'May' TO HEADER-MONTH
+*ZC     50         WHEN  5
+         WHEN  5
+*ZC     50         MOVE  'May',TO,HEADER_MONTH
+         MOVE  'May',TO,HEADER_MONTH
+*                WHEN  6  MOVE 'Jun' TO HEADER-MONTH
+*ZC     51         WHEN  6
+         WHEN  6
+*ZC     51         MOVE  'Jun',TO,HEADER_MONTH
+         MOVE  'Jun',TO,HEADER_MONTH
+*                WHEN  7  MOVE 'Jul' TO HEADER-MONTH
+*ZC     52         WHEN  7
+         WHEN  7
+*ZC     52         MOVE  'Jul',TO,HEADER_MONTH
+         MOVE  'Jul',TO,HEADER_MONTH
+*                WHEN  8  MOVE 'Aug' TO HEADER-MONTH
+*ZC     53         WHEN  8
+         WHEN  8
+*ZC     53         MOVE  'Aug',TO,HEADER_MONTH
+         MOVE  'Aug',TO,HEADER_MONTH
+*                WHEN  9  MOVE 'Sep' TO HEADER-MONTH
+*ZC     54         WHEN  9
+         WHEN  9
+*ZC     54         MOVE  'Sep',TO,HEADER_MONTH
+         MOVE  'Sep',TO,HEADER_MONTH
+*                WHEN 10  MOVE 'Oct' TO HEADER-MONTH
+*ZC     55         WHEN  10
+         WHEN  10
+*ZC     55         MOVE  'Oct',TO,HEADER_MONTH
+         MOVE  'Oct',TO,HEADER_MONTH
+*                WHEN 11  MOVE 'Nov' TO HEADER-MONTH
+*ZC     56         WHEN  11
+         WHEN  11
+*ZC     56         MOVE  'Nov',TO,HEADER_MONTH
+         MOVE  'Nov',TO,HEADER_MONTH
+*                WHEN 12  MOVE 'Dec' TO HEADER-MONTH
+*ZC     57         WHEN  12
+         WHEN  12
+*ZC     57         MOVE  'Dec',TO,HEADER_MONTH
+         MOVE  'Dec',TO,HEADER_MONTH
+*            END-EVALUATE.
+*ZC     58         END_EVALUATE 
+         END_EVALUATE 
+         PERIOD 
+*            MOVE SYSTEM-DAY TO HEADER-DAY.
+*ZC     59         MOVE  SYSTEM_DAY,TO,HEADER_DAY
+         MOVE  SYSTEM_DAY,TO,HEADER_DAY
+         PERIOD 
+*            IF SYSTEM-HOUR IS LESS THAN 12
+*ZC     60         IF    SYSTEM_HOUR,IS,LESS,THAN,12
+         IF    SYSTEM_HOUR,IS,LESS,THAN,12
+*               MOVE 'AM' TO HEADER-AM-PM
+*            ELSE
+*ZC     61         MOVE  'AM',TO,HEADER_AM_PM
+         MOVE  'AM',TO,HEADER_AM_PM
+*               MOVE 'PM' TO HEADER-AM-PM
+*ZC     63         ELSE  
+         ELSE  
+*ZC     63         MOVE  'PM',TO,HEADER_AM_PM
+         MOVE  'PM',TO,HEADER_AM_PM
+*               IF SYSTEM-HOUR IS NOT LESS THAN 13
+*ZC     64         IF    SYSTEM_HOUR,IS,NOT,LESS,THAN,13
+         IF    SYSTEM_HOUR,IS,NOT,LESS,THAN,13
+*                  SUBTRACT 12 FROM SYSTEM-HOUR
+*               END-IF
+*ZC     65         SUBTRACT 12,FROM,SYSTEM_HOUR
+         SUBTRACT 12,FROM,SYSTEM_HOUR
+*            END-IF.
+*ZC     67         END_IF 
+         END_IF 
+*ZC     67         END_IF 
+         END_IF 
+         PERIOD 
+*            MOVE SYSTEM-HOUR TO HEADER-HOUR.
+*ZC     68         MOVE  SYSTEM_HOUR,TO,HEADER_HOUR
+         MOVE  SYSTEM_HOUR,TO,HEADER_HOUR
+         PERIOD 
+*            MOVE SYSTEM-MINUTE TO HEADER-MINUTE.
+*ZC     69         MOVE  SYSTEM_MINUTE,TO,HEADER_MINUTE
+         MOVE  SYSTEM_MINUTE,TO,HEADER_MINUTE
+         PERIOD 
+*            DISPLAY HEADER-LINE.
+*ZC     70         DISPLAY HEADER_LINE
+         DISPLAY HEADER_LINE
+         PERIOD 
+*            DISPLAY 'DATATIME ENDED OK'
+*ZC     71         DISPLAY 'DATATIME ENDED OK'
+         DISPLAY 'DATATIME ENDED OK'
+*            STOP RUN.
+*ZC     72         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

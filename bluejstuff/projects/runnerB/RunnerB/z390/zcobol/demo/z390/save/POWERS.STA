@@ -1,0 +1,521 @@
+POWERS    ZC390 START
+POWERS    ZC390 Copyright 2011 Automated Software Tools Corporation
+POWERS    ZC390 z390 is licensed under GNU General Public License
+POWERS    ZC390 program = zcobol\demo\POWERS
+POWERS    ZC390 options = W:\work\z390\z390.OPT=(time(60)) SYSCPY(+zcobol+zcobol\z390) 
+  notiming stats
+POWERS    ZC390 total CBL lines in  =19
+POWERS    ZC390 total MLC lines out =86
+POWERS    ZC390 total errors        =0
+POWERS    ZC390 ENDED   RC= 0 MEM(MB)= MB IO=9
+POWERS    MZ390 START
+POWERS    MZ390 Copyright 2011 Automated Software Tools Corporation
+POWERS    MZ390 z390 is licensed under GNU General Public License
+POWERS    MZ390 program = zcobol\demo\POWERS.MLC
+POWERS    MZ390 options = W:\work\z390\z390.OPT=(time(60)) @zcobol\z390\ZC390CLG=(
+  sysmac(+zcobol+zcobol\z390+mac+cics) syscpy(+zcobol+zcobol\z390+mac+cics) 
+  BAL NOLISTCALL MAXGBL(1500000)) notiming stats
+POWERS    MZ390 final_options=ALIGN
+POWERS    MZ390 final_options=NOALLOW
+POWERS    MZ390 final_options=NOAMODE24
+POWERS    MZ390 final_options=AMODE31
+POWERS    MZ390 final_options=NOASCII
+POWERS    MZ390 final_options=ASM
+POWERS    MZ390 final_options=NOASSIST
+POWERS    MZ390 final_options=AUTOLINK
+POWERS    MZ390 final_options=BAL
+POWERS    MZ390 final_options=NOBS2000
+POWERS    MZ390 final_options=EDF
+POWERS    MZ390 final_options=NOCICS
+POWERS    MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+POWERS    MZ390 final_options=COMMENT
+POWERS    MZ390 final_options=CON
+POWERS    MZ390 final_options=NODUMP
+POWERS    MZ390 final_options=EPILOG
+POWERS    MZ390 final_options=NOERRSUM
+POWERS    MZ390 final_options=EXTEND
+POWERS    MZ390 final_options=FLOAT(DECIMAL)
+POWERS    MZ390 final_options=NOGUAM
+POWERS    MZ390 final_options=INIT
+POWERS    MZ390 final_options=LIST
+POWERS    MZ390 final_options=NOLISTCALL
+POWERS    MZ390 final_options=LISTUSE
+POWERS    MZ390 final_options=LOADHIGH
+POWERS    MZ390 final_options=NOMCALL
+POWERS    MZ390 final_options=NOMOD
+POWERS    MZ390 final_options=OBJ
+POWERS    MZ390 final_options=NOOBJHEX
+POWERS    MZ390 final_options=PC
+POWERS    MZ390 final_options=PCOPT
+POWERS    MZ390 final_options=NOPDSMEM8
+POWERS    MZ390 final_options=NOPRINTALL
+POWERS    MZ390 final_options=PROLOG
+POWERS    MZ390 final_options=PROTECT
+POWERS    MZ390 final_options=R64
+POWERS    MZ390 final_options=NOREFORMAT
+POWERS    MZ390 final_options=NOREGS
+POWERS    MZ390 final_options=RMODE24
+POWERS    MZ390 final_options=NORMODE31
+POWERS    MZ390 final_options=STATS
+POWERS    MZ390 final_options=NOTEST
+POWERS    MZ390 final_options=THREAD
+POWERS    MZ390 final_options=NOTIME
+POWERS    MZ390 final_options=NOTIMING
+POWERS    MZ390 final_options=NOTRACE
+POWERS    MZ390 final_options=NOTRACEA
+POWERS    MZ390 final_options=NOTRACEALL
+POWERS    MZ390 final_options=NOTRACEC
+POWERS    MZ390 final_options=NOTRACEG
+POWERS    MZ390 final_options=NOTRACEI
+POWERS    MZ390 final_options=NOTRACEL
+POWERS    MZ390 final_options=NOTRACEM
+POWERS    MZ390 final_options=NOTRACEP
+POWERS    MZ390 final_options=NOTRACEQ
+POWERS    MZ390 final_options=NOTRACES
+POWERS    MZ390 final_options=NOTRACET
+POWERS    MZ390 final_options=NOTRACEV
+POWERS    MZ390 final_options=TRAP
+POWERS    MZ390 final_options=NOTRUNC
+POWERS    MZ390 final_options=NOTS
+POWERS    MZ390 final_options=VCB
+POWERS    MZ390 final_options=WARN
+POWERS    MZ390 final_options=XREF
+POWERS    MZ390 final_options=ZSTRMAC
+POWERS    MZ390 final_options=CHKMAC=0
+POWERS    MZ390 final_options=CHKSRC=1
+POWERS    MZ390 final_options=ERR=100
+POWERS    MZ390 final_options=MAXCALL=50
+POWERS    MZ390 final_options=MAXDISPLAY=80
+POWERS    MZ390 final_options=MAXESD=1000
+POWERS    MZ390 final_options=MAXFILE=1000
+POWERS    MZ390 final_options=MAXGBL=1500000
+POWERS    MZ390 final_options=MAXHEIGHT=600
+POWERS    MZ390 final_options=MAXLCL=100000
+POWERS    MZ390 final_options=MAXLEN=80
+POWERS    MZ390 final_options=MAXLINE=200000
+POWERS    MZ390 final_options=MAXLOG=1000000
+POWERS    MZ390 final_options=MAXPARM=10000
+POWERS    MZ390 final_options=MAXPASS=2
+POWERS    MZ390 final_options=MAXPC=50000
+POWERS    MZ390 final_options=MAXQUE=1000
+POWERS    MZ390 final_options=MAXRLD=10000
+POWERS    MZ390 final_options=MAXSIZE=52428800
+POWERS    MZ390 final_options=MAXSYM=50000
+POWERS    MZ390 final_options=MAXWARN=4
+POWERS    MZ390 final_options=MAXWIDTH=800
+POWERS    MZ390 final_options=MEM=1
+POWERS    MZ390 final_options=MINHEIGHT=150
+POWERS    MZ390 final_options=MINWIDTH=150
+POWERS    MZ390 final_options=MNOTE=0
+POWERS    MZ390 final_options=PARM=
+POWERS    MZ390 final_options=PROFILE=
+POWERS    MZ390 final_options=STATS=W:\work\z390\zcobol\demo\POWERS.STA
+POWERS    MZ390 final_options=SYSPARM=
+POWERS    MZ390 final_options=SYSTERM=W:\work\z390\zcobol\demo\POWERS.ERR
+POWERS    MZ390 final_options=TESTDD=
+POWERS    MZ390 final_options=TIME=60
+POWERS    MZ390 final_options=TRACE=
+POWERS    MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+POWERS    MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+POWERS    MZ390 final_options=Z390COMMAND=cmd.exe
+POWERS    MZ390 final_options=Z390EDITOR=notepad.exe
+POWERS    MZ390 final_options=INSTALL=
+POWERS    MZ390 final_options=IPL=
+POWERS    MZ390 final_options=LOG=
+POWERS    MZ390 final_options=SYS390=zcobol\demo\+linklib
+POWERS    MZ390 final_options=SYSBAL=zcobol\demo\
+POWERS    MZ390 final_options=SYSCPY=zcobol\demo\+zcobol+zcobol\z390+mac+cics
+POWERS    MZ390 final_options=SYSDAT=zcobol\demo\
+POWERS    MZ390 final_options=SYSERR=zcobol\demo\
+POWERS    MZ390 final_options=SYSLOG=zcobol\demo\
+POWERS    MZ390 final_options=SYSLST=zcobol\demo\
+POWERS    MZ390 final_options=SYSMAC=zcobol\demo\+zcobol+zcobol\z390+mac+cics
+POWERS    MZ390 final_options=SYSMLC=zcobol\demo\
+POWERS    MZ390 final_options=SYSPCH=zcobol\demo\
+POWERS    MZ390 final_options=SYSPRN=zcobol\demo\
+POWERS    MZ390 final_options=SYSOBJ=zcobol\demo\
+POWERS    MZ390 final_options=SYSOPT=zcobol\demo\
+POWERS    MZ390 final_options=SYSTRC=zcobol\demo\
+POWERS    MZ390 total MLC/MAC loaded  = 13555
+POWERS    MZ390 total BAL output lines= 371
+POWERS    MZ390 total BAL instructions= 39
+POWERS    MZ390 total macros          = 37
+POWERS    MZ390 total macro loads     = 37
+POWERS    MZ390 total macro calls     = 146
+POWERS    MZ390 total AENTRY blocks   = 129
+POWERS    MZ390 total ACALL  calls    = 563
+POWERS    MZ390 total AIF    blocks   = 623
+POWERS    MZ390 total ACASE  blocks   = 41
+POWERS    MZ390 total AWHILE calls    = 65
+POWERS    MZ390 total AUNTIL blocks   = 0
+POWERS    MZ390 total global set names= 242
+POWERS    MZ390 tot global seta cells = 321623
+POWERS    MZ390 tot global setb cells = 40388
+POWERS    MZ390 tot global setc cells = 181780
+POWERS    MZ390 max local pos parms   = 17
+POWERS    MZ390 max local key parms   = 12
+POWERS    MZ390 max local set names   = 99
+POWERS    MZ390 max local seta cells  = 290
+POWERS    MZ390 max local setb cells  = 55
+POWERS    MZ390 max local setc cells  = 32
+POWERS    MZ390 total array expansions= 0
+POWERS    MZ390 total Keys            = 19701
+POWERS    MZ390 Key searches          = 199794
+POWERS    MZ390 Key avg comps         = 1
+POWERS    MZ390 Key max comps         = 8
+POWERS    MZ390 total macro line exec = 23127
+POWERS    MZ390 total pcode line exec = 6293
+POWERS    MZ390 total pcode line gen. = 1281
+POWERS    MZ390 total pcode line reuse= 0
+POWERS    MZ390 total pcode op   gen. = 4640
+POWERS    MZ390 total pcode op   exec = 32905
+POWERS    MZ390 total pcode gen  opt  = 1384
+POWERS    MZ390 total pcode exec opt  = 30
+POWERS    MZ390 FID=  1 ERR= 0 W:\work\z390\zcobol\demo\POWERS.MLC
+POWERS    MZ390 FID=  2 ERR= 0 W:\work\z390\zcobol\demo\POWERS_ZC_LABELS.CPY
+POWERS    MZ390 FID=  3 ERR= 0 W:\work\z390\zcobol\ZCOBOL.MAC
+POWERS    MZ390 FID=  4 ERR= 0 W:\work\z390\zcobol\ZC_WS.CPY
+POWERS    MZ390 FID=  5 ERR= 0 W:\work\z390\zcobol\ZC_KEYS.CPY
+POWERS    MZ390 FID=  6 ERR= 0 W:\work\z390\zcobol\z390\GEN_COMMENT.MAC
+POWERS    MZ390 FID=  7 ERR= 0 W:\work\z390\zcobol\IDENTIFICATION.MAC
+POWERS    MZ390 FID=  8 ERR= 0 W:\work\z390\zcobol\PROGRAM_ID.MAC
+POWERS    MZ390 FID=  9 ERR= 0 W:\work\z390\zcobol\z390\GEN_ID.MAC
+POWERS    MZ390 FID= 10 ERR= 0 W:\work\z390\zcobol\z390\ZC390CVT.CPY
+POWERS    MZ390 FID= 11 ERR= 0 W:\work\z390\zcobol\z390\ZC390PVT.CPY
+POWERS    MZ390 FID= 12 ERR= 0 W:\work\z390\zcobol\z390\ZC_EQUS.CPY
+POWERS    MZ390 FID= 13 ERR= 0 W:\work\z390\zcobol\z390\ZC_PFPO.CPY
+POWERS    MZ390 FID= 14 ERR= 0 W:\work\z390\mac\SAVE.MAC
+POWERS    MZ390 FID= 15 ERR= 0 W:\work\z390\mac\LOAD.MAC
+POWERS    MZ390 FID= 16 ERR= 0 W:\work\z390\mac\WTO.MAC
+POWERS    MZ390 FID= 17 ERR= 0 W:\work\z390\zcobol\WS.MAC
+POWERS    MZ390 FID= 18 ERR= 0 W:\work\z390\zcobol\ZCGETFLD.CPY
+POWERS    MZ390 FID= 19 ERR= 0 W:\work\z390\zcobol\ZCNUMLIT.CPY
+POWERS    MZ390 FID= 20 ERR= 0 W:\work\z390\zcobol\ZC_SYM_INDEX.MAC
+POWERS    MZ390 FID= 21 ERR= 0 W:\work\z390\zcobol\ZC_SYM_FIND.MAC
+POWERS    MZ390 FID= 22 ERR= 0 W:\work\z390\zcobol\ZC_PIC_LEN.MAC
+POWERS    MZ390 FID= 23 ERR= 0 W:\work\z390\zcobol\DATA.MAC
+POWERS    MZ390 FID= 24 ERR= 0 W:\work\z390\zcobol\WORKING_STORAGE.MAC
+POWERS    MZ390 FID= 25 ERR= 0 W:\work\z390\zcobol\PROCEDURE.MAC
+POWERS    MZ390 FID= 26 ERR= 0 W:\work\z390\zcobol\z390\GEN_PROC_START.MAC
+POWERS    MZ390 FID= 27 ERR= 0 W:\work\z390\zcobol\PERIOD.MAC
+POWERS    MZ390 FID= 28 ERR= 0 W:\work\z390\zcobol\PERFORM.MAC
+POWERS    MZ390 FID= 29 ERR= 0 W:\work\z390\zcobol\z390\GEN_LABEL.MAC
+POWERS    MZ390 FID= 30 ERR= 0 W:\work\z390\zcobol\z390\GEN_BASE_RESET.MAC
+POWERS    MZ390 FID= 31 ERR= 0 W:\work\z390\zcobol\IF.MAC
+POWERS    MZ390 FID= 32 ERR= 0 W:\work\z390\zcobol\ZCDFHLIT.CPY
+POWERS    MZ390 FID= 33 ERR= 0 W:\work\z390\zcobol\ZC_DFHRESP.CPY
+POWERS    MZ390 FID= 34 ERR= 0 W:\work\z390\zcobol\ZC_DFHVALUE.CPY
+POWERS    MZ390 FID= 35 ERR= 0 W:\work\z390\zcobol\z390\GEN_BASE.MAC
+POWERS    MZ390 FID= 36 ERR= 0 W:\work\z390\zcobol\z390\GEN_COMP.MAC
+POWERS    MZ390 FID= 37 ERR= 0 W:\work\z390\zcobol\z390\GEN_BC.MAC
+POWERS    MZ390 FID= 38 ERR= 0 W:\work\z390\zcobol\ZCGETLAB.CPY
+POWERS    MZ390 FID= 39 ERR= 0 W:\work\z390\zcobol\z390\GEN_B.MAC
+POWERS    MZ390 FID= 40 ERR= 0 W:\work\z390\zcobol\END_IF.MAC
+POWERS    MZ390 FID= 41 ERR= 0 W:\work\z390\zcobol\z390\GEN_PM_LVL.MAC
+POWERS    MZ390 FID= 42 ERR= 0 W:\work\z390\zcobol\DISPLAY.MAC
+POWERS    MZ390 FID= 43 ERR= 0 W:\work\z390\zcobol\z390\GEN_DISPLAY.MAC
+POWERS    MZ390 FID= 44 ERR= 0 W:\work\z390\zcobol\ADD.MAC
+POWERS    MZ390 FID= 45 ERR= 0 W:\work\z390\zcobol\z390\GEN_ADD.MAC
+POWERS    MZ390 FID= 46 ERR= 0 W:\work\z390\zcobol\ZCRSTLAB.CPY
+POWERS    MZ390 FID= 47 ERR= 0 W:\work\z390\zcobol\END_PERFORM.MAC
+POWERS    MZ390 FID= 48 ERR= 0 W:\work\z390\zcobol\z390\GEN_PROC_END.MAC
+POWERS    MZ390 FID= 49 ERR= 0 W:\work\z390\zcobol\ZC_DATA_LIST.MAC
+POWERS    MZ390 FID= 50 ERR= 0 W:\work\z390\zcobol\z390\GEN_WS.MAC
+POWERS    MZ390 FID= 51 ERR= 0 W:\work\z390\zcobol\ZC_STATS.MAC
+POWERS    MZ390 total mnote warnings  = 0
+POWERS    MZ390 total mnote errors    = 0
+POWERS    MZ390 max   mnote level     = 0
+POWERS    MZ390 total mz390 errors    = 0
+POWERS    AZ390 BAL lines             = 371
+POWERS    AZ390 symbols               = 187
+POWERS    AZ390 Literals              = 6
+POWERS    AZ390 alloc passes          = 3
+POWERS    AZ390 Keys                  = 1512
+POWERS    AZ390 Key searches          = 5199
+POWERS    AZ390 Key avg comps         = 0
+POWERS    AZ390 Key max comps         = 3
+POWERS    AZ390 ESD symbols           = 4
+POWERS    AZ390 object bytes          = 427
+POWERS    AZ390 object rlds           = 0
+POWERS    AZ390 total mnote warnings  = 0
+POWERS    AZ390 total mnote errors    = 0
+POWERS    AZ390 max   mnote level     = 0
+POWERS    AZ390 total mz390 errors    = 0
+POWERS    AZ390 total az390 errors    = 0
+POWERS    MZ390 ENDED   RC= 0 MEM(MB)= MB IO=38869
+POWERS    LZ390 START
+POWERS    LZ390 Copyright 2011 Automated Software Tools Corporation
+POWERS    LZ390 z390 is licensed under GNU General Public License
+POWERS    LZ390 options = W:\work\z390\z390.OPT=(time(60)) SYSOBJ(+zcobol\z390) notiming 
+  stats
+POWERS    LZ390 program = zcobol\demo\POWERS.OBJ
+POWERS    LZ390 final_options=ALIGN
+POWERS    LZ390 final_options=NOALLOW
+POWERS    LZ390 final_options=NOAMODE24
+POWERS    LZ390 final_options=AMODE31
+POWERS    LZ390 final_options=NOASCII
+POWERS    LZ390 final_options=ASM
+POWERS    LZ390 final_options=NOASSIST
+POWERS    LZ390 final_options=AUTOLINK
+POWERS    LZ390 final_options=NOBAL
+POWERS    LZ390 final_options=NOBS2000
+POWERS    LZ390 final_options=EDF
+POWERS    LZ390 final_options=NOCICS
+POWERS    LZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+POWERS    LZ390 final_options=COMMENT
+POWERS    LZ390 final_options=CON
+POWERS    LZ390 final_options=NODUMP
+POWERS    LZ390 final_options=EPILOG
+POWERS    LZ390 final_options=NOERRSUM
+POWERS    LZ390 final_options=EXTEND
+POWERS    LZ390 final_options=FLOAT(DECIMAL)
+POWERS    LZ390 final_options=NOGUAM
+POWERS    LZ390 final_options=INIT
+POWERS    LZ390 final_options=LIST
+POWERS    LZ390 final_options=LISTCALL
+POWERS    LZ390 final_options=LISTUSE
+POWERS    LZ390 final_options=LOADHIGH
+POWERS    LZ390 final_options=NOMCALL
+POWERS    LZ390 final_options=NOMOD
+POWERS    LZ390 final_options=OBJ
+POWERS    LZ390 final_options=NOOBJHEX
+POWERS    LZ390 final_options=PC
+POWERS    LZ390 final_options=PCOPT
+POWERS    LZ390 final_options=NOPDSMEM8
+POWERS    LZ390 final_options=NOPRINTALL
+POWERS    LZ390 final_options=PROLOG
+POWERS    LZ390 final_options=PROTECT
+POWERS    LZ390 final_options=R64
+POWERS    LZ390 final_options=NOREFORMAT
+POWERS    LZ390 final_options=NOREGS
+POWERS    LZ390 final_options=RMODE24
+POWERS    LZ390 final_options=NORMODE31
+POWERS    LZ390 final_options=STATS
+POWERS    LZ390 final_options=NOTEST
+POWERS    LZ390 final_options=THREAD
+POWERS    LZ390 final_options=NOTIME
+POWERS    LZ390 final_options=NOTIMING
+POWERS    LZ390 final_options=NOTRACE
+POWERS    LZ390 final_options=NOTRACEA
+POWERS    LZ390 final_options=NOTRACEALL
+POWERS    LZ390 final_options=NOTRACEC
+POWERS    LZ390 final_options=NOTRACEG
+POWERS    LZ390 final_options=NOTRACEI
+POWERS    LZ390 final_options=NOTRACEL
+POWERS    LZ390 final_options=NOTRACEM
+POWERS    LZ390 final_options=NOTRACEP
+POWERS    LZ390 final_options=NOTRACEQ
+POWERS    LZ390 final_options=NOTRACES
+POWERS    LZ390 final_options=NOTRACET
+POWERS    LZ390 final_options=NOTRACEV
+POWERS    LZ390 final_options=TRAP
+POWERS    LZ390 final_options=NOTRUNC
+POWERS    LZ390 final_options=NOTS
+POWERS    LZ390 final_options=VCB
+POWERS    LZ390 final_options=WARN
+POWERS    LZ390 final_options=XREF
+POWERS    LZ390 final_options=ZSTRMAC
+POWERS    LZ390 final_options=CHKMAC=0
+POWERS    LZ390 final_options=CHKSRC=1
+POWERS    LZ390 final_options=ERR=100
+POWERS    LZ390 final_options=MAXCALL=50
+POWERS    LZ390 final_options=MAXDISPLAY=80
+POWERS    LZ390 final_options=MAXESD=1000
+POWERS    LZ390 final_options=MAXFILE=1000
+POWERS    LZ390 final_options=MAXGBL=100000
+POWERS    LZ390 final_options=MAXHEIGHT=600
+POWERS    LZ390 final_options=MAXLCL=100000
+POWERS    LZ390 final_options=MAXLEN=80
+POWERS    LZ390 final_options=MAXLINE=200000
+POWERS    LZ390 final_options=MAXLOG=1000000
+POWERS    LZ390 final_options=MAXPARM=10000
+POWERS    LZ390 final_options=MAXPASS=2
+POWERS    LZ390 final_options=MAXPC=50000
+POWERS    LZ390 final_options=MAXQUE=1000
+POWERS    LZ390 final_options=MAXRLD=10000
+POWERS    LZ390 final_options=MAXSIZE=52428800
+POWERS    LZ390 final_options=MAXSYM=50000
+POWERS    LZ390 final_options=MAXWARN=4
+POWERS    LZ390 final_options=MAXWIDTH=800
+POWERS    LZ390 final_options=MEM=1
+POWERS    LZ390 final_options=MINHEIGHT=150
+POWERS    LZ390 final_options=MINWIDTH=150
+POWERS    LZ390 final_options=MNOTE=0
+POWERS    LZ390 final_options=PARM=
+POWERS    LZ390 final_options=PROFILE=
+POWERS    LZ390 final_options=STATS=W:\work\z390\zcobol\demo\POWERS.STA
+POWERS    LZ390 final_options=SYSPARM=
+POWERS    LZ390 final_options=SYSTERM=W:\work\z390\zcobol\demo\POWERS.ERR
+POWERS    LZ390 final_options=TESTDD=
+POWERS    LZ390 final_options=TIME=60
+POWERS    LZ390 final_options=TRACE=
+POWERS    LZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+POWERS    LZ390 final_options=Z390BROWSER=cmd.exe /c Start
+POWERS    LZ390 final_options=Z390COMMAND=cmd.exe
+POWERS    LZ390 final_options=Z390EDITOR=notepad.exe
+POWERS    LZ390 final_options=INSTALL=
+POWERS    LZ390 final_options=IPL=
+POWERS    LZ390 final_options=LOG=
+POWERS    LZ390 final_options=SYS390=zcobol\demo\+linklib
+POWERS    LZ390 final_options=SYSBAL=zcobol\demo\
+POWERS    LZ390 final_options=SYSCPY=zcobol\demo\
+POWERS    LZ390 final_options=SYSDAT=zcobol\demo\
+POWERS    LZ390 final_options=SYSERR=zcobol\demo\
+POWERS    LZ390 final_options=SYSLOG=zcobol\demo\
+POWERS    LZ390 final_options=SYSLST=zcobol\demo\
+POWERS    LZ390 final_options=SYSMAC=zcobol\demo\
+POWERS    LZ390 final_options=SYSMLC=zcobol\demo\
+POWERS    LZ390 final_options=SYSPCH=zcobol\demo\
+POWERS    LZ390 final_options=SYSPRN=zcobol\demo\
+POWERS    LZ390 final_options=SYSOBJ=zcobol\demo\+zcobol\z390
+POWERS    LZ390 final_options=SYSOPT=zcobol\demo\
+POWERS    LZ390 final_options=SYSTRC=zcobol\demo\
+POWERS    LZ390 Stats total obj files = 1
+POWERS    LZ390 Stats total esds      = 1
+POWERS    LZ390 Stats total csects    = 1
+POWERS    LZ390 Stats total entries   = 0
+POWERS    LZ390 Stats missing wxtrn's = 0
+POWERS    LZ390 Stats Keys            = 1
+POWERS    LZ390 Stats Key searches    = 2
+POWERS    LZ390 Stats Key avg comps   = 0
+POWERS    LZ390 Stats Key max comps   = 1
+POWERS    LZ390 Stats total obj byte  = 427
+POWERS    LZ390 Stats total obj rlds  = 0
+POWERS    LZ390 total errors          = 0
+POWERS    LZ390 ENDED   RC= 0 MEM(MB)= MB IO=231
+POWERS    EZ390 START
+POWERS    EZ390 Copyright 2011 Automated Software Tools Corporation
+POWERS    EZ390 z390 is licensed under GNU General Public License
+POWERS    EZ390 program = zcobol\demo\POWERS.390
+POWERS    EZ390 options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+POWERS    EZ390 final_options=ALIGN
+POWERS    EZ390 final_options=NOALLOW
+POWERS    EZ390 final_options=NOAMODE24
+POWERS    EZ390 final_options=AMODE31
+POWERS    EZ390 final_options=NOASCII
+POWERS    EZ390 final_options=ASM
+POWERS    EZ390 final_options=NOASSIST
+POWERS    EZ390 final_options=AUTOLINK
+POWERS    EZ390 final_options=NOBAL
+POWERS    EZ390 final_options=NOBS2000
+POWERS    EZ390 final_options=EDF
+POWERS    EZ390 final_options=NOCICS
+POWERS    EZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+POWERS    EZ390 final_options=COMMENT
+POWERS    EZ390 final_options=CON
+POWERS    EZ390 final_options=NODUMP
+POWERS    EZ390 final_options=EPILOG
+POWERS    EZ390 final_options=NOERRSUM
+POWERS    EZ390 final_options=EXTEND
+POWERS    EZ390 final_options=FLOAT(DECIMAL)
+POWERS    EZ390 final_options=NOGUAM
+POWERS    EZ390 final_options=INIT
+POWERS    EZ390 final_options=LIST
+POWERS    EZ390 final_options=LISTCALL
+POWERS    EZ390 final_options=LISTUSE
+POWERS    EZ390 final_options=LOADHIGH
+POWERS    EZ390 final_options=NOMCALL
+POWERS    EZ390 final_options=NOMOD
+POWERS    EZ390 final_options=OBJ
+POWERS    EZ390 final_options=NOOBJHEX
+POWERS    EZ390 final_options=PC
+POWERS    EZ390 final_options=PCOPT
+POWERS    EZ390 final_options=NOPDSMEM8
+POWERS    EZ390 final_options=NOPRINTALL
+POWERS    EZ390 final_options=PROLOG
+POWERS    EZ390 final_options=PROTECT
+POWERS    EZ390 final_options=R64
+POWERS    EZ390 final_options=NOREFORMAT
+POWERS    EZ390 final_options=NOREGS
+POWERS    EZ390 final_options=RMODE24
+POWERS    EZ390 final_options=NORMODE31
+POWERS    EZ390 final_options=STATS
+POWERS    EZ390 final_options=NOTEST
+POWERS    EZ390 final_options=THREAD
+POWERS    EZ390 final_options=NOTIME
+POWERS    EZ390 final_options=NOTIMING
+POWERS    EZ390 final_options=NOTRACE
+POWERS    EZ390 final_options=NOTRACEA
+POWERS    EZ390 final_options=NOTRACEALL
+POWERS    EZ390 final_options=NOTRACEC
+POWERS    EZ390 final_options=NOTRACEG
+POWERS    EZ390 final_options=NOTRACEI
+POWERS    EZ390 final_options=NOTRACEL
+POWERS    EZ390 final_options=NOTRACEM
+POWERS    EZ390 final_options=NOTRACEP
+POWERS    EZ390 final_options=NOTRACEQ
+POWERS    EZ390 final_options=NOTRACES
+POWERS    EZ390 final_options=NOTRACET
+POWERS    EZ390 final_options=NOTRACEV
+POWERS    EZ390 final_options=TRAP
+POWERS    EZ390 final_options=NOTRUNC
+POWERS    EZ390 final_options=NOTS
+POWERS    EZ390 final_options=VCB
+POWERS    EZ390 final_options=WARN
+POWERS    EZ390 final_options=XREF
+POWERS    EZ390 final_options=ZSTRMAC
+POWERS    EZ390 final_options=CHKMAC=0
+POWERS    EZ390 final_options=CHKSRC=1
+POWERS    EZ390 final_options=ERR=100
+POWERS    EZ390 final_options=MAXCALL=50
+POWERS    EZ390 final_options=MAXDISPLAY=80
+POWERS    EZ390 final_options=MAXESD=1000
+POWERS    EZ390 final_options=MAXFILE=1000
+POWERS    EZ390 final_options=MAXGBL=100000
+POWERS    EZ390 final_options=MAXHEIGHT=600
+POWERS    EZ390 final_options=MAXLCL=100000
+POWERS    EZ390 final_options=MAXLEN=80
+POWERS    EZ390 final_options=MAXLINE=200000
+POWERS    EZ390 final_options=MAXLOG=1000000
+POWERS    EZ390 final_options=MAXPARM=10000
+POWERS    EZ390 final_options=MAXPASS=2
+POWERS    EZ390 final_options=MAXPC=50000
+POWERS    EZ390 final_options=MAXQUE=1000
+POWERS    EZ390 final_options=MAXRLD=10000
+POWERS    EZ390 final_options=MAXSIZE=52428800
+POWERS    EZ390 final_options=MAXSYM=50000
+POWERS    EZ390 final_options=MAXWARN=4
+POWERS    EZ390 final_options=MAXWIDTH=800
+POWERS    EZ390 final_options=MEM=1
+POWERS    EZ390 final_options=MINHEIGHT=150
+POWERS    EZ390 final_options=MINWIDTH=150
+POWERS    EZ390 final_options=MNOTE=0
+POWERS    EZ390 final_options=PARM=
+POWERS    EZ390 final_options=PROFILE=
+POWERS    EZ390 final_options=STATS=W:\work\z390\zcobol\demo\POWERS.STA
+POWERS    EZ390 final_options=SYSPARM=
+POWERS    EZ390 final_options=SYSTERM=W:\work\z390\zcobol\demo\POWERS.ERR
+POWERS    EZ390 final_options=TESTDD=
+POWERS    EZ390 final_options=TIME=60
+POWERS    EZ390 final_options=TRACE=
+POWERS    EZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+POWERS    EZ390 final_options=Z390BROWSER=cmd.exe /c Start
+POWERS    EZ390 final_options=Z390COMMAND=cmd.exe
+POWERS    EZ390 final_options=Z390EDITOR=notepad.exe
+POWERS    EZ390 final_options=INSTALL=
+POWERS    EZ390 final_options=IPL=
+POWERS    EZ390 final_options=LOG=W:\work\z390\zcobol\demo\POWERS.LOG
+POWERS    EZ390 final_options=SYS390=zcobol\demo\+linklib+zcobol\z390
+POWERS    EZ390 final_options=SYSBAL=zcobol\demo\
+POWERS    EZ390 final_options=SYSCPY=zcobol\demo\
+POWERS    EZ390 final_options=SYSDAT=zcobol\demo\
+POWERS    EZ390 final_options=SYSERR=zcobol\demo\
+POWERS    EZ390 final_options=SYSLOG=zcobol\demo\
+POWERS    EZ390 final_options=SYSLST=zcobol\demo\
+POWERS    EZ390 final_options=SYSMAC=zcobol\demo\
+POWERS    EZ390 final_options=SYSMLC=zcobol\demo\
+POWERS    EZ390 final_options=SYSPCH=zcobol\demo\
+POWERS    EZ390 final_options=SYSPRN=zcobol\demo\
+POWERS    EZ390 final_options=SYSOBJ=zcobol\demo\
+POWERS    EZ390 final_options=SYSOPT=zcobol\demo\
+POWERS    EZ390 final_options=SYSTRC=zcobol\demo\
+POWERS    EZ390 TCPIO operations      = 0
+POWERS    EZ390 DCB operations        = 0
+POWERS    EZ390 VSAM operations       = 0
+POWERS    EZ390 Keys                  = 2468
+POWERS    EZ390 Key searches          = 4
+POWERS    EZ390 Key avg comps         = 0
+POWERS    EZ390 Key max comps         = 0
+POWERS    EZ390 total errors          = 0
+POWERS    EZ390 ENDED   RC= 0 MEM(MB)= MB IO=443 INS=39796

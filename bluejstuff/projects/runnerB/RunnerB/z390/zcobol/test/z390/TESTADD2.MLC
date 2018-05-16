@@ -1,0 +1,3202 @@
+         ZCOBOL PGM='ZCOBOL\TEST\TESTADD2',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTADD2_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTADD2.
+         PROGRAM_ID TESTADD2
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  04/25/12.
+*      * TEST ADD  WITH SCALING FOR IMPLIED DECIMAL                    X
+                 
+         DATE_WRITTEN 04,/,25,/,12
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 EH1 FLOAT-HEX-7       VALUE 1.0.
+         WS      77,EH1,FLOAT_HEX_7,VALUE,1.0
+*        77 DH1 FLOAT-HEX-15      VALUE 1.0.
+         WS      77,DH1,FLOAT_HEX_15,VALUE,1.0
+*        77 LH1 FLOAT-HEX-30      VALUE 1.0.
+         WS      77,LH1,FLOAT_HEX_30,VALUE,1.0
+*        77 EB1 FLOAT-BINARY-7    VALUE 1.0.
+         WS      77,EB1,FLOAT_BINARY_7,VALUE,1.0
+*        77 DB1 FLOAT-BINARY-16   VALUE 1.0.
+         WS      77,DB1,FLOAT_BINARY_16,VALUE,1.0
+*        77 LB1 FLOAT-BINARY-34   VALUE 1.0.
+         WS      77,LB1,FLOAT_BINARY_34,VALUE,1.0
+*        77 ED1 FLOAT-DECIMAL-7   VALUE 1.0.
+         WS      77,ED1,FLOAT_DECIMAL_7,VALUE,1.0
+*        77 DD1 FLOAT-DECIMAL-16  VALUE 1.0.
+         WS      77,DD1,FLOAT_DECIMAL_16,VALUE,1.0
+*        77 LD1 FLOAT-DECIMAL-34  VALUE 1.0.
+         WS      77,LD1,FLOAT_DECIMAL_34,VALUE,1.0
+*        77 H1      COMP PIC S9(1)V999     VALUE 1.0.
+         WS      77,H1,COMP,PIC,S9(1)V999,VALUE,1.0
+*        77 F1      COMP PIC S9(11)V9(7)   VALUE 1.0.
+         WS      77,F1,COMP,PIC,S9(11)V9(7),VALUE,1.0
+*        77 G1      COMP PIC S9(17)V9      VALUE 1.0.
+         WS      77,G1,COMP,PIC,S9(17)V9,VALUE,1.0
+*        77 Q1      COMP PIC S9(33)V9(6)   VALUE 1.0.
+         WS      77,Q1,COMP,PIC,S9(33)V9(6),VALUE,1.0
+*        77 P1      COMP-3 PIC S9(16)V9(5) VALUE 1.0.
+         WS      77,P1,COMP_3,PIC,S9(16)V9(5),VALUE,1.0
+*        77 Z1             PIC S9(7)V9(4)  VALUE 1.0.
+         WS      77,Z1,PIC,S9(7)V9(4),VALUE,1.0
+*        77 EH2 FLOAT-HEX-7       VALUE 2.00.
+         WS      77,EH2,FLOAT_HEX_7,VALUE,2.00
+*        77 DH2 FLOAT-HEX-15      VALUE 2.00.
+         WS      77,DH2,FLOAT_HEX_15,VALUE,2.00
+*        77 LH2 FLOAT-HEX-30      VALUE 2.00.
+         WS      77,LH2,FLOAT_HEX_30,VALUE,2.00
+*        77 EB2 FLOAT-BINARY-7    VALUE 2.00.
+         WS      77,EB2,FLOAT_BINARY_7,VALUE,2.00
+*        77 DB2 FLOAT-BINARY-16   VALUE 2.00.
+         WS      77,DB2,FLOAT_BINARY_16,VALUE,2.00
+*        77 LB2 FLOAT-BINARY-34   VALUE 2.00.
+         WS      77,LB2,FLOAT_BINARY_34,VALUE,2.00
+*        77 ED2 FLOAT-DECIMAL-7   VALUE 2.00.
+         WS      77,ED2,FLOAT_DECIMAL_7,VALUE,2.00
+*        77 DD2 FLOAT-DECIMAL-16  VALUE 2.00.
+         WS      77,DD2,FLOAT_DECIMAL_16,VALUE,2.00
+*        77 LD2 FLOAT-DECIMAL-34  VALUE 2.00.
+         WS      77,LD2,FLOAT_DECIMAL_34,VALUE,2.00
+*        77 H2      COMP PIC S9(2)V99         VALUE 2.00.
+         WS      77,H2,COMP,PIC,S9(2)V99,VALUE,2.00
+*        77 F2      COMP PIC S9(6)V999        VALUE 2.00.
+         WS      77,F2,COMP,PIC,S9(6)V999,VALUE,2.00
+*        77 G2      COMP PIC S9(14)V9999      VALUE 2.00.
+         WS      77,G2,COMP,PIC,S9(14)V9999,VALUE,2.00
+*        77 Q2      COMP PIC S9(34)V99999     VALUE 2.00.
+         WS      77,Q2,COMP,PIC,S9(34)V99999,VALUE,2.00
+*        77 P2      COMP-3 PIC S9(25)V999999  VALUE 2.00.
+         WS      77,P2,COMP_3,PIC,S9(25)V999999,VALUE,2.00
+*        77 Z2             PIC S9(24)V9999999 VALUE 2.00.
+         WS      77,Z2,PIC,S9(24)V9999999,VALUE,2.00
+*        77 EH3 FLOAT-HEX-7       VALUE 3.00.
+         WS      77,EH3,FLOAT_HEX_7,VALUE,3.00
+*        77 DH3 FLOAT-HEX-15      VALUE 3.00.
+         WS      77,DH3,FLOAT_HEX_15,VALUE,3.00
+*        77 LH3 FLOAT-HEX-30      VALUE 3.00.
+         WS      77,LH3,FLOAT_HEX_30,VALUE,3.00
+*        77 EB3 FLOAT-BINARY-7    VALUE 3.00.
+         WS      77,EB3,FLOAT_BINARY_7,VALUE,3.00
+*        77 DB3 FLOAT-BINARY-16   VALUE 3.00.
+         WS      77,DB3,FLOAT_BINARY_16,VALUE,3.00
+*        77 LB3 FLOAT-BINARY-34   VALUE 3.00.
+         WS      77,LB3,FLOAT_BINARY_34,VALUE,3.00
+*        77 ED3 FLOAT-DECIMAL-7   VALUE 3.00.
+         WS      77,ED3,FLOAT_DECIMAL_7,VALUE,3.00
+*        77 DD3 FLOAT-DECIMAL-16  VALUE 3.00.
+         WS      77,DD3,FLOAT_DECIMAL_16,VALUE,3.00
+*        77 LD3 FLOAT-DECIMAL-34  VALUE 3.00.
+         WS      77,LD3,FLOAT_DECIMAL_34,VALUE,3.00
+*        77 H3      COMP PIC S9(2)V99         VALUE 3.00.
+         WS      77,H3,COMP,PIC,S9(2)V99,VALUE,3.00
+*        77 F3      COMP PIC S9(6)V999        VALUE 3.00.
+         WS      77,F3,COMP,PIC,S9(6)V999,VALUE,3.00
+*        77 G3      COMP PIC S9(14)V9999      VALUE 3.00.
+         WS      77,G3,COMP,PIC,S9(14)V9999,VALUE,3.00
+*        77 Q3      COMP PIC S9(34)V99999     VALUE 3.00.
+         WS      77,Q3,COMP,PIC,S9(34)V99999,VALUE,3.00
+*        77 P3      COMP-3 PIC S9(25)V999999  VALUE 3.00.
+         WS      77,P3,COMP_3,PIC,S9(25)V999999,VALUE,3.00
+*        77 Z3             PIC S9(24)V9999999 VALUE 3.00.
+         WS      77,Z3,PIC,S9(24)V9999999,VALUE,3.00
+*        77 GOOD    COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,9(4),VALUE,0
+*        77 BAD     COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,BAD,COMP_3,PIC,9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTADD2 TEST SCALED ADD'
+*ZC     58         DISPLAY 'TESTADD2 TEST SCALED ADD'
+         DISPLAY 'TESTADD2 TEST SCALED ADD'
+*            PERFORM INIT.
+*ZC     59         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  EH2 TO EH1 IF EH3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     60         ADD   EH2,TO,EH1
+         ADD   EH2,TO,EH1
+*ZC     60         IF    EH3,=,EH1
+         IF    EH3,=,EH1
+*ZC     60         PERFORM GOOD
+         PERFORM GOOD
+*ZC     60         ELSE  
+         ELSE  
+*ZC     60         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO DH1 IF EH3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     61         ADD   EH2,TO,DH1
+         ADD   EH2,TO,DH1
+*ZC     61         IF    EH3,=,DH1
+         IF    EH3,=,DH1
+*ZC     61         PERFORM GOOD
+         PERFORM GOOD
+*ZC     61         ELSE  
+         ELSE  
+*ZC     61         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO LH1 IF EH3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     62         ADD   EH2,TO,LH1
+         ADD   EH2,TO,LH1
+*ZC     62         IF    EH3,=,LH1
+         IF    EH3,=,LH1
+*ZC     62         PERFORM GOOD
+         PERFORM GOOD
+*ZC     62         ELSE  
+         ELSE  
+*ZC     62         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO EB1 IF EH3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     63         ADD   EH2,TO,EB1
+         ADD   EH2,TO,EB1
+*ZC     63         IF    EH3,=,EB1
+         IF    EH3,=,EB1
+*ZC     63         PERFORM GOOD
+         PERFORM GOOD
+*ZC     63         ELSE  
+         ELSE  
+*ZC     63         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO DB1 IF EH3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     64         ADD   EH2,TO,DB1
+         ADD   EH2,TO,DB1
+*ZC     64         IF    EH3,=,DB1
+         IF    EH3,=,DB1
+*ZC     64         PERFORM GOOD
+         PERFORM GOOD
+*ZC     64         ELSE  
+         ELSE  
+*ZC     64         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO LB1 IF EH3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     65         ADD   EH2,TO,LB1
+         ADD   EH2,TO,LB1
+*ZC     65         IF    EH3,=,LB1
+         IF    EH3,=,LB1
+*ZC     65         PERFORM GOOD
+         PERFORM GOOD
+*ZC     65         ELSE  
+         ELSE  
+*ZC     65         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO ED1 IF EH3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     66         ADD   EH2,TO,ED1
+         ADD   EH2,TO,ED1
+*ZC     66         IF    EH3,=,ED1
+         IF    EH3,=,ED1
+*ZC     66         PERFORM GOOD
+         PERFORM GOOD
+*ZC     66         ELSE  
+         ELSE  
+*ZC     66         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO DD1 IF EH3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     67         ADD   EH2,TO,DD1
+         ADD   EH2,TO,DD1
+*ZC     67         IF    EH3,=,DD1
+         IF    EH3,=,DD1
+*ZC     67         PERFORM GOOD
+         PERFORM GOOD
+*ZC     67         ELSE  
+         ELSE  
+*ZC     67         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO LD1 IF EH3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     68         ADD   EH2,TO,LD1
+         ADD   EH2,TO,LD1
+*ZC     68         IF    EH3,=,LD1
+         IF    EH3,=,LD1
+*ZC     68         PERFORM GOOD
+         PERFORM GOOD
+*ZC     68         ELSE  
+         ELSE  
+*ZC     68         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO F1  IF EH3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     69         ADD   EH2,TO,F1
+         ADD   EH2,TO,F1
+*ZC     69         IF    EH3,=,F1
+         IF    EH3,=,F1
+*ZC     69         PERFORM GOOD
+         PERFORM GOOD
+*ZC     69         ELSE  
+         ELSE  
+*ZC     69         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO G1  IF EH3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     70         ADD   EH2,TO,G1
+         ADD   EH2,TO,G1
+*ZC     70         IF    EH3,=,G1
+         IF    EH3,=,G1
+*ZC     70         PERFORM GOOD
+         PERFORM GOOD
+*ZC     70         ELSE  
+         ELSE  
+*ZC     70         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO H1  IF EH3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     71         ADD   EH2,TO,H1
+         ADD   EH2,TO,H1
+*ZC     71         IF    EH3,=,H1
+         IF    EH3,=,H1
+*ZC     71         PERFORM GOOD
+         PERFORM GOOD
+*ZC     71         ELSE  
+         ELSE  
+*ZC     71         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO P1  IF EH3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     72         ADD   EH2,TO,P1
+         ADD   EH2,TO,P1
+*ZC     72         IF    EH3,=,P1
+         IF    EH3,=,P1
+*ZC     72         PERFORM GOOD
+         PERFORM GOOD
+*ZC     72         ELSE  
+         ELSE  
+*ZC     72         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO Q1  IF EH3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     73         ADD   EH2,TO,Q1
+         ADD   EH2,TO,Q1
+*ZC     73         IF    EH3,=,Q1
+         IF    EH3,=,Q1
+*ZC     73         PERFORM GOOD
+         PERFORM GOOD
+*ZC     73         ELSE  
+         ELSE  
+*ZC     73         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EH2 TO Z1  IF EH3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC     74         ADD   EH2,TO,Z1
+         ADD   EH2,TO,Z1
+*ZC     74         IF    EH3,=,Z1
+         IF    EH3,=,Z1
+*ZC     74         PERFORM GOOD
+         PERFORM GOOD
+*ZC     74         ELSE  
+         ELSE  
+*ZC     74         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC     75         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  DH2 TO EH1 IF DH3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     76         ADD   DH2,TO,EH1
+         ADD   DH2,TO,EH1
+*ZC     76         IF    DH3,=,EH1
+         IF    DH3,=,EH1
+*ZC     76         PERFORM GOOD
+         PERFORM GOOD
+*ZC     76         ELSE  
+         ELSE  
+*ZC     76         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO DH1 IF DH3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     77         ADD   DH2,TO,DH1
+         ADD   DH2,TO,DH1
+*ZC     77         IF    DH3,=,DH1
+         IF    DH3,=,DH1
+*ZC     77         PERFORM GOOD
+         PERFORM GOOD
+*ZC     77         ELSE  
+         ELSE  
+*ZC     77         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO LH1 IF DH3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     78         ADD   DH2,TO,LH1
+         ADD   DH2,TO,LH1
+*ZC     78         IF    DH3,=,LH1
+         IF    DH3,=,LH1
+*ZC     78         PERFORM GOOD
+         PERFORM GOOD
+*ZC     78         ELSE  
+         ELSE  
+*ZC     78         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO EB1 IF DH3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     79         ADD   DH2,TO,EB1
+         ADD   DH2,TO,EB1
+*ZC     79         IF    DH3,=,EB1
+         IF    DH3,=,EB1
+*ZC     79         PERFORM GOOD
+         PERFORM GOOD
+*ZC     79         ELSE  
+         ELSE  
+*ZC     79         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO DB1 IF DH3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     80         ADD   DH2,TO,DB1
+         ADD   DH2,TO,DB1
+*ZC     80         IF    DH3,=,DB1
+         IF    DH3,=,DB1
+*ZC     80         PERFORM GOOD
+         PERFORM GOOD
+*ZC     80         ELSE  
+         ELSE  
+*ZC     80         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO LB1 IF DH3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     81         ADD   DH2,TO,LB1
+         ADD   DH2,TO,LB1
+*ZC     81         IF    DH3,=,LB1
+         IF    DH3,=,LB1
+*ZC     81         PERFORM GOOD
+         PERFORM GOOD
+*ZC     81         ELSE  
+         ELSE  
+*ZC     81         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO ED1 IF DH3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     82         ADD   DH2,TO,ED1
+         ADD   DH2,TO,ED1
+*ZC     82         IF    DH3,=,ED1
+         IF    DH3,=,ED1
+*ZC     82         PERFORM GOOD
+         PERFORM GOOD
+*ZC     82         ELSE  
+         ELSE  
+*ZC     82         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO DD1 IF DH3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     83         ADD   DH2,TO,DD1
+         ADD   DH2,TO,DD1
+*ZC     83         IF    DH3,=,DD1
+         IF    DH3,=,DD1
+*ZC     83         PERFORM GOOD
+         PERFORM GOOD
+*ZC     83         ELSE  
+         ELSE  
+*ZC     83         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO LD1 IF DH3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     84         ADD   DH2,TO,LD1
+         ADD   DH2,TO,LD1
+*ZC     84         IF    DH3,=,LD1
+         IF    DH3,=,LD1
+*ZC     84         PERFORM GOOD
+         PERFORM GOOD
+*ZC     84         ELSE  
+         ELSE  
+*ZC     84         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO F1  IF DH3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     85         ADD   DH2,TO,F1
+         ADD   DH2,TO,F1
+*ZC     85         IF    DH3,=,F1
+         IF    DH3,=,F1
+*ZC     85         PERFORM GOOD
+         PERFORM GOOD
+*ZC     85         ELSE  
+         ELSE  
+*ZC     85         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO G1  IF DH3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     86         ADD   DH2,TO,G1
+         ADD   DH2,TO,G1
+*ZC     86         IF    DH3,=,G1
+         IF    DH3,=,G1
+*ZC     86         PERFORM GOOD
+         PERFORM GOOD
+*ZC     86         ELSE  
+         ELSE  
+*ZC     86         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO H1  IF DH3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     87         ADD   DH2,TO,H1
+         ADD   DH2,TO,H1
+*ZC     87         IF    DH3,=,H1
+         IF    DH3,=,H1
+*ZC     87         PERFORM GOOD
+         PERFORM GOOD
+*ZC     87         ELSE  
+         ELSE  
+*ZC     87         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO P1  IF DH3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     88         ADD   DH2,TO,P1
+         ADD   DH2,TO,P1
+*ZC     88         IF    DH3,=,P1
+         IF    DH3,=,P1
+*ZC     88         PERFORM GOOD
+         PERFORM GOOD
+*ZC     88         ELSE  
+         ELSE  
+*ZC     88         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO Q1  IF DH3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     89         ADD   DH2,TO,Q1
+         ADD   DH2,TO,Q1
+*ZC     89         IF    DH3,=,Q1
+         IF    DH3,=,Q1
+*ZC     89         PERFORM GOOD
+         PERFORM GOOD
+*ZC     89         ELSE  
+         ELSE  
+*ZC     89         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DH2 TO Z1  IF DH3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC     90         ADD   DH2,TO,Z1
+         ADD   DH2,TO,Z1
+*ZC     90         IF    DH3,=,Z1
+         IF    DH3,=,Z1
+*ZC     90         PERFORM GOOD
+         PERFORM GOOD
+*ZC     90         ELSE  
+         ELSE  
+*ZC     90         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC     91         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  LH2 TO EH1 IF LH3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     92         ADD   LH2,TO,EH1
+         ADD   LH2,TO,EH1
+*ZC     92         IF    LH3,=,EH1
+         IF    LH3,=,EH1
+*ZC     92         PERFORM GOOD
+         PERFORM GOOD
+*ZC     92         ELSE  
+         ELSE  
+*ZC     92         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO DH1 IF LH3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     93         ADD   LH2,TO,DH1
+         ADD   LH2,TO,DH1
+*ZC     93         IF    LH3,=,DH1
+         IF    LH3,=,DH1
+*ZC     93         PERFORM GOOD
+         PERFORM GOOD
+*ZC     93         ELSE  
+         ELSE  
+*ZC     93         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO LH1 IF LH3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     94         ADD   LH2,TO,LH1
+         ADD   LH2,TO,LH1
+*ZC     94         IF    LH3,=,LH1
+         IF    LH3,=,LH1
+*ZC     94         PERFORM GOOD
+         PERFORM GOOD
+*ZC     94         ELSE  
+         ELSE  
+*ZC     94         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO EB1 IF LH3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     95         ADD   LH2,TO,EB1
+         ADD   LH2,TO,EB1
+*ZC     95         IF    LH3,=,EB1
+         IF    LH3,=,EB1
+*ZC     95         PERFORM GOOD
+         PERFORM GOOD
+*ZC     95         ELSE  
+         ELSE  
+*ZC     95         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO DB1 IF LH3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     96         ADD   LH2,TO,DB1
+         ADD   LH2,TO,DB1
+*ZC     96         IF    LH3,=,DB1
+         IF    LH3,=,DB1
+*ZC     96         PERFORM GOOD
+         PERFORM GOOD
+*ZC     96         ELSE  
+         ELSE  
+*ZC     96         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO LB1 IF LH3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     97         ADD   LH2,TO,LB1
+         ADD   LH2,TO,LB1
+*ZC     97         IF    LH3,=,LB1
+         IF    LH3,=,LB1
+*ZC     97         PERFORM GOOD
+         PERFORM GOOD
+*ZC     97         ELSE  
+         ELSE  
+*ZC     97         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO ED1 IF LH3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     98         ADD   LH2,TO,ED1
+         ADD   LH2,TO,ED1
+*ZC     98         IF    LH3,=,ED1
+         IF    LH3,=,ED1
+*ZC     98         PERFORM GOOD
+         PERFORM GOOD
+*ZC     98         ELSE  
+         ELSE  
+*ZC     98         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO DD1 IF LH3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     99         ADD   LH2,TO,DD1
+         ADD   LH2,TO,DD1
+*ZC     99         IF    LH3,=,DD1
+         IF    LH3,=,DD1
+*ZC     99         PERFORM GOOD
+         PERFORM GOOD
+*ZC     99         ELSE  
+         ELSE  
+*ZC     99         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO LD1 IF LH3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    100         ADD   LH2,TO,LD1
+         ADD   LH2,TO,LD1
+*ZC    100         IF    LH3,=,LD1
+         IF    LH3,=,LD1
+*ZC    100         PERFORM GOOD
+         PERFORM GOOD
+*ZC    100         ELSE  
+         ELSE  
+*ZC    100         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO F1  IF LH3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    101         ADD   LH2,TO,F1
+         ADD   LH2,TO,F1
+*ZC    101         IF    LH3,=,F1
+         IF    LH3,=,F1
+*ZC    101         PERFORM GOOD
+         PERFORM GOOD
+*ZC    101         ELSE  
+         ELSE  
+*ZC    101         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO G1  IF LH3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    102         ADD   LH2,TO,G1
+         ADD   LH2,TO,G1
+*ZC    102         IF    LH3,=,G1
+         IF    LH3,=,G1
+*ZC    102         PERFORM GOOD
+         PERFORM GOOD
+*ZC    102         ELSE  
+         ELSE  
+*ZC    102         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO H1  IF LH3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    103         ADD   LH2,TO,H1
+         ADD   LH2,TO,H1
+*ZC    103         IF    LH3,=,H1
+         IF    LH3,=,H1
+*ZC    103         PERFORM GOOD
+         PERFORM GOOD
+*ZC    103         ELSE  
+         ELSE  
+*ZC    103         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO P1  IF LH3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    104         ADD   LH2,TO,P1
+         ADD   LH2,TO,P1
+*ZC    104         IF    LH3,=,P1
+         IF    LH3,=,P1
+*ZC    104         PERFORM GOOD
+         PERFORM GOOD
+*ZC    104         ELSE  
+         ELSE  
+*ZC    104         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO Q1  IF LH3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    105         ADD   LH2,TO,Q1
+         ADD   LH2,TO,Q1
+*ZC    105         IF    LH3,=,Q1
+         IF    LH3,=,Q1
+*ZC    105         PERFORM GOOD
+         PERFORM GOOD
+*ZC    105         ELSE  
+         ELSE  
+*ZC    105         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LH2 TO Z1  IF LH3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    106         ADD   LH2,TO,Z1
+         ADD   LH2,TO,Z1
+*ZC    106         IF    LH3,=,Z1
+         IF    LH3,=,Z1
+*ZC    106         PERFORM GOOD
+         PERFORM GOOD
+*ZC    106         ELSE  
+         ELSE  
+*ZC    106         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    107         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  EB2 TO EH1 IF EB3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    108         ADD   EB2,TO,EH1
+         ADD   EB2,TO,EH1
+*ZC    108         IF    EB3,=,EH1
+         IF    EB3,=,EH1
+*ZC    108         PERFORM GOOD
+         PERFORM GOOD
+*ZC    108         ELSE  
+         ELSE  
+*ZC    108         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO DH1 IF EB3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    109         ADD   EB2,TO,DH1
+         ADD   EB2,TO,DH1
+*ZC    109         IF    EB3,=,DH1
+         IF    EB3,=,DH1
+*ZC    109         PERFORM GOOD
+         PERFORM GOOD
+*ZC    109         ELSE  
+         ELSE  
+*ZC    109         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO LH1 IF EB3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    110         ADD   EB2,TO,LH1
+         ADD   EB2,TO,LH1
+*ZC    110         IF    EB3,=,LH1
+         IF    EB3,=,LH1
+*ZC    110         PERFORM GOOD
+         PERFORM GOOD
+*ZC    110         ELSE  
+         ELSE  
+*ZC    110         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO EB1 IF EB3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    111         ADD   EB2,TO,EB1
+         ADD   EB2,TO,EB1
+*ZC    111         IF    EB3,=,EB1
+         IF    EB3,=,EB1
+*ZC    111         PERFORM GOOD
+         PERFORM GOOD
+*ZC    111         ELSE  
+         ELSE  
+*ZC    111         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO DB1 IF EB3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    112         ADD   EB2,TO,DB1
+         ADD   EB2,TO,DB1
+*ZC    112         IF    EB3,=,DB1
+         IF    EB3,=,DB1
+*ZC    112         PERFORM GOOD
+         PERFORM GOOD
+*ZC    112         ELSE  
+         ELSE  
+*ZC    112         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO LB1 IF EB3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    113         ADD   EB2,TO,LB1
+         ADD   EB2,TO,LB1
+*ZC    113         IF    EB3,=,LB1
+         IF    EB3,=,LB1
+*ZC    113         PERFORM GOOD
+         PERFORM GOOD
+*ZC    113         ELSE  
+         ELSE  
+*ZC    113         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO ED1 IF EB3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    114         ADD   EB2,TO,ED1
+         ADD   EB2,TO,ED1
+*ZC    114         IF    EB3,=,ED1
+         IF    EB3,=,ED1
+*ZC    114         PERFORM GOOD
+         PERFORM GOOD
+*ZC    114         ELSE  
+         ELSE  
+*ZC    114         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO DD1 IF EB3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    115         ADD   EB2,TO,DD1
+         ADD   EB2,TO,DD1
+*ZC    115         IF    EB3,=,DD1
+         IF    EB3,=,DD1
+*ZC    115         PERFORM GOOD
+         PERFORM GOOD
+*ZC    115         ELSE  
+         ELSE  
+*ZC    115         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO LD1 IF EB3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    116         ADD   EB2,TO,LD1
+         ADD   EB2,TO,LD1
+*ZC    116         IF    EB3,=,LD1
+         IF    EB3,=,LD1
+*ZC    116         PERFORM GOOD
+         PERFORM GOOD
+*ZC    116         ELSE  
+         ELSE  
+*ZC    116         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO F1  IF EB3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    117         ADD   EB2,TO,F1
+         ADD   EB2,TO,F1
+*ZC    117         IF    EB3,=,F1
+         IF    EB3,=,F1
+*ZC    117         PERFORM GOOD
+         PERFORM GOOD
+*ZC    117         ELSE  
+         ELSE  
+*ZC    117         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO G1  IF EB3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    118         ADD   EB2,TO,G1
+         ADD   EB2,TO,G1
+*ZC    118         IF    EB3,=,G1
+         IF    EB3,=,G1
+*ZC    118         PERFORM GOOD
+         PERFORM GOOD
+*ZC    118         ELSE  
+         ELSE  
+*ZC    118         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO H1  IF EB3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    119         ADD   EB2,TO,H1
+         ADD   EB2,TO,H1
+*ZC    119         IF    EB3,=,H1
+         IF    EB3,=,H1
+*ZC    119         PERFORM GOOD
+         PERFORM GOOD
+*ZC    119         ELSE  
+         ELSE  
+*ZC    119         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO P1  IF EB3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    120         ADD   EB2,TO,P1
+         ADD   EB2,TO,P1
+*ZC    120         IF    EB3,=,P1
+         IF    EB3,=,P1
+*ZC    120         PERFORM GOOD
+         PERFORM GOOD
+*ZC    120         ELSE  
+         ELSE  
+*ZC    120         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO Q1  IF EB3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    121         ADD   EB2,TO,Q1
+         ADD   EB2,TO,Q1
+*ZC    121         IF    EB3,=,Q1
+         IF    EB3,=,Q1
+*ZC    121         PERFORM GOOD
+         PERFORM GOOD
+*ZC    121         ELSE  
+         ELSE  
+*ZC    121         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  EB2 TO Z1  IF EB3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    122         ADD   EB2,TO,Z1
+         ADD   EB2,TO,Z1
+*ZC    122         IF    EB3,=,Z1
+         IF    EB3,=,Z1
+*ZC    122         PERFORM GOOD
+         PERFORM GOOD
+*ZC    122         ELSE  
+         ELSE  
+*ZC    122         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    123         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  DB2 TO EH1 IF DB3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    124         ADD   DB2,TO,EH1
+         ADD   DB2,TO,EH1
+*ZC    124         IF    DB3,=,EH1
+         IF    DB3,=,EH1
+*ZC    124         PERFORM GOOD
+         PERFORM GOOD
+*ZC    124         ELSE  
+         ELSE  
+*ZC    124         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO DH1 IF DB3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    125         ADD   DB2,TO,DH1
+         ADD   DB2,TO,DH1
+*ZC    125         IF    DB3,=,DH1
+         IF    DB3,=,DH1
+*ZC    125         PERFORM GOOD
+         PERFORM GOOD
+*ZC    125         ELSE  
+         ELSE  
+*ZC    125         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO LH1 IF DB3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    126         ADD   DB2,TO,LH1
+         ADD   DB2,TO,LH1
+*ZC    126         IF    DB3,=,LH1
+         IF    DB3,=,LH1
+*ZC    126         PERFORM GOOD
+         PERFORM GOOD
+*ZC    126         ELSE  
+         ELSE  
+*ZC    126         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO EB1 IF DB3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    127         ADD   DB2,TO,EB1
+         ADD   DB2,TO,EB1
+*ZC    127         IF    DB3,=,EB1
+         IF    DB3,=,EB1
+*ZC    127         PERFORM GOOD
+         PERFORM GOOD
+*ZC    127         ELSE  
+         ELSE  
+*ZC    127         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO DB1 IF DB3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    128         ADD   DB2,TO,DB1
+         ADD   DB2,TO,DB1
+*ZC    128         IF    DB3,=,DB1
+         IF    DB3,=,DB1
+*ZC    128         PERFORM GOOD
+         PERFORM GOOD
+*ZC    128         ELSE  
+         ELSE  
+*ZC    128         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO LB1 IF DB3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    129         ADD   DB2,TO,LB1
+         ADD   DB2,TO,LB1
+*ZC    129         IF    DB3,=,LB1
+         IF    DB3,=,LB1
+*ZC    129         PERFORM GOOD
+         PERFORM GOOD
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO ED1 IF DB3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    130         ADD   DB2,TO,ED1
+         ADD   DB2,TO,ED1
+*ZC    130         IF    DB3,=,ED1
+         IF    DB3,=,ED1
+*ZC    130         PERFORM GOOD
+         PERFORM GOOD
+*ZC    130         ELSE  
+         ELSE  
+*ZC    130         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO DD1 IF DB3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    131         ADD   DB2,TO,DD1
+         ADD   DB2,TO,DD1
+*ZC    131         IF    DB3,=,DD1
+         IF    DB3,=,DD1
+*ZC    131         PERFORM GOOD
+         PERFORM GOOD
+*ZC    131         ELSE  
+         ELSE  
+*ZC    131         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO LD1 IF DB3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    132         ADD   DB2,TO,LD1
+         ADD   DB2,TO,LD1
+*ZC    132         IF    DB3,=,LD1
+         IF    DB3,=,LD1
+*ZC    132         PERFORM GOOD
+         PERFORM GOOD
+*ZC    132         ELSE  
+         ELSE  
+*ZC    132         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO F1  IF DB3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    133         ADD   DB2,TO,F1
+         ADD   DB2,TO,F1
+*ZC    133         IF    DB3,=,F1
+         IF    DB3,=,F1
+*ZC    133         PERFORM GOOD
+         PERFORM GOOD
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO G1  IF DB3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    134         ADD   DB2,TO,G1
+         ADD   DB2,TO,G1
+*ZC    134         IF    DB3,=,G1
+         IF    DB3,=,G1
+*ZC    134         PERFORM GOOD
+         PERFORM GOOD
+*ZC    134         ELSE  
+         ELSE  
+*ZC    134         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO H1  IF DB3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    135         ADD   DB2,TO,H1
+         ADD   DB2,TO,H1
+*ZC    135         IF    DB3,=,H1
+         IF    DB3,=,H1
+*ZC    135         PERFORM GOOD
+         PERFORM GOOD
+*ZC    135         ELSE  
+         ELSE  
+*ZC    135         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO P1  IF DB3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    136         ADD   DB2,TO,P1
+         ADD   DB2,TO,P1
+*ZC    136         IF    DB3,=,P1
+         IF    DB3,=,P1
+*ZC    136         PERFORM GOOD
+         PERFORM GOOD
+*ZC    136         ELSE  
+         ELSE  
+*ZC    136         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO Q1  IF DB3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    137         ADD   DB2,TO,Q1
+         ADD   DB2,TO,Q1
+*ZC    137         IF    DB3,=,Q1
+         IF    DB3,=,Q1
+*ZC    137         PERFORM GOOD
+         PERFORM GOOD
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DB2 TO Z1  IF DB3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    138         ADD   DB2,TO,Z1
+         ADD   DB2,TO,Z1
+*ZC    138         IF    DB3,=,Z1
+         IF    DB3,=,Z1
+*ZC    138         PERFORM GOOD
+         PERFORM GOOD
+*ZC    138         ELSE  
+         ELSE  
+*ZC    138         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    139         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  LB2 TO EH1 IF LB3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    140         ADD   LB2,TO,EH1
+         ADD   LB2,TO,EH1
+*ZC    140         IF    LB3,=,EH1
+         IF    LB3,=,EH1
+*ZC    140         PERFORM GOOD
+         PERFORM GOOD
+*ZC    140         ELSE  
+         ELSE  
+*ZC    140         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO DH1 IF LB3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    141         ADD   LB2,TO,DH1
+         ADD   LB2,TO,DH1
+*ZC    141         IF    LB3,=,DH1
+         IF    LB3,=,DH1
+*ZC    141         PERFORM GOOD
+         PERFORM GOOD
+*ZC    141         ELSE  
+         ELSE  
+*ZC    141         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO LH1 IF LB3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    142         ADD   LB2,TO,LH1
+         ADD   LB2,TO,LH1
+*ZC    142         IF    LB3,=,LH1
+         IF    LB3,=,LH1
+*ZC    142         PERFORM GOOD
+         PERFORM GOOD
+*ZC    142         ELSE  
+         ELSE  
+*ZC    142         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO EB1 IF LB3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    143         ADD   LB2,TO,EB1
+         ADD   LB2,TO,EB1
+*ZC    143         IF    LB3,=,EB1
+         IF    LB3,=,EB1
+*ZC    143         PERFORM GOOD
+         PERFORM GOOD
+*ZC    143         ELSE  
+         ELSE  
+*ZC    143         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO DB1 IF LB3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    144         ADD   LB2,TO,DB1
+         ADD   LB2,TO,DB1
+*ZC    144         IF    LB3,=,DB1
+         IF    LB3,=,DB1
+*ZC    144         PERFORM GOOD
+         PERFORM GOOD
+*ZC    144         ELSE  
+         ELSE  
+*ZC    144         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO LB1 IF LB3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    145         ADD   LB2,TO,LB1
+         ADD   LB2,TO,LB1
+*ZC    145         IF    LB3,=,LB1
+         IF    LB3,=,LB1
+*ZC    145         PERFORM GOOD
+         PERFORM GOOD
+*ZC    145         ELSE  
+         ELSE  
+*ZC    145         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO ED1 IF LB3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    146         ADD   LB2,TO,ED1
+         ADD   LB2,TO,ED1
+*ZC    146         IF    LB3,=,ED1
+         IF    LB3,=,ED1
+*ZC    146         PERFORM GOOD
+         PERFORM GOOD
+*ZC    146         ELSE  
+         ELSE  
+*ZC    146         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO DD1 IF LB3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    147         ADD   LB2,TO,DD1
+         ADD   LB2,TO,DD1
+*ZC    147         IF    LB3,=,DD1
+         IF    LB3,=,DD1
+*ZC    147         PERFORM GOOD
+         PERFORM GOOD
+*ZC    147         ELSE  
+         ELSE  
+*ZC    147         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO LD1 IF LB3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    148         ADD   LB2,TO,LD1
+         ADD   LB2,TO,LD1
+*ZC    148         IF    LB3,=,LD1
+         IF    LB3,=,LD1
+*ZC    148         PERFORM GOOD
+         PERFORM GOOD
+*ZC    148         ELSE  
+         ELSE  
+*ZC    148         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO F1  IF LB3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    149         ADD   LB2,TO,F1
+         ADD   LB2,TO,F1
+*ZC    149         IF    LB3,=,F1
+         IF    LB3,=,F1
+*ZC    149         PERFORM GOOD
+         PERFORM GOOD
+*ZC    149         ELSE  
+         ELSE  
+*ZC    149         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO G1  IF LB3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    150         ADD   LB2,TO,G1
+         ADD   LB2,TO,G1
+*ZC    150         IF    LB3,=,G1
+         IF    LB3,=,G1
+*ZC    150         PERFORM GOOD
+         PERFORM GOOD
+*ZC    150         ELSE  
+         ELSE  
+*ZC    150         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO H1  IF LB3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    151         ADD   LB2,TO,H1
+         ADD   LB2,TO,H1
+*ZC    151         IF    LB3,=,H1
+         IF    LB3,=,H1
+*ZC    151         PERFORM GOOD
+         PERFORM GOOD
+*ZC    151         ELSE  
+         ELSE  
+*ZC    151         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO P1  IF LB3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    152         ADD   LB2,TO,P1
+         ADD   LB2,TO,P1
+*ZC    152         IF    LB3,=,P1
+         IF    LB3,=,P1
+*ZC    152         PERFORM GOOD
+         PERFORM GOOD
+*ZC    152         ELSE  
+         ELSE  
+*ZC    152         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO Q1  IF LB3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    153         ADD   LB2,TO,Q1
+         ADD   LB2,TO,Q1
+*ZC    153         IF    LB3,=,Q1
+         IF    LB3,=,Q1
+*ZC    153         PERFORM GOOD
+         PERFORM GOOD
+*ZC    153         ELSE  
+         ELSE  
+*ZC    153         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LB2 TO Z1  IF LB3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    154         ADD   LB2,TO,Z1
+         ADD   LB2,TO,Z1
+*ZC    154         IF    LB3,=,Z1
+         IF    LB3,=,Z1
+*ZC    154         PERFORM GOOD
+         PERFORM GOOD
+*ZC    154         ELSE  
+         ELSE  
+*ZC    154         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.       
+*ZC    155         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  ED2 TO EH1 IF ED3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    156         ADD   ED2,TO,EH1
+         ADD   ED2,TO,EH1
+*ZC    156         IF    ED3,=,EH1
+         IF    ED3,=,EH1
+*ZC    156         PERFORM GOOD
+         PERFORM GOOD
+*ZC    156         ELSE  
+         ELSE  
+*ZC    156         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO DH1 IF ED3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    157         ADD   ED2,TO,DH1
+         ADD   ED2,TO,DH1
+*ZC    157         IF    ED3,=,DH1
+         IF    ED3,=,DH1
+*ZC    157         PERFORM GOOD
+         PERFORM GOOD
+*ZC    157         ELSE  
+         ELSE  
+*ZC    157         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO LH1 IF ED3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    158         ADD   ED2,TO,LH1
+         ADD   ED2,TO,LH1
+*ZC    158         IF    ED3,=,LH1
+         IF    ED3,=,LH1
+*ZC    158         PERFORM GOOD
+         PERFORM GOOD
+*ZC    158         ELSE  
+         ELSE  
+*ZC    158         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO EB1 IF ED3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    159         ADD   ED2,TO,EB1
+         ADD   ED2,TO,EB1
+*ZC    159         IF    ED3,=,EB1
+         IF    ED3,=,EB1
+*ZC    159         PERFORM GOOD
+         PERFORM GOOD
+*ZC    159         ELSE  
+         ELSE  
+*ZC    159         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO DB1 IF ED3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    160         ADD   ED2,TO,DB1
+         ADD   ED2,TO,DB1
+*ZC    160         IF    ED3,=,DB1
+         IF    ED3,=,DB1
+*ZC    160         PERFORM GOOD
+         PERFORM GOOD
+*ZC    160         ELSE  
+         ELSE  
+*ZC    160         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO LB1 IF ED3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    161         ADD   ED2,TO,LB1
+         ADD   ED2,TO,LB1
+*ZC    161         IF    ED3,=,LB1
+         IF    ED3,=,LB1
+*ZC    161         PERFORM GOOD
+         PERFORM GOOD
+*ZC    161         ELSE  
+         ELSE  
+*ZC    161         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO ED1 IF ED3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    162         ADD   ED2,TO,ED1
+         ADD   ED2,TO,ED1
+*ZC    162         IF    ED3,=,ED1
+         IF    ED3,=,ED1
+*ZC    162         PERFORM GOOD
+         PERFORM GOOD
+*ZC    162         ELSE  
+         ELSE  
+*ZC    162         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO DD1 IF ED3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    163         ADD   ED2,TO,DD1
+         ADD   ED2,TO,DD1
+*ZC    163         IF    ED3,=,DD1
+         IF    ED3,=,DD1
+*ZC    163         PERFORM GOOD
+         PERFORM GOOD
+*ZC    163         ELSE  
+         ELSE  
+*ZC    163         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO LD1 IF ED3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    164         ADD   ED2,TO,LD1
+         ADD   ED2,TO,LD1
+*ZC    164         IF    ED3,=,LD1
+         IF    ED3,=,LD1
+*ZC    164         PERFORM GOOD
+         PERFORM GOOD
+*ZC    164         ELSE  
+         ELSE  
+*ZC    164         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO F1  IF ED3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    165         ADD   ED2,TO,F1
+         ADD   ED2,TO,F1
+*ZC    165         IF    ED3,=,F1
+         IF    ED3,=,F1
+*ZC    165         PERFORM GOOD
+         PERFORM GOOD
+*ZC    165         ELSE  
+         ELSE  
+*ZC    165         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO G1  IF ED3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    166         ADD   ED2,TO,G1
+         ADD   ED2,TO,G1
+*ZC    166         IF    ED3,=,G1
+         IF    ED3,=,G1
+*ZC    166         PERFORM GOOD
+         PERFORM GOOD
+*ZC    166         ELSE  
+         ELSE  
+*ZC    166         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO H1  IF ED3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    167         ADD   ED2,TO,H1
+         ADD   ED2,TO,H1
+*ZC    167         IF    ED3,=,H1
+         IF    ED3,=,H1
+*ZC    167         PERFORM GOOD
+         PERFORM GOOD
+*ZC    167         ELSE  
+         ELSE  
+*ZC    167         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO P1  IF ED3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    168         ADD   ED2,TO,P1
+         ADD   ED2,TO,P1
+*ZC    168         IF    ED3,=,P1
+         IF    ED3,=,P1
+*ZC    168         PERFORM GOOD
+         PERFORM GOOD
+*ZC    168         ELSE  
+         ELSE  
+*ZC    168         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO Q1  IF ED3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    169         ADD   ED2,TO,Q1
+         ADD   ED2,TO,Q1
+*ZC    169         IF    ED3,=,Q1
+         IF    ED3,=,Q1
+*ZC    169         PERFORM GOOD
+         PERFORM GOOD
+*ZC    169         ELSE  
+         ELSE  
+*ZC    169         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  ED2 TO Z1  IF ED3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    170         ADD   ED2,TO,Z1
+         ADD   ED2,TO,Z1
+*ZC    170         IF    ED3,=,Z1
+         IF    ED3,=,Z1
+*ZC    170         PERFORM GOOD
+         PERFORM GOOD
+*ZC    170         ELSE  
+         ELSE  
+*ZC    170         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    171         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  DD2 TO EH1 IF DD3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    172         ADD   DD2,TO,EH1
+         ADD   DD2,TO,EH1
+*ZC    172         IF    DD3,=,EH1
+         IF    DD3,=,EH1
+*ZC    172         PERFORM GOOD
+         PERFORM GOOD
+*ZC    172         ELSE  
+         ELSE  
+*ZC    172         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO DH1 IF DD3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    173         ADD   DD2,TO,DH1
+         ADD   DD2,TO,DH1
+*ZC    173         IF    DD3,=,DH1
+         IF    DD3,=,DH1
+*ZC    173         PERFORM GOOD
+         PERFORM GOOD
+*ZC    173         ELSE  
+         ELSE  
+*ZC    173         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO LH1 IF DD3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    174         ADD   DD2,TO,LH1
+         ADD   DD2,TO,LH1
+*ZC    174         IF    DD3,=,LH1
+         IF    DD3,=,LH1
+*ZC    174         PERFORM GOOD
+         PERFORM GOOD
+*ZC    174         ELSE  
+         ELSE  
+*ZC    174         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO EB1 IF DD3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    175         ADD   DD2,TO,EB1
+         ADD   DD2,TO,EB1
+*ZC    175         IF    DD3,=,EB1
+         IF    DD3,=,EB1
+*ZC    175         PERFORM GOOD
+         PERFORM GOOD
+*ZC    175         ELSE  
+         ELSE  
+*ZC    175         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO DB1 IF DD3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    176         ADD   DD2,TO,DB1
+         ADD   DD2,TO,DB1
+*ZC    176         IF    DD3,=,DB1
+         IF    DD3,=,DB1
+*ZC    176         PERFORM GOOD
+         PERFORM GOOD
+*ZC    176         ELSE  
+         ELSE  
+*ZC    176         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO LB1 IF DD3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    177         ADD   DD2,TO,LB1
+         ADD   DD2,TO,LB1
+*ZC    177         IF    DD3,=,LB1
+         IF    DD3,=,LB1
+*ZC    177         PERFORM GOOD
+         PERFORM GOOD
+*ZC    177         ELSE  
+         ELSE  
+*ZC    177         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO ED1 IF DD3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    178         ADD   DD2,TO,ED1
+         ADD   DD2,TO,ED1
+*ZC    178         IF    DD3,=,ED1
+         IF    DD3,=,ED1
+*ZC    178         PERFORM GOOD
+         PERFORM GOOD
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO DD1 IF DD3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    179         ADD   DD2,TO,DD1
+         ADD   DD2,TO,DD1
+*ZC    179         IF    DD3,=,DD1
+         IF    DD3,=,DD1
+*ZC    179         PERFORM GOOD
+         PERFORM GOOD
+*ZC    179         ELSE  
+         ELSE  
+*ZC    179         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO LD1 IF DD3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    180         ADD   DD2,TO,LD1
+         ADD   DD2,TO,LD1
+*ZC    180         IF    DD3,=,LD1
+         IF    DD3,=,LD1
+*ZC    180         PERFORM GOOD
+         PERFORM GOOD
+*ZC    180         ELSE  
+         ELSE  
+*ZC    180         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO F1  IF DD3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    181         ADD   DD2,TO,F1
+         ADD   DD2,TO,F1
+*ZC    181         IF    DD3,=,F1
+         IF    DD3,=,F1
+*ZC    181         PERFORM GOOD
+         PERFORM GOOD
+*ZC    181         ELSE  
+         ELSE  
+*ZC    181         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO G1  IF DD3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    182         ADD   DD2,TO,G1
+         ADD   DD2,TO,G1
+*ZC    182         IF    DD3,=,G1
+         IF    DD3,=,G1
+*ZC    182         PERFORM GOOD
+         PERFORM GOOD
+*ZC    182         ELSE  
+         ELSE  
+*ZC    182         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO H1  IF DD3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    183         ADD   DD2,TO,H1
+         ADD   DD2,TO,H1
+*ZC    183         IF    DD3,=,H1
+         IF    DD3,=,H1
+*ZC    183         PERFORM GOOD
+         PERFORM GOOD
+*ZC    183         ELSE  
+         ELSE  
+*ZC    183         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO P1  IF DD3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    184         ADD   DD2,TO,P1
+         ADD   DD2,TO,P1
+*ZC    184         IF    DD3,=,P1
+         IF    DD3,=,P1
+*ZC    184         PERFORM GOOD
+         PERFORM GOOD
+*ZC    184         ELSE  
+         ELSE  
+*ZC    184         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO Q1  IF DD3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    185         ADD   DD2,TO,Q1
+         ADD   DD2,TO,Q1
+*ZC    185         IF    DD3,=,Q1
+         IF    DD3,=,Q1
+*ZC    185         PERFORM GOOD
+         PERFORM GOOD
+*ZC    185         ELSE  
+         ELSE  
+*ZC    185         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  DD2 TO Z1  IF DD3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    186         ADD   DD2,TO,Z1
+         ADD   DD2,TO,Z1
+*ZC    186         IF    DD3,=,Z1
+         IF    DD3,=,Z1
+*ZC    186         PERFORM GOOD
+         PERFORM GOOD
+*ZC    186         ELSE  
+         ELSE  
+*ZC    186         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    187         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  LD2 TO EH1 IF LD3 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    188         ADD   LD2,TO,EH1
+         ADD   LD2,TO,EH1
+*ZC    188         IF    LD3,=,EH1
+         IF    LD3,=,EH1
+*ZC    188         PERFORM GOOD
+         PERFORM GOOD
+*ZC    188         ELSE  
+         ELSE  
+*ZC    188         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO DH1 IF LD3 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    189         ADD   LD2,TO,DH1
+         ADD   LD2,TO,DH1
+*ZC    189         IF    LD3,=,DH1
+         IF    LD3,=,DH1
+*ZC    189         PERFORM GOOD
+         PERFORM GOOD
+*ZC    189         ELSE  
+         ELSE  
+*ZC    189         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO LH1 IF LD3 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    190         ADD   LD2,TO,LH1
+         ADD   LD2,TO,LH1
+*ZC    190         IF    LD3,=,LH1
+         IF    LD3,=,LH1
+*ZC    190         PERFORM GOOD
+         PERFORM GOOD
+*ZC    190         ELSE  
+         ELSE  
+*ZC    190         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO EB1 IF LD3 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    191         ADD   LD2,TO,EB1
+         ADD   LD2,TO,EB1
+*ZC    191         IF    LD3,=,EB1
+         IF    LD3,=,EB1
+*ZC    191         PERFORM GOOD
+         PERFORM GOOD
+*ZC    191         ELSE  
+         ELSE  
+*ZC    191         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO DB1 IF LD3 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    192         ADD   LD2,TO,DB1
+         ADD   LD2,TO,DB1
+*ZC    192         IF    LD3,=,DB1
+         IF    LD3,=,DB1
+*ZC    192         PERFORM GOOD
+         PERFORM GOOD
+*ZC    192         ELSE  
+         ELSE  
+*ZC    192         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO LB1 IF LD3 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    193         ADD   LD2,TO,LB1
+         ADD   LD2,TO,LB1
+*ZC    193         IF    LD3,=,LB1
+         IF    LD3,=,LB1
+*ZC    193         PERFORM GOOD
+         PERFORM GOOD
+*ZC    193         ELSE  
+         ELSE  
+*ZC    193         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO ED1 IF LD3 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    194         ADD   LD2,TO,ED1
+         ADD   LD2,TO,ED1
+*ZC    194         IF    LD3,=,ED1
+         IF    LD3,=,ED1
+*ZC    194         PERFORM GOOD
+         PERFORM GOOD
+*ZC    194         ELSE  
+         ELSE  
+*ZC    194         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO DD1 IF LD3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    195         ADD   LD2,TO,DD1
+         ADD   LD2,TO,DD1
+*ZC    195         IF    LD3,=,DD1
+         IF    LD3,=,DD1
+*ZC    195         PERFORM GOOD
+         PERFORM GOOD
+*ZC    195         ELSE  
+         ELSE  
+*ZC    195         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO LD1 IF LD3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    196         ADD   LD2,TO,LD1
+         ADD   LD2,TO,LD1
+*ZC    196         IF    LD3,=,LD1
+         IF    LD3,=,LD1
+*ZC    196         PERFORM GOOD
+         PERFORM GOOD
+*ZC    196         ELSE  
+         ELSE  
+*ZC    196         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO F1  IF LD3 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    197         ADD   LD2,TO,F1
+         ADD   LD2,TO,F1
+*ZC    197         IF    LD3,=,F1
+         IF    LD3,=,F1
+*ZC    197         PERFORM GOOD
+         PERFORM GOOD
+*ZC    197         ELSE  
+         ELSE  
+*ZC    197         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO G1  IF LD3 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    198         ADD   LD2,TO,G1
+         ADD   LD2,TO,G1
+*ZC    198         IF    LD3,=,G1
+         IF    LD3,=,G1
+*ZC    198         PERFORM GOOD
+         PERFORM GOOD
+*ZC    198         ELSE  
+         ELSE  
+*ZC    198         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO H1  IF LD3 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    199         ADD   LD2,TO,H1
+         ADD   LD2,TO,H1
+*ZC    199         IF    LD3,=,H1
+         IF    LD3,=,H1
+*ZC    199         PERFORM GOOD
+         PERFORM GOOD
+*ZC    199         ELSE  
+         ELSE  
+*ZC    199         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO P1  IF LD3 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    200         ADD   LD2,TO,P1
+         ADD   LD2,TO,P1
+*ZC    200         IF    LD3,=,P1
+         IF    LD3,=,P1
+*ZC    200         PERFORM GOOD
+         PERFORM GOOD
+*ZC    200         ELSE  
+         ELSE  
+*ZC    200         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO Q1  IF LD3 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    201         ADD   LD2,TO,Q1
+         ADD   LD2,TO,Q1
+*ZC    201         IF    LD3,=,Q1
+         IF    LD3,=,Q1
+*ZC    201         PERFORM GOOD
+         PERFORM GOOD
+*ZC    201         ELSE  
+         ELSE  
+*ZC    201         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  LD2 TO Z1  IF LD3 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    202         ADD   LD2,TO,Z1
+         ADD   LD2,TO,Z1
+*ZC    202         IF    LD3,=,Z1
+         IF    LD3,=,Z1
+*ZC    202         PERFORM GOOD
+         PERFORM GOOD
+*ZC    202         ELSE  
+         ELSE  
+*ZC    202         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    203         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  F2  TO EH1 IF F3  = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    204         ADD   F2,TO,EH1
+         ADD   F2,TO,EH1
+*ZC    204         IF    F3,=,EH1
+         IF    F3,=,EH1
+*ZC    204         PERFORM GOOD
+         PERFORM GOOD
+*ZC    204         ELSE  
+         ELSE  
+*ZC    204         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO DH1 IF F3  = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    205         ADD   F2,TO,DH1
+         ADD   F2,TO,DH1
+*ZC    205         IF    F3,=,DH1
+         IF    F3,=,DH1
+*ZC    205         PERFORM GOOD
+         PERFORM GOOD
+*ZC    205         ELSE  
+         ELSE  
+*ZC    205         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO LH1 IF F3  = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    206         ADD   F2,TO,LH1
+         ADD   F2,TO,LH1
+*ZC    206         IF    F3,=,LH1
+         IF    F3,=,LH1
+*ZC    206         PERFORM GOOD
+         PERFORM GOOD
+*ZC    206         ELSE  
+         ELSE  
+*ZC    206         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO EB1 IF F3  = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    207         ADD   F2,TO,EB1
+         ADD   F2,TO,EB1
+*ZC    207         IF    F3,=,EB1
+         IF    F3,=,EB1
+*ZC    207         PERFORM GOOD
+         PERFORM GOOD
+*ZC    207         ELSE  
+         ELSE  
+*ZC    207         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO DB1 IF F3  = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    208         ADD   F2,TO,DB1
+         ADD   F2,TO,DB1
+*ZC    208         IF    F3,=,DB1
+         IF    F3,=,DB1
+*ZC    208         PERFORM GOOD
+         PERFORM GOOD
+*ZC    208         ELSE  
+         ELSE  
+*ZC    208         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO LB1 IF F3  = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    209         ADD   F2,TO,LB1
+         ADD   F2,TO,LB1
+*ZC    209         IF    F3,=,LB1
+         IF    F3,=,LB1
+*ZC    209         PERFORM GOOD
+         PERFORM GOOD
+*ZC    209         ELSE  
+         ELSE  
+*ZC    209         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO ED1 IF F3  = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    210         ADD   F2,TO,ED1
+         ADD   F2,TO,ED1
+*ZC    210         IF    F3,=,ED1
+         IF    F3,=,ED1
+*ZC    210         PERFORM GOOD
+         PERFORM GOOD
+*ZC    210         ELSE  
+         ELSE  
+*ZC    210         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO DD1 IF EH3 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    211         ADD   F2,TO,DD1
+         ADD   F2,TO,DD1
+*ZC    211         IF    EH3,=,DD1
+         IF    EH3,=,DD1
+*ZC    211         PERFORM GOOD
+         PERFORM GOOD
+*ZC    211         ELSE  
+         ELSE  
+*ZC    211         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO LD1 IF EH3 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    212         ADD   F2,TO,LD1
+         ADD   F2,TO,LD1
+*ZC    212         IF    EH3,=,LD1
+         IF    EH3,=,LD1
+*ZC    212         PERFORM GOOD
+         PERFORM GOOD
+*ZC    212         ELSE  
+         ELSE  
+*ZC    212         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO F1  IF F3  = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    213         ADD   F2,TO,F1
+         ADD   F2,TO,F1
+*ZC    213         IF    F3,=,F1
+         IF    F3,=,F1
+*ZC    213         PERFORM GOOD
+         PERFORM GOOD
+*ZC    213         ELSE  
+         ELSE  
+*ZC    213         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO G1  IF F3  = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    214         ADD   F2,TO,G1
+         ADD   F2,TO,G1
+*ZC    214         IF    F3,=,G1
+         IF    F3,=,G1
+*ZC    214         PERFORM GOOD
+         PERFORM GOOD
+*ZC    214         ELSE  
+         ELSE  
+*ZC    214         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO H1  IF F3  = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    215         ADD   F2,TO,H1
+         ADD   F2,TO,H1
+*ZC    215         IF    F3,=,H1
+         IF    F3,=,H1
+*ZC    215         PERFORM GOOD
+         PERFORM GOOD
+*ZC    215         ELSE  
+         ELSE  
+*ZC    215         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO P1  IF F3  = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    216         ADD   F2,TO,P1
+         ADD   F2,TO,P1
+*ZC    216         IF    F3,=,P1
+         IF    F3,=,P1
+*ZC    216         PERFORM GOOD
+         PERFORM GOOD
+*ZC    216         ELSE  
+         ELSE  
+*ZC    216         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO Q1  IF F3  = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    217         ADD   F2,TO,Q1
+         ADD   F2,TO,Q1
+*ZC    217         IF    F3,=,Q1
+         IF    F3,=,Q1
+*ZC    217         PERFORM GOOD
+         PERFORM GOOD
+*ZC    217         ELSE  
+         ELSE  
+*ZC    217         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  F2  TO Z1  IF F3  = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    218         ADD   F2,TO,Z1
+         ADD   F2,TO,Z1
+*ZC    218         IF    F3,=,Z1
+         IF    F3,=,Z1
+*ZC    218         PERFORM GOOD
+         PERFORM GOOD
+*ZC    218         ELSE  
+         ELSE  
+*ZC    218         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    219         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  G2  TO EH1 IF G3  = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    220         ADD   G2,TO,EH1
+         ADD   G2,TO,EH1
+*ZC    220         IF    G3,=,EH1
+         IF    G3,=,EH1
+*ZC    220         PERFORM GOOD
+         PERFORM GOOD
+*ZC    220         ELSE  
+         ELSE  
+*ZC    220         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO DH1 IF G3  = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    221         ADD   G2,TO,DH1
+         ADD   G2,TO,DH1
+*ZC    221         IF    G3,=,DH1
+         IF    G3,=,DH1
+*ZC    221         PERFORM GOOD
+         PERFORM GOOD
+*ZC    221         ELSE  
+         ELSE  
+*ZC    221         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO LH1 IF G3  = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    222         ADD   G2,TO,LH1
+         ADD   G2,TO,LH1
+*ZC    222         IF    G3,=,LH1
+         IF    G3,=,LH1
+*ZC    222         PERFORM GOOD
+         PERFORM GOOD
+*ZC    222         ELSE  
+         ELSE  
+*ZC    222         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO EB1 IF G3  = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    223         ADD   G2,TO,EB1
+         ADD   G2,TO,EB1
+*ZC    223         IF    G3,=,EB1
+         IF    G3,=,EB1
+*ZC    223         PERFORM GOOD
+         PERFORM GOOD
+*ZC    223         ELSE  
+         ELSE  
+*ZC    223         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO DB1 IF G3  = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    224         ADD   G2,TO,DB1
+         ADD   G2,TO,DB1
+*ZC    224         IF    G3,=,DB1
+         IF    G3,=,DB1
+*ZC    224         PERFORM GOOD
+         PERFORM GOOD
+*ZC    224         ELSE  
+         ELSE  
+*ZC    224         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO LB1 IF G3  = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    225         ADD   G2,TO,LB1
+         ADD   G2,TO,LB1
+*ZC    225         IF    G3,=,LB1
+         IF    G3,=,LB1
+*ZC    225         PERFORM GOOD
+         PERFORM GOOD
+*ZC    225         ELSE  
+         ELSE  
+*ZC    225         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO ED1 IF G3  = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    226         ADD   G2,TO,ED1
+         ADD   G2,TO,ED1
+*ZC    226         IF    G3,=,ED1
+         IF    G3,=,ED1
+*ZC    226         PERFORM GOOD
+         PERFORM GOOD
+*ZC    226         ELSE  
+         ELSE  
+*ZC    226         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO DD1 IF G3  = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    227         ADD   G2,TO,DD1
+         ADD   G2,TO,DD1
+*ZC    227         IF    G3,=,DD1
+         IF    G3,=,DD1
+*ZC    227         PERFORM GOOD
+         PERFORM GOOD
+*ZC    227         ELSE  
+         ELSE  
+*ZC    227         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO LD1 IF G3  = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    228         ADD   G2,TO,LD1
+         ADD   G2,TO,LD1
+*ZC    228         IF    G3,=,LD1
+         IF    G3,=,LD1
+*ZC    228         PERFORM GOOD
+         PERFORM GOOD
+*ZC    228         ELSE  
+         ELSE  
+*ZC    228         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO F1  IF G3  = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    229         ADD   G2,TO,F1
+         ADD   G2,TO,F1
+*ZC    229         IF    G3,=,F1
+         IF    G3,=,F1
+*ZC    229         PERFORM GOOD
+         PERFORM GOOD
+*ZC    229         ELSE  
+         ELSE  
+*ZC    229         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO G1  IF G3  = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    230         ADD   G2,TO,G1
+         ADD   G2,TO,G1
+*ZC    230         IF    G3,=,G1
+         IF    G3,=,G1
+*ZC    230         PERFORM GOOD
+         PERFORM GOOD
+*ZC    230         ELSE  
+         ELSE  
+*ZC    230         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO H1  IF G3  = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    231         ADD   G2,TO,H1
+         ADD   G2,TO,H1
+*ZC    231         IF    G3,=,H1
+         IF    G3,=,H1
+*ZC    231         PERFORM GOOD
+         PERFORM GOOD
+*ZC    231         ELSE  
+         ELSE  
+*ZC    231         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO P1  IF G3  = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    232         ADD   G2,TO,P1
+         ADD   G2,TO,P1
+*ZC    232         IF    G3,=,P1
+         IF    G3,=,P1
+*ZC    232         PERFORM GOOD
+         PERFORM GOOD
+*ZC    232         ELSE  
+         ELSE  
+*ZC    232         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO Q1  IF G3  = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    233         ADD   G2,TO,Q1
+         ADD   G2,TO,Q1
+*ZC    233         IF    G3,=,Q1
+         IF    G3,=,Q1
+*ZC    233         PERFORM GOOD
+         PERFORM GOOD
+*ZC    233         ELSE  
+         ELSE  
+*ZC    233         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  G2  TO Z1  IF G3  = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    234         ADD   G2,TO,Z1
+         ADD   G2,TO,Z1
+*ZC    234         IF    G3,=,Z1
+         IF    G3,=,Z1
+*ZC    234         PERFORM GOOD
+         PERFORM GOOD
+*ZC    234         ELSE  
+         ELSE  
+*ZC    234         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    235         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  H2  TO EH1 IF H3  = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    236         ADD   H2,TO,EH1
+         ADD   H2,TO,EH1
+*ZC    236         IF    H3,=,EH1
+         IF    H3,=,EH1
+*ZC    236         PERFORM GOOD
+         PERFORM GOOD
+*ZC    236         ELSE  
+         ELSE  
+*ZC    236         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO DH1 IF H3  = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    237         ADD   H2,TO,DH1
+         ADD   H2,TO,DH1
+*ZC    237         IF    H3,=,DH1
+         IF    H3,=,DH1
+*ZC    237         PERFORM GOOD
+         PERFORM GOOD
+*ZC    237         ELSE  
+         ELSE  
+*ZC    237         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO LH1 IF H3  = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    238         ADD   H2,TO,LH1
+         ADD   H2,TO,LH1
+*ZC    238         IF    H3,=,LH1
+         IF    H3,=,LH1
+*ZC    238         PERFORM GOOD
+         PERFORM GOOD
+*ZC    238         ELSE  
+         ELSE  
+*ZC    238         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO EB1 IF H3  = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    239         ADD   H2,TO,EB1
+         ADD   H2,TO,EB1
+*ZC    239         IF    H3,=,EB1
+         IF    H3,=,EB1
+*ZC    239         PERFORM GOOD
+         PERFORM GOOD
+*ZC    239         ELSE  
+         ELSE  
+*ZC    239         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO DB1 IF H3  = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    240         ADD   H2,TO,DB1
+         ADD   H2,TO,DB1
+*ZC    240         IF    H3,=,DB1
+         IF    H3,=,DB1
+*ZC    240         PERFORM GOOD
+         PERFORM GOOD
+*ZC    240         ELSE  
+         ELSE  
+*ZC    240         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO LB1 IF H3  = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    241         ADD   H2,TO,LB1
+         ADD   H2,TO,LB1
+*ZC    241         IF    H3,=,LB1
+         IF    H3,=,LB1
+*ZC    241         PERFORM GOOD
+         PERFORM GOOD
+*ZC    241         ELSE  
+         ELSE  
+*ZC    241         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO ED1 IF H3  = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    242         ADD   H2,TO,ED1
+         ADD   H2,TO,ED1
+*ZC    242         IF    H3,=,ED1
+         IF    H3,=,ED1
+*ZC    242         PERFORM GOOD
+         PERFORM GOOD
+*ZC    242         ELSE  
+         ELSE  
+*ZC    242         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO DD1 IF H3  = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    243         ADD   H2,TO,DD1
+         ADD   H2,TO,DD1
+*ZC    243         IF    H3,=,DD1
+         IF    H3,=,DD1
+*ZC    243         PERFORM GOOD
+         PERFORM GOOD
+*ZC    243         ELSE  
+         ELSE  
+*ZC    243         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO LD1 IF H3  = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    244         ADD   H2,TO,LD1
+         ADD   H2,TO,LD1
+*ZC    244         IF    H3,=,LD1
+         IF    H3,=,LD1
+*ZC    244         PERFORM GOOD
+         PERFORM GOOD
+*ZC    244         ELSE  
+         ELSE  
+*ZC    244         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO F1  IF H3  = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    245         ADD   H2,TO,F1
+         ADD   H2,TO,F1
+*ZC    245         IF    H3,=,F1
+         IF    H3,=,F1
+*ZC    245         PERFORM GOOD
+         PERFORM GOOD
+*ZC    245         ELSE  
+         ELSE  
+*ZC    245         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO G1  IF H3  = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    246         ADD   H2,TO,G1
+         ADD   H2,TO,G1
+*ZC    246         IF    H3,=,G1
+         IF    H3,=,G1
+*ZC    246         PERFORM GOOD
+         PERFORM GOOD
+*ZC    246         ELSE  
+         ELSE  
+*ZC    246         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO H1  IF H3  = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    247         ADD   H2,TO,H1
+         ADD   H2,TO,H1
+*ZC    247         IF    H3,=,H1
+         IF    H3,=,H1
+*ZC    247         PERFORM GOOD
+         PERFORM GOOD
+*ZC    247         ELSE  
+         ELSE  
+*ZC    247         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO P1  IF H3  = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    248         ADD   H2,TO,P1
+         ADD   H2,TO,P1
+*ZC    248         IF    H3,=,P1
+         IF    H3,=,P1
+*ZC    248         PERFORM GOOD
+         PERFORM GOOD
+*ZC    248         ELSE  
+         ELSE  
+*ZC    248         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO Q1  IF H3  = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    249         ADD   H2,TO,Q1
+         ADD   H2,TO,Q1
+*ZC    249         IF    H3,=,Q1
+         IF    H3,=,Q1
+*ZC    249         PERFORM GOOD
+         PERFORM GOOD
+*ZC    249         ELSE  
+         ELSE  
+*ZC    249         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  H2  TO Z1  IF H3  = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    250         ADD   H2,TO,Z1
+         ADD   H2,TO,Z1
+*ZC    250         IF    H3,=,Z1
+         IF    H3,=,Z1
+*ZC    250         PERFORM GOOD
+         PERFORM GOOD
+*ZC    250         ELSE  
+         ELSE  
+*ZC    250         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.      
+*ZC    251         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  P2  TO EH1 IF P3  = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    252         ADD   P2,TO,EH1
+         ADD   P2,TO,EH1
+*ZC    252         IF    P3,=,EH1
+         IF    P3,=,EH1
+*ZC    252         PERFORM GOOD
+         PERFORM GOOD
+*ZC    252         ELSE  
+         ELSE  
+*ZC    252         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO DH1 IF P3  = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    253         ADD   P2,TO,DH1
+         ADD   P2,TO,DH1
+*ZC    253         IF    P3,=,DH1
+         IF    P3,=,DH1
+*ZC    253         PERFORM GOOD
+         PERFORM GOOD
+*ZC    253         ELSE  
+         ELSE  
+*ZC    253         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO LH1 IF P3  = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    254         ADD   P2,TO,LH1
+         ADD   P2,TO,LH1
+*ZC    254         IF    P3,=,LH1
+         IF    P3,=,LH1
+*ZC    254         PERFORM GOOD
+         PERFORM GOOD
+*ZC    254         ELSE  
+         ELSE  
+*ZC    254         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO EB1 IF P3  = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    255         ADD   P2,TO,EB1
+         ADD   P2,TO,EB1
+*ZC    255         IF    P3,=,EB1
+         IF    P3,=,EB1
+*ZC    255         PERFORM GOOD
+         PERFORM GOOD
+*ZC    255         ELSE  
+         ELSE  
+*ZC    255         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO DB1 IF P3  = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    256         ADD   P2,TO,DB1
+         ADD   P2,TO,DB1
+*ZC    256         IF    P3,=,DB1
+         IF    P3,=,DB1
+*ZC    256         PERFORM GOOD
+         PERFORM GOOD
+*ZC    256         ELSE  
+         ELSE  
+*ZC    256         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO LB1 IF P3  = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    257         ADD   P2,TO,LB1
+         ADD   P2,TO,LB1
+*ZC    257         IF    P3,=,LB1
+         IF    P3,=,LB1
+*ZC    257         PERFORM GOOD
+         PERFORM GOOD
+*ZC    257         ELSE  
+         ELSE  
+*ZC    257         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO ED1 IF P3  = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    258         ADD   P2,TO,ED1
+         ADD   P2,TO,ED1
+*ZC    258         IF    P3,=,ED1
+         IF    P3,=,ED1
+*ZC    258         PERFORM GOOD
+         PERFORM GOOD
+*ZC    258         ELSE  
+         ELSE  
+*ZC    258         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO DD1 IF P3  = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    259         ADD   P2,TO,DD1
+         ADD   P2,TO,DD1
+*ZC    259         IF    P3,=,DD1
+         IF    P3,=,DD1
+*ZC    259         PERFORM GOOD
+         PERFORM GOOD
+*ZC    259         ELSE  
+         ELSE  
+*ZC    259         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO LD1 IF P3  = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    260         ADD   P2,TO,LD1
+         ADD   P2,TO,LD1
+*ZC    260         IF    P3,=,LD1
+         IF    P3,=,LD1
+*ZC    260         PERFORM GOOD
+         PERFORM GOOD
+*ZC    260         ELSE  
+         ELSE  
+*ZC    260         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO F1  IF P3  = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    261         ADD   P2,TO,F1
+         ADD   P2,TO,F1
+*ZC    261         IF    P3,=,F1
+         IF    P3,=,F1
+*ZC    261         PERFORM GOOD
+         PERFORM GOOD
+*ZC    261         ELSE  
+         ELSE  
+*ZC    261         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO G1  IF P3  = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    262         ADD   P2,TO,G1
+         ADD   P2,TO,G1
+*ZC    262         IF    P3,=,G1
+         IF    P3,=,G1
+*ZC    262         PERFORM GOOD
+         PERFORM GOOD
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO H1  IF P3  = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    263         ADD   P2,TO,H1
+         ADD   P2,TO,H1
+*ZC    263         IF    P3,=,H1
+         IF    P3,=,H1
+*ZC    263         PERFORM GOOD
+         PERFORM GOOD
+*ZC    263         ELSE  
+         ELSE  
+*ZC    263         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO P1  IF P3  = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    264         ADD   P2,TO,P1
+         ADD   P2,TO,P1
+*ZC    264         IF    P3,=,P1
+         IF    P3,=,P1
+*ZC    264         PERFORM GOOD
+         PERFORM GOOD
+*ZC    264         ELSE  
+         ELSE  
+*ZC    264         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO Q1  IF P3  = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    265         ADD   P2,TO,Q1
+         ADD   P2,TO,Q1
+*ZC    265         IF    P3,=,Q1
+         IF    P3,=,Q1
+*ZC    265         PERFORM GOOD
+         PERFORM GOOD
+*ZC    265         ELSE  
+         ELSE  
+*ZC    265         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  P2  TO Z1  IF P3  = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    266         ADD   P2,TO,Z1
+         ADD   P2,TO,Z1
+*ZC    266         IF    P3,=,Z1
+         IF    P3,=,Z1
+*ZC    266         PERFORM GOOD
+         PERFORM GOOD
+*ZC    266         ELSE  
+         ELSE  
+*ZC    266         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.
+*ZC    267         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  Q2  TO EH1 IF Q3  = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    268         ADD   Q2,TO,EH1
+         ADD   Q2,TO,EH1
+*ZC    268         IF    Q3,=,EH1
+         IF    Q3,=,EH1
+*ZC    268         PERFORM GOOD
+         PERFORM GOOD
+*ZC    268         ELSE  
+         ELSE  
+*ZC    268         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO DH1 IF Q3  = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    269         ADD   Q2,TO,DH1
+         ADD   Q2,TO,DH1
+*ZC    269         IF    Q3,=,DH1
+         IF    Q3,=,DH1
+*ZC    269         PERFORM GOOD
+         PERFORM GOOD
+*ZC    269         ELSE  
+         ELSE  
+*ZC    269         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO LH1 IF Q3  = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    270         ADD   Q2,TO,LH1
+         ADD   Q2,TO,LH1
+*ZC    270         IF    Q3,=,LH1
+         IF    Q3,=,LH1
+*ZC    270         PERFORM GOOD
+         PERFORM GOOD
+*ZC    270         ELSE  
+         ELSE  
+*ZC    270         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO EB1 IF Q3  = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    271         ADD   Q2,TO,EB1
+         ADD   Q2,TO,EB1
+*ZC    271         IF    Q3,=,EB1
+         IF    Q3,=,EB1
+*ZC    271         PERFORM GOOD
+         PERFORM GOOD
+*ZC    271         ELSE  
+         ELSE  
+*ZC    271         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO DB1 IF Q3  = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    272         ADD   Q2,TO,DB1
+         ADD   Q2,TO,DB1
+*ZC    272         IF    Q3,=,DB1
+         IF    Q3,=,DB1
+*ZC    272         PERFORM GOOD
+         PERFORM GOOD
+*ZC    272         ELSE  
+         ELSE  
+*ZC    272         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO LB1 IF Q3  = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    273         ADD   Q2,TO,LB1
+         ADD   Q2,TO,LB1
+*ZC    273         IF    Q3,=,LB1
+         IF    Q3,=,LB1
+*ZC    273         PERFORM GOOD
+         PERFORM GOOD
+*ZC    273         ELSE  
+         ELSE  
+*ZC    273         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO ED1 IF Q3  = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    274         ADD   Q2,TO,ED1
+         ADD   Q2,TO,ED1
+*ZC    274         IF    Q3,=,ED1
+         IF    Q3,=,ED1
+*ZC    274         PERFORM GOOD
+         PERFORM GOOD
+*ZC    274         ELSE  
+         ELSE  
+*ZC    274         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO DD1 IF Q3  = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    275         ADD   Q2,TO,DD1
+         ADD   Q2,TO,DD1
+*ZC    275         IF    Q3,=,DD1
+         IF    Q3,=,DD1
+*ZC    275         PERFORM GOOD
+         PERFORM GOOD
+*ZC    275         ELSE  
+         ELSE  
+*ZC    275         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO LD1 IF Q3  = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    276         ADD   Q2,TO,LD1
+         ADD   Q2,TO,LD1
+*ZC    276         IF    Q3,=,LD1
+         IF    Q3,=,LD1
+*ZC    276         PERFORM GOOD
+         PERFORM GOOD
+*ZC    276         ELSE  
+         ELSE  
+*ZC    276         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO F1  IF Q3  = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    277         ADD   Q2,TO,F1
+         ADD   Q2,TO,F1
+*ZC    277         IF    Q3,=,F1
+         IF    Q3,=,F1
+*ZC    277         PERFORM GOOD
+         PERFORM GOOD
+*ZC    277         ELSE  
+         ELSE  
+*ZC    277         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO G1  IF Q3  = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    278         ADD   Q2,TO,G1
+         ADD   Q2,TO,G1
+*ZC    278         IF    Q3,=,G1
+         IF    Q3,=,G1
+*ZC    278         PERFORM GOOD
+         PERFORM GOOD
+*ZC    278         ELSE  
+         ELSE  
+*ZC    278         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO H1  IF Q3  = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    279         ADD   Q2,TO,H1
+         ADD   Q2,TO,H1
+*ZC    279         IF    Q3,=,H1
+         IF    Q3,=,H1
+*ZC    279         PERFORM GOOD
+         PERFORM GOOD
+*ZC    279         ELSE  
+         ELSE  
+*ZC    279         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO P1  IF Q3  = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    280         ADD   Q2,TO,P1
+         ADD   Q2,TO,P1
+*ZC    280         IF    Q3,=,P1
+         IF    Q3,=,P1
+*ZC    280         PERFORM GOOD
+         PERFORM GOOD
+*ZC    280         ELSE  
+         ELSE  
+*ZC    280         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO Q1  IF Q3  = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    281         ADD   Q2,TO,Q1
+         ADD   Q2,TO,Q1
+*ZC    281         IF    Q3,=,Q1
+         IF    Q3,=,Q1
+*ZC    281         PERFORM GOOD
+         PERFORM GOOD
+*ZC    281         ELSE  
+         ELSE  
+*ZC    281         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Q2  TO Z1  IF Q3  = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    282         ADD   Q2,TO,Z1
+         ADD   Q2,TO,Z1
+*ZC    282         IF    Q3,=,Z1
+         IF    Q3,=,Z1
+*ZC    282         PERFORM GOOD
+         PERFORM GOOD
+*ZC    282         ELSE  
+         ELSE  
+*ZC    282         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM INIT.       
+*ZC    283         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            ADD  Z2  TO EH1 IF Z3  = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    284         ADD   Z2,TO,EH1
+         ADD   Z2,TO,EH1
+*ZC    284         IF    Z3,=,EH1
+         IF    Z3,=,EH1
+*ZC    284         PERFORM GOOD
+         PERFORM GOOD
+*ZC    284         ELSE  
+         ELSE  
+*ZC    284         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO DH1 IF Z3  = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    285         ADD   Z2,TO,DH1
+         ADD   Z2,TO,DH1
+*ZC    285         IF    Z3,=,DH1
+         IF    Z3,=,DH1
+*ZC    285         PERFORM GOOD
+         PERFORM GOOD
+*ZC    285         ELSE  
+         ELSE  
+*ZC    285         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO LH1 IF Z3  = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    286         ADD   Z2,TO,LH1
+         ADD   Z2,TO,LH1
+*ZC    286         IF    Z3,=,LH1
+         IF    Z3,=,LH1
+*ZC    286         PERFORM GOOD
+         PERFORM GOOD
+*ZC    286         ELSE  
+         ELSE  
+*ZC    286         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO EB1 IF Z3  = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    287         ADD   Z2,TO,EB1
+         ADD   Z2,TO,EB1
+*ZC    287         IF    Z3,=,EB1
+         IF    Z3,=,EB1
+*ZC    287         PERFORM GOOD
+         PERFORM GOOD
+*ZC    287         ELSE  
+         ELSE  
+*ZC    287         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO DB1 IF Z3  = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    288         ADD   Z2,TO,DB1
+         ADD   Z2,TO,DB1
+*ZC    288         IF    Z3,=,DB1
+         IF    Z3,=,DB1
+*ZC    288         PERFORM GOOD
+         PERFORM GOOD
+*ZC    288         ELSE  
+         ELSE  
+*ZC    288         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO LB1 IF Z3  = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    289         ADD   Z2,TO,LB1
+         ADD   Z2,TO,LB1
+*ZC    289         IF    Z3,=,LB1
+         IF    Z3,=,LB1
+*ZC    289         PERFORM GOOD
+         PERFORM GOOD
+*ZC    289         ELSE  
+         ELSE  
+*ZC    289         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO ED1 IF Z3  = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    290         ADD   Z2,TO,ED1
+         ADD   Z2,TO,ED1
+*ZC    290         IF    Z3,=,ED1
+         IF    Z3,=,ED1
+*ZC    290         PERFORM GOOD
+         PERFORM GOOD
+*ZC    290         ELSE  
+         ELSE  
+*ZC    290         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO DD1 IF Z3  = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    291         ADD   Z2,TO,DD1
+         ADD   Z2,TO,DD1
+*ZC    291         IF    Z3,=,DD1
+         IF    Z3,=,DD1
+*ZC    291         PERFORM GOOD
+         PERFORM GOOD
+*ZC    291         ELSE  
+         ELSE  
+*ZC    291         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO LD1 IF Z3  = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    292         ADD   Z2,TO,LD1
+         ADD   Z2,TO,LD1
+*ZC    292         IF    Z3,=,LD1
+         IF    Z3,=,LD1
+*ZC    292         PERFORM GOOD
+         PERFORM GOOD
+*ZC    292         ELSE  
+         ELSE  
+*ZC    292         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO F1  IF Z3  = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    293         ADD   Z2,TO,F1
+         ADD   Z2,TO,F1
+*ZC    293         IF    Z3,=,F1
+         IF    Z3,=,F1
+*ZC    293         PERFORM GOOD
+         PERFORM GOOD
+*ZC    293         ELSE  
+         ELSE  
+*ZC    293         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO G1  IF Z3  = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    294         ADD   Z2,TO,G1
+         ADD   Z2,TO,G1
+*ZC    294         IF    Z3,=,G1
+         IF    Z3,=,G1
+*ZC    294         PERFORM GOOD
+         PERFORM GOOD
+*ZC    294         ELSE  
+         ELSE  
+*ZC    294         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO H1  IF Z3  = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    295         ADD   Z2,TO,H1
+         ADD   Z2,TO,H1
+*ZC    295         IF    Z3,=,H1
+         IF    Z3,=,H1
+*ZC    295         PERFORM GOOD
+         PERFORM GOOD
+*ZC    295         ELSE  
+         ELSE  
+*ZC    295         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO P1  IF Z3  = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    296         ADD   Z2,TO,P1
+         ADD   Z2,TO,P1
+*ZC    296         IF    Z3,=,P1
+         IF    Z3,=,P1
+*ZC    296         PERFORM GOOD
+         PERFORM GOOD
+*ZC    296         ELSE  
+         ELSE  
+*ZC    296         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO Q1  IF Z3  = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    297         ADD   Z2,TO,Q1
+         ADD   Z2,TO,Q1
+*ZC    297         IF    Z3,=,Q1
+         IF    Z3,=,Q1
+*ZC    297         PERFORM GOOD
+         PERFORM GOOD
+*ZC    297         ELSE  
+         ELSE  
+*ZC    297         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  Z2  TO Z1  IF Z3  = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    298         ADD   Z2,TO,Z1
+         ADD   Z2,TO,Z1
+*ZC    298         IF    Z3,=,Z1
+         IF    Z3,=,Z1
+*ZC    298         PERFORM GOOD
+         PERFORM GOOD
+*ZC    298         ELSE  
+         ELSE  
+*ZC    298         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TOTAL GOOD = ' GOOD ' TOTAL BAD = ' BAD
+*ZC    299         DISPLAY 'TOTAL GOOD = ',GOOD,' TOTAL BAD = ',BAD
+         DISPLAY 'TOTAL GOOD = ',GOOD,' TOTAL BAD = ',BAD
+*            STOP RUN.
+*ZC    300         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INIT.
+         LABEL INIT
+*            DISPLAY 'INIT'
+*ZC    302         DISPLAY 'INIT'
+         DISPLAY 'INIT'
+*            MOVE 1.0 TO EH1.
+*ZC    303         MOVE  1.0,TO,EH1
+         MOVE  1.0,TO,EH1
+         PERIOD 
+*            MOVE 1.0 TO DH1.
+*ZC    304         MOVE  1.0,TO,DH1
+         MOVE  1.0,TO,DH1
+         PERIOD 
+*            MOVE 1.0 TO LH1.
+*ZC    305         MOVE  1.0,TO,LH1
+         MOVE  1.0,TO,LH1
+         PERIOD 
+*            MOVE 1.0 TO EB1.
+*ZC    306         MOVE  1.0,TO,EB1
+         MOVE  1.0,TO,EB1
+         PERIOD 
+*            MOVE 1.0 TO DB1.
+*ZC    307         MOVE  1.0,TO,DB1
+         MOVE  1.0,TO,DB1
+         PERIOD 
+*            MOVE 1.0 TO LB1.
+*ZC    308         MOVE  1.0,TO,LB1
+         MOVE  1.0,TO,LB1
+         PERIOD 
+*            MOVE 1.0 TO ED1.
+*ZC    309         MOVE  1.0,TO,ED1
+         MOVE  1.0,TO,ED1
+         PERIOD 
+*            MOVE 1.0 TO DD1.
+*ZC    310         MOVE  1.0,TO,DD1
+         MOVE  1.0,TO,DD1
+         PERIOD 
+*            MOVE 1.0 TO LD1.
+*ZC    311         MOVE  1.0,TO,LD1
+         MOVE  1.0,TO,LD1
+         PERIOD 
+*            MOVE 1.0 TO F1.
+*ZC    312         MOVE  1.0,TO,F1
+         MOVE  1.0,TO,F1
+         PERIOD 
+*            MOVE 1.0 TO G1.
+*ZC    313         MOVE  1.0,TO,G1
+         MOVE  1.0,TO,G1
+         PERIOD 
+*            MOVE 1.0 TO H1.
+*ZC    314         MOVE  1.0,TO,H1
+         MOVE  1.0,TO,H1
+         PERIOD 
+*            MOVE 1.0 TO P1.
+*ZC    315         MOVE  1.0,TO,P1
+         MOVE  1.0,TO,P1
+         PERIOD 
+*            MOVE 1.0 TO Q1.
+*ZC    316         MOVE  1.0,TO,Q1
+         MOVE  1.0,TO,Q1
+         PERIOD 
+*            MOVE 1.0 TO Z1.    
+*ZC    317         MOVE  1.0,TO,Z1
+         MOVE  1.0,TO,Z1
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC    319         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            ADD 1 TO BAD
+*ZC    321         ADD   1,TO,BAD
+         ADD   1,TO,BAD
+*            ADD  16 TO RETURN-CODE..
+*ZC    322         ADD   16,TO,RETURN_CODE
+         ADD   16,TO,RETURN_CODE
+         PERIOD 
+*            DISPLAY 'BAD'.
+*      *    STOP RUN.
+*ZC    323         DISPLAY 'BAD'
+         DISPLAY 'BAD'
+         PERIOD 
+         PROCEDURE END
+         END   

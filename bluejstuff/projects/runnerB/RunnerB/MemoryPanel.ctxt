@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=cpu
+comment0.target=MemoryPanel(CPU)
+comment1.params=
+comment1.target=void\ repaintMemory()
+comment2.params=page
+comment2.target=void\ paintComponent(java.awt.Graphics)
+numComments=3

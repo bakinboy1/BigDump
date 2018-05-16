@@ -1,0 +1,108 @@
+<style>
+  body {
+  padding-top: 80px;
+  text-align: center;
+  font-family: monaco, monospace;
+  background: url(1.jpg) no-repeat center center fixed;
+  background-size: cover;
+}
+html{
+	background: url(1.jpg) no-repeat center center fixed;
+}
+@font-face{
+	font-family:Lazer84;
+	src: url(Lazer84.ttf);
+}
+.shadow { 
+   color: white; 
+   font-family: Lazer84;
+   text-shadow: 1px 1px #F83CFE, 
+                2px 2px #F83CFE, 
+                3px 3px #F83CFE;
+	line-height: 450px;
+    height: 5px;
+	text-align: center;
+	 letter-spacing: 12px;
+}
+.shadow p, a{
+	line-height: 1.5;
+    display: inline-block;
+    vertical-align: middle;
+}
+
+table{
+	   color: white; 
+	border-style: solid;
+	border-width:5px;
+	   font-family: Lazer84;
+	border-collapse: seperate;
+	   border-color: white; 
+  border-radius:30px;
+  border-spacing: 15px;
+
+   text-shadow: 1px 1px #F83CFE, 
+                2px 2px #F83CFE, 
+                3px 3px #F83CFE;
+margin-top: 400px;
+	text-align: center;
+	 letter-spacing: 1px;
+	 margin-left:auto;
+	 margin-right:auto;
+}
+.pic{
+		display: block;
+    margin-left: auto;
+    margin-right: auto;
+	height: 100%;
+    width: 100%;
+	margin-top: 280px;
+}
+btn, img, input{
+	display: block;
+    margin-left: auto;
+    margin-right: auto;
+	height: 10%;
+    width: 10%;
+	margin-top: 250px;
+}
+.privacy{
+	color:white;
+}
+a{
+	color: #FFFFFF;
+    text-decoration: none;
+}
+.shadow:hover {
+   position: relative; 
+   top: -3px; 
+   left: -3px; 
+   text-shadow: 1px 1px #F83CFE, 
+                2px 2px #F83CFE, 
+                3px 3px #F83CFE, 
+                4px 4px #F83CFE, 
+                5px 5px #F83CFE, 
+                6px 6px #F83CFE;
+				
+}
+div:hover { 
+   -webkit-transform: scale(1.1); 
+   -moz-transform:    scale(1.1);
+   -ms-transform:     scale(1.1); 
+   -o-transform:      scale(1.1); 
+   text-shadow: 3px 3px 0 #333; 
+}
+
+body:hover {overflow-y:hidden;
+			overflow-x:hidden;
+}
+h1 {
+  font-size: 60px
+}
+h2 {
+  font-size: 20px;
+}
+span {
+  background: #fd0;
+}
+
+</style>

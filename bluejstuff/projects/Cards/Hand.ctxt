@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=size
+comment0.target=Hand(int)
+comment1.params=
+comment1.target=card[]\ getHand()
+comment2.params=c
+comment2.target=boolean\ setHand(card[])
+comment3.params=c
+comment3.target=boolean\ addCard(card)
+comment4.params=suite\ rank
+comment4.target=card\ removeCard(java.lang.String,\ java.lang.String)
+comment5.params=c
+comment5.target=boolean\ hasCard(card)
+comment6.params=suite\ rank
+comment6.target=boolean\ hasCard(java.lang.String,\ java.lang.String)
+numComments=7

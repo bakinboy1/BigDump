@@ -1,0 +1,1024 @@
+09:02:42 INSPECT   MZ390 START USING z390 V1.5.06rx3 ON J2SE 1.7.0 04/20/12
+AZ390I Copyright 2011 Automated Software Tools Corporation
+AZ390I z390 is licensed under GNU General Public License
+AZ390I program = ZCOBOL\Z390\INSPECT
+AZ390I options = W:\work\z390\z390.OPT=(time(60)) sysmac(W:\work\z390\mac+.) 
+  syscpy(W:\work\z390\mac+.) SYSCPY(+ZCOBOL\Z390) systerm(linklib\rtlink)
+External Symbol Definitions
+ ESD=0001 LOC=00000000 LEN=00000828 TYPE=CST NAME=INSPECT
+Assembler Listing
+000000                                        (1/1)1 *********************************************************************
+000000                                        (1/2)2 * Copyright 2008 Automated Software Tools Corporation               *
+000000                                        (1/3)3 * This source code is part of z390 assembler/emulator package       *
+000000                                        (1/4)4 * The z390 package is distributed under GNU general public license  *
+000000                                        (1/5)5 * Author - Don Higgins                                              *
+000000                                        (1/6)6 * Date   - 04/09/08                                                 *
+000000                                        (1/7)7 *********************************************************************
+000000                                        (1/8)8 * 01/15/09 initial coding of INSPECT call function
+000000                                        (1/9)9 *********************************************************************
+000000                                      (1/10)10 *
+000000                                      (1/11)11 *
+000000                                      (1/12)12 * NOTES:
+000000                                      (1/13)13 *  1.  TALLY RETURNS CURRENT COUNT IN GR0 FOR ADD TO V2 BY GEN_INSPECT
+000000                                      (1/14)14 *********************************************************************
+000000                                      (1/15)15 INSPECT  CSECT 
+000000                                      (1/16)16          USING INSPECT,R15
+LISTUSE INSPECT  ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+000000                                      (1/17)17          COPY  ASMMSP
+000000                                       (2/1)18=         COPY ZSTRMAC  Z390 STRUCTURED PROGRAMMING MACROS
+000000                                      (1/18)19          SAVE  (R14,R12)
+000000 90ECD00C                             (5/51)20+         STM   14,12,12+4*(14-14)(13)
+000004 4120F00C                00000C       (1/19)22          LA    R2,INSPECT_ROUTINES
+000008 1A20                                 (1/20)23          AR    R2,R0
+00000A 07F2                                 (1/21)24          BR    R2
+00000C                                      (1/22)25 INSPECT_ROUTINES DS 0H
+00000C A7F40006                000018       (1/23)26          J     TALLYING    0 - ZCVT_TALLYING
+000010 A7F40042                000094       (1/24)27          J     REPLACING   4 - ZCVT_REPLACING
+000014 A7F4008A                000128       (1/25)28          J     CONVERTING  8 - ZCVT_CONVERTING
+000018                                      (1/26)29 *
+000018                                      (1/27)30 * INSPECT V1 TALLYING V2 FOR CHARACTERS BEFORE/AFTER TEST_VAR
+000018                                      (1/28)31 * INSPECT V1 TALLYING V2 FOR ALL     V3 BEFORE/AFTER TEST_VAR
+000018                                      (1/29)32 * INSPECT V1 TALLYING V2 FOR LEADING V3 BEFORE/AFTER TEST_VAR
+000018                                      (1/30)33 * CALL TALLY,(V1,L'V1,V2,L'V2,B/A+STYPE,V3,L'V3,TEST_VAR,L'TEST_VAR
+000018                                      (1/31)34 * PARM        P1 P2   P3 P4   P5        P6 P7   P8       P9
+000018                                      (1/32)35 * OFFSET       0  4    8 12   16        20 24   28       32
+000018                                      (1/33)36 * LM REG      R4 R5   R6 R7   R8        R9 R10  R11      R12
+000018                                      (1/34)37 *
+000018                                      (1/35)38 TALLYING DS    0H
+000018 984C1000                             (1/36)39          LM    R4,R12,0(R1)
+00001C 4DE0F41E                00041E       (1/37)40          BAS   R14,SET_TEST_TRT
+000020 4280F720                000720       (1/38)41          STC   R8,STYPE
+000024 B9090000                             (1/39)42          SGR   R0,R0                R0=CLEAR TALLY COUNT HIGH BITS
+000028                                      (1/40)43          IF    (CLI,STYPE,EQ,C'C') TALLY CHARACTERS
+000028 95C3F720                000720       (6/47)69+         CLI   STYPE,C'C'
+00002C 4770F03A                00003A       (6/49)70+         BC    15-EQ,#@IF_1_2
+000030 4DE0F458                000458       (1/41)72                BAS  R14,FIND_TEST_CHAR
+000034 1805                                 (1/42)73                LR   R0,R5
+000036                                      (1/43)74          ELSEIF (CLI,STYPE,EQ,C'A')  TALLY ALL V3
+000036 47F0F08A                00008A       (9/24)77+         B     #@IF_1_E
+00003A                                      (9/25)78+#@IF_1_2                                                 DS 0H
+00003A 95C1F720                000720       (9/48)79+         CLI   STYPE,C'A'
+00003E 4770F04E                00004E       (9/50)80+         BC    15-EQ,#@IF_1_4
+000042 4DE0F458                000458       (1/44)82                BAS  R14,FIND_TEST_CHAR  R11=A(FIRST TEST CHAR)
+000046 4DE0F5CA                0005CA       (1/45)83                BAS  R14,CNT_ALL_CHAR    ALL V3 CHAR UNTIL TEST/END
+00004A                                      (1/46)84          ELSEIF (CLI,STYPE,EQ,C'L')
+00004A 47F0F08A                00008A       (9/24)87+         B     #@IF_1_E
+00004E                                      (9/25)88+#@IF_1_4                                                 DS 0H
+00004E 95D3F720                000720       (9/48)89+         CLI   STYPE,C'L'
+000052 4770F062                000062       (9/50)90+         BC    15-EQ,#@IF_1_6
+000056 4DE0F458                000458       (1/47)92                BAS  R14,FIND_TEST_CHAR   R11=A(FIRST TEST CHAR)
+00005A 4DE0F6AE                0006AE       (1/48)93                BAS  R14,CNT_LEAD_CHAR    ALL V3 CHAR UNTIL TEST/END
+00005E                                      (1/49)94          ELSE 
+00005E 47F0F08A                00008A      (10/40)97+        B      #@IF_1_E
+000062                                     (10/41)98+#@IF_1_6                                                 DS 0H
+000062                                     (1/50)100                WTO 'INSPECT TALLY UNKNOWN SUB-TYPE'
+000062 A7150013                000088     (11/49)102+         BRAS  1,*+(WTO#0010_EOT-*+1)/2*2
+000066 00220000C9D5E2D7                   (11/50)103+         DC    AL2(WTO#0010_EOT-*,0),C'INSPECT TALLY UNKNOWN SUB-TYPE'
+000088                  00000088          (11/51)104+WTO#0010_EOT     EQU *
+000088 0A23                               (11/52)105+         SVC   35
+00008A                                     (1/51)107          ENDIF 
+00008A                                    (12/23)110+#@IF_1_E                         DS 0H
+00008A 58ED000C                            (1/52)112          L     R14,12(R13) RESTORE R14 AND LEAVE R0=TALLY COUNT
+00008E                                     (1/53)113          RETURN (R2,R12)  RETURN TALLY COUNT IN R0 FOR GEN_INSPECT ADD
+00008E 982CD01C                           (15/50)117+         LM    2,12,20+4*2(13)
+000092 07FE                               (14/41)119+         BR    14
+000094                                     (1/54)122 *
+000094                                     (1/55)123 * INSPECT REPLACING
+000094                                     (1/56)124 *
+000094                                     (1/57)125 REPLACING DS   0H
+000094 984C1000                            (1/58)126          LM    R4,R12,0(R1)
+000098 4DE0F41E                00041E      (1/59)127          BAS   R14,SET_TEST_TRT
+00009C 4280F720                000720      (1/60)128          STC   R8,STYPE
+0000A0 B9090000                            (1/61)129          SGR   R0,R0                R0=TALLY COUNT
+0000A4                                     (1/62)130          IF    (CLI,STYPE,EQ,C'C') REPLACE CHARACTERS BY V3
+0000A4 95C3F720                000720      (6/47)134+         CLI   STYPE,C'C'
+0000A8 4770F0B8                0000B8      (6/49)135+         BC    15-EQ,#@IF_2_2
+0000AC 4DE0F458                000458      (1/63)137                BAS  R14,FIND_TEST_CHAR   R11=A(FIRST TEST CHAR)
+0000B0 4DE0F27C                00027C      (1/64)138                BAS  R14,REP_CHAR         REPLACE SELECTED CHARACTERS
+0000B4                                     (1/65)139          ELSEIF (CLI,STYPE,EQ,C'A')  REPLACE ALL V2 BY V3
+0000B4 47F0F11E                00011E      (9/24)143+         B     #@IF_2_E
+0000B8                                     (9/25)144+#@IF_2_2                                                 DS 0H
+0000B8 95C1F720                000720      (9/48)145+         CLI   STYPE,C'A'
+0000BC 4770F0CC                0000CC      (9/50)146+         BC    15-EQ,#@IF_2_4
+0000C0 4DE0F458                000458      (1/66)148                BAS  R14,FIND_TEST_CHAR  R11=A(FIRST TEST CHAR)
+0000C4 4DE0F2BE                0002BE      (1/67)149                BAS  R14,REP_ALL_CHAR    REP ALL V2 BY V3 CHAR
+0000C8                                     (1/68)150          ELSEIF (CLI,STYPE,EQ,C'F')
+0000C8 47F0F11E                00011E      (9/24)153+         B     #@IF_2_E
+0000CC                                     (9/25)154+#@IF_2_4                                                 DS 0H
+0000CC 95C6F720                000720      (9/48)155+         CLI   STYPE,C'F'
+0000D0 4770F0E0                0000E0      (9/50)156+         BC    15-EQ,#@IF_2_6
+0000D4 4DE0F458                000458      (1/69)158                BAS  R14,FIND_TEST_CHAR   R11=A(FIRST TEST CHAR)
+0000D8 4DE0F3A6                0003A6      (1/70)159                BAS  R14,REP_FIRST_CHAR   REP FIRST V2 BY V3 CHAR
+0000DC                                     (1/71)160          ELSEIF (CLI,STYPE,EQ,C'L')
+0000DC 47F0F11E                00011E      (9/24)163+         B     #@IF_2_E
+0000E0                                     (9/25)164+#@IF_2_6                                                 DS 0H
+0000E0 95D3F720                000720      (9/48)165+         CLI   STYPE,C'L'
+0000E4 4770F0F4                0000F4      (9/50)166+         BC    15-EQ,#@IF_2_8
+0000E8 4DE0F458                000458      (1/72)168                BAS  R14,FIND_TEST_CHAR   R11=A(FIRST TEST CHAR)
+0000EC 4DE0F342                000342      (1/73)169                BAS  R14,REP_LEAD_CHAR    REP FIRST V2 BY V3
+0000F0                                     (1/74)170          ELSE 
+0000F0 47F0F11E                00011E     (10/40)173+        B      #@IF_2_E
+0000F4                                    (10/41)174+#@IF_2_8                                                 DS 0H
+0000F4                                     (1/75)176                WTO 'INSPECT REPLACE UNKNOWN SUB-TYPE'
+0000F4 A7150014                00011C     (11/49)178+         BRAS  1,*+(WTO#0026_EOT-*+1)/2*2
+0000F8 00240000C9D5E2D7                   (11/50)179+         DC    AL2(WTO#0026_EOT-*,0),C'INSPECT REPLACE UNKNOWN SUB-TYPE'
+00011C                  0000011C          (11/51)181+WTO#0026_EOT     EQU *
+00011C 0A23                               (11/52)182+         SVC   35
+00011E                                     (1/76)184          ENDIF 
+00011E                                    (12/23)187+#@IF_2_E                         DS 0H
+00011E 58ED000C                            (1/77)189          L     R14,12(R13) RESTORE R14 AND LEAVE R0=TALLY COUNT
+000122                                     (1/78)190          RETURN (R2,R12)  RETURN TALLY COUNT IN R0 FOR GEN_INSPECT ADD
+000122 982CD01C                           (15/50)194+         LM    2,12,20+4*2(13)
+000126 07FE                               (14/41)196+         BR    14
+000128                                     (1/79)199 *
+000128                                     (1/80)200 * INSPECT CONVERTING V1 CHARACTERS FROM V2 TO V3
+000128                                     (1/81)201 *
+000128                                     (1/82)202 *  R4  R5  R6  R7  R8  R9  R10 R11 R12
+000128                                     (1/83)203 *  P1  P2  P3  P4  P5  P6  P7  P8  P9
+000128                                     (1/84)204 *  V1  V1L V2  V2L TYP V3  V3L TV  TVL
+000128                                     (1/85)205 *
+000128                                     (1/86)206 CONVERTING DS  0H
+000128 984C1000                            (1/87)207          LM    R4,R12,0(R1)
+00012C 4DE0F41E                00041E      (1/88)208          BAS   R14,SET_TEST_TRT
+000130 4DE0F458                000458      (1/89)209          BAS   R14,FIND_TEST_CHAR
+000134 D2FFF4CAF17C     0004CA 00017C      (1/90)210          MVC   TRT_TAB,CONV_TRT_INIT  RESET TRANSLATE TABLE
+00013A 1817                                (1/91)211          LR    R1,R7                 R1=CHAR COUNT IN V2/V3
+00013C 1B22                                (1/92)212          SR    R2,R2
+00013E 1B33                                (1/93)213          SR    R3,R3
+000140                                     (1/94)214          DO    WHILE=(AHI,R1,NM,-1)
+000140                                    (16/63)217+#@DO_1_T                         DS 0H
+000140 A71AFFFF                            (6/47)221+         AHI   R1,-1
+000144 4740F14C                00014C      (6/49)222+         BC    15-NM,#@IF_3_2
+000148 47F0F150                000150     (16/66)224+               B   #@DO_1_1
+00014C                                    (12/20)228+#@IF_3_2                                                 DS 0H
+00014C 47F0F164                000164     (16/68)230+         B     #@DO_1_E
+000150                                    (16/69)231+#@DO_1_1                         DS 0H
+000150 E32160000073                        (1/95)233                ICY   R2,0(R1,R6)     R2=V2 ORIGINAL CHAR
+000156 E33190000073                        (1/96)234                ICY   R3,0(R1,R9)     R3=V3 REPLACEMENT CHAR
+00015C 4232F4CA                0004CA      (1/97)235                STC   R3,TRT_TAB(R2)  UPDATE TRANSLATE TABLE
+000160                                     (1/98)236          ENDDO 
+000160 47F0F140                000140     (16/55)240+         B     #@DO_1_T
+000164                                    (16/56)241+#@DO_1_E                         DS 0H
+000164 1815                                (1/99)244          LR    R1,R5
+000166 0610                               (1/100)245          BCTR  R1,0
+000168 4410F176                000176     (1/101)246          EX    R1,CONV_TR
+00016C 58ED000C                           (1/102)247          L     R14,12(R13) RESTORE R14 AND LEAVE R0=TALLY COUNT
+000170                                    (1/103)248          RETURN (R2,R12)  RETURN TALLY COUNT IN R0 FOR GEN_INSPECT ADD
+000170 982CD01C                           (15/50)252+         LM    2,12,20+4*2(13)
+000174 07FE                               (14/41)254+         BR    14
+000176 DC004000F4CA            0004CA     (1/104)257 CONV_TR       TR 0(0,R4),TRT_TAB
+00017C 0001020304050607                   (1/105)258 CONV_TRT_INIT DC 256AL1(*-CONV_TRT_INIT)
+00027C                                    (1/106)259 *
+00027C                                    (1/107)260 * REP_CHAR - REPLACE ALL CHAR B V3 UNTIL TEST
+00027C                                    (1/108)261 *
+00027C                                    (1/109)262 REP_CHAR DS 0H
+00027C 0650                               (1/110)263          BCTR  R5,0
+00027E 07DE                               (1/111)264          BNPR  R14            EXIT IF NO CHAR TO REP
+000280 D20040009000                       (1/112)265          MVC   0(1,R4),0(R9)  REP FIRST CHAR
+000286                                    (1/113)266          DO    WHILE=(LTR,R1,NZ,R5)
+000286                                    (16/63)269+#@DO_2_T                         DS 0H
+000286 1215                                (6/47)273+         LTR   R1,R5
+000288 4780F290                000290      (6/49)274+         BC    15-NZ,#@IF_4_2
+00028C 47F0F294                000294     (16/66)276+               B   #@DO_2_1
+000290                                    (12/20)280+#@IF_4_2                                                 DS 0H
+000290 47F0F2B6                0002B6     (16/68)282+         B     #@DO_2_E
+000294                                    (16/69)283+#@DO_2_1                         DS 0H
+000294                                    (1/114)285                IF  (CHI,R1,GT,256)
+000294 A71E0100                            (6/47)288+         CHI   R1,256
+000298 47D0F2A4                0002A4      (6/49)289+         BC    15-GT,#@IF_5_2
+00029C 411000FF                           (1/115)291                    LA  R1,255
+0002A0                                    (1/116)292                ELSE 
+0002A0 47F0F2A6                0002A6     (10/40)295+        B      #@IF_5_E
+0002A4                                    (10/41)296+#@IF_5_2                                                 DS 0H
+0002A4 0610                               (1/117)298                    BCTR R1,0
+0002A6                                    (1/118)299                ENDIF 
+0002A6                                    (12/23)302+#@IF_5_E                         DS 0H
+0002A6 4410F2B8                0002B8     (1/119)304                EX  R1,REP_CHAR_MVC REP NEXT 256 OR LAST PART
+0002AA 41414001                           (1/120)305                LA  R4,1(R1,R4)
+0002AE 1B51                               (1/121)306                SR  R5,R1
+0002B0 0650                               (1/122)307                BCTR R5,0
+0002B2                                    (1/123)308          ENDDO 
+0002B2 47F0F286                000286     (16/55)312+         B     #@DO_2_T
+0002B6                                    (16/56)313+#@DO_2_E                         DS 0H
+0002B6 07FE                               (1/124)316          BR    R14
+0002B8 D20040014000                       (1/125)317 REP_CHAR_MVC  MVC   1(*-*,R4),0(R4)
+0002BE                                    (1/126)318 *
+0002BE                                    (1/127)319 * REP_ALL_CHAR - REPLACE V2 BY V3 UNTIL TEST
+0002BE                                    (1/128)320 *
+0002BE                                    (1/129)321 REP_ALL_CHAR DS 0H
+0002BE D7FFF4CAF4CA     0004CA 0004CA     (1/130)322          XC    TRT_TAB,TRT_TAB CLEAR TRT TABLE
+0002C4 1B11                               (1/131)323          SR    R1,R1                    CLEAR HIGH BITS FOR CHAR OFFSET
+0002C6                                    (1/132)324          DO    WHILE=(LTR,R7,NZ,R7)
+0002C6                                    (16/63)327+#@DO_3_T                         DS 0H
+0002C6 1277                                (6/47)331+         LTR   R7,R7
+0002C8 4780F2D0                0002D0      (6/49)332+         BC    15-NZ,#@IF_6_2
+0002CC 47F0F2D4                0002D4     (16/66)334+               B   #@DO_3_1
+0002D0                                    (12/20)338+#@IF_6_2                                                 DS 0H
+0002D0 47F0F2EA                0002EA     (16/68)340+         B     #@DO_3_E
+0002D4                                    (16/69)341+#@DO_3_1                         DS 0H
+0002D4 0670                               (1/133)343                BCTR R7,0               DEC V2 CHAR COUNT
+0002D6 43167000                           (1/134)344                IC   R1,0(R6,R7)        R1 = V2 CHAR IN REV. ORDER
+0002DA 4121F4CA                0004CA     (1/135)345                LA   R2,TRT_TAB(R1)
+0002DE 41370001                           (1/136)346                LA   R3,1(R7)
+0002E2 42320000                           (1/137)347                STC  R3,0(R2)   SET INDEX OF V3+1 FOR USE IN MVC
+0002E6                                    (1/138)348          ENDDO 
+0002E6 47F0F2C6                0002C6     (16/55)352+         B     #@DO_3_T
+0002EA                                    (16/56)353+#@DO_3_E                         DS 0H
+0002EA 1B22                               (1/139)356          SR    R2,R2
+0002EC 41B45000                           (1/140)357          LA    R11,0(R4,R5)
+0002F0                                    (1/141)358          DO    WHILE=(CLR,R4,LT,R11)  BYTES LEFT IN FIELD
+0002F0                                    (16/63)362+#@DO_4_T                         DS 0H
+0002F0 154B                                (6/47)366+         CLR   R4,R11
+0002F2 47B0F2FA                0002FA      (6/49)367+         BC    15-LT,#@IF_7_2
+0002F6 47F0F2FE                0002FE     (16/66)369+               B   #@DO_4_1
+0002FA                                    (12/20)373+#@IF_7_2                                                 DS 0H
+0002FA 47F0F33A                00033A     (16/68)375+         B     #@DO_4_E
+0002FE                                    (16/69)376+#@DO_4_1                         DS 0H
+0002FE 181B                               (1/142)378                LR  R1,R11
+000300 1B14                               (1/143)379                SR  R1,R4
+000302                                    (1/144)380                IF  (CHI,R1,GT,256)
+000302 A71E0100                            (6/47)383+         CHI   R1,256
+000306 47D0F312                000312      (6/49)384+         BC    15-GT,#@IF_8_2
+00030A 411000FF                           (1/145)386                    LA  R1,255         R1=MAX LEN-1 FOR EX TRT
+00030E                                    (1/146)387                ELSE 
+00030E 47F0F314                000314     (10/40)390+        B      #@IF_8_E
+000312                                    (10/41)391+#@IF_8_2                                                 DS 0H
+000312 0610                               (1/147)393                    BCTR R1,0          R1=LAST LEN-1 FOR EX TRT
+000314                                    (1/148)394                ENDIF 
+000314                                    (12/23)397+#@IF_8_E                         DS 0H
+000314                                    (1/149)399                IF  (EX,R1,NZ,ALL_TRT) DO TRT AND CHECK IF HIT
+000314 4410F33C                00033C      (6/47)403+         EX    R1,ALL_TRT
+000318 4780F332                000332      (6/49)404+         BC    15-NZ,#@IF_9_2
+00031C 0620                               (1/150)406                    BCTR R2,0          REDUCE INDEX BY 1
+00031E 43329000                           (1/151)407                    IC  R3,0(R2,R9)    R3=V3 CHAR TO STORE
+000322 42310000                           (1/152)408                    STC R3,0(R1)       STORE V3 CHAR AT V2 CHAR
+000326 41410001                           (1/153)409                    LA  R4,1(R1)       R4=A(NEXT CHAR TO TEST)
+00032A 181B                               (1/154)410                    LR  R1,R11
+00032C 1B14                               (1/155)411                    SR  R1,R4
+00032E                                    (1/156)412                ELSE 
+00032E 47F0F336                000336     (10/40)415+        B      #@IF_9_E
+000332                                    (10/41)416+#@IF_9_2                                                 DS 0H
+000332 41414001                           (1/157)418                    LA  R4,1(R1,R4)    R4=A(NEXT CHAR TO TEST)
+000336                                    (1/158)419                ENDIF 
+000336                                    (12/23)422+#@IF_9_E                         DS 0H
+000336                                    (1/159)424          ENDDO 
+000336 47F0F2F0                0002F0     (16/55)428+         B     #@DO_4_T
+00033A                                    (16/56)429+#@DO_4_E                         DS 0H
+00033A 07FE                               (1/160)432          BR   R14
+00033C DD004000F4CA            0004CA     (1/161)433 ALL_TRT  TRT   0(*-*,R4),TRT_TAB
+000342                                    (1/162)434 *
+000342                                    (1/163)435 * REP LEAD CHAR
+000342                                    (1/164)436 *
+000342                                    (1/165)437 REP_LEAD_CHAR DS 0H
+000342 D7FFF4CAF4CA     0004CA 0004CA     (1/166)438          XC    TRT_TAB,TRT_TAB CLEAR TRT TABLE
+000348 1B11                               (1/167)439          SR    R1,R1                    CLEAR HIGH BITS FOR CHAR OFFSET
+00034A                                    (1/168)440          DO    WHILE=(LTR,R7,NZ,R7)
+00034A                                    (16/63)443+#@DO_5_T                         DS 0H
+00034A 1277                                (6/47)447+         LTR   R7,R7
+00034C 4780F354                000354      (6/49)448+         BC    15-NZ,#@IF_10_2
+000350 47F0F358                000358     (16/66)450+               B   #@DO_5_1
+000354                                    (12/20)454+#@IF_10_2                                                DS 0H
+000354 47F0F36E                00036E     (16/68)456+         B     #@DO_5_E
+000358                                    (16/69)457+#@DO_5_1                         DS 0H
+000358 0670                               (1/169)459                BCTR R7,0               DEC V2 CHAR COUNT
+00035A 43167000                           (1/170)460                IC   R1,0(R6,R7)        R1 = V2 CHAR IN REV. ORDER
+00035E 4121F4CA                0004CA     (1/171)461                LA   R2,TRT_TAB(R1)
+000362 41370001                           (1/172)462                LA   R3,1(R7)
+000366 42320000                           (1/173)463                STC  R3,0(R2)   SET INDEX OF V3+1 FOR USE IN MVC
+00036A                                    (1/174)464          ENDDO 
+00036A 47F0F34A                00034A     (16/55)468+         B     #@DO_5_T
+00036E                                    (16/56)469+#@DO_5_E                         DS 0H
+00036E 1B22                               (1/175)472          SR    R2,R2
+000370 41B45000                           (1/176)473          LA    R11,0(R4,R5)
+000374                                    (1/177)474          DO    WHILE=(CLR,R4,LT,R11)  BYTES LEFT IN FIELD
+000374                                    (16/63)478+#@DO_6_T                         DS 0H
+000374 154B                                (6/47)482+         CLR   R4,R11
+000376 47B0F37E                00037E      (6/49)483+         BC    15-LT,#@IF_11_2
+00037A 47F0F382                000382     (16/66)485+               B   #@DO_6_1
+00037E                                    (12/20)489+#@IF_11_2                                                DS 0H
+00037E 47F0F3A4                0003A4     (16/68)491+         B     #@DO_6_E
+000382                                    (16/69)492+#@DO_6_1                         DS 0H
+000382                                    (1/178)494                IF  (TRT,0(1,R4),NZ,TRT_TAB) DO TRT AND CHK IF HIT
+000382 DD004000F4CA            0004CA      (6/47)498+         TRT   0(1,R4),TRT_TAB
+000388 4780F39E                00039E      (6/49)499+         BC    15-NZ,#@IF_12_2
+00038C 0620                               (1/179)501                    BCTR R2,0          REDUCE INDEX BY 1
+00038E 43329000                           (1/180)502                    IC  R3,0(R2,R9)    R3=V3 CHAR TO STORE
+000392 42310000                           (1/181)503                    STC R3,0(R1)       STORE V3 CHAR AT V2 CHAR
+000396 A74A0001                           (1/182)504                    AHI R4,1           R4=A(NEXT CHAR TO TEST)
+00039A                                    (1/183)505                ELSE 
+00039A 47F0F3A0                0003A0     (10/40)508+        B      #@IF_12_E
+00039E                                    (10/41)509+#@IF_12_2                                                DS 0H
+00039E 07FE                               (1/184)511                    BR  R14  EXIT AT END OF LEADING
+0003A0                                    (1/185)512                ENDIF 
+0003A0                                    (12/23)515+#@IF_12_E                        DS 0H
+0003A0                                    (1/186)517          ENDDO 
+0003A0 47F0F374                000374     (16/55)521+         B     #@DO_6_T
+0003A4                                    (16/56)522+#@DO_6_E                         DS 0H
+0003A4 07FE                               (1/187)525          BR   R14
+0003A6                                    (1/188)526 *
+0003A6                                    (1/189)527 * REP FIRST CHAR
+0003A6                                    (1/190)528 *
+0003A6                                    (1/191)529 REP_FIRST_CHAR DS 0H
+0003A6 D7FFF4CAF4CA     0004CA 0004CA     (1/192)530          XC    TRT_TAB,TRT_TAB CLEAR TRT TABLE
+0003AC 1B11                               (1/193)531          SR    R1,R1                    CLEAR HIGH BITS FOR CHAR OFFSET
+0003AE                                    (1/194)532          DO    WHILE=(LTR,R7,NZ,R7)
+0003AE                                    (16/63)535+#@DO_7_T                         DS 0H
+0003AE 1277                                (6/47)539+         LTR   R7,R7
+0003B0 4780F3B8                0003B8      (6/49)540+         BC    15-NZ,#@IF_13_2
+0003B4 47F0F3BC                0003BC     (16/66)542+               B   #@DO_7_1
+0003B8                                    (12/20)546+#@IF_13_2                                                DS 0H
+0003B8 47F0F3D2                0003D2     (16/68)548+         B     #@DO_7_E
+0003BC                                    (16/69)549+#@DO_7_1                         DS 0H
+0003BC 0670                               (1/195)551                BCTR R7,0               DEC V2 CHAR COUNT
+0003BE 43167000                           (1/196)552                IC   R1,0(R6,R7)        R1 = V2 CHAR IN REV. ORDER
+0003C2 4121F4CA                0004CA     (1/197)553                LA   R2,TRT_TAB(R1)
+0003C6 41370001                           (1/198)554                LA   R3,1(R7)
+0003CA 42320000                           (1/199)555                STC  R3,0(R2)   SET INDEX OF V3+1 FOR USE IN MVC
+0003CE                                    (1/200)556          ENDDO 
+0003CE 47F0F3AE                0003AE     (16/55)560+         B     #@DO_7_T
+0003D2                                    (16/56)561+#@DO_7_E                         DS 0H
+0003D2 1B22                               (1/201)564          SR    R2,R2
+0003D4 41B45000                           (1/202)565          LA    R11,0(R4,R5)
+0003D8                                    (1/203)566          DO    WHILE=(CLR,R4,LT,R11)  BYTES LEFT IN FIELD
+0003D8                                    (16/63)570+#@DO_8_T                         DS 0H
+0003D8 154B                                (6/47)574+         CLR   R4,R11
+0003DA 47B0F3E2                0003E2      (6/49)575+         BC    15-LT,#@IF_14_2
+0003DE 47F0F3E6                0003E6     (16/66)577+               B   #@DO_8_1
+0003E2                                    (12/20)581+#@IF_14_2                                                DS 0H
+0003E2 47F0F41C                00041C     (16/68)583+         B     #@DO_8_E
+0003E6                                    (16/69)584+#@DO_8_1                         DS 0H
+0003E6 181B                               (1/204)586                LR  R1,R11
+0003E8 1B14                               (1/205)587                SR  R1,R4
+0003EA                                    (1/206)588                IF  (CHI,R1,GT,256)
+0003EA A71E0100                            (6/47)591+         CHI   R1,256
+0003EE 47D0F3FA                0003FA      (6/49)592+         BC    15-GT,#@IF_15_2
+0003F2 411000FF                           (1/207)594                    LA  R1,255         R1=MAX LEN-1 FOR EX TRT
+0003F6                                    (1/208)595                ELSE 
+0003F6 47F0F3FC                0003FC     (10/40)598+        B      #@IF_15_E
+0003FA                                    (10/41)599+#@IF_15_2                                                DS 0H
+0003FA 0610                               (1/209)601                    BCTR R1,0          R1=LAST LEN-1 FOR EX TRT
+0003FC                                    (1/210)602                ENDIF 
+0003FC                                    (12/23)605+#@IF_15_E                        DS 0H
+0003FC                                    (1/211)607                IF  (EX,R1,NZ,ALL_TRT) DO TRT AND CHECK IF HIT
+0003FC 4410F33C                00033C      (6/47)611+         EX    R1,ALL_TRT
+000400 4780F414                000414      (6/49)612+         BC    15-NZ,#@IF_16_2
+000404 0620                               (1/212)614                    BCTR R2,0          REDUCE INDEX BY 1
+000406 43329000                           (1/213)615                    IC  R3,0(R2,R9)    R3=V3 CHAR TO STORE
+00040A 42310000                           (1/214)616                    STC R3,0(R1)       STORE V3 CHAR AT V2 CHAR
+00040E 07FE                               (1/215)617                    BR  R14            EXIT AFTER FIRST REP
+000410                                    (1/216)618                ELSE 
+000410 47F0F418                000418     (10/40)621+        B      #@IF_16_E
+000414                                    (10/41)622+#@IF_16_2                                                DS 0H
+000414 41414001                           (1/217)624                    LA  R4,1(R1,R4)    R4=A(NEXT CHAR TO TEST)
+000418                                    (1/218)625                ENDIF 
+000418                                    (12/23)628+#@IF_16_E                        DS 0H
+000418                                    (1/219)630          ENDDO 
+000418 47F0F3D8                0003D8     (16/55)634+         B     #@DO_8_T
+00041C                                    (16/56)635+#@DO_8_E                         DS 0H
+00041C 07FE                               (1/220)638          BR   R14
+00041E                                    (1/221)639 *
+00041E                                    (1/222)640 * SET_TEST_TRT - CLEAR TRT_TAB AND SET SEARCH CHARACTERS TO X'FF'
+00041E                                    (1/223)641 *
+00041E                                    (1/224)642 SET_TEST_TRT DS 0H
+00041E                                    (1/225)643          IF    (LTR,R12,Z,R12)  R11 ZERO IF NO TEST
+00041E 12CC                                (6/47)647+         LTR   R12,R12
+000420 4770F42A                00042A      (6/49)648+         BC    15-Z,#@IF_17_2
+000424 41B45000                           (1/226)650                LA  R11,0(R4,R5) SET R10 TO END OF FIELD+1 IF NOT TEST
+000428 07FE                               (1/227)651                BR  R14
+00042A                                    (1/228)652          ENDIF 
+00042A                                    (12/20)655+#@IF_17_2                                                DS 0H
+00042A D7FFF4CAF4CA     0004CA 0004CA     (1/229)657          XC    TRT_TAB,TRT_TAB CLEAR TRT TABLE
+000430 1B11                               (1/230)658          SR    R1,R1                    CLEAR HIGH BITS FOR CHAR OFFSET
+000432                                    (1/231)659          DO    WHILE=(LTR,R12,NZ,R12)
+000432                                    (16/63)662+#@DO_9_T                         DS 0H
+000432 12CC                                (6/47)666+         LTR   R12,R12
+000434 4780F43C                00043C      (6/49)667+         BC    15-NZ,#@IF_18_2
+000438 47F0F440                000440     (16/66)669+               B   #@DO_9_1
+00043C                                    (12/20)673+#@IF_18_2                                                DS 0H
+00043C 47F0F452                000452     (16/68)675+         B     #@DO_9_E
+000440                                    (16/69)676+#@DO_9_1                         DS 0H
+000440 06C0                               (1/232)678                BCTR R12,0               DEC TEST CHAR COUNT
+000442 431BC000                           (1/233)679                IC   R1,0(R11,R12)       R1 = TEST CHAR IN REV. ORDER
+000446 4121F4CA                0004CA     (1/234)680                LA   R2,TRT_TAB(R1)
+00044A 92FF2000                           (1/235)681                MVI  0(R2),X'FF'         SET FLAG IN TRT FOR TEST CHAR
+00044E                                    (1/236)682          ENDDO 
+00044E 47F0F432                000432     (16/55)686+         B     #@DO_9_T
+000452                                    (16/56)687+#@DO_9_E                         DS 0H
+000452 18B4                               (1/237)690          LR    R11,R4   R10 = START OF FIELD
+000454 18C5                               (1/238)691          LR    R12,R5   R11 - BYTES REMAINING IN FIELD
+000456 07FE                               (1/239)692          BR    R14
+000458                                    (1/240)693 *
+000458                                    (1/241)694 * FIND_TEST_CHAR - INCR R10 AND DEC R11 TO FIRST TEST CHAR MATCH
+000458                                    (1/242)695 *                  SET R4=START OF SELECTED CHAR, R5=LENGTH OR ZERO
+000458                                    (1/243)696 *
+000458                                    (1/244)697 FIND_TEST_CHAR DS 0H
+000458                                    (1/245)698          DO    WHILE=(LTR,R1,NZ,R12)  BYTES LEFT IN FIELD
+000458                                    (16/63)702+#@DO_10_T                        DS 0H
+000458 121C                                (6/47)706+         LTR   R1,R12
+00045A 4780F462                000462      (6/49)707+         BC    15-NZ,#@IF_19_2
+00045E 47F0F466                000466     (16/66)709+               B   #@DO_10_1
+000462                                    (12/20)713+#@IF_19_2                                                DS 0H
+000462 47F0F4BA                0004BA     (16/68)715+         B     #@DO_10_E
+000466                                    (16/69)716+#@DO_10_1                        DS 0H
+000466                                    (1/246)718                IF  (CHI,R1,GT,256)
+000466 A71E0100                            (6/47)721+         CHI   R1,256
+00046A 47D0F476                000476      (6/49)722+         BC    15-GT,#@IF_20_2
+00046E 411000FF                           (1/247)724                    LA  R1,255         R1=MAX LEN-1 FOR EX TRT
+000472                                    (1/248)725                ELSE 
+000472 47F0F478                000478     (10/40)728+        B      #@IF_20_E
+000476                                    (10/41)729+#@IF_20_2                                                DS 0H
+000476 0610                               (1/249)731                    BCTR R1,0          R1=LAST LEN-1 FOR EX TRT
+000478                                    (1/250)732                ENDIF 
+000478                                    (12/23)735+#@IF_20_E                        DS 0H
+000478                                    (1/251)737                IF  (EX,R1,NZ,FIND_TRT) DO TRT AND CHECK IF HIT
+000478 4410F4C4                0004C4      (6/47)741+         EX    R1,FIND_TRT
+00047C 4780F4AE                0004AE      (6/49)742+         BC    15-NZ,#@IF_21_2
+000480 1B1B                               (1/252)744                    SR  R1,R11
+000482 1AB1                               (1/253)745                    AR  R11,R1         R10=A(TEST CHAR IN FIELD)
+000484 1BC1                               (1/254)746                    SR  R12,R1         R11=REMAINING BYTES
+000486                                    (1/255)747                    IF  (LTR,R8,NM,R8) IS TEST BEFORE
+000486 1288                                (6/47)751+         LTR   R8,R8
+000488 4740F494                000494      (6/49)752+         BC    15-NM,#@IF_22_2
+00048C 185B                               (1/256)754                        LR   R5,R11   R5=A(HIT)
+00048E 1B54                               (1/257)755                        SR   R5,R4    R5=CHARACTERS BEFORE TEST CHAR
+000490                                    (1/258)756                    ELSE 
+000490 47F0F4A8                0004A8     (10/40)759+        B      #@IF_22_E
+000494                                    (10/41)760+#@IF_22_2                                                DS 0H
+000494                                    (1/259)762                        IF   (LTR,R12,NZ,R12) TEST CHAR FOUND
+000494 12CC                                (6/47)766+         LTR   R12,R12
+000496 4780F4A6                0004A6      (6/49)767+         BC    15-NZ,#@IF_23_2
+00049A 1A54                               (1/260)769                             AR   R5,R4   R5=A(END OF FIELD+1)
+00049C 414B0001                           (1/261)770                             LA   R4,1(R11) R4=A(TEST HIT+1)
+0004A0 1B54                               (1/262)771                             SR   R5,R4   R5=CHAR AFTER TEST CHAR+1
+0004A2                                    (1/263)772                        ELSE 
+0004A2 47F0F4A8                0004A8     (10/40)775+        B      #@IF_23_E
+0004A6                                    (10/41)776+#@IF_23_2                                                DS 0H
+0004A6 1B55                               (1/264)778                             SR   R5,R5
+0004A8                                    (1/265)779                        ENDIF 
+0004A8                                    (12/23)782+#@IF_23_E                        DS 0H
+0004A8                                    (1/266)784                    ENDIF 
+0004A8                                    (12/23)787+#@IF_22_E                        DS 0H
+0004A8 07FE                               (1/267)789                    BR  R14
+0004AA                                    (1/268)790                ELSE 
+0004AA 47F0F4B6                0004B6     (10/40)793+        B      #@IF_21_E
+0004AE                                    (10/41)794+#@IF_21_2                                                DS 0H
+0004AE 41B1B001                           (1/269)796                    LA  R11,1(R1,R11)  R10=START OF NEXT EX TRT
+0004B2 1BC1                               (1/270)797                    SR  R12,R1
+0004B4 06C0                               (1/271)798                    BCTR R12,0         R11=REMAINING BYTES IN FIELD
+0004B6                                    (1/272)799                ENDIF 
+0004B6                                    (12/23)802+#@IF_21_E                        DS 0H
+0004B6                                    (1/273)804          ENDDO 
+0004B6 47F0F458                000458     (16/55)808+         B     #@DO_10_T
+0004BA                                    (16/56)809+#@DO_10_E                        DS 0H
+0004BA                                    (1/274)812          IF    (LTR,R8,M,R8) IS TEST AFTER
+0004BA 1288                                (6/47)815+         LTR   R8,R8
+0004BC 47B0F4C2                0004C2      (6/49)816+         BC    15-M,#@IF_24_2
+0004C0 1B55                               (1/275)818                SR  R5,R5         NO HIT SO NO CHAR FOUND
+0004C2                                    (1/276)819          ENDIF 
+0004C2                                    (12/20)822+#@IF_24_2                                                DS 0H
+0004C2 07FE                               (1/277)824          BR    R14
+0004C4 DD00B000F4CA            0004CA     (1/278)825 FIND_TRT TRT   0(*-*,R11),TRT_TAB
+0004CA 0000000000000000                   (1/279)826 TRT_TAB DC XL256'00'
+0005CA                                    (1/280)827 *
+0005CA                                    (1/281)828 * CNT_ALL_BEFORE
+0005CA                                    (1/282)829 *
+0005CA                                    (1/283)830 CNT_ALL_CHAR   DS   0H
+0005CA D7FFF4CAF4CA     0004CA 0004CA     (1/284)831          XC    TRT_TAB,TRT_TAB CLEAR TRT TABLE
+0005D0 1B11                               (1/285)832          SR    R1,R1                    CLEAR HIGH BITS FOR CHAR OFFSET
+0005D2                                    (1/286)833          DO    WHILE=(LTR,R10,NZ,R10)
+0005D2                                    (16/63)836+#@DO_11_T                        DS 0H
+0005D2 12AA                                (6/47)840+         LTR   R10,R10
+0005D4 4780F5DC                0005DC      (6/49)841+         BC    15-NZ,#@IF_25_2
+0005D8 47F0F5E0                0005E0     (16/66)843+               B   #@DO_11_1
+0005DC                                    (12/20)847+#@IF_25_2                                                DS 0H
+0005DC 47F0F5F2                0005F2     (16/68)849+         B     #@DO_11_E
+0005E0                                    (16/69)850+#@DO_11_1                        DS 0H
+0005E0 06A0                               (1/287)852                BCTR R10,0               DEC ALL CHAR COUNT
+0005E2 4319A000                           (1/288)853                IC   R1,0(R9,R10)        R1 = ALL CHAR IN REV. ORDER
+0005E6 4121F4CA                0004CA     (1/289)854                LA   R2,TRT_TAB(R1)
+0005EA 92FF2000                           (1/290)855                MVI  0(R2),X'FF'         SET FLAG IN TRT FOR ALL CHAR
+0005EE                                    (1/291)856          ENDDO 
+0005EE 47F0F5D2                0005D2     (16/55)860+         B     #@DO_11_T
+0005F2                                    (16/56)861+#@DO_11_E                        DS 0H
+0005F2 41B45000                           (1/292)864          LA    R11,0(R4,R5)           R11=A(END+1)
+0005F6                                    (1/293)865          DO    WHILE=(CLR,R4,LT,R11)  BYTES LEFT IN FIELD
+0005F6                                    (16/63)869+#@DO_12_T                        DS 0H
+0005F6 154B                                (6/47)873+         CLR   R4,R11
+0005F8 47B0F600                000600      (6/49)874+         BC    15-LT,#@IF_26_2
+0005FC 47F0F604                000604     (16/66)876+               B   #@DO_12_1
+000600                                    (12/20)880+#@IF_26_2                                                DS 0H
+000600 47F0F63A                00063A     (16/68)882+         B     #@DO_12_E
+000604                                    (16/69)883+#@DO_12_1                        DS 0H
+000604 181B                               (1/294)885                LR  R1,R11
+000606 1B14                               (1/295)886                SR  R1,R4
+000608                                    (1/296)887                IF  (CHI,R1,GT,256)
+000608 A71E0100                            (6/47)890+         CHI   R1,256
+00060C 47D0F618                000618      (6/49)891+         BC    15-GT,#@IF_27_2
+000610 411000FF                           (1/297)893                    LA  R1,255         R1=MAX LEN-1 FOR EX TRT
+000614                                    (1/298)894                ELSE 
+000614 47F0F61A                00061A     (10/40)897+        B      #@IF_27_E
+000618                                    (10/41)898+#@IF_27_2                                                DS 0H
+000618 0610                               (1/299)900                    BCTR R1,0          R1=LAST LEN-1 FOR EX TRT
+00061A                                    (1/300)901                ENDIF 
+00061A                                    (12/23)904+#@IF_27_E                        DS 0H
+00061A                                    (1/301)906                IF  (EX,R1,NZ,ALL_TRT) DO TRT AND CHECK IF HIT
+00061A 4410F33C                00033C      (6/47)910+         EX    R1,ALL_TRT
+00061E 4780F632                000632      (6/49)911+         BC    15-NZ,#@IF_28_2
+000622 A70A0001                           (1/302)913                    AHI R0,1           INCR ALL COUNTER
+000626 41410001                           (1/303)914                    LA  R4,1(R1)       R4=A(NEXT CHAR TO TEST)
+00062A 181B                               (1/304)915                    LR  R1,R11
+00062C 1B14                               (1/305)916                    SR  R1,R4
+00062E                                    (1/306)917                ELSE 
+00062E 47F0F636                000636     (10/40)920+        B      #@IF_28_E
+000632                                    (10/41)921+#@IF_28_2                                                DS 0H
+000632 41414001                           (1/307)923                    LA  R4,1(R1,R4)    R4=A(NEXT CHAR TO TEST)
+000636                                    (1/308)924                ENDIF 
+000636                                    (12/23)927+#@IF_28_E                        DS 0H
+000636                                    (1/309)929          ENDDO 
+000636 47F0F5F6                0005F6     (16/55)933+         B     #@DO_12_T
+00063A                                    (16/56)934+#@DO_12_E                        DS 0H
+00063A 07FE                               (1/310)937          BR   R14
+00063C                                    (1/311)938 *
+00063C                                    (1/312)939 * CNT_ALL_AFTER
+00063C                                    (1/313)940 *
+00063C                                    (1/314)941 CNT_ALL_AFTER DS 0H
+00063C D7FFF4CAF4CA     0004CA 0004CA     (1/315)942          XC    TRT_TAB,TRT_TAB CLEAR TRT TABLE
+000642 1B11                               (1/316)943          SR    R1,R1                    CLEAR HIGH BITS FOR CHAR OFFSET
+000644                                    (1/317)944          DO    WHILE=(LTR,R10,NZ,R10)
+000644                                    (16/63)947+#@DO_13_T                        DS 0H
+000644 12AA                                (6/47)951+         LTR   R10,R10
+000646 4780F64E                00064E      (6/49)952+         BC    15-NZ,#@IF_29_2
+00064A 47F0F652                000652     (16/66)954+               B   #@DO_13_1
+00064E                                    (12/20)958+#@IF_29_2                                                DS 0H
+00064E 47F0F664                000664     (16/68)960+         B     #@DO_13_E
+000652                                    (16/69)961+#@DO_13_1                        DS 0H
+000652 06A0                               (1/318)963                BCTR R10,0               DEC ALL CHAR COUNT
+000654 4319A000                           (1/319)964                IC   R1,0(R9,R10)        R1 = ALL CHAR IN REV. ORDER
+000658 4121F4CA                0004CA     (1/320)965                LA   R2,TRT_TAB(R1)
+00065C 92FF2000                           (1/321)966                MVI  0(R2),X'FF'         SET FLAG IN TRT FOR ALL CHAR
+000660                                    (1/322)967          ENDDO 
+000660 47F0F644                000644     (16/55)971+         B     #@DO_13_T
+000664                                    (16/56)972+#@DO_13_E                        DS 0H
+000664 41B45000                           (1/323)975          LA    R11,0(R4,R5)           SET R11 TO END+1
+000668                                    (1/324)976          DO    WHILE=(CLR,R4,LT,R11)  BYTES LEFT IN FIELD
+000668                                    (16/63)980+#@DO_14_T                        DS 0H
+000668 154B                                (6/47)984+         CLR   R4,R11
+00066A 47B0F672                000672      (6/49)985+         BC    15-LT,#@IF_30_2
+00066E 47F0F676                000676     (16/66)987+               B   #@DO_14_1
+000672                                    (12/20)991+#@IF_30_2                                                DS 0H
+000672 47F0F6AC                0006AC     (16/68)993+         B     #@DO_14_E
+000676                                    (16/69)994+#@DO_14_1                        DS 0H
+000676 181B                               (1/325)996                LR  R1,R11
+000678 1B14                               (1/326)997                SR  R1,R4
+00067A                                    (1/327)998                IF  (CHI,R1,GT,256)
+00067A A71E0100                           (6/47)1001+         CHI   R1,256
+00067E 47D0F68A                00068A     (6/49)1002+         BC    15-GT,#@IF_31_2
+000682 411000FF                          (1/328)1004                    LA  R1,255         R1=MAX LEN-1 FOR EX TRT
+000686                                   (1/329)1005                ELSE 
+000686 47F0F68C                00068C    (10/40)1008+        B      #@IF_31_E
+00068A                                   (10/41)1009+#@IF_31_2                                                DS 0H
+00068A 0610                              (1/330)1011                    BCTR R1,0          R1=LAST LEN-1 FOR EX TRT
+00068C                                   (1/331)1012                ENDIF 
+00068C                                   (12/23)1015+#@IF_31_E                        DS 0H
+00068C                                   (1/332)1017                IF  (EX,R1,NZ,ALL_TRT) DO TRT AND CHECK IF HIT
+00068C 4410F33C                00033C     (6/47)1021+         EX    R1,ALL_TRT
+000690 4780F6A4                0006A4     (6/49)1022+         BC    15-NZ,#@IF_32_2
+000694 A70A0001                          (1/333)1024                    AHI R0,1           INCR ALL COUNTER
+000698 41410001                          (1/334)1025                    LA  R4,1(R1)       R4=A(NEXT CHAR TO TEST)
+00069C 181B                              (1/335)1026                    LR  R1,R11
+00069E 1B14                              (1/336)1027                    SR  R1,R4
+0006A0                                   (1/337)1028                ELSE 
+0006A0 47F0F6A8                0006A8    (10/40)1031+        B      #@IF_32_E
+0006A4                                   (10/41)1032+#@IF_32_2                                                DS 0H
+0006A4 41414001                          (1/338)1034                    LA  R4,1(R1,R4)    R4=A(NEXT CHAR TO TEST)
+0006A8                                   (1/339)1035                ENDIF 
+0006A8                                   (12/23)1038+#@IF_32_E                        DS 0H
+0006A8                                   (1/340)1040          ENDDO 
+0006A8 47F0F668                000668    (16/55)1044+         B     #@DO_14_T
+0006AC                                   (16/56)1045+#@DO_14_E                        DS 0H
+0006AC 07FE                              (1/341)1048          BR   R14
+0006AE                                   (1/342)1049 *
+0006AE                                   (1/343)1050 * CNT_LEAD_BEFORE
+0006AE                                   (1/344)1051 *
+0006AE                                   (1/345)1052 CNT_LEAD_CHAR  DS   0H
+0006AE D2FFF4CAF728     0004CA 000728    (1/346)1053          MVC   TRT_TAB,=256X'FF'  SET TO ALL X'FF'
+0006B4 1B11                              (1/347)1054          SR    R1,R1                    CLEAR HIGH BITS FOR CHAR OFFSET
+0006B6                                   (1/348)1055          DO    WHILE=(LTR,R10,NZ,R10)
+0006B6                                   (16/63)1058+#@DO_15_T                        DS 0H
+0006B6 12AA                               (6/47)1062+         LTR   R10,R10
+0006B8 4780F6C0                0006C0     (6/49)1063+         BC    15-NZ,#@IF_33_2
+0006BC 47F0F6C4                0006C4    (16/66)1065+               B   #@DO_15_1
+0006C0                                   (12/20)1069+#@IF_33_2                                                DS 0H
+0006C0 47F0F6D6                0006D6    (16/68)1071+         B     #@DO_15_E
+0006C4                                   (16/69)1072+#@DO_15_1                        DS 0H
+0006C4 06A0                              (1/349)1074                BCTR R10,0               DEC ALL CHAR COUNT
+0006C6 4319A000                          (1/350)1075                IC   R1,0(R9,R10)        R1 = ALL CHAR IN REV. ORDER
+0006CA 4121F4CA                0004CA    (1/351)1076                LA   R2,TRT_TAB(R1)
+0006CE 92002000                          (1/352)1077                MVI  0(R2),X'00'         CLEAR LEADING CHAR BYTES
+0006D2                                   (1/353)1078          ENDDO 
+0006D2 47F0F6B6                0006B6    (16/55)1082+         B     #@DO_15_T
+0006D6                                   (16/56)1083+#@DO_15_E                        DS 0H
+0006D6 41B45000                          (1/354)1086          LA    R11,0(R4,R5)           R11=A(END+1)
+0006DA                                   (1/355)1087          DO    WHILE=(CLR,R4,LT,R11)  BYTES LEFT IN FIELD
+0006DA                                   (16/63)1091+#@DO_16_T                        DS 0H
+0006DA 154B                               (6/47)1095+         CLR   R4,R11
+0006DC 47B0F6E4                0006E4     (6/49)1096+         BC    15-LT,#@IF_34_2
+0006E0 47F0F6E8                0006E8    (16/66)1098+               B   #@DO_16_1
+0006E4                                   (12/20)1102+#@IF_34_2                                                DS 0H
+0006E4 47F0F71E                00071E    (16/68)1104+         B     #@DO_16_E
+0006E8                                   (16/69)1105+#@DO_16_1                        DS 0H
+0006E8 181B                              (1/356)1107                LR  R1,R11
+0006EA 1B14                              (1/357)1108                SR  R1,R4
+0006EC                                   (1/358)1109                IF  (CHI,R1,GT,256)
+0006EC A71E0100                           (6/47)1112+         CHI   R1,256
+0006F0 47D0F6FC                0006FC     (6/49)1113+         BC    15-GT,#@IF_35_2
+0006F4 411000FF                          (1/359)1115                    LA  R1,255         R1=MAX LEN-1 FOR EX TRT
+0006F8                                   (1/360)1116                ELSE 
+0006F8 47F0F6FE                0006FE    (10/40)1119+        B      #@IF_35_E
+0006FC                                   (10/41)1120+#@IF_35_2                                                DS 0H
+0006FC 0610                              (1/361)1122                    BCTR R1,0          R1=LAST LEN-1 FOR EX TRT
+0006FE                                   (1/362)1123                ENDIF 
+0006FE                                   (12/23)1126+#@IF_35_E                        DS 0H
+0006FE                                   (1/363)1128                IF  (EX,R1,NZ,ALL_TRT) DO TRT AND CHECK IF HIT
+0006FE 4410F33C                00033C     (6/47)1132+         EX    R1,ALL_TRT
+000702 4780F710                000710     (6/49)1133+         BC    15-NZ,#@IF_36_2
+000706 1B14                              (1/364)1135                    SR  R1,R4
+000708 1A01                              (1/365)1136                    AR  R0,R1
+00070A 07FE                              (1/366)1137                    BR  R14
+00070C                                   (1/367)1138                ELSE 
+00070C 47F0F71A                00071A    (10/40)1141+        B      #@IF_36_E
+000710                                   (10/41)1142+#@IF_36_2                                                DS 0H
+000710 1A01                              (1/368)1144                    AR  R0,R1          ALL LEADING CHAR SO ADD LENGTH
+000712 A70A0001                          (1/369)1145                    AHI R0,1
+000716 41414001                          (1/370)1146                    LA  R4,1(R1,R4)    R4=A(NEXT CHAR TO TEST)
+00071A                                   (1/371)1147                ENDIF 
+00071A                                   (12/23)1150+#@IF_36_E                        DS 0H
+00071A                                   (1/372)1152          ENDDO 
+00071A 47F0F6DA                0006DA    (16/55)1156+         B     #@DO_16_T
+00071E                                   (16/56)1157+#@DO_16_E                        DS 0H
+00071E 07FE                              (1/373)1160          BR   R14
+000720                                   (1/374)1161 *
+000720                                   (1/375)1162 * SHARED DATA
+000720                                   (1/376)1163 *
+000720 6F                                (1/377)1164 STYPE    DC    C'?' C=CHARACTERS, A=ALL, L=LEADING, F=FIRST
+000721                                   (1/378)1165          EQUREGS 
+000721                  00000000         (18/41)1166+R0     EQU 0
+000721                  00000001         (18/41)1167+R1     EQU 1
+000721                  00000002         (18/41)1168+R2     EQU 2
+000721                  00000003         (18/41)1169+R3     EQU 3
+000721                  00000004         (18/41)1170+R4     EQU 4
+000721                  00000005         (18/41)1171+R5     EQU 5
+000721                  00000006         (18/41)1172+R6     EQU 6
+000721                  00000007         (18/41)1173+R7     EQU 7
+000721                  00000008         (18/41)1174+R8     EQU 8
+000721                  00000009         (18/41)1175+R9     EQU 9
+000721                  0000000A         (18/41)1176+R10    EQU 10
+000721                  0000000B         (18/41)1177+R11    EQU 11
+000721                  0000000C         (18/41)1178+R12    EQU 12
+000721                  0000000D         (18/41)1179+R13    EQU 13
+000721                  0000000E         (18/41)1180+R14    EQU 14
+000721                  0000000F         (18/41)1181+R15    EQU 15
+000000                                   (1/379)1183 ZC390CVT DSECT 
+000000                                   (1/380)1184          COPY  ZC390CVT
+000000                                    (4/31)1185=ZCVT_ID            DC    C'ZCVT'             ZCVT ID  VERIFIED BY ZCOB
+000004                                    (4/32)1186=ZCVT_LEN           DC    A(ZCVT_END-ZCVT_ID) ZCVT LEN VERIFIED BY ZCOB
+000008                                    (4/33)1187=ZCVT_VER           DC    CL8'V1.5.06rx3'    ZCVT VER VERIFIED BY ZC390NUC
+000010                                    (4/34)1189=ZCVT_ZC390NUC  DC V(ZC390NUC)      MODULE  SYSTEM ROUTINE MODULE INIT
+000014                                    (4/35)1190=ZCVT_CALL           DC V(CALL)       ENTRY R0=A(PGM),R1=A(PARMLIST)
+000018                                    (4/36)1191=ZCVT_CMP64R32       DC V(CMP64R32)   ENTRY COMPARE R0-1=FLD1 R2-3=FLD2
+00001C                                    (4/37)1192=ZCVT_CVTLBTQ        DC V(CVTLBTQ)    ENTRY CVT LB IN F4-6 TO Q IN R0-1
+000020                                    (4/38)1193=ZCVT_CVTLDTP        DC V(CVTLDTP)    ENTRY CVT LD IN F0-2 TO PL31 R0-1
+000024                                    (4/39)1194=ZCVT_CVTQTLB        DC V(CVTQTLB)    ENTRY CVT Q IN R0-1 TO LB IN F4-6
+000028                                    (4/40)1195=ZCVT_DIV64R32       DC V(DIV64R32)   ENTRY DIVIDE R0-1=N64, R2-3=MAX64
+00002C                                    (4/41)1196=ZCVT_DIVQ128        DC V(DIVQ128)    ENTRY DIVIDE Q128 R0-R1 BY R2-R3
+000030                                    (4/42)1197=ZCVT_GOBACK         DC V(GOBACK)     ENTRY R1=RC
+000034                                    (4/43)1198=ZCVT_MPYQ128        DC V(MPYQ128)    ENTRY MULTIPLY Q128 R0-R1 BY R2-R3
+000038                                    (4/44)1199=ZCVT_OSE64R32       DC V(OSE64R32)   ENTRY ON SIZE ERR R0-1=N, R2-3=MAX
+00003C                                    (4/45)1200=ZCVT_PERFORM        DC V(PERFORM)    ENTRY R14=PGTAR,R0=PGEXT,R1=PMRET
+000040                                    (4/46)1201=ZCVT_PMCHECK        DC V(PMCHECK)    ENTRY R14=RETURN TO NEXT INSTR.
+000044                                    (4/47)1202=ZCVT_ROUNDF         DC V(ROUNDF)     ENTRY R0=REM,R1=QUO,R2=DIVISOR
+000048                                    (4/48)1203=ZCVT_STACKORG       DC V(STACKORG)   ENTRY PERFORM STACK ORIGIN
+00004C                                    (4/49)1204=ZCVT_STACKPTR       DC V(STACKPTR)   ENTRY CUR ENTRY A(PG_END+4,RET)
+000050                                    (4/50)1205=ZCVT_STACKEND       DC V(STACKEND)   ENTRY PERFORM STACK END
+000054                                    (4/51)1206=ZCVT_STOPRUN        DC V(STOPRUN)    ENTRY R1=RC
+000058                                    (4/52)1207=ZCVT_TALPHAX        DC V(TALPHAX)    ENTRY TEST ALPHABETIC X
+00005C                                    (4/53)1208=ZCVT_TNUMP          DC V(TNUMP)      ENTRY TEST NUMERIC P
+000060                                    (4/54)1209=ZCVT_TNUMX          DC V(TNUMX)      ENTRY TEST NUMERIC X
+000064                                    (4/55)1210=ZCVT_TNUMZ          DC V(TNUMZ)      ENTRY TEST NUMERIC Z
+000068                                    (4/56)1211=*
+000068                                    (4/57)1212=* ADDITIONAL SEPARATE MODULES LINKED WITH Z390NUC IN ZC390LIB.390
+000068                                    (4/58)1213=*
+000068                                    (4/59)1214=ZCVT_ABORT     DC V(ABORT)         MODULE  R1=ABORT ERROR MSG #
+00006C                  00000001          (4/60)1215=ZCVT_ABORT_ALTER   EQU    1 ABORT ALTER DUE TO BRC NOT FOUND AT TARGET
+00006C                  00000002          (4/61)1216=ZCVT_ABORT_CALL    EQU    2 ABORT DYNAMIC CALL - PGM NOT FOUND
+00006C                  00000003          (4/62)1217=ZCVT_ABORT_DISPLAY EQU    3 ABORT DISPLAY DUE TO BUFFER EXCEEDED
+00006C                  00000004          (4/63)1218=ZCVT_ABORT_OPEN    EQU    4 ABORT OPEN  INVALID DCB
+00006C                  00000006          (4/64)1219=ZCVT_ABORT_STACK   EQU    6 ABORT PEROFRM STACK OVERFLOW
+00006C                  00000007          (4/65)1220=ZCVT_ABORT_VERSION EQU    7 ABORT ZC390NUC INIT ZCOBOL VERSION ERROR
+00006C                  00000008          (4/66)1221=ZCVT_ABORT_INT128  EQU    8 ABORT INTEGER 128 CONVERSION OVERFLO
+00006C                  00000009          (4/67)1222=ZCVT_ABORT_DIVQ    EQU    9 ABORT DIVIDE Q IF DIVISOR 0 OR > 2**63
+00006C                  0000000A          (4/68)1223=ZCVT_ABORT_CICS    EQU   10 ABORT THIS PGM REQUIRES EXEC CICS TRANS MGR
+00006C                  0000000B          (4/69)1224=ZCVT_ABORT_ACCEPT  EQU   11 ABORT ACCEPT EOF
+00006C                  0000000B          (4/70)1225=ZCVT_ABORT_MAXERR  EQU   11 ABORT MAX ERROR CODE
+00006C                                    (4/71)1226=ZCVT_ACCEPT    DC V(ACCEPT)        MODULE  R1=A(TYPE,FLD_ADD,FLD_LEN)
+000070                  00000001          (4/72)1227=ZCVT_ACCEPT_DEFAULT EQU   1 INPUT DEFAULT DDNAME=SYSIN
+000070                  00000002          (4/73)1228=ZCVT_ACCEPT_CONSOLE EQU   2 INPUT VIA WTOR FROM CONSOLE
+000070                  00000003          (4/74)1229=ZCVT_ACCEPT_DDNAME  EQU   3 INPUT FROM DDNAME WITH DDNAME ADDR IN R3
+000070                  00000004          (4/75)1230=ZCVT_ACCEPT_DATE    EQU   4 RETURN DAY OF WEEK PIC 9(8) MMDDYYYY
+000070                  00000005          (4/76)1231=ZCVT_ACCEPT_TIME    EQU   5 RETURN DAY OF WEEK PIC 9(8) HHMMSSTH
+000070                  00000006          (4/77)1232=ZCVT_ACCEPT_DOW     EQU   6 RETURN DAY OF WEEK PIC 9 1-7
+000070                                    (4/78)1233=ZCVT_DISPLAY   DC V(DISPLAY)       MODULE  R1=A(ADDR,LEN,TYPE)
+000074                                    (4/79)1234=ZCVT_INSPECT   DC V(INSPECT)       MODULE  R0=TYPE,R1=PARMLIST
+000078                  00000000          (4/80)1235=ZCVT_TALLYING      EQU   0 INSPECT TALLYING
+000078                  00000004          (4/81)1236=ZCVT_REPLACING     EQU   4 INSPECT REPLACING
+000078                  00000008          (4/82)1237=ZCVT_CONVERTING    EQU   8 INSPECT CONVERTING
+000078                                    (4/83)1238=*
+000078                                    (4/84)1239=* SHARED DATA AREAS
+000078                                    (4/85)1240=*
+000078                                    (4/86)1241=ZCVT_PVTMAXDL  DS H          MAXIMUM DISPLAY LINE LENGTH  RPI 1118
+000080                                    (4/87)1242=               DS 0D
+000080                                    (4/88)1243=ZCVT_ZERO      DC XL16'00'   BINARY ZEROS
+000090                                    (4/89)1244=ZCVT_HIGH_VALUES DC 0XL16,16X'FF' BINARY FF'S     RPI 1181
+0000A0                                    (4/90)1245=ZCVT_PWORK     DS PL8        CVD/CVB WORK
+0000A8                                    (4/91)1246=ZCVT_PWORK1    DS PL16       DIV DIVIDEND, CVDG/CVBG WORK
+0000B8                                    (4/92)1247=ZCVT_PWORK2    DS PL16       DIV DIVISOR
+0000C8                                    (4/93)1248=ZCVT_PWORK3    DS PL16       DIV QUOTIENT
+0000D8                                    (4/94)1249=ZCVT_PWORK4    DS PL16       DIV REMAINDER
+0000E8                                    (4/95)1250=ZCVT_NDDX      DS XL16       DIV DIVIDEND HOLD AREA
+0000F8                                    (4/96)1251=ZCVT_WORKAREA  DS XL256      GEN_INSPECT PARMS, GEN_EDIT WORK, ETC.
+0001F8                                    (4/97)1252=*
+0001F8                                    (4/98)1253=* END OF ZC390CVT
+0001F8                                    (4/99)1254=*
+0001F8                  000001F8         (4/100)1255=ZCVT_END   EQU   *
+0001F8                                   (1/381)1256          END 
+000728 FFFFFFFFFFFFFFFF =256X'FF'
+
+Symbol Table Listing
+
+ SYM=#@DO_10_1 LOC=00000466 LEN=00000002 ESD=0001 TYPE=REL  XREF=716 709 
+ SYM=#@DO_10_E LOC=000004BA LEN=00000002 ESD=0001 TYPE=REL  XREF=809 715 
+ SYM=#@DO_10_T LOC=00000458 LEN=00000002 ESD=0001 TYPE=REL  XREF=702 808 
+ SYM=#@DO_11_1 LOC=000005E0 LEN=00000002 ESD=0001 TYPE=REL  XREF=850 843 
+ SYM=#@DO_11_E LOC=000005F2 LEN=00000002 ESD=0001 TYPE=REL  XREF=861 849 
+ SYM=#@DO_11_T LOC=000005D2 LEN=00000002 ESD=0001 TYPE=REL  XREF=836 860 
+ SYM=#@DO_12_1 LOC=00000604 LEN=00000002 ESD=0001 TYPE=REL  XREF=883 876 
+ SYM=#@DO_12_E LOC=0000063A LEN=00000002 ESD=0001 TYPE=REL  XREF=934 882 
+ SYM=#@DO_12_T LOC=000005F6 LEN=00000002 ESD=0001 TYPE=REL  XREF=869 933 
+ SYM=#@DO_13_1 LOC=00000652 LEN=00000002 ESD=0001 TYPE=REL  XREF=961 954 
+ SYM=#@DO_13_E LOC=00000664 LEN=00000002 ESD=0001 TYPE=REL  XREF=972 960 
+ SYM=#@DO_13_T LOC=00000644 LEN=00000002 ESD=0001 TYPE=REL  XREF=947 971 
+ SYM=#@DO_14_1 LOC=00000676 LEN=00000002 ESD=0001 TYPE=REL  XREF=994 987 
+ SYM=#@DO_14_E LOC=000006AC LEN=00000002 ESD=0001 TYPE=REL  XREF=1045 993 
+ SYM=#@DO_14_T LOC=00000668 LEN=00000002 ESD=0001 TYPE=REL  XREF=980 1044 
+ SYM=#@DO_15_1 LOC=000006C4 LEN=00000002 ESD=0001 TYPE=REL  XREF=1072 1065 
+ SYM=#@DO_15_E LOC=000006D6 LEN=00000002 ESD=0001 TYPE=REL  XREF=1083 1071 
+ SYM=#@DO_15_T LOC=000006B6 LEN=00000002 ESD=0001 TYPE=REL  XREF=1058 1082 
+ SYM=#@DO_16_1 LOC=000006E8 LEN=00000002 ESD=0001 TYPE=REL  XREF=1105 1098 
+ SYM=#@DO_16_E LOC=0000071E LEN=00000002 ESD=0001 TYPE=REL  XREF=1157 1104 
+ SYM=#@DO_16_T LOC=000006DA LEN=00000002 ESD=0001 TYPE=REL  XREF=1091 1156 
+ SYM=#@DO_1_1 LOC=00000150 LEN=00000002 ESD=0001 TYPE=REL  XREF=231 224 
+ SYM=#@DO_1_E LOC=00000164 LEN=00000002 ESD=0001 TYPE=REL  XREF=241 230 
+ SYM=#@DO_1_T LOC=00000140 LEN=00000002 ESD=0001 TYPE=REL  XREF=217 240 
+ SYM=#@DO_2_1 LOC=00000294 LEN=00000002 ESD=0001 TYPE=REL  XREF=283 276 
+ SYM=#@DO_2_E LOC=000002B6 LEN=00000002 ESD=0001 TYPE=REL  XREF=313 282 
+ SYM=#@DO_2_T LOC=00000286 LEN=00000002 ESD=0001 TYPE=REL  XREF=269 312 
+ SYM=#@DO_3_1 LOC=000002D4 LEN=00000002 ESD=0001 TYPE=REL  XREF=341 334 
+ SYM=#@DO_3_E LOC=000002EA LEN=00000002 ESD=0001 TYPE=REL  XREF=353 340 
+ SYM=#@DO_3_T LOC=000002C6 LEN=00000002 ESD=0001 TYPE=REL  XREF=327 352 
+ SYM=#@DO_4_1 LOC=000002FE LEN=00000002 ESD=0001 TYPE=REL  XREF=376 369 
+ SYM=#@DO_4_E LOC=0000033A LEN=00000002 ESD=0001 TYPE=REL  XREF=429 375 
+ SYM=#@DO_4_T LOC=000002F0 LEN=00000002 ESD=0001 TYPE=REL  XREF=362 428 
+ SYM=#@DO_5_1 LOC=00000358 LEN=00000002 ESD=0001 TYPE=REL  XREF=457 450 
+ SYM=#@DO_5_E LOC=0000036E LEN=00000002 ESD=0001 TYPE=REL  XREF=469 456 
+ SYM=#@DO_5_T LOC=0000034A LEN=00000002 ESD=0001 TYPE=REL  XREF=443 468 
+ SYM=#@DO_6_1 LOC=00000382 LEN=00000002 ESD=0001 TYPE=REL  XREF=492 485 
+ SYM=#@DO_6_E LOC=000003A4 LEN=00000002 ESD=0001 TYPE=REL  XREF=522 491 
+ SYM=#@DO_6_T LOC=00000374 LEN=00000002 ESD=0001 TYPE=REL  XREF=478 521 
+ SYM=#@DO_7_1 LOC=000003BC LEN=00000002 ESD=0001 TYPE=REL  XREF=549 542 
+ SYM=#@DO_7_E LOC=000003D2 LEN=00000002 ESD=0001 TYPE=REL  XREF=561 548 
+ SYM=#@DO_7_T LOC=000003AE LEN=00000002 ESD=0001 TYPE=REL  XREF=535 560 
+ SYM=#@DO_8_1 LOC=000003E6 LEN=00000002 ESD=0001 TYPE=REL  XREF=584 577 
+ SYM=#@DO_8_E LOC=0000041C LEN=00000002 ESD=0001 TYPE=REL  XREF=635 583 
+ SYM=#@DO_8_T LOC=000003D8 LEN=00000002 ESD=0001 TYPE=REL  XREF=570 634 
+ SYM=#@DO_9_1 LOC=00000440 LEN=00000002 ESD=0001 TYPE=REL  XREF=676 669 
+ SYM=#@DO_9_E LOC=00000452 LEN=00000002 ESD=0001 TYPE=REL  XREF=687 675 
+ SYM=#@DO_9_T LOC=00000432 LEN=00000002 ESD=0001 TYPE=REL  XREF=662 686 
+ SYM=#@IF_10_2 LOC=00000354 LEN=00000002 ESD=0001 TYPE=REL  XREF=454 448 
+ SYM=#@IF_11_2 LOC=0000037E LEN=00000002 ESD=0001 TYPE=REL  XREF=489 483 
+ SYM=#@IF_12_2 LOC=0000039E LEN=00000002 ESD=0001 TYPE=REL  XREF=509 499 
+ SYM=#@IF_12_E LOC=000003A0 LEN=00000002 ESD=0001 TYPE=REL  XREF=515 508 
+ SYM=#@IF_13_2 LOC=000003B8 LEN=00000002 ESD=0001 TYPE=REL  XREF=546 540 
+ SYM=#@IF_14_2 LOC=000003E2 LEN=00000002 ESD=0001 TYPE=REL  XREF=581 575 
+ SYM=#@IF_15_2 LOC=000003FA LEN=00000002 ESD=0001 TYPE=REL  XREF=599 592 
+ SYM=#@IF_15_E LOC=000003FC LEN=00000002 ESD=0001 TYPE=REL  XREF=605 598 
+ SYM=#@IF_16_2 LOC=00000414 LEN=00000002 ESD=0001 TYPE=REL  XREF=622 612 
+ SYM=#@IF_16_E LOC=00000418 LEN=00000002 ESD=0001 TYPE=REL  XREF=628 621 
+ SYM=#@IF_17_2 LOC=0000042A LEN=00000002 ESD=0001 TYPE=REL  XREF=655 648 
+ SYM=#@IF_18_2 LOC=0000043C LEN=00000002 ESD=0001 TYPE=REL  XREF=673 667 
+ SYM=#@IF_19_2 LOC=00000462 LEN=00000002 ESD=0001 TYPE=REL  XREF=713 707 
+ SYM=#@IF_1_2 LOC=0000003A LEN=00000002 ESD=0001 TYPE=REL  XREF=78 70 
+ SYM=#@IF_1_4 LOC=0000004E LEN=00000002 ESD=0001 TYPE=REL  XREF=88 80 
+ SYM=#@IF_1_6 LOC=00000062 LEN=00000002 ESD=0001 TYPE=REL  XREF=98 90 
+ SYM=#@IF_1_E LOC=0000008A LEN=00000002 ESD=0001 TYPE=REL  XREF=110 77 87 97 
+ SYM=#@IF_20_2 LOC=00000476 LEN=00000002 ESD=0001 TYPE=REL  XREF=729 722 
+ SYM=#@IF_20_E LOC=00000478 LEN=00000002 ESD=0001 TYPE=REL  XREF=735 728 
+ SYM=#@IF_21_2 LOC=000004AE LEN=00000002 ESD=0001 TYPE=REL  XREF=794 742 
+ SYM=#@IF_21_E LOC=000004B6 LEN=00000002 ESD=0001 TYPE=REL  XREF=802 793 
+ SYM=#@IF_22_2 LOC=00000494 LEN=00000002 ESD=0001 TYPE=REL  XREF=760 752 
+ SYM=#@IF_22_E LOC=000004A8 LEN=00000002 ESD=0001 TYPE=REL  XREF=787 759 
+ SYM=#@IF_23_2 LOC=000004A6 LEN=00000002 ESD=0001 TYPE=REL  XREF=776 767 
+ SYM=#@IF_23_E LOC=000004A8 LEN=00000002 ESD=0001 TYPE=REL  XREF=782 775 
+ SYM=#@IF_24_2 LOC=000004C2 LEN=00000002 ESD=0001 TYPE=REL  XREF=822 816 
+ SYM=#@IF_25_2 LOC=000005DC LEN=00000002 ESD=0001 TYPE=REL  XREF=847 841 
+ SYM=#@IF_26_2 LOC=00000600 LEN=00000002 ESD=0001 TYPE=REL  XREF=880 874 
+ SYM=#@IF_27_2 LOC=00000618 LEN=00000002 ESD=0001 TYPE=REL  XREF=898 891 
+ SYM=#@IF_27_E LOC=0000061A LEN=00000002 ESD=0001 TYPE=REL  XREF=904 897 
+ SYM=#@IF_28_2 LOC=00000632 LEN=00000002 ESD=0001 TYPE=REL  XREF=921 911 
+ SYM=#@IF_28_E LOC=00000636 LEN=00000002 ESD=0001 TYPE=REL  XREF=927 920 
+ SYM=#@IF_29_2 LOC=0000064E LEN=00000002 ESD=0001 TYPE=REL  XREF=958 952 
+ SYM=#@IF_2_2 LOC=000000B8 LEN=00000002 ESD=0001 TYPE=REL  XREF=144 135 
+ SYM=#@IF_2_4 LOC=000000CC LEN=00000002 ESD=0001 TYPE=REL  XREF=154 146 
+ SYM=#@IF_2_6 LOC=000000E0 LEN=00000002 ESD=0001 TYPE=REL  XREF=164 156 
+ SYM=#@IF_2_8 LOC=000000F4 LEN=00000002 ESD=0001 TYPE=REL  XREF=174 166 
+ SYM=#@IF_2_E LOC=0000011E LEN=00000002 ESD=0001 TYPE=REL  XREF=187 143 153 163 173 
+ SYM=#@IF_30_2 LOC=00000672 LEN=00000002 ESD=0001 TYPE=REL  XREF=991 985 
+ SYM=#@IF_31_2 LOC=0000068A LEN=00000002 ESD=0001 TYPE=REL  XREF=1009 1002 
+ SYM=#@IF_31_E LOC=0000068C LEN=00000002 ESD=0001 TYPE=REL  XREF=1015 1008 
+ SYM=#@IF_32_2 LOC=000006A4 LEN=00000002 ESD=0001 TYPE=REL  XREF=1032 1022 
+ SYM=#@IF_32_E LOC=000006A8 LEN=00000002 ESD=0001 TYPE=REL  XREF=1038 1031 
+ SYM=#@IF_33_2 LOC=000006C0 LEN=00000002 ESD=0001 TYPE=REL  XREF=1069 1063 
+ SYM=#@IF_34_2 LOC=000006E4 LEN=00000002 ESD=0001 TYPE=REL  XREF=1102 1096 
+ SYM=#@IF_35_2 LOC=000006FC LEN=00000002 ESD=0001 TYPE=REL  XREF=1120 1113 
+ SYM=#@IF_35_E LOC=000006FE LEN=00000002 ESD=0001 TYPE=REL  XREF=1126 1119 
+ SYM=#@IF_36_2 LOC=00000710 LEN=00000002 ESD=0001 TYPE=REL  XREF=1142 1133 
+ SYM=#@IF_36_E LOC=0000071A LEN=00000002 ESD=0001 TYPE=REL  XREF=1150 1141 
+ SYM=#@IF_3_2 LOC=0000014C LEN=00000002 ESD=0001 TYPE=REL  XREF=228 222 
+ SYM=#@IF_4_2 LOC=00000290 LEN=00000002 ESD=0001 TYPE=REL  XREF=280 274 
+ SYM=#@IF_5_2 LOC=000002A4 LEN=00000002 ESD=0001 TYPE=REL  XREF=296 289 
+ SYM=#@IF_5_E LOC=000002A6 LEN=00000002 ESD=0001 TYPE=REL  XREF=302 295 
+ SYM=#@IF_6_2 LOC=000002D0 LEN=00000002 ESD=0001 TYPE=REL  XREF=338 332 
+ SYM=#@IF_7_2 LOC=000002FA LEN=00000002 ESD=0001 TYPE=REL  XREF=373 367 
+ SYM=#@IF_8_2 LOC=00000312 LEN=00000002 ESD=0001 TYPE=REL  XREF=391 384 
+ SYM=#@IF_8_E LOC=00000314 LEN=00000002 ESD=0001 TYPE=REL  XREF=397 390 
+ SYM=#@IF_9_2 LOC=00000332 LEN=00000002 ESD=0001 TYPE=REL  XREF=416 404 
+ SYM=#@IF_9_E LOC=00000336 LEN=00000002 ESD=0001 TYPE=REL  XREF=422 415 
+ SYM=ALL_TRT  LOC=0000033C LEN=00000006 ESD=0001 TYPE=REL  XREF=433 403 611 910 1021 
+  1132 
+ SYM=CNT_ALL_AFTER LOC=0000063C LEN=00000002 ESD=0001 TYPE=REL  XREF=941 
+ SYM=CNT_ALL_CHAR LOC=000005CA LEN=00000002 ESD=0001 TYPE=REL  XREF=830 83 
+ SYM=CNT_LEAD_CHAR LOC=000006AE LEN=00000002 ESD=0001 TYPE=REL  XREF=1052 93 
+ SYM=CONVERTING LOC=00000128 LEN=00000002 ESD=0001 TYPE=REL  XREF=206 28 
+ SYM=CONV_TR  LOC=00000176 LEN=00000006 ESD=0001 TYPE=REL  XREF=257 246 
+ SYM=CONV_TRT_INIT LOC=0000017C LEN=00000001 ESD=0001 TYPE=REL  XREF=258 210 
+ SYM=E        LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=50 
+ SYM=EQ       LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=62 70 80 90 135 146 
+  156 166 
+ SYM=FIND_TEST_CHAR LOC=00000458 LEN=00000002 ESD=0001 TYPE=REL  XREF=697 72 82 92 
+  137 148 158 168 209 
+ SYM=FIND_TRT LOC=000004C4 LEN=00000006 ESD=0001 TYPE=REL  XREF=825 741 
+ SYM=GE       LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=65 
+ SYM=GT       LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=63 289 384 592 722 
+  891 1002 1113 
+ SYM=H        LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=48 
+ SYM=INSPECT  LOC=00000000 LEN=00000828 ESD=0001 TYPE=CST  XREF=15 16 1234 
+ SYM=INSPECT_ROUTINES LOC=0000000C LEN=00000002 ESD=0001 TYPE=REL  XREF=25 22 
+ SYM=L        LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=49 
+ SYM=LE       LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=66 
+ SYM=LT       LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=64 367 483 575 874 
+  985 1096 
+ SYM=M        LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=56 816 
+ SYM=NE       LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=53 
+ SYM=NH       LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=51 
+ SYM=NL       LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=52 
+ SYM=NM       LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=59 222 752 
+ SYM=NO       LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=61 
+ SYM=NP       LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=58 
+ SYM=NZ       LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=60 274 332 404 448 
+  499 540 612 667 707 742 767 841 911 952 1022 1063 1133 
+ SYM=O        LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=54 
+ SYM=P        LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=55 
+ SYM=R0       LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1166 23 42 73 129 
+  913 1024 1136 1144 1145 
+ SYM=R10      LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=1176 840 852 853 
+  951 963 964 1062 1074 1075 
+ SYM=R1       LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1167 39 126 207 211 
+  221 233 234 244 245 246 273 288 291 298 304 305 306 323 344 345 378 379 383 386 
+  393 403 408 409 410 411 418 439 460 461 503 531 552 553 586 587 591 594 601 611 
+  616 624 658 679 680 706 721 724 731 741 744 745 746 796 797 832 853 854 885 886 
+  890 893 900 910 914 915 916 923 943 964 965 996 997 1001 1004 1011 1021 1025 1026 
+  1027 1034 1054 1075 1076 1107 1108 1112 1115 1122 1132 1135 1136 1144 1146 
+ SYM=R11      LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=1177 357 366 378 
+  410 473 482 565 574 586 650 679 690 744 745 754 770 796 825 864 873 885 915 975 
+  984 996 1026 1086 1095 1107 
+ SYM=R12      LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=1178 39 126 207 647 
+  666 678 679 691 706 746 766 797 798 
+ SYM=R13      LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=1179 112 189 247 
+ SYM=R14      LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=1180 40 72 82 83 
+  92 93 112 127 137 138 148 149 158 159 168 169 189 208 209 247 264 316 432 511 525 
+  617 638 651 692 789 824 937 1048 1137 1160 
+ SYM=R15      LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=1181 16 
+ SYM=R2       LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1168 22 23 24 212 
+  233 235 345 347 356 406 407 461 463 472 501 502 553 555 564 614 615 680 681 854 
+  855 965 966 1076 1077 
+ SYM=R3       LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1169 213 234 235 
+  346 347 407 408 462 463 502 503 554 555 615 616 
+ SYM=R4       LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1170 39 126 207 257 
+  265 305 317 357 366 379 409 411 418 433 473 482 498 504 565 574 587 624 650 690 
+  755 769 770 771 864 873 886 914 916 923 975 984 997 1025 1027 1034 1086 1095 1108 
+  1135 1146 
+ SYM=R5       LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1171 73 244 263 273 
+  306 307 357 473 565 650 691 754 755 769 771 778 818 864 975 1086 
+ SYM=R6       LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1172 233 344 460 
+  552 
+ SYM=R7       LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1173 211 331 343 
+  344 346 447 459 460 462 539 551 552 554 
+ SYM=R8       LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1174 41 128 751 815 
+ SYM=R9       LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1175 234 265 407 
+  502 615 853 964 1075 
+ SYM=REPLACING LOC=00000094 LEN=00000002 ESD=0001 TYPE=REL  XREF=125 27 
+ SYM=REP_ALL_CHAR LOC=000002BE LEN=00000002 ESD=0001 TYPE=REL  XREF=321 149 
+ SYM=REP_CHAR LOC=0000027C LEN=00000002 ESD=0001 TYPE=REL  XREF=262 138 
+ SYM=REP_CHAR_MVC LOC=000002B8 LEN=00000006 ESD=0001 TYPE=REL  XREF=317 304 
+ SYM=REP_FIRST_CHAR LOC=000003A6 LEN=00000002 ESD=0001 TYPE=REL  XREF=529 159 
+ SYM=REP_LEAD_CHAR LOC=00000342 LEN=00000002 ESD=0001 TYPE=REL  XREF=437 169 
+ SYM=SET_TEST_TRT LOC=0000041E LEN=00000002 ESD=0001 TYPE=REL  XREF=642 40 127 208 
+ SYM=STYPE    LOC=00000720 LEN=00000001 ESD=0001 TYPE=REL  XREF=1164 41 69 79 89 
+  128 134 145 155 165 
+ SYM=TALLYING LOC=00000018 LEN=00000002 ESD=0001 TYPE=REL  XREF=38 26 
+ SYM=TRT_TAB  LOC=000004CA LEN=00000100 ESD=0001 TYPE=REL  XREF=826 210 235 257 322 
+  345 433 438 461 498 530 553 657 680 825 831 854 942 965 1053 1076 
+ SYM=WTO#0010_EOT LOC=00000088 LEN=00000001 ESD=0001 TYPE=REL  XREF=104 102 103 
+ SYM=WTO#0026_EOT LOC=0000011C LEN=00000001 ESD=0001 TYPE=REL  XREF=181 178 179 
+ SYM=Z        LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=57 648 
+ SYM=ZC390CVT LOC=00000000 LEN=000001F8 ESD=0002 TYPE=DST  XREF=1183 
+ SYM=ZCVT_ABORT LOC=00000068 LEN=00000004 ESD=0002 TYPE=REL  XREF=1214 
+ SYM=ZCVT_ABORT_ACCEPT LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=1224 
+ SYM=ZCVT_ABORT_ALTER LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1215 
+ SYM=ZCVT_ABORT_CALL LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1216 
+ SYM=ZCVT_ABORT_CICS LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=1223 
+ SYM=ZCVT_ABORT_DISPLAY LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1217 
+ SYM=ZCVT_ABORT_DIVQ LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1222 
+ SYM=ZCVT_ABORT_INT128 LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1221 
+ SYM=ZCVT_ABORT_MAXERR LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=1225 
+ SYM=ZCVT_ABORT_OPEN LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1218 
+ SYM=ZCVT_ABORT_STACK LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1219 
+ SYM=ZCVT_ABORT_VERSION LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1220 
+ SYM=ZCVT_ACCEPT LOC=0000006C LEN=00000004 ESD=0002 TYPE=REL  XREF=1226 
+ SYM=ZCVT_ACCEPT_CONSOLE LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1228 
+ SYM=ZCVT_ACCEPT_DATE LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1230 
+ SYM=ZCVT_ACCEPT_DDNAME LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1229 
+ SYM=ZCVT_ACCEPT_DEFAULT LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1227 
+ SYM=ZCVT_ACCEPT_DOW LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1232 
+ SYM=ZCVT_ACCEPT_TIME LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1231 
+ SYM=ZCVT_CALL LOC=00000014 LEN=00000004 ESD=0002 TYPE=REL  XREF=1190 
+ SYM=ZCVT_CMP64R32 LOC=00000018 LEN=00000004 ESD=0002 TYPE=REL  XREF=1191 
+ SYM=ZCVT_CONVERTING LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1237 
+ SYM=ZCVT_CVTLBTQ LOC=0000001C LEN=00000004 ESD=0002 TYPE=REL  XREF=1192 
+ SYM=ZCVT_CVTLDTP LOC=00000020 LEN=00000004 ESD=0002 TYPE=REL  XREF=1193 
+ SYM=ZCVT_CVTQTLB LOC=00000024 LEN=00000004 ESD=0002 TYPE=REL  XREF=1194 
+ SYM=ZCVT_DISPLAY LOC=00000070 LEN=00000004 ESD=0002 TYPE=REL  XREF=1233 
+ SYM=ZCVT_DIV64R32 LOC=00000028 LEN=00000004 ESD=0002 TYPE=REL  XREF=1195 
+ SYM=ZCVT_DIVQ128 LOC=0000002C LEN=00000004 ESD=0002 TYPE=REL  XREF=1196 
+ SYM=ZCVT_END LOC=000001F8 LEN=00000001 ESD=0002 TYPE=REL  XREF=1255 1186 
+ SYM=ZCVT_GOBACK LOC=00000030 LEN=00000004 ESD=0002 TYPE=REL  XREF=1197 
+ SYM=ZCVT_HIGH_VALUES LOC=00000090 LEN=00000010 ESD=0002 TYPE=REL  XREF=1244 
+ SYM=ZCVT_ID  LOC=00000000 LEN=00000004 ESD=0002 TYPE=REL  XREF=1185 1186 
+ SYM=ZCVT_INSPECT LOC=00000074 LEN=00000004 ESD=0002 TYPE=REL  XREF=1234 
+ SYM=ZCVT_LEN LOC=00000004 LEN=00000004 ESD=0002 TYPE=REL  XREF=1186 
+ SYM=ZCVT_MPYQ128 LOC=00000034 LEN=00000004 ESD=0002 TYPE=REL  XREF=1198 
+ SYM=ZCVT_NDDX LOC=000000E8 LEN=00000010 ESD=0002 TYPE=REL  XREF=1250 
+ SYM=ZCVT_OSE64R32 LOC=00000038 LEN=00000004 ESD=0002 TYPE=REL  XREF=1199 
+ SYM=ZCVT_PERFORM LOC=0000003C LEN=00000004 ESD=0002 TYPE=REL  XREF=1200 
+ SYM=ZCVT_PMCHECK LOC=00000040 LEN=00000004 ESD=0002 TYPE=REL  XREF=1201 
+ SYM=ZCVT_PVTMAXDL LOC=00000078 LEN=00000002 ESD=0002 TYPE=REL  XREF=1241 
+ SYM=ZCVT_PWORK LOC=000000A0 LEN=00000008 ESD=0002 TYPE=REL  XREF=1245 
+ SYM=ZCVT_PWORK1 LOC=000000A8 LEN=00000010 ESD=0002 TYPE=REL  XREF=1246 
+ SYM=ZCVT_PWORK2 LOC=000000B8 LEN=00000010 ESD=0002 TYPE=REL  XREF=1247 
+ SYM=ZCVT_PWORK3 LOC=000000C8 LEN=00000010 ESD=0002 TYPE=REL  XREF=1248 
+ SYM=ZCVT_PWORK4 LOC=000000D8 LEN=00000010 ESD=0002 TYPE=REL  XREF=1249 
+ SYM=ZCVT_REPLACING LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1236 
+ SYM=ZCVT_ROUNDF LOC=00000044 LEN=00000004 ESD=0002 TYPE=REL  XREF=1202 
+ SYM=ZCVT_STACKEND LOC=00000050 LEN=00000004 ESD=0002 TYPE=REL  XREF=1205 
+ SYM=ZCVT_STACKORG LOC=00000048 LEN=00000004 ESD=0002 TYPE=REL  XREF=1203 
+ SYM=ZCVT_STACKPTR LOC=0000004C LEN=00000004 ESD=0002 TYPE=REL  XREF=1204 
+ SYM=ZCVT_STOPRUN LOC=00000054 LEN=00000004 ESD=0002 TYPE=REL  XREF=1206 
+ SYM=ZCVT_TALLYING LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1235 
+ SYM=ZCVT_TALPHAX LOC=00000058 LEN=00000004 ESD=0002 TYPE=REL  XREF=1207 
+ SYM=ZCVT_TNUMP LOC=0000005C LEN=00000004 ESD=0002 TYPE=REL  XREF=1208 
+ SYM=ZCVT_TNUMX LOC=00000060 LEN=00000004 ESD=0002 TYPE=REL  XREF=1209 
+ SYM=ZCVT_TNUMZ LOC=00000064 LEN=00000004 ESD=0002 TYPE=REL  XREF=1210 
+ SYM=ZCVT_VER LOC=00000008 LEN=00000008 ESD=0002 TYPE=REL  XREF=1187 
+ SYM=ZCVT_WORKAREA LOC=000000F8 LEN=00000100 ESD=0002 TYPE=REL  XREF=1251 
+ SYM=ZCVT_ZC390NUC LOC=00000010 LEN=00000004 ESD=0002 TYPE=REL  XREF=1189 
+ SYM=ZCVT_ZERO LOC=00000080 LEN=00000010 ESD=0002 TYPE=REL  XREF=1243 
+
+Literal Table Listing
+
+ LIT=256X'FF' LOC=00000728 LEN=00000001 ESD=0001 POOL=0001 XREF=1053 
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+09:02:44 INSPECT   MZ390 ENDED   RC= 0 SEC= 1 MEM(MB)= 69 IO=2592

@@ -1,0 +1,23 @@
+#BlueJ class context
+comment0.params=addr\ myMemory\ psw\ registers
+comment0.target=SS1Instruction(int,\ Memory,\ PSW,\ Registers)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ SS1Instruction\r\n
+comment1.params=
+comment1.target=int\ getLength()
+comment2.params=l
+comment2.target=void\ setLength(int)
+comment3.params=
+comment3.target=Register\ getBaseReg1()
+comment4.params=
+comment4.target=Register\ getBaseReg2()
+comment5.params=b
+comment5.target=void\ setBaseReg1(Register)
+comment6.params=b
+comment6.target=void\ setBaseReg2(Register)
+comment7.params=
+comment7.target=int\ getDisplacement1()
+comment8.params=
+comment8.target=int\ getDisplacement2()
+comment9.params=
+comment9.target=void\ execute()
+numComments=10

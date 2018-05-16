@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=newID\ newName
+comment0.target=Employee(int,\ java.lang.String)
+comment1.params=
+comment1.target=int\ getID()
+comment2.params=
+comment2.target=java.lang.String\ getName()
+comment3.params=
+comment3.target=java.lang.String\ toString()
+numComments=4

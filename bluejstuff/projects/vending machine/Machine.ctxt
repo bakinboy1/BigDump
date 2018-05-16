@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=numOfSlots
+comment0.target=Machine(int)
+comment1.params=p\ slotID
+comment1.target=boolean\ restockProduct(Product,\ java.lang.String)
+comment2.params=p\ slotID\ cost
+comment2.target=boolean\ restockProduct(Product,\ java.lang.String,\ float)
+comment3.params=p\ slotID
+comment3.target=boolean\ restockProduct(java.util.ArrayList,\ java.lang.String)
+comment4.params=productID\ c
+comment4.target=Product\ purchaseProduct(java.lang.String,\ java.util.ArrayList)
+numComments=5

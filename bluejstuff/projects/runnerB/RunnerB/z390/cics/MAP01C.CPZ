@@ -1,0 +1,111 @@
+       01  GUI4I.
+           02  FILLER  PIC X(12).
+           02  FILLER   PIC S9(4) COMP.
+           02  FILLER   PIC X.
+           02  INPUTI   PIC X(3).
+           02  FILLER   PIC S9(4) COMP.
+           02  FILLER   PIC X.
+           02  REPLYI   PIC X(3).
+           02  FILLER REDEFINES REPLYI.
+               03  REPLYO   PIC X(3).
+       01  GUI4O REDEFINES GUI4I.
+          02  FILLER PIC X(24).
+       01  GUI6I.
+           02  FILLER  PIC X(12).
+           02  NAMEL    PIC S9(4) COMP.
+           02  NAMEF    PIC X.
+           02  NAMEI    PIC X(40).
+           02  ADDRL    PIC S9(4) COMP.
+           02  ADDRF    PIC X.
+           02  ADDRI    PIC X(40).
+           02  ZIPL     PIC S9(4) COMP.
+           02  ZIPF     PIC X.
+           02  ZIPI     PIC X(5).
+           02  FILLER  PIC S9(4) COMP.
+           02  FILLER  PIC X.
+           02  NAMEHDI  PIC X(4).
+           02  FILLER REDEFINES NAMEHDI.
+               03  NAMEHDO  PIC X(4).
+           02  FILLER PIC S9(4) COMP.
+           02  FILLER PIC X.
+           02  NEWNAMEI PIC X(40).
+           02  FILLER REDEFINES NEWNAMEI.
+               03  NEWNAMEO PIC X(40).
+           02  FILLER  PIC S9(4) COMP.
+           02  FILLER  PIC X.
+           02  ADDRHDI  PIC X(4).
+           02  FILLER REDEFINES ADDRHDI.
+               03  ADDRHDO  PIC X(4).
+           02  FILLER PIC S9(4) COMP.
+           02  FILLER PIC X.
+           02  NEWADDRI PIC X(40).
+           02  FILLER REDEFINES NEWADDRI.
+               03  NEWADDRO PIC X(40).
+           02  FILLER   PIC S9(4) COMP.
+           02  FILLER   PIC X.
+           02  ZIPHDI   PIC X(4).
+           02  FILLER REDEFINES ZIPHDI.
+               03  ZIPHDO   PIC X(4).
+           02  FILLER  PIC S9(4) COMP.
+           02  FILLER  PIC X.
+           02  NEWZIPI  PIC X(5).
+           02  FILLER REDEFINES NEWZIPI.
+               03  NEWZIPO  PIC X(5).
+           02  FILLER  PIC S9(4) COMP.
+           02  FILLER  PIC X.
+           02  ERRMSGI  PIC X(34).
+           02  FILLER REDEFINES ERRMSGI.
+               03  ERRMSGO  PIC X(34).
+           02  TESTOCCD OCCURS 5 TIMES.
+               03  FILLER PIC S9(4) COMP.
+               03  TESTOCCF PIC X.
+               03  TESTOCCI PIC 9(5).
+           02  FILLER  PIC S9(4) COMP.
+           02  FILLER  PIC X.
+           02  OCCSUMI  PIC X(10).
+           02  FILLER REDEFINES OCCSUMI.
+               03  OCCSUMO  PIC ZZ,ZZZ,ZZ9.
+           02  FILLER    PIC S9(4) COMP.
+           02  DATEF    PIC X.
+           02  DATEI.
+           02  DATEO REDEFINES DATEI.
+               03  MOI      PIC X(2).
+               03  FILLER REDEFINES MOI.
+                   04  MOO      PIC X(2).
+               03  SEP1I    PIC X.
+               03  DAYI     PIC X(2).
+               03  FILLER REDEFINES DAYI.
+                   04  DAYO     PIC X(2).
+               03  SEP2I    PIC X.
+               03  YRI      PIC X(2).
+               03  FILLER REDEFINES YRI.
+                   04  YRO      PIC X(2).
+           02  FILLER PIC S9(4) COMP.
+           02  FILLER PIC X.
+           02  SHOWMDYI PIC X(18).
+           02  FILLER REDEFINES SHOWMDYI.
+               03  SHOWMDYO PIC X(18).
+           02  TESTPCOL PIC S9(4) COMP.
+           02  TESTPCOF PIC X.
+           02  TESTPCOI PIC 9(12).
+           02  FILLER REDEFINES TESTPCOI.
+               03  TESTPCOO PIC X(12).
+           02  FILLER   PIC S9(4) COMP.
+           02  FILLER   PIC X.
+           02  PAYMEI   PIC X(14).
+           02  FILLER REDEFINES PAYMEI.
+               03  PAYMEO   PIC X(14).
+           02  FILLER  PIC S9(4) COMP.
+           02  FILLER  PIC X.
+           02  PAYME1I  PIC X(12).
+           02  FILLER REDEFINES PAYME1I.
+               03  PAYME1O  PIC $$$$,$$$,$$9.
+           02  FILLER    PIC S9(4) COMP.
+           02  FILLER    PIC X.
+           02  CURSI    PIC X(9).
+           02  FILLER REDEFINES CURSI.
+               03  CURSO    PIC X(9).
+       01  GUI6O REDEFINES GUI6I.
+          02  FILLER PIC X(402).
+       01  GUI6HI.
+           02  FILLER  PIC X(12).

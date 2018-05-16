@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=card()
+comment1.params=suite\ rank
+comment1.target=card(java.lang.String,\ java.lang.String)
+comment2.params=
+comment2.target=java.lang.String\ getSuite()
+comment3.params=
+comment3.target=java.lang.String\ getRank()
+comment4.params=
+comment4.target=java.lang.String\ toString()
+numComments=5

@@ -1,0 +1,1786 @@
+TESTISP1  MZ390 START
+AZ390I Copyright 2011 Automated Software Tools Corporation
+AZ390I z390 is licensed under GNU General Public License
+AZ390I program = zcobol\test\TESTISP1
+AZ390I options = W:\work\z390\z390.OPT=(time(60)) @zcobol\z390\ZC390CLG=(
+  sysmac(+zcobol+zcobol\z390+mac+cics) syscpy(+zcobol+zcobol\z390+mac+cics) 
+  BAL NOLISTCALL MAXGBL(1500000)) notiming stats
+External Symbol Definitions
+ ESD=0001 LOC=00000000 LEN=000012D8 TYPE=CST NAME=TESTISP1
+Assembler Listing
+000000                                       (6/15)1+*    ZCOBOL PGM='zcobol\test\TESTISP1' VER=V1.5.06 MM/DD/YY  
+000000                                       (6/15)2+*    ZCOBOL OPTIONS=() 
+000000                                        (1/4)3          COPY  TESTISP1_ZC_LABELS.CPY
+000000                                        (1/5)4 *        IDENTIFICATION DIVISION.
+000000                                        (1/7)5 *        PROGRAM-ID.    TESTISP1.
+000000                                      (11/34)6+         PRINT NOLIST,NOGEN,NOLISTUSE    SET LIST OPTION FOR INTERNAL CODE
+000000                                      (11/59)8+TESTISP1 CSECT ,                CSECT WITH PROCEDURE CODE AND WS
+000000                                      (11/60)9+         USING *,ZC_R15
+LISTUSE TESTISP1 ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+000000 90ECD00C                            (16/51)10+         STM   14,12,12+4*(14-14)(13)
+000004                                     (11/93)11+         CNOP  4,8             FORCE ZC390PVT TO DOUBLEWORD BOUNDARY
+000004 A785001A                000038      (11/94)12+         BRAS  ZC_R8,ZC_LOAD
+000008                                     (11/95)13+         USING *,ZC_R8            BASE FOR LOAD AND CICS V5 USE
+LISTUSE TESTISP1 ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE TESTISP1 ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+000008                                     (11/96)14+*
+000008                                     (11/97)15+*  THESE FIELDS MUST BE KEPT IN SYNC WITH zcobol\ZC390PVT.CPY
+000008                                     (11/98)16+*
+000008 E3C5E2E3C9E2D7F1                    (11/99)17+         DC    CL8'TESTISP1'    PVTPGM   ZCOBOL PGM NAME
+000010 F0F161F0F261F0F5                   (11/100)18+         DC    CL8'01/02/05'   PVTDATE  ZCOBOL COMPILE DATE
+000018 F2F24BF3F3404040                   (11/101)19+         DC    CL8'22.33'   PVTTIME  ZCOBOL COMPILE TIME
+000020 E5F14BF54BF0F640                   (11/102)20+         DC    CL8'V1.5.06'    PVTVER   ZCOBOL COMPILER VERSION
+000028 F0                                 (11/103)21+         DC    C'0'     PVTCICS  ZCOBOL EXEC CICS PGM
+000029 F1                                 (11/104)22+         DC    C'1'   PVTEXTND ZCOBOL EXTENDED PRECISION
+00002A F0                                 (11/105)23+         DC    C'0'    PVTTRUNC ZCOBOL TRUNCATE TO PICTURE
+00002B F1                                 (11/106)24+         DC    C'1'      PVTR64   ZCOBOL USE 64 BIT REGISTERS
+00002C 0050                               (11/107)25+         DC    H'80' MAX DISPLAY LINE LEN  RPI 1118
+00002E                                    (11/108)26+         DS    XL10            RESERVED
+000038                                    (11/109)27+ZC_LOAD  DS    0H
+000038 410080B0                0000B8      (17/74)28+         LA    0,=CL8'ZC390LIB'
+00003C 1BFF                                (17/95)29+         SR    15,15 USE DEFAULT SYS390 SEARCH
+00003E 0A08                               (17/125)30+         SVC   8 LOAD R0=A(NAME) R15=DDNAME/DSNAME ADDR OR 0
+000040 12FF                               (11/111)31+         LTR   ZC_R15,ZC_R15
+000042 A7840013                000068     (11/112)32+         JZ    ZC_LOAD_OK
+000046 A715000D                000060      (18/49)33+         BRAS  1,*+(WTO#0015_EOT-*+1)/2*2
+00004A 00160000E9C3F3F9                    (18/50)34+         DC    AL2(WTO#0015_EOT-*,0),C'ZC390LIB NOT FOUND'
+000060                  00000060           (18/51)35+WTO#0015_EOT     EQU *
+000060 0A23                                (18/52)36+         SVC   35
+000062 41F00010                           (11/114)37+         LA  ZC_R15,16
+000066 0A03                               (11/115)38+         SVC 3      EXIT TO CALLER WITH RC=16
+000068                                    (11/116)39+ZC_LOAD_OK DS  0H
+000068 1890                               (11/117)40+         LR    ZC_R9,ZC_R0
+00006A                                    (11/118)41+         USING ZC390CVT,ZC_R9    R9=CVT
+LISTUSE TESTISP1 ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE TESTISP1 ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+00006A D503900080B8     000000 0000C0     (11/119)42+         CLC   ZCVT_ID,=C'ZCVT'              CHECK ZCVT ID AND LENGTH
+000070 A774000C                000088     (11/120)43+         JNE   ZC_VER_ERR                    IN ZC390LIB.390 MATCH
+000074 D503900480BC     000004 0000C4     (11/121)44+         CLC   ZCVT_LEN,=A(ZCVT_END-ZCVT_ID) ZCOBOL PGM COMPILED ID/LEN
+00007A 47708080                000088     (11/122)45+         BNE   ZC_VER_ERR
+00007E 58F09010                000010     (11/123)46+         L     ZC_R15,ZCVT_ZC390NUC
+000082 0DEF                               (11/124)47+         BASR  ZC_R14,ZC_R15 CALL ZC390NUC TO VERIFY VER, OPTIONS
+000084 A7F40022                0000C8     (11/125)48+         J     ZC_VER_OK
+000088                                    (11/126)49+ZC_VER_ERR DS 0H
+000088 A7150011                0000AA      (18/49)50+         BRAS  1,*+(WTO#0016_EOT-*+1)/2*2
+00008C 001E0000E9C3F3F9                    (18/50)51+         DC    AL2(WTO#0016_EOT-*,0),C'ZC390LIB ZCVT VERIFY ERROR'
+0000AA                  000000AA           (18/51)52+WTO#0016_EOT     EQU *
+0000AA 0A23                                (18/52)53+         SVC   35
+0000AC 41F00010                           (11/128)54+         LA  ZC_R15,16
+0000B0 0A03                               (11/129)55+         SVC 3      EXIT TO CALLER WITH RC=16
+0000B2                                    (11/130)56+         LTORG 
+0000B8 E9C3F3F9F0D3C9C2 =CL8'ZC390LIB'
+0000C0 E9C3E5E3         =C'ZCVT'
+0000C4 000001F8         =A(ZCVT_END-ZCVT_ID)
+0000C8                  00000080          (15/10)111=PFPO_TEST    EQU  X'80' PFPO TEST IF VALID OPCODE (NOT SUPPORTED YET)
+0000C8                  00000001          (15/11)112=PFPO_RADIX   EQU  1 PFPO OPCODE - CONVERT FROM ONE RADIX TO ANOTHER
+0000C8                  00000000          (15/12)113=PFPO_RND     EQU  0 PFOP ROUNDING OPTION (ONLY DEFAULT ALLOWED)
+0000C8                  00000000          (15/13)114=PFPO_TYPE_EH EQU  0 EH HFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000001          (15/14)115=PFPO_TYPE_DH EQU  1 ED HFP LONG      64 BITS 15 DIGITS
+0000C8                  00000002          (15/15)116=PFPO_TYPE_LH EQU  2 EL HFP EXTENDED 128 BITS 30 DIGITS
+0000C8                  00000005          (15/16)117=PFPO_TYPE_EB EQU  5 EB BFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000006          (15/17)118=PFPO_TYPE_DB EQU  6 DB BFP LONG      64 BITS 16 DIGITS
+0000C8                  00000007          (15/18)119=PFPO_TYPE_LB EQU  7 LB BFP EXTENDED 128 BITS 34 DIGITS
+0000C8                  00000008          (15/19)120=PFPO_TYPE_ED EQU  8 ED DFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000009          (15/20)121=PFPO_TYPE_DD EQU  9 DD DFP LONG      64 BITS 16 DIGITS
+0000C8                  0000000A          (15/21)122=PFPO_TYPE_LD EQU 10 LD DFP EXTENDED 128 BITS 34 DIGITS
+0000C8                                   (11/133)123+ZC_VER_OK DS   0H
+0000C8 582D0018                           (11/63)124+         L     ZC_R2,24(ZC_R13) SET ZC_R2=PARMLIST ADDRESS AFTER LOAD
+0000CC C0100000087E            0011C8     (11/64)125+         LARL  ZC_R1,ZC_WS     ZC_R2=A(WORKING STORAGE WITH SAVEAREA)
+0000D2 501D0008                           (11/65)126+         ST    ZC_R1,8(ZC_R13) FORWARD  SAVE CHAIN
+0000D6 50D10004                           (11/66)127+         ST    ZC_R13,4(ZC_R1) BACKWARD SAVE CHAIN
+0000DA 18D1                               (11/67)128+         LR    ZC_R13,ZC_R1    LINK SAVE AREA IN ZC390CVT
+0000DC                                    (11/68)129+         USING ZC_WS,ZC_R13    BASE FOR ZCOBOL WS (SEE GEN_SYM_RX.MAC)
+LISTUSE TESTISP1 ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE TESTISP1 ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+LISTUSE TESTISP1 ESD=0001 LOC=000011C8 LEN=01000 REG=D OFF=00000 LAB=
+0000DC 50D0D050                001218     (11/69)130+         ST    ZC_R13,ZC_WS_START  SAVE ADDR WS IN WS PREFIX
+0000E0 C000000008FC            0012D8     (11/70)131+         LARL  ZC_R0,ZC_WS_END
+0000E6 1B0D                               (11/71)132+         SR    ZC_R0,ZC_R13
+0000E8 5000D054                00121C     (11/72)133+         ST    ZC_R0,ZC_WS_LEN     SAVE LENGTH OF WS IN WS PREFIX
+0000EC                                    (11/73)134+         DROP  ZC_R15              RPI 1042
+LISTUSE TESTISP1 ESD=0001 LOC=000011C8 LEN=01000 REG=D OFF=00000 LAB=
+LISTUSE TESTISP1 ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+0011C8                                    (11/74)135+ZC_WSLOC LOCTR 
+0011C8                                    (11/75)136+ZC_WS    DS    0D           START WORKING STORAGE
+000000                                    (11/81)137+ZC390CVT DSECT 
+000000                                    (12/31)138=ZCVT_ID            DC    C'ZCVT'             ZCVT ID  VERIFIED BY ZCOB
+000004                                    (12/32)139=ZCVT_LEN           DC    A(ZCVT_END-ZCVT_ID) ZCVT LEN VERIFIED BY ZCOB
+000008                                    (12/33)140=ZCVT_VER           DC    CL8'V1.5.06'    ZCVT VER VERIFIED BY ZC390NUC
+000010                                    (12/34)141=ZCVT_ZC390NUC  DC V(ZC390NUC)      MODULE  SYSTEM ROUTINE MODULE INIT
+000014                                    (12/35)142=ZCVT_CALL           DC V(CALL)       ENTRY R0=A(PGM),R1=A(PARMLIST)
+000018                                    (12/36)143=ZCVT_CMP64R32       DC V(CMP64R32)   ENTRY COMPARE R0-1=FLD1 R2-3=FLD2
+00001C                                    (12/37)144=ZCVT_CVTLBTQ        DC V(CVTLBTQ)    ENTRY CVT LB IN F4-6 TO Q IN R0-1
+000020                                    (12/38)145=ZCVT_CVTLDTP        DC V(CVTLDTP)    ENTRY CVT LD IN F0-2 TO PL31 R0-1
+000024                                    (12/39)146=ZCVT_CVTQTLB        DC V(CVTQTLB)    ENTRY CVT Q IN R0-1 TO LB IN F4-6
+000028                                    (12/40)147=ZCVT_DIV64R32       DC V(DIV64R32)   ENTRY DIVIDE R0-1=N64, R2-3=MAX64
+00002C                                    (12/41)148=ZCVT_DIVQ128        DC V(DIVQ128)    ENTRY DIVIDE Q128 R0-R1 BY R2-R3
+000030                                    (12/42)149=ZCVT_GOBACK         DC V(GOBACK)     ENTRY R1=RC
+000034                                    (12/43)150=ZCVT_MPYQ128        DC V(MPYQ128)    ENTRY MULTIPLY Q128 R0-R1 BY R2-R3
+000038                                    (12/44)151=ZCVT_OSE64R32       DC V(OSE64R32)   ENTRY ON SIZE ERR R0-1=N, R2-3=MAX
+00003C                                    (12/45)152=ZCVT_PERFORM        DC V(PERFORM)    ENTRY R14=PGTAR,R0=PGEXT,R1=PMRET
+000040                                    (12/46)153=ZCVT_PMCHECK        DC V(PMCHECK)    ENTRY R14=RETURN TO NEXT INSTR.
+000044                                    (12/47)154=ZCVT_ROUNDF         DC V(ROUNDF)     ENTRY R0=REM,R1=QUO,R2=DIVISOR
+000048                                    (12/48)155=ZCVT_STACKORG       DC V(STACKORG)   ENTRY PERFORM STACK ORIGIN
+00004C                                    (12/49)156=ZCVT_STACKPTR       DC V(STACKPTR)   ENTRY CUR ENTRY A(PG_END+4,RET)
+000050                                    (12/50)157=ZCVT_STACKEND       DC V(STACKEND)   ENTRY PERFORM STACK END
+000054                                    (12/51)158=ZCVT_STOPRUN        DC V(STOPRUN)    ENTRY R1=RC
+000058                                    (12/52)159=ZCVT_TALPHAX        DC V(TALPHAX)    ENTRY TEST ALPHABETIC X
+00005C                                    (12/53)160=ZCVT_TNUMP          DC V(TNUMP)      ENTRY TEST NUMERIC P
+000060                                    (12/54)161=ZCVT_TNUMX          DC V(TNUMX)      ENTRY TEST NUMERIC X
+000064                                    (12/55)162=ZCVT_TNUMZ          DC V(TNUMZ)      ENTRY TEST NUMERIC Z
+000068                                    (12/56)163=*
+000068                                    (12/57)164=* ADDITIONAL SEPARATE MODULES LINKED WITH Z390NUC IN ZC390LIB.390
+000068                                    (12/58)165=*
+000068                                    (12/59)166=ZCVT_ABORT     DC V(ABORT)         MODULE  R1=ABORT ERROR MSG #
+00006C                  00000001          (12/60)167=ZCVT_ABORT_ALTER   EQU    1 ABORT ALTER DUE TO BRC NOT FOUND AT TARGET
+00006C                  00000002          (12/61)168=ZCVT_ABORT_CALL    EQU    2 ABORT DYNAMIC CALL - PGM NOT FOUND
+00006C                  00000003          (12/62)169=ZCVT_ABORT_DISPLAY EQU    3 ABORT DISPLAY DUE TO BUFFER EXCEEDED
+00006C                  00000004          (12/63)170=ZCVT_ABORT_OPEN    EQU    4 ABORT OPEN  INVALID DCB
+00006C                  00000006          (12/64)171=ZCVT_ABORT_STACK   EQU    6 ABORT PEROFRM STACK OVERFLOW
+00006C                  00000007          (12/65)172=ZCVT_ABORT_VERSION EQU    7 ABORT ZC390NUC INIT ZCOBOL VERSION ERROR
+00006C                  00000008          (12/66)173=ZCVT_ABORT_INT128  EQU    8 ABORT INTEGER 128 CONVERSION OVERFLO
+00006C                  00000009          (12/67)174=ZCVT_ABORT_DIVQ    EQU    9 ABORT DIVIDE Q IF DIVISOR 0 OR > 2**63
+00006C                  0000000A          (12/68)175=ZCVT_ABORT_CICS    EQU   10 ABORT THIS PGM REQUIRES EXEC CICS TRANS MGR
+00006C                  0000000B          (12/69)176=ZCVT_ABORT_ACCEPT  EQU   11 ABORT ACCEPT EOF
+00006C                  0000000B          (12/70)177=ZCVT_ABORT_MAXERR  EQU   11 ABORT MAX ERROR CODE
+00006C                                    (12/71)178=ZCVT_ACCEPT    DC V(ACCEPT)        MODULE  R1=A(TYPE,FLD_ADD,FLD_LEN)
+000070                  00000001          (12/72)179=ZCVT_ACCEPT_DEFAULT EQU   1 INPUT DEFAULT DDNAME=SYSIN
+000070                  00000002          (12/73)180=ZCVT_ACCEPT_CONSOLE EQU   2 INPUT VIA WTOR FROM CONSOLE
+000070                  00000003          (12/74)181=ZCVT_ACCEPT_DDNAME  EQU   3 INPUT FROM DDNAME WITH DDNAME ADDR IN R3
+000070                  00000004          (12/75)182=ZCVT_ACCEPT_DATE    EQU   4 RETURN DAY OF WEEK PIC 9(8) MMDDYYYY
+000070                  00000005          (12/76)183=ZCVT_ACCEPT_TIME    EQU   5 RETURN DAY OF WEEK PIC 9(8) HHMMSSTH
+000070                  00000006          (12/77)184=ZCVT_ACCEPT_DOW     EQU   6 RETURN DAY OF WEEK PIC 9 1-7
+000070                                    (12/78)185=ZCVT_DISPLAY   DC V(DISPLAY)       MODULE  R1=A(ADDR,LEN,TYPE)
+000074                                    (12/79)186=ZCVT_INSPECT   DC V(INSPECT)       MODULE  R0=TYPE,R1=PARMLIST
+000078                  00000000          (12/80)187=ZCVT_TALLYING      EQU   0 INSPECT TALLYING
+000078                  00000004          (12/81)188=ZCVT_REPLACING     EQU   4 INSPECT REPLACING
+000078                  00000008          (12/82)189=ZCVT_CONVERTING    EQU   8 INSPECT CONVERTING
+000078                                    (12/83)190=*
+000078                                    (12/84)191=* SHARED DATA AREAS
+000078                                    (12/85)192=*
+000078                                    (12/86)193=ZCVT_PVTMAXDL  DS H          MAXIMUM DISPLAY LINE LENGTH  RPI 1118
+000080                                    (12/87)194=               DS 0D
+000080                                    (12/88)195=ZCVT_ZERO      DC XL16'00'   BINARY ZEROS
+000090                                    (12/89)196=ZCVT_HIGH_VALUES DC 0XL16,16X'FF' BINARY FF'S     RPI 1181
+0000A0                                    (12/90)197=ZCVT_PWORK     DS PL8        CVD/CVB WORK
+0000A8                                    (12/91)198=ZCVT_PWORK1    DS PL16       DIV DIVIDEND, CVDG/CVBG WORK
+0000B8                                    (12/92)199=ZCVT_PWORK2    DS PL16       DIV DIVISOR
+0000C8                                    (12/93)200=ZCVT_PWORK3    DS PL16       DIV QUOTIENT
+0000D8                                    (12/94)201=ZCVT_PWORK4    DS PL16       DIV REMAINDER
+0000E8                                    (12/95)202=ZCVT_NDDX      DS XL16       DIV DIVIDEND HOLD AREA
+0000F8                                    (12/96)203=ZCVT_WORKAREA  DS XL256      GEN_INSPECT PARMS, GEN_EDIT WORK, ETC.
+0001F8                                    (12/97)204=*
+0001F8                                    (12/98)205=* END OF ZC390CVT
+0001F8                                    (12/99)206=*
+0001F8                  000001F8         (12/100)207=ZCVT_END   EQU   *
+000000                                    (11/83)208+ZC390PVT DSECT 
+000000                                    (13/11)209=PVTPGM   DS    CL8  ZCOBOL PGM NAME
+000008                                    (13/12)210=PVTDATE  DS    CL8  ZCOBOL COMPILE DATE
+000010                                    (13/13)211=PVTTIME  DS    CL8  ZCOBOL COMPILE TIME
+000018                                    (13/14)212=PVTVER   DS    CL8  ZCOBOL COMPILER VERSION
+000020                                    (13/15)213=PVTCICS  DS    C    ZCOBOL EXEC CICS PGM
+000021                                    (13/16)214=PVTEXTND DS    C    ZCOBOL EXTENDED PRECISION
+000022                                    (13/17)215=PVTTRUNC DS    C    ZCOBOL TRUNCATE TO PICTURE
+000023                                    (13/18)216=PVTR64   DS    C    ZCOBOL USE 64 BIT REGISTERS
+000024                                    (13/19)217=PVTMAXDL DS    H    ZCOBOL MAX DISPLAY LINE LENGTH
+000026                                    (13/20)218=         DS    XL10 RESERVED
+0011C8                                    (11/85)219+ZC_WSLOC LOCTR              CONTINUE WS FOR FD AND DATA
+0011C8                                      (1/9)220 *        AUTHOR.        DON HIGGINS.
+0011C8                                     (1/10)221 *      * TEST INSPECT TALLYING, REPLACING, CONVERTING.
+0011C8                                     (1/11)222 *      * 03/17/09 DSH INITIAL CODING
+0011C8                                     (1/13)223 *      * 01/25/12 DSH RPI 1181 ADD TEST 22 INSPECT REPLACING ALL LOW-VALU
+0011C8                                     (1/15)225 *        ENVIRONMENT DIVISION.
+0011C8                                     (1/17)226 *        DATA DIVISION.
+0011C8                                    (27/23)227+         PRINT DATA
+0011C8                                     (1/19)228 *        WORKING-STORAGE SECTION.
+0011C8                                     (1/21)229 *         01  RECORD PIC X(80) VALUE 'AACDDGGGA'.
+0011C8                                     (1/23)230 *         77  COUNT  COMP PIC S9(9).
+0011C8                                     (1/25)231 *         77  GOOD   COMP PIC S9(9) VALUE 0.
+0011C8                                     (1/28)232 *        PROCEDURE DIVISION.
+0011C8                                     (1/29)233 *ZC   PROCEDURE DIVISION
+0011C8                                    (30/18)234+         PRINT LIST,GEN,LISTUSE TURN PRINT LISTING ON FOR USER CODE GEN
+0000EC                                    (30/19)235+TESTISP1 CSECT                SWITCH TO PROCEDURE CODE AHEAD OF WS
+0000EC                                     (1/31)236 *        MAINLINE.
+0000EC                                     (8/96)237+PG_MAINLINE DS 0H
+0000EC                                     (1/33)238 *            MOVE 0 TO COUNT
+0000EC                                     (1/34)239 *ZC     15         MOVE  0,TO,COUNT
+0000EC E54CD0A80000            001270    (38/342)240+          MVHI  COUNT,0
+0000F2                                     (1/36)241 *      1     INSPECT RECORD TALLYING COUNT FOR CHARACTERS BEFORE 'D'
+0000F2                                     (1/38)242 *ZC     16      1  INSPECT RECORD,TALLYING,COUNT,FOR,CHARACTERS,BEFORE,'D'
+0000F2 411090F8                0000F8     (40/47)244+         LA    ZC_R1,ZCVT_WORKAREA
+0000F6 4100D058                001220     (40/48)245+         LA    ZC_R0,RECORD
+0000FA 50010000                           (40/49)246+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+0000FE E54C10040050                       (40/50)247+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+000104 4100D0A8                001270     (40/51)248+         LA    ZC_R0,COUNT
+000108 50010008                           (40/52)249+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+00010C E54C100C0004                       (40/53)250+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+000112 410000C3                           (40/55)251+         LA    ZC_R0,C'C'
+000116 50010010                           (40/56)252+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+00011A C0000000083F            001198    (40/187)253+         LARL  ZC_R0,=CL2'D'
+000120 5001001C                          (40/188)254+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000124 E54C10200001                      (40/189)255+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+00012A 41000000                           (40/72)256+         LA    ZC_R0,ZCVT_TALLYING
+00012E 58F09074                000074     (40/73)257+         L     ZC_R15,ZCVT_INSPECT
+000132 0DEF                               (40/74)258+         BASR  ZC_R14,ZC_R15
+000134 5A00D0A8                001270     (40/77)259+         A     ZC_R0,COUNT
+000138 5000D0A8                001270     (40/78)260+         ST    ZC_R0,COUNT
+00013C                                     (1/40)261 *            IF COUNT NOT = 3 PERFORM BAD ELSE PERFORM GOOD.
+00013C                                     (1/41)262 *ZC     17         IF    COUNT,NOT,=,3
+00013C 5800D0A8                001270    (42/289)263+         L     0,COUNT
+000140 C20D00000003            000003    (42/290)264+         CFI   0,3
+000146 A784000D                000160     (43/15)265+         BRC   15-ZC_NE,PG_IF_1_1
+00014A                                     (1/43)266 *ZC     17         PERFORM BAD
+00014A C0E00000065C            000E02     (46/44)267+         LARL  ZC_R14,PG_BAD
+000150 C00000000664            000E18     (46/45)268+         LARL  ZC_R0,PG_BAD_END+6
+000156 58F0903C                00003C     (46/46)269+         L     ZC_R15,ZCVT_PERFORM
+00015A 0D1F                               (46/47)270+         BASR  ZC_R1,ZC_R15
+00015C                                     (1/45)271 *ZC     17         ELSE
+00015C A7F4000B                000172     (48/15)272+         J     PG_IF_1_E
+000160                                     (8/41)273+PG_IF_1_1    DS    0H  &TYPE
+000160                                     (1/47)274 *ZC     17         PERFORM GOOD
+000160 C0E00000064B            000DF6     (46/44)275+         LARL  ZC_R14,PG_GOOD
+000166 C0000000064E            000E02     (46/45)276+         LARL  ZC_R0,PG_GOOD_END+6
+00016C 58F0903C                00003C     (46/46)277+         L     ZC_R15,ZCVT_PERFORM
+000170 0D1F                               (46/47)278+         BASR  ZC_R1,ZC_R15
+000172                                     (8/41)279+PG_IF_1_E    DS    0H  &TYPE
+000172                                     (1/50)280 *            MOVE 0 TO COUNT
+000172                                     (1/51)281 *ZC     18         MOVE  0,TO,COUNT
+000172 E54CD0A80000            001270    (38/342)282+          MVHI  COUNT,0
+000178                                     (1/53)283 *      2     INSPECT RECORD TALLYING COUNT FOR CHARACTERS AFTER 'C'
+000178                                     (1/55)284 *ZC     19      2  INSPECT RECORD,TALLYING,COUNT,FOR,CHARACTERS,AFTER,'C'
+000178 411090F8                0000F8     (40/47)286+         LA    ZC_R1,ZCVT_WORKAREA
+00017C 4100D058                001220     (40/48)287+         LA    ZC_R0,RECORD
+000180 50010000                           (40/49)288+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+000184 E54C10040050                       (40/50)289+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+00018A 4100D0A8                001270     (40/51)290+         LA    ZC_R0,COUNT
+00018E 50010008                           (40/52)291+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+000192 E54C100C0004                       (40/53)292+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+000198 410000C3                           (40/55)293+         LA    ZC_R0,C'C'
+00019C 50010010                           (40/56)294+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+0001A0 92801010                          (40/174)295+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+0001A4 C000000007FB            00119A    (40/187)296+         LARL  ZC_R0,=CL2'C'
+0001AA 5001001C                          (40/188)297+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+0001AE E54C10200001                      (40/189)298+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+0001B4 41000000                           (40/72)299+         LA    ZC_R0,ZCVT_TALLYING
+0001B8 58F09074                000074     (40/73)300+         L     ZC_R15,ZCVT_INSPECT
+0001BC 0DEF                               (40/74)301+         BASR  ZC_R14,ZC_R15
+0001BE 5A00D0A8                001270     (40/77)302+         A     ZC_R0,COUNT
+0001C2 5000D0A8                001270     (40/78)303+         ST    ZC_R0,COUNT
+0001C6                                     (1/57)304 *            IF COUNT NOT = 77 PERFORM BAD ELSE PERFORM GOOD.
+0001C6                                     (1/58)305 *ZC     20         IF    COUNT,NOT,=,77
+0001C6 5800D0A8                001270    (42/289)306+         L     0,COUNT
+0001CA C20D0000004D            00004D    (42/290)307+         CFI   0,77
+0001D0 A784000D                0001EA     (43/15)308+         BRC   15-ZC_NE,PG_IF_2_1
+0001D4                                     (1/60)309 *ZC     20         PERFORM BAD
+0001D4 C0E000000617            000E02     (46/44)310+         LARL  ZC_R14,PG_BAD
+0001DA C0000000061F            000E18     (46/45)311+         LARL  ZC_R0,PG_BAD_END+6
+0001E0 58F0903C                00003C     (46/46)312+         L     ZC_R15,ZCVT_PERFORM
+0001E4 0D1F                               (46/47)313+         BASR  ZC_R1,ZC_R15
+0001E6                                     (1/62)314 *ZC     20         ELSE
+0001E6 A7F4000B                0001FC     (48/15)315+         J     PG_IF_2_E
+0001EA                                     (8/41)316+PG_IF_2_1    DS    0H  &TYPE
+0001EA                                     (1/64)317 *ZC     20         PERFORM GOOD
+0001EA C0E000000606            000DF6     (46/44)318+         LARL  ZC_R14,PG_GOOD
+0001F0 C00000000609            000E02     (46/45)319+         LARL  ZC_R0,PG_GOOD_END+6
+0001F6 58F0903C                00003C     (46/46)320+         L     ZC_R15,ZCVT_PERFORM
+0001FA 0D1F                               (46/47)321+         BASR  ZC_R1,ZC_R15
+0001FC                                     (8/41)322+PG_IF_2_E    DS    0H  &TYPE
+0001FC                                     (1/67)323 *            MOVE 0 TO COUNT
+0001FC                                     (1/68)324 *ZC     21         MOVE  0,TO,COUNT
+0001FC E54CD0A80000            001270    (38/342)325+          MVHI  COUNT,0
+000202                                     (1/70)326 *      3     INSPECT RECORD TALLYING COUNT FOR ALL 'A'
+000202                                     (1/71)327 *ZC     22      3  INSPECT RECORD,TALLYING,COUNT,FOR,ALL,'A'
+000202 411090F8                0000F8     (40/47)328+         LA    ZC_R1,ZCVT_WORKAREA
+000206 4100D058                001220     (40/48)329+         LA    ZC_R0,RECORD
+00020A 50010000                           (40/49)330+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+00020E E54C10040050                       (40/50)331+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+000214 4100D0A8                001270     (40/51)332+         LA    ZC_R0,COUNT
+000218 50010008                           (40/52)333+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+00021C E54C100C0004                       (40/53)334+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+000222 410000C1                           (40/55)335+         LA    ZC_R0,C'A'
+000226 50010010                           (40/56)336+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+00022A C000000007B9            00119C    (40/229)337+         LARL  ZC_R0,=CL2'A'
+000230 50010014                          (40/230)338+         ST    ZC_R0,20(ZC_R1)
+000234 E54C10180001                      (40/231)339+         MVHI  20+4(ZC_R1),1
+00023A 1B00                              (40/181)340+         SR    ZC_R0,ZC_R0
+00023C 5001001C                          (40/182)341+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000240 50010020                          (40/183)342+         ST    ZC_R0,32(ZC_R1)                  P9=L'TEST_VAR   NO TEST
+000244 41000000                           (40/72)343+         LA    ZC_R0,ZCVT_TALLYING
+000248 58F09074                000074     (40/73)344+         L     ZC_R15,ZCVT_INSPECT
+00024C 0DEF                               (40/74)345+         BASR  ZC_R14,ZC_R15
+00024E 5A00D0A8                001270     (40/77)346+         A     ZC_R0,COUNT
+000252 5000D0A8                001270     (40/78)347+         ST    ZC_R0,COUNT
+000256                                     (1/73)348 *            IF COUNT NOT = 3 PERFORM BAD ELSE PERFORM GOOD.
+000256                                     (1/74)349 *ZC     23         IF    COUNT,NOT,=,3
+000256 5800D0A8                001270    (42/289)350+         L     0,COUNT
+00025A C20D00000003            000003    (42/290)351+         CFI   0,3
+000260 A784000D                00027A     (43/15)352+         BRC   15-ZC_NE,PG_IF_3_1
+000264                                     (1/76)353 *ZC     23         PERFORM BAD
+000264 C0E0000005CF            000E02     (46/44)354+         LARL  ZC_R14,PG_BAD
+00026A C000000005D7            000E18     (46/45)355+         LARL  ZC_R0,PG_BAD_END+6
+000270 58F0903C                00003C     (46/46)356+         L     ZC_R15,ZCVT_PERFORM
+000274 0D1F                               (46/47)357+         BASR  ZC_R1,ZC_R15
+000276                                     (1/78)358 *ZC     23         ELSE
+000276 A7F4000B                00028C     (48/15)359+         J     PG_IF_3_E
+00027A                                     (8/41)360+PG_IF_3_1    DS    0H  &TYPE
+00027A                                     (1/80)361 *ZC     23         PERFORM GOOD
+00027A C0E0000005BE            000DF6     (46/44)362+         LARL  ZC_R14,PG_GOOD
+000280 C000000005C1            000E02     (46/45)363+         LARL  ZC_R0,PG_GOOD_END+6
+000286 58F0903C                00003C     (46/46)364+         L     ZC_R15,ZCVT_PERFORM
+00028A 0D1F                               (46/47)365+         BASR  ZC_R1,ZC_R15
+00028C                                     (8/41)366+PG_IF_3_E    DS    0H  &TYPE
+00028C                                     (1/83)367 *            MOVE 0 TO COUNT
+00028C                                     (1/84)368 *ZC     24         MOVE  0,TO,COUNT
+00028C E54CD0A80000            001270    (38/342)369+          MVHI  COUNT,0
+000292                                     (1/86)370 *      4     INSPECT RECORD TALLYING COUNT FOR ALL 'A' BEFORE 'D'
+000292                                     (1/87)371 *ZC     25      4  INSPECT RECORD,TALLYING,COUNT,FOR,ALL,'A',BEFORE,'D'
+000292 411090F8                0000F8     (40/47)372+         LA    ZC_R1,ZCVT_WORKAREA
+000296 4100D058                001220     (40/48)373+         LA    ZC_R0,RECORD
+00029A 50010000                           (40/49)374+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+00029E E54C10040050                       (40/50)375+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+0002A4 4100D0A8                001270     (40/51)376+         LA    ZC_R0,COUNT
+0002A8 50010008                           (40/52)377+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+0002AC E54C100C0004                       (40/53)378+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+0002B2 410000C1                           (40/55)379+         LA    ZC_R0,C'A'
+0002B6 50010010                           (40/56)380+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+0002BA C00000000771            00119C    (40/229)381+         LARL  ZC_R0,=CL2'A'
+0002C0 50010014                          (40/230)382+         ST    ZC_R0,20(ZC_R1)
+0002C4 E54C10180001                      (40/231)383+         MVHI  20+4(ZC_R1),1
+0002CA C00000000767            001198    (40/187)384+         LARL  ZC_R0,=CL2'D'
+0002D0 5001001C                          (40/188)385+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+0002D4 E54C10200001                      (40/189)386+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+0002DA 41000000                           (40/72)387+         LA    ZC_R0,ZCVT_TALLYING
+0002DE 58F09074                000074     (40/73)388+         L     ZC_R15,ZCVT_INSPECT
+0002E2 0DEF                               (40/74)389+         BASR  ZC_R14,ZC_R15
+0002E4 5A00D0A8                001270     (40/77)390+         A     ZC_R0,COUNT
+0002E8 5000D0A8                001270     (40/78)391+         ST    ZC_R0,COUNT
+0002EC                                     (1/89)392 *            IF COUNT NOT = 2 PERFORM BAD ELSE PERFORM GOOD.
+0002EC                                     (1/90)393 *ZC     26         IF    COUNT,NOT,=,2
+0002EC 5800D0A8                001270    (42/289)394+         L     0,COUNT
+0002F0 C20D00000002            000002    (42/290)395+         CFI   0,2
+0002F6 A784000D                000310     (43/15)396+         BRC   15-ZC_NE,PG_IF_4_1
+0002FA                                     (1/92)397 *ZC     26         PERFORM BAD
+0002FA C0E000000584            000E02     (46/44)398+         LARL  ZC_R14,PG_BAD
+000300 C0000000058C            000E18     (46/45)399+         LARL  ZC_R0,PG_BAD_END+6
+000306 58F0903C                00003C     (46/46)400+         L     ZC_R15,ZCVT_PERFORM
+00030A 0D1F                               (46/47)401+         BASR  ZC_R1,ZC_R15
+00030C                                     (1/94)402 *ZC     26         ELSE
+00030C A7F4000B                000322     (48/15)403+         J     PG_IF_4_E
+000310                                     (8/41)404+PG_IF_4_1    DS    0H  &TYPE
+000310                                     (1/96)405 *ZC     26         PERFORM GOOD
+000310 C0E000000573            000DF6     (46/44)406+         LARL  ZC_R14,PG_GOOD
+000316 C00000000576            000E02     (46/45)407+         LARL  ZC_R0,PG_GOOD_END+6
+00031C 58F0903C                00003C     (46/46)408+         L     ZC_R15,ZCVT_PERFORM
+000320 0D1F                               (46/47)409+         BASR  ZC_R1,ZC_R15
+000322                                     (8/41)410+PG_IF_4_E    DS    0H  &TYPE
+000322                                     (1/99)411 *            MOVE 0 TO COUNT
+000322                                    (1/100)412 *ZC     27         MOVE  0,TO,COUNT
+000322 E54CD0A80000            001270    (38/342)413+          MVHI  COUNT,0
+000328                                    (1/102)414 *      5     INSPECT RECORD TALLYING COUNT FOR ALL 'A' AFTER 'C'
+000328                                    (1/103)415 *ZC     28      5  INSPECT RECORD,TALLYING,COUNT,FOR,ALL,'A',AFTER,'C'
+000328 411090F8                0000F8     (40/47)416+         LA    ZC_R1,ZCVT_WORKAREA
+00032C 4100D058                001220     (40/48)417+         LA    ZC_R0,RECORD
+000330 50010000                           (40/49)418+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+000334 E54C10040050                       (40/50)419+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+00033A 4100D0A8                001270     (40/51)420+         LA    ZC_R0,COUNT
+00033E 50010008                           (40/52)421+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+000342 E54C100C0004                       (40/53)422+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+000348 410000C1                           (40/55)423+         LA    ZC_R0,C'A'
+00034C 50010010                           (40/56)424+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+000350 C00000000726            00119C    (40/229)425+         LARL  ZC_R0,=CL2'A'
+000356 50010014                          (40/230)426+         ST    ZC_R0,20(ZC_R1)
+00035A E54C10180001                      (40/231)427+         MVHI  20+4(ZC_R1),1
+000360 92801010                          (40/174)428+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+000364 C0000000071B            00119A    (40/187)429+         LARL  ZC_R0,=CL2'C'
+00036A 5001001C                          (40/188)430+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+00036E E54C10200001                      (40/189)431+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000374 41000000                           (40/72)432+         LA    ZC_R0,ZCVT_TALLYING
+000378 58F09074                000074     (40/73)433+         L     ZC_R15,ZCVT_INSPECT
+00037C 0DEF                               (40/74)434+         BASR  ZC_R14,ZC_R15
+00037E 5A00D0A8                001270     (40/77)435+         A     ZC_R0,COUNT
+000382 5000D0A8                001270     (40/78)436+         ST    ZC_R0,COUNT
+000386                                    (1/105)437 *            IF COUNT NOT = 1 PERFORM BAD ELSE PERFORM GOOD.
+000386                                    (1/106)438 *ZC     29         IF    COUNT,NOT,=,1
+000386 5800D0A8                001270    (42/289)439+         L     0,COUNT
+00038A C20D00000001            000001    (42/290)440+         CFI   0,1
+000390 A784000D                0003AA     (43/15)441+         BRC   15-ZC_NE,PG_IF_5_1
+000394                                    (1/108)442 *ZC     29         PERFORM BAD
+000394 C0E000000537            000E02     (46/44)443+         LARL  ZC_R14,PG_BAD
+00039A C0000000053F            000E18     (46/45)444+         LARL  ZC_R0,PG_BAD_END+6
+0003A0 58F0903C                00003C     (46/46)445+         L     ZC_R15,ZCVT_PERFORM
+0003A4 0D1F                               (46/47)446+         BASR  ZC_R1,ZC_R15
+0003A6                                    (1/110)447 *ZC     29         ELSE
+0003A6 A7F4000B                0003BC     (48/15)448+         J     PG_IF_5_E
+0003AA                                     (8/41)449+PG_IF_5_1    DS    0H  &TYPE
+0003AA                                    (1/112)450 *ZC     29         PERFORM GOOD
+0003AA C0E000000526            000DF6     (46/44)451+         LARL  ZC_R14,PG_GOOD
+0003B0 C00000000529            000E02     (46/45)452+         LARL  ZC_R0,PG_GOOD_END+6
+0003B6 58F0903C                00003C     (46/46)453+         L     ZC_R15,ZCVT_PERFORM
+0003BA 0D1F                               (46/47)454+         BASR  ZC_R1,ZC_R15
+0003BC                                     (8/41)455+PG_IF_5_E    DS    0H  &TYPE
+0003BC                                    (1/115)456 *            MOVE 0 TO COUNT
+0003BC                                    (1/116)457 *ZC     30         MOVE  0,TO,COUNT
+0003BC E54CD0A80000            001270    (38/342)458+          MVHI  COUNT,0
+0003C2                                    (1/118)459 *      6     INSPECT RECORD TALLYING COUNT FOR LEADING 'A'
+0003C2                                    (1/119)460 *ZC     31      6  INSPECT RECORD,TALLYING,COUNT,FOR,LEADING,'A'
+0003C2 411090F8                0000F8     (40/47)461+         LA    ZC_R1,ZCVT_WORKAREA
+0003C6 4100D058                001220     (40/48)462+         LA    ZC_R0,RECORD
+0003CA 50010000                           (40/49)463+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+0003CE E54C10040050                       (40/50)464+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+0003D4 4100D0A8                001270     (40/51)465+         LA    ZC_R0,COUNT
+0003D8 50010008                           (40/52)466+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+0003DC E54C100C0004                       (40/53)467+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+0003E2 410000D3                           (40/55)468+         LA    ZC_R0,C'L'
+0003E6 50010010                           (40/56)469+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+0003EA C000000006D9            00119C    (40/229)470+         LARL  ZC_R0,=CL2'A'
+0003F0 50010014                          (40/230)471+         ST    ZC_R0,20(ZC_R1)
+0003F4 E54C10180001                      (40/231)472+         MVHI  20+4(ZC_R1),1
+0003FA 1B00                              (40/181)473+         SR    ZC_R0,ZC_R0
+0003FC 5001001C                          (40/182)474+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000400 50010020                          (40/183)475+         ST    ZC_R0,32(ZC_R1)                  P9=L'TEST_VAR   NO TEST
+000404 41000000                           (40/72)476+         LA    ZC_R0,ZCVT_TALLYING
+000408 58F09074                000074     (40/73)477+         L     ZC_R15,ZCVT_INSPECT
+00040C 0DEF                               (40/74)478+         BASR  ZC_R14,ZC_R15
+00040E 5A00D0A8                001270     (40/77)479+         A     ZC_R0,COUNT
+000412 5000D0A8                001270     (40/78)480+         ST    ZC_R0,COUNT
+000416                                    (1/121)481 *            IF COUNT NOT = 2 PERFORM BAD ELSE PERFORM GOOD.
+000416                                    (1/122)482 *ZC     32         IF    COUNT,NOT,=,2
+000416 5800D0A8                001270    (42/289)483+         L     0,COUNT
+00041A C20D00000002            000002    (42/290)484+         CFI   0,2
+000420 A784000D                00043A     (43/15)485+         BRC   15-ZC_NE,PG_IF_6_1
+000424                                    (1/124)486 *ZC     32         PERFORM BAD
+000424 C0E0000004EF            000E02     (46/44)487+         LARL  ZC_R14,PG_BAD
+00042A C000000004F7            000E18     (46/45)488+         LARL  ZC_R0,PG_BAD_END+6
+000430 58F0903C                00003C     (46/46)489+         L     ZC_R15,ZCVT_PERFORM
+000434 0D1F                               (46/47)490+         BASR  ZC_R1,ZC_R15
+000436                                    (1/126)491 *ZC     32         ELSE
+000436 A7F4000B                00044C     (48/15)492+         J     PG_IF_6_E
+00043A                                     (8/41)493+PG_IF_6_1    DS    0H  &TYPE
+00043A                                    (1/128)494 *ZC     32         PERFORM GOOD
+00043A C0E0000004DE            000DF6     (46/44)495+         LARL  ZC_R14,PG_GOOD
+000440 C000000004E1            000E02     (46/45)496+         LARL  ZC_R0,PG_GOOD_END+6
+000446 58F0903C                00003C     (46/46)497+         L     ZC_R15,ZCVT_PERFORM
+00044A 0D1F                               (46/47)498+         BASR  ZC_R1,ZC_R15
+00044C                                     (8/41)499+PG_IF_6_E    DS    0H  &TYPE
+00044C                                    (1/131)500 *            MOVE 0 TO COUNT
+00044C                                    (1/132)501 *ZC     33         MOVE  0,TO,COUNT
+00044C E54CD0A80000            001270    (38/342)502+          MVHI  COUNT,0
+000452                                    (1/134)503 *      7     INSPECT RECORD TALLYING COUNT FOR LEADING 'B'
+000452                                    (1/135)504 *ZC     34      7  INSPECT RECORD,TALLYING,COUNT,FOR,LEADING,'B'
+000452 411090F8                0000F8     (40/47)505+         LA    ZC_R1,ZCVT_WORKAREA
+000456 4100D058                001220     (40/48)506+         LA    ZC_R0,RECORD
+00045A 50010000                           (40/49)507+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+00045E E54C10040050                       (40/50)508+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+000464 4100D0A8                001270     (40/51)509+         LA    ZC_R0,COUNT
+000468 50010008                           (40/52)510+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+00046C E54C100C0004                       (40/53)511+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+000472 410000D3                           (40/55)512+         LA    ZC_R0,C'L'
+000476 50010010                           (40/56)513+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+00047A C00000000692            00119E    (40/229)514+         LARL  ZC_R0,=CL2'B'
+000480 50010014                          (40/230)515+         ST    ZC_R0,20(ZC_R1)
+000484 E54C10180001                      (40/231)516+         MVHI  20+4(ZC_R1),1
+00048A 1B00                              (40/181)517+         SR    ZC_R0,ZC_R0
+00048C 5001001C                          (40/182)518+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000490 50010020                          (40/183)519+         ST    ZC_R0,32(ZC_R1)                  P9=L'TEST_VAR   NO TEST
+000494 41000000                           (40/72)520+         LA    ZC_R0,ZCVT_TALLYING
+000498 58F09074                000074     (40/73)521+         L     ZC_R15,ZCVT_INSPECT
+00049C 0DEF                               (40/74)522+         BASR  ZC_R14,ZC_R15
+00049E 5A00D0A8                001270     (40/77)523+         A     ZC_R0,COUNT
+0004A2 5000D0A8                001270     (40/78)524+         ST    ZC_R0,COUNT
+0004A6                                    (1/137)525 *            IF COUNT NOT = 0 PERFORM BAD ELSE PERFORM GOOD.
+0004A6                                    (1/138)526 *ZC     35         IF    COUNT,NOT,=,0
+0004A6 5800D0A8                001270    (42/289)527+         L     0,COUNT
+0004AA C20D00000000            000000    (42/290)528+         CFI   0,0
+0004B0 A784000D                0004CA     (43/15)529+         BRC   15-ZC_NE,PG_IF_7_1
+0004B4                                    (1/140)530 *ZC     35         PERFORM BAD
+0004B4 C0E0000004A7            000E02     (46/44)531+         LARL  ZC_R14,PG_BAD
+0004BA C000000004AF            000E18     (46/45)532+         LARL  ZC_R0,PG_BAD_END+6
+0004C0 58F0903C                00003C     (46/46)533+         L     ZC_R15,ZCVT_PERFORM
+0004C4 0D1F                               (46/47)534+         BASR  ZC_R1,ZC_R15
+0004C6                                    (1/142)535 *ZC     35         ELSE
+0004C6 A7F4000B                0004DC     (48/15)536+         J     PG_IF_7_E
+0004CA                                     (8/41)537+PG_IF_7_1    DS    0H  &TYPE
+0004CA                                    (1/144)538 *ZC     35         PERFORM GOOD
+0004CA C0E000000496            000DF6     (46/44)539+         LARL  ZC_R14,PG_GOOD
+0004D0 C00000000499            000E02     (46/45)540+         LARL  ZC_R0,PG_GOOD_END+6
+0004D6 58F0903C                00003C     (46/46)541+         L     ZC_R15,ZCVT_PERFORM
+0004DA 0D1F                               (46/47)542+         BASR  ZC_R1,ZC_R15
+0004DC                                     (8/41)543+PG_IF_7_E    DS    0H  &TYPE
+0004DC                                    (1/147)544 *            MOVE 0 TO COUNT
+0004DC                                    (1/148)545 *ZC     36         MOVE  0,TO,COUNT
+0004DC E54CD0A80000            001270    (38/342)546+          MVHI  COUNT,0
+0004E2                                    (1/150)547 *      8     INSPECT RECORD TALLYING COUNT FOR LEADING 'D' AFTER 'C'
+0004E2                                    (1/152)548 *ZC     37      8  INSPECT RECORD,TALLYING,COUNT,FOR,LEADING,'D',AFTER,'C'
+0004E2 411090F8                0000F8     (40/47)550+         LA    ZC_R1,ZCVT_WORKAREA
+0004E6 4100D058                001220     (40/48)551+         LA    ZC_R0,RECORD
+0004EA 50010000                           (40/49)552+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+0004EE E54C10040050                       (40/50)553+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+0004F4 4100D0A8                001270     (40/51)554+         LA    ZC_R0,COUNT
+0004F8 50010008                           (40/52)555+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+0004FC E54C100C0004                       (40/53)556+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+000502 410000D3                           (40/55)557+         LA    ZC_R0,C'L'
+000506 50010010                           (40/56)558+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+00050A C00000000647            001198    (40/229)559+         LARL  ZC_R0,=CL2'D'
+000510 50010014                          (40/230)560+         ST    ZC_R0,20(ZC_R1)
+000514 E54C10180001                      (40/231)561+         MVHI  20+4(ZC_R1),1
+00051A 92801010                          (40/174)562+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+00051E C0000000063E            00119A    (40/187)563+         LARL  ZC_R0,=CL2'C'
+000524 5001001C                          (40/188)564+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000528 E54C10200001                      (40/189)565+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+00052E 41000000                           (40/72)566+         LA    ZC_R0,ZCVT_TALLYING
+000532 58F09074                000074     (40/73)567+         L     ZC_R15,ZCVT_INSPECT
+000536 0DEF                               (40/74)568+         BASR  ZC_R14,ZC_R15
+000538 5A00D0A8                001270     (40/77)569+         A     ZC_R0,COUNT
+00053C 5000D0A8                001270     (40/78)570+         ST    ZC_R0,COUNT
+000540                                    (1/154)571 *            IF COUNT NOT = 2 PERFORM BAD ELSE PERFORM GOOD.
+000540                                    (1/155)572 *ZC     38         IF    COUNT,NOT,=,2
+000540 5800D0A8                001270    (42/289)573+         L     0,COUNT
+000544 C20D00000002            000002    (42/290)574+         CFI   0,2
+00054A A784000D                000564     (43/15)575+         BRC   15-ZC_NE,PG_IF_8_1
+00054E                                    (1/157)576 *ZC     38         PERFORM BAD
+00054E C0E00000045A            000E02     (46/44)577+         LARL  ZC_R14,PG_BAD
+000554 C00000000462            000E18     (46/45)578+         LARL  ZC_R0,PG_BAD_END+6
+00055A 58F0903C                00003C     (46/46)579+         L     ZC_R15,ZCVT_PERFORM
+00055E 0D1F                               (46/47)580+         BASR  ZC_R1,ZC_R15
+000560                                    (1/159)581 *ZC     38         ELSE
+000560 A7F4000B                000576     (48/15)582+         J     PG_IF_8_E
+000564                                     (8/41)583+PG_IF_8_1    DS    0H  &TYPE
+000564                                    (1/161)584 *ZC     38         PERFORM GOOD
+000564 C0E000000449            000DF6     (46/44)585+         LARL  ZC_R14,PG_GOOD
+00056A C0000000044C            000E02     (46/45)586+         LARL  ZC_R0,PG_GOOD_END+6
+000570 58F0903C                00003C     (46/46)587+         L     ZC_R15,ZCVT_PERFORM
+000574 0D1F                               (46/47)588+         BASR  ZC_R1,ZC_R15
+000576                                     (8/41)589+PG_IF_8_E    DS    0H  &TYPE
+000576                                    (1/164)590 *            MOVE 0 TO COUNT
+000576                                    (1/165)591 *ZC     39         MOVE  0,TO,COUNT
+000576 E54CD0A80000            001270    (38/342)592+          MVHI  COUNT,0
+00057C                                    (1/167)593 *      9     INSPECT RECORD TALLYING COUNT FOR LEADING 'E' AFTER 'C'
+00057C                                    (1/169)594 *ZC     40      9  INSPECT RECORD,TALLYING,COUNT,FOR,LEADING,'E',AFTER,'C'
+00057C 411090F8                0000F8     (40/47)596+         LA    ZC_R1,ZCVT_WORKAREA
+000580 4100D058                001220     (40/48)597+         LA    ZC_R0,RECORD
+000584 50010000                           (40/49)598+         ST    ZC_R0,0(ZC_R1)             P1=A(V1) INSPECT FIELD
+000588 E54C10040050                       (40/50)599+         MVHI  4(ZC_R1),80  P2=L'V1  INSPECT FIELD LENGTH
+00058E 4100D0A8                001270     (40/51)600+         LA    ZC_R0,COUNT
+000592 50010008                           (40/52)601+         ST    ZC_R0,8(ZC_R1)                 P3=A(V2) INSPECT V2
+000596 E54C100C0004                       (40/53)602+         MVHI  12(ZC_R1),4  P4=L'V2  INSPECT L'V2
+00059C 410000D3                           (40/55)603+         LA    ZC_R0,C'L'
+0005A0 50010010                           (40/56)604+         ST    ZC_R0,16(ZC_R1)        P5= TALLYING SUBTYPE C'C/A/L'
+0005A4 C000000005FE            0011A0    (40/229)605+         LARL  ZC_R0,=CL2'E'
+0005AA 50010014                          (40/230)606+         ST    ZC_R0,20(ZC_R1)
+0005AE E54C10180001                      (40/231)607+         MVHI  20+4(ZC_R1),1
+0005B4 92801010                          (40/174)608+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+0005B8 C000000005F1            00119A    (40/187)609+         LARL  ZC_R0,=CL2'C'
+0005BE 5001001C                          (40/188)610+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+0005C2 E54C10200001                      (40/189)611+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+0005C8 41000000                           (40/72)612+         LA    ZC_R0,ZCVT_TALLYING
+0005CC 58F09074                000074     (40/73)613+         L     ZC_R15,ZCVT_INSPECT
+0005D0 0DEF                               (40/74)614+         BASR  ZC_R14,ZC_R15
+0005D2 5A00D0A8                001270     (40/77)615+         A     ZC_R0,COUNT
+0005D6 5000D0A8                001270     (40/78)616+         ST    ZC_R0,COUNT
+0005DA                                    (1/171)617 *            IF COUNT NOT = 0 PERFORM BAD ELSE PERFORM GOOD.
+0005DA                                    (1/172)618 *ZC     41         IF    COUNT,NOT,=,0
+0005DA 5800D0A8                001270    (42/289)619+         L     0,COUNT
+0005DE C20D00000000            000000    (42/290)620+         CFI   0,0
+0005E4 A784000D                0005FE     (43/15)621+         BRC   15-ZC_NE,PG_IF_9_1
+0005E8                                    (1/174)622 *ZC     41         PERFORM BAD
+0005E8 C0E00000040D            000E02     (46/44)623+         LARL  ZC_R14,PG_BAD
+0005EE C00000000415            000E18     (46/45)624+         LARL  ZC_R0,PG_BAD_END+6
+0005F4 58F0903C                00003C     (46/46)625+         L     ZC_R15,ZCVT_PERFORM
+0005F8 0D1F                               (46/47)626+         BASR  ZC_R1,ZC_R15
+0005FA                                    (1/176)627 *ZC     41         ELSE
+0005FA A7F4000B                000610     (48/15)628+         J     PG_IF_9_E
+0005FE                                     (8/41)629+PG_IF_9_1    DS    0H  &TYPE
+0005FE                                    (1/178)630 *ZC     41         PERFORM GOOD
+0005FE C0E0000003FC            000DF6     (46/44)631+         LARL  ZC_R14,PG_GOOD
+000604 C000000003FF            000E02     (46/45)632+         LARL  ZC_R0,PG_GOOD_END+6
+00060A 58F0903C                00003C     (46/46)633+         L     ZC_R15,ZCVT_PERFORM
+00060E 0D1F                               (46/47)634+         BASR  ZC_R1,ZC_R15
+000610                                     (8/41)635+PG_IF_9_E    DS    0H  &TYPE
+000610                                    (1/181)636 *     10     INSPECT RECORD REPLACING CHARACTERS BY 'X' BEFORE 'C'
+000610                                    (1/183)637 *ZC     42     10  INSPECT RECORD,REPLACING,CHARACTERS,BY,'X',BEFORE,'C               '
+000610 411090F8                0000F8    (40/107)639+         LA    ZC_R1,ZCVT_WORKAREA
+000614 4100D058                001220    (40/108)640+         LA    ZC_R0,RECORD
+000618 50010000                          (40/109)641+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+00061C E54C10040050                      (40/110)642+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+000622 E54C10080000                      (40/220)643+         MVHI  8(ZC_R1),0   NO PARM
+000628 E54C100C0000                      (40/221)644+         MVHI  8+4(ZC_R1),0
+00062E 410000C3                          (40/116)645+         LA    ZC_R0,C'C'
+000632 50010010                          (40/117)646+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+000636 C000000005B6            0011A2    (40/229)647+         LARL  ZC_R0,=CL2'X'
+00063C 50010014                          (40/230)648+         ST    ZC_R0,20(ZC_R1)
+000640 E54C10180001                      (40/231)649+         MVHI  20+4(ZC_R1),1
+000646 C000000005AA            00119A    (40/187)650+         LARL  ZC_R0,=CL2'C'
+00064C 5001001C                          (40/188)651+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000650 E54C10200001                      (40/189)652+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000656 41000004                          (40/133)653+         LA    ZC_R0,ZCVT_REPLACING
+00065A 58F09074                000074    (40/134)654+         L     ZC_R15,ZCVT_INSPECT
+00065E 0DEF                              (40/135)655+         BASR  ZC_R14,ZC_R15
+000660                                    (1/185)656 *            IF RECORD NOT = 'XXCDDGGGA' PERFORM BAD ELSE PERFORM GOOD.
+000660                                    (1/186)657 *ZC     43         IF    RECORD,NOT,=,'XXCDDGGGA'
+000660 C010000003E4            000E28    (42/447)658+         LARL  ZC_R1,=CL80'XXCDDGGGA'
+000666 D54FD0581000     001220           (42/448)659+         CLC   RECORD,0(ZC_R1)
+00066C A784000D                000686     (43/15)660+         BRC   15-ZC_NE,PG_IF_10_1
+000670                                    (1/188)661 *ZC     43         PERFORM BAD
+000670 C0E0000003C9            000E02     (46/44)662+         LARL  ZC_R14,PG_BAD
+000676 C000000003D1            000E18     (46/45)663+         LARL  ZC_R0,PG_BAD_END+6
+00067C 58F0903C                00003C     (46/46)664+         L     ZC_R15,ZCVT_PERFORM
+000680 0D1F                               (46/47)665+         BASR  ZC_R1,ZC_R15
+000682                                    (1/190)666 *ZC     43         ELSE
+000682 A7F4000B                000698     (48/15)667+         J     PG_IF_10_E
+000686                                     (8/41)668+PG_IF_10_1   DS    0H  &TYPE
+000686                                    (1/192)669 *ZC     43         PERFORM GOOD
+000686 C0E0000003B8            000DF6     (46/44)670+         LARL  ZC_R14,PG_GOOD
+00068C C000000003BB            000E02     (46/45)671+         LARL  ZC_R0,PG_GOOD_END+6
+000692 58F0903C                00003C     (46/46)672+         L     ZC_R15,ZCVT_PERFORM
+000696 0D1F                               (46/47)673+         BASR  ZC_R1,ZC_R15
+000698                                     (8/41)674+PG_IF_10_E   DS    0H  &TYPE
+000698                                    (1/195)675 *            MOVE 'AACDDGGGA' TO RECORD
+000698                                    (1/196)676 *ZC     44         MOVE  'AACDDGGGA',TO,RECORD
+000698 C010000003F0            000E78    (38/160)677+         LARL  ZC_R1,=CL80'AACDDGGGA'
+00069E D24FD0581000     001220           (38/299)678+          MVC   RECORD,0(ZC_R1)
+0006A4                                    (1/198)679 *     11     INSPECT RECORD REPLACING CHARACTERS BY ' ' AFTER 'C'
+0006A4                                    (1/199)680 *ZC     45     11  INSPECT RECORD,REPLACING,CHARACTERS,BY,' ',AFTER,'C'
+0006A4 411090F8                0000F8    (40/107)681+         LA    ZC_R1,ZCVT_WORKAREA
+0006A8 4100D058                001220    (40/108)682+         LA    ZC_R0,RECORD
+0006AC 50010000                          (40/109)683+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+0006B0 E54C10040050                      (40/110)684+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+0006B6 E54C10080000                      (40/220)685+         MVHI  8(ZC_R1),0   NO PARM
+0006BC E54C100C0000                      (40/221)686+         MVHI  8+4(ZC_R1),0
+0006C2 410000C3                          (40/116)687+         LA    ZC_R0,C'C'
+0006C6 50010010                          (40/117)688+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+0006CA C0000000056D            0011A4    (40/229)689+         LARL  ZC_R0,=CL2' '
+0006D0 50010014                          (40/230)690+         ST    ZC_R0,20(ZC_R1)
+0006D4 E54C10180001                      (40/231)691+         MVHI  20+4(ZC_R1),1
+0006DA 92801010                          (40/174)692+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+0006DE C0000000055E            00119A    (40/187)693+         LARL  ZC_R0,=CL2'C'
+0006E4 5001001C                          (40/188)694+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+0006E8 E54C10200001                      (40/189)695+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+0006EE 41000004                          (40/133)696+         LA    ZC_R0,ZCVT_REPLACING
+0006F2 58F09074                000074    (40/134)697+         L     ZC_R15,ZCVT_INSPECT
+0006F6 0DEF                              (40/135)698+         BASR  ZC_R14,ZC_R15
+0006F8                                    (1/201)699 *            IF RECORD NOT = 'AAC'       PERFORM BAD ELSE PERFORM GOOD.
+0006F8                                    (1/202)700 *ZC     46         IF    RECORD,NOT,=,'AAC'
+0006F8 C010000003E8            000EC8    (42/447)701+         LARL  ZC_R1,=CL80'AAC'
+0006FE D54FD0581000     001220           (42/448)702+         CLC   RECORD,0(ZC_R1)
+000704 A784000D                00071E     (43/15)703+         BRC   15-ZC_NE,PG_IF_11_1
+000708                                    (1/204)704 *ZC     46         PERFORM BAD
+000708 C0E00000037D            000E02     (46/44)705+         LARL  ZC_R14,PG_BAD
+00070E C00000000385            000E18     (46/45)706+         LARL  ZC_R0,PG_BAD_END+6
+000714 58F0903C                00003C     (46/46)707+         L     ZC_R15,ZCVT_PERFORM
+000718 0D1F                               (46/47)708+         BASR  ZC_R1,ZC_R15
+00071A                                    (1/206)709 *ZC     46         ELSE
+00071A A7F4000B                000730     (48/15)710+         J     PG_IF_11_E
+00071E                                     (8/41)711+PG_IF_11_1   DS    0H  &TYPE
+00071E                                    (1/208)712 *ZC     46         PERFORM GOOD
+00071E C0E00000036C            000DF6     (46/44)713+         LARL  ZC_R14,PG_GOOD
+000724 C0000000036F            000E02     (46/45)714+         LARL  ZC_R0,PG_GOOD_END+6
+00072A 58F0903C                00003C     (46/46)715+         L     ZC_R15,ZCVT_PERFORM
+00072E 0D1F                               (46/47)716+         BASR  ZC_R1,ZC_R15
+000730                                     (8/41)717+PG_IF_11_E   DS    0H  &TYPE
+000730                                    (1/211)718 *            MOVE 'AACDDGGGA' TO RECORD
+000730                                    (1/212)719 *ZC     47         MOVE  'AACDDGGGA',TO,RECORD
+000730 C010000003A4            000E78    (38/160)720+         LARL  ZC_R1,=CL80'AACDDGGGA'
+000736 D24FD0581000     001220           (38/299)721+          MVC   RECORD,0(ZC_R1)
+00073C                                    (1/214)722 *     12     INSPECT RECORD REPLACING ALL 'A' BY 'X' BEFORE 'C'
+00073C                                    (1/215)723 *ZC     48     12  INSPECT RECORD,REPLACING,ALL,'A',BY,'X',BEFORE,'C'
+00073C 411090F8                0000F8    (40/107)724+         LA    ZC_R1,ZCVT_WORKAREA
+000740 4100D058                001220    (40/108)725+         LA    ZC_R0,RECORD
+000744 50010000                          (40/109)726+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000748 E54C10040050                      (40/110)727+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+00074E C00000000527            00119C    (40/229)728+         LARL  ZC_R0,=CL2'A'
+000754 50010008                          (40/230)729+         ST    ZC_R0,8(ZC_R1)
+000758 E54C100C0001                      (40/231)730+         MVHI  8+4(ZC_R1),1
+00075E 410000C1                          (40/116)731+         LA    ZC_R0,C'A'
+000762 50010010                          (40/117)732+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+000766 C0000000051E            0011A2    (40/229)733+         LARL  ZC_R0,=CL2'X'
+00076C 50010014                          (40/230)734+         ST    ZC_R0,20(ZC_R1)
+000770 E54C10180001                      (40/231)735+         MVHI  20+4(ZC_R1),1
+000776 C00000000512            00119A    (40/187)736+         LARL  ZC_R0,=CL2'C'
+00077C 5001001C                          (40/188)737+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000780 E54C10200001                      (40/189)738+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000786 41000004                          (40/133)739+         LA    ZC_R0,ZCVT_REPLACING
+00078A 58F09074                000074    (40/134)740+         L     ZC_R15,ZCVT_INSPECT
+00078E 0DEF                              (40/135)741+         BASR  ZC_R14,ZC_R15
+000790                                    (1/217)742 *            IF RECORD NOT = 'XXCDDGGGA' PERFORM BAD ELSE PERFORM GOOD.
+000790                                    (1/218)743 *ZC     49         IF    RECORD,NOT,=,'XXCDDGGGA'
+000790 C0100000034C            000E28    (42/447)744+         LARL  ZC_R1,=CL80'XXCDDGGGA'
+000796 D54FD0581000     001220           (42/448)745+         CLC   RECORD,0(ZC_R1)
+00079C A784000D                0007B6     (43/15)746+         BRC   15-ZC_NE,PG_IF_12_1
+0007A0                                    (1/220)747 *ZC     49         PERFORM BAD
+0007A0 C0E000000331            000E02     (46/44)748+         LARL  ZC_R14,PG_BAD
+0007A6 C00000000339            000E18     (46/45)749+         LARL  ZC_R0,PG_BAD_END+6
+0007AC 58F0903C                00003C     (46/46)750+         L     ZC_R15,ZCVT_PERFORM
+0007B0 0D1F                               (46/47)751+         BASR  ZC_R1,ZC_R15
+0007B2                                    (1/222)752 *ZC     49         ELSE
+0007B2 A7F4000B                0007C8     (48/15)753+         J     PG_IF_12_E
+0007B6                                     (8/41)754+PG_IF_12_1   DS    0H  &TYPE
+0007B6                                    (1/224)755 *ZC     49         PERFORM GOOD
+0007B6 C0E000000320            000DF6     (46/44)756+         LARL  ZC_R14,PG_GOOD
+0007BC C00000000323            000E02     (46/45)757+         LARL  ZC_R0,PG_GOOD_END+6
+0007C2 58F0903C                00003C     (46/46)758+         L     ZC_R15,ZCVT_PERFORM
+0007C6 0D1F                               (46/47)759+         BASR  ZC_R1,ZC_R15
+0007C8                                     (8/41)760+PG_IF_12_E   DS    0H  &TYPE
+0007C8                                    (1/227)761 *            MOVE 'AACDDGGGA' TO RECORD
+0007C8                                    (1/228)762 *ZC     50         MOVE  'AACDDGGGA',TO,RECORD
+0007C8 C01000000358            000E78    (38/160)763+         LARL  ZC_R1,=CL80'AACDDGGGA'
+0007CE D24FD0581000     001220           (38/299)764+          MVC   RECORD,0(ZC_R1)
+0007D4                                    (1/230)765 *     13     INSPECT RECORD REPLACING ALL 'A' BY 'X' AFTER 'C'
+0007D4                                    (1/231)766 *ZC     51     13  INSPECT RECORD,REPLACING,ALL,'A',BY,'X',AFTER,'C'
+0007D4 411090F8                0000F8    (40/107)767+         LA    ZC_R1,ZCVT_WORKAREA
+0007D8 4100D058                001220    (40/108)768+         LA    ZC_R0,RECORD
+0007DC 50010000                          (40/109)769+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+0007E0 E54C10040050                      (40/110)770+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+0007E6 C000000004DB            00119C    (40/229)771+         LARL  ZC_R0,=CL2'A'
+0007EC 50010008                          (40/230)772+         ST    ZC_R0,8(ZC_R1)
+0007F0 E54C100C0001                      (40/231)773+         MVHI  8+4(ZC_R1),1
+0007F6 410000C1                          (40/116)774+         LA    ZC_R0,C'A'
+0007FA 50010010                          (40/117)775+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+0007FE C000000004D2            0011A2    (40/229)776+         LARL  ZC_R0,=CL2'X'
+000804 50010014                          (40/230)777+         ST    ZC_R0,20(ZC_R1)
+000808 E54C10180001                      (40/231)778+         MVHI  20+4(ZC_R1),1
+00080E 92801010                          (40/174)779+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+000812 C000000004C4            00119A    (40/187)780+         LARL  ZC_R0,=CL2'C'
+000818 5001001C                          (40/188)781+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+00081C E54C10200001                      (40/189)782+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000822 41000004                          (40/133)783+         LA    ZC_R0,ZCVT_REPLACING
+000826 58F09074                000074    (40/134)784+         L     ZC_R15,ZCVT_INSPECT
+00082A 0DEF                              (40/135)785+         BASR  ZC_R14,ZC_R15
+00082C                                    (1/233)786 *            IF RECORD NOT = 'AACDDGGGX' PERFORM BAD ELSE PERFORM GOOD.
+00082C                                    (1/234)787 *ZC     52         IF    RECORD,NOT,=,'AACDDGGGX'
+00082C C01000000376            000F18    (42/447)788+         LARL  ZC_R1,=CL80'AACDDGGGX'
+000832 D54FD0581000     001220           (42/448)789+         CLC   RECORD,0(ZC_R1)
+000838 A784000D                000852     (43/15)790+         BRC   15-ZC_NE,PG_IF_13_1
+00083C                                    (1/236)791 *ZC     52         PERFORM BAD
+00083C C0E0000002E3            000E02     (46/44)792+         LARL  ZC_R14,PG_BAD
+000842 C000000002EB            000E18     (46/45)793+         LARL  ZC_R0,PG_BAD_END+6
+000848 58F0903C                00003C     (46/46)794+         L     ZC_R15,ZCVT_PERFORM
+00084C 0D1F                               (46/47)795+         BASR  ZC_R1,ZC_R15
+00084E                                    (1/238)796 *ZC     52         ELSE
+00084E A7F4000B                000864     (48/15)797+         J     PG_IF_13_E
+000852                                     (8/41)798+PG_IF_13_1   DS    0H  &TYPE
+000852                                    (1/240)799 *ZC     52         PERFORM GOOD
+000852 C0E0000002D2            000DF6     (46/44)800+         LARL  ZC_R14,PG_GOOD
+000858 C000000002D5            000E02     (46/45)801+         LARL  ZC_R0,PG_GOOD_END+6
+00085E 58F0903C                00003C     (46/46)802+         L     ZC_R15,ZCVT_PERFORM
+000862 0D1F                               (46/47)803+         BASR  ZC_R1,ZC_R15
+000864                                     (8/41)804+PG_IF_13_E   DS    0H  &TYPE
+000864                                    (1/243)805 *            MOVE 'AACDDGGGA' TO RECORD
+000864                                    (1/244)806 *ZC     53         MOVE  'AACDDGGGA',TO,RECORD
+000864 C0100000030A            000E78    (38/160)807+         LARL  ZC_R1,=CL80'AACDDGGGA'
+00086A D24FD0581000     001220           (38/299)808+          MVC   RECORD,0(ZC_R1)
+000870                                    (1/246)809 *     14     INSPECT RECORD REPLACING LEADING 'A' BY 'X' BEFORE 'C'
+000870                                    (1/248)810 *ZC     54     14  INSPECT RECORD,REPLACING,LEADING,'A',BY,'X',BEFORE,'C'
+000870 411090F8                0000F8    (40/107)812+         LA    ZC_R1,ZCVT_WORKAREA
+000874 4100D058                001220    (40/108)813+         LA    ZC_R0,RECORD
+000878 50010000                          (40/109)814+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+00087C E54C10040050                      (40/110)815+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+000882 C0000000048D            00119C    (40/229)816+         LARL  ZC_R0,=CL2'A'
+000888 50010008                          (40/230)817+         ST    ZC_R0,8(ZC_R1)
+00088C E54C100C0001                      (40/231)818+         MVHI  8+4(ZC_R1),1
+000892 410000D3                          (40/116)819+         LA    ZC_R0,C'L'
+000896 50010010                          (40/117)820+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+00089A C00000000484            0011A2    (40/229)821+         LARL  ZC_R0,=CL2'X'
+0008A0 50010014                          (40/230)822+         ST    ZC_R0,20(ZC_R1)
+0008A4 E54C10180001                      (40/231)823+         MVHI  20+4(ZC_R1),1
+0008AA C00000000478            00119A    (40/187)824+         LARL  ZC_R0,=CL2'C'
+0008B0 5001001C                          (40/188)825+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+0008B4 E54C10200001                      (40/189)826+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+0008BA 41000004                          (40/133)827+         LA    ZC_R0,ZCVT_REPLACING
+0008BE 58F09074                000074    (40/134)828+         L     ZC_R15,ZCVT_INSPECT
+0008C2 0DEF                              (40/135)829+         BASR  ZC_R14,ZC_R15
+0008C4                                    (1/250)830 *            IF RECORD NOT = 'XXCDDGGGA' PERFORM BAD ELSE PERFORM GOOD.
+0008C4                                    (1/251)831 *ZC     55         IF    RECORD,NOT,=,'XXCDDGGGA'
+0008C4 C010000002B2            000E28    (42/447)832+         LARL  ZC_R1,=CL80'XXCDDGGGA'
+0008CA D54FD0581000     001220           (42/448)833+         CLC   RECORD,0(ZC_R1)
+0008D0 A784000D                0008EA     (43/15)834+         BRC   15-ZC_NE,PG_IF_14_1
+0008D4                                    (1/253)835 *ZC     55         PERFORM BAD
+0008D4 C0E000000297            000E02     (46/44)836+         LARL  ZC_R14,PG_BAD
+0008DA C0000000029F            000E18     (46/45)837+         LARL  ZC_R0,PG_BAD_END+6
+0008E0 58F0903C                00003C     (46/46)838+         L     ZC_R15,ZCVT_PERFORM
+0008E4 0D1F                               (46/47)839+         BASR  ZC_R1,ZC_R15
+0008E6                                    (1/255)840 *ZC     55         ELSE
+0008E6 A7F4000B                0008FC     (48/15)841+         J     PG_IF_14_E
+0008EA                                     (8/41)842+PG_IF_14_1   DS    0H  &TYPE
+0008EA                                    (1/257)843 *ZC     55         PERFORM GOOD
+0008EA C0E000000286            000DF6     (46/44)844+         LARL  ZC_R14,PG_GOOD
+0008F0 C00000000289            000E02     (46/45)845+         LARL  ZC_R0,PG_GOOD_END+6
+0008F6 58F0903C                00003C     (46/46)846+         L     ZC_R15,ZCVT_PERFORM
+0008FA 0D1F                               (46/47)847+         BASR  ZC_R1,ZC_R15
+0008FC                                     (8/41)848+PG_IF_14_E   DS    0H  &TYPE
+0008FC                                    (1/260)849 *            MOVE 'AACDDGGGA' TO RECORD
+0008FC                                    (1/261)850 *ZC     56         MOVE  'AACDDGGGA',TO,RECORD
+0008FC C010000002BE            000E78    (38/160)851+         LARL  ZC_R1,=CL80'AACDDGGGA'
+000902 D24FD0581000     001220           (38/299)852+          MVC   RECORD,0(ZC_R1)
+000908                                    (1/263)853 *     15     INSPECT RECORD REPLACING LEADING 'D' BY 'X' AFTER 'C'
+000908                                    (1/265)854 *ZC     57     15  INSPECT RECORD,REPLACING,LEADING,'D',BY,'X',AFTER,'C               '
+000908 411090F8                0000F8    (40/107)856+         LA    ZC_R1,ZCVT_WORKAREA
+00090C 4100D058                001220    (40/108)857+         LA    ZC_R0,RECORD
+000910 50010000                          (40/109)858+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000914 E54C10040050                      (40/110)859+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+00091A C0000000043F            001198    (40/229)860+         LARL  ZC_R0,=CL2'D'
+000920 50010008                          (40/230)861+         ST    ZC_R0,8(ZC_R1)
+000924 E54C100C0001                      (40/231)862+         MVHI  8+4(ZC_R1),1
+00092A 410000D3                          (40/116)863+         LA    ZC_R0,C'L'
+00092E 50010010                          (40/117)864+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+000932 C00000000438            0011A2    (40/229)865+         LARL  ZC_R0,=CL2'X'
+000938 50010014                          (40/230)866+         ST    ZC_R0,20(ZC_R1)
+00093C E54C10180001                      (40/231)867+         MVHI  20+4(ZC_R1),1
+000942 92801010                          (40/174)868+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+000946 C0000000042A            00119A    (40/187)869+         LARL  ZC_R0,=CL2'C'
+00094C 5001001C                          (40/188)870+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000950 E54C10200001                      (40/189)871+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000956 41000004                          (40/133)872+         LA    ZC_R0,ZCVT_REPLACING
+00095A 58F09074                000074    (40/134)873+         L     ZC_R15,ZCVT_INSPECT
+00095E 0DEF                              (40/135)874+         BASR  ZC_R14,ZC_R15
+000960                                    (1/267)875 *            IF RECORD NOT = 'AACXXGGGA' PERFORM BAD ELSE PERFORM GOOD.
+000960                                    (1/268)876 *ZC     58         IF    RECORD,NOT,=,'AACXXGGGA'
+000960 C01000000304            000F68    (42/447)877+         LARL  ZC_R1,=CL80'AACXXGGGA'
+000966 D54FD0581000     001220           (42/448)878+         CLC   RECORD,0(ZC_R1)
+00096C A784000D                000986     (43/15)879+         BRC   15-ZC_NE,PG_IF_15_1
+000970                                    (1/270)880 *ZC     58         PERFORM BAD
+000970 C0E000000249            000E02     (46/44)881+         LARL  ZC_R14,PG_BAD
+000976 C00000000251            000E18     (46/45)882+         LARL  ZC_R0,PG_BAD_END+6
+00097C 58F0903C                00003C     (46/46)883+         L     ZC_R15,ZCVT_PERFORM
+000980 0D1F                               (46/47)884+         BASR  ZC_R1,ZC_R15
+000982                                    (1/272)885 *ZC     58         ELSE
+000982 A7F4000B                000998     (48/15)886+         J     PG_IF_15_E
+000986                                     (8/41)887+PG_IF_15_1   DS    0H  &TYPE
+000986                                    (1/274)888 *ZC     58         PERFORM GOOD
+000986 C0E000000238            000DF6     (46/44)889+         LARL  ZC_R14,PG_GOOD
+00098C C0000000023B            000E02     (46/45)890+         LARL  ZC_R0,PG_GOOD_END+6
+000992 58F0903C                00003C     (46/46)891+         L     ZC_R15,ZCVT_PERFORM
+000996 0D1F                               (46/47)892+         BASR  ZC_R1,ZC_R15
+000998                                     (8/41)893+PG_IF_15_E   DS    0H  &TYPE
+000998                                    (1/277)894 *            MOVE 'AACDDGGGA' TO RECORD
+000998                                    (1/278)895 *ZC     59         MOVE  'AACDDGGGA',TO,RECORD
+000998 C01000000270            000E78    (38/160)896+         LARL  ZC_R1,=CL80'AACDDGGGA'
+00099E D24FD0581000     001220           (38/299)897+          MVC   RECORD,0(ZC_R1)
+0009A4                                    (1/280)898 *     16     INSPECT RECORD REPLACING FIRST 'A' BY 'X' BEFORE 'C'
+0009A4                                    (1/281)899 *ZC     60     16  INSPECT RECORD,REPLACING,FIRST,'A',BY,'X',BEFORE,'C'
+0009A4 411090F8                0000F8    (40/107)900+         LA    ZC_R1,ZCVT_WORKAREA
+0009A8 4100D058                001220    (40/108)901+         LA    ZC_R0,RECORD
+0009AC 50010000                          (40/109)902+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+0009B0 E54C10040050                      (40/110)903+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+0009B6 C000000003F3            00119C    (40/229)904+         LARL  ZC_R0,=CL2'A'
+0009BC 50010008                          (40/230)905+         ST    ZC_R0,8(ZC_R1)
+0009C0 E54C100C0001                      (40/231)906+         MVHI  8+4(ZC_R1),1
+0009C6 410000C6                          (40/116)907+         LA    ZC_R0,C'F'
+0009CA 50010010                          (40/117)908+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+0009CE C000000003EA            0011A2    (40/229)909+         LARL  ZC_R0,=CL2'X'
+0009D4 50010014                          (40/230)910+         ST    ZC_R0,20(ZC_R1)
+0009D8 E54C10180001                      (40/231)911+         MVHI  20+4(ZC_R1),1
+0009DE C000000003DE            00119A    (40/187)912+         LARL  ZC_R0,=CL2'C'
+0009E4 5001001C                          (40/188)913+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+0009E8 E54C10200001                      (40/189)914+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+0009EE 41000004                          (40/133)915+         LA    ZC_R0,ZCVT_REPLACING
+0009F2 58F09074                000074    (40/134)916+         L     ZC_R15,ZCVT_INSPECT
+0009F6 0DEF                              (40/135)917+         BASR  ZC_R14,ZC_R15
+0009F8                                    (1/283)918 *            IF RECORD NOT = 'XACDDGGGA' PERFORM BAD ELSE PERFORM GOOD.
+0009F8                                    (1/284)919 *ZC     61         IF    RECORD,NOT,=,'XACDDGGGA'
+0009F8 C010000002E0            000FB8    (42/447)920+         LARL  ZC_R1,=CL80'XACDDGGGA'
+0009FE D54FD0581000     001220           (42/448)921+         CLC   RECORD,0(ZC_R1)
+000A04 A784000D                000A1E     (43/15)922+         BRC   15-ZC_NE,PG_IF_16_1
+000A08                                    (1/286)923 *ZC     61         PERFORM BAD
+000A08 C0E0000001FD            000E02     (46/44)924+         LARL  ZC_R14,PG_BAD
+000A0E C00000000205            000E18     (46/45)925+         LARL  ZC_R0,PG_BAD_END+6
+000A14 58F0903C                00003C     (46/46)926+         L     ZC_R15,ZCVT_PERFORM
+000A18 0D1F                               (46/47)927+         BASR  ZC_R1,ZC_R15
+000A1A                                    (1/288)928 *ZC     61         ELSE
+000A1A A7F4000B                000A30     (48/15)929+         J     PG_IF_16_E
+000A1E                                     (8/41)930+PG_IF_16_1   DS    0H  &TYPE
+000A1E                                    (1/290)931 *ZC     61         PERFORM GOOD
+000A1E C0E0000001EC            000DF6     (46/44)932+         LARL  ZC_R14,PG_GOOD
+000A24 C000000001EF            000E02     (46/45)933+         LARL  ZC_R0,PG_GOOD_END+6
+000A2A 58F0903C                00003C     (46/46)934+         L     ZC_R15,ZCVT_PERFORM
+000A2E 0D1F                               (46/47)935+         BASR  ZC_R1,ZC_R15
+000A30                                     (8/41)936+PG_IF_16_E   DS    0H  &TYPE
+000A30                                    (1/293)937 *            MOVE 'AACDDGGGA' TO RECORD
+000A30                                    (1/294)938 *ZC     62         MOVE  'AACDDGGGA',TO,RECORD
+000A30 C01000000224            000E78    (38/160)939+         LARL  ZC_R1,=CL80'AACDDGGGA'
+000A36 D24FD0581000     001220           (38/299)940+          MVC   RECORD,0(ZC_R1)
+000A3C                                    (1/296)941 *     17     INSPECT RECORD REPLACING FIRST 'G' BY 'X' AFTER 'C'
+000A3C                                    (1/297)942 *ZC     63     17  INSPECT RECORD,REPLACING,FIRST,'G',BY,'X',AFTER,'C'
+000A3C 411090F8                0000F8    (40/107)943+         LA    ZC_R1,ZCVT_WORKAREA
+000A40 4100D058                001220    (40/108)944+         LA    ZC_R0,RECORD
+000A44 50010000                          (40/109)945+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000A48 E54C10040050                      (40/110)946+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+000A4E C000000003AC            0011A6    (40/229)947+         LARL  ZC_R0,=CL2'G'
+000A54 50010008                          (40/230)948+         ST    ZC_R0,8(ZC_R1)
+000A58 E54C100C0001                      (40/231)949+         MVHI  8+4(ZC_R1),1
+000A5E 410000C6                          (40/116)950+         LA    ZC_R0,C'F'
+000A62 50010010                          (40/117)951+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+000A66 C0000000039E            0011A2    (40/229)952+         LARL  ZC_R0,=CL2'X'
+000A6C 50010014                          (40/230)953+         ST    ZC_R0,20(ZC_R1)
+000A70 E54C10180001                      (40/231)954+         MVHI  20+4(ZC_R1),1
+000A76 92801010                          (40/174)955+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+000A7A C00000000390            00119A    (40/187)956+         LARL  ZC_R0,=CL2'C'
+000A80 5001001C                          (40/188)957+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000A84 E54C10200001                      (40/189)958+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000A8A 41000004                          (40/133)959+         LA    ZC_R0,ZCVT_REPLACING
+000A8E 58F09074                000074    (40/134)960+         L     ZC_R15,ZCVT_INSPECT
+000A92 0DEF                              (40/135)961+         BASR  ZC_R14,ZC_R15
+000A94                                    (1/299)962 *            IF RECORD NOT = 'AACDDXGGA' PERFORM BAD ELSE PERFORM GOOD.
+000A94                                    (1/300)963 *ZC     64         IF    RECORD,NOT,=,'AACDDXGGA'
+000A94 C010000002BA            001008    (42/447)964+         LARL  ZC_R1,=CL80'AACDDXGGA'
+000A9A D54FD0581000     001220           (42/448)965+         CLC   RECORD,0(ZC_R1)
+000AA0 A784000D                000ABA     (43/15)966+         BRC   15-ZC_NE,PG_IF_17_1
+000AA4                                    (1/302)967 *ZC     64         PERFORM BAD
+000AA4 C0E0000001AF            000E02     (46/44)968+         LARL  ZC_R14,PG_BAD
+000AAA C000000001B7            000E18     (46/45)969+         LARL  ZC_R0,PG_BAD_END+6
+000AB0 58F0903C                00003C     (46/46)970+         L     ZC_R15,ZCVT_PERFORM
+000AB4 0D1F                               (46/47)971+         BASR  ZC_R1,ZC_R15
+000AB6                                    (1/304)972 *ZC     64         ELSE
+000AB6 A7F4000B                000ACC     (48/15)973+         J     PG_IF_17_E
+000ABA                                     (8/41)974+PG_IF_17_1   DS    0H  &TYPE
+000ABA                                    (1/306)975 *ZC     64         PERFORM GOOD
+000ABA C0E00000019E            000DF6     (46/44)976+         LARL  ZC_R14,PG_GOOD
+000AC0 C000000001A1            000E02     (46/45)977+         LARL  ZC_R0,PG_GOOD_END+6
+000AC6 58F0903C                00003C     (46/46)978+         L     ZC_R15,ZCVT_PERFORM
+000ACA 0D1F                               (46/47)979+         BASR  ZC_R1,ZC_R15
+000ACC                                     (8/41)980+PG_IF_17_E   DS    0H  &TYPE
+000ACC                                    (1/309)981 *            MOVE 'AACDDGGGA' TO RECORD
+000ACC                                    (1/310)982 *ZC     65         MOVE  'AACDDGGGA',TO,RECORD
+000ACC C010000001D6            000E78    (38/160)983+         LARL  ZC_R1,=CL80'AACDDGGGA'
+000AD2 D24FD0581000     001220           (38/299)984+          MVC   RECORD,0(ZC_R1)
+000AD8                                    (1/312)985 *     18     INSPECT RECORD CONVERTING 'AC' TO '12' BEFORE 'D'
+000AD8                                    (1/313)986 *ZC     66     18  INSPECT RECORD,CONVERTING,'AC',TO,'12',BEFORE,'D'
+000AD8 411090F8                0000F8    (40/146)987+         LA    ZC_R1,ZCVT_WORKAREA
+000ADC 4100D058                001220    (40/147)988+         LA    ZC_R0,RECORD
+000AE0 50010000                          (40/148)989+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000AE4 E54C10040050                      (40/149)990+         MVHI  4(ZC_R1),80 P2=L'V1  INSPECT FIELD LENGTH
+000AEA C0000000035F            0011A8    (40/229)991+         LARL  ZC_R0,=CL2'AC'
+000AF0 50010008                          (40/230)992+         ST    ZC_R0,8(ZC_R1)
+000AF4 E54C100C0002                      (40/231)993+         MVHI  8+4(ZC_R1),2
+000AFA 410000E7                          (40/155)994+         LA    ZC_R0,C'X'
+000AFE 50010010                          (40/156)995+         ST    ZC_R0,16(ZC_R1)           P5= REPLACING STYPE C'C/A/L/F'
+000B02 C00000000354            0011AA    (40/229)996+         LARL  ZC_R0,=CL2'12'
+000B08 50010014                          (40/230)997+         ST    ZC_R0,20(ZC_R1)
+000B0C E54C10180002                      (40/231)998+         MVHI  20+4(ZC_R1),2
+000B12 C00000000343            001198    (40/187)999+         LARL  ZC_R0,=CL2'D'
+000B18 5001001C                         (40/188)1000+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000B1C E54C10200001                     (40/189)1001+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000B22 41000008                         (40/165)1002+         LA    ZC_R0,ZCVT_CONVERTING
+000B26 58F09074                000074   (40/166)1003+         L     ZC_R15,ZCVT_INSPECT
+000B2A 0DEF                             (40/167)1004+         BASR  ZC_R14,ZC_R15
+000B2C                                   (1/315)1005 *            IF RECORD NOT = '112DDGGGA' PERFORM BAD ELSE PERFORM GOOD.
+000B2C                                   (1/316)1006 *ZC     67         IF    RECORD,NOT,=,'112DDGGGA'
+000B2C C01000000296            001058   (42/447)1007+         LARL  ZC_R1,=CL80'112DDGGGA'
+000B32 D54FD0581000     001220          (42/448)1008+         CLC   RECORD,0(ZC_R1)
+000B38 A784000D                000B52    (43/15)1009+         BRC   15-ZC_NE,PG_IF_18_1
+000B3C                                   (1/318)1010 *ZC     67         PERFORM BAD
+000B3C C0E000000163            000E02    (46/44)1011+         LARL  ZC_R14,PG_BAD
+000B42 C0000000016B            000E18    (46/45)1012+         LARL  ZC_R0,PG_BAD_END+6
+000B48 58F0903C                00003C    (46/46)1013+         L     ZC_R15,ZCVT_PERFORM
+000B4C 0D1F                              (46/47)1014+         BASR  ZC_R1,ZC_R15
+000B4E                                   (1/320)1015 *ZC     67         ELSE
+000B4E A7F4000B                000B64    (48/15)1016+         J     PG_IF_18_E
+000B52                                    (8/41)1017+PG_IF_18_1   DS    0H  &TYPE
+000B52                                   (1/322)1018 *ZC     67         PERFORM GOOD
+000B52 C0E000000152            000DF6    (46/44)1019+         LARL  ZC_R14,PG_GOOD
+000B58 C00000000155            000E02    (46/45)1020+         LARL  ZC_R0,PG_GOOD_END+6
+000B5E 58F0903C                00003C    (46/46)1021+         L     ZC_R15,ZCVT_PERFORM
+000B62 0D1F                              (46/47)1022+         BASR  ZC_R1,ZC_R15
+000B64                                    (8/41)1023+PG_IF_18_E   DS    0H  &TYPE
+000B64                                   (1/325)1024 *            MOVE 'AACDDGGGA' TO RECORD
+000B64                                   (1/326)1025 *ZC     68         MOVE  'AACDDGGGA',TO,RECORD
+000B64 C0100000018A            000E78   (38/160)1026+         LARL  ZC_R1,=CL80'AACDDGGGA'
+000B6A D24FD0581000     001220          (38/299)1027+          MVC   RECORD,0(ZC_R1)
+000B70                                   (1/328)1028 *     19     INSPECT RECORD CONVERTING 'AD' TO '12' AFTER 'C'
+000B70                                   (1/329)1029 *ZC     69     19  INSPECT RECORD,CONVERTING,'AD',TO,'12',AFTER,'C'
+000B70 411090F8                0000F8   (40/146)1030+         LA    ZC_R1,ZCVT_WORKAREA
+000B74 4100D058                001220   (40/147)1031+         LA    ZC_R0,RECORD
+000B78 50010000                         (40/148)1032+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000B7C E54C10040050                     (40/149)1033+         MVHI  4(ZC_R1),80 P2=L'V1  INSPECT FIELD LENGTH
+000B82 C00000000315            0011AC   (40/229)1034+         LARL  ZC_R0,=CL2'AD'
+000B88 50010008                         (40/230)1035+         ST    ZC_R0,8(ZC_R1)
+000B8C E54C100C0002                     (40/231)1036+         MVHI  8+4(ZC_R1),2
+000B92 410000E7                         (40/155)1037+         LA    ZC_R0,C'X'
+000B96 50010010                         (40/156)1038+         ST    ZC_R0,16(ZC_R1)           P5= REPLACING STYPE C'C/A/L/F'
+000B9A C00000000308            0011AA   (40/229)1039+         LARL  ZC_R0,=CL2'12'
+000BA0 50010014                         (40/230)1040+         ST    ZC_R0,20(ZC_R1)
+000BA4 E54C10180002                     (40/231)1041+         MVHI  20+4(ZC_R1),2
+000BAA 92801010                         (40/174)1042+         MVI   16(ZC_R1),X'80'           P5=AFTER = NEG SIGN+STYPE
+000BAE C000000002F6            00119A   (40/187)1043+         LARL  ZC_R0,=CL2'C'
+000BB4 5001001C                         (40/188)1044+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000BB8 E54C10200001                     (40/189)1045+         MVHI  32(ZC_R1),1               P9=LENGTH OF TEST_VAR
+000BBE 41000008                         (40/165)1046+         LA    ZC_R0,ZCVT_CONVERTING
+000BC2 58F09074                000074   (40/166)1047+         L     ZC_R15,ZCVT_INSPECT
+000BC6 0DEF                             (40/167)1048+         BASR  ZC_R14,ZC_R15
+000BC8                                   (1/331)1049 *            IF RECORD NOT = 'AAC22GGG1' PERFORM BAD ELSE PERFORM GOOD.
+000BC8                                   (1/332)1050 *ZC     70         IF    RECORD,NOT,=,'AAC22GGG1'
+000BC8 C01000000270            0010A8   (42/447)1051+         LARL  ZC_R1,=CL80'AAC22GGG1'
+000BCE D54FD0581000     001220          (42/448)1052+         CLC   RECORD,0(ZC_R1)
+000BD4 A784000D                000BEE    (43/15)1053+         BRC   15-ZC_NE,PG_IF_19_1
+000BD8                                   (1/334)1054 *ZC     70         PERFORM BAD
+000BD8 C0E000000115            000E02    (46/44)1055+         LARL  ZC_R14,PG_BAD
+000BDE C0000000011D            000E18    (46/45)1056+         LARL  ZC_R0,PG_BAD_END+6
+000BE4 58F0903C                00003C    (46/46)1057+         L     ZC_R15,ZCVT_PERFORM
+000BE8 0D1F                              (46/47)1058+         BASR  ZC_R1,ZC_R15
+000BEA                                   (1/336)1059 *ZC     70         ELSE
+000BEA A7F4000B                000C00    (48/15)1060+         J     PG_IF_19_E
+000BEE                                    (8/41)1061+PG_IF_19_1   DS    0H  &TYPE
+000BEE                                   (1/338)1062 *ZC     70         PERFORM GOOD
+000BEE C0E000000104            000DF6    (46/44)1063+         LARL  ZC_R14,PG_GOOD
+000BF4 C00000000107            000E02    (46/45)1064+         LARL  ZC_R0,PG_GOOD_END+6
+000BFA 58F0903C                00003C    (46/46)1065+         L     ZC_R15,ZCVT_PERFORM
+000BFE 0D1F                              (46/47)1066+         BASR  ZC_R1,ZC_R15
+000C00                                    (8/41)1067+PG_IF_19_E   DS    0H  &TYPE
+000C00                                   (1/341)1068 *            MOVE 'AACDDGGGA' TO RECORD
+000C00                                   (1/342)1069 *ZC     71         MOVE  'AACDDGGGA',TO,RECORD
+000C00 C0100000013C            000E78   (38/160)1070+         LARL  ZC_R1,=CL80'AACDDGGGA'
+000C06 D24FD0581000     001220          (38/299)1071+          MVC   RECORD,0(ZC_R1)
+000C0C                                   (1/344)1072 *     20     INSPECT RECORD CONVERTING 'AD' TO '12'
+000C0C                                   (1/345)1073 *ZC     72     20  INSPECT RECORD,CONVERTING,'AD',TO,'12'
+000C0C 411090F8                0000F8   (40/146)1074+         LA    ZC_R1,ZCVT_WORKAREA
+000C10 4100D058                001220   (40/147)1075+         LA    ZC_R0,RECORD
+000C14 50010000                         (40/148)1076+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000C18 E54C10040050                     (40/149)1077+         MVHI  4(ZC_R1),80 P2=L'V1  INSPECT FIELD LENGTH
+000C1E C000000002C7            0011AC   (40/229)1078+         LARL  ZC_R0,=CL2'AD'
+000C24 50010008                         (40/230)1079+         ST    ZC_R0,8(ZC_R1)
+000C28 E54C100C0002                     (40/231)1080+         MVHI  8+4(ZC_R1),2
+000C2E 410000E7                         (40/155)1081+         LA    ZC_R0,C'X'
+000C32 50010010                         (40/156)1082+         ST    ZC_R0,16(ZC_R1)           P5= REPLACING STYPE C'C/A/L/F'
+000C36 C000000002BA            0011AA   (40/229)1083+         LARL  ZC_R0,=CL2'12'
+000C3C 50010014                         (40/230)1084+         ST    ZC_R0,20(ZC_R1)
+000C40 E54C10180002                     (40/231)1085+         MVHI  20+4(ZC_R1),2
+000C46 1B00                             (40/181)1086+         SR    ZC_R0,ZC_R0
+000C48 5001001C                         (40/182)1087+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000C4C 50010020                         (40/183)1088+         ST    ZC_R0,32(ZC_R1)                  P9=L'TEST_VAR   NO TEST
+000C50 41000008                         (40/165)1089+         LA    ZC_R0,ZCVT_CONVERTING
+000C54 58F09074                000074   (40/166)1090+         L     ZC_R15,ZCVT_INSPECT
+000C58 0DEF                             (40/167)1091+         BASR  ZC_R14,ZC_R15
+000C5A                                   (1/347)1092 *            IF RECORD NOT = '11C22GGG1' PERFORM BAD ELSE PERFORM GOOD.
+000C5A                                   (1/348)1093 *ZC     73         IF    RECORD,NOT,=,'11C22GGG1'
+000C5A C0100000024F            0010F8   (42/447)1094+         LARL  ZC_R1,=CL80'11C22GGG1'
+000C60 D54FD0581000     001220          (42/448)1095+         CLC   RECORD,0(ZC_R1)
+000C66 A784000D                000C80    (43/15)1096+         BRC   15-ZC_NE,PG_IF_20_1
+000C6A                                   (1/350)1097 *ZC     73         PERFORM BAD
+000C6A C0E0000000CC            000E02    (46/44)1098+         LARL  ZC_R14,PG_BAD
+000C70 C000000000D4            000E18    (46/45)1099+         LARL  ZC_R0,PG_BAD_END+6
+000C76 58F0903C                00003C    (46/46)1100+         L     ZC_R15,ZCVT_PERFORM
+000C7A 0D1F                              (46/47)1101+         BASR  ZC_R1,ZC_R15
+000C7C                                   (1/352)1102 *ZC     73         ELSE
+000C7C A7F4000B                000C92    (48/15)1103+         J     PG_IF_20_E
+000C80                                    (8/41)1104+PG_IF_20_1   DS    0H  &TYPE
+000C80                                   (1/354)1105 *ZC     73         PERFORM GOOD
+000C80 C0E0000000BB            000DF6    (46/44)1106+         LARL  ZC_R14,PG_GOOD
+000C86 C000000000BE            000E02    (46/45)1107+         LARL  ZC_R0,PG_GOOD_END+6
+000C8C 58F0903C                00003C    (46/46)1108+         L     ZC_R15,ZCVT_PERFORM
+000C90 0D1F                              (46/47)1109+         BASR  ZC_R1,ZC_R15
+000C92                                    (8/41)1110+PG_IF_20_E   DS    0H  &TYPE
+000C92                                   (1/357)1111 *            MOVE 'AACDDGGGA' TO RECORD
+000C92                                   (1/358)1112 *ZC     74         MOVE  'AACDDGGGA',TO,RECORD
+000C92 C010000000F3            000E78   (38/160)1113+         LARL  ZC_R1,=CL80'AACDDGGGA'
+000C98 D24FD0581000     001220          (38/299)1114+          MVC   RECORD,0(ZC_R1)
+000C9E                                   (1/360)1115 *     21     TRANSFORM RECORD CHARACTERS FROM 'AD' TO '12'
+000C9E                                   (1/361)1116 *ZC     75     21  TRANSFORM RECORD,CHARACTERS,FROM,'AD',TO,'12'
+000C9E 411090F8                0000F8   (40/146)1117+         LA    ZC_R1,ZCVT_WORKAREA
+000CA2 4100D058                001220   (40/147)1118+         LA    ZC_R0,RECORD
+000CA6 50010000                         (40/148)1119+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000CAA E54C10040050                     (40/149)1120+         MVHI  4(ZC_R1),80 P2=L'V1  INSPECT FIELD LENGTH
+000CB0 C0000000027E            0011AC   (40/229)1121+         LARL  ZC_R0,=CL2'AD'
+000CB6 50010008                         (40/230)1122+         ST    ZC_R0,8(ZC_R1)
+000CBA E54C100C0002                     (40/231)1123+         MVHI  8+4(ZC_R1),2
+000CC0 410000E7                         (40/155)1124+         LA    ZC_R0,C'X'
+000CC4 50010010                         (40/156)1125+         ST    ZC_R0,16(ZC_R1)           P5= REPLACING STYPE C'C/A/L/F'
+000CC8 C00000000271            0011AA   (40/229)1126+         LARL  ZC_R0,=CL2'12'
+000CCE 50010014                         (40/230)1127+         ST    ZC_R0,20(ZC_R1)
+000CD2 E54C10180002                     (40/231)1128+         MVHI  20+4(ZC_R1),2
+000CD8 1B00                             (40/181)1129+         SR    ZC_R0,ZC_R0
+000CDA 5001001C                         (40/182)1130+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000CDE 50010020                         (40/183)1131+         ST    ZC_R0,32(ZC_R1)                  P9=L'TEST_VAR   NO TEST
+000CE2 41000008                         (40/165)1132+         LA    ZC_R0,ZCVT_CONVERTING
+000CE6 58F09074                000074   (40/166)1133+         L     ZC_R15,ZCVT_INSPECT
+000CEA 0DEF                             (40/167)1134+         BASR  ZC_R14,ZC_R15
+000CEC                                   (1/363)1135 *            IF RECORD NOT = '11C22GGG1' PERFORM BAD ELSE PERFORM GOOD.
+000CEC                                   (1/364)1136 *ZC     76         IF    RECORD,NOT,=,'11C22GGG1'
+000CEC C01000000206            0010F8   (42/447)1137+         LARL  ZC_R1,=CL80'11C22GGG1'
+000CF2 D54FD0581000     001220          (42/448)1138+         CLC   RECORD,0(ZC_R1)
+000CF8 A784000D                000D12    (43/15)1139+         BRC   15-ZC_NE,PG_IF_21_1
+000CFC                                   (1/366)1140 *ZC     76         PERFORM BAD
+000CFC C0E000000083            000E02    (46/44)1141+         LARL  ZC_R14,PG_BAD
+000D02 C0000000008B            000E18    (46/45)1142+         LARL  ZC_R0,PG_BAD_END+6
+000D08 58F0903C                00003C    (46/46)1143+         L     ZC_R15,ZCVT_PERFORM
+000D0C 0D1F                              (46/47)1144+         BASR  ZC_R1,ZC_R15
+000D0E                                   (1/368)1145 *ZC     76         ELSE
+000D0E A7F4000B                000D24    (48/15)1146+         J     PG_IF_21_E
+000D12                                    (8/41)1147+PG_IF_21_1   DS    0H  &TYPE
+000D12                                   (1/370)1148 *ZC     76         PERFORM GOOD
+000D12 C0E000000072            000DF6    (46/44)1149+         LARL  ZC_R14,PG_GOOD
+000D18 C00000000075            000E02    (46/45)1150+         LARL  ZC_R0,PG_GOOD_END+6
+000D1E 58F0903C                00003C    (46/46)1151+         L     ZC_R15,ZCVT_PERFORM
+000D22 0D1F                              (46/47)1152+         BASR  ZC_R1,ZC_R15
+000D24                                    (8/41)1153+PG_IF_21_E   DS    0H  &TYPE
+000D24                                   (1/373)1154 *            MOVE LOW-VALUES TO RECORD
+000D24                                   (1/374)1155 *ZC     77         MOVE  LOW_VALUES,TO,RECORD
+000D24 9200D058                001220   (38/211)1156+         MVI   RECORD,X'00'
+000D28 D24ED059D058     001221 001220  (38/2037)1157+         MVC   RECORD+1(80-1),RECORD
+000D2E                                   (1/376)1158 *     22     INSPECT RECORD REPLACING ALL LOW-VALUES BY SPACES
+000D2E                                   (1/377)1159 *ZC     78     22  INSPECT RECORD,REPLACING,ALL,LOW_VALUES,BY,SPACES
+000D2E 411090F8                0000F8   (40/107)1160+         LA    ZC_R1,ZCVT_WORKAREA
+000D32 4100D058                001220   (40/108)1161+         LA    ZC_R0,RECORD
+000D36 50010000                         (40/109)1162+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+000D3A E54C10040050                     (40/110)1163+         MVHI  4(ZC_R1),80 P2=L'V1 INSPECT FIELD LENGTH
+000D40 C00000000237            0011AE   (40/250)1164+         LARL  ZC_R0,=XL2'0000'
+000D46 50010008                         (40/251)1165+         ST    ZC_R0,8(ZC_R1)
+000D4A E54C100C0001                     (40/252)1166+         MVHI  8+4(ZC_R1),1
+000D50 410000C1                         (40/116)1167+         LA    ZC_R0,C'A'
+000D54 50010010                         (40/117)1168+         ST    ZC_R0,16(ZC_R1)       P5= REPLACING STYPE C'C/A/L/F'
+000D58 C0000000022C            0011B0   (40/240)1169+         LARL  ZC_R0,=CL2'  '
+000D5E 50010014                         (40/241)1170+         ST    ZC_R0,20(ZC_R1)
+000D62 E54C10180001                     (40/242)1171+         MVHI  20+4(ZC_R1),1
+000D68 1B00                             (40/181)1172+         SR    ZC_R0,ZC_R0
+000D6A 5001001C                         (40/182)1173+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+000D6E 50010020                         (40/183)1174+         ST    ZC_R0,32(ZC_R1)                  P9=L'TEST_VAR   NO TEST
+000D72 41000004                         (40/133)1175+         LA    ZC_R0,ZCVT_REPLACING
+000D76 58F09074                000074   (40/134)1176+         L     ZC_R15,ZCVT_INSPECT
+000D7A 0DEF                             (40/135)1177+         BASR  ZC_R14,ZC_R15
+000D7C                                   (1/379)1178 *            IF RECORD NOT = SPACES PERFORM BAD ELSE PERFORM GOOD.
+000D7C                                   (1/380)1179 *ZC     79         IF    RECORD,NOT,=,SPACES
+000D7C C010000001E6            001148   (42/177)1180+         LARL  ZC_R1,=(80)C' '
+000D82 D54FD0581000     001220          (42/179)1181+         CLC   RECORD,0(ZC_R1)
+000D88 A784000D                000DA2    (43/15)1182+         BRC   15-ZC_NE,PG_IF_22_1
+000D8C                                   (1/382)1183 *ZC     79         PERFORM BAD
+000D8C C0E00000003B            000E02    (46/44)1184+         LARL  ZC_R14,PG_BAD
+000D92 C00000000043            000E18    (46/45)1185+         LARL  ZC_R0,PG_BAD_END+6
+000D98 58F0903C                00003C    (46/46)1186+         L     ZC_R15,ZCVT_PERFORM
+000D9C 0D1F                              (46/47)1187+         BASR  ZC_R1,ZC_R15
+000D9E                                   (1/384)1188 *ZC     79         ELSE
+000D9E A7F4000B                000DB4    (48/15)1189+         J     PG_IF_22_E
+000DA2                                    (8/41)1190+PG_IF_22_1   DS    0H  &TYPE
+000DA2                                   (1/386)1191 *ZC     79         PERFORM GOOD
+000DA2 C0E00000002A            000DF6    (46/44)1192+         LARL  ZC_R14,PG_GOOD
+000DA8 C0000000002D            000E02    (46/45)1193+         LARL  ZC_R0,PG_GOOD_END+6
+000DAE 58F0903C                00003C    (46/46)1194+         L     ZC_R15,ZCVT_PERFORM
+000DB2 0D1F                              (46/47)1195+         BASR  ZC_R1,ZC_R15
+000DB4                                    (8/41)1196+PG_IF_22_E   DS    0H  &TYPE
+000DB4                                   (1/389)1197 *            DISPLAY 'TESTISP1 GOOD TESTS =' GOOD
+000DB4                                   (1/390)1198 *ZC     80         DISPLAY 'TESTISP1 GOOD TESTS =',GOOD
+000DB4 413090F8                0000F8    (52/28)1199+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+000DB8 C000000001FD            0011B2    (52/68)1200+         LARL  ZC_R0,=CL22'TESTISP1 GOOD TESTS =' PAD TO EVEN LEN LIT
+000DBE 41100015                          (52/69)1201+         LA    ZC_R1,21
+000DC2 412000E7                          (52/70)1202+         LA    ZC_R2,C'X'
+000DC6 90023000                          (52/71)1203+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+000DCA 4100D0AC                001274    (52/82)1204+         LA    ZC_R0,GOOD
+000DCE 41100004                          (52/83)1205+         LA    ZC_R1,4  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+000DD2 412000C6                          (52/88)1206+         LA    ZC_R2,C'F'
+000DD6 9002300C                          (52/90)1207+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+000DDA 96803014                          (52/94)1208+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+000DDE 1813                              (52/95)1209+         LR    ZC_R1,ZC_R3
+000DE0 58F09070                000070    (52/96)1210+         L     ZC_R15,ZCVT_DISPLAY
+000DE4 0DEF                              (52/97)1211+         BASR  ZC_R14,ZC_R15
+000DE6                                   (1/392)1212 *            STOP RUN.
+000DE6                                   (1/393)1213 *ZC     81         STOP  RUN
+000DE6 4810D10A                0012D2    (54/18)1214+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+000DEA 58F09030                000030    (54/23)1215+         L     ZC_R15,ZCVT_GOBACK
+000DEE 07FF                              (54/24)1216+         BR    ZC_R15
+000DF0                                   (1/396)1217 *        GOOD.
+000DF0 58F09040                000040     (8/64)1218+PG_MAINLINE_END L ZC_R15,ZCVT_PMCHECK
+000DF4 0DEF                               (8/65)1219+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+000DF6                                    (8/96)1220+PG_GOOD  DS    0H
+000DF6                                   (1/398)1221 *            ADD 1 TO GOOD
+000DF6                                   (1/399)1222 *ZC     83         ADD   1,TO,GOOD
+000DF6 EB01D0AC006A            001274   (56/190)1223+         ASI   GOOD,1
+000DFC                                   (1/401)1224 *        BAD.
+000DFC 58F09040                000040     (8/64)1225+PG_GOOD_END L  ZC_R15,ZCVT_PMCHECK
+000E00 0DEF                               (8/65)1226+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+000E02                                    (8/96)1227+PG_BAD   DS    0H
+000E02                                   (1/403)1228 *            MOVE 16 TO RETURN-CODE
+000E02                                   (1/404)1229 *ZC     85         MOVE  16,TO,RETURN_CODE
+000E02 E544D10A0010            0012D2   (38/361)1230+          MVHHI RETURN_CODE,16
+000E08                                   (1/406)1231 *            STOP RUN.
+000E08                                   (1/407)1232 *ZC     86         STOP  RUN
+000E08 4810D10A                0012D2    (54/18)1233+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+000E0C 58F09030                000030    (54/23)1234+         L     ZC_R15,ZCVT_GOBACK
+000E10 07FF                              (54/24)1235+         BR    ZC_R15
+000E12 58F09040                000040     (8/64)1236+PG_BAD_END L   ZC_R15,ZCVT_PMCHECK
+000E16 0DEF                               (8/65)1237+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+000E18                                   (8/108)1238+SN_END_PROCEDURE DS 0H SECTION
+000E18                                   (58/18)1239+*        PROCEDURE END
+000E18 4810D10A                0012D2    (58/24)1240+         LH    ZC_R1,RETURN_CODE
+000E1C 58F09030                000030    (58/25)1241+         L     ZC_R15,ZCVT_GOBACK
+000E20 0DEF                              (58/26)1242+         BASR  ZC_R14,ZC_R15
+000E22                                   (58/32)1243+         LTORG 
+000E28 E7E7C3C4C4C7C7C7 =CL80'XXCDDGGGA'
+000E30 C140404040404040
+000E38 4040404040404040
+000E40 4040404040404040
+000E48 4040404040404040
+000E50 4040404040404040
+000E58 4040404040404040
+000E60 4040404040404040
+000E68 4040404040404040
+000E70 4040404040404040
+000E78 C1C1C3C4C4C7C7C7 =CL80'AACDDGGGA'
+000E80 C140404040404040
+000E88 4040404040404040
+000E90 4040404040404040
+000E98 4040404040404040
+000EA0 4040404040404040
+000EA8 4040404040404040
+000EB0 4040404040404040
+000EB8 4040404040404040
+000EC0 4040404040404040
+000EC8 C1C1C34040404040 =CL80'AAC'
+000ED0 4040404040404040
+000ED8 4040404040404040
+000EE0 4040404040404040
+000EE8 4040404040404040
+000EF0 4040404040404040
+000EF8 4040404040404040
+000F00 4040404040404040
+000F08 4040404040404040
+000F10 4040404040404040
+000F18 C1C1C3C4C4C7C7C7 =CL80'AACDDGGGX'
+000F20 E740404040404040
+000F28 4040404040404040
+000F30 4040404040404040
+000F38 4040404040404040
+000F40 4040404040404040
+000F48 4040404040404040
+000F50 4040404040404040
+000F58 4040404040404040
+000F60 4040404040404040
+000F68 C1C1C3E7E7C7C7C7 =CL80'AACXXGGGA'
+000F70 C140404040404040
+000F78 4040404040404040
+000F80 4040404040404040
+000F88 4040404040404040
+000F90 4040404040404040
+000F98 4040404040404040
+000FA0 4040404040404040
+000FA8 4040404040404040
+000FB0 4040404040404040
+000FB8 E7C1C3C4C4C7C7C7 =CL80'XACDDGGGA'
+000FC0 C140404040404040
+000FC8 4040404040404040
+000FD0 4040404040404040
+000FD8 4040404040404040
+000FE0 4040404040404040
+000FE8 4040404040404040
+000FF0 4040404040404040
+000FF8 4040404040404040
+001000 4040404040404040
+001008 C1C1C3C4C4E7C7C7 =CL80'AACDDXGGA'
+001010 C140404040404040
+001018 4040404040404040
+001020 4040404040404040
+001028 4040404040404040
+001030 4040404040404040
+001038 4040404040404040
+001040 4040404040404040
+001048 4040404040404040
+001050 4040404040404040
+001058 F1F1F2C4C4C7C7C7 =CL80'112DDGGGA'
+001060 C140404040404040
+001068 4040404040404040
+001070 4040404040404040
+001078 4040404040404040
+001080 4040404040404040
+001088 4040404040404040
+001090 4040404040404040
+001098 4040404040404040
+0010A0 4040404040404040
+0010A8 C1C1C3F2F2C7C7C7 =CL80'AAC22GGG1'
+0010B0 F140404040404040
+0010B8 4040404040404040
+0010C0 4040404040404040
+0010C8 4040404040404040
+0010D0 4040404040404040
+0010D8 4040404040404040
+0010E0 4040404040404040
+0010E8 4040404040404040
+0010F0 4040404040404040
+0010F8 F1F1C3F2F2C7C7C7 =CL80'11C22GGG1'
+001100 F140404040404040
+001108 4040404040404040
+001110 4040404040404040
+001118 4040404040404040
+001120 4040404040404040
+001128 4040404040404040
+001130 4040404040404040
+001138 4040404040404040
+001140 4040404040404040
+001148 4040404040404040 =(80)C' '
+001150 4040404040404040
+001158 4040404040404040
+001160 4040404040404040
+001168 4040404040404040
+001170 4040404040404040
+001178 4040404040404040
+001180 4040404040404040
+001188 4040404040404040
+001190 4040404040404040
+001198 C440             =CL2'D'
+00119A C340             =CL2'C'
+00119C C140             =CL2'A'
+00119E C240             =CL2'B'
+0011A0 C540             =CL2'E'
+0011A2 E740             =CL2'X'
+0011A4 4040             =CL2' '
+0011A6 C740             =CL2'G'
+0011A8 C1C3             =CL2'AC'
+0011AA F1F2             =CL2'12'
+0011AC C1C4             =CL2'AD'
+0011AE 0000             =XL2'0000'
+0011B0 4040             =CL2'  '
+0011B2 E3C5E2E3C9E2D7F1 =CL22'TESTISP1 GOOD TESTS ='
+0011BA 40C7D6D6C440E3C5
+0011C2 E2E3E2407E40
+0011C8                                    (6/15)1244+*    ZCOBOL WORKING STORAGE SECTION DATA ITEMS 
+0011C8                                    (6/15)1245+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC        VALUE 
+0011C8                                    (6/15)1247+*    01  ZC_SAVEAREA                    00000000 00000048 1   X   X(72)       
+0011C8                                    (6/15)1249+*    01  ZC_WS_ID                       00000048 00000008 1   X   X(8)       ''WS*WS*WS'' 
+0011C8                                    (6/15)1251+*    01  ZC_WS_START                    00000050 00000004 1   A               
+0011C8                                    (6/15)1253+*    01  ZC_WS_LEN                      00000054 00000004 1   F   9(9)        
+0011C8                                    (6/15)1255+*    01  FILLER                         00000058 00000000 1   X               
+0011C8                                    (6/15)1257+*    01  RECORD                         00000058 00000050 1   X   X(80)      ''AACDDGGGA'' 
+0011C8                                    (6/15)1259+*    01  COUNT                          000000A8 00000004 1   F   9(9)        
+0011C8                                    (6/15)1261+*    01  GOOD                           000000AC 00000004 1   F   9(9)       0 
+0011C8                                    (6/15)1263+*    01  DEBUG_ITEM                     000000B0 00000058 1   X               
+0011C8                                    (6/15)1265+*    02  DEBUG_LINE                     000000B0 00000006 1   X   X(6)        
+0011C8                                    (6/15)1267+*    02  FILLER                         000000B6 00000001 1   X   X          SPACE 
+0011C8                                    (6/15)1269+*    02  DEBUG_NAME                     000000B7 0000001E 1   X   X(30)       
+0011C8                                    (6/15)1271+*    02  FILLER                         000000D5 00000001 1   X   X          SPACE 
+0011C8                                    (6/15)1273+*    02  DEBUG_SUB_1                    000000D6 00000004 1   Z   9999        
+0011C8                                    (6/15)1275+*    02  FILLER                         000000DA 00000001 1   X   X          SPACE 
+0011C8                                    (6/15)1277+*    02  DEBUG_SUB_2                    000000DB 00000004 1   Z   9999        
+0011C8                                    (6/15)1279+*    02  FILLER                         000000DF 00000001 1   X   X          SPACE 
+0011C8                                    (6/15)1281+*    02  DEBUG_SUB_3                    000000E0 00000004 1   Z   9999        
+0011C8                                    (6/15)1283+*    02  FILLER                         000000E4 00000001 1   X   X          SPACE 
+0011C8                                    (6/15)1285+*    02  DEBUG_CONTENTS                 000000E5 00000023 1   X   X(35)       
+0011C8                                    (6/15)1287+*    01  TRUE                           00000108 00000001 1   Z   9          1 
+0011C8                                    (6/15)1289+*    01  FALSE                          00000109 00000001 1   Z   9          0 
+0011C8                                    (6/15)1291+*    01  RETURN_CODE                    0000010A 00000002 1   H   9(4)       0 
+0011C8                                   (60/39)1293+ZC_WSLOC LOCTR 
+0011C8                  00000000        (60/131)1294+ZC_WS_LOC_1  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0011C8                                  (60/336)1295+ZC_SAVEAREA DS CL72
+001210                  00000048        (60/131)1296+ZC_WS_LOC_2  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001210 E6E25CE6E25CE6E2                 (60/220)1297+ZC_WS_ID DC CL8'WS*WS*WS'
+001218                  00000050        (60/131)1298+ZC_WS_LOC_3  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001218                                  (60/322)1299+ZC_WS_START DS AL4
+00121C                  00000054        (60/131)1300+ZC_WS_LOC_4  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00121C                                  (60/324)1301+ZC_WS_LEN DS FL4
+001220                  00000058        (60/131)1302+ZC_WS_LOC_5  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001220                                  (60/336)1303+         DS  0CL0
+001220                  00000058        (60/131)1304+ZC_WS_LOC_6  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001220 C1C1C3C4C4C7C7C7                 (60/220)1305+RECORD   DC CL80'AACDDGGGA'
+001228 C140404040404040
+001230 4040404040404040
+001238 4040404040404040
+001240 4040404040404040
+001248 4040404040404040
+001250 4040404040404040
+001258 4040404040404040
+001260 4040404040404040
+001268 4040404040404040
+001270                  000000A8        (60/131)1306+ZC_WS_LOC_7  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001270                                  (60/324)1307+COUNT    DS  FL4
+001274                  000000AC        (60/131)1308+ZC_WS_LOC_8  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001274 00000000                         (60/188)1309+GOOD     DC AL4(0)                  RPI 1065
+001278                  000000B0        (60/131)1310+ZC_WS_LOC_9  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001278                                  (60/336)1311+DEBUG_ITEM DS 0CL88
+001278                  000000B0        (60/131)1312+ZC_WS_LOC_10 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+001278                                  (60/336)1313+DEBUG_LINE DS CL6
+00127E                  000000B6        (60/131)1314+ZC_WS_LOC_11 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00127E 40                               (60/227)1315+         DC CL1' '
+00127F                  000000B7        (60/131)1316+ZC_WS_LOC_12 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00127F                                  (60/336)1317+DEBUG_NAME DS CL30
+00129D                  000000D5        (60/131)1318+ZC_WS_LOC_13 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00129D 40                               (60/227)1319+         DC CL1' '
+00129E                  000000D6        (60/131)1320+ZC_WS_LOC_14 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00129E                                  (60/338)1321+DEBUG_SUB_1 DS ZL4
+0012A2                  000000DA        (60/131)1322+ZC_WS_LOC_15 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012A2 40                               (60/227)1323+         DC CL1' '
+0012A3                  000000DB        (60/131)1324+ZC_WS_LOC_16 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012A3                                  (60/338)1325+DEBUG_SUB_2 DS ZL4
+0012A7                  000000DF        (60/131)1326+ZC_WS_LOC_17 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012A7 40                               (60/227)1327+         DC CL1' '
+0012A8                  000000E0        (60/131)1328+ZC_WS_LOC_18 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012A8                                  (60/338)1329+DEBUG_SUB_3 DS ZL4
+0012AC                  000000E4        (60/131)1330+ZC_WS_LOC_19 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012AC 40                               (60/227)1331+         DC CL1' '
+0012AD                  000000E5        (60/131)1332+ZC_WS_LOC_20 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012AD                                  (60/336)1333+DEBUG_CONTENTS DS CL35
+0012D0                  00000108        (60/131)1334+ZC_WS_LOC_21 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012D0 F1                               (60/251)1335+TRUE     DC CL1'1'
+0012D1                  00000109        (60/131)1336+ZC_WS_LOC_22 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012D1 F0                               (60/251)1337+FALSE    DC CL1'0'
+0012D2                  0000010A        (60/131)1338+ZC_WS_LOC_23 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0012D2 0000                             (60/199)1339+RETURN_CODE DC AL2(0)                  RPI 1065
+0012D4                                    (6/15)1340+*    ZCOBOL LINKAGE SECTION DATA ITEMS 
+0012D4                                    (6/15)1341+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC        VALUE 
+0012D4                                   (60/39)1343+ZC_WSLOC LOCTR 
+0012D4                                   (58/58)1344+ZC_WSLOC LOCTR 
+0012D4                  00000000         (58/60)1345+ZC_WS_DIFF EQU  *-ZC_WS-268  DIFF BETWEEN ALLOC AND CALC WS
+0012D8                                   (58/65)1346+ZC_WS_END DS   0D
+0012D8                                   (61/14)1347+         MNOTE *,'ZCOBOL TOTAL SYMBOLS                 = 23'
+0012D8                                   (61/15)1348+         MNOTE *,'ZCOBOL TOTAL SYMBOL DUPLICATES       = 0'
+0012D8                                   (61/16)1349+         MNOTE *,'ZCOBOL TOTAL SYMBOL MAX DUP CHAIN    = 0'
+0012D8                                   (61/17)1350+         MNOTE *,'ZCOBOL TOTAL SYMBOL LEVEL 88         = 0'
+0012D8                                   (61/18)1351+         MNOTE *,'ZCOBOL TOTAL SYMBOL SET INDEXES      = 0'
+0012D8                                   (61/19)1352+         MNOTE *,'ZCOBOL TOTAL SYMBOL LINKAGE SECTIONS = 0'
+0012D8                                   (61/20)1353+         MNOTE *,'ZCOBOL TOTAL PROCEDURE SECTIONS      = 0'
+0012D8                                   (61/21)1354+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPHS    = 3'
+0012D8                                   (61/22)1355+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPH DUP = 0'
+0012D8                                   (1/411)1356          END 
+
+Symbol Table Listing
+
+ SYM=COUNT    LOC=00001270 LEN=00000004 ESD=0001 TYPE=REL  XREF=1307 240 248 259 
+  260 263 282 290 302 303 306 325 332 346 347 350 369 376 390 391 394 413 420 435 
+  436 439 458 465 479 480 483 502 509 523 524 527 546 554 569 570 573 592 600 615 
+  616 619 
+ SYM=DEBUG_CONTENTS LOC=000012AD LEN=00000023 ESD=0001 TYPE=REL  XREF=1333 
+ SYM=DEBUG_ITEM LOC=00001278 LEN=00000058 ESD=0001 TYPE=REL  XREF=1311 
+ SYM=DEBUG_LINE LOC=00001278 LEN=00000006 ESD=0001 TYPE=REL  XREF=1313 
+ SYM=DEBUG_NAME LOC=0000127F LEN=0000001E ESD=0001 TYPE=REL  XREF=1317 
+ SYM=DEBUG_SUB_1 LOC=0000129E LEN=00000004 ESD=0001 TYPE=REL  XREF=1321 
+ SYM=DEBUG_SUB_2 LOC=000012A3 LEN=00000004 ESD=0001 TYPE=REL  XREF=1325 
+ SYM=DEBUG_SUB_3 LOC=000012A8 LEN=00000004 ESD=0001 TYPE=REL  XREF=1329 
+ SYM=FALSE    LOC=000012D1 LEN=00000001 ESD=0001 TYPE=REL  XREF=1337 
+ SYM=GOOD     LOC=00001274 LEN=00000004 ESD=0001 TYPE=REL  XREF=1309 1204 1223 
+ SYM=PFPO_RADIX LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=112 
+ SYM=PFPO_RND LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=113 
+ SYM=PFPO_TEST LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=111 
+ SYM=PFPO_TYPE_DB LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=118 
+ SYM=PFPO_TYPE_DD LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=121 
+ SYM=PFPO_TYPE_DH LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=115 
+ SYM=PFPO_TYPE_EB LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=117 
+ SYM=PFPO_TYPE_ED LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=120 
+ SYM=PFPO_TYPE_EH LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=114 
+ SYM=PFPO_TYPE_LB LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=119 
+ SYM=PFPO_TYPE_LD LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=122 
+ SYM=PFPO_TYPE_LH LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=116 
+ SYM=PG_BAD   LOC=00000E02 LEN=00000002 ESD=0001 TYPE=REL  XREF=1227 267 310 354 
+  398 443 487 531 577 623 662 705 748 792 836 881 924 968 1011 1055 1098 1141 1184 
+ SYM=PG_BAD_END LOC=00000E12 LEN=00000004 ESD=0001 TYPE=REL  XREF=1236 268 311 355 
+  399 444 488 532 578 624 663 706 749 793 837 882 925 969 1012 1056 1099 1142 1185 
+ SYM=PG_GOOD  LOC=00000DF6 LEN=00000002 ESD=0001 TYPE=REL  XREF=1220 275 318 362 
+  406 451 495 539 585 631 670 713 756 800 844 889 932 976 1019 1063 1106 1149 1192 
+ SYM=PG_GOOD_END LOC=00000DFC LEN=00000004 ESD=0001 TYPE=REL  XREF=1225 276 319 363 
+  407 452 496 540 586 632 671 714 757 801 845 890 933 977 1020 1064 1107 1150 1193 
+ SYM=PG_IF_10_1 LOC=00000686 LEN=00000002 ESD=0001 TYPE=REL  XREF=668 660 
+ SYM=PG_IF_10_E LOC=00000698 LEN=00000002 ESD=0001 TYPE=REL  XREF=674 667 
+ SYM=PG_IF_11_1 LOC=0000071E LEN=00000002 ESD=0001 TYPE=REL  XREF=711 703 
+ SYM=PG_IF_11_E LOC=00000730 LEN=00000002 ESD=0001 TYPE=REL  XREF=717 710 
+ SYM=PG_IF_12_1 LOC=000007B6 LEN=00000002 ESD=0001 TYPE=REL  XREF=754 746 
+ SYM=PG_IF_12_E LOC=000007C8 LEN=00000002 ESD=0001 TYPE=REL  XREF=760 753 
+ SYM=PG_IF_13_1 LOC=00000852 LEN=00000002 ESD=0001 TYPE=REL  XREF=798 790 
+ SYM=PG_IF_13_E LOC=00000864 LEN=00000002 ESD=0001 TYPE=REL  XREF=804 797 
+ SYM=PG_IF_14_1 LOC=000008EA LEN=00000002 ESD=0001 TYPE=REL  XREF=842 834 
+ SYM=PG_IF_14_E LOC=000008FC LEN=00000002 ESD=0001 TYPE=REL  XREF=848 841 
+ SYM=PG_IF_15_1 LOC=00000986 LEN=00000002 ESD=0001 TYPE=REL  XREF=887 879 
+ SYM=PG_IF_15_E LOC=00000998 LEN=00000002 ESD=0001 TYPE=REL  XREF=893 886 
+ SYM=PG_IF_16_1 LOC=00000A1E LEN=00000002 ESD=0001 TYPE=REL  XREF=930 922 
+ SYM=PG_IF_16_E LOC=00000A30 LEN=00000002 ESD=0001 TYPE=REL  XREF=936 929 
+ SYM=PG_IF_17_1 LOC=00000ABA LEN=00000002 ESD=0001 TYPE=REL  XREF=974 966 
+ SYM=PG_IF_17_E LOC=00000ACC LEN=00000002 ESD=0001 TYPE=REL  XREF=980 973 
+ SYM=PG_IF_18_1 LOC=00000B52 LEN=00000002 ESD=0001 TYPE=REL  XREF=1017 1009 
+ SYM=PG_IF_18_E LOC=00000B64 LEN=00000002 ESD=0001 TYPE=REL  XREF=1023 1016 
+ SYM=PG_IF_19_1 LOC=00000BEE LEN=00000002 ESD=0001 TYPE=REL  XREF=1061 1053 
+ SYM=PG_IF_19_E LOC=00000C00 LEN=00000002 ESD=0001 TYPE=REL  XREF=1067 1060 
+ SYM=PG_IF_1_1 LOC=00000160 LEN=00000002 ESD=0001 TYPE=REL  XREF=273 265 
+ SYM=PG_IF_1_E LOC=00000172 LEN=00000002 ESD=0001 TYPE=REL  XREF=279 272 
+ SYM=PG_IF_20_1 LOC=00000C80 LEN=00000002 ESD=0001 TYPE=REL  XREF=1104 1096 
+ SYM=PG_IF_20_E LOC=00000C92 LEN=00000002 ESD=0001 TYPE=REL  XREF=1110 1103 
+ SYM=PG_IF_21_1 LOC=00000D12 LEN=00000002 ESD=0001 TYPE=REL  XREF=1147 1139 
+ SYM=PG_IF_21_E LOC=00000D24 LEN=00000002 ESD=0001 TYPE=REL  XREF=1153 1146 
+ SYM=PG_IF_22_1 LOC=00000DA2 LEN=00000002 ESD=0001 TYPE=REL  XREF=1190 1182 
+ SYM=PG_IF_22_E LOC=00000DB4 LEN=00000002 ESD=0001 TYPE=REL  XREF=1196 1189 
+ SYM=PG_IF_2_1 LOC=000001EA LEN=00000002 ESD=0001 TYPE=REL  XREF=316 308 
+ SYM=PG_IF_2_E LOC=000001FC LEN=00000002 ESD=0001 TYPE=REL  XREF=322 315 
+ SYM=PG_IF_3_1 LOC=0000027A LEN=00000002 ESD=0001 TYPE=REL  XREF=360 352 
+ SYM=PG_IF_3_E LOC=0000028C LEN=00000002 ESD=0001 TYPE=REL  XREF=366 359 
+ SYM=PG_IF_4_1 LOC=00000310 LEN=00000002 ESD=0001 TYPE=REL  XREF=404 396 
+ SYM=PG_IF_4_E LOC=00000322 LEN=00000002 ESD=0001 TYPE=REL  XREF=410 403 
+ SYM=PG_IF_5_1 LOC=000003AA LEN=00000002 ESD=0001 TYPE=REL  XREF=449 441 
+ SYM=PG_IF_5_E LOC=000003BC LEN=00000002 ESD=0001 TYPE=REL  XREF=455 448 
+ SYM=PG_IF_6_1 LOC=0000043A LEN=00000002 ESD=0001 TYPE=REL  XREF=493 485 
+ SYM=PG_IF_6_E LOC=0000044C LEN=00000002 ESD=0001 TYPE=REL  XREF=499 492 
+ SYM=PG_IF_7_1 LOC=000004CA LEN=00000002 ESD=0001 TYPE=REL  XREF=537 529 
+ SYM=PG_IF_7_E LOC=000004DC LEN=00000002 ESD=0001 TYPE=REL  XREF=543 536 
+ SYM=PG_IF_8_1 LOC=00000564 LEN=00000002 ESD=0001 TYPE=REL  XREF=583 575 
+ SYM=PG_IF_8_E LOC=00000576 LEN=00000002 ESD=0001 TYPE=REL  XREF=589 582 
+ SYM=PG_IF_9_1 LOC=000005FE LEN=00000002 ESD=0001 TYPE=REL  XREF=629 621 
+ SYM=PG_IF_9_E LOC=00000610 LEN=00000002 ESD=0001 TYPE=REL  XREF=635 628 
+ SYM=PG_MAINLINE LOC=000000EC LEN=00000002 ESD=0001 TYPE=REL  XREF=237 
+ SYM=PG_MAINLINE_END LOC=00000DF0 LEN=00000004 ESD=0001 TYPE=REL  XREF=1218 
+ SYM=PVTCICS  LOC=00000020 LEN=00000001 ESD=0004 TYPE=REL  XREF=213 
+ SYM=PVTDATE  LOC=00000008 LEN=00000008 ESD=0004 TYPE=REL  XREF=210 
+ SYM=PVTEXTND LOC=00000021 LEN=00000001 ESD=0004 TYPE=REL  XREF=214 
+ SYM=PVTMAXDL LOC=00000024 LEN=00000002 ESD=0004 TYPE=REL  XREF=217 
+ SYM=PVTPGM   LOC=00000000 LEN=00000008 ESD=0004 TYPE=REL  XREF=209 
+ SYM=PVTR64   LOC=00000023 LEN=00000001 ESD=0004 TYPE=REL  XREF=216 
+ SYM=PVTTIME  LOC=00000010 LEN=00000008 ESD=0004 TYPE=REL  XREF=211 
+ SYM=PVTTRUNC LOC=00000022 LEN=00000001 ESD=0004 TYPE=REL  XREF=215 
+ SYM=PVTVER   LOC=00000018 LEN=00000008 ESD=0004 TYPE=REL  XREF=212 
+ SYM=RECORD   LOC=00001220 LEN=00000050 ESD=0001 TYPE=REL  XREF=1305 245 287 329 
+  373 417 462 506 551 597 640 659 678 682 702 721 725 745 764 768 789 808 813 833 
+  852 857 878 897 901 921 940 944 965 984 988 1008 1027 1031 1052 1071 1075 1095 
+  1114 1118 1138 1156 1157 1161 1181 
+ SYM=RETURN_CODE LOC=000012D2 LEN=00000002 ESD=0001 TYPE=REL  XREF=1339 1214 1230 
+  1233 1240 
+ SYM=SN_END_PROCEDURE LOC=00000E18 LEN=00000002 ESD=0001 TYPE=REL  XREF=1238 
+ SYM=TESTISP1 LOC=00000000 LEN=000012D8 ESD=0001 TYPE=CST  XREF=8 235 
+ SYM=TRUE     LOC=000012D0 LEN=00000001 ESD=0001 TYPE=REL  XREF=1335 
+ SYM=WTO#0015_EOT LOC=00000060 LEN=00000001 ESD=0001 TYPE=REL  XREF=35 33 34 
+ SYM=WTO#0016_EOT LOC=000000AA LEN=00000001 ESD=0001 TYPE=REL  XREF=52 50 51 
+ SYM=ZC390CVT LOC=00000000 LEN=000001F8 ESD=0003 TYPE=DST  XREF=137 41 
+ SYM=ZC390PVT LOC=00000000 LEN=00000030 ESD=0004 TYPE=DST  XREF=208 
+ SYM=ZCVT_ABORT LOC=00000068 LEN=00000004 ESD=0003 TYPE=REL  XREF=166 
+ SYM=ZCVT_ABORT_ACCEPT LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=176 
+ SYM=ZCVT_ABORT_ALTER LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=167 
+ SYM=ZCVT_ABORT_CALL LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=168 
+ SYM=ZCVT_ABORT_CICS LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=175 
+ SYM=ZCVT_ABORT_DISPLAY LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=169 
+ SYM=ZCVT_ABORT_DIVQ LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=174 
+ SYM=ZCVT_ABORT_INT128 LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=173 
+ SYM=ZCVT_ABORT_MAXERR LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=177 
+ SYM=ZCVT_ABORT_OPEN LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=170 
+ SYM=ZCVT_ABORT_STACK LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=171 
+ SYM=ZCVT_ABORT_VERSION LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=172 
+ SYM=ZCVT_ACCEPT LOC=0000006C LEN=00000004 ESD=0003 TYPE=REL  XREF=178 
+ SYM=ZCVT_ACCEPT_CONSOLE LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=180 
+ SYM=ZCVT_ACCEPT_DATE LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=182 
+ SYM=ZCVT_ACCEPT_DDNAME LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=181 
+ SYM=ZCVT_ACCEPT_DEFAULT LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=179 
+ SYM=ZCVT_ACCEPT_DOW LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=184 
+ SYM=ZCVT_ACCEPT_TIME LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=183 
+ SYM=ZCVT_CALL LOC=00000014 LEN=00000004 ESD=0003 TYPE=REL  XREF=142 
+ SYM=ZCVT_CMP64R32 LOC=00000018 LEN=00000004 ESD=0003 TYPE=REL  XREF=143 
+ SYM=ZCVT_CONVERTING LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=189 1002 1046 
+  1089 1132 
+ SYM=ZCVT_CVTLBTQ LOC=0000001C LEN=00000004 ESD=0003 TYPE=REL  XREF=144 
+ SYM=ZCVT_CVTLDTP LOC=00000020 LEN=00000004 ESD=0003 TYPE=REL  XREF=145 
+ SYM=ZCVT_CVTQTLB LOC=00000024 LEN=00000004 ESD=0003 TYPE=REL  XREF=146 
+ SYM=ZCVT_DISPLAY LOC=00000070 LEN=00000004 ESD=0003 TYPE=REL  XREF=185 1210 
+ SYM=ZCVT_DIV64R32 LOC=00000028 LEN=00000004 ESD=0003 TYPE=REL  XREF=147 
+ SYM=ZCVT_DIVQ128 LOC=0000002C LEN=00000004 ESD=0003 TYPE=REL  XREF=148 
+ SYM=ZCVT_END LOC=000001F8 LEN=00000001 ESD=0003 TYPE=REL  XREF=207 44 56 139 
+ SYM=ZCVT_GOBACK LOC=00000030 LEN=00000004 ESD=0003 TYPE=REL  XREF=149 1215 1234 
+  1241 
+ SYM=ZCVT_HIGH_VALUES LOC=00000090 LEN=00000010 ESD=0003 TYPE=REL  XREF=196 
+ SYM=ZCVT_ID  LOC=00000000 LEN=00000004 ESD=0003 TYPE=REL  XREF=138 42 44 56 139 
+ SYM=ZCVT_INSPECT LOC=00000074 LEN=00000004 ESD=0003 TYPE=REL  XREF=186 257 300 344 
+  388 433 477 521 567 613 654 697 740 784 828 873 916 960 1003 1047 1090 1133 1176 
+ SYM=ZCVT_LEN LOC=00000004 LEN=00000004 ESD=0003 TYPE=REL  XREF=139 44 
+ SYM=ZCVT_MPYQ128 LOC=00000034 LEN=00000004 ESD=0003 TYPE=REL  XREF=150 
+ SYM=ZCVT_NDDX LOC=000000E8 LEN=00000010 ESD=0003 TYPE=REL  XREF=202 
+ SYM=ZCVT_OSE64R32 LOC=00000038 LEN=00000004 ESD=0003 TYPE=REL  XREF=151 
+ SYM=ZCVT_PERFORM LOC=0000003C LEN=00000004 ESD=0003 TYPE=REL  XREF=152 269 277 312 
+  320 356 364 400 408 445 453 489 497 533 541 579 587 625 633 664 672 707 715 750 
+  758 794 802 838 846 883 891 926 934 970 978 1013 1021 1057 1065 1100 1108 1143 
+  1151 1186 1194 
+ SYM=ZCVT_PMCHECK LOC=00000040 LEN=00000004 ESD=0003 TYPE=REL  XREF=153 1218 1225 
+  1236 
+ SYM=ZCVT_PVTMAXDL LOC=00000078 LEN=00000002 ESD=0003 TYPE=REL  XREF=193 
+ SYM=ZCVT_PWORK LOC=000000A0 LEN=00000008 ESD=0003 TYPE=REL  XREF=197 
+ SYM=ZCVT_PWORK1 LOC=000000A8 LEN=00000010 ESD=0003 TYPE=REL  XREF=198 
+ SYM=ZCVT_PWORK2 LOC=000000B8 LEN=00000010 ESD=0003 TYPE=REL  XREF=199 
+ SYM=ZCVT_PWORK3 LOC=000000C8 LEN=00000010 ESD=0003 TYPE=REL  XREF=200 
+ SYM=ZCVT_PWORK4 LOC=000000D8 LEN=00000010 ESD=0003 TYPE=REL  XREF=201 
+ SYM=ZCVT_REPLACING LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=188 653 696 
+  739 783 827 872 915 959 1175 
+ SYM=ZCVT_ROUNDF LOC=00000044 LEN=00000004 ESD=0003 TYPE=REL  XREF=154 
+ SYM=ZCVT_STACKEND LOC=00000050 LEN=00000004 ESD=0003 TYPE=REL  XREF=157 
+ SYM=ZCVT_STACKORG LOC=00000048 LEN=00000004 ESD=0003 TYPE=REL  XREF=155 
+ SYM=ZCVT_STACKPTR LOC=0000004C LEN=00000004 ESD=0003 TYPE=REL  XREF=156 
+ SYM=ZCVT_STOPRUN LOC=00000054 LEN=00000004 ESD=0003 TYPE=REL  XREF=158 
+ SYM=ZCVT_TALLYING LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=187 256 299 
+  343 387 432 476 520 566 612 
+ SYM=ZCVT_TALPHAX LOC=00000058 LEN=00000004 ESD=0003 TYPE=REL  XREF=159 
+ SYM=ZCVT_TNUMP LOC=0000005C LEN=00000004 ESD=0003 TYPE=REL  XREF=160 
+ SYM=ZCVT_TNUMX LOC=00000060 LEN=00000004 ESD=0003 TYPE=REL  XREF=161 
+ SYM=ZCVT_TNUMZ LOC=00000064 LEN=00000004 ESD=0003 TYPE=REL  XREF=162 
+ SYM=ZCVT_VER LOC=00000008 LEN=00000008 ESD=0003 TYPE=REL  XREF=140 
+ SYM=ZCVT_WORKAREA LOC=000000F8 LEN=00000100 ESD=0003 TYPE=REL  XREF=203 244 286 
+  328 372 416 461 505 550 596 639 681 724 767 812 856 900 943 987 1030 1074 1117 
+  1160 1199 
+ SYM=ZCVT_ZC390NUC LOC=00000010 LEN=00000004 ESD=0003 TYPE=REL  XREF=141 46 
+ SYM=ZCVT_ZERO LOC=00000080 LEN=00000010 ESD=0003 TYPE=REL  XREF=195 
+ SYM=ZC_E     LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=93 
+ SYM=ZC_EQ    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=105 
+ SYM=ZC_F0    LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=75 
+ SYM=ZC_F10   LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=85 
+ SYM=ZC_F1    LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=76 
+ SYM=ZC_F11   LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=86 
+ SYM=ZC_F12   LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=87 
+ SYM=ZC_F13   LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=88 
+ SYM=ZC_F14   LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=89 
+ SYM=ZC_F15   LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=90 
+ SYM=ZC_F2    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=77 
+ SYM=ZC_F3    LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=78 
+ SYM=ZC_F4    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=79 
+ SYM=ZC_F5    LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=80 
+ SYM=ZC_F6    LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=81 
+ SYM=ZC_F7    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=82 
+ SYM=ZC_F8    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=83 
+ SYM=ZC_F9    LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=84 
+ SYM=ZC_GE    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=108 
+ SYM=ZC_GT    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=106 
+ SYM=ZC_H     LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=91 
+ SYM=ZC_L     LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=92 
+ SYM=ZC_LE    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=109 
+ SYM=ZC_LOAD  LOC=00000038 LEN=00000002 ESD=0001 TYPE=REL  XREF=27 12 
+ SYM=ZC_LOAD_OK LOC=00000068 LEN=00000002 ESD=0001 TYPE=REL  XREF=39 32 
+ SYM=ZC_LT    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=107 
+ SYM=ZC_M     LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=99 
+ SYM=ZC_NE    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=96 265 308 352 396 
+  441 485 529 575 621 660 703 746 790 834 879 922 966 1009 1053 1096 1139 1182 
+ SYM=ZC_NH    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=94 
+ SYM=ZC_NL    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=95 
+ SYM=ZC_NM    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=102 
+ SYM=ZC_NO    LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=104 
+ SYM=ZC_NP    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=101 
+ SYM=ZC_NZ    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=103 
+ SYM=ZC_O     LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=97 
+ SYM=ZC_P     LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=98 
+ SYM=ZC_R0    LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=59 40 131 132 133 
+  245 246 248 249 251 252 253 254 256 259 260 268 276 287 288 290 291 293 294 296 
+  297 299 302 303 311 319 329 330 332 333 335 336 337 338 340 341 342 343 346 347 
+  355 363 373 374 376 377 379 380 381 382 384 385 387 390 391 399 407 417 418 420 
+  421 423 424 425 426 429 430 432 435 436 444 452 462 463 465 466 468 469 470 471 
+  473 474 475 476 479 480 488 496 506 507 509 510 512 513 514 515 517 518 519 520 
+  523 524 532 540 551 552 554 555 557 558 559 560 563 564 566 569 570 578 586 597 
+  598 600 601 603 604 605 606 609 610 612 615 616 624 632 640 641 645 646 647 648 
+  650 651 653 663 671 682 683 687 688 689 690 693 694 696 706 714 725 726 728 729 
+  731 732 733 734 736 737 739 749 757 768 769 771 772 774 775 776 777 780 781 783 
+  793 801 813 814 816 817 819 820 821 822 824 825 827 837 845 857 858 860 861 863 
+  864 865 866 869 870 872 882 890 901 902 904 905 907 908 909 910 912 913 915 925 
+  933 944 945 947 948 950 951 952 953 956 957 959 969 977 988 989 991 992 994 995 
+  996 997 999 1000 1002 1012 1020 1031 1032 1034 1035 1037 1038 1039 1040 1043 1044 
+  1046 1056 1064 1075 1076 1078 1079 1081 1082 1083 1084 1086 1087 1088 1089 1099 
+  1107 1118 1119 1121 1122 1124 1125 1126 1127 1129 1130 1131 1132 1142 1150 1161 
+  1162 1164 1165 1167 1168 1169 1170 1172 1173 1174 1175 1185 1193 1200 1203 1204 
+  1207 
+ SYM=ZC_R10   LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=69 
+ SYM=ZC_R1    LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=60 125 126 127 128 
+  244 246 247 249 250 252 254 255 270 278 286 288 289 291 292 294 295 297 298 313 
+  321 328 330 331 333 334 336 338 339 341 342 357 365 372 374 375 377 378 380 382 
+  383 385 386 401 409 416 418 419 421 422 424 426 427 428 430 431 446 454 461 463 
+  464 466 467 469 471 472 474 475 490 498 505 507 508 510 511 513 515 516 518 519 
+  534 542 550 552 553 555 556 558 560 561 562 564 565 580 588 596 598 599 601 602 
+  604 606 607 608 610 611 626 634 639 641 642 643 644 646 648 649 651 652 658 659 
+  665 673 677 678 681 683 684 685 686 688 690 691 692 694 695 701 702 708 716 720 
+  721 724 726 727 729 730 732 734 735 737 738 744 745 751 759 763 764 767 769 770 
+  772 773 775 777 778 779 781 782 788 789 795 803 807 808 812 814 815 817 818 820 
+  822 823 825 826 832 833 839 847 851 852 856 858 859 861 862 864 866 867 868 870 
+  871 877 878 884 892 896 897 900 902 903 905 906 908 910 911 913 914 920 921 927 
+  935 939 940 943 945 946 948 949 951 953 954 955 957 958 964 965 971 979 983 984 
+  987 989 990 992 993 995 997 998 1000 1001 1007 1008 1014 1022 1026 1027 1030 1032 
+  1033 1035 1036 1038 1040 1041 1042 1044 1045 1051 1052 1058 1066 1070 1071 1074 
+  1076 1077 1079 1080 1082 1084 1085 1087 1088 1094 1095 1101 1109 1113 1114 1117 
+  1119 1120 1122 1123 1125 1127 1128 1130 1131 1137 1138 1144 1152 1160 1162 1163 
+  1165 1166 1168 1170 1171 1173 1174 1180 1181 1187 1195 1201 1205 1209 1214 1233 
+  1240 
+ SYM=ZC_R11   LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=70 
+ SYM=ZC_R12   LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=71 
+ SYM=ZC_R13   LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=72 124 126 127 128 
+  129 130 132 
+ SYM=ZC_R14   LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=73 47 258 267 275 
+  301 310 318 345 354 362 389 398 406 434 443 451 478 487 495 522 531 539 568 577 
+  585 614 623 631 655 662 670 698 705 713 741 748 756 785 792 800 829 836 844 874 
+  881 889 917 924 932 961 968 976 1004 1011 1019 1048 1055 1063 1091 1098 1106 1134 
+  1141 1149 1177 1184 1192 1211 1219 1226 1237 1242 
+ SYM=ZC_R15   LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=74 9 31 37 46 47 
+  54 134 257 258 269 270 277 278 300 301 312 313 320 321 344 345 356 357 364 365 
+  388 389 400 401 408 409 433 434 445 446 453 454 477 478 489 490 497 498 521 522 
+  533 534 541 542 567 568 579 580 587 588 613 614 625 626 633 634 654 655 664 665 
+  672 673 697 698 707 708 715 716 740 741 750 751 758 759 784 785 794 795 802 803 
+  828 829 838 839 846 847 873 874 883 884 891 892 916 917 926 927 934 935 960 961 
+  970 971 978 979 1003 1004 1013 1014 1021 1022 1047 1048 1057 1058 1065 1066 1090 
+  1091 1100 1101 1108 1109 1133 1134 1143 1144 1151 1152 1176 1177 1186 1187 1194 
+  1195 1210 1211 1215 1216 1218 1219 1225 1226 1234 1235 1236 1237 1241 1242 
+ SYM=ZC_R2    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=61 124 1202 1203 
+  1206 1207 
+ SYM=ZC_R3    LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=62 1199 1203 1207 
+  1208 1209 
+ SYM=ZC_R4    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=63 
+ SYM=ZC_R5    LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=64 
+ SYM=ZC_R6    LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=65 
+ SYM=ZC_R7    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=66 
+ SYM=ZC_R8    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=67 12 13 
+ SYM=ZC_R9    LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=68 40 41 
+ SYM=ZC_SAVEAREA LOC=000011C8 LEN=00000048 ESD=0001 TYPE=REL  XREF=1295 
+ SYM=ZC_VER_ERR LOC=00000088 LEN=00000002 ESD=0001 TYPE=REL  XREF=49 43 45 
+ SYM=ZC_VER_OK LOC=000000C8 LEN=00000002 ESD=0001 TYPE=REL  XREF=123 48 
+ SYM=ZC_WS    LOC=000011C8 LEN=00000008 ESD=0001 TYPE=REL  XREF=136 125 129 1294 
+  1296 1298 1300 1302 1304 1306 1308 1310 1312 1314 1316 1318 1320 1322 1324 1326 
+  1328 1330 1332 1334 1336 1338 1345 
+ SYM=ZC_WSLOC LOC=000011C8 LEN=00000110 ESD=0001 TYPE=CST  XREF=135 219 1293 1343 
+  1344 
+ SYM=ZC_WS_DIFF LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1345 
+ SYM=ZC_WS_END LOC=000012D8 LEN=00000008 ESD=0001 TYPE=REL  XREF=1346 131 
+ SYM=ZC_WS_ID LOC=00001210 LEN=00000008 ESD=0001 TYPE=REL  XREF=1297 
+ SYM=ZC_WS_LEN LOC=0000121C LEN=00000004 ESD=0001 TYPE=REL  XREF=1301 133 
+ SYM=ZC_WS_LOC_10 LOC=000000B0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1312 
+ SYM=ZC_WS_LOC_1 LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1294 
+ SYM=ZC_WS_LOC_11 LOC=000000B6 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1314 
+ SYM=ZC_WS_LOC_12 LOC=000000B7 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1316 
+ SYM=ZC_WS_LOC_13 LOC=000000D5 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1318 
+ SYM=ZC_WS_LOC_14 LOC=000000D6 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1320 
+ SYM=ZC_WS_LOC_15 LOC=000000DA LEN=00000001 ESD=0000 TYPE=ABS  XREF=1322 
+ SYM=ZC_WS_LOC_16 LOC=000000DB LEN=00000001 ESD=0000 TYPE=ABS  XREF=1324 
+ SYM=ZC_WS_LOC_17 LOC=000000DF LEN=00000001 ESD=0000 TYPE=ABS  XREF=1326 
+ SYM=ZC_WS_LOC_18 LOC=000000E0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1328 
+ SYM=ZC_WS_LOC_19 LOC=000000E4 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1330 
+ SYM=ZC_WS_LOC_20 LOC=000000E5 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1332 
+ SYM=ZC_WS_LOC_2 LOC=00000048 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1296 
+ SYM=ZC_WS_LOC_21 LOC=00000108 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1334 
+ SYM=ZC_WS_LOC_22 LOC=00000109 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1336 
+ SYM=ZC_WS_LOC_23 LOC=0000010A LEN=00000001 ESD=0000 TYPE=ABS  XREF=1338 
+ SYM=ZC_WS_LOC_3 LOC=00000050 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1298 
+ SYM=ZC_WS_LOC_4 LOC=00000054 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1300 
+ SYM=ZC_WS_LOC_5 LOC=00000058 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1302 
+ SYM=ZC_WS_LOC_6 LOC=00000058 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1304 
+ SYM=ZC_WS_LOC_7 LOC=000000A8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1306 
+ SYM=ZC_WS_LOC_8 LOC=000000AC LEN=00000001 ESD=0000 TYPE=ABS  XREF=1308 
+ SYM=ZC_WS_LOC_9 LOC=000000B0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=1310 
+ SYM=ZC_WS_START LOC=00001218 LEN=00000004 ESD=0001 TYPE=REL  XREF=1299 130 
+ SYM=ZC_Z     LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=100 
+
+Literal Table Listing
+
+ LIT=(80)C' ' LOC=00001148 LEN=00000001 ESD=0001 POOL=0002 XREF=1180 
+ LIT=A(ZCVT_END-ZCVT_ID) LOC=000000C4 LEN=00000004 ESD=0001 POOL=0001 XREF=44 
+ LIT=C'ZCVT'  LOC=000000C0 LEN=00000004 ESD=0001 POOL=0001 XREF=42 
+ LIT=CL2'  '  LOC=000011B0 LEN=00000002 ESD=0001 POOL=0002 XREF=1169 
+ LIT=CL2' '   LOC=000011A4 LEN=00000002 ESD=0001 POOL=0002 XREF=689 
+ LIT=CL2'12'  LOC=000011AA LEN=00000002 ESD=0001 POOL=0002 XREF=996 1039 1083 1126 
+ LIT=CL2'A'   LOC=0000119C LEN=00000002 ESD=0001 POOL=0002 XREF=337 381 425 470 728 
+  771 816 904 
+ LIT=CL2'AC'  LOC=000011A8 LEN=00000002 ESD=0001 POOL=0002 XREF=991 
+ LIT=CL2'AD'  LOC=000011AC LEN=00000002 ESD=0001 POOL=0002 XREF=1034 1078 1121 
+ LIT=CL2'B'   LOC=0000119E LEN=00000002 ESD=0001 POOL=0002 XREF=514 
+ LIT=CL2'C'   LOC=0000119A LEN=00000002 ESD=0001 POOL=0002 XREF=296 429 563 609 650 
+  693 736 780 824 869 912 956 1043 
+ LIT=CL2'D'   LOC=00001198 LEN=00000002 ESD=0001 POOL=0002 XREF=253 384 559 860 999 
+ LIT=CL2'E'   LOC=000011A0 LEN=00000002 ESD=0001 POOL=0002 XREF=605 
+ LIT=CL2'G'   LOC=000011A6 LEN=00000002 ESD=0001 POOL=0002 XREF=947 
+ LIT=CL2'X'   LOC=000011A2 LEN=00000002 ESD=0001 POOL=0002 XREF=647 733 776 821 865 
+  909 952 
+ LIT=CL22'TESTISP1 GOOD TESTS =' LOC=000011B2 LEN=00000016 ESD=0001 POOL=0002 XREF=1200 
+ LIT=CL8'ZC390LIB' LOC=000000B8 LEN=00000008 ESD=0001 POOL=0001 XREF=28 
+ LIT=CL80'112DDGGGA' LOC=00001058 LEN=00000050 ESD=0001 POOL=0002 XREF=1007 
+ LIT=CL80'11C22GGG1' LOC=000010F8 LEN=00000050 ESD=0001 POOL=0002 XREF=1094 1137 
+ LIT=CL80'AAC' LOC=00000EC8 LEN=00000050 ESD=0001 POOL=0002 XREF=701 
+ LIT=CL80'AAC22GGG1' LOC=000010A8 LEN=00000050 ESD=0001 POOL=0002 XREF=1051 
+ LIT=CL80'AACDDGGGA' LOC=00000E78 LEN=00000050 ESD=0001 POOL=0002 XREF=677 720 763 
+  807 851 896 939 983 1026 1070 1113 
+ LIT=CL80'AACDDGGGX' LOC=00000F18 LEN=00000050 ESD=0001 POOL=0002 XREF=788 
+ LIT=CL80'AACDDXGGA' LOC=00001008 LEN=00000050 ESD=0001 POOL=0002 XREF=964 
+ LIT=CL80'AACXXGGGA' LOC=00000F68 LEN=00000050 ESD=0001 POOL=0002 XREF=877 
+ LIT=CL80'XACDDGGGA' LOC=00000FB8 LEN=00000050 ESD=0001 POOL=0002 XREF=920 
+ LIT=CL80'XXCDDGGGA' LOC=00000E28 LEN=00000050 ESD=0001 POOL=0002 XREF=658 744 832 
+ LIT=XL2'0000' LOC=000011AE LEN=00000002 ESD=0001 POOL=0002 XREF=1164 
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+TESTISP1  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=28144

@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=brand
+comment0.target=Device(int)
+comment1.params=
+comment1.target=long\ getArrivalTime()
+comment2.params=time
+comment2.target=void\ setArrivalTime(long)
+comment3.params=
+comment3.target=int\ getBrand()
+comment4.params=dev
+comment4.target=boolean\ isOlder(Device)
+numComments=5

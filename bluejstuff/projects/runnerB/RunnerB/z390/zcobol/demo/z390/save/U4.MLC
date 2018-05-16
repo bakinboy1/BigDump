@@ -1,0 +1,3260 @@
+         ZCOBOL PGM='zcobol\demo\U4',VER=V1.5.06rc4,CDATE=05/20/12,CTIMX
+               E=14:34:56,OPTIONS=(SYSCPY(+zcobol+zcobol\z390))
+         COPY  U4_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.  U.
+         PROGRAM_ID U
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        INPUT-OUTPUT SECTION.
+         INPUT_OUTPUT SECTION
+*        FILE-CONTROL.
+         FILE_CONTROL 
+*            SELECT IN-FILE
+*               ASSIGN TO 'ZCOBOL\DEMO\COPYFILE.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT IN_FILE,ASSIGN,TO,'ZCOBOL\DEMO\COPYFILE.CBL',ORGANIZATIX
+               ON,IS,LINE,SEQUENTIAL
+* U5U5U5     SELECT PRN-FILE
+*               ASSIGN TO 'ZCOBOL\DEMO\COPYFILE.PRN'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT PRN_FILE,ASSIGN,TO,'ZCOBOL\DEMO\COPYFILE.PRN',ORGANIZATX
+               ION,IS,LINE,SEQUENTIAL
+*            SELECT OUT-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\UPROGRAM.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT OUT_FILE,ASSIGN,TO,'ZCOBOL\DEMO\UPROGRAM.CBL',ORGANIZATX
+               ION,IS,LINE,SEQUENTIAL
+*            SELECT TCBL-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\U2.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT TCBL_FILE,ASSIGN,TO,'ZCOBOL\DEMO\U2.CBL',ORGANIZATION,IX
+               S,LINE,SEQUENTIAL
+*            SELECT OUTLINE-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\UPROGRAM.LIN'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT OUTLINE_FILE,ASSIGN,TO,'ZCOBOL\DEMO\UPROGRAM.LIN',ORGANX
+               IZATION,IS,LINE,SEQUENTIAL
+* U7U7U7     SELECT U6-FILE
+*               ASSIGN TO 'ZCOBOL\DEMO\U6.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT U6_FILE,ASSIGN,TO,'ZCOBOL\DEMO\U6.CBL',ORGANIZATION,IS,X
+               LINE,SEQUENTIAL
+* U7U7U7     SELECT U6B-FILE
+*               ASSIGN TO 'ZCOBOL\DEMO\U6B.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT U6B_FILE,ASSIGN,TO,'ZCOBOL\DEMO\U6B.CBL',ORGANIZATION,IX
+               S,LINE,SEQUENTIAL
+*            SELECT MZ-ARRAY-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\MZARRAY.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT MZ_ARRAY_FILE,ASSIGN,TO,'ZCOBOL\DEMO\MZARRAY.CBL',ORGANX
+               IZATION,IS,LINE,SEQUENTIAL
+*        DATA DIVISION.
+         DATA  DIVISION
+*        FILE SECTION.
+         FILE  SECTION
+*        FD  IN-FILE
+*            DATA RECORD IS IN-RECORD.
+         FD    IN_FILE,DATA,RECORD,IS,IN_RECORD
+*        01  IN-RECORD.
+         WS      01,IN_RECORD
+*            03  FILLER               PIC X(06).
+         WS        03,FILLER,PIC,X(06)
+*            03  IN-7                 PIC X(01).
+         WS        03,IN_7,PIC,X(01)
+*            03  FILLER               PIC X(73).
+         WS        03,FILLER,PIC,X(73)
+* U5U5U5 FD  PRN-FILE
+*            DATA RECORD IS PRN-REC.
+         FD    PRN_FILE,DATA,RECORD,IS,PRN_REC
+*        01  PRN-REC                  PIC X(1024).
+         WS      01,PRN_REC,PIC,X(1024)
+*        FD  OUT-FILE
+*            DATA RECORD IS OUT-RECORD.
+         FD    OUT_FILE,DATA,RECORD,IS,OUT_RECORD
+*        01  OUT-RECORD               PIC X(80).
+         WS      01,OUT_RECORD,PIC,X(80)
+*        FD  TCBL-FILE
+*            DATA RECORD IS TCBL-RECORD.
+         FD    TCBL_FILE,DATA,RECORD,IS,TCBL_RECORD
+*        01  TCBL-RECORD.
+         WS      01,TCBL_RECORD
+*            03  TCBL-1-6             PIC X(06).
+         WS        03,TCBL_1_6,PIC,X(06)
+*            03  FILLER               PIC X(74).
+         WS        03,FILLER,PIC,X(74)
+*        FD  OUTLINE-FILE
+*            DATA RECORD IS OUTLINE-RECORD.
+         FD    OUTLINE_FILE,DATA,RECORD,IS,OUTLINE_RECORD
+*        01  OUTLINE-RECORD.
+         WS      01,OUTLINE_RECORD
+*            03  OUTLINE-LINE-NO      PIC 9(06).
+         WS        03,OUTLINE_LINE_NO,PIC,9(06)
+*            03  FILLER               PIC X(74).
+         WS        03,FILLER,PIC,X(74)
+* U7U7U7 FD  U6-FILE
+*            DATA RECORD IS U6-RECORD.
+         FD    U6_FILE,DATA,RECORD,IS,U6_RECORD
+*        01  U6-RECORD                PIC X(80).
+         WS      01,U6_RECORD,PIC,X(80)
+* U7U7U7 FD  U6B-FILE
+*            DATA RECORD IS U6B-RECORD.
+         FD    U6B_FILE,DATA,RECORD,IS,U6B_RECORD
+*        01  U6B-RECORD               PIC X(80).
+         WS      01,U6B_RECORD,PIC,X(80)
+*        FD  MZ-ARRAY-FILE
+*            DATA RECORD IS MZ-ARRAY-RECORD.
+         FD    MZ_ARRAY_FILE,DATA,RECORD,IS,MZ_ARRAY_RECORD
+*        01  MZ-ARRAY-RECORD          PIC X(80).
+         WS      01,MZ_ARRAY_RECORD,PIC,X(80)
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01  ITS-CLOSED               PIC X(01) VALUE 'N'.
+         WS      01,ITS_CLOSED,PIC,X(01),VALUE,'N'
+*        01  FURST-THYME              PIC X(01) VALUE 'Y'.
+         WS      01,FURST_THYME,PIC,X(01),VALUE,'Y'
+* 140312 01  MY-SUB                   PIC 9(02).
+         WS      01,MY_SUB,PIC,9(02)
+*        01  THINGY                   PIC X(01).
+         WS      01,THINGY,PIC,X(01)
+*        01  WS-LINE.
+         WS      01,WS_LINE
+*            03  WS-1-7.
+         WS        03,WS_1_7
+*                05  WS-1-6           PIC 9(06).
+         WS          05,WS_1_6,PIC,9(06)
+*                05  FILLER           PIC X(01).
+         WS          05,FILLER,PIC,X(01)
+*            03  WS-8-30.
+         WS        03,WS_8_30
+*                05  WS-8-26.
+         WS          05,WS_8_26
+*                    07  WS-8-22.
+         WS            07,WS_8_22
+*                        09  WS-8-18  PIC X(11).
+         WS              09,WS_8_18,PIC,X(11)
+*                        09  FILLER   PIC X(04).
+         WS              09,FILLER,PIC,X(04)
+*                    07  FILLER       PIC X(04).
+         WS            07,FILLER,PIC,X(04)
+*                05  FILLER           PIC X(04).
+         WS          05,FILLER,PIC,X(04)
+*            03  FILLER               PIC X(50).
+         WS        03,FILLER,PIC,X(50)
+*        01  FILLER REDEFINES WS-LINE.
+         WS      01,FILLER,REDEFINES,WS_LINE
+*            03  WSL-C OCCURS 80      PIC X(01).
+         WS        03,WSL_C,OCCURS,80,PIC,X(01)
+*        01  LUB                      PIC 9(02).
+         WS      01,LUB,PIC,9(02)
+*        01  LUB2                     PIC 9(02).
+         WS      01,LUB2,PIC,9(02)
+*        01  PROGRAM-ID-LINE.
+         WS      01,PROGRAM_ID_LINE
+*            03  PIL-C OCCURS 80      PIC X(01).
+         WS        03,PIL_C,OCCURS,80,PIC,X(01)
+*        01  PUB                      PIC 9(02).
+         WS      01,PUB,PIC,9(02)
+*        01  PUB2                     PIC 9(02).
+         WS      01,PUB2,PIC,9(02)
+*        01  THE-PROGRAM-ID           PIC X(08).
+         WS      01,THE_PROGRAM_ID,PIC,X(08)
+*        01  PARA-LINE.
+         WS      01,PARA_LINE
+*            03  PAL-C OCCURS 80      PIC X(01).
+         WS        03,PAL_C,OCCURS,80,PIC,X(01)
+*        01  THE-PARA                 PIC X(80).
+         WS      01,THE_PARA,PIC,X(80)
+*        01  VERB-LINE.
+         WS      01,VERB_LINE
+*            03  VEL-C OCCURS 80      PIC X(01).
+         WS        03,VEL_C,OCCURS,80,PIC,X(01)
+*        01  THE-VERB                 PIC X(80).
+         WS      01,THE_VERB,PIC,X(80)
+*        88  ITS-A-VERB               VALUES 'OPEN', 'CLOSE',          X
+                 -
+*             'DISPLAY', 'ACCEPT', 'CALL',                             X
+                 -
+*             'COMPUTE', 'ADD', 'MULTIPLY', 'DIVIDE',                  X
+                 -
+*             'SUBTRACT', 'MOVE', 'IF', 'PERFORM',                     X
+                 -
+*             'STOP', 'GO', 'READ', 'WRITE',                           X
+                 -
+*             'CONTINUE', 'EVALUATE', 'EXAMINE', 'EXEC', 'GOBACK',     X
+                 -
+*             'INSPECT', 'MERGE', 'RELEASE', 'REWRITE', 'SEARCH',      X
+                 -
+*             'SET', 'SORT', 'START' 'TRANSFORM'.
+         WS      88,ITS_A_VERB,VALUES,'OPEN','CLOSE',-,'DISPLAY','ACCEPX
+               T','CALL',-,'COMPUTE','ADD','MULTIPLY','DIVIDE',-,'SUBTRX
+               ACT','MOVE','IF','PERFORM',-,'STOP','GO','READ','WRITE',X
+               -,'CONTINUE','EVALUATE','EXAMINE','EXEC','GOBACK',-,'INSX
+               PECT','MERGE','RELEASE','REWRITE','SEARCH',-,'SET','SORTX
+               ','START','TRANSFORM'
+*        01  WS-ARRAY.
+         WS      01,WS_ARRAY
+*            03  WS-ENTRY OCCURS 999.
+         WS        03,WS_ENTRY,OCCURS,999
+*                05  WSE-C OCCURS 80  PIC X(01).
+         WS          05,WSE_C,OCCURS,80,PIC,X(01)
+*        01  WUB                      PIC 9(03) VALUE  0.
+         WS      01,WUB,PIC,9(03),VALUE,0
+*        01  WUB2                     PIC 9(03).
+         WS      01,WUB2,PIC,9(03)
+* 130312 01  WUB3                     PIC 9(03).
+         WS      01,WUB3,PIC,9(03)
+*        01  EUB                      PIC 9(02).
+         WS      01,EUB,PIC,9(02)
+*        01  EUB2                     PIC 9(02).
+         WS      01,EUB2,PIC,9(02)
+* 130312 01  EUB3                     PIC 9(02).
+         WS      01,EUB3,PIC,9(02)
+* 130312 01  EUB4                     PIC 9(02).
+         WS      01,EUB4,PIC,9(02)
+* 130312 01  EUB5                     PIC 9(02).
+         WS      01,EUB5,PIC,9(02)
+* 130312 01  EUB6                     PIC 9(02).
+         WS      01,EUB6,PIC,9(02)
+* 130312 01  EUB7                     PIC 9(02).
+         WS      01,EUB7,PIC,9(02)
+* 130312 01  PIC-FOUND                PIC X(01).
+         WS      01,PIC_FOUND,PIC,X(01)
+* 130312 01  EIGHTY-EIGHT-FOUND       PIC X(01).
+         WS      01,EIGHTY_EIGHT_FOUND,PIC,X(01)
+* 130312 01  OH1-77-FOUND             PIC X(01).
+         WS      01,OH1_77_FOUND,PIC,X(01)
+*        01  B4-VARIABLE              PIC X(39)
+*            VALUE 'TTTTTT 01  FILLER PIC X(02) VALUE ''!!''.'.
+         WS      01,B4_VARIABLE,PIC,X(39),VALUE,'TTTTTT 01  FILLER PIC X
+               X(02) VALUE ''!!''.'
+*        01  VARIABLE-LINE.
+         WS      01,VARIABLE_LINE
+*            03  FILLER               PIC X(35)
+*                VALUE 'TTTTTT 01  FILLER PIC X(30) VALUE '''.
+         WS        03,FILLER,PIC,X(35),VALUE,'TTTTTT 01  FILLER PIC X(3X
+               0) VALUE '''
+*            03  VARIABLE-NAME.
+         WS        03,VARIABLE_NAME
+*                05  VN-C OCCURS 30   PIC X(01).
+         WS          05,VN_C,OCCURS,30,PIC,X(01)
+*            03  FILLER               PIC X(02) VALUE '''.'.
+         WS        03,FILLER,PIC,X(02),VALUE,'''.'
+*        01  AFTA-VARIABLE            PIC X(39)
+*            VALUE 'TTTTTT 01  FILLER PIC X(02) VALUE ''~~''.'.
+         WS      01,AFTA_VARIABLE,PIC,X(39),VALUE,'TTTTTT 01  FILLER PIX
+               C X(02) VALUE ''~~''.'
+*        01  VUB                      PIC 9(02).
+         WS      01,VUB,PIC,9(02)
+*        01  VUB2                     PIC 9(02).
+         WS      01,VUB2,PIC,9(02)
+*        01  SKIPIT                   PIC X(01).
+         WS      01,SKIPIT,PIC,X(01)
+*        01  END-OF-FILE-FLAG         PIC X(01) VALUE 'F'.
+         WS      01,END_OF_FILE_FLAG,PIC,X(01),VALUE,'F'
+*        01  END-OF-TCBL-FLAG         PIC X(01) VALUE 'F'.
+         WS      01,END_OF_TCBL_FLAG,PIC,X(01),VALUE,'F'
+*        01  LINE-NO                  PIC 9(06) VALUE  0.
+         WS      01,LINE_NO,PIC,9(06),VALUE,0
+*        01  THE-LINE                 PIC 9(06) VALUE  0.
+         WS      01,THE_LINE,PIC,9(06),VALUE,0
+*        01  PROCEDURE-DIVISION-FOUND PIC X(01) VALUE 'N'.
+         WS      01,PROCEDURE_DIVISION_FOUND,PIC,X(01),VALUE,'N'
+*        01  WORKING-STORAGE-SECTION-FOUND
+*                                     PIC X(01) VALUE 'N'.
+         WS      01,WORKING_STORAGE_SECTION_FOUND,PIC,X(01),VALUE,'N'
+*        01  LINKAGE-SECTION-FOUND    PIC X(01) VALUE 'N'.
+         WS      01,LINKAGE_SECTION_FOUND,PIC,X(01),VALUE,'N'
+*        01  INPUT-OUTPUT-SECTION-FOUND
+*                                     PIC X(01) VALUE 'N'.
+         WS      01,INPUT_OUTPUT_SECTION_FOUND,PIC,X(01),VALUE,'N'
+*        01  FILE-CONTROL-FOUND       PIC X(01) VALUE 'N'.
+         WS      01,FILE_CONTROL_FOUND,PIC,X(01),VALUE,'N'
+*        01  FILE-SECTION-FOUND       PIC X(01) VALUE 'N'.
+         WS      01,FILE_SECTION_FOUND,PIC,X(01),VALUE,'N'
+*        01  IOS                      PIC X(80) VALUE
+*            '       INPUT-OUTPUT SECTION.'.
+         WS      01,IOS,PIC,X(80),VALUE,'       INPUT-OUTPUT SECTION.'
+*        01  FC                       PIC X(80) VALUE
+*            '       FILE-CONTROL.'.
+         WS      01,FC,PIC,X(80),VALUE,'       FILE-CONTROL.'
+*        01  FS                       PIC X(80) VALUE
+*            '       FILE SECTION.'.
+         WS      01,FS,PIC,X(80),VALUE,'       FILE SECTION.'
+*        01  VERB-MOVES.
+         WS      01,VERB_MOVES
+*            03  VM-1.
+         WS        03,VM_1
+*                05  FILLER           PIC X(17) VALUE
+*               'TTTTTT     MOVE '''.
+         WS          05,FILLER,PIC,X(17),VALUE,'TTTTTT     MOVE '''
+*                05  VM-1-PROG        PIC X(08).
+         WS          05,VM_1_PROG,PIC,X(08)
+*                05  FILLER           PIC X(11) VALUE
+*               ''' TO T-PROG'.
+         WS          05,FILLER,PIC,X(11),VALUE,''' TO T-PROG'
+*            03  VM-2.
+         WS        03,VM_2
+*                05  FILLER           PIC X(17) VALUE
+*               'TTTTTT     MOVE '''.
+         WS          05,FILLER,PIC,X(17),VALUE,'TTTTTT     MOVE '''
+*                05  VM-2-PARA        PIC X(30).
+         WS          05,VM_2_PARA,PIC,X(30)
+*                05  FILLER           PIC X(11) VALUE
+*               ''' TO T-PARA'.
+         WS          05,FILLER,PIC,X(11),VALUE,''' TO T-PARA'
+*            03  VM-3.
+         WS        03,VM_3
+*                05  FILLER           PIC X(17) VALUE
+*               'TTTTTT     MOVE '''.
+         WS          05,FILLER,PIC,X(17),VALUE,'TTTTTT     MOVE '''
+*                05  VM-3-LINE        PIC 9(06).
+         WS          05,VM_3_LINE,PIC,9(06)
+*                05  FILLER           PIC X(11) VALUE
+*               ''' TO T-LINE'.
+         WS          05,FILLER,PIC,X(11),VALUE,''' TO T-LINE'
+*            03  VM-4.
+         WS        03,VM_4
+*                05  FILLER           PIC X(21) VALUE
+*               'TTTTTT     PERFORM T'.
+* 
+         WS          05,FILLER,PIC,X(21),VALUE,'TTTTTT     PERFORM T'
+* U5U5U5 01  FU5ST-THYME              PIC X(01) VALUE 'Y'.
+         WS      01,FU5ST_THYME,PIC,X(01),VALUE,'Y'
+*        01  END-OF-PRN-FLAG          PIC X(01) VALUE 'F'.
+         WS      01,END_OF_PRN_FLAG,PIC,X(01),VALUE,'F'
+*        01  U5-WS-FOUND              PIC X(01) VALUE 'N'.
+         WS      01,U5_WS_FOUND,PIC,X(01),VALUE,'N'
+*        01  U5-LS-FOUND              PIC X(01) VALUE 'N'.
+         WS      01,U5_LS_FOUND,PIC,X(01),VALUE,'N'
+*        01  PRN-RECORD               PIC X(1024).
+         WS      01,PRN_RECORD,PIC,X(1024)
+*        01  MY-ARRAY.
+         WS      01,MY_ARRAY
+*            03  MY-ENTRY OCCURS 999.
+         WS        03,MY_ENTRY,OCCURS,999
+*                05  MY-LVL           PIC X(02).
+         WS          05,MY_LVL,PIC,X(02)
+*                05  MY-NAME          PIC X(30).
+         WS          05,MY_NAME,PIC,X(30)
+*                05  MY-ADDR          PIC X(08).
+         WS          05,MY_ADDR,PIC,X(08)
+*                05  MY-LEN           PIC X(08).
+         WS          05,MY_LEN,PIC,X(08)
+*                05  MY-DUP           PIC X(06).
+         WS          05,MY_DUP,PIC,X(06)
+*                05  MY-TYPE          PIC X(01).
+         WS          05,MY_TYPE,PIC,X(01)
+*                05  MY-PIC           PIC X(10).
+         WS          05,MY_PIC,PIC,X(10)
+*        01  MY-MAX                   PIC 9(03) VALUE 999.
+         WS      01,MY_MAX,PIC,9(03),VALUE,999
+*        01  MY-SU5                   PIC 9(03) VALUE 0.
+         WS      01,MY_SU5,PIC,9(03),VALUE,0
+*        01  MY-SUB2                  PIC 9(03).
+         WS      01,MY_SUB2,PIC,9(03)
+*        01  MY-SUB3                  PIC 9(03).
+         WS      01,MY_SUB3,PIC,9(03)
+*        01  ONECH                    PIC X(01).
+         WS      01,ONECH,PIC,X(01)
+*        01  SIXCH                    PIC X(06).
+         WS      01,SIXCH,PIC,X(06)
+*        01  FIVECH                   PIC X(05).
+         WS      01,FIVECH,PIC,X(05)
+*        01  EIGHTCH                  PIC X(08).
+         WS      01,EIGHTCH,PIC,X(08)
+*        01  MULTIP                   PIC 9(09).
+         WS      01,MULTIP,PIC,9(09)
+*        01  MZ-ARRAY.
+         WS      01,MZ_ARRAY
+*            03  MZ-ENTRY OCCURS 999.
+         WS        03,MZ_ENTRY,OCCURS,999
+*                05  MZ-LVL           PIC X(02).
+         WS          05,MZ_LVL,PIC,X(02)
+*                05  MZ-NAME          PIC X(30).
+         WS          05,MZ_NAME,PIC,X(30)
+*                05  MZ-ADDR          PIC 9(09).
+         WS          05,MZ_ADDR,PIC,9(09)
+*                05  MZ-LEN           PIC 9(09).
+         WS          05,MZ_LEN,PIC,9(09)
+*                05  MZ-DUP           PIC X(06).
+         WS          05,MZ_DUP,PIC,X(06)
+*                05  MZ-SUBS          PIC 9(01).
+         WS          05,MZ_SUBS,PIC,9(01)
+*                05  MZ-TYPE          PIC X(01).
+         WS          05,MZ_TYPE,PIC,X(01)
+*                05  MZ-PIC           PIC X(10).
+         WS          05,MZ_PIC,PIC,X(10)
+*                05  MZ-SUBS-IDS OCCURS 3.
+         WS          05,MZ_SUBS_IDS,OCCURS,3
+*                    07  MZ-SUBS-ID   PIC X(30).
+         WS            07,MZ_SUBS_ID,PIC,X(30)
+*        01  MZ-MAX                   PIC 9(03) VALUE 999.
+         WS      01,MZ_MAX,PIC,9(03),VALUE,999
+*        01  MZ-SUB                   PIC 9(03) VALUE 0.
+         WS      01,MZ_SUB,PIC,9(03),VALUE,0
+*        01  MZ-SUB2                  PIC 9(03).
+         WS      01,MZ_SUB2,PIC,9(03)
+*        01  MZ-SUB3                  PIC 9(03).
+         WS      01,MZ_SUB3,PIC,9(03)
+*        01  ADDR9                    PIC 9(09).
+         WS      01,ADDR9,PIC,9(09)
+*        01  LEN9                     PIC 9(09).
+         WS      01,LEN9,PIC,9(09)
+*        01  SUBS-COUNT               PIC 9(01).
+         WS      01,SUBS_COUNT,PIC,9(01)
+*        01  INTERMED                 PIC 9(09).
+         WS      01,INTERMED,PIC,9(09)
+*        01  TENCH                    PIC X(10).
+         WS      01,TENCH,PIC,X(10)
+*        01  THIRTYCH                 PIC X(30).
+         WS      01,THIRTYCH,PIC,X(30)
+*        01  SUBS-PROCESS-SECTION     PIC X(80)
+*                VALUE 'TTTTTT SUBS-PROCESS SECTION.'.
+         WS      01,SUBS_PROCESS_SECTION,PIC,X(80),VALUE,'TTTTTT SUBS-PX
+               ROCESS SECTION.'
+*        01  SUBS-IF-GLOB.
+         WS      01,SUBS_IF_GLOB
+*            03  FILLER               PIC X(27)
+*                VALUE 'TTTTTT     IF TEMP-NAME = '''.
+         WS        03,FILLER,PIC,X(27),VALUE,'TTTTTT     IF TEMP-NAME =X
+                '''
+*            03  SUBS-IF-GLOB-NAME    PIC X(30).
+         WS        03,SUBS_IF_GLOB_NAME,PIC,X(30)
+*            03  FILLER               PIC X(23)
+*                VALUE ''''.
+         WS        03,FILLER,PIC,X(23),VALUE,''''
+*        01  SUBS-MOVE-NAME.
+         WS      01,SUBS_MOVE_NAME
+*            03  FILLER               PIC X(20)
+*                VALUE 'TTTTTT         MOVE '.
+         WS        03,FILLER,PIC,X(20),VALUE,'TTTTTT         MOVE '
+*            03  SUBS-MOVE-NAME-NAME  PIC X(30).
+         WS        03,SUBS_MOVE_NAME_NAME,PIC,X(30)
+*            03  FILLER               PIC X(09)
+*                VALUE 'TO NINE06'.
+         WS        03,FILLER,PIC,X(09),VALUE,'TO NINE06'
+*        01  END-IF-STMT              PIC X(18)
+*                VALUE 'TTTTTT     END-IF.'.
+         WS      01,END_IF_STMT,PIC,X(18),VALUE,'TTTTTT     END-IF.'
+*        01  SUBS-PROCESS-EXIT        PIC X(80)
+*                VALUE 'TTTTTT SUBS-PROCESS-EXIT. EXIT.'.
+         WS      01,SUBS_PROCESS_EXIT,PIC,X(80),VALUE,'TTTTTT SUBS-PROCX
+               ESS-EXIT. EXIT.'
+*        01  NAME9-PROCESS-SECTION    PIC X(80)
+*                VALUE 'TTTTTT NAME9-PROCESS SECTION.'.
+         WS      01,NAME9_PROCESS_SECTION,PIC,X(80),VALUE,'TTTTTT NAME9X
+               -PROCESS SECTION.'
+*        01  NAME9-PROCESS-EXIT       PIC X(80)
+*                VALUE 'TTTTTT NAME9-PROCESS-EXIT. EXIT.'.
+         WS      01,NAME9_PROCESS_EXIT,PIC,X(80),VALUE,'TTTTTT NAME9-PRX
+               OCESS-EXIT. EXIT.'
+*        01  NAMEX-PROCESS-SECTION    PIC X(80)
+*                VALUE 'TTTTTT NAMEX-PROCESS SECTION.'.
+         WS      01,NAMEX_PROCESS_SECTION,PIC,X(80),VALUE,'TTTTTT NAMEXX
+               -PROCESS SECTION.'
+*        01  NAMEX-PROCESS-EXIT       PIC X(80)
+*                VALUE 'TTTTTT NAMEX-PROCESS-EXIT. EXIT.'.
+         WS      01,NAMEX_PROCESS_EXIT,PIC,X(80),VALUE,'TTTTTT NAMEX-PRX
+               OCESS-EXIT. EXIT.'
+* U7U7U7 01  WS-U6.
+         WS      01,WS_U6
+*            03  WS-U6-1              PIC X(01).
+         WS        03,WS_U6_1,PIC,X(01)
+*            03  FILLER               PIC X(79).
+         WS        03,FILLER,PIC,X(79)
+*        01  WS-U8.
+         WS      01,WS_U8
+*            03  WS-U8-1-FOR-6        PIC X(06).
+         WS        03,WS_U8_1_FOR_6,PIC,X(06)
+*            03  FILLER               PIC X(21).
+         WS        03,FILLER,PIC,X(21)
+*            03  WS-U8-28-FOR-30      PIC X(30).
+         WS        03,WS_U8_28_FOR_30,PIC,X(30)
+*            03  FILLER               PIC X(23).
+         WS        03,FILLER,PIC,X(23)
+*        01  U8-LINE.
+         WS      01,U8_LINE
+*            03  U8-1-FOR-6           PIC X(06).
+         WS        03,U8_1_FOR_6,PIC,X(06)
+*            03  FILLER               PIC X(12).
+         WS        03,FILLER,PIC,X(12)
+*            03  U8-VERB              PIC X(07).
+         WS        03,U8_VERB,PIC,X(07)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-NAME              PIC X(30).
+         WS        03,U8_NAME,PIC,X(30)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-OPEN              PIC X(01).
+         WS        03,U8_OPEN,PIC,X(01)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-SUB1              PIC X(30).
+         WS        03,U8_SUB1,PIC,X(30)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-COMMA1            PIC X(01).
+         WS        03,U8_COMMA1,PIC,X(01)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-SUB2              PIC X(30).
+         WS        03,U8_SUB2,PIC,X(30)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-COMMA2            PIC X(01).
+         WS        03,U8_COMMA2,PIC,X(01)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-SUB3              PIC X(30).
+         WS        03,U8_SUB3,PIC,X(30)
+*            03  FILLER               PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+*            03  U8-CLOSE             PIC X(01).
+         WS        03,U8_CLOSE,PIC,X(01)
+*        01  U8-LINE2                 PIC X(80).
+         WS      01,U8_LINE2,PIC,X(80)
+*        01  OSUB1                    PIC 9(03).
+         WS      01,OSUB1,PIC,9(03)
+*        01  OSUB2                    PIC 9(03).
+         WS      01,OSUB2,PIC,9(03)
+*        01  END-OF-U6-FLAG           PIC X(01).
+         WS      01,END_OF_U6_FLAG,PIC,X(01)
+*        01  U7-SUB                   PIC 9(03).
+         WS      01,U7_SUB,PIC,9(03)
+*        01  GLOB-NAME                PIC X(30).
+         WS      01,GLOB_NAME,PIC,X(30)
+*        01  GLOB-SUB1                PIC X(30).
+         WS      01,GLOB_SUB1,PIC,X(30)
+*        01  GLOB-SUB2                PIC X(30).
+         WS      01,GLOB_SUB2,PIC,X(30)
+*        01  GLOB-SUB3                PIC X(30).
+         WS      01,GLOB_SUB3,PIC,X(30)
+*        01  TEMP-SUB1                PIC 9(02).
+         WS      01,TEMP_SUB1,PIC,9(02)
+*        01  TEMP-SUB2                PIC 9(02).
+         WS      01,TEMP_SUB2,PIC,9(02)
+*        01  TEMP-SUB3                PIC 9(02).
+         WS      01,TEMP_SUB3,PIC,9(02)
+*        01  DISP-SUB1                PIC 9(02).
+         WS      01,DISP_SUB1,PIC,9(02)
+*        01  DISP-SUB2                PIC 9(02).
+         WS      01,DISP_SUB2,PIC,9(02)
+*        01  DISP-SUB3                PIC 9(02).
+         WS      01,DISP_SUB3,PIC,9(02)
+*        01  NINE06                   PIC 9(06).
+         WS      01,NINE06,PIC,9(06)
+*        01  GLOB-SUBS                PIC 9(01).
+         WS      01,GLOB_SUBS,PIC,9(01)
+*        01  TEMP                     PIC 9(02).
+* /
+         WS      01,TEMP,PIC,9(02)
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC     27         PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+*      *DISPLAY 'U STARTED'.
+         LABEL MAINLINE
+*            PERFORM INITIALIZATION-ROUTINE.
+*ZC    294         PERFORM INITIALIZATION_ROUTINE
+         PERFORM INITIALIZATION_ROUTINE
+         PERIOD 
+*            PERFORM THE-LOOP UNTIL END-OF-FILE-FLAG = 'Y'.
+*ZC    295         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERIOD 
+*            PERFORM WRITE-AND-READ-CBL
+*              UNTIL END-OF-TCBL-FLAG = 'Y'.
+*ZC    296         PERFORM WRITE_AND_READ_CBL,UNTIL,END_OF_TCBL_FLAG,=,X
+               'Y'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,END_OF_TCBL_FLAG,=,'Y'
+         PERIOD 
+*            PERFORM EOJ-ROUTINE.
+*ZC    298         PERFORM EOJ_ROUTINE
+         PERFORM EOJ_ROUTINE
+         PERIOD 
+*            PERFORM U5.
+*ZC    299         PERFORM U5
+         PERFORM U5
+         PERIOD 
+*            PERFORM U7.
+*ZC    300         PERFORM U7
+         PERFORM U7
+         PERIOD 
+*            OPEN OUTPUT MZ-ARRAY-FILE.
+*ZC    301         OPEN  OUTPUT,MZ_ARRAY_FILE
+         OPEN  OUTPUT,MZ_ARRAY_FILE
+         PERIOD 
+*            PERFORM VARYING MZ-SUB2
+*               FROM 1 BY 1
+*              UNTIL MZ-SUB2 > MZ-SUB
+*ZC    302         PERFORM VARYING,MZ_SUB2,FROM,1,BY,1,UNTIL,MZ_SUB2,>,X
+               MZ_SUB
+         PERFORM VARYING,MZ_SUB2,FROM,1,BY,1,UNTIL,MZ_SUB2,>,MZ_SUB
+*                IF  MZ-LVL  (MZ-SUB2) NOT = '00'
+*                AND MZ-TYPE (MZ-SUB2) NOT = 'A'
+*                AND MZ-LVL  (MZ-SUB2) NOT = '91'
+*ZC    305         IF    MZ_LVL,'(',MZ_SUB2,')',NOT,=,'00',AND,MZ_TYPE,X
+               '(',MZ_SUB2,')',NOT,=,'A',AND,MZ_LVL,'(',MZ_SUB2,')',NOTX
+               ,=,'91'
+         IF    MZ_LVL,'(',MZ_SUB2,')',NOT,=,'00',AND,MZ_TYPE,'(',MZ_SUBX
+               2,')',NOT,=,'A',AND,MZ_LVL,'(',MZ_SUB2,')',NOT,=,'91'
+*                    WRITE MZ-ARRAY-RECORD FROM MZ-ENTRY (MZ-SUB2)
+*                END-IF
+*ZC    308         WRITE MZ_ARRAY_RECORD,FROM,MZ_ENTRY,'(',MZ_SUB2,')'
+         WRITE MZ_ARRAY_RECORD,FROM,MZ_ENTRY,'(',MZ_SUB2,')'
+*            END-PERFORM.
+*ZC    310         END_IF 
+         END_IF 
+*ZC    310         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            CLOSE MZ-ARRAY-FILE.
+*      *DISPLAY 'U ENDED OK'
+*ZC    311         CLOSE MZ_ARRAY_FILE
+         CLOSE MZ_ARRAY_FILE
+         PERIOD 
+*            STOP RUN.
+*ZC    313         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INITIALIZATION-ROUTINE SECTION.
+         LABEL INITIALIZATION_ROUTINE,SECTION
+*            OPEN INPUT  IN-FILE.
+*ZC    315         OPEN  INPUT,IN_FILE
+         OPEN  INPUT,IN_FILE
+         PERIOD 
+*            OPEN OUTPUT OUT-FILE.
+*ZC    316         OPEN  OUTPUT,OUT_FILE
+         OPEN  OUTPUT,OUT_FILE
+         PERIOD 
+*            OPEN OUTPUT OUTLINE-FILE.
+*ZC    317         OPEN  OUTPUT,OUTLINE_FILE
+         OPEN  OUTPUT,OUTLINE_FILE
+         PERIOD 
+*            OPEN INPUT  TCBL-FILE.
+*ZC    318         OPEN  INPUT,TCBL_FILE
+         OPEN  INPUT,TCBL_FILE
+         PERIOD 
+*            PERFORM READ-INFILE.
+*ZC    319         PERFORM READ_INFILE
+         PERFORM READ_INFILE
+         PERIOD 
+*            PERFORM READ-TCBL.
+*ZC    320         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+         PERIOD 
+*            PERFORM READ-TCBL.
+*ZC    321         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+         PERIOD 
+         LABEL INITIALIZATION_EXIT
+*ZC    322         EXIT  
+         EXIT  
+*        INITIALIZATION-EXIT. EXIT.
+         PERIOD 
+*        THE-LOOP SECTION.
+         LABEL THE_LOOP,SECTION
+*            IF WS-8-18 = 'PROGRAM-ID.'
+*ZC    324         IF    WS_8_18,=,'PROGRAM-ID.'
+         IF    WS_8_18,=,'PROGRAM-ID.'
+*                PERFORM VARYING LUB
+*                   FROM 20  BY 1
+*                  UNTIL LUB > 72
+*                     OR WSL-C (LUB) NOT = SPACE
+*                END-PERFORM
+*ZC    325         PERFORM VARYING,LUB,FROM,20,BY,1,UNTIL,LUB,>,72,OR,WX
+               SL_C,'(',LUB,')',NOT,=,SPACE
+         PERFORM VARYING,LUB,FROM,20,BY,1,UNTIL,LUB,>,72,OR,WSL_C,'(',LX
+               UB,')',NOT,=,SPACE
+*                PERFORM VARYING LUB2
+*ZC    330         END_PERFORM 
+         END_PERFORM 
+*                   FROM LUB BY 1
+*                  UNTIL LUB2 > 72
+*                     OR WSL-C (LUB2) = '.'
+*                END-PERFORM
+*ZC    330         PERFORM VARYING,LUB2,FROM,LUB,BY,1,UNTIL,LUB2,>,72,OX
+               R,WSL_C,'(',LUB2,')',=,'.'
+         PERFORM VARYING,LUB2,FROM,LUB,BY,1,UNTIL,LUB2,>,72,OR,WSL_C,'(X
+               ',LUB2,')',=,'.'
+*                MOVE SPACES          TO PROGRAM-ID-LINE
+*ZC    335         END_PERFORM 
+         END_PERFORM 
+*ZC    335         MOVE  SPACES,TO,PROGRAM_ID_LINE
+         MOVE  SPACES,TO,PROGRAM_ID_LINE
+*                MOVE 0               TO PUB
+*ZC    336         MOVE  0,TO,PUB
+         MOVE  0,TO,PUB
+*                PERFORM MOVEIT VARYING LUB
+*                   FROM LUB BY 1
+*                  UNTIL LUB = LUB2
+*ZC    337         PERFORM MOVEIT,VARYING,LUB,FROM,LUB,BY,1,UNTIL,LUB,=X
+               ,LUB2
+         PERFORM MOVEIT,VARYING,LUB,FROM,LUB,BY,1,UNTIL,LUB,=,LUB2
+*                MOVE PROGRAM-ID-LINE TO THE-PROGRAM-ID
+*ZC    340         MOVE  PROGRAM_ID_LINE,TO,THE_PROGRAM_ID
+         MOVE  PROGRAM_ID_LINE,TO,THE_PROGRAM_ID
+*            END-IF.
+*ZC    341         END_IF 
+         END_IF 
+         PERIOD 
+*            MOVE 'N'                 TO SKIPIT.
+*ZC    342         MOVE  'N',TO,SKIPIT
+         MOVE  'N',TO,SKIPIT
+         PERIOD 
+*            IF WS-8-26 = 'INPUT-OUTPUT SECTIO'
+*ZC    343         IF    WS_8_26,=,'INPUT-OUTPUT SECTIO'
+         IF    WS_8_26,=,'INPUT-OUTPUT SECTIO'
+*                MOVE 'Y'             TO INPUT-OUTPUT-SECTION-FOUND
+*ZC    344         MOVE  'Y',TO,INPUT_OUTPUT_SECTION_FOUND
+         MOVE  'Y',TO,INPUT_OUTPUT_SECTION_FOUND
+*            END-IF.
+*ZC    345         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WS-8-26 = 'FILE CONTROL.      '
+*ZC    346         IF    WS_8_26,=,'FILE CONTROL.      '
+         IF    WS_8_26,=,'FILE CONTROL.      '
+*                MOVE 'Y'             TO FILE-CONTROL-FOUND
+*ZC    347         MOVE  'Y',TO,FILE_CONTROL_FOUND
+         MOVE  'Y',TO,FILE_CONTROL_FOUND
+*            END-IF.
+*ZC    348         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WS-8-26 = 'FILE SECTION.      '
+*ZC    349         IF    WS_8_26,=,'FILE SECTION.      '
+         IF    WS_8_26,=,'FILE SECTION.      '
+*                MOVE 'Y'             TO FILE-SECTION-FOUND
+*ZC    350         MOVE  'Y',TO,FILE_SECTION_FOUND
+         MOVE  'Y',TO,FILE_SECTION_FOUND
+*            END-IF.
+*ZC    351         END_IF 
+         END_IF 
+         PERIOD 
+*            IF  WS-8-26 = 'DATA DIVISION.     '
+*ZC    352         IF    WS_8_26,=,'DATA DIVISION.     '
+         IF    WS_8_26,=,'DATA DIVISION.     '
+*                IF INPUT-OUTPUT-SECTION-FOUND = 'N'
+*ZC    353         IF    INPUT_OUTPUT_SECTION_FOUND,=,'N'
+         IF    INPUT_OUTPUT_SECTION_FOUND,=,'N'
+*                    IF FILE-CONTROL-FOUND = 'N'
+*ZC    354         IF    FILE_CONTROL_FOUND,=,'N'
+         IF    FILE_CONTROL_FOUND,=,'N'
+*                        WRITE OUT-RECORD FROM IOS
+*ZC    355         WRITE OUT_RECORD,FROM,IOS
+         WRITE OUT_RECORD,FROM,IOS
+*                        WRITE OUT-RECORD FROM FC
+*ZC    356         WRITE OUT_RECORD,FROM,FC
+         WRITE OUT_RECORD,FROM,FC
+*                        PERFORM WRITE-AND-READ-CBL
+*                          UNTIL TCBL-1-6 = '------'
+*ZC    357         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                        PERFORM READ-TCBL
+*                    END-IF
+*ZC    359         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*                END-IF
+*ZC    361         END_IF 
+         END_IF 
+*            END-IF.
+*ZC    362         END_IF 
+         END_IF 
+*ZC    362         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WS-8-26 = 'FILE-CONTROL.      '
+*ZC    363         IF    WS_8_26,=,'FILE-CONTROL.      '
+         IF    WS_8_26,=,'FILE-CONTROL.      '
+*                PERFORM WRITE-AND-READ-CBL
+*                  UNTIL TCBL-1-6 = '------'
+*ZC    364         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                PERFORM READ-TCBL
+*ZC    366         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*                MOVE 'Y'              TO SKIPIT
+*ZC    367         MOVE  'Y',TO,SKIPIT
+         MOVE  'Y',TO,SKIPIT
+*            END-IF.
+*ZC    368         END_IF 
+         END_IF 
+         PERIOD 
+*            IF  WS-8-26 = 'WORKING-STORAGE SEC'
+*ZC    369         IF    WS_8_26,=,'WORKING-STORAGE SEC'
+         IF    WS_8_26,=,'WORKING-STORAGE SEC'
+*                IF FILE-SECTION-FOUND = 'N'
+*ZC    370         IF    FILE_SECTION_FOUND,=,'N'
+         IF    FILE_SECTION_FOUND,=,'N'
+*                    WRITE OUT-RECORD FROM FS
+*ZC    371         WRITE OUT_RECORD,FROM,FS
+         WRITE OUT_RECORD,FROM,FS
+*                    PERFORM WRITE-AND-READ-CBL
+*                        UNTIL TCBL-1-6 = '------'
+*ZC    372         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                    PERFORM READ-TCBL
+*                END-IF
+*ZC    374         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*            END-IF.
+*ZC    376         END_IF 
+         END_IF 
+*ZC    376         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WS-8-26 = 'FILE SECTION.      '
+*ZC    377         IF    WS_8_26,=,'FILE SECTION.      '
+         IF    WS_8_26,=,'FILE SECTION.      '
+*                PERFORM WRITE-AND-READ-CBL
+*                    UNTIL TCBL-1-6 = '------'
+*ZC    378         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                PERFORM READ-TCBL
+*ZC    380         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*                MOVE 'Y'              TO SKIPIT
+*ZC    381         MOVE  'Y',TO,SKIPIT
+         MOVE  'Y',TO,SKIPIT
+*            END-IF.
+*ZC    382         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WS-8-26 = 'PROCEDURE DIVISION.'
+*ZC    383         IF    WS_8_26,=,'PROCEDURE DIVISION.'
+         IF    WS_8_26,=,'PROCEDURE DIVISION.'
+*                MOVE 'Y'             TO PROCEDURE-DIVISION-FOUND
+*ZC    384         MOVE  'Y',TO,PROCEDURE_DIVISION_FOUND
+         MOVE  'Y',TO,PROCEDURE_DIVISION_FOUND
+*            END-IF.
+*ZC    385         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WS-8-22 = 'LINKAGE SECTION'
+*ZC    386         IF    WS_8_22,=,'LINKAGE SECTION'
+         IF    WS_8_22,=,'LINKAGE SECTION'
+*                MOVE 'Y'             TO LINKAGE-SECTION-FOUND
+*ZC    387         MOVE  'Y',TO,LINKAGE_SECTION_FOUND
+         MOVE  'Y',TO,LINKAGE_SECTION_FOUND
+*            END-IF.
+*ZC    388         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WORKING-STORAGE-SECTION-FOUND        = 'Y'
+*ZC    389         IF    WORKING_STORAGE_SECTION_FOUND,=,'Y'
+         IF    WORKING_STORAGE_SECTION_FOUND,=,'Y'
+*                IF LINKAGE-SECTION-FOUND            = 'N'
+*ZC    390         IF    LINKAGE_SECTION_FOUND,=,'N'
+         IF    LINKAGE_SECTION_FOUND,=,'N'
+*                   IF PROCEDURE-DIVISION-FOUND      = 'N'
+*      *DISPLAY 'U1 - WS/LS/PD=YNN'
+*ZC    391         IF    PROCEDURE_DIVISION_FOUND,=,'N'
+         IF    PROCEDURE_DIVISION_FOUND,=,'N'
+*                      WRITE OUT-RECORD FROM IN-RECORD
+*ZC    393         WRITE OUT_RECORD,FROM,IN_RECORD
+         WRITE OUT_RECORD,FROM,IN_RECORD
+*                      PERFORM READ-INFILE
+*ZC    394         PERFORM READ_INFILE
+         PERFORM READ_INFILE
+*                      GO THE-LOOP-EXIT
+*                   END-IF
+*ZC    395         GO    THE_LOOP_EXIT
+         GO    THE_LOOP_EXIT
+*                END-IF
+*ZC    397         END_IF 
+         END_IF 
+*            END-IF.
+*ZC    398         END_IF 
+         END_IF 
+*ZC    398         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WORKING-STORAGE-SECTION-FOUND        = 'Y'
+*ZC    399         IF    WORKING_STORAGE_SECTION_FOUND,=,'Y'
+         IF    WORKING_STORAGE_SECTION_FOUND,=,'Y'
+*               IF LINKAGE-SECTION-FOUND             = 'Y'
+*ZC    400         IF    LINKAGE_SECTION_FOUND,=,'Y'
+         IF    LINKAGE_SECTION_FOUND,=,'Y'
+*                  IF FU5ST-THYME                    = 'Y'
+*      *DISPLAY 'U1 - WS/LS/FT=YYY'
+*ZC    401         IF    FU5ST_THYME,=,'Y'
+         IF    FU5ST_THYME,=,'Y'
+*                      MOVE 'N'       TO FU5ST-THYME
+*ZC    403         MOVE  'N',TO,FU5ST_THYME
+         MOVE  'N',TO,FU5ST_THYME
+*                      PERFORM WRITE-AND-READ-CBL
+*                          UNTIL TCBL-1-6 = '------'
+*ZC    404         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                      PERFORM READ-TCBL
+*ZC    406         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*                      PERFORM WRITE-AND-READ-CBL
+*                          UNTIL TCBL-1-6 = '------'
+*ZC    407         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                      PERFORM READ-TCBL
+*ZC    409         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*                      GO THE-LOOP-EXIT
+*                  END-IF
+*ZC    410         GO    THE_LOOP_EXIT
+         GO    THE_LOOP_EXIT
+*               END-IF
+*ZC    412         END_IF 
+         END_IF 
+*            END-IF.
+*ZC    413         END_IF 
+         END_IF 
+*ZC    413         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WORKING-STORAGE-SECTION-FOUND        = 'Y'
+*ZC    414         IF    WORKING_STORAGE_SECTION_FOUND,=,'Y'
+         IF    WORKING_STORAGE_SECTION_FOUND,=,'Y'
+*               IF PROCEDURE-DIVISION-FOUND          = 'Y'
+*ZC    415         IF    PROCEDURE_DIVISION_FOUND,=,'Y'
+         IF    PROCEDURE_DIVISION_FOUND,=,'Y'
+*                  IF FU5ST-THYME                    = 'Y'
+*      *DISPLAY 'U1 - WS/PD/FT=YYY'
+*ZC    416         IF    FU5ST_THYME,=,'Y'
+         IF    FU5ST_THYME,=,'Y'
+*                      MOVE 'N'       TO FU5ST-THYME
+*ZC    418         MOVE  'N',TO,FU5ST_THYME
+         MOVE  'N',TO,FU5ST_THYME
+*                      PERFORM WRITE-AND-READ-CBL
+*                          UNTIL TCBL-1-6 = '------'
+*ZC    419         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                      PERFORM READ-TCBL
+*ZC    421         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*                      PERFORM WRITE-AND-READ-CBL
+*                          UNTIL TCBL-1-6 = '------'
+*ZC    422         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+         PERFORM WRITE_AND_READ_CBL,UNTIL,TCBL_1_6,=,'------'
+*                      PERFORM READ-TCBL
+*ZC    424         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*                      GO THE-LOOP-EXIT
+*                  END-IF
+*ZC    425         GO    THE_LOOP_EXIT
+         GO    THE_LOOP_EXIT
+*               END-IF
+*ZC    427         END_IF 
+         END_IF 
+*            END-IF.
+*ZC    428         END_IF 
+         END_IF 
+*ZC    428         END_IF 
+         END_IF 
+         PERIOD 
+*            IF WS-8-30 = 'WORKING-STORAGE SECTION'
+*ZC    429         IF    WS_8_30,=,'WORKING-STORAGE SECTION'
+         IF    WS_8_30,=,'WORKING-STORAGE SECTION'
+*                MOVE 'Y'             TO WORKING-STORAGE-SECTION-FOUND
+*ZC    430         MOVE  'Y',TO,WORKING_STORAGE_SECTION_FOUND
+         MOVE  'Y',TO,WORKING_STORAGE_SECTION_FOUND
+*            END-IF.
+*ZC    431         END_IF 
+         END_IF 
+         PERIOD 
+*            IF PROCEDURE-DIVISION-FOUND = 'Y'
+*ZC    432         IF    PROCEDURE_DIVISION_FOUND,=,'Y'
+         IF    PROCEDURE_DIVISION_FOUND,=,'Y'
+*               IF WSL-C (08) NOT = SPACE
+*ZC    433         IF    WSL_C,'(',08,')',NOT,=,SPACE
+         IF    WSL_C,'(',08,')',NOT,=,SPACE
+*                   PERFORM VARYING LUB
+*                      FROM 8 BY 1
+*                     UNTIL LUB > 72
+*                        OR (WSL-C (LUB) = SPACE OR '.')
+*                   END-PERFORM
+*ZC    434         PERFORM VARYING,LUB,FROM,8,BY,1,UNTIL,LUB,>,72,OR,'(X
+               ',WSL_C,'(',LUB,')',=,SPACE,OR,'.',')'
+         PERFORM VARYING,LUB,FROM,8,BY,1,UNTIL,LUB,>,72,OR,'(',WSL_C,'(X
+               ',LUB,')',=,SPACE,OR,'.',')'
+*                   MOVE SPACES          TO PARA-LINE
+*ZC    439         END_PERFORM 
+         END_PERFORM 
+*ZC    439         MOVE  SPACES,TO,PARA_LINE
+         MOVE  SPACES,TO,PARA_LINE
+*                   MOVE 0               TO PUB
+*ZC    440         MOVE  0,TO,PUB
+         MOVE  0,TO,PUB
+*                   PERFORM MOVEIT3 VARYING LUB2
+*                      FROM 8 BY 1
+*                     UNTIL LUB2 = LUB
+*ZC    441         PERFORM MOVEIT3,VARYING,LUB2,FROM,8,BY,1,UNTIL,LUB2,X
+               =,LUB
+         PERFORM MOVEIT3,VARYING,LUB2,FROM,8,BY,1,UNTIL,LUB2,=,LUB
+*                   MOVE PARA-LINE       TO THE-PARA
+*               ELSE
+*ZC    444         MOVE  PARA_LINE,TO,THE_PARA
+         MOVE  PARA_LINE,TO,THE_PARA
+*                   PERFORM VARYING LUB
+*ZC    446         ELSE  
+         ELSE  
+*                      FROM 11  BY 1
+*                     UNTIL LUB > 72
+*                        OR WSL-C (LUB) NOT = SPACE
+*                   END-PERFORM
+*ZC    446         PERFORM VARYING,LUB,FROM,11,BY,1,UNTIL,LUB,>,72,OR,WX
+               SL_C,'(',LUB,')',NOT,=,SPACE
+         PERFORM VARYING,LUB,FROM,11,BY,1,UNTIL,LUB,>,72,OR,WSL_C,'(',LX
+               UB,')',NOT,=,SPACE
+*                   PERFORM VARYING LUB2
+*ZC    451         END_PERFORM 
+         END_PERFORM 
+*                      FROM LUB BY 1
+*                     UNTIL LUB2 > 72
+*                        OR WSL-C (LUB2) = SPACE
+*                   END-PERFORM
+*ZC    451         PERFORM VARYING,LUB2,FROM,LUB,BY,1,UNTIL,LUB2,>,72,OX
+               R,WSL_C,'(',LUB2,')',=,SPACE
+         PERFORM VARYING,LUB2,FROM,LUB,BY,1,UNTIL,LUB2,>,72,OR,WSL_C,'(X
+               ',LUB2,')',=,SPACE
+*                   MOVE SPACES          TO VERB-LINE
+*ZC    456         END_PERFORM 
+         END_PERFORM 
+*ZC    456         MOVE  SPACES,TO,VERB_LINE
+         MOVE  SPACES,TO,VERB_LINE
+*                   MOVE 0               TO PUB
+*ZC    457         MOVE  0,TO,PUB
+         MOVE  0,TO,PUB
+*                   PERFORM MOVEIT4 VARYING LUB
+*                      FROM LUB BY 1
+*                     UNTIL LUB = LUB2
+*ZC    458         PERFORM MOVEIT4,VARYING,LUB,FROM,LUB,BY,1,UNTIL,LUB,X
+               =,LUB2
+         PERFORM MOVEIT4,VARYING,LUB,FROM,LUB,BY,1,UNTIL,LUB,=,LUB2
+*                   MOVE VERB-LINE       TO THE-VERB
+*ZC    461         MOVE  VERB_LINE,TO,THE_VERB
+         MOVE  VERB_LINE,TO,THE_VERB
+*                   IF ITS-A-VERB
+*      *DISPLAY 'U1 - VERB FOUND'
+*ZC    462         IF    ITS_A_VERB
+         IF    ITS_A_VERB
+*                       ADD  1           TO THE-LINE
+*ZC    464         ADD   1,TO,THE_LINE
+         ADD   1,TO,THE_LINE
+*                       MOVE THE-PROGRAM-ID TO VM-1-PROG
+*ZC    465         MOVE  THE_PROGRAM_ID,TO,VM_1_PROG
+         MOVE  THE_PROGRAM_ID,TO,VM_1_PROG
+*                       MOVE THE-PARA    TO VM-2-PARA
+*ZC    466         MOVE  THE_PARA,TO,VM_2_PARA
+         MOVE  THE_PARA,TO,VM_2_PARA
+*                       MOVE THE-LINE    TO VM-3-LINE
+*ZC    467         MOVE  THE_LINE,TO,VM_3_LINE
+         MOVE  THE_LINE,TO,VM_3_LINE
+*                       WRITE OUT-RECORD FROM VM-1
+*ZC    468         WRITE OUT_RECORD,FROM,VM_1
+         WRITE OUT_RECORD,FROM,VM_1
+*                       WRITE OUT-RECORD FROM VM-2
+*ZC    469         WRITE OUT_RECORD,FROM,VM_2
+         WRITE OUT_RECORD,FROM,VM_2
+*                       WRITE OUT-RECORD FROM VM-3
+*ZC    470         WRITE OUT_RECORD,FROM,VM_3
+         WRITE OUT_RECORD,FROM,VM_3
+*                       WRITE OUT-RECORD FROM VM-4
+*ZC    471         WRITE OUT_RECORD,FROM,VM_4
+         WRITE OUT_RECORD,FROM,VM_4
+*                       MOVE THE-LINE    TO WS-1-6
+*                   END-IF
+*ZC    472         MOVE  THE_LINE,TO,WS_1_6
+         MOVE  THE_LINE,TO,WS_1_6
+*                END-IF
+*ZC    474         END_IF 
+         END_IF 
+*            END-IF.
+*ZC    475         END_IF 
+         END_IF 
+*ZC    475         END_IF 
+         END_IF 
+         PERIOD 
+*            IF SKIPIT = 'N'
+*      *DISPLAY 'U1 - SKIP=N'
+*ZC    476         IF    SKIPIT,=,'N'
+         IF    SKIPIT,=,'N'
+*                WRITE OUT-RECORD       FROM WS-LINE
+*ZC    478         WRITE OUT_RECORD,FROM,WS_LINE
+         WRITE OUT_RECORD,FROM,WS_LINE
+*                IF WS-1-6 NOT = 'TTTTTT'
+*ZC    479         IF    WS_1_6,NOT,=,'TTTTTT'
+         IF    WS_1_6,NOT,=,'TTTTTT'
+*                    IF PROCEDURE-DIVISION-FOUND = 'Y'
+*ZC    480         IF    PROCEDURE_DIVISION_FOUND,=,'Y'
+         IF    PROCEDURE_DIVISION_FOUND,=,'Y'
+*                        WRITE OUTLINE-RECORD FROM WS-LINE
+*                    END-IF
+*ZC    481         WRITE OUTLINE_RECORD,FROM,WS_LINE
+         WRITE OUTLINE_RECORD,FROM,WS_LINE
+*                END-IF
+*ZC    483         END_IF 
+         END_IF 
+*            END-IF.
+*ZC    484         END_IF 
+         END_IF 
+*ZC    484         END_IF 
+         END_IF 
+         PERIOD 
+*            PERFORM READ-INFILE.
+*ZC    485         PERFORM READ_INFILE
+         PERFORM READ_INFILE
+         PERIOD 
+         LABEL THE_LOOP_EXIT
+*ZC    486         EXIT  
+         EXIT  
+*        THE-LOOP-EXIT. EXIT.
+         PERIOD 
+*        EOJ-ROUTINE SECTION.
+         LABEL EOJ_ROUTINE,SECTION
+*            CLOSE IN-FILE.
+*ZC    488         CLOSE IN_FILE
+         CLOSE IN_FILE
+         PERIOD 
+*            CLOSE OUTLINE-FILE.
+*ZC    489         CLOSE OUTLINE_FILE
+         CLOSE OUTLINE_FILE
+         PERIOD 
+*            CLOSE TCBL-FILE.
+*ZC    490         CLOSE TCBL_FILE
+         CLOSE TCBL_FILE
+         PERIOD 
+         LABEL EOJ_EXIT
+*ZC    491         EXIT  
+         EXIT  
+*        EOJ-EXIT. EXIT.
+         PERIOD 
+*        MOVEIT SECTION.
+         LABEL MOVEIT,SECTION
+*            ADD 1                    TO PUB.
+*ZC    493         ADD   1,TO,PUB
+         ADD   1,TO,PUB
+         PERIOD 
+*            MOVE WSL-C (LUB)         TO PIL-C (PUB).
+*ZC    494         MOVE  WSL_C,'(',LUB,')',TO,PIL_C,'(',PUB,')'
+         MOVE  WSL_C,'(',LUB,')',TO,PIL_C,'(',PUB,')'
+         PERIOD 
+         LABEL MOVEIT_EXIT
+*ZC    495         EXIT  
+         EXIT  
+*        MOVEIT-EXIT. EXIT.
+         PERIOD 
+*        MOVEIT3 SECTION.
+         LABEL MOVEIT3,SECTION
+*            ADD 1                    TO PUB.
+*ZC    497         ADD   1,TO,PUB
+         ADD   1,TO,PUB
+         PERIOD 
+*            MOVE WSL-C (LUB2)        TO PAL-C (PUB).
+*ZC    498         MOVE  WSL_C,'(',LUB2,')',TO,PAL_C,'(',PUB,')'
+         MOVE  WSL_C,'(',LUB2,')',TO,PAL_C,'(',PUB,')'
+         PERIOD 
+         LABEL MOVEIT3_EXIT
+*ZC    499         EXIT  
+         EXIT  
+*        MOVEIT3-EXIT. EXIT.
+         PERIOD 
+*        MOVEIT4 SECTION.
+         LABEL MOVEIT4,SECTION
+*            ADD 1                    TO PUB.
+*ZC    501         ADD   1,TO,PUB
+         ADD   1,TO,PUB
+         PERIOD 
+*            MOVE WSL-C (LUB)         TO VEL-C (PUB).
+*ZC    502         MOVE  WSL_C,'(',LUB,')',TO,VEL_C,'(',PUB,')'
+         MOVE  WSL_C,'(',LUB,')',TO,VEL_C,'(',PUB,')'
+         PERIOD 
+         LABEL MOVEIT4_EXIT
+*ZC    503         EXIT  
+         EXIT  
+*        MOVEIT4-EXIT. EXIT.
+         PERIOD 
+*        MOVEITB SECTION.
+         LABEL MOVEITB,SECTION
+*            ADD 1                    TO VUB.
+*ZC    505         ADD   1,TO,VUB
+         ADD   1,TO,VUB
+         PERIOD 
+*            MOVE WSE-C (WUB2, EUB)   TO VN-C (VUB).
+*ZC    506         MOVE  WSE_C,'(',WUB2,EUB,')',TO,VN_C,'(',VUB,')'
+         MOVE  WSE_C,'(',WUB2,EUB,')',TO,VN_C,'(',VUB,')'
+         PERIOD 
+*            ADD 1                    TO EUB.
+*ZC    507         ADD   1,TO,EUB
+         ADD   1,TO,EUB
+         PERIOD 
+         LABEL MOVEITB_EXIT
+*ZC    508         EXIT  
+         EXIT  
+*        MOVEITB-EXIT. EXIT.
+         PERIOD 
+*        READ-INFILE SECTION.
+         LABEL READ_INFILE,SECTION
+*            READ IN-FILE           INTO WS-LINE
+*                 AT END
+*ZC    510         READ  IN_FILE,INTO,WS_LINE,AT,END
+         READ  IN_FILE,INTO,WS_LINE,AT,END
+*                    MOVE 'Y'         TO END-OF-FILE-FLAG.
+*ZC    512         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            IF END-OF-FILE-FLAG NOT = 'Y'
+*ZC    513         IF    END_OF_FILE_FLAG,NOT,=,'Y'
+         IF    END_OF_FILE_FLAG,NOT,=,'Y'
+*                IF IN-7 = '*'
+*ZC    514         IF    IN_7,=,'*'
+         IF    IN_7,=,'*'
+*                    GO TO READ-INFILE
+*                ELSE
+*ZC    515         GO    TO,READ_INFILE
+         GO    TO,READ_INFILE
+*                    PERFORM VARYING MY-SUB FROM 1 BY 1
+*ZC    517         ELSE  
+         ELSE  
+*                      UNTIL MY-SUB > 80
+*ZC    517         PERFORM VARYING,MY_SUB,FROM,1,BY,1,UNTIL,MY_SUB,>,80
+         PERFORM VARYING,MY_SUB,FROM,1,BY,1,UNTIL,MY_SUB,>,80
+*                       IF WS-LINE (MY-SUB :1) = 'a'
+*ZC    519         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'a'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'a'
+*                          MOVE 'A' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    520         MOVE  'A',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'A',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'b'
+*ZC    522         END_IF 
+         END_IF 
+*ZC    522         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'b'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'b'
+*                          MOVE 'B' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    523         MOVE  'B',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'B',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'c'
+*ZC    525         END_IF 
+         END_IF 
+*ZC    525         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'c'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'c'
+*                          MOVE 'C' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    526         MOVE  'C',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'C',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'd'
+*ZC    528         END_IF 
+         END_IF 
+*ZC    528         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'d'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'d'
+*                          MOVE 'D' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    529         MOVE  'D',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'D',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'e'
+*ZC    531         END_IF 
+         END_IF 
+*ZC    531         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'e'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'e'
+*                          MOVE 'E' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    532         MOVE  'E',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'E',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'f'
+*ZC    534         END_IF 
+         END_IF 
+*ZC    534         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'f'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'f'
+*                          MOVE 'F' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    535         MOVE  'F',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'F',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'g'
+*ZC    537         END_IF 
+         END_IF 
+*ZC    537         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'g'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'g'
+*                          MOVE 'G' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    538         MOVE  'G',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'G',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'h'
+*ZC    540         END_IF 
+         END_IF 
+*ZC    540         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'h'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'h'
+*                          MOVE 'H' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    541         MOVE  'H',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'H',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'i'
+*ZC    543         END_IF 
+         END_IF 
+*ZC    543         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'i'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'i'
+*                          MOVE 'I' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    544         MOVE  'I',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'I',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'j'
+*ZC    546         END_IF 
+         END_IF 
+*ZC    546         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'j'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'j'
+*                          MOVE 'J' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    547         MOVE  'J',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'J',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'k'
+*ZC    549         END_IF 
+         END_IF 
+*ZC    549         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'k'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'k'
+*                          MOVE 'K' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    550         MOVE  'K',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'K',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'l'
+*ZC    552         END_IF 
+         END_IF 
+*ZC    552         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'l'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'l'
+*                          MOVE 'L' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    553         MOVE  'L',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'L',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'm'
+*ZC    555         END_IF 
+         END_IF 
+*ZC    555         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'m'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'m'
+*                          MOVE 'M' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    556         MOVE  'M',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'M',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'n'
+*ZC    558         END_IF 
+         END_IF 
+*ZC    558         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'n'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'n'
+*                          MOVE 'N' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    559         MOVE  'N',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'N',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'o'
+*ZC    561         END_IF 
+         END_IF 
+*ZC    561         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'o'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'o'
+*                          MOVE 'O' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    562         MOVE  'O',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'O',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'p'
+*ZC    564         END_IF 
+         END_IF 
+*ZC    564         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'p'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'p'
+*                          MOVE 'P' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    565         MOVE  'P',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'P',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'q'
+*ZC    567         END_IF 
+         END_IF 
+*ZC    567         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'q'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'q'
+*                          MOVE 'Q' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    568         MOVE  'Q',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'Q',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'r'
+*ZC    570         END_IF 
+         END_IF 
+*ZC    570         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'r'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'r'
+*                          MOVE 'R' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    571         MOVE  'R',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'R',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 's'
+*ZC    573         END_IF 
+         END_IF 
+*ZC    573         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'s'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'s'
+*                          MOVE 'S' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    574         MOVE  'S',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'S',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 't'
+*ZC    576         END_IF 
+         END_IF 
+*ZC    576         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'t'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'t'
+*                          MOVE 'T' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    577         MOVE  'T',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'T',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'u'
+*ZC    579         END_IF 
+         END_IF 
+*ZC    579         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'u'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'u'
+*                          MOVE 'U' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    580         MOVE  'U',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'U',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'v'
+*ZC    582         END_IF 
+         END_IF 
+*ZC    582         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'v'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'v'
+*                          MOVE 'V' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    583         MOVE  'V',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'V',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'w'
+*ZC    585         END_IF 
+         END_IF 
+*ZC    585         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'w'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'w'
+*                          MOVE 'W' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    586         MOVE  'W',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'W',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'x'
+*ZC    588         END_IF 
+         END_IF 
+*ZC    588         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'x'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'x'
+*                          MOVE 'X' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    589         MOVE  'X',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'X',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'y'
+*ZC    591         END_IF 
+         END_IF 
+*ZC    591         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'y'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'y'
+*                          MOVE 'Y' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    592         MOVE  'Y',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'Y',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                       IF WS-LINE (MY-SUB :1) = 'z'
+*ZC    594         END_IF 
+         END_IF 
+*ZC    594         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'z'
+         IF    WS_LINE,'(',MY_SUB,:,1,')',=,'z'
+*                          MOVE 'Z' TO WS-LINE (MY-SUB :1)
+*                       END-IF
+*ZC    595         MOVE  'Z',TO,WS_LINE,'(',MY_SUB,:,1,')'
+         MOVE  'Z',TO,WS_LINE,'(',MY_SUB,:,1,')'
+*                    END-PERFORM
+*ZC    597         END_IF 
+         END_IF 
+*                END-IF
+*ZC    598         END_PERFORM 
+         END_PERFORM 
+*            END-IF.
+*ZC    599         END_IF 
+         END_IF 
+*ZC    599         END_IF 
+         END_IF 
+         PERIOD 
+         LABEL READ_INFILE_EXIT
+*ZC    600         EXIT  
+         EXIT  
+*        READ-INFILE-EXIT. EXIT.
+* 
+         PERIOD 
+*        READ-TCBL SECTION.
+         LABEL READ_TCBL,SECTION
+*            READ TCBL-FILE
+*                AT END
+*ZC    603         READ  TCBL_FILE,AT,END
+         READ  TCBL_FILE,AT,END
+*                    MOVE 'Y'         TO END-OF-TCBL-FLAG.
+*ZC    605         MOVE  'Y',TO,END_OF_TCBL_FLAG
+         MOVE  'Y',TO,END_OF_TCBL_FLAG
+         PERIOD 
+         LABEL READ_TCBL_EXIT
+*ZC    606         EXIT  
+         EXIT  
+*        READ-TCBL-EXIT. EXIT.
+         PERIOD 
+*        WRITE-AND-READ-CBL SECTION.
+         LABEL WRITE_AND_READ_CBL,SECTION
+*            IF END-OF-TCBL-FLAG NOT = 'Y'
+*ZC    608         IF    END_OF_TCBL_FLAG,NOT,=,'Y'
+         IF    END_OF_TCBL_FLAG,NOT,=,'Y'
+*                WRITE OUT-RECORD   FROM TCBL-RECORD
+*ZC    609         WRITE OUT_RECORD,FROM,TCBL_RECORD
+         WRITE OUT_RECORD,FROM,TCBL_RECORD
+*                PERFORM READ-TCBL
+*ZC    610         PERFORM READ_TCBL
+         PERFORM READ_TCBL
+*            END-IF.
+*ZC    611         END_IF 
+         END_IF 
+         PERIOD 
+         LABEL WRITE_AND_READ_CBL_EXIT
+*ZC    612         EXIT  
+         EXIT  
+*        WRITE-AND-READ-CBL-EXIT. EXIT.
+* 
+* 
+* 
+         PERIOD 
+* U5U5U5 U5 SECTION.
+         LABEL U5,SECTION
+*            PERFORM INITIALIZATION-U5-ROUTINE.
+*ZC    617         PERFORM INITIALIZATION_U5_ROUTINE
+         PERFORM INITIALIZATION_U5_ROUTINE
+         PERIOD 
+*            PERFORM U5-LOOP UNTIL END-OF-PRN-FLAG = 'Y'.
+*ZC    618         PERFORM U5_LOOP,UNTIL,END_OF_PRN_FLAG,=,'Y'
+         PERFORM U5_LOOP,UNTIL,END_OF_PRN_FLAG,=,'Y'
+         PERIOD 
+*            MOVE 0 TO MZ-SUB.
+*ZC    619         MOVE  0,TO,MZ_SUB
+         MOVE  0,TO,MZ_SUB
+         PERIOD 
+*            PERFORM PROCESS-MY-ARRAY
+*                VARYING MY-SUB2
+*                   FROM 1 BY 1
+*                  UNTIL MY-SUB2 > MY-SU5.
+*ZC    620         PERFORM PROCESS_MY_ARRAY,VARYING,MY_SUB2,FROM,1,BY,1X
+               ,UNTIL,MY_SUB2,>,MY_SU5
+         PERFORM PROCESS_MY_ARRAY,VARYING,MY_SUB2,FROM,1,BY,1,UNTIL,MY_X
+               SUB2,>,MY_SU5
+         PERIOD 
+*            PERFORM GENERATE-SUBS-PROCESS
+*                VARYING MZ-SUB2
+*                   FROM 1 BY 1
+*                  UNTIL MZ-SUB2 > MZ-SUB.
+*ZC    624         PERFORM GENERATE_SUBS_PROCESS,VARYING,MZ_SUB2,FROM,1X
+               ,BY,1,UNTIL,MZ_SUB2,>,MZ_SUB
+         PERFORM GENERATE_SUBS_PROCESS,VARYING,MZ_SUB2,FROM,1,BY,1,UNTIX
+               L,MZ_SUB2,>,MZ_SUB
+         PERIOD 
+*            PERFORM EOJ-U5-ROUTINE.
+*ZC    628         PERFORM EOJ_U5_ROUTINE
+         PERFORM EOJ_U5_ROUTINE
+         PERIOD 
+         LABEL U5_EXIT
+*ZC    629         EXIT  
+         EXIT  
+*        U5-EXIT. EXIT.
+         PERIOD 
+*        INITIALIZATION-U5-ROUTINE SECTION.
+         LABEL INITIALIZATION_U5_ROUTINE,SECTION
+*            OPEN INPUT  PRN-FILE.
+*ZC    631         OPEN  INPUT,PRN_FILE
+         OPEN  INPUT,PRN_FILE
+         PERIOD 
+*            PERFORM READ-PRNFILE.
+*ZC    632         PERFORM READ_PRNFILE
+         PERFORM READ_PRNFILE
+         PERIOD 
+         LABEL INITIALIZATION_U5_EXIT
+*ZC    633         EXIT  
+         EXIT  
+*        INITIALIZATION-U5-EXIT. EXIT.
+         PERIOD 
+*        U5-LOOP SECTION.
+* 
+         LABEL U5_LOOP,SECTION
+*            IF PRN-RECORD (59 : 41 )
+*            = 'ZCOBOL WORKING STORAGE SECTION DATA ITEMS'
+*ZC    636         IF    PRN_RECORD,'(',59,:,41,')',=,'ZCOBOL WORKING SX
+               TORAGE SECTION DATA ITEMS'
+         IF    PRN_RECORD,'(',59,:,41,')',=,'ZCOBOL WORKING STORAGE SECX
+               TION DATA ITEMS'
+*                MOVE 'Y' TO U5-WS-FOUND
+*ZC    638         MOVE  'Y',TO,U5_WS_FOUND
+         MOVE  'Y',TO,U5_WS_FOUND
+*            END-IF.
+*ZC    639         END_IF 
+         END_IF 
+         PERIOD 
+*            IF U5-WS-FOUND = 'Y'
+*ZC    640         IF    U5_WS_FOUND,=,'Y'
+         IF    U5_WS_FOUND,=,'Y'
+*                IF PRN-RECORD (59 : 10) = '01  FILLER'
+*ZC    641         IF    PRN_RECORD,'(',59,:,10,')',=,'01  FILLER'
+         IF    PRN_RECORD,'(',59,:,10,')',=,'01  FILLER'
+*                    PERFORM READ-PRNFILE
+*                    PERFORM
+*ZC    642         PERFORM READ_PRNFILE
+         PERFORM READ_PRNFILE
+*                     UNTIL PRN-RECORD (59 : 7)   = '01  D1 '
+*                        OR PRN-RECORD (59 : 15 ) = '01  DEBUG_ITEM '
+*                        OR PRN-RECORD (59 : 15 ) = '01  ZC_WS_ID1  '
+*                        OR END-OF-PRN-FLAG      = 'Y'
+*ZC    644         PERFORM UNTIL,PRN_RECORD,'(',59,:,7,')',=,'01  D1 ',X
+               OR,PRN_RECORD,'(',59,:,15,')',=,'01  DEBUG_ITEM ',OR,PRNX
+               _RECORD,'(',59,:,15,')',=,'01  ZC_WS_ID1  ',OR,END_OF_PRX
+               N_FLAG,=,'Y'
+         PERFORM UNTIL,PRN_RECORD,'(',59,:,7,')',=,'01  D1 ',OR,PRN_RECX
+               ORD,'(',59,:,15,')',=,'01  DEBUG_ITEM ',OR,PRN_RECORD,'(X
+               ',59,:,15,')',=,'01  ZC_WS_ID1  ',OR,END_OF_PRN_FLAG,=,'X
+               Y'
+*                        PERFORM STORE-MY-STUFF
+*ZC    648         PERFORM STORE_MY_STUFF
+         PERFORM STORE_MY_STUFF
+*                        PERFORM READ-PRNFILE
+*                    END-PERFORM
+*ZC    649         PERFORM READ_PRNFILE
+         PERFORM READ_PRNFILE
+*                    IF END-OF-PRN-FLAG = 'Y'
+*ZC    651         END_PERFORM 
+         END_PERFORM 
+*ZC    651         IF    END_OF_PRN_FLAG,=,'Y'
+         IF    END_OF_PRN_FLAG,=,'Y'
+*                        DISPLAY 'U5(1) - PRN FILE ENDS PREMATURELY'
+*ZC    652         DISPLAY 'U5(1) - PRN FILE ENDS PREMATURELY'
+         DISPLAY 'U5(1) - PRN FILE ENDS PREMATURELY'
+*                        STOP RUN
+*                    END-IF
+*ZC    653         STOP  RUN
+         STOP  RUN
+*                    PERFORM
+*ZC    655         END_IF 
+         END_IF 
+*                     UNTIL PRN-RECORD (59 : 16 )   = '01  RETURN_CODE X
+               '
+*                        OR END-OF-PRN-FLAG        = 'Y'
+*ZC    656         PERFORM UNTIL,PRN_RECORD,'(',59,:,16,')',=,'01  RETUX
+               RN_CODE ',OR,END_OF_PRN_FLAG,=,'Y'
+         PERFORM UNTIL,PRN_RECORD,'(',59,:,16,')',=,'01  RETURN_CODE ',X
+               OR,END_OF_PRN_FLAG,=,'Y'
+*                        PERFORM READ-PRNFILE
+*                    END-PERFORM
+*ZC    658         PERFORM READ_PRNFILE
+         PERFORM READ_PRNFILE
+*                    IF END-OF-PRN-FLAG = 'Y'
+*ZC    660         END_PERFORM 
+         END_PERFORM 
+*ZC    660         IF    END_OF_PRN_FLAG,=,'Y'
+         IF    END_OF_PRN_FLAG,=,'Y'
+*                        DISPLAY 'U5(2) - PRN FILE ENDS PREMATURELY'
+*ZC    661         DISPLAY 'U5(2) - PRN FILE ENDS PREMATURELY'
+         DISPLAY 'U5(2) - PRN FILE ENDS PREMATURELY'
+*                        STOP RUN
+*                    END-IF
+*ZC    662         STOP  RUN
+         STOP  RUN
+*                    PERFORM READ-PRNFILE
+*ZC    664         END_IF 
+         END_IF 
+*                    PERFORM
+*ZC    664         PERFORM READ_PRNFILE
+         PERFORM READ_PRNFILE
+*                     UNTIL PRN-RECORD (59 : 03 )   NOT = '01 '
+*                        OR END-OF-PRN-FLAG            = 'Y'
+*ZC    666         PERFORM UNTIL,PRN_RECORD,'(',59,:,03,')',NOT,=,'01 'X
+               ,OR,END_OF_PRN_FLAG,=,'Y'
+         PERFORM UNTIL,PRN_RECORD,'(',59,:,03,')',NOT,=,'01 ',OR,END_OFX
+               _PRN_FLAG,=,'Y'
+*                        PERFORM STORE-MY-STUFF
+*ZC    668         PERFORM STORE_MY_STUFF
+         PERFORM STORE_MY_STUFF
+*                        PERFORM READ-PRNFILE
+*                    END-PERFORM
+*ZC    669         PERFORM READ_PRNFILE
+         PERFORM READ_PRNFILE
+*                    IF END-OF-PRN-FLAG = 'Y'
+*ZC    671         END_PERFORM 
+         END_PERFORM 
+*ZC    671         IF    END_OF_PRN_FLAG,=,'Y'
+         IF    END_OF_PRN_FLAG,=,'Y'
+*                        DISPLAY 'U5(3) - PRN FILE ENDS PREMATURELY'
+*ZC    672         DISPLAY 'U5(3) - PRN FILE ENDS PREMATURELY'
+         DISPLAY 'U5(3) - PRN FILE ENDS PREMATURELY'
+*                        STOP RUN
+*                    END-IF
+*ZC    673         STOP  RUN
+         STOP  RUN
+*                END-IF
+*ZC    675         END_IF 
+         END_IF 
+*            END-IF.
+*ZC    676         END_IF 
+         END_IF 
+*ZC    676         END_IF 
+         END_IF 
+         PERIOD 
+*            IF PRN-RECORD (59 : 33)
+*            = 'ZCOBOL LINKAGE SECTION DATA ITEMS'
+*ZC    677         IF    PRN_RECORD,'(',59,:,33,')',=,'ZCOBOL LINKAGE SX
+               ECTION DATA ITEMS'
+         IF    PRN_RECORD,'(',59,:,33,')',=,'ZCOBOL LINKAGE SECTION DATX
+               A ITEMS'
+*                MOVE 'Y' TO U5-LS-FOUND
+*ZC    679         MOVE  'Y',TO,U5_LS_FOUND
+         MOVE  'Y',TO,U5_LS_FOUND
+*            END-IF.
+*ZC    680         END_IF 
+         END_IF 
+********           IF U5-LS-FOUND = 'Y'
+********               IF PRN-RECORD (59 : 03) = '01 '
+*      *DISPLAY 'U5 - 01  FOUND'
+********                   PERFORM
+********                    UNTIL PRN-RECORD (59 : 6)   = '01  ZC'
+********                       OR END-OF-PRN-FLAG      = 'Y'
+********                       PERFORM STORE-MY-STUFF
+********                       PERFORM READ-PRNFILE
+********                   END-PERFORM
+********                   IF END-OF-PRN-FLAG = 'Y'
+********                       DISPLAY 'U5 - PRN FILE ENDS PREMATURELY'
+********                       STOP RUN
+********                   END-IF
+********                   IF PRN-RECORD (59:6) = '01  ZC'
+********                       DISPLAY 'U5-LOOP - FINISHED OK'
+********                       MOVE 'Y' TO END-OF-PRN-FLAG
+********                       GO TO U5-LOOP-EXIT
+********                   END-IF
+********               END-IF
+********           END-IF.
+         PERIOD 
+*            PERFORM READ-PRNFILE.
+*ZC    701         PERFORM READ_PRNFILE
+         PERFORM READ_PRNFILE
+         PERIOD 
+         LABEL U5_LOOP_EXIT
+*ZC    702         EXIT  
+         EXIT  
+*        U5-LOOP-EXIT. EXIT.
+         PERIOD 
+*        EOJ-U5-ROUTINE SECTION.
+         LABEL EOJ_U5_ROUTINE,SECTION
+*            CLOSE PRN-FILE.
+*ZC    704         CLOSE PRN_FILE
+         CLOSE PRN_FILE
+         PERIOD 
+         LABEL EOJ_U5_EXIT
+*ZC    705         EXIT  
+         EXIT  
+*        EOJ-U5-EXIT. EXIT.
+         PERIOD 
+*        READ-PRNFILE SECTION.
+         LABEL READ_PRNFILE,SECTION
+*            READ PRN-FILE           INTO PRN-RECORD
+*                 AT END
+*ZC    707         READ  PRN_FILE,INTO,PRN_RECORD,AT,END
+         READ  PRN_FILE,INTO,PRN_RECORD,AT,END
+*                    MOVE 'Y'          TO END-OF-PRN-FLAG.
+*ZC    709         MOVE  'Y',TO,END_OF_PRN_FLAG
+         MOVE  'Y',TO,END_OF_PRN_FLAG
+         PERIOD 
+         LABEL READ_PRNFILE_EXIT
+*ZC    710         EXIT  
+         EXIT  
+*        READ-PRNFILE-EXIT. EXIT.
+         PERIOD 
+*        STORE-MY-STUFF SECTION.
+         LABEL STORE_MY_STUFF,SECTION
+*            IF PRN-RECORD (63:01) = ' '
+*            OR PRN-RECORD (63:01) = '6'
+*            OR PRN-RECORD (63:02) = 'ZC'
+*            0R PRN-RECORD (63:06) = 'FILLER'
+*            OR PRN-RECORD (59:02) = '91'
+*ZC    712         IF    PRN_RECORD,'(',63,:,01,')',=,' ',OR,PRN_RECORDX
+               ,'(',63,:,01,')',=,'6',OR,PRN_RECORD,'(',63,:,02,')',=,'X
+               ZC',#0R,PRN_RECORD,'(',63,:,06,')',=,'FILLER',OR,PRN_RECX
+               ORD,'(',59,:,02,')',=,'91'
+         IF    PRN_RECORD,'(',63,:,01,')',=,' ',OR,PRN_RECORD,'(',63,:,X
+               01,')',=,'6',OR,PRN_RECORD,'(',63,:,02,')',=,'ZC',#0R,PRX
+               N_RECORD,'(',63,:,06,')',=,'FILLER',OR,PRN_RECORD,'(',59X
+               ,:,02,')',=,'91'
+*                GO TO STORE-MY-STUFF-EXIT
+*ZC    717         GO    TO,STORE_MY_STUFF_EXIT
+         GO    TO,STORE_MY_STUFF_EXIT
+*            END-IF.
+*ZC    718         END_IF 
+         END_IF 
+         PERIOD 
+*            ADD 1                      TO MY-SU5.
+*ZC    719         ADD   1,TO,MY_SU5
+         ADD   1,TO,MY_SU5
+         PERIOD 
+*            IF MY-SU5 > MY-MAX
+*ZC    720         IF    MY_SU5,>,MY_MAX
+         IF    MY_SU5,>,MY_MAX
+*                DISPLAY 'U5 - MY-ARRAY FULL - BOMBING'
+*ZC    721         DISPLAY 'U5 - MY-ARRAY FULL - BOMBING'
+         DISPLAY 'U5 - MY-ARRAY FULL - BOMBING'
+*                STOP RUN
+*ZC    722         STOP  RUN
+         STOP  RUN
+*            END-IF.
+*ZC    723         END_IF 
+         END_IF 
+         PERIOD 
+*            MOVE SPACES                TO MY-DUP  (MY-SU5).
+*ZC    724         MOVE  SPACES,TO,MY_DUP,'(',MY_SU5,')'
+         MOVE  SPACES,TO,MY_DUP,'(',MY_SU5,')'
+         PERIOD 
+*            MOVE PRN-RECORD (59  : 02) TO MY-LVL  (MY-SU5).
+*ZC    725         MOVE  PRN_RECORD,'(',59,:,02,')',TO,MY_LVL,'(',MY_SUX
+               5,')'
+         MOVE  PRN_RECORD,'(',59,:,02,')',TO,MY_LVL,'(',MY_SU5,')'
+         PERIOD 
+*            MOVE PRN-RECORD (63  : 30) TO MY-NAME (MY-SU5).
+*ZC    726         MOVE  PRN_RECORD,'(',63,:,30,')',TO,MY_NAME,'(',MY_SX
+               U5,')'
+         MOVE  PRN_RECORD,'(',63,:,30,')',TO,MY_NAME,'(',MY_SU5,')'
+         PERIOD 
+*            MOVE PRN-RECORD (94  : 08) TO MY-ADDR (MY-SU5).
+*ZC    727         MOVE  PRN_RECORD,'(',94,:,08,')',TO,MY_ADDR,'(',MY_SX
+               U5,')'
+         MOVE  PRN_RECORD,'(',94,:,08,')',TO,MY_ADDR,'(',MY_SU5,')'
+         PERIOD 
+*            MOVE PRN-RECORD (103 : 08) TO MY-LEN  (MY-SU5).
+*ZC    728         MOVE  PRN_RECORD,'(',103,:,08,')',TO,MY_LEN,'(',MY_SX
+               U5,')'
+         MOVE  PRN_RECORD,'(',103,:,08,')',TO,MY_LEN,'(',MY_SU5,')'
+         PERIOD 
+*            MOVE 0                     TO MY-SUB3.
+*ZC    729         MOVE  0,TO,MY_SUB3
+         MOVE  0,TO,MY_SUB3
+         PERIOD 
+*            MOVE SPACES                TO SIXCH.
+*ZC    730         MOVE  SPACES,TO,SIXCH
+         MOVE  SPACES,TO,SIXCH
+         PERIOD 
+*            PERFORM VARYING MY-SUB2 FROM 112
+*                 BY 1 UNTIL PRN-RECORD (MY-SUB2 : 1) = SPACE
+*ZC    731         PERFORM VARYING,MY_SUB2,FROM,112,BY,1,UNTIL,PRN_RECOX
+               RD,'(',MY_SUB2,:,1,')',=,SPACE
+         PERFORM VARYING,MY_SUB2,FROM,112,BY,1,UNTIL,PRN_RECORD,'(',MY_X
+               SUB2,:,1,')',=,SPACE
+*                  ADD 1             TO MY-SUB3
+*ZC    733         ADD   1,TO,MY_SUB3
+         ADD   1,TO,MY_SUB3
+*                  MOVE PRN-RECORD (MY-SUB2 : 1) TO SIXCH (MY-SUB3 : 1)
+*ZC    734         MOVE  PRN_RECORD,'(',MY_SUB2,:,1,')',TO,SIXCH,'(',MYX
+               _SUB3,:,1,')'
+         MOVE  PRN_RECORD,'(',MY_SUB2,:,1,')',TO,SIXCH,'(',MY_SUB3,:,1,X
+               ')'
+*            END-PERFORM.
+*ZC    735         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            PERFORM UNTIL SIXCH (6 : 1) NOT = SPACE
+*ZC    736         PERFORM UNTIL,SIXCH,'(',6,:,1,')',NOT,=,SPACE
+         PERFORM UNTIL,SIXCH,'(',6,:,1,')',NOT,=,SPACE
+*                  MOVE SIXCH (1 : 5) TO FIVECH
+*ZC    737         MOVE  SIXCH,'(',1,:,5,')',TO,FIVECH
+         MOVE  SIXCH,'(',1,:,5,')',TO,FIVECH
+*                  MOVE FIVECH TO SIXCH (2 : 5)
+*ZC    738         MOVE  FIVECH,TO,SIXCH,'(',2,:,5,')'
+         MOVE  FIVECH,TO,SIXCH,'(',2,:,5,')'
+*                  MOVE '0'    TO SIXCH (1 : 1)
+*ZC    739         MOVE  '0',TO,SIXCH,'(',1,:,1,')'
+         MOVE  '0',TO,SIXCH,'(',1,:,1,')'
+*            END-PERFORM.
+*ZC    740         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            MOVE SIXCH                 TO MY-DUP  (MY-SU5).
+*ZC    741         MOVE  SIXCH,TO,MY_DUP,'(',MY_SU5,')'
+         MOVE  SIXCH,TO,MY_DUP,'(',MY_SU5,')'
+         PERIOD 
+*            ADD  3                     TO MY-SUB2.
+*ZC    742         ADD   3,TO,MY_SUB2
+         ADD   3,TO,MY_SUB2
+         PERIOD 
+*            MOVE PRN-RECORD (MY-SUB2 : 1)
+*                                       TO MY-TYPE (MY-SU5).
+*ZC    743         MOVE  PRN_RECORD,'(',MY_SUB2,:,1,')',TO,MY_TYPE,'(',X
+               MY_SU5,')'
+         MOVE  PRN_RECORD,'(',MY_SUB2,:,1,')',TO,MY_TYPE,'(',MY_SU5,')'
+         PERIOD 
+*            ADD  3                     TO MY-SUB2.
+*ZC    745         ADD   3,TO,MY_SUB2
+         ADD   3,TO,MY_SUB2
+         PERIOD 
+*            MOVE PRN-RECORD (MY-SUB2 : 10)
+*                                       TO MY-PIC  (MY-SU5).
+********-----------------------------------------------------
+*ZC    746         MOVE  PRN_RECORD,'(',MY_SUB2,:,10,')',TO,MY_PIC,'(',X
+               MY_SU5,')'
+         MOVE  PRN_RECORD,'(',MY_SUB2,:,10,')',TO,MY_PIC,'(',MY_SU5,')'
+         PERIOD 
+*            DISPLAY                  '|'
+*                    MY-LVL  (MY-SU5) '|'
+*                    MY-NAME (MY-SU5) '|'
+*                    MY-ADDR (MY-SU5) '|'
+*                    MY-LEN  (MY-SU5) '|'
+*                    MY-DUP  (MY-SU5) '|'
+*                    MY-TYPE (MY-SU5) '|'
+*                    MY-PIC  (MY-SU5) '|'.
+*ZC    749         DISPLAY '|',MY_LVL,'(',MY_SU5,')','|',MY_NAME,'(',MYX
+               _SU5,')','|',MY_ADDR,'(',MY_SU5,')','|',MY_LEN,'(',MY_SUX
+               5,')','|',MY_DUP,'(',MY_SU5,')','|',MY_TYPE,'(',MY_SU5,'X
+               )','|',MY_PIC,'(',MY_SU5,')','|'
+         DISPLAY '|',MY_LVL,'(',MY_SU5,')','|',MY_NAME,'(',MY_SU5,')','X
+               |',MY_ADDR,'(',MY_SU5,')','|',MY_LEN,'(',MY_SU5,')','|',X
+               MY_DUP,'(',MY_SU5,')','|',MY_TYPE,'(',MY_SU5,')','|',MY_X
+               PIC,'(',MY_SU5,')','|'
+         PERIOD 
+         LABEL STORE_MY_STUFF_EXIT
+*ZC    757         EXIT  
+         EXIT  
+*        STORE-MY-STUFF-EXIT. EXIT.
+         PERIOD 
+*        PROCESS-MY-ARRAY SECTION.
+         LABEL PROCESS_MY_ARRAY,SECTION
+*            ADD  1                         TO MZ-SUB.
+*ZC    759         ADD   1,TO,MZ_SUB
+         ADD   1,TO,MZ_SUB
+         PERIOD 
+*            IF MZ-SUB > MZ-MAX
+*ZC    760         IF    MZ_SUB,>,MZ_MAX
+         IF    MZ_SUB,>,MZ_MAX
+*                DISPLAY 'U5 - MZ-ARRAY FULL - BOMBING'
+*ZC    761         DISPLAY 'U5 - MZ-ARRAY FULL - BOMBING'
+         DISPLAY 'U5 - MZ-ARRAY FULL - BOMBING'
+*                STOP RUN
+*ZC    762         STOP  RUN
+         STOP  RUN
+*            END-IF.
+*ZC    763         END_IF 
+         END_IF 
+         PERIOD 
+*            IF MY-LVL (MY-SUB2) = '01'
+*ZC    764         IF    MY_LVL,'(',MY_SUB2,')',=,'01'
+         IF    MY_LVL,'(',MY_SUB2,')',=,'01'
+*                MOVE '00'                  TO MZ-LVL  (MZ-SUB)
+*ZC    765         MOVE  '00',TO,MZ_LVL,'(',MZ_SUB,')'
+         MOVE  '00',TO,MZ_LVL,'(',MZ_SUB,')'
+*                ADD 1                      TO MZ-SUB
+*ZC    766         ADD   1,TO,MZ_SUB
+         ADD   1,TO,MZ_SUB
+*                IF MY-SUB > MY-MAX
+*ZC    767         IF    MY_SUB,>,MY_MAX
+         IF    MY_SUB,>,MY_MAX
+*                    DISPLAY 'U5 - MY-ARRAY FULL - BOMBING'
+*ZC    768         DISPLAY 'U5 - MY-ARRAY FULL - BOMBING'
+         DISPLAY 'U5 - MY-ARRAY FULL - BOMBING'
+*                    STOP RUN
+*                END-IF
+*ZC    769         STOP  RUN
+         STOP  RUN
+*            END-IF.
+*ZC    771         END_IF 
+         END_IF 
+*ZC    771         END_IF 
+         END_IF 
+         PERIOD 
+*            MOVE MY-LVL  (MY-SUB2)         TO MZ-LVL  (MZ-SUB).
+*ZC    772         MOVE  MY_LVL,'(',MY_SUB2,')',TO,MZ_LVL,'(',MZ_SUB,')X
+               '
+         MOVE  MY_LVL,'(',MY_SUB2,')',TO,MZ_LVL,'(',MZ_SUB,')'
+         PERIOD 
+*            MOVE MY-NAME (MY-SUB2)         TO THIRTYCH.
+*ZC    773         MOVE  MY_NAME,'(',MY_SUB2,')',TO,THIRTYCH
+         MOVE  MY_NAME,'(',MY_SUB2,')',TO,THIRTYCH
+         PERIOD 
+*            PERFORM VARYING MZ-SUB3 FROM 1 BY 1
+*              UNTIL MZ-SUB3 > 30
+*ZC    774         PERFORM VARYING,MZ_SUB3,FROM,1,BY,1,UNTIL,MZ_SUB3,>,X
+               30
+         PERFORM VARYING,MZ_SUB3,FROM,1,BY,1,UNTIL,MZ_SUB3,>,30
+*               IF THIRTYCH (MZ-SUB3 : 1) = '_'
+*ZC    776         IF    THIRTYCH,'(',MZ_SUB3,:,1,')',=,'_'
+         IF    THIRTYCH,'(',MZ_SUB3,:,1,')',=,'_'
+*                   MOVE '-' TO THIRTYCH (MZ-SUB3 : 1)
+*               END-IF
+*ZC    777         MOVE  '-',TO,THIRTYCH,'(',MZ_SUB3,:,1,')'
+         MOVE  '-',TO,THIRTYCH,'(',MZ_SUB3,:,1,')'
+*            END-PERFORM.
+*ZC    779         END_IF 
+         END_IF 
+*ZC    779         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            MOVE THIRTYCH                  TO MZ-NAME (MZ-SUB).
+*ZC    780         MOVE  THIRTYCH,TO,MZ_NAME,'(',MZ_SUB,')'
+         MOVE  THIRTYCH,TO,MZ_NAME,'(',MZ_SUB,')'
+         PERIOD 
+*            MOVE MY-TYPE (MY-SUB2)         TO MZ-TYPE (MZ-SUB).
+*ZC    781         MOVE  MY_TYPE,'(',MY_SUB2,')',TO,MZ_TYPE,'(',MZ_SUB,X
+               ')'
+         MOVE  MY_TYPE,'(',MY_SUB2,')',TO,MZ_TYPE,'(',MZ_SUB,')'
+         PERIOD 
+*            MOVE MY-PIC  (MY-SUB2)         TO MZ-PIC  (MZ-SUB).
+*ZC    782         MOVE  MY_PIC,'(',MY_SUB2,')',TO,MZ_PIC,'(',MZ_SUB,')X
+               '
+         MOVE  MY_PIC,'(',MY_SUB2,')',TO,MZ_PIC,'(',MZ_SUB,')'
+         PERIOD 
+*            MOVE MY-DUP  (MY-SUB2)         TO MZ-DUP  (MZ-SUB).
+*ZC    783         MOVE  MY_DUP,'(',MY_SUB2,')',TO,MZ_DUP,'(',MZ_SUB,')X
+               '
+         MOVE  MY_DUP,'(',MY_SUB2,')',TO,MZ_DUP,'(',MZ_SUB,')'
+         PERIOD 
+*            MOVE 0                         TO ADDR9
+*                                              LEN9.
+*ZC    784         MOVE  0,TO,ADDR9,LEN9
+         MOVE  0,TO,ADDR9,LEN9
+         PERIOD 
+*            MOVE MY-ADDR (MY-SUB2)         TO EIGHTCH.
+*ZC    786         MOVE  MY_ADDR,'(',MY_SUB2,')',TO,EIGHTCH
+         MOVE  MY_ADDR,'(',MY_SUB2,')',TO,EIGHTCH
+         PERIOD 
+*            MOVE 1                         TO MULTIP.
+*ZC    787         MOVE  1,TO,MULTIP
+         MOVE  1,TO,MULTIP
+         PERIOD 
+*            PERFORM VARYING MZ-SUB2 FROM 8 BY -1
+*              UNTIL MZ-SUB2 = 3
+*ZC    788         PERFORM VARYING,MZ_SUB2,FROM,8,BY,-,1,UNTIL,MZ_SUB2,X
+               =,3
+         PERFORM VARYING,MZ_SUB2,FROM,8,BY,-,1,UNTIL,MZ_SUB2,=,3
+*               MOVE EIGHTCH (MZ-SUB2 : 1)
+*                 TO ONECH
+*ZC    790         MOVE  EIGHTCH,'(',MZ_SUB2,:,1,')',TO,ONECH
+         MOVE  EIGHTCH,'(',MZ_SUB2,:,1,')',TO,ONECH
+*               MOVE ZEROES TO INTERMED
+*ZC    792         MOVE  ZEROES,TO,INTERMED
+         MOVE  ZEROES,TO,INTERMED
+*               IF ONECH = '0'
+*                   CONTINUE
+*ZC    793         IF    ONECH,=,'0'
+         IF    ONECH,=,'0'
+*               END-IF
+*ZC    795         CONTINUE 
+         CONTINUE 
+*               IF ONECH = '1'
+*ZC    796         END_IF 
+         END_IF 
+*ZC    796         IF    ONECH,=,'1'
+         IF    ONECH,=,'1'
+*                   COMPUTE INTERMED = 1  * MULTIP
+*               END-IF
+*ZC    797         COMPUTE INTERMED,=,1,*,MULTIP
+         COMPUTE INTERMED,=,1,*,MULTIP
+*               IF ONECH = '2'
+*ZC    799         END_IF 
+         END_IF 
+*ZC    799         IF    ONECH,=,'2'
+         IF    ONECH,=,'2'
+*                   COMPUTE INTERMED = 2  * MULTIP
+*               END-IF
+*ZC    800         COMPUTE INTERMED,=,2,*,MULTIP
+         COMPUTE INTERMED,=,2,*,MULTIP
+*               IF ONECH = '3'
+*ZC    802         END_IF 
+         END_IF 
+*ZC    802         IF    ONECH,=,'3'
+         IF    ONECH,=,'3'
+*                   COMPUTE INTERMED = 3  * MULTIP
+*               END-IF
+*ZC    803         COMPUTE INTERMED,=,3,*,MULTIP
+         COMPUTE INTERMED,=,3,*,MULTIP
+*               IF ONECH = '4'
+*ZC    805         END_IF 
+         END_IF 
+*ZC    805         IF    ONECH,=,'4'
+         IF    ONECH,=,'4'
+*                   COMPUTE INTERMED = 4  * MULTIP
+*               END-IF
+*ZC    806         COMPUTE INTERMED,=,4,*,MULTIP
+         COMPUTE INTERMED,=,4,*,MULTIP
+*               IF ONECH = '5'
+*ZC    808         END_IF 
+         END_IF 
+*ZC    808         IF    ONECH,=,'5'
+         IF    ONECH,=,'5'
+*                   COMPUTE INTERMED = 5  * MULTIP
+*               END-IF
+*ZC    809         COMPUTE INTERMED,=,5,*,MULTIP
+         COMPUTE INTERMED,=,5,*,MULTIP
+*               IF ONECH = '6'
+*ZC    811         END_IF 
+         END_IF 
+*ZC    811         IF    ONECH,=,'6'
+         IF    ONECH,=,'6'
+*                   COMPUTE INTERMED = 6  * MULTIP
+*               END-IF
+*ZC    812         COMPUTE INTERMED,=,6,*,MULTIP
+         COMPUTE INTERMED,=,6,*,MULTIP
+*               IF ONECH = '7'
+*ZC    814         END_IF 
+         END_IF 
+*ZC    814         IF    ONECH,=,'7'
+         IF    ONECH,=,'7'
+*                   COMPUTE INTERMED = 7  * MULTIP
+*               END-IF
+*ZC    815         COMPUTE INTERMED,=,7,*,MULTIP
+         COMPUTE INTERMED,=,7,*,MULTIP
+*               IF ONECH = '8'
+*ZC    817         END_IF 
+         END_IF 
+*ZC    817         IF    ONECH,=,'8'
+         IF    ONECH,=,'8'
+*                   COMPUTE INTERMED = 8  * MULTIP
+*               END-IF
+*ZC    818         COMPUTE INTERMED,=,8,*,MULTIP
+         COMPUTE INTERMED,=,8,*,MULTIP
+*               IF ONECH = '9'
+*ZC    820         END_IF 
+         END_IF 
+*ZC    820         IF    ONECH,=,'9'
+         IF    ONECH,=,'9'
+*                   COMPUTE INTERMED = 9  * MULTIP
+*               END-IF
+*ZC    821         COMPUTE INTERMED,=,9,*,MULTIP
+         COMPUTE INTERMED,=,9,*,MULTIP
+*               IF ONECH = 'A'
+*ZC    823         END_IF 
+         END_IF 
+*ZC    823         IF    ONECH,=,'A'
+         IF    ONECH,=,'A'
+*                   COMPUTE INTERMED = 10 * MULTIP
+*               END-IF
+*ZC    824         COMPUTE INTERMED,=,10,*,MULTIP
+         COMPUTE INTERMED,=,10,*,MULTIP
+*               IF ONECH = 'B'
+*ZC    826         END_IF 
+         END_IF 
+*ZC    826         IF    ONECH,=,'B'
+         IF    ONECH,=,'B'
+*                   COMPUTE INTERMED = 11 * MULTIP
+*               END-IF
+*ZC    827         COMPUTE INTERMED,=,11,*,MULTIP
+         COMPUTE INTERMED,=,11,*,MULTIP
+*               IF ONECH = 'C'
+*ZC    829         END_IF 
+         END_IF 
+*ZC    829         IF    ONECH,=,'C'
+         IF    ONECH,=,'C'
+*                   COMPUTE INTERMED = 12 * MULTIP
+*               END-IF
+*ZC    830         COMPUTE INTERMED,=,12,*,MULTIP
+         COMPUTE INTERMED,=,12,*,MULTIP
+*               IF ONECH = 'D'
+*ZC    832         END_IF 
+         END_IF 
+*ZC    832         IF    ONECH,=,'D'
+         IF    ONECH,=,'D'
+*                   COMPUTE INTERMED = 13 * MULTIP
+*               END-IF
+*ZC    833         COMPUTE INTERMED,=,13,*,MULTIP
+         COMPUTE INTERMED,=,13,*,MULTIP
+*               IF ONECH = 'E'
+*ZC    835         END_IF 
+         END_IF 
+*ZC    835         IF    ONECH,=,'E'
+         IF    ONECH,=,'E'
+*                   COMPUTE INTERMED = 14 * MULTIP
+*               END-IF
+*ZC    836         COMPUTE INTERMED,=,14,*,MULTIP
+         COMPUTE INTERMED,=,14,*,MULTIP
+*               IF ONECH = 'F'
+*ZC    838         END_IF 
+         END_IF 
+*ZC    838         IF    ONECH,=,'F'
+         IF    ONECH,=,'F'
+*                   COMPUTE INTERMED = 15 * MULTIP
+*               END-IF
+*ZC    839         COMPUTE INTERMED,=,15,*,MULTIP
+         COMPUTE INTERMED,=,15,*,MULTIP
+*               ADD INTERMED TO ADDR9
+*ZC    841         END_IF 
+         END_IF 
+*ZC    841         ADD   INTERMED,TO,ADDR9
+         ADD   INTERMED,TO,ADDR9
+*               COMPUTE MULTIP = MULTIP * 16
+*ZC    842         COMPUTE MULTIP,=,MULTIP,*,16
+         COMPUTE MULTIP,=,MULTIP,*,16
+*            END-PERFORM.
+*ZC    843         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            MOVE ADDR9 TO MZ-ADDR (MZ-SUB).
+*ZC    844         MOVE  ADDR9,TO,MZ_ADDR,'(',MZ_SUB,')'
+         MOVE  ADDR9,TO,MZ_ADDR,'(',MZ_SUB,')'
+         PERIOD 
+*            MOVE MY-LEN (MY-SUB2) TO EIGHTCH.
+*ZC    845         MOVE  MY_LEN,'(',MY_SUB2,')',TO,EIGHTCH
+         MOVE  MY_LEN,'(',MY_SUB2,')',TO,EIGHTCH
+         PERIOD 
+*            MOVE 1                TO MULTIP.
+*ZC    846         MOVE  1,TO,MULTIP
+         MOVE  1,TO,MULTIP
+         PERIOD 
+*            PERFORM VARYING MZ-SUB2 FROM 8 BY -1
+*              UNTIL MZ-SUB2 = 3
+*ZC    847         PERFORM VARYING,MZ_SUB2,FROM,8,BY,-,1,UNTIL,MZ_SUB2,X
+               =,3
+         PERFORM VARYING,MZ_SUB2,FROM,8,BY,-,1,UNTIL,MZ_SUB2,=,3
+*               MOVE EIGHTCH (MZ-SUB2 : 1)
+*                 TO ONECH
+*ZC    849         MOVE  EIGHTCH,'(',MZ_SUB2,:,1,')',TO,ONECH
+         MOVE  EIGHTCH,'(',MZ_SUB2,:,1,')',TO,ONECH
+*               MOVE ZEROES TO INTERMED
+*ZC    851         MOVE  ZEROES,TO,INTERMED
+         MOVE  ZEROES,TO,INTERMED
+*               IF ONECH = '0'
+*                   CONTINUE
+*ZC    852         IF    ONECH,=,'0'
+         IF    ONECH,=,'0'
+*               END-IF
+*ZC    854         CONTINUE 
+         CONTINUE 
+*               IF ONECH = '1'
+*ZC    855         END_IF 
+         END_IF 
+*ZC    855         IF    ONECH,=,'1'
+         IF    ONECH,=,'1'
+*                   COMPUTE INTERMED = 1  * MULTIP
+*               END-IF
+*ZC    856         COMPUTE INTERMED,=,1,*,MULTIP
+         COMPUTE INTERMED,=,1,*,MULTIP
+*               IF ONECH = '2'
+*ZC    858         END_IF 
+         END_IF 
+*ZC    858         IF    ONECH,=,'2'
+         IF    ONECH,=,'2'
+*                   COMPUTE INTERMED = 2  * MULTIP
+*               END-IF
+*ZC    859         COMPUTE INTERMED,=,2,*,MULTIP
+         COMPUTE INTERMED,=,2,*,MULTIP
+*               IF ONECH = '3'
+*ZC    861         END_IF 
+         END_IF 
+*ZC    861         IF    ONECH,=,'3'
+         IF    ONECH,=,'3'
+*                   COMPUTE INTERMED = 3  * MULTIP
+*               END-IF
+*ZC    862         COMPUTE INTERMED,=,3,*,MULTIP
+         COMPUTE INTERMED,=,3,*,MULTIP
+*               IF ONECH = '4'
+*ZC    864         END_IF 
+         END_IF 
+*ZC    864         IF    ONECH,=,'4'
+         IF    ONECH,=,'4'
+*                   COMPUTE INTERMED = 4  * MULTIP
+*               END-IF
+*ZC    865         COMPUTE INTERMED,=,4,*,MULTIP
+         COMPUTE INTERMED,=,4,*,MULTIP
+*               IF ONECH = '5'
+*ZC    867         END_IF 
+         END_IF 
+*ZC    867         IF    ONECH,=,'5'
+         IF    ONECH,=,'5'
+*                   COMPUTE INTERMED = 5  * MULTIP
+*               END-IF
+*ZC    868         COMPUTE INTERMED,=,5,*,MULTIP
+         COMPUTE INTERMED,=,5,*,MULTIP
+*               IF ONECH = '6'
+*ZC    870         END_IF 
+         END_IF 
+*ZC    870         IF    ONECH,=,'6'
+         IF    ONECH,=,'6'
+*                   COMPUTE INTERMED = 6  * MULTIP
+*               END-IF
+*ZC    871         COMPUTE INTERMED,=,6,*,MULTIP
+         COMPUTE INTERMED,=,6,*,MULTIP
+*               IF ONECH = '7'
+*ZC    873         END_IF 
+         END_IF 
+*ZC    873         IF    ONECH,=,'7'
+         IF    ONECH,=,'7'
+*                   COMPUTE INTERMED = 7  * MULTIP
+*               END-IF
+*ZC    874         COMPUTE INTERMED,=,7,*,MULTIP
+         COMPUTE INTERMED,=,7,*,MULTIP
+*               IF ONECH = '8'
+*ZC    876         END_IF 
+         END_IF 
+*ZC    876         IF    ONECH,=,'8'
+         IF    ONECH,=,'8'
+*                   COMPUTE INTERMED = 8  * MULTIP
+*               END-IF
+*ZC    877         COMPUTE INTERMED,=,8,*,MULTIP
+         COMPUTE INTERMED,=,8,*,MULTIP
+*               IF ONECH = '9'
+*ZC    879         END_IF 
+         END_IF 
+*ZC    879         IF    ONECH,=,'9'
+         IF    ONECH,=,'9'
+*                   COMPUTE INTERMED = 9  * MULTIP
+*               END-IF
+*ZC    880         COMPUTE INTERMED,=,9,*,MULTIP
+         COMPUTE INTERMED,=,9,*,MULTIP
+*               IF ONECH = 'A'
+*ZC    882         END_IF 
+         END_IF 
+*ZC    882         IF    ONECH,=,'A'
+         IF    ONECH,=,'A'
+*                   COMPUTE INTERMED = 10 * MULTIP
+*               END-IF
+*ZC    883         COMPUTE INTERMED,=,10,*,MULTIP
+         COMPUTE INTERMED,=,10,*,MULTIP
+*               IF ONECH = 'B'
+*ZC    885         END_IF 
+         END_IF 
+*ZC    885         IF    ONECH,=,'B'
+         IF    ONECH,=,'B'
+*                   COMPUTE INTERMED = 11 * MULTIP
+*               END-IF
+*ZC    886         COMPUTE INTERMED,=,11,*,MULTIP
+         COMPUTE INTERMED,=,11,*,MULTIP
+*               IF ONECH = 'C'
+*ZC    888         END_IF 
+         END_IF 
+*ZC    888         IF    ONECH,=,'C'
+         IF    ONECH,=,'C'
+*                   COMPUTE INTERMED = 12 * MULTIP
+*               END-IF
+*ZC    889         COMPUTE INTERMED,=,12,*,MULTIP
+         COMPUTE INTERMED,=,12,*,MULTIP
+*               IF ONECH = 'D'
+*ZC    891         END_IF 
+         END_IF 
+*ZC    891         IF    ONECH,=,'D'
+         IF    ONECH,=,'D'
+*                   COMPUTE INTERMED = 13 * MULTIP
+*               END-IF
+*ZC    892         COMPUTE INTERMED,=,13,*,MULTIP
+         COMPUTE INTERMED,=,13,*,MULTIP
+*               IF ONECH = 'E'
+*ZC    894         END_IF 
+         END_IF 
+*ZC    894         IF    ONECH,=,'E'
+         IF    ONECH,=,'E'
+*                   COMPUTE INTERMED = 14 * MULTIP
+*               END-IF
+*ZC    895         COMPUTE INTERMED,=,14,*,MULTIP
+         COMPUTE INTERMED,=,14,*,MULTIP
+*               IF ONECH = 'F'
+*ZC    897         END_IF 
+         END_IF 
+*ZC    897         IF    ONECH,=,'F'
+         IF    ONECH,=,'F'
+*                   COMPUTE INTERMED = 15 * MULTIP
+*               END-IF
+*ZC    898         COMPUTE INTERMED,=,15,*,MULTIP
+         COMPUTE INTERMED,=,15,*,MULTIP
+*               ADD INTERMED TO LEN9
+*ZC    900         END_IF 
+         END_IF 
+*ZC    900         ADD   INTERMED,TO,LEN9
+         ADD   INTERMED,TO,LEN9
+*               COMPUTE MULTIP = MULTIP * 16
+*ZC    901         COMPUTE MULTIP,=,MULTIP,*,16
+         COMPUTE MULTIP,=,MULTIP,*,16
+*            END-PERFORM.
+*ZC    902         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            MOVE LEN9 TO MZ-LEN (MZ-SUB).
+*ZC    903         MOVE  LEN9,TO,MZ_LEN,'(',MZ_SUB,')'
+         MOVE  LEN9,TO,MZ_LEN,'(',MZ_SUB,')'
+         PERIOD 
+*            MOVE 0 TO SUBS-COUNT.
+*ZC    904         MOVE  0,TO,SUBS_COUNT
+         MOVE  0,TO,SUBS_COUNT
+         PERIOD 
+*            IF MZ-DUP (MZ-SUB) > '000001'
+*ZC    905         IF    MZ_DUP,'(',MZ_SUB,')',>,'000001'
+         IF    MZ_DUP,'(',MZ_SUB,')',>,'000001'
+*                ADD 1 TO SUBS-COUNT
+*ZC    906         ADD   1,TO,SUBS_COUNT
+         ADD   1,TO,SUBS_COUNT
+*            END-IF.
+*ZC    907         END_IF 
+         END_IF 
+         PERIOD 
+*            PERFORM VARYING MZ-SUB2
+*               FROM MZ-SUB
+*                 BY -1
+*              UNTIL MZ-SUB2 = 0
+*                 OR MZ-LVL (MZ-SUB2) = '00'
+*ZC    908         PERFORM VARYING,MZ_SUB2,FROM,MZ_SUB,BY,-,1,UNTIL,MZ_X
+               SUB2,=,0,OR,MZ_LVL,'(',MZ_SUB2,')',=,'00'
+         PERFORM VARYING,MZ_SUB2,FROM,MZ_SUB,BY,-,1,UNTIL,MZ_SUB2,=,0,OX
+               R,MZ_LVL,'(',MZ_SUB2,')',=,'00'
+*                  IF MZ-LVL (MZ-SUB2) < MZ-LVL (MZ-SUB)
+*ZC    913         IF    MZ_LVL,'(',MZ_SUB2,')',<,MZ_LVL,'(',MZ_SUB,')'
+         IF    MZ_LVL,'(',MZ_SUB2,')',<,MZ_LVL,'(',MZ_SUB,')'
+*                      IF MZ-DUP (MZ-SUB2) > '000001'
+*ZC    914         IF    MZ_DUP,'(',MZ_SUB2,')',>,'000001'
+         IF    MZ_DUP,'(',MZ_SUB2,')',>,'000001'
+*                          ADD 1 TO SUBS-COUNT
+*                      END-IF
+*ZC    915         ADD   1,TO,SUBS_COUNT
+         ADD   1,TO,SUBS_COUNT
+*                  END-IF
+*ZC    917         END_IF 
+         END_IF 
+*            END-PERFORM.
+*ZC    918         END_IF 
+         END_IF 
+*ZC    918         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            MOVE SUBS-COUNT TO MZ-SUBS (MZ-SUB).
+********-----------------------------------------------------
+*ZC    919         MOVE  SUBS_COUNT,TO,MZ_SUBS,'(',MZ_SUB,')'
+         MOVE  SUBS_COUNT,TO,MZ_SUBS,'(',MZ_SUB,')'
+         PERIOD 
+*            DISPLAY                  '2|'
+*                    MZ-LVL  (MZ-SUB) '|'
+*                    MZ-NAME (MZ-SUB) '|'
+*                    MZ-ADDR (MZ-SUB) '|'
+*                    MZ-LEN  (MZ-SUB) '|'
+*                    MZ-DUP  (MZ-SUB) '|'
+*                    MZ-SUBS (MZ-SUB) '|'
+*                    MZ-TYPE (MZ-SUB) '|'
+*                    MZ-PIC  (MZ-SUB) '|'.
+*ZC    921         DISPLAY '2|',MZ_LVL,'(',MZ_SUB,')','|',MZ_NAME,'(',MX
+               Z_SUB,')','|',MZ_ADDR,'(',MZ_SUB,')','|',MZ_LEN,'(',MZ_SX
+               UB,')','|',MZ_DUP,'(',MZ_SUB,')','|',MZ_SUBS,'(',MZ_SUB,X
+               ')','|',MZ_TYPE,'(',MZ_SUB,')','|',MZ_PIC,'(',MZ_SUB,')'X
+               ,'|'
+         DISPLAY '2|',MZ_LVL,'(',MZ_SUB,')','|',MZ_NAME,'(',MZ_SUB,')',X
+               '|',MZ_ADDR,'(',MZ_SUB,')','|',MZ_LEN,'(',MZ_SUB,')','|'X
+               ,MZ_DUP,'(',MZ_SUB,')','|',MZ_SUBS,'(',MZ_SUB,')','|',MZX
+               _TYPE,'(',MZ_SUB,')','|',MZ_PIC,'(',MZ_SUB,')','|'
+         PERIOD 
+         LABEL PROCESS_MY_ARRAY_EXIT
+*ZC    931         EXIT  
+         EXIT  
+*        PROCESS-MY-ARRAY-EXIT. EXIT.
+         PERIOD 
+*        GENERATE-SUBS-PROCESS SECTION.
+         LABEL GENERATE_SUBS_PROCESS,SECTION
+*            IF MZ-SUB2 = 1
+*ZC    933         IF    MZ_SUB2,=,1
+         IF    MZ_SUB2,=,1
+*                WRITE OUT-RECORD
+*                 FROM SUBS-PROCESS-SECTION
+*ZC    934         WRITE OUT_RECORD,FROM,SUBS_PROCESS_SECTION
+         WRITE OUT_RECORD,FROM,SUBS_PROCESS_SECTION
+*            END-IF.
+*ZC    936         END_IF 
+         END_IF 
+         PERIOD 
+*            IF MZ-SUBS (MZ-SUB2) > '000000'
+*ZC    937         IF    MZ_SUBS,'(',MZ_SUB2,')',>,'000000'
+         IF    MZ_SUBS,'(',MZ_SUB2,')',>,'000000'
+*                GO TO GENERATE-SUBS-PROCESS-LAST
+*ZC    938         GO    TO,GENERATE_SUBS_PROCESS_LAST
+         GO    TO,GENERATE_SUBS_PROCESS_LAST
+*            END-IF.
+*ZC    939         END_IF 
+         END_IF 
+         PERIOD 
+*            IF MZ-PIC (MZ-SUB2) (2:1) NOT = '9'
+*ZC    940         IF    MZ_PIC,'(',MZ_SUB2,')','(',2,:,1,')',NOT,=,'9'
+         IF    MZ_PIC,'(',MZ_SUB2,')','(',2,:,1,')',NOT,=,'9'
+*                GO TO GENERATE-SUBS-PROCESS-LAST
+*ZC    941         GO    TO,GENERATE_SUBS_PROCESS_LAST
+         GO    TO,GENERATE_SUBS_PROCESS_LAST
+*            END-IF.
+*ZC    942         END_IF 
+         END_IF 
+         PERIOD 
+*            MOVE MZ-PIC (MZ-SUB2) TO TENCH.
+*ZC    943         MOVE  MZ_PIC,'(',MZ_SUB2,')',TO,TENCH
+         MOVE  MZ_PIC,'(',MZ_SUB2,')',TO,TENCH
+         PERIOD 
+*            PERFORM VARYING MZ-SUB3 FROM 1 BY 1
+*              UNTIL MZ-SUB3 > 10
+*ZC    944         PERFORM VARYING,MZ_SUB3,FROM,1,BY,1,UNTIL,MZ_SUB3,>,X
+               10
+         PERFORM VARYING,MZ_SUB3,FROM,1,BY,1,UNTIL,MZ_SUB3,>,10
+*                IF TENCH (MZ-SUB3 : 1) = 'V'
+*ZC    946         IF    TENCH,'(',MZ_SUB3,:,1,')',=,'V'
+         IF    TENCH,'(',MZ_SUB3,:,1,')',=,'V'
+*                    GO TO GENERATE-SUBS-PROCESS-LAST
+*                END-IF
+*ZC    947         GO    TO,GENERATE_SUBS_PROCESS_LAST
+         GO    TO,GENERATE_SUBS_PROCESS_LAST
+*            END-PERFORM.
+*ZC    949         END_IF 
+         END_IF 
+*ZC    949         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            MOVE MZ-NAME (MZ-SUB2) TO THIRTYCH.
+*ZC    950         MOVE  MZ_NAME,'(',MZ_SUB2,')',TO,THIRTYCH
+         MOVE  MZ_NAME,'(',MZ_SUB2,')',TO,THIRTYCH
+         PERIOD 
+*            PERFORM VARYING MZ-SUB3 FROM 1 BY 1
+*              UNTIL MZ-SUB3 > 30
+*ZC    951         PERFORM VARYING,MZ_SUB3,FROM,1,BY,1,UNTIL,MZ_SUB3,>,X
+               30
+         PERFORM VARYING,MZ_SUB3,FROM,1,BY,1,UNTIL,MZ_SUB3,>,30
+*               IF THIRTYCH (MZ-SUB3 : 1) = '_'
+*ZC    953         IF    THIRTYCH,'(',MZ_SUB3,:,1,')',=,'_'
+         IF    THIRTYCH,'(',MZ_SUB3,:,1,')',=,'_'
+*                   MOVE '-' TO THIRTYCH (MZ-SUB3 : 1)
+*               END-IF
+*ZC    954         MOVE  '-',TO,THIRTYCH,'(',MZ_SUB3,:,1,')'
+         MOVE  '-',TO,THIRTYCH,'(',MZ_SUB3,:,1,')'
+*            END-PERFORM.
+*ZC    956         END_IF 
+         END_IF 
+*ZC    956         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            MOVE THIRTYCH TO SUBS-IF-GLOB-NAME.
+*ZC    957         MOVE  THIRTYCH,TO,SUBS_IF_GLOB_NAME
+         MOVE  THIRTYCH,TO,SUBS_IF_GLOB_NAME
+         PERIOD 
+*            WRITE OUT-RECORD
+*             FROM SUBS-IF-GLOB.
+*ZC    958         WRITE OUT_RECORD,FROM,SUBS_IF_GLOB
+         WRITE OUT_RECORD,FROM,SUBS_IF_GLOB
+         PERIOD 
+*            MOVE THIRTYCH TO SUBS-MOVE-NAME-NAME.
+*ZC    960         MOVE  THIRTYCH,TO,SUBS_MOVE_NAME_NAME
+         MOVE  THIRTYCH,TO,SUBS_MOVE_NAME_NAME
+         PERIOD 
+*            WRITE OUT-RECORD
+*             FROM SUBS-MOVE-NAME.
+* 
+*ZC    961         WRITE OUT_RECORD,FROM,SUBS_MOVE_NAME
+         WRITE OUT_RECORD,FROM,SUBS_MOVE_NAME
+         PERIOD 
+*            WRITE OUT-RECORD
+*             FROM END-IF-STMT.
+*ZC    964         WRITE OUT_RECORD,FROM,END_IF_STMT
+         WRITE OUT_RECORD,FROM,END_IF_STMT
+         PERIOD 
+*        GENERATE-SUBS-PROCESS-LAST.
+         LABEL GENERATE_SUBS_PROCESS_LAST
+*            IF MZ-SUB2 = MZ-SUB
+*ZC    967         IF    MZ_SUB2,=,MZ_SUB
+         IF    MZ_SUB2,=,MZ_SUB
+*                WRITE OUT-RECORD
+*                 FROM SUBS-PROCESS-EXIT
+*ZC    968         WRITE OUT_RECORD,FROM,SUBS_PROCESS_EXIT
+         WRITE OUT_RECORD,FROM,SUBS_PROCESS_EXIT
+*            END-IF.
+*ZC    970         END_IF 
+         END_IF 
+         PERIOD 
+         LABEL GENERATE_SUBS_PROCESS_EXIT
+*ZC    971         EXIT  
+         EXIT  
+*        GENERATE-SUBS-PROCESS-EXIT. EXIT.
+* 
+* 
+* 
+* 
+         PERIOD 
+* U7U7U7 U7 SECTION.
+         LABEL U7,SECTION
+*            WRITE OUT-RECORD FROM NAME9-PROCESS-SECTION.
+*ZC    977         WRITE OUT_RECORD,FROM,NAME9_PROCESS_SECTION
+         WRITE OUT_RECORD,FROM,NAME9_PROCESS_SECTION
+         PERIOD 
+*            PERFORM U7-9-LOOP
+*             VARYING U7-SUB
+*                FROM 1 BY 1
+*               UNTIL U7-SUB > MZ-SUB.
+*ZC    978         PERFORM U7_9_LOOP,VARYING,U7_SUB,FROM,1,BY,1,UNTIL,UX
+               7_SUB,>,MZ_SUB
+         PERFORM U7_9_LOOP,VARYING,U7_SUB,FROM,1,BY,1,UNTIL,U7_SUB,>,MZX
+               _SUB
+         PERIOD 
+*            WRITE OUT-RECORD FROM NAME9-PROCESS-EXIT.
+*ZC    982         WRITE OUT_RECORD,FROM,NAME9_PROCESS_EXIT
+         WRITE OUT_RECORD,FROM,NAME9_PROCESS_EXIT
+         PERIOD 
+*            WRITE OUT-RECORD FROM NAMEX-PROCESS-SECTION.
+*ZC    983         WRITE OUT_RECORD,FROM,NAMEX_PROCESS_SECTION
+         WRITE OUT_RECORD,FROM,NAMEX_PROCESS_SECTION
+         PERIOD 
+*            PERFORM U7-X-LOOP
+*             VARYING U7-SUB
+*                FROM 1 BY 1
+*               UNTIL U7-SUB > MZ-SUB.
+*ZC    984         PERFORM U7_X_LOOP,VARYING,U7_SUB,FROM,1,BY,1,UNTIL,UX
+               7_SUB,>,MZ_SUB
+         PERFORM U7_X_LOOP,VARYING,U7_SUB,FROM,1,BY,1,UNTIL,U7_SUB,>,MZX
+               _SUB
+         PERIOD 
+*            WRITE OUT-RECORD FROM NAMEX-PROCESS-EXIT.
+*ZC    988         WRITE OUT_RECORD,FROM,NAMEX_PROCESS_EXIT
+         WRITE OUT_RECORD,FROM,NAMEX_PROCESS_EXIT
+         PERIOD 
+         LABEL U7_EXIT
+*ZC    989         EXIT  
+         EXIT  
+*        U7-EXIT. EXIT.
+         PERIOD 
+*        U7-9-LOOP SECTION.
+         LABEL U7_9_LOOP,SECTION
+*            IF MZ-LVL (U7-SUB) = '00'
+*ZC    991         IF    MZ_LVL,'(',U7_SUB,')',=,'00'
+         IF    MZ_LVL,'(',U7_SUB,')',=,'00'
+*                GO TO U7-9-LOOP-EXIT
+*ZC    992         GO    TO,U7_9_LOOP_EXIT
+         GO    TO,U7_9_LOOP_EXIT
+*            END-IF.
+*ZC    993         END_IF 
+         END_IF 
+         PERIOD 
+*            IF  MZ-PIC (U7-SUB) (2:1) NOT = '9'
+*            AND MZ-PIC (U7-SUB) (2:1) NOT = 'Z'
+*ZC    994         IF    MZ_PIC,'(',U7_SUB,')','(',2,:,1,')',NOT,=,'9',X
+               AND,MZ_PIC,'(',U7_SUB,')','(',2,:,1,')',NOT,=,'Z'
+         IF    MZ_PIC,'(',U7_SUB,')','(',2,:,1,')',NOT,=,'9',AND,MZ_PICX
+               ,'(',U7_SUB,')','(',2,:,1,')',NOT,=,'Z'
+*                GO TO U7-9-LOOP-EXIT
+*ZC    996         GO    TO,U7_9_LOOP_EXIT
+         GO    TO,U7_9_LOOP_EXIT
+*            END-IF.
+*ZC    997         END_IF 
+         END_IF 
+         PERIOD 
+*            IF MZ-NAME (U7-SUB) (1:6) = 'FILLER'
+*ZC    998         IF    MZ_NAME,'(',U7_SUB,')','(',1,:,6,')',=,'FILLERX
+               '
+         IF    MZ_NAME,'(',U7_SUB,')','(',1,:,6,')',=,'FILLER'
+*                GO TO U7-9-LOOP-EXIT
+*ZC    999         GO    TO,U7_9_LOOP_EXIT
+         GO    TO,U7_9_LOOP_EXIT
+*            END-IF.
+*ZC   1000         END_IF 
+         END_IF 
+         PERIOD 
+*            MOVE MZ-SUBS     (U7-SUB) TO GLOB-SUBS.
+*ZC   1001         MOVE  MZ_SUBS,'(',U7_SUB,')',TO,GLOB_SUBS
+         MOVE  MZ_SUBS,'(',U7_SUB,')',TO,GLOB_SUBS
+         PERIOD 
+*            MOVE MZ-NAME     (U7-SUB) TO GLOB-NAME.
+*ZC   1002         MOVE  MZ_NAME,'(',U7_SUB,')',TO,GLOB_NAME
+         MOVE  MZ_NAME,'(',U7_SUB,')',TO,GLOB_NAME
+         PERIOD 
+*            MOVE MZ-SUBS-ID  (U7-SUB, 1)
+*                                      TO GLOB-SUB1.
+*ZC   1003         MOVE  MZ_SUBS_ID,'(',U7_SUB,1,')',TO,GLOB_SUB1
+         MOVE  MZ_SUBS_ID,'(',U7_SUB,1,')',TO,GLOB_SUB1
+         PERIOD 
+*            MOVE MZ-SUBS-ID  (U7-SUB, 2)
+*                                      TO GLOB-SUB2.
+*ZC   1005         MOVE  MZ_SUBS_ID,'(',U7_SUB,2,')',TO,GLOB_SUB2
+         MOVE  MZ_SUBS_ID,'(',U7_SUB,2,')',TO,GLOB_SUB2
+         PERIOD 
+*            MOVE MZ-SUBS-ID  (U7-SUB, 3)
+*                                      TO GLOB-SUB3.
+*ZC   1007         MOVE  MZ_SUBS_ID,'(',U7_SUB,3,')',TO,GLOB_SUB3
+         MOVE  MZ_SUBS_ID,'(',U7_SUB,3,')',TO,GLOB_SUB3
+         PERIOD 
+*            PERFORM INITIALIZATION-U7-9-ROUTINE.
+*ZC   1009         PERFORM INITIALIZATION_U7_9_ROUTINE
+         PERFORM INITIALIZATION_U7_9_ROUTINE
+         PERIOD 
+*            PERFORM UNTIL END-OF-U6-FLAG = 'Y'
+*ZC   1010         PERFORM UNTIL,END_OF_U6_FLAG,=,'Y'
+         PERFORM UNTIL,END_OF_U6_FLAG,=,'Y'
+*                IF WS-U6-1 = GLOB-SUBS
+*ZC   1011         IF    WS_U6_1,=,GLOB_SUBS
+         IF    WS_U6_1,=,GLOB_SUBS
+*                    IF WS-U6 (3:1) = '*'
+*ZC   1012         IF    WS_U6,'(',3,:,1,')',=,'*'
+         IF    WS_U6,'(',3,:,1,')',=,'*'
+*                        MOVE WS-U6     TO WS-U8
+*ZC   1013         MOVE  WS_U6,TO,WS_U8
+         MOVE  WS_U6,TO,WS_U8
+*                        MOVE 'TTTTTT ' TO WS-U8 (1:7)
+*ZC   1014         MOVE  'TTTTTT ',TO,WS_U8,'(',1,:,7,')'
+         MOVE  'TTTTTT ',TO,WS_U8,'(',1,:,7,')'
+*                        WRITE OUT-RECORD FROM WS-U8
+*ZC   1015         WRITE OUT_RECORD,FROM,WS_U8
+         WRITE OUT_RECORD,FROM,WS_U8
+*                        PERFORM READ-U6FILE
+*                    ELSE
+*ZC   1016         PERFORM READ_U6FILE
+         PERFORM READ_U6FILE
+*                        IF WS-U6 (2:1) = '>'
+*ZC   1018         ELSE  
+         ELSE  
+*ZC   1018         IF    WS_U6,'(',2,:,1,')',=,'>'
+         IF    WS_U6,'(',2,:,1,')',=,'>'
+*                            MOVE SPACES     TO U8-LINE
+*ZC   1019         MOVE  SPACES,TO,U8_LINE
+         MOVE  SPACES,TO,U8_LINE
+*                            MOVE 'TTTTTT '  TO U8-1-FOR-6
+*ZC   1020         MOVE  'TTTTTT ',TO,U8_1_FOR_6
+         MOVE  'TTTTTT ',TO,U8_1_FOR_6
+*                            MOVE 'DISPLAY ' TO U8-VERB
+*ZC   1021         MOVE  'DISPLAY ',TO,U8_VERB
+         MOVE  'DISPLAY ',TO,U8_VERB
+*                            MOVE GLOB-NAME  TO U8-NAME
+*ZC   1022         MOVE  GLOB_NAME,TO,U8_NAME
+         MOVE  GLOB_NAME,TO,U8_NAME
+*                            IF GLOB-SUBS = 1
+*ZC   1023         IF    GLOB_SUBS,=,1
+         IF    GLOB_SUBS,=,1
+*                                MOVE '('    TO U8-OPEN
+*ZC   1024         MOVE  '(',TO,U8_OPEN
+         MOVE  '(',TO,U8_OPEN
+*                                MOVE 'GLOB-SUB1'
+*                                            TO U8-SUB1
+*ZC   1025         MOVE  'GLOB-SUB1',TO,U8_SUB1
+         MOVE  'GLOB-SUB1',TO,U8_SUB1
+*                                MOVE ')'    TO U8-CLOSE
+*                            END-IF
+*ZC   1027         MOVE  ')',TO,U8_CLOSE
+         MOVE  ')',TO,U8_CLOSE
+*                            IF GLOB-SUBS = 2
+*ZC   1029         END_IF 
+         END_IF 
+*ZC   1029         IF    GLOB_SUBS,=,2
+         IF    GLOB_SUBS,=,2
+*                                MOVE '('    TO U8-OPEN
+*ZC   1030         MOVE  '(',TO,U8_OPEN
+         MOVE  '(',TO,U8_OPEN
+*                                MOVE 'GLOB-SUB1'
+*                                            TO U8-SUB1
+*ZC   1031         MOVE  'GLOB-SUB1',TO,U8_SUB1
+         MOVE  'GLOB-SUB1',TO,U8_SUB1
+*                                MOVE ','    TO U8-COMMA1
+*ZC   1033         MOVE  ',',TO,U8_COMMA1
+         MOVE  ',',TO,U8_COMMA1
+*                                MOVE 'GLOB-SUB2'
+*                                            TO U8-SUB2
+*ZC   1034         MOVE  'GLOB-SUB2',TO,U8_SUB2
+         MOVE  'GLOB-SUB2',TO,U8_SUB2
+*                                MOVE ')'    TO U8-CLOSE
+*                            END-IF
+*ZC   1036         MOVE  ')',TO,U8_CLOSE
+         MOVE  ')',TO,U8_CLOSE
+*                            IF GLOB-SUBS = 3
+*ZC   1038         END_IF 
+         END_IF 
+*ZC   1038         IF    GLOB_SUBS,=,3
+         IF    GLOB_SUBS,=,3
+*                                MOVE '('    TO U8-OPEN
+*ZC   1039         MOVE  '(',TO,U8_OPEN
+         MOVE  '(',TO,U8_OPEN
+*                                MOVE 'GLOB-SUB1'
+*                                            TO U8-SUB1
+*ZC   1040         MOVE  'GLOB-SUB1',TO,U8_SUB1
+         MOVE  'GLOB-SUB1',TO,U8_SUB1
+*                                MOVE ' , '  TO U8-COMMA1
+*ZC   1042         MOVE  ' , ',TO,U8_COMMA1
+         MOVE  ' , ',TO,U8_COMMA1
+*                                MOVE 'GLOB-SUB2'
+*                                            TO U8-SUB2
+*ZC   1043         MOVE  'GLOB-SUB2',TO,U8_SUB2
+         MOVE  'GLOB-SUB2',TO,U8_SUB2
+*                                MOVE ' , '  TO U8-COMMA2
+*ZC   1045         MOVE  ' , ',TO,U8_COMMA2
+         MOVE  ' , ',TO,U8_COMMA2
+*                                MOVE 'GLOB-SUB3'
+*                                            TO U8-SUB3
+*ZC   1046         MOVE  'GLOB-SUB3',TO,U8_SUB3
+         MOVE  'GLOB-SUB3',TO,U8_SUB3
+*                                MOVE ')'    TO U8-CLOSE
+*                            END-IF
+*ZC   1048         MOVE  ')',TO,U8_CLOSE
+         MOVE  ')',TO,U8_CLOSE
+*                            PERFORM VARYING OSUB1
+*ZC   1050         END_IF 
+         END_IF 
+*                               FROM 1 BY 1
+*                              UNTIL OSUB1 > 131
+*ZC   1050         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+*                                IF U8-LINE (OSUB1:2) = '  '
+*ZC   1053         IF    U8_LINE,'(',OSUB1,:,2,')',=,'  '
+         IF    U8_LINE,'(',OSUB1,:,2,')',=,'  '
+*                                    MOVE LOW-VALUE
+*                                      TO U8-LINE (OSUB1:1)
+*                                END-IF
+*ZC   1054         MOVE  LOW_VALUE,TO,U8_LINE,'(',OSUB1,:,1,')'
+         MOVE  LOW_VALUE,TO,U8_LINE,'(',OSUB1,:,1,')'
+*                                IF U8-LINE (OSUB1:2) = ' 0'
+*ZC   1057         END_IF 
+         END_IF 
+*ZC   1057         IF    U8_LINE,'(',OSUB1,:,2,')',=,' 0'
+         IF    U8_LINE,'(',OSUB1,:,2,')',=,' 0'
+*                                    MOVE X'00F0'
+*                                      TO U8-LINE (OSUB1:2)
+*                                END-IF
+*ZC   1058         MOVE  X'00F0',TO,U8_LINE,'(',OSUB1,:,2,')'
+         MOVE  X'00F0',TO,U8_LINE,'(',OSUB1,:,2,')'
+*                            END-PERFORM
+*ZC   1061         END_IF 
+         END_IF 
+*                            MOVE 0 TO OSUB2
+*ZC   1062         END_PERFORM 
+         END_PERFORM 
+*ZC   1062         MOVE  0,TO,OSUB2
+         MOVE  0,TO,OSUB2
+*                            MOVE SPACES TO U8-LINE2
+*ZC   1063         MOVE  SPACES,TO,U8_LINE2
+         MOVE  SPACES,TO,U8_LINE2
+*                            PERFORM VARYING OSUB1
+*                               FROM 1 BY 1
+*                              UNTIL OSUB1 > 131
+*ZC   1064         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+*                                IF U8-LINE (OSUB1:1)
+*                                NOT = LOW-VALUE
+*ZC   1067         IF    U8_LINE,'(',OSUB1,:,1,')',NOT,=,LOW_VALUE
+         IF    U8_LINE,'(',OSUB1,:,1,')',NOT,=,LOW_VALUE
+*                                    ADD 1 TO OSUB2
+*ZC   1069         ADD   1,TO,OSUB2
+         ADD   1,TO,OSUB2
+*                                    MOVE U8-LINE  (OSUB1:1)
+*                                      TO ONECH
+*ZC   1070         MOVE  U8_LINE,'(',OSUB1,:,1,')',TO,ONECH
+         MOVE  U8_LINE,'(',OSUB1,:,1,')',TO,ONECH
+*                                    MOVE ONECH
+*                                      TO U8-LINE2 (OSUB2:1)
+*                                END-IF
+*ZC   1072         MOVE  ONECH,TO,U8_LINE2,'(',OSUB2,:,1,')'
+         MOVE  ONECH,TO,U8_LINE2,'(',OSUB2,:,1,')'
+*                            END-PERFORM
+*ZC   1075         END_IF 
+         END_IF 
+*                            WRITE OUT-RECORD FROM U8-LINE2
+*ZC   1076         END_PERFORM 
+         END_PERFORM 
+*ZC   1076         WRITE OUT_RECORD,FROM,U8_LINE2
+         WRITE OUT_RECORD,FROM,U8_LINE2
+*                            PERFORM READ-U6FILE
+*                        ELSE
+*ZC   1077         PERFORM READ_U6FILE
+         PERFORM READ_U6FILE
+*                            MOVE WS-U6      TO WS-U8
+*ZC   1079         ELSE  
+         ELSE  
+*ZC   1079         MOVE  WS_U6,TO,WS_U8
+         MOVE  WS_U6,TO,WS_U8
+*                            MOVE 'TTTTTT '  TO WS-U8-1-FOR-6
+*ZC   1080         MOVE  'TTTTTT ',TO,WS_U8_1_FOR_6
+         MOVE  'TTTTTT ',TO,WS_U8_1_FOR_6
+*                            MOVE GLOB-NAME  TO WS-U8-28-FOR-30
+*ZC   1081         MOVE  GLOB_NAME,TO,WS_U8_28_FOR_30
+         MOVE  GLOB_NAME,TO,WS_U8_28_FOR_30
+*                            WRITE OUT-RECORD FROM WS-U8
+*ZC   1082         WRITE OUT_RECORD,FROM,WS_U8
+         WRITE OUT_RECORD,FROM,WS_U8
+*                            PERFORM READ-U6FILE
+*                        END-IF
+*ZC   1083         PERFORM READ_U6FILE
+         PERFORM READ_U6FILE
+*                    END-IF
+*ZC   1085         END_IF 
+         END_IF 
+*                ELSE
+*ZC   1086         END_IF 
+         END_IF 
+*                    PERFORM READ-U6FILE
+*ZC   1087         ELSE  
+         ELSE  
+*                END-IF
+*ZC   1087         PERFORM READ_U6FILE
+         PERFORM READ_U6FILE
+*            END-PERFORM.
+*ZC   1089         END_IF 
+         END_IF 
+*ZC   1089         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            PERFORM EOJ-U7-9-ROUTINE.
+*ZC   1090         PERFORM EOJ_U7_9_ROUTINE
+         PERFORM EOJ_U7_9_ROUTINE
+         PERIOD 
+         LABEL U7_9_LOOP_EXIT
+*ZC   1091         EXIT  
+         EXIT  
+*        U7-9-LOOP-EXIT. EXIT.
+         PERIOD 
+*        INITIALIZATION-U7-9-ROUTINE SECTION.
+         LABEL INITIALIZATION_U7_9_ROUTINE,SECTION
+*            MOVE 'N' TO END-OF-U6-FLAG.
+*ZC   1093         MOVE  'N',TO,END_OF_U6_FLAG
+         MOVE  'N',TO,END_OF_U6_FLAG
+         PERIOD 
+*            OPEN INPUT  U6-FILE.
+*ZC   1094         OPEN  INPUT,U6_FILE
+         OPEN  INPUT,U6_FILE
+         PERIOD 
+*            PERFORM READ-U6FILE.
+*ZC   1095         PERFORM READ_U6FILE
+         PERFORM READ_U6FILE
+         PERIOD 
+         LABEL INITIALIZATION_U7_9_EXIT
+*ZC   1096         EXIT  
+         EXIT  
+*        INITIALIZATION-U7-9-EXIT. EXIT.
+* 
+         PERIOD 
+*        EOJ-U7-9-ROUTINE SECTION.
+         LABEL EOJ_U7_9_ROUTINE,SECTION
+*            CLOSE U6-FILE.
+*ZC   1099         CLOSE U6_FILE
+         CLOSE U6_FILE
+         PERIOD 
+         LABEL EOJ_U7_9_EXIT
+*ZC   1100         EXIT  
+         EXIT  
+*        EOJ-U7-9-EXIT. EXIT.
+         PERIOD 
+*        READ-U6FILE SECTION.
+         LABEL READ_U6FILE,SECTION
+*            READ U6-FILE           INTO WS-U6
+*                 AT END
+*ZC   1102         READ  U6_FILE,INTO,WS_U6,AT,END
+         READ  U6_FILE,INTO,WS_U6,AT,END
+*                    MOVE 'Y'         TO END-OF-U6-FLAG.
+*ZC   1104         MOVE  'Y',TO,END_OF_U6_FLAG
+         MOVE  'Y',TO,END_OF_U6_FLAG
+         PERIOD 
+         LABEL READ_U6FILE_EXIT
+*ZC   1105         EXIT  
+         EXIT  
+*        READ-U6FILE-EXIT. EXIT.
+         PERIOD 
+*        U7-X-LOOP SECTION.
+         LABEL U7_X_LOOP,SECTION
+*            IF MZ-LVL (U7-SUB) = '00'
+*ZC   1108         IF    MZ_LVL,'(',U7_SUB,')',=,'00'
+         IF    MZ_LVL,'(',U7_SUB,')',=,'00'
+*                GO U7-X-LOOP-EXIT
+*ZC   1109         GO    U7_X_LOOP_EXIT
+         GO    U7_X_LOOP_EXIT
+*            END-IF.
+*ZC   1110         END_IF 
+         END_IF 
+         PERIOD 
+*            IF MZ-PIC (U7-SUB) (2:1) = '9'
+*            OR MZ-PIC (U7-SUB) (2:1) = 'Z'
+*ZC   1111         IF    MZ_PIC,'(',U7_SUB,')','(',2,:,1,')',=,'9',OR,MX
+               Z_PIC,'(',U7_SUB,')','(',2,:,1,')',=,'Z'
+         IF    MZ_PIC,'(',U7_SUB,')','(',2,:,1,')',=,'9',OR,MZ_PIC,'(',X
+               U7_SUB,')','(',2,:,1,')',=,'Z'
+*                GO TO U7-X-LOOP-EXIT
+*ZC   1113         GO    TO,U7_X_LOOP_EXIT
+         GO    TO,U7_X_LOOP_EXIT
+*            END-IF.
+*ZC   1114         END_IF 
+         END_IF 
+         PERIOD 
+*            IF MZ-NAME (U7-SUB) (1:6) = 'FILLER'
+*ZC   1115         IF    MZ_NAME,'(',U7_SUB,')','(',1,:,6,')',=,'FILLERX
+               '
+         IF    MZ_NAME,'(',U7_SUB,')','(',1,:,6,')',=,'FILLER'
+*                GO TO U7-X-LOOP-EXIT
+*ZC   1116         GO    TO,U7_X_LOOP_EXIT
+         GO    TO,U7_X_LOOP_EXIT
+*            END-IF.
+*ZC   1117         END_IF 
+         END_IF 
+         PERIOD 
+*            MOVE MZ-SUBS     (U7-SUB) TO GLOB-SUBS.
+*ZC   1118         MOVE  MZ_SUBS,'(',U7_SUB,')',TO,GLOB_SUBS
+         MOVE  MZ_SUBS,'(',U7_SUB,')',TO,GLOB_SUBS
+         PERIOD 
+*            MOVE MZ-NAME     (U7-SUB) TO GLOB-NAME.
+*ZC   1119         MOVE  MZ_NAME,'(',U7_SUB,')',TO,GLOB_NAME
+         MOVE  MZ_NAME,'(',U7_SUB,')',TO,GLOB_NAME
+         PERIOD 
+*            MOVE MZ-SUBS-ID  (U7-SUB, 1)
+*                                      TO GLOB-SUB1.
+*ZC   1120         MOVE  MZ_SUBS_ID,'(',U7_SUB,1,')',TO,GLOB_SUB1
+         MOVE  MZ_SUBS_ID,'(',U7_SUB,1,')',TO,GLOB_SUB1
+         PERIOD 
+*            MOVE MZ-SUBS-ID  (U7-SUB, 2)
+*                                      TO GLOB-SUB2.
+*ZC   1122         MOVE  MZ_SUBS_ID,'(',U7_SUB,2,')',TO,GLOB_SUB2
+         MOVE  MZ_SUBS_ID,'(',U7_SUB,2,')',TO,GLOB_SUB2
+         PERIOD 
+*            MOVE MZ-SUBS-ID  (U7-SUB, 3)
+*                                      TO GLOB-SUB3.
+*ZC   1124         MOVE  MZ_SUBS_ID,'(',U7_SUB,3,')',TO,GLOB_SUB3
+         MOVE  MZ_SUBS_ID,'(',U7_SUB,3,')',TO,GLOB_SUB3
+         PERIOD 
+*            PERFORM INITIALIZATION-U7-X-ROUTINE.
+*ZC   1126         PERFORM INITIALIZATION_U7_X_ROUTINE
+         PERFORM INITIALIZATION_U7_X_ROUTINE
+         PERIOD 
+*            PERFORM UNTIL END-OF-U6-FLAG = 'Y'
+*ZC   1127         PERFORM UNTIL,END_OF_U6_FLAG,=,'Y'
+         PERFORM UNTIL,END_OF_U6_FLAG,=,'Y'
+*                IF WS-U6-1 = GLOB-SUBS
+*ZC   1128         IF    WS_U6_1,=,GLOB_SUBS
+         IF    WS_U6_1,=,GLOB_SUBS
+*                    IF WS-U6 (3:1) = '*'
+*ZC   1129         IF    WS_U6,'(',3,:,1,')',=,'*'
+         IF    WS_U6,'(',3,:,1,')',=,'*'
+*                        MOVE WS-U6     TO WS-U8
+*ZC   1130         MOVE  WS_U6,TO,WS_U8
+         MOVE  WS_U6,TO,WS_U8
+*                        MOVE 'TTTTTT ' TO WS-U8 (1:7)
+*ZC   1131         MOVE  'TTTTTT ',TO,WS_U8,'(',1,:,7,')'
+         MOVE  'TTTTTT ',TO,WS_U8,'(',1,:,7,')'
+*                        WRITE OUT-RECORD FROM WS-U8
+*ZC   1132         WRITE OUT_RECORD,FROM,WS_U8
+         WRITE OUT_RECORD,FROM,WS_U8
+*                        PERFORM READ-U6BFILE
+*                    ELSE
+*ZC   1133         PERFORM READ_U6BFILE
+         PERFORM READ_U6BFILE
+*                        IF WS-U6 (2:1) = '>'
+*ZC   1135         ELSE  
+         ELSE  
+*ZC   1135         IF    WS_U6,'(',2,:,1,')',=,'>'
+         IF    WS_U6,'(',2,:,1,')',=,'>'
+*                            MOVE SPACES     TO U8-LINE
+*ZC   1136         MOVE  SPACES,TO,U8_LINE
+         MOVE  SPACES,TO,U8_LINE
+*                            MOVE 'TTTTTT '  TO U8-1-FOR-6
+*ZC   1137         MOVE  'TTTTTT ',TO,U8_1_FOR_6
+         MOVE  'TTTTTT ',TO,U8_1_FOR_6
+*                            MOVE 'DISPLAY ' TO U8-VERB
+*ZC   1138         MOVE  'DISPLAY ',TO,U8_VERB
+         MOVE  'DISPLAY ',TO,U8_VERB
+*                            MOVE GLOB-NAME  TO U8-NAME
+*ZC   1139         MOVE  GLOB_NAME,TO,U8_NAME
+         MOVE  GLOB_NAME,TO,U8_NAME
+*                            IF GLOB-SUBS = 1
+*ZC   1140         IF    GLOB_SUBS,=,1
+         IF    GLOB_SUBS,=,1
+*                                MOVE '('    TO U8-OPEN
+*ZC   1141         MOVE  '(',TO,U8_OPEN
+         MOVE  '(',TO,U8_OPEN
+*                                MOVE 'GLOB-SUB1'
+*                                            TO U8-SUB1
+*ZC   1142         MOVE  'GLOB-SUB1',TO,U8_SUB1
+         MOVE  'GLOB-SUB1',TO,U8_SUB1
+*                                MOVE ')'    TO U8-CLOSE
+*                            END-IF
+*ZC   1144         MOVE  ')',TO,U8_CLOSE
+         MOVE  ')',TO,U8_CLOSE
+*                            IF GLOB-SUBS = 2
+*ZC   1146         END_IF 
+         END_IF 
+*ZC   1146         IF    GLOB_SUBS,=,2
+         IF    GLOB_SUBS,=,2
+*                                MOVE '('    TO U8-OPEN
+*ZC   1147         MOVE  '(',TO,U8_OPEN
+         MOVE  '(',TO,U8_OPEN
+*                                MOVE 'GLOB-SUB1'
+*                                            TO U8-SUB1
+*ZC   1148         MOVE  'GLOB-SUB1',TO,U8_SUB1
+         MOVE  'GLOB-SUB1',TO,U8_SUB1
+*                                MOVE ','    TO U8-COMMA1
+*ZC   1150         MOVE  ',',TO,U8_COMMA1
+         MOVE  ',',TO,U8_COMMA1
+*                                MOVE 'GLOB-SUB2'
+*                                            TO U8-SUB2
+*ZC   1151         MOVE  'GLOB-SUB2',TO,U8_SUB2
+         MOVE  'GLOB-SUB2',TO,U8_SUB2
+*                                MOVE ')'    TO U8-CLOSE
+*                            END-IF
+*ZC   1153         MOVE  ')',TO,U8_CLOSE
+         MOVE  ')',TO,U8_CLOSE
+*                            IF GLOB-SUBS = 3
+*ZC   1155         END_IF 
+         END_IF 
+*ZC   1155         IF    GLOB_SUBS,=,3
+         IF    GLOB_SUBS,=,3
+*                                MOVE '('    TO U8-OPEN
+*ZC   1156         MOVE  '(',TO,U8_OPEN
+         MOVE  '(',TO,U8_OPEN
+*                                MOVE 'GLOB-SUB1'
+*                                            TO U8-SUB1
+*ZC   1157         MOVE  'GLOB-SUB1',TO,U8_SUB1
+         MOVE  'GLOB-SUB1',TO,U8_SUB1
+*                                MOVE ' , '  TO U8-COMMA1
+*ZC   1159         MOVE  ' , ',TO,U8_COMMA1
+         MOVE  ' , ',TO,U8_COMMA1
+*                                MOVE 'GLOB-SUB2'
+*                                            TO U8-SUB2
+*ZC   1160         MOVE  'GLOB-SUB2',TO,U8_SUB2
+         MOVE  'GLOB-SUB2',TO,U8_SUB2
+*                                MOVE ' , '  TO U8-COMMA2
+*ZC   1162         MOVE  ' , ',TO,U8_COMMA2
+         MOVE  ' , ',TO,U8_COMMA2
+*                                MOVE 'GLOB-SUB3'
+*                                            TO U8-SUB3
+*ZC   1163         MOVE  'GLOB-SUB3',TO,U8_SUB3
+         MOVE  'GLOB-SUB3',TO,U8_SUB3
+*                                MOVE ')'    TO U8-CLOSE
+*                            END-IF
+*ZC   1165         MOVE  ')',TO,U8_CLOSE
+         MOVE  ')',TO,U8_CLOSE
+*                            PERFORM VARYING OSUB1
+*ZC   1167         END_IF 
+         END_IF 
+*                               FROM 1 BY 1
+*                              UNTIL OSUB1 > 131
+*ZC   1167         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+*                                IF U8-LINE (OSUB1:2) = '  '
+*ZC   1170         IF    U8_LINE,'(',OSUB1,:,2,')',=,'  '
+         IF    U8_LINE,'(',OSUB1,:,2,')',=,'  '
+*                                    MOVE LOW-VALUE
+*                                      TO U8-LINE (OSUB1:1)
+*                                END-IF
+*ZC   1171         MOVE  LOW_VALUE,TO,U8_LINE,'(',OSUB1,:,1,')'
+         MOVE  LOW_VALUE,TO,U8_LINE,'(',OSUB1,:,1,')'
+*                                IF U8-LINE (OSUB1:2) = ' 0'
+*ZC   1174         END_IF 
+         END_IF 
+*ZC   1174         IF    U8_LINE,'(',OSUB1,:,2,')',=,' 0'
+         IF    U8_LINE,'(',OSUB1,:,2,')',=,' 0'
+*                                    MOVE X'00F0'
+*                                      TO U8-LINE (OSUB1:2)
+*                                END-IF
+*ZC   1175         MOVE  X'00F0',TO,U8_LINE,'(',OSUB1,:,2,')'
+         MOVE  X'00F0',TO,U8_LINE,'(',OSUB1,:,2,')'
+*                            END-PERFORM
+*ZC   1178         END_IF 
+         END_IF 
+*                            MOVE 0 TO OSUB2
+*ZC   1179         END_PERFORM 
+         END_PERFORM 
+*ZC   1179         MOVE  0,TO,OSUB2
+         MOVE  0,TO,OSUB2
+*                            MOVE SPACES TO U8-LINE2
+*ZC   1180         MOVE  SPACES,TO,U8_LINE2
+         MOVE  SPACES,TO,U8_LINE2
+*                            PERFORM VARYING OSUB1
+*                               FROM 1 BY 1
+*                              UNTIL OSUB1 > 131
+*ZC   1181         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+         PERFORM VARYING,OSUB1,FROM,1,BY,1,UNTIL,OSUB1,>,131
+*                                IF U8-LINE (OSUB1:1)
+*                                NOT = LOW-VALUE
+*ZC   1184         IF    U8_LINE,'(',OSUB1,:,1,')',NOT,=,LOW_VALUE
+         IF    U8_LINE,'(',OSUB1,:,1,')',NOT,=,LOW_VALUE
+*                                    ADD 1 TO OSUB2
+*ZC   1186         ADD   1,TO,OSUB2
+         ADD   1,TO,OSUB2
+*                                    MOVE U8-LINE  (OSUB1:1)
+*                                      TO ONECH
+*ZC   1187         MOVE  U8_LINE,'(',OSUB1,:,1,')',TO,ONECH
+         MOVE  U8_LINE,'(',OSUB1,:,1,')',TO,ONECH
+*                                    MOVE ONECH
+*                                      TO U8-LINE2 (OSUB2:1)
+*                                END-IF
+*ZC   1189         MOVE  ONECH,TO,U8_LINE2,'(',OSUB2,:,1,')'
+         MOVE  ONECH,TO,U8_LINE2,'(',OSUB2,:,1,')'
+*                            END-PERFORM
+*ZC   1192         END_IF 
+         END_IF 
+*                            WRITE OUT-RECORD FROM U8-LINE2
+*ZC   1193         END_PERFORM 
+         END_PERFORM 
+*ZC   1193         WRITE OUT_RECORD,FROM,U8_LINE2
+         WRITE OUT_RECORD,FROM,U8_LINE2
+*                            PERFORM READ-U6BFILE
+*                        ELSE
+*ZC   1194         PERFORM READ_U6BFILE
+         PERFORM READ_U6BFILE
+*                            MOVE WS-U6      TO WS-U8
+*ZC   1196         ELSE  
+         ELSE  
+*ZC   1196         MOVE  WS_U6,TO,WS_U8
+         MOVE  WS_U6,TO,WS_U8
+*                            MOVE 'TTTTTT '  TO WS-U8-1-FOR-6
+*ZC   1197         MOVE  'TTTTTT ',TO,WS_U8_1_FOR_6
+         MOVE  'TTTTTT ',TO,WS_U8_1_FOR_6
+*                            MOVE GLOB-NAME  TO WS-U8-28-FOR-30
+*ZC   1198         MOVE  GLOB_NAME,TO,WS_U8_28_FOR_30
+         MOVE  GLOB_NAME,TO,WS_U8_28_FOR_30
+*                            WRITE OUT-RECORD FROM WS-U8
+*ZC   1199         WRITE OUT_RECORD,FROM,WS_U8
+         WRITE OUT_RECORD,FROM,WS_U8
+*                            PERFORM READ-U6BFILE
+*                        END-IF
+*ZC   1200         PERFORM READ_U6BFILE
+         PERFORM READ_U6BFILE
+*                    END-IF
+*ZC   1202         END_IF 
+         END_IF 
+*                ELSE
+*ZC   1203         END_IF 
+         END_IF 
+*                    PERFORM READ-U6BFILE
+*ZC   1204         ELSE  
+         ELSE  
+*                END-IF
+*ZC   1204         PERFORM READ_U6BFILE
+         PERFORM READ_U6BFILE
+*            END-PERFORM.
+*ZC   1206         END_IF 
+         END_IF 
+*ZC   1206         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            PERFORM EOJ-U7-X-ROUTINE.
+*ZC   1207         PERFORM EOJ_U7_X_ROUTINE
+         PERFORM EOJ_U7_X_ROUTINE
+         PERIOD 
+         LABEL U7_X_LOOP_EXIT
+*ZC   1208         EXIT  
+         EXIT  
+*        U7-X-LOOP-EXIT. EXIT.
+         PERIOD 
+*        INITIALIZATION-U7-X-ROUTINE SECTION.
+         LABEL INITIALIZATION_U7_X_ROUTINE,SECTION
+*            MOVE 'N' TO END-OF-U6-FLAG.
+*ZC   1210         MOVE  'N',TO,END_OF_U6_FLAG
+         MOVE  'N',TO,END_OF_U6_FLAG
+         PERIOD 
+*            OPEN INPUT  U6B-FILE.
+*ZC   1211         OPEN  INPUT,U6B_FILE
+         OPEN  INPUT,U6B_FILE
+         PERIOD 
+*            PERFORM READ-U6BFILE.
+*ZC   1212         PERFORM READ_U6BFILE
+         PERFORM READ_U6BFILE
+         PERIOD 
+         LABEL INITIALIZATION_U7_X_EXIT
+*ZC   1213         EXIT  
+         EXIT  
+*        INITIALIZATION-U7-X-EXIT. EXIT.
+* 
+         PERIOD 
+*        EOJ-U7-X-ROUTINE SECTION.
+         LABEL EOJ_U7_X_ROUTINE,SECTION
+*            CLOSE U6B-FILE.
+*ZC   1216         CLOSE U6B_FILE
+         CLOSE U6B_FILE
+         PERIOD 
+*            MOVE 'Y' TO ITS-CLOSED.
+*ZC   1217         MOVE  'Y',TO,ITS_CLOSED
+         MOVE  'Y',TO,ITS_CLOSED
+         PERIOD 
+         LABEL EOJ_U7_X_EXIT
+*ZC   1218         EXIT  
+         EXIT  
+*        EOJ-U7-X-EXIT. EXIT.
+         PERIOD 
+*        READ-U6BFILE SECTION.
+         LABEL READ_U6BFILE,SECTION
+*            READ U6B-FILE           INTO WS-U6
+*                 AT END
+*ZC   1220         READ  U6B_FILE,INTO,WS_U6,AT,END
+         READ  U6B_FILE,INTO,WS_U6,AT,END
+*                    MOVE 'Y'         TO END-OF-U6-FLAG.
+*ZC   1222         MOVE  'Y',TO,END_OF_U6_FLAG
+         MOVE  'Y',TO,END_OF_U6_FLAG
+         PERIOD 
+         LABEL READ_U6BFILE_EXIT
+*ZC   1223         EXIT  
+         EXIT  
+         PERIOD 
+         PROCEDURE END
+         END   

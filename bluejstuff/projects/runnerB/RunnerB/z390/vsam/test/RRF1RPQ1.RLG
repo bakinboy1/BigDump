@@ -1,0 +1,38 @@
+EZ390I V1.3.08b Current Date 11/04/07 Time 08:43:32
+EZ390I Copyright 2006 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = REPRO
+EZ390I options = TRACE TRACEV TRACEQ
+Z390 VSAM REPRO UTILITY V1.0
+LOADING VSAM OUTFILE FROM QSAM INFILE
+REPRO OPENING VSAM OUTFILE FOR RELOAD VS MOD
+QSAM FILE RECFM=F  LRECL =    80
+SNAP DUMP ID=1 TEXT=REPRO FILES OPENED
+REPRO ENDED OK
+EZ390I Stats total instructions    = 347
+EZ390I stats TCPIO operations      = 0
+EZ390I stats DCB operations        = 11
+EZ390I stats DCB open              = 2
+EZ390I stats DCB close             = 2
+EZ390I stats DCB get               = 4
+EZ390I stats DCB put               = 0
+EZ390I stats DCB read              = 0
+EZ390I stats DCB write             = 3
+EZ390I stats VSAM operations       = 5
+EZ390I stats VSAM ACB open         = 1
+EZ390I stats VSAM ACB close        = 1
+EZ390I stats VSAM RPL get          = 0
+EZ390I stats VSAM RPL put          = 3
+EZ390I stats VSAM ACB point        = 0
+EZ390I stats VSAM ACB erase        = 0
+EZ390I stats VSAM VES read  cache  = 0
+EZ390I stats VSAM VES read  file   = 0
+EZ390I stats VSAM VES write file   = 3
+EZ390I stats VSAM VXN read  cache  = 0
+EZ390I stats VSAM VXN read  file   = 0
+EZ390I stats VSAM VXN write file   = 0
+EZ390I Stats current date 11/04/07 time 08:43:32
+EZ390I Stats total seconds         = 0
+EZ390I Stats instructions/sec      = 7886
+EZ390I total errors         = 0
+EZ390I return code(REPRO   )= 0

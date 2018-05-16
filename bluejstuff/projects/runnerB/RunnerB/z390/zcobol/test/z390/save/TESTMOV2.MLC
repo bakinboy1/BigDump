@@ -1,0 +1,868 @@
+         ZCOBOL PGM='zcobol\test\TESTMOV2',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTMOV2_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTMOV1.
+         PROGRAM_ID TESTMOV1
+*        AUTHOR.        DON HIGGINS.
+*      * TEST MOVE ALIGNMENT  FOR NON FP TYPES
+         AUTHOR DON,HIGGINS
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*         01  DF30   PIC ' ZZ9.'.
+         WS      01,DF30,PIC,' ZZ9.'
+*         01  DF31   PIC ' ZZ9.9'.
+         WS      01,DF31,PIC,' ZZ9.9'
+*         01  DF32   PIC ' ZZ9.99'.
+         WS      01,DF32,PIC,' ZZ9.99'
+*         77  ZF30   PIC S9(3)    VALUE 123.
+         WS      77,ZF30,PIC,S9(3),VALUE,123
+*         77  ZF31   PIC S9(3)V9  VALUE 123.4.
+         WS      77,ZF31,PIC,S9(3)V9,VALUE,123.4
+*         77  ZF32   PIC S9(3)V99 VALUE 123.45.
+         WS      77,ZF32,PIC,S9(3)V99,VALUE,123.45
+*         77  PF30   COMP-3 PIC S9(3)    VALUE 123.
+         WS      77,PF30,COMP_3,PIC,S9(3),VALUE,123
+*         77  PF31   COMP-3 PIC S9(3)V9  VALUE 123.4.
+         WS      77,PF31,COMP_3,PIC,S9(3)V9,VALUE,123.4
+*         77  PF32   COMP-3 PIC S9(3)V99 VALUE 123.45.        
+         WS      77,PF32,COMP_3,PIC,S9(3)V99,VALUE,123.45
+*         77  HF30   COMP   PIC S9(3)    VALUE 123.
+         WS      77,HF30,COMP,PIC,S9(3),VALUE,123
+*         77  HF31   COMP   PIC S9(3)V9  VALUE 123.4.
+         WS      77,HF31,COMP,PIC,S9(3)V9,VALUE,123.4
+*         77  HF32   COMP   PIC S9(2)V99 VALUE 23.45.
+         WS      77,HF32,COMP,PIC,S9(2)V99,VALUE,23.45
+*         77  FF30   COMP   PIC S9(6)    VALUE 123.
+         WS      77,FF30,COMP,PIC,S9(6),VALUE,123
+*         77  FF31   COMP   PIC S9(6)V9  VALUE 123.4.
+         WS      77,FF31,COMP,PIC,S9(6)V9,VALUE,123.4
+*         77  FF32   COMP   PIC S9(6)V99 VALUE 123.45.
+         WS      77,FF32,COMP,PIC,S9(6)V99,VALUE,123.45
+*         77  GF30   COMP   PIC S9(16)    VALUE 123.
+         WS      77,GF30,COMP,PIC,S9(16),VALUE,123
+*         77  GF31   COMP   PIC S9(16)V9  VALUE 123.4.
+         WS      77,GF31,COMP,PIC,S9(16)V9,VALUE,123.4
+*         77  GF32   COMP   PIC S9(16)V99 VALUE 23.45.
+         WS      77,GF32,COMP,PIC,S9(16)V99,VALUE,23.45
+*         77  QF30   COMP   PIC S9(29)    VALUE 123.
+         WS      77,QF30,COMP,PIC,S9(29),VALUE,123
+*         77  QF31   COMP   PIC S9(29)V9  VALUE 123.4.
+         WS      77,QF31,COMP,PIC,S9(29)V9,VALUE,123.4
+*         77  QF32   COMP   PIC S9(29)V99 VALUE 123.45.
+         WS      77,QF32,COMP,PIC,S9(29)V99,VALUE,123.45
+*         77  GOOD   COMP PIC S9(9) VALUE 0.
+         WS      77,GOOD,COMP,PIC,S9(9),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*     Z1     MOVE ZF30 TO DF30                                         X
+                 
+*ZC     32     Z1  MOVE  ZF30,TO,DF30
+         MOVE  ZF30,TO,DF30
+*            IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     33         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     33         PERFORM BAD
+         PERFORM BAD
+*ZC     33         ELSE  
+         ELSE  
+*ZC     33         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z2     MOVE ZF30 TO DF31                                         X
+                 
+*ZC     34     Z2  MOVE  ZF30,TO,DF31
+         MOVE  ZF30,TO,DF31
+*            IF DF31 NOT = ' 123.0'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC     35         IF    DF31,NOT,=,' 123.0'
+         IF    DF31,NOT,=,' 123.0'
+*ZC     35         PERFORM BAD
+         PERFORM BAD
+*ZC     35         ELSE  
+         ELSE  
+*ZC     35         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z3     MOVE ZF30 TO DF32                                         X
+                 
+*ZC     36     Z3  MOVE  ZF30,TO,DF32
+         MOVE  ZF30,TO,DF32
+*            IF DF32 NOT = ' 123.00'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     37         IF    DF32,NOT,=,' 123.00'
+         IF    DF32,NOT,=,' 123.00'
+*ZC     37         PERFORM BAD
+         PERFORM BAD
+*ZC     37         ELSE  
+         ELSE  
+*ZC     37         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z4     MOVE ZF31 TO DF30                                         X
+                 
+*ZC     38     Z4  MOVE  ZF31,TO,DF30
+         MOVE  ZF31,TO,DF30
+*            IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     39         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     39         PERFORM BAD
+         PERFORM BAD
+*ZC     39         ELSE  
+         ELSE  
+*ZC     39         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z5     MOVE ZF31 TO DF31                                         X
+                 
+*ZC     40     Z5  MOVE  ZF31,TO,DF31
+         MOVE  ZF31,TO,DF31
+*            IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC     41         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC     41         PERFORM BAD
+         PERFORM BAD
+*ZC     41         ELSE  
+         ELSE  
+*ZC     41         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z6     MOVE ZF31 TO DF32                                         X
+                 
+*ZC     42     Z6  MOVE  ZF31,TO,DF32
+         MOVE  ZF31,TO,DF32
+*            IF DF32 NOT = ' 123.40'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     43         IF    DF32,NOT,=,' 123.40'
+         IF    DF32,NOT,=,' 123.40'
+*ZC     43         PERFORM BAD
+         PERFORM BAD
+*ZC     43         ELSE  
+         ELSE  
+*ZC     43         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z7     MOVE ZF32 TO DF30                                         X
+                 
+*ZC     44     Z7  MOVE  ZF32,TO,DF30
+         MOVE  ZF32,TO,DF30
+*            IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     45         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     45         PERFORM BAD
+         PERFORM BAD
+*ZC     45         ELSE  
+         ELSE  
+*ZC     45         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z8     MOVE ZF32 TO DF31                                         X
+                 
+*ZC     46     Z8  MOVE  ZF32,TO,DF31
+         MOVE  ZF32,TO,DF31
+*            IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC     47         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC     47         PERFORM BAD
+         PERFORM BAD
+*ZC     47         ELSE  
+         ELSE  
+*ZC     47         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Z9     MOVE ZF32 TO DF32                                         X
+                 
+*ZC     48     Z9  MOVE  ZF32,TO,DF32
+         MOVE  ZF32,TO,DF32
+*            IF DF32 NOT = ' 123.45'  PERFORM BAD ELSE PERFORM GOOD.   X
+                 
+*ZC     49         IF    DF32,NOT,=,' 123.45'
+         IF    DF32,NOT,=,' 123.45'
+*ZC     49         PERFORM BAD
+         PERFORM BAD
+*ZC     49         ELSE  
+         ELSE  
+*ZC     49         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P1     MOVE PF30 TO DF30                                         X
+                 
+*ZC     50     P1  MOVE  PF30,TO,DF30
+         MOVE  PF30,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     51         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     51         PERFORM BAD
+         PERFORM BAD
+*ZC     51         ELSE  
+         ELSE  
+*ZC     51         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P2     MOVE PF30 TO DF31                                         X
+                 
+*ZC     52     P2  MOVE  PF30,TO,DF31
+         MOVE  PF30,TO,DF31
+*             IF DF31 NOT = ' 123.0'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC     53         IF    DF31,NOT,=,' 123.0'
+         IF    DF31,NOT,=,' 123.0'
+*ZC     53         PERFORM BAD
+         PERFORM BAD
+*ZC     53         ELSE  
+         ELSE  
+*ZC     53         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P3     MOVE PF30 TO DF32                                         X
+                 
+*ZC     54     P3  MOVE  PF30,TO,DF32
+         MOVE  PF30,TO,DF32
+*             IF DF32 NOT = ' 123.00'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     55         IF    DF32,NOT,=,' 123.00'
+         IF    DF32,NOT,=,' 123.00'
+*ZC     55         PERFORM BAD
+         PERFORM BAD
+*ZC     55         ELSE  
+         ELSE  
+*ZC     55         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P4     MOVE PF31 TO DF30                                         X
+                 
+*ZC     56     P4  MOVE  PF31,TO,DF30
+         MOVE  PF31,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     57         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     57         PERFORM BAD
+         PERFORM BAD
+*ZC     57         ELSE  
+         ELSE  
+*ZC     57         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P5     MOVE PF31 TO DF31                                         X
+                 
+*ZC     58     P5  MOVE  PF31,TO,DF31
+         MOVE  PF31,TO,DF31
+*             IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC     59         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC     59         PERFORM BAD
+         PERFORM BAD
+*ZC     59         ELSE  
+         ELSE  
+*ZC     59         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P6     MOVE PF31 TO DF32                                         X
+                 
+*ZC     60     P6  MOVE  PF31,TO,DF32
+         MOVE  PF31,TO,DF32
+*             IF DF32 NOT = ' 123.40'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     61         IF    DF32,NOT,=,' 123.40'
+         IF    DF32,NOT,=,' 123.40'
+*ZC     61         PERFORM BAD
+         PERFORM BAD
+*ZC     61         ELSE  
+         ELSE  
+*ZC     61         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P7     MOVE PF32 TO DF30                                         X
+                 
+*ZC     62     P7  MOVE  PF32,TO,DF30
+         MOVE  PF32,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     63         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     63         PERFORM BAD
+         PERFORM BAD
+*ZC     63         ELSE  
+         ELSE  
+*ZC     63         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P8     MOVE PF32 TO DF31                                         X
+                 
+*ZC     64     P8  MOVE  PF32,TO,DF31
+         MOVE  PF32,TO,DF31
+*             IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC     65         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC     65         PERFORM BAD
+         PERFORM BAD
+*ZC     65         ELSE  
+         ELSE  
+*ZC     65         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     P9     MOVE PF32 TO DF32                                         X
+                 
+*ZC     66     P9  MOVE  PF32,TO,DF32
+         MOVE  PF32,TO,DF32
+*             IF DF32 NOT = ' 123.45'  PERFORM BAD ELSE PERFORM GOOD.  X
+                  
+*ZC     67         IF    DF32,NOT,=,' 123.45'
+         IF    DF32,NOT,=,' 123.45'
+*ZC     67         PERFORM BAD
+         PERFORM BAD
+*ZC     67         ELSE  
+         ELSE  
+*ZC     67         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H1     MOVE HF30 TO DF30                                         X
+                 
+*ZC     68     H1  MOVE  HF30,TO,DF30
+         MOVE  HF30,TO,DF30
+*            IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     69         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     69         PERFORM BAD
+         PERFORM BAD
+*ZC     69         ELSE  
+         ELSE  
+*ZC     69         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H2     MOVE HF30 TO DF31                                         X
+                 
+*ZC     70     H2  MOVE  HF30,TO,DF31
+         MOVE  HF30,TO,DF31
+*            IF DF31 NOT = ' 123.0'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC     71         IF    DF31,NOT,=,' 123.0'
+         IF    DF31,NOT,=,' 123.0'
+*ZC     71         PERFORM BAD
+         PERFORM BAD
+*ZC     71         ELSE  
+         ELSE  
+*ZC     71         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H3     MOVE HF30 TO DF32                                         X
+                 
+*ZC     72     H3  MOVE  HF30,TO,DF32
+         MOVE  HF30,TO,DF32
+*            IF DF32 NOT = ' 123.00'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     73         IF    DF32,NOT,=,' 123.00'
+         IF    DF32,NOT,=,' 123.00'
+*ZC     73         PERFORM BAD
+         PERFORM BAD
+*ZC     73         ELSE  
+         ELSE  
+*ZC     73         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H4     MOVE HF31 TO DF30                                         X
+                 
+*ZC     74     H4  MOVE  HF31,TO,DF30
+         MOVE  HF31,TO,DF30
+*            IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     75         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     75         PERFORM BAD
+         PERFORM BAD
+*ZC     75         ELSE  
+         ELSE  
+*ZC     75         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H5     MOVE HF31 TO DF31                                         X
+                 
+*ZC     76     H5  MOVE  HF31,TO,DF31
+         MOVE  HF31,TO,DF31
+*            IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC     77         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC     77         PERFORM BAD
+         PERFORM BAD
+*ZC     77         ELSE  
+         ELSE  
+*ZC     77         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H6     MOVE HF31 TO DF32                                         X
+                 
+*ZC     78     H6  MOVE  HF31,TO,DF32
+         MOVE  HF31,TO,DF32
+*            IF DF32 NOT = ' 123.40'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     79         IF    DF32,NOT,=,' 123.40'
+         IF    DF32,NOT,=,' 123.40'
+*ZC     79         PERFORM BAD
+         PERFORM BAD
+*ZC     79         ELSE  
+         ELSE  
+*ZC     79         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H7     MOVE HF32 TO DF30                                         X
+                 
+*ZC     80     H7  MOVE  HF32,TO,DF30
+         MOVE  HF32,TO,DF30
+*            IF DF30 NOT = '  23'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     81         IF    DF30,NOT,=,'  23'
+         IF    DF30,NOT,=,'  23'
+*ZC     81         PERFORM BAD
+         PERFORM BAD
+*ZC     81         ELSE  
+         ELSE  
+*ZC     81         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H8     MOVE HF32 TO DF31                                         X
+                 
+*ZC     82     H8  MOVE  HF32,TO,DF31
+         MOVE  HF32,TO,DF31
+*            IF DF31 NOT = '  23.4'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC     83         IF    DF31,NOT,=,'  23.4'
+         IF    DF31,NOT,=,'  23.4'
+*ZC     83         PERFORM BAD
+         PERFORM BAD
+*ZC     83         ELSE  
+         ELSE  
+*ZC     83         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     H9     MOVE HF32 TO DF32                                         X
+                 
+*ZC     84     H9  MOVE  HF32,TO,DF32
+         MOVE  HF32,TO,DF32
+*            IF DF32 NOT = '  23.45'  PERFORM BAD ELSE PERFORM GOOD.   X
+                 
+*ZC     85         IF    DF32,NOT,=,'  23.45'
+         IF    DF32,NOT,=,'  23.45'
+*ZC     85         PERFORM BAD
+         PERFORM BAD
+*ZC     85         ELSE  
+         ELSE  
+*ZC     85         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F1     MOVE FF30 TO DF30                                         X
+                 
+*ZC     86     F1  MOVE  FF30,TO,DF30
+         MOVE  FF30,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     87         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     87         PERFORM BAD
+         PERFORM BAD
+*ZC     87         ELSE  
+         ELSE  
+*ZC     87         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F2     MOVE FF30 TO DF31                                         X
+                 
+*ZC     88     F2  MOVE  FF30,TO,DF31
+         MOVE  FF30,TO,DF31
+*             IF DF31 NOT = ' 123.0'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC     89         IF    DF31,NOT,=,' 123.0'
+         IF    DF31,NOT,=,' 123.0'
+*ZC     89         PERFORM BAD
+         PERFORM BAD
+*ZC     89         ELSE  
+         ELSE  
+*ZC     89         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F3     MOVE FF30 TO DF32                                         X
+                 
+*ZC     90     F3  MOVE  FF30,TO,DF32
+         MOVE  FF30,TO,DF32
+*             IF DF32 NOT = ' 123.00'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     91         IF    DF32,NOT,=,' 123.00'
+         IF    DF32,NOT,=,' 123.00'
+*ZC     91         PERFORM BAD
+         PERFORM BAD
+*ZC     91         ELSE  
+         ELSE  
+*ZC     91         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F4     MOVE FF31 TO DF30                                         X
+                 
+*ZC     92     F4  MOVE  FF31,TO,DF30
+         MOVE  FF31,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     93         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     93         PERFORM BAD
+         PERFORM BAD
+*ZC     93         ELSE  
+         ELSE  
+*ZC     93         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F5     MOVE FF31 TO DF31                                         X
+                 
+*ZC     94     F5  MOVE  FF31,TO,DF31
+         MOVE  FF31,TO,DF31
+*             IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC     95         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC     95         PERFORM BAD
+         PERFORM BAD
+*ZC     95         ELSE  
+         ELSE  
+*ZC     95         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F6     MOVE FF31 TO DF32                                         X
+                 
+*ZC     96     F6  MOVE  FF31,TO,DF32
+         MOVE  FF31,TO,DF32
+*             IF DF32 NOT = ' 123.40'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC     97         IF    DF32,NOT,=,' 123.40'
+         IF    DF32,NOT,=,' 123.40'
+*ZC     97         PERFORM BAD
+         PERFORM BAD
+*ZC     97         ELSE  
+         ELSE  
+*ZC     97         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F7     MOVE FF32 TO DF30                                         X
+                 
+*ZC     98     F7  MOVE  FF32,TO,DF30
+         MOVE  FF32,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC     99         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC     99         PERFORM BAD
+         PERFORM BAD
+*ZC     99         ELSE  
+         ELSE  
+*ZC     99         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F8     MOVE FF32 TO DF31                                         X
+                 
+*ZC    100     F8  MOVE  FF32,TO,DF31
+         MOVE  FF32,TO,DF31
+*             IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC    101         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC    101         PERFORM BAD
+         PERFORM BAD
+*ZC    101         ELSE  
+         ELSE  
+*ZC    101         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     F9     MOVE FF32 TO DF32                                         X
+                 
+*ZC    102     F9  MOVE  FF32,TO,DF32
+         MOVE  FF32,TO,DF32
+*             IF DF32 NOT = ' 123.45'  PERFORM BAD ELSE PERFORM GOOD. 
+*ZC    103         IF    DF32,NOT,=,' 123.45'
+         IF    DF32,NOT,=,' 123.45'
+*ZC    103         PERFORM BAD
+         PERFORM BAD
+*ZC    103         ELSE  
+         ELSE  
+*ZC    103         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G1     MOVE GF30 TO DF30                                         X
+                 
+*ZC    104     G1  MOVE  GF30,TO,DF30
+         MOVE  GF30,TO,DF30
+*            IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC    105         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC    105         PERFORM BAD
+         PERFORM BAD
+*ZC    105         ELSE  
+         ELSE  
+*ZC    105         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G2     MOVE GF30 TO DF31                                         X
+                 
+*ZC    106     G2  MOVE  GF30,TO,DF31
+         MOVE  GF30,TO,DF31
+*            IF DF31 NOT = ' 123.0'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC    107         IF    DF31,NOT,=,' 123.0'
+         IF    DF31,NOT,=,' 123.0'
+*ZC    107         PERFORM BAD
+         PERFORM BAD
+*ZC    107         ELSE  
+         ELSE  
+*ZC    107         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G3     MOVE GF30 TO DF32                                         X
+                 
+*ZC    108     G3  MOVE  GF30,TO,DF32
+         MOVE  GF30,TO,DF32
+*            IF DF32 NOT = ' 123.00'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC    109         IF    DF32,NOT,=,' 123.00'
+         IF    DF32,NOT,=,' 123.00'
+*ZC    109         PERFORM BAD
+         PERFORM BAD
+*ZC    109         ELSE  
+         ELSE  
+*ZC    109         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G4     MOVE GF31 TO DF30                                         X
+                 
+*ZC    110     G4  MOVE  GF31,TO,DF30
+         MOVE  GF31,TO,DF30
+*            IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC    111         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC    111         PERFORM BAD
+         PERFORM BAD
+*ZC    111         ELSE  
+         ELSE  
+*ZC    111         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G5     MOVE GF31 TO DF31                                         X
+                 
+*ZC    112     G5  MOVE  GF31,TO,DF31
+         MOVE  GF31,TO,DF31
+*            IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC    113         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC    113         PERFORM BAD
+         PERFORM BAD
+*ZC    113         ELSE  
+         ELSE  
+*ZC    113         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G6     MOVE GF31 TO DF32                                         X
+                 
+*ZC    114     G6  MOVE  GF31,TO,DF32
+         MOVE  GF31,TO,DF32
+*            IF DF32 NOT = ' 123.40'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC    115         IF    DF32,NOT,=,' 123.40'
+         IF    DF32,NOT,=,' 123.40'
+*ZC    115         PERFORM BAD
+         PERFORM BAD
+*ZC    115         ELSE  
+         ELSE  
+*ZC    115         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G7     MOVE GF32 TO DF30                                         X
+                 
+*ZC    116     G7  MOVE  GF32,TO,DF30
+         MOVE  GF32,TO,DF30
+*            IF DF30 NOT = '  23'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC    117         IF    DF30,NOT,=,'  23'
+         IF    DF30,NOT,=,'  23'
+*ZC    117         PERFORM BAD
+         PERFORM BAD
+*ZC    117         ELSE  
+         ELSE  
+*ZC    117         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G8     MOVE GF32 TO DF31                                         X
+                 
+*ZC    118     G8  MOVE  GF32,TO,DF31
+         MOVE  GF32,TO,DF31
+*            IF DF31 NOT = '  23.4'   PERFORM BAD ELSE PERFORM GOOD.   X
+                  
+*ZC    119         IF    DF31,NOT,=,'  23.4'
+         IF    DF31,NOT,=,'  23.4'
+*ZC    119         PERFORM BAD
+         PERFORM BAD
+*ZC    119         ELSE  
+         ELSE  
+*ZC    119         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     G9     MOVE GF32 TO DF32                                         X
+                 
+*ZC    120     G9  MOVE  GF32,TO,DF32
+         MOVE  GF32,TO,DF32
+*            IF DF32 NOT = '  23.45'  PERFORM BAD ELSE PERFORM GOOD.   X
+                 
+*ZC    121         IF    DF32,NOT,=,'  23.45'
+         IF    DF32,NOT,=,'  23.45'
+*ZC    121         PERFORM BAD
+         PERFORM BAD
+*ZC    121         ELSE  
+         ELSE  
+*ZC    121         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q1     MOVE QF30 TO DF30                                         X
+                 
+*ZC    122     Q1  MOVE  QF30,TO,DF30
+         MOVE  QF30,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC    123         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC    123         PERFORM BAD
+         PERFORM BAD
+*ZC    123         ELSE  
+         ELSE  
+*ZC    123         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q2     MOVE QF30 TO DF31                                         X
+                 
+*ZC    124     Q2  MOVE  QF30,TO,DF31
+         MOVE  QF30,TO,DF31
+*             IF DF31 NOT = ' 123.0'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC    125         IF    DF31,NOT,=,' 123.0'
+         IF    DF31,NOT,=,' 123.0'
+*ZC    125         PERFORM BAD
+         PERFORM BAD
+*ZC    125         ELSE  
+         ELSE  
+*ZC    125         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q3     MOVE QF30 TO DF32                                         X
+                 
+*ZC    126     Q3  MOVE  QF30,TO,DF32
+         MOVE  QF30,TO,DF32
+*             IF DF32 NOT = ' 123.00'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC    127         IF    DF32,NOT,=,' 123.00'
+         IF    DF32,NOT,=,' 123.00'
+*ZC    127         PERFORM BAD
+         PERFORM BAD
+*ZC    127         ELSE  
+         ELSE  
+*ZC    127         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q4     MOVE QF31 TO DF30                                         X
+                 
+*ZC    128     Q4  MOVE  QF31,TO,DF30
+         MOVE  QF31,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC    129         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC    129         PERFORM BAD
+         PERFORM BAD
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q5     MOVE QF31 TO DF31                                         X
+                 
+*ZC    130     Q5  MOVE  QF31,TO,DF31
+         MOVE  QF31,TO,DF31
+*             IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC    131         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC    131         PERFORM BAD
+         PERFORM BAD
+*ZC    131         ELSE  
+         ELSE  
+*ZC    131         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q6     MOVE QF31 TO DF32                                         X
+                 
+*ZC    132     Q6  MOVE  QF31,TO,DF32
+         MOVE  QF31,TO,DF32
+*             IF DF32 NOT = ' 123.40'  PERFORM BAD ELSE PERFORM GOOD.
+*ZC    133         IF    DF32,NOT,=,' 123.40'
+         IF    DF32,NOT,=,' 123.40'
+*ZC    133         PERFORM BAD
+         PERFORM BAD
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q7     MOVE QF32 TO DF30                                         X
+                 
+*ZC    134     Q7  MOVE  QF32,TO,DF30
+         MOVE  QF32,TO,DF30
+*             IF DF30 NOT = ' 123'     PERFORM BAD ELSE PERFORM GOOD.
+*ZC    135         IF    DF30,NOT,=,' 123'
+         IF    DF30,NOT,=,' 123'
+*ZC    135         PERFORM BAD
+         PERFORM BAD
+*ZC    135         ELSE  
+         ELSE  
+*ZC    135         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q8     MOVE QF32 TO DF31                                         X
+                 
+*ZC    136     Q8  MOVE  QF32,TO,DF31
+         MOVE  QF32,TO,DF31
+*             IF DF31 NOT = ' 123.4'   PERFORM BAD ELSE PERFORM GOOD.  X
+                   
+*ZC    137         IF    DF31,NOT,=,' 123.4'
+         IF    DF31,NOT,=,' 123.4'
+*ZC    137         PERFORM BAD
+         PERFORM BAD
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     Q9     MOVE QF32 TO DF32                                         X
+                 
+*ZC    138     Q9  MOVE  QF32,TO,DF32
+         MOVE  QF32,TO,DF32
+*             IF DF32 NOT = ' 123.45'  PERFORM BAD ELSE PERFORM GOOD. 
+*ZC    139         IF    DF32,NOT,=,' 123.45'
+         IF    DF32,NOT,=,' 123.45'
+*ZC    139         PERFORM BAD
+         PERFORM BAD
+*ZC    139         ELSE  
+         ELSE  
+*ZC    139         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            DISPLAY 'TESTMOV2 GOOD TESTS =' GOOD 
+*ZC    140         DISPLAY 'TESTMOV2 GOOD TESTS =',GOOD
+         DISPLAY 'TESTMOV2 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC    141         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD
+*ZC    143         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*        BAD.
+         LABEL BAD
+*            MOVE 16 TO RETURN-CODE
+*ZC    145         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    146         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

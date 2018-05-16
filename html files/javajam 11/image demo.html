@@ -1,0 +1,63 @@
+<html>
+  <head>
+  <title>Image Array Demo</title>
+<script>
+
+var description = new Array("Cafe au Lait", "Iced Cappuccino", "Americano", "Dirty Chai", "Latte", "Mocha");
+var pictures = new Array(5);
+var counter = 0;
+
+
+function initialize(){
+  // sets up the array with some startin values
+  // Andy Harris
+  pictures[0] = new Image(215, 190);
+  pictures[0].src = "coffeeImages/cafeaulait.jpg";
+  pictures[1] = new Image(215, 190);
+  pictures[1].src = "coffeeImages/cappuchino.jpg";
+  pictures[2] = new Image(215, 190);
+  pictures[2].src = "coffeeImages/americano.jpg";
+  pictures[3] = new Image(215, 190);
+  pictures[3].src = "coffeeImages/dirtychai.jpg";
+  pictures[4] = new Image(215, 190);
+  pictures[4].src = "coffeeImages/latte.jpg";
+  pictures[5] = new Image(215, 190);
+  pictures[5].src = "coffeeImages/mocha.jpg";
+
+} // end initialize 
+
+function upDate(){
+  //increments the counter and shows the next description
+  counter++;
+  if (counter > 5){
+    counter = 0;
+  } // end if
+  document.imgDisplay.src = pictures[counter].src;
+  document.myForm.txtDescription.value = description[counter];
+} // end upDate
+
+</script>
+</head>
+
+<body onLoad = "initialize()">
+<center>
+<h1>Image Array Demo<hr></h1>
+<form name = "myForm">
+<img src = "coffeeImages/cafeaulait.jpg"
+     name = "imgDisplay"
+     height = "215"
+     width = "190">
+<br>
+
+<input type = "text"
+       name = "txtDescription"
+       value = "Cafe au Lait">
+<br>
+<input type = "button"
+       value = "next"
+       onClick = "upDate()">
+</form>
+</center>
+<hr>
+</body>
+</html>

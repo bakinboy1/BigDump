@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Queue2Stack()
+comment1.params=element
+comment1.target=void\ enqueue(java.lang.Object)
+comment2.params=
+comment2.target=java.lang.Object\ dequeue()
+comment3.params=
+comment3.target=java.lang.Object\ first()
+comment4.params=
+comment4.target=int\ getSize()
+comment5.params=
+comment5.target=boolean\ isEmpty()
+numComments=6

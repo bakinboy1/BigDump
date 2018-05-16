@@ -1,0 +1,142 @@
+         ZCOBOL PGM='zcobol\test\TESTTRC1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s,TRUNC)
+         COPY  TESTTRC1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTTRC1.
+         PROGRAM_ID TESTTRC1
+*        AUTHOR.        DON HIGGINS.
+*      * TEST TRUNC OPTION (REQUIRES TRUNC OPTION OVERRIDE)
+         AUTHOR DON,HIGGINS
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*         77  HW1     COMP PIC S9(4).
+         WS      77,HW1,COMP,PIC,S9(4)
+*         77  FW1     COMP PIC S9(9).
+         WS      77,FW1,COMP,PIC,S9(9)
+*         77  GW1     COMP PIC S9(18).
+         WS      77,GW1,COMP,PIC,S9(18)
+*         77  GOOD   COMP PIC S9(9) VALUE 0.
+         WS      77,GOOD,COMP,PIC,S9(9),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            MOVE 9998 TO HW1
+*ZC     14         MOVE  9998,TO,HW1
+         MOVE  9998,TO,HW1
+*            ADD  1    TO HW1
+*ZC     15         ADD   1,TO,HW1
+         ADD   1,TO,HW1
+*      1     IF HW1 NOT = 9999 PERFORM BAD ELSE PERFORM GOOD.
+*ZC     16      1  IF    HW1,NOT,=,9999
+         IF    HW1,NOT,=,9999
+*ZC     16      1  PERFORM BAD
+         PERFORM BAD
+*ZC     16      1  ELSE  
+         ELSE  
+*ZC     16      1  PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            ADD  1    TO HW1
+*ZC     17         ADD   1,TO,HW1
+         ADD   1,TO,HW1
+*      2     IF HW1 NOT = 0    PERFORM BAD ELSE PERFORM GOOD.
+*ZC     18      2  IF    HW1,NOT,=,0
+         IF    HW1,NOT,=,0
+*ZC     18      2  PERFORM BAD
+         PERFORM BAD
+*ZC     18      2  ELSE  
+         ELSE  
+*ZC     18      2  PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 999999998 TO FW1
+*ZC     19         MOVE  999999998,TO,FW1
+         MOVE  999999998,TO,FW1
+*            ADD  1    TO FW1
+*ZC     20         ADD   1,TO,FW1
+         ADD   1,TO,FW1
+*      3     IF FW1 NOT = 999999999 PERFORM BAD ELSE PERFORM GOOD.
+*ZC     21      3  IF    FW1,NOT,=,999999999
+         IF    FW1,NOT,=,999999999
+*ZC     21      3  PERFORM BAD
+         PERFORM BAD
+*ZC     21      3  ELSE  
+         ELSE  
+*ZC     21      3  PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            ADD  1    TO FW1
+*ZC     22         ADD   1,TO,FW1
+         ADD   1,TO,FW1
+*      4     IF FW1 NOT = 0    PERFORM BAD ELSE PERFORM GOOD.
+*ZC     23      4  IF    FW1,NOT,=,0
+         IF    FW1,NOT,=,0
+*ZC     23      4  PERFORM BAD
+         PERFORM BAD
+*ZC     23      4  ELSE  
+         ELSE  
+*ZC     23      4  PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 999999999999999998 TO GW1
+*ZC     24         MOVE  999999999999999998,TO,GW1
+         MOVE  999999999999999998,TO,GW1
+*            ADD  1    TO GW1
+*ZC     25         ADD   1,TO,GW1
+         ADD   1,TO,GW1
+*      5     IF GW1 NOT = 999999999999999999 
+*ZC     26      5  IF    GW1,NOT,=,999999999999999999
+         IF    GW1,NOT,=,999999999999999999
+*                              PERFORM BAD ELSE PERFORM GOOD.
+*ZC     27         PERFORM BAD
+         PERFORM BAD
+*ZC     27         ELSE  
+         ELSE  
+*ZC     27         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            ADD  1    TO GW1
+*ZC     28         ADD   1,TO,GW1
+         ADD   1,TO,GW1
+*      6     IF GW1 NOT = 0    PERFORM BAD ELSE PERFORM GOOD.
+*ZC     29      6  IF    GW1,NOT,=,0
+         IF    GW1,NOT,=,0
+*ZC     29      6  PERFORM BAD
+         PERFORM BAD
+*ZC     29      6  ELSE  
+         ELSE  
+*ZC     29      6  PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            DISPLAY 'TESTTRC1 GOOD TESTS =' GOOD 
+*ZC     30         DISPLAY 'TESTTRC1 GOOD TESTS =',GOOD
+         DISPLAY 'TESTTRC1 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC     31         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD
+*ZC     33         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*        BAD.
+         LABEL BAD
+*            MOVE 16 TO RETURN-CODE
+*ZC     35         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC     36         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

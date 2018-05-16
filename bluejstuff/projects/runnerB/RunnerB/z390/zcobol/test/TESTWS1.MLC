@@ -1,0 +1,644 @@
+         ZCOBOL PGM='zcobol\test\TESTWS1',VER=V1.5.06,CDATE=MM/DD/YY,CTX
+               IME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statsX
+               )
+         COPY  TESTWS1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTWS1.
+         PROGRAM_ID TESTWS1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  05/01/08.
+*      ***************************************************************
+*      * REGRESSION TEST WORKING STORAGE DATA FIELD GENERATION
+*      ***************************************************************
+*      * 10/16/08 ADD TEST FOR OCCURS AT GROUP LEVEL
+*      * 01/01/09 ADD CONTINUATION TEST                  
+*      ***************************************************************
+         DATE_WRITTEN 05,/,01,/,08
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 GOOD    PIC S9(4) VALUE 0.
+         WS      77,GOOD,PIC,S9(4),VALUE,0
+*        77 FIELD   PIC X(30) VALUE SPACES.
+         WS      77,FIELD,PIC,X(30),VALUE,SPACES
+*        77 P1      PIC 9 VALUE 1.
+         WS      77,P1,PIC,9,VALUE,1
+*        77 P2      PIC 9 VALUE 2.
+         WS      77,P2,PIC,9,VALUE,2
+*        01 G1.
+         WS      01,G1
+*           05 PP3   PIC 99 VALUE 3.
+         WS        05,PP3,PIC,99,VALUE,3
+*           05 X1    PIC X  VALUE '1'.
+         WS        05,X1,PIC,X,VALUE,'1'
+*           05 XX02  PIC XX VALUE '02'.
+         WS        05,XX02,PIC,XX,VALUE,'02'
+*           05 G2-TABLE-DATA.
+         WS        05,G2_TABLE_DATA
+*              10 PIC X VALUE 'A'.
+         WS          10,PIC,X,VALUE,'A'
+*              10 PIC X VALUE 'B'.
+         WS          10,PIC,X,VALUE,'B'
+*           05 G2-TABLE REDEFINES G2-TABLE-DATA OCCURS 2.
+         WS        05,G2_TABLE,REDEFINES,G2_TABLE_DATA,OCCURS,2
+*              10 G2-TABLE-ENTRY PIC X.
+         WS          10,G2_TABLE_ENTRY,PIC,X
+*        01 G1-REDEF REDEFINES G1.
+         WS      01,G1_REDEF,REDEFINES,G1
+*           05 PP3C  PIC XX.
+         WS        05,PP3C,PIC,XX
+*           05 X3    PIC XXX.
+         WS        05,X3,PIC,XXX
+*           05 G2V   PIC XX.
+         WS        05,G2V,PIC,XX
+*        01 G1V PIC X(7) VALUE '03102AB'.
+         WS      01,G1V,PIC,X(7),VALUE,'03102AB'
+*        77 TF COMP  PIC S9(9)  VALUE X'ff'.
+         WS      77,TF,COMP,PIC,S9(9),VALUE,X'FF'
+*        77 TH COMP  PIC S9(4)  VALUE X'ff'.
+         WS      77,TH,COMP,PIC,S9(4),VALUE,X'FF'
+*        77 TX       PIC X(1)   VALUE X'c1'.
+         WS      77,TX,PIC,X(1),VALUE,X'C1'
+*        77 TF2 COMP  PIC S9(9)  VALUE X"ff".
+         WS      77,TF2,COMP,PIC,S9(9),VALUE,X"FF"
+*        77 TH2 COMP  PIC S9(4)  VALUE X"ff".
+         WS      77,TH2,COMP,PIC,S9(4),VALUE,X"FF"
+*        77 TX2       PIC X(1)   VALUE X"c1".
+         WS      77,TX2,PIC,X(1),VALUE,X"C1"
+*        77 TPN       PIC S9     VALUE +1.
+         WS      77,TPN,PIC,S9,VALUE,+,1
+*        77 TMN       PIC S9     VALUE -1.
+         WS      77,TMN,PIC,S9,VALUE,-,1
+*        77 TX1       PIC X(1).
+         WS      77,TX1,PIC,X(1)
+*        77 TX3       PIC X(3).
+         WS      77,TX3,PIC,X(3)
+*         77 SPLIT-LIT  PIC X(79)
+*                 VALUE 'TESTBEC6 TEST 5:PRESS AID KEY TO HANDLE AEI0 AX
+               BEN
+*       -               'D IN LINKED PROGRAM BY PROGRAM'.
+*       -               'D IN LINKED PROGRAM BY PROGRAM'.
+         WS      77,SPLIT_LIT,PIC,X(79),VALUE,'TESTBEC6 TEST 5:PRESS AIX
+               D KEY TO HANDLE AEI0 ABEND IN LINKED PROGRAM BY PROGRAM'
+*        77 CP1-SRT COMP-1           VALUE 1234567.
+         WS      77,CP1_SRT,COMP_1,VALUE,1234567
+*        77 CP2-LNG COMP-2           VALUE 123456789012345.
+         WS      77,CP2_LNG,COMP_2,VALUE,123456789012345
+*        77 HFP-SRT FLOAT-HEX-7      VALUE 1234567.
+         WS      77,HFP_SRT,FLOAT_HEX_7,VALUE,1234567
+*        77 HFP-LNG FLOAT-HEX-15     VALUE 123456789012345.
+         WS      77,HFP_LNG,FLOAT_HEX_15,VALUE,123456789012345
+*        77 HFP-EXT FLOAT-HEX-30 
+*                   VALUE 123456789012345678901234567890.
+         WS      77,HFP_EXT,FLOAT_HEX_30,VALUE,123456789012345678901234X
+               567890
+*        77 BFP-SRT FLOAT-BINARY-7   VALUE 1234567.
+         WS      77,BFP_SRT,FLOAT_BINARY_7,VALUE,1234567
+*        77 BFP-LNG FLOAT-BINARY-16  VALUE 123456789012345.
+         WS      77,BFP_LNG,FLOAT_BINARY_16,VALUE,123456789012345
+*        77 BFP-EXT FLOAT-BINARY-34
+*                   VALUE 1234567890123456789012345678901234.
+         WS      77,BFP_EXT,FLOAT_BINARY_34,VALUE,123456789012345678901X
+               2345678901234
+*        77 DFP-SRT FLOAT-DECIMAL-7  VALUE 1234567.
+         WS      77,DFP_SRT,FLOAT_DECIMAL_7,VALUE,1234567
+*        77 DFP-LNG FLOAT-DECIMAL-16 VALUE 1234567890123456.
+         WS      77,DFP_LNG,FLOAT_DECIMAL_16,VALUE,1234567890123456
+*        77 DFP-EXT FLOAT-DECIMAL-34
+*                   VALUE 1234567890123456789012345678901234.
+         WS      77,DFP_EXT,FLOAT_DECIMAL_34,VALUE,12345678901234567890X
+               12345678901234
+*        77 FLT-SRT FLOAT-SHORT    VALUE 1234567.
+         WS      77,FLT_SRT,FLOAT_SHORT,VALUE,1234567
+*        77 FLT-LNG FLOAT-LONG     VALUE 1234567890123456.
+         WS      77,FLT_LNG,FLOAT_LONG,VALUE,1234567890123456
+*        77 FLT-EXT FLOAT-EXTENDED 
+*                   VALUE 1234567890123456789012345678901234.
+         WS      77,FLT_EXT,FLOAT_EXTENDED,VALUE,1234567890123456789012X
+               345678901234
+*        77 HW1     COMP PIC S9(4)   VALUE 1234.
+         WS      77,HW1,COMP,PIC,S9(4),VALUE,1234
+*        77 FW1     COMP PIC S9(9)   VALUE 123456789.
+         WS      77,FW1,COMP,PIC,S9(9),VALUE,123456789
+*        77 GW1     COMP PIC S9(18)  VALUE 123456789012345678.
+         WS      77,GW1,COMP,PIC,S9(18),VALUE,123456789012345678
+*        77 QW1     COMP PIC S9(39) 
+*                   VALUE 123456789012345678901234567890123456789.
+         WS      77,QW1,COMP,PIC,S9(39),VALUE,1234567890123456789012345X
+               67890123456789
+*        77 PD1     COMP-3 PIC S9(31) 
+*                   VALUE 1234567890123456789012345678901.        
+         WS      77,PD1,COMP_3,PIC,S9(31),VALUE,12345678901234567890123X
+               45678901
+*        77 ZD1     PIC S9(31) 
+*                   VALUE 1234567890123456789012345678901.
+         WS      77,ZD1,PIC,S9(31),VALUE,123456789012345678901234567890X
+               1
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTWS1 STARTING'
+*ZC     74         DISPLAY 'TESTWS1 STARTING'
+         DISPLAY 'TESTWS1 STARTING'
+*            IF P1 NOT = 1   MOVE 'P1' TO FIELD GO TO ABORT.
+*ZC     75         IF    P1,NOT,=,1
+         IF    P1,NOT,=,1
+*ZC     75         MOVE  'P1',TO,FIELD
+         MOVE  'P1',TO,FIELD
+*ZC     75         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            IF PP3C NOT = '03' MOVE 'P1C' TO FIELD GO TO ABORT.
+*ZC     76         IF    PP3C,NOT,=,'03'
+         IF    PP3C,NOT,=,'03'
+*ZC     76         MOVE  'P1C',TO,FIELD
+         MOVE  'P1C',TO,FIELD
+*ZC     76         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            IF X3 NOT = '102' MOVE 'X3' TO FIELD GO TO ABORT.
+*ZC     77         IF    X3,NOT,=,'102'
+         IF    X3,NOT,=,'102'
+*ZC     77         MOVE  'X3',TO,FIELD
+         MOVE  'X3',TO,FIELD
+*ZC     77         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            IF P2 NOT = 2   MOVE 'P2' TO FIELD GO TO ABORT.
+*ZC     78         IF    P2,NOT,=,2
+         IF    P2,NOT,=,2
+*ZC     78         MOVE  'P2',TO,FIELD
+         MOVE  'P2',TO,FIELD
+*ZC     78         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            IF G1 NOT = G1V MOVE 'G1' TO FIELD GO TO ABORT.
+*ZC     79         IF    G1,NOT,=,G1V
+         IF    G1,NOT,=,G1V
+*ZC     79         MOVE  'G1',TO,FIELD
+         MOVE  'G1',TO,FIELD
+*ZC     79         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            IF G1-REDEF NOT = G1V MOVE 'G1-REDEF' TO FIELD GO TO ABORTX
+               .
+*ZC     80         IF    G1_REDEF,NOT,=,G1V
+         IF    G1_REDEF,NOT,=,G1V
+*ZC     80         MOVE  'G1-REDEF',TO,FIELD
+         MOVE  'G1-REDEF',TO,FIELD
+*ZC     80         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            IF G2V      NOT = 'AB' MOVE 'G2-TABLE' TO FIELD GO TO ABORX
+               T.
+*ZC     81         IF    G2V,NOT,=,'AB'
+         IF    G2V,NOT,=,'AB'
+*ZC     81         MOVE  'G2-TABLE',TO,FIELD
+         MOVE  'G2-TABLE',TO,FIELD
+*ZC     81         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            DISPLAY 'TF =' TF.
+*ZC     82         DISPLAY 'TF =',TF
+         DISPLAY 'TF =',TF
+         PERIOD 
+*            IF TF NOT = 255 MOVE 'TF-HEX' TO FIELD GO TO ABORT.
+*ZC     83         IF    TF,NOT,=,255
+         IF    TF,NOT,=,255
+*ZC     83         MOVE  'TF-HEX',TO,FIELD
+         MOVE  'TF-HEX',TO,FIELD
+*ZC     83         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            DISPLAY 'TH =' TH.
+*ZC     84         DISPLAY 'TH =',TH
+         DISPLAY 'TH =',TH
+         PERIOD 
+*            IF TH NOT = 255 MOVE 'TH-HEX' TO FIELD GO TO ABORT.
+*ZC     85         IF    TH,NOT,=,255
+         IF    TH,NOT,=,255
+*ZC     85         MOVE  'TH-HEX',TO,FIELD
+         MOVE  'TH-HEX',TO,FIELD
+*ZC     85         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            DISPLAY 'TX =' TX.
+*ZC     86         DISPLAY 'TX =',TX
+         DISPLAY 'TX =',TX
+         PERIOD 
+*            IF TX NOT = 'A' MOVE 'TX-HEX' TO FIELD GO TO ABORT.
+*ZC     87         IF    TX,NOT,=,'A'
+         IF    TX,NOT,=,'A'
+*ZC     87         MOVE  'TX-HEX',TO,FIELD
+         MOVE  'TX-HEX',TO,FIELD
+*ZC     87         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            DISPLAY 'TF =' TF.
+*ZC     88         DISPLAY 'TF =',TF
+         DISPLAY 'TF =',TF
+         PERIOD 
+*            DISPLAY 'TH =' TH.
+*ZC     89         DISPLAY 'TH =',TH
+         DISPLAY 'TH =',TH
+         PERIOD 
+*            DISPLAY 'TX =' TX.
+*ZC     90         DISPLAY 'TX =',TX
+         DISPLAY 'TX =',TX
+         PERIOD 
+*            DISPLAY 'TF2=' TF2.
+*ZC     91         DISPLAY 'TF2=',TF2
+         DISPLAY 'TF2=',TF2
+         PERIOD 
+*            DISPLAY 'TH2=' TH2.
+*ZC     92         DISPLAY 'TH2=',TH2
+         DISPLAY 'TH2=',TH2
+         PERIOD 
+*            DISPLAY 'TX2=' TX2.
+*ZC     93         DISPLAY 'TX2=',TX2
+         DISPLAY 'TX2=',TX2
+         PERIOD 
+*            IF TPN NOT = 1  MOVE 'TPN' TO FIELD GO TO ABORT.
+*ZC     94         IF    TPN,NOT,=,1
+         IF    TPN,NOT,=,1
+*ZC     94         MOVE  'TPN',TO,FIELD
+         MOVE  'TPN',TO,FIELD
+*ZC     94         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            DISPLAY 'TX2=' TX2.
+*ZC     95         DISPLAY 'TX2=',TX2
+         DISPLAY 'TX2=',TX2
+         PERIOD 
+*            IF TMN NOT = -1 MOVE 'TMN' TO FIELD GO TO ABORT.
+*ZC     96         IF    TMN,NOT,=,-,1
+         IF    TMN,NOT,=,-,1
+*ZC     96         MOVE  'TMN',TO,FIELD
+         MOVE  'TMN',TO,FIELD
+*ZC     96         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            MOVE X'C1' TO TX1
+*ZC     97         MOVE  X'C1',TO,TX1
+         MOVE  X'C1',TO,TX1
+*            IF TX1 NOT = 'A' MOVE 'TX1' TO FIELD GO TO ABORT. 
+*ZC     98         IF    TX1,NOT,=,'A'
+         IF    TX1,NOT,=,'A'
+*ZC     98         MOVE  'TX1',TO,FIELD
+         MOVE  'TX1',TO,FIELD
+*ZC     98         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            MOVE X'C1C2C3' TO TX3
+*ZC     99         MOVE  X'C1C2C3',TO,TX3
+         MOVE  X'C1C2C3',TO,TX3
+*            IF TX3 NOT = 'ABC' MOVE 'TX3' TO FIELD GO TO ABORT. 
+*ZC    100         IF    TX3,NOT,=,'ABC'
+         IF    TX3,NOT,=,'ABC'
+*ZC    100         MOVE  'TX3',TO,FIELD
+         MOVE  'TX3',TO,FIELD
+*ZC    100         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            DISPLAY 'SPLIT-LIT=' SPLIT-LIT
+*ZC    101         DISPLAY 'SPLIT-LIT=',SPLIT_LIT
+         DISPLAY 'SPLIT-LIT=',SPLIT_LIT
+*            IF SPLIT-LIT NOT = 
+*                       'TESTBEC6 TEST 5:PRESS AID KEY TO HANDLE AEI0 AX
+               BEN
+*       -               'D IN LINKED PROGRAM BY PROGRAM' 
+*       -               'D IN LINKED PROGRAM BY PROGRAM' 
+*ZC    102         IF    SPLIT_LIT,NOT,=,'TESTBEC6 TEST 5:PRESS AID KEYX
+                TO HANDLE AEI0 ABEND IN LINKED PROGRAM BY PROGRAM'
+         IF    SPLIT_LIT,NOT,=,'TESTBEC6 TEST 5:PRESS AID KEY TO HANDLEX
+                AEI0 ABEND IN LINKED PROGRAM BY PROGRAM'
+*                MOVE 'SPLIT-LIT' TO FIELD GO TO ABORT.
+*ZC    105         MOVE  'SPLIT-LIT',TO,FIELD
+         MOVE  'SPLIT-LIT',TO,FIELD
+*ZC    105         GO    TO,ABORT
+         GO    TO,ABORT
+         PERIOD 
+*            DISPLAY 'CP1-SRT=' CP1-SRT
+*ZC    106         DISPLAY 'CP1-SRT=',CP1_SRT
+         DISPLAY 'CP1-SRT=',CP1_SRT
+*            DISPLAY 'CP2-LNG=' CP2-LNG
+*ZC    107         DISPLAY 'CP2-LNG=',CP2_LNG
+         DISPLAY 'CP2-LNG=',CP2_LNG
+*            DISPLAY 'HFP-SRT=' HFP-SRT
+*ZC    108         DISPLAY 'HFP-SRT=',HFP_SRT
+         DISPLAY 'HFP-SRT=',HFP_SRT
+*            DISPLAY 'HFP-LNG=' HFP-LNG
+*ZC    109         DISPLAY 'HFP-LNG=',HFP_LNG
+         DISPLAY 'HFP-LNG=',HFP_LNG
+*            DISPLAY 'HFP-EXT=' HFP-EXT
+*ZC    110         DISPLAY 'HFP-EXT=',HFP_EXT
+         DISPLAY 'HFP-EXT=',HFP_EXT
+*            DISPLAY 'BFP-SRT=' BFP-SRT
+*ZC    111         DISPLAY 'BFP-SRT=',BFP_SRT
+         DISPLAY 'BFP-SRT=',BFP_SRT
+*            DISPLAY 'BFP-LNG=' BFP-LNG
+*ZC    112         DISPLAY 'BFP-LNG=',BFP_LNG
+         DISPLAY 'BFP-LNG=',BFP_LNG
+*            DISPLAY 'BFP-EXT=' BFP-EXT
+*ZC    113         DISPLAY 'BFP-EXT=',BFP_EXT
+         DISPLAY 'BFP-EXT=',BFP_EXT
+*            DISPLAY 'DFP-SRT=' DFP-SRT
+*ZC    114         DISPLAY 'DFP-SRT=',DFP_SRT
+         DISPLAY 'DFP-SRT=',DFP_SRT
+*            DISPLAY 'DFP-LNG=' DFP-LNG
+*ZC    115         DISPLAY 'DFP-LNG=',DFP_LNG
+         DISPLAY 'DFP-LNG=',DFP_LNG
+*            DISPLAY 'DFP-EXT=' DFP-EXT
+*ZC    116         DISPLAY 'DFP-EXT=',DFP_EXT
+         DISPLAY 'DFP-EXT=',DFP_EXT
+*            DISPLAY 'FLT-SRT=' FLT-SRT
+*ZC    117         DISPLAY 'FLT-SRT=',FLT_SRT
+         DISPLAY 'FLT-SRT=',FLT_SRT
+*            DISPLAY 'FLT-LNG=' FLT-LNG
+*ZC    118         DISPLAY 'FLT-LNG=',FLT_LNG
+         DISPLAY 'FLT-LNG=',FLT_LNG
+*            DISPLAY 'FLT-EXT=' FLT-EXT
+*ZC    119         DISPLAY 'FLT-EXT=',FLT_EXT
+         DISPLAY 'FLT-EXT=',FLT_EXT
+*            DISPLAY 'HW1=' HW1
+*ZC    120         DISPLAY 'HW1=',HW1
+         DISPLAY 'HW1=',HW1
+*            DISPLAY 'FW1=' FW1
+*ZC    121         DISPLAY 'FW1=',FW1
+         DISPLAY 'FW1=',FW1
+*            DISPLAY 'GW1=' GW1
+*ZC    122         DISPLAY 'GW1=',GW1
+         DISPLAY 'GW1=',GW1
+*            DISPLAY 'QW1=' QW1
+*ZC    123         DISPLAY 'QW1=',QW1
+         DISPLAY 'QW1=',QW1
+*            DISPLAY 'PD1=' PD1
+*ZC    124         DISPLAY 'PD1=',PD1
+         DISPLAY 'PD1=',PD1
+*            DISPLAY 'ZD1=' ZD1
+*ZC    125         DISPLAY 'ZD1=',ZD1
+         DISPLAY 'ZD1=',ZD1
+*            IF CP1-SRT = 1234567
+*ZC    126         IF    CP1_SRT,=,1234567
+         IF    CP1_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    127         PERFORM GOOD
+         PERFORM GOOD
+*ZC    127         ELSE  
+         ELSE  
+*ZC    127         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF CP2-LNG = 123456789012345
+*ZC    128         IF    CP2_LNG,=,123456789012345
+         IF    CP2_LNG,=,123456789012345
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    129         PERFORM GOOD
+         PERFORM GOOD
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = 1234567
+*ZC    130         IF    HFP_SRT,=,1234567
+         IF    HFP_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    131         PERFORM GOOD
+         PERFORM GOOD
+*ZC    131         ELSE  
+         ELSE  
+*ZC    131         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = 123456789012345
+*ZC    132         IF    HFP_LNG,=,123456789012345
+         IF    HFP_LNG,=,123456789012345
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    133         PERFORM GOOD
+         PERFORM GOOD
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = 123456789012345678901234567890
+*ZC    134         IF    HFP_EXT,=,123456789012345678901234567890
+         IF    HFP_EXT,=,123456789012345678901234567890
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    135         PERFORM GOOD
+         PERFORM GOOD
+*ZC    135         ELSE  
+         ELSE  
+*ZC    135         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = 1234567
+*ZC    136         IF    BFP_SRT,=,1234567
+         IF    BFP_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    137         PERFORM GOOD
+         PERFORM GOOD
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = 123456789012345
+*ZC    138         IF    BFP_LNG,=,123456789012345
+         IF    BFP_LNG,=,123456789012345
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    139         PERFORM GOOD
+         PERFORM GOOD
+*ZC    139         ELSE  
+         ELSE  
+*ZC    139         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = 1234567890123456789012345678901234
+*ZC    140         IF    BFP_EXT,=,1234567890123456789012345678901234
+         IF    BFP_EXT,=,1234567890123456789012345678901234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    141         PERFORM GOOD
+         PERFORM GOOD
+*ZC    141         ELSE  
+         ELSE  
+*ZC    141         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = 1234567
+*ZC    142         IF    DFP_SRT,=,1234567
+         IF    DFP_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    143         PERFORM GOOD
+         PERFORM GOOD
+*ZC    143         ELSE  
+         ELSE  
+*ZC    143         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = 1234567890123456
+*ZC    144         IF    DFP_LNG,=,1234567890123456
+         IF    DFP_LNG,=,1234567890123456
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    145         PERFORM GOOD
+         PERFORM GOOD
+*ZC    145         ELSE  
+         ELSE  
+*ZC    145         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = 1234567890123456789012345678901234
+*ZC    146         IF    DFP_EXT,=,1234567890123456789012345678901234
+         IF    DFP_EXT,=,1234567890123456789012345678901234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    147         PERFORM GOOD
+         PERFORM GOOD
+*ZC    147         ELSE  
+         ELSE  
+*ZC    147         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FLT-SRT = 1234567
+*ZC    148         IF    FLT_SRT,=,1234567
+         IF    FLT_SRT,=,1234567
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    149         PERFORM GOOD
+         PERFORM GOOD
+*ZC    149         ELSE  
+         ELSE  
+*ZC    149         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FLT-LNG = 1234567890123456
+*ZC    150         IF    FLT_LNG,=,1234567890123456
+         IF    FLT_LNG,=,1234567890123456
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    151         PERFORM GOOD
+         PERFORM GOOD
+*ZC    151         ELSE  
+         ELSE  
+*ZC    151         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FLT-EXT = 1234567890123456789012345678901234
+*ZC    152         IF    FLT_EXT,=,1234567890123456789012345678901234
+         IF    FLT_EXT,=,1234567890123456789012345678901234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    153         PERFORM GOOD
+         PERFORM GOOD
+*ZC    153         ELSE  
+         ELSE  
+*ZC    153         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW1     = 1234
+*ZC    154         IF    HW1,=,1234
+         IF    HW1,=,1234
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    155         PERFORM GOOD
+         PERFORM GOOD
+*ZC    155         ELSE  
+         ELSE  
+*ZC    155         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW1     = 123456789
+*ZC    156         IF    FW1,=,123456789
+         IF    FW1,=,123456789
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    157         PERFORM GOOD
+         PERFORM GOOD
+*ZC    157         ELSE  
+         ELSE  
+*ZC    157         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF GW1     = 123456789012345678
+*ZC    158         IF    GW1,=,123456789012345678
+         IF    GW1,=,123456789012345678
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    159         PERFORM GOOD
+         PERFORM GOOD
+*ZC    159         ELSE  
+         ELSE  
+*ZC    159         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW1     = 123456789012345678901234567890123456789
+*ZC    160         IF    QW1,=,123456789012345678901234567890123456789
+         IF    QW1,=,123456789012345678901234567890123456789
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    161         PERFORM GOOD
+         PERFORM GOOD
+*ZC    161         ELSE  
+         ELSE  
+*ZC    161         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD1     = 1234567890123456789012345678901
+*ZC    162         IF    PD1,=,1234567890123456789012345678901
+         IF    PD1,=,1234567890123456789012345678901
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    163         PERFORM GOOD
+         PERFORM GOOD
+*ZC    163         ELSE  
+         ELSE  
+*ZC    163         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD1     = 1234567890123456789012345678901
+*ZC    164         IF    PD1,=,1234567890123456789012345678901
+         IF    PD1,=,1234567890123456789012345678901
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    165         PERFORM GOOD
+         PERFORM GOOD
+*ZC    165         ELSE  
+         ELSE  
+*ZC    165         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTWS1 GOOD TESTS = ' GOOD
+*ZC    166         DISPLAY 'TESTWS1 GOOD TESTS = ',GOOD
+         DISPLAY 'TESTWS1 GOOD TESTS = ',GOOD
+*            STOP RUN.        
+*ZC    167         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        ABORT.
+         LABEL ABORT
+*            DISPLAY 'TESTWS1 ERROR ON ' FIELD
+*ZC    169         DISPLAY 'TESTWS1 ERROR ON ',FIELD
+         DISPLAY 'TESTWS1 ERROR ON ',FIELD
+*            MOVE 16 TO RETURN-CODE
+*ZC    170         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    171         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC    173         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            MOVE 16 TO RETURN-CODE 
+*ZC    175         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    176         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

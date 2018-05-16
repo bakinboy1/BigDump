@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=number
+comment0.target=int\ factorial(int)
+comment1.params=toBeSearched\ searchChar
+comment1.target=int\ nbrOccurrences(java.lang.String,\ char)
+comment2.params=x
+comment2.target=boolean\ isEven(int)
+comment3.params=data\ threshold
+comment3.target=int\ sumUpper(int[],\ int)
+numComments=4

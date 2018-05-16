@@ -1,0 +1,132 @@
+***********************************************************************
+* Copyright 2006 Automated Software Tools Corporation                 *
+* This source code is part of z390 assembler/emulator package         *
+* The z390 package is distributed under GNU general public license    *
+* Author - Don Higgins                                                *
+***********************************************************************
+LCL0E0E  CSECT
+*
+* FN=0E0E  EXEC CICS HANDLE ABEND
+*
+* R1  >>> P0E0E BLOCK POINTER
+*
+         USING *,R13
+         B     12(R15)            BYPASS EYECATCHER
+         DC    CL8'LCL0E0E'
+         LR    R13,R15            R13 AS BASE
+         LR    R3,R1              SET BASE
+         L     R3,0(R3)                    FOR PARMS
+         USING (P0E0E,P0E0EEND),R3
+         L     DFHEIBR,P0E0EEIB   LOAD EIB ADDRESS
+         USING DFHEIBLK,DFHEIBR
+         L     TCTTEAR,P0E0ETCT   LOAD TCT ADDRESS
+         USING DFHTCTTE,TCTTEAR
+         MVC   EIBFN,P0E0EFN      SET EIBFN
+         XC    EIBRCODE,EIBRCODE  CLEAR EIBRCODE
+         XC    EIBRESP,EIBRESP    CLEAR EIBRESP
+         XC    EIBRESP2,EIBRESP2  CLEAR EIBRESP2
+         ICM   R1,15,P0E0ERSP     R1=RESP ADDRESS
+         BZ    NORESP             EXIT IF NONE
+         XC    0(4,R1),0(R1)      CLEAR RESP
+NORESP   EQU   *
+         ICM   R1,15,P0E0ERS2     R1=RESP2 ADDRESS
+         BZ    NORESP2            EXIT IF NONE
+         XC    0(4,R1),0(R1)      CLEAR RESP2
+NORESP2  EQU   *
+         CLI   P0E0ENED,X'FF'     NOEDF ?
+         BE    NOEDFB             EXIT IF IT IS
+         CLI   TCTTEEDF,X'FF'     EDF ON ?
+         BNE   NOEDFB             EXIT IF NOT
+         MVI   TCTTEEBA,X'00'     SET 'BEFORE' INTERCEPT
+         MVI   TCTTEEDL,X'00'     SET NORMAL LINKAGE
+         L     R15,TCTTEEDA       R15=EDF PROCESSOR ADDRESS
+         BAKR  0,R15              STACK REGS AND GO
+*
+NOEDFB   EQU   *
+         ICM   R1,15,TCTTEABD     ANY ABEND BLOCK ADDRESS ?
+         BNZ   GOTABD             EXIT IF WE HAVE ONE
+* GET THE ABEND BLOCK
+         LA    R1,(ABDLENG*25)+8  R1=ABEND BLOCK TOTAL LENGTH
+         GETMAIN R,LV=(R1)
+         LR    R14,R1             R14=AREA TO CLEAR
+         SR    R15,R15            CLEAR SECOND LENGTH
+         LR    R5,R0              R5=LENGTH TO CLEAR
+         LR    R4,R14             R4=AREA TO CLEAR
+         MVCLE R4,R14,X'00'       CLEAR ABEND BLOCK
+         MVC   0(8,R1),=C'DFHABBLK' SET HEADER
+         AHI   R1,8               BYPASS EYECATCHER
+         ST    R1,TCTTEABD        SAVE ABEND BLOCK ADDRESS
+         USING ABDDEST,R1
+GOTABD   EQU   *
+         LH    R14,TCTTELNK       R14=CURRENT LINK LEVEL
+         AHI   R14,-1             -1 FOR INDEX
+         MS    R14,=AL4(ABDLENG)  * ENTRY LENGTH
+         AR    R1,R14             R1=CORRECT ABEND BLOCK ENTRY
+         CLI   P0E0ECAN,X'FF'     CANCEL REQUESTED ?
+         BNE   TRYRES             EXIT IF NOT
+*
+* CANCEL FUNCTION
+*
+         MVC   ABDACTIV,=X'FFFF'  SET ENTRY INACTIVE
+         B     RETURN             EXIT
+*
+TRYRES   EQU   *
+         CLI   P0E0ERES,X'FF'     RESET REQUESTED ?
+         BNE   TRYLAB             EXIT IF NOT
+*
+* RESET FUNCTION
+*
+         XC    ABDACTIV,ABDACTIV  SET ENTRY ACTIVE
+         B     RETURN             EXIT
+*
+TRYLAB   EQU   *
+         ICM   R14,15,P0E0ELAB    ANY LABEL ?
+         BZ    TRYPROG            EXIT IF NOT
+*
+* LABEL FUNCTION
+*
+         XC    ABDDEST,ABDDEST    CLEAR DESTINATION FIELD
+         ST    R14,ABDDEST+4      SAVE LABEL
+         MVC   ABDLEVEL,TCTTELNK  SAVE LINK-LEVEL OF LABEL
+         XC    ABDACTIV,ABDACTIV  SET ENTRY ACTIVE
+         MVC   ABDREGS(48),P0E0EREG SAVE CALLERS REGS
+         B     RETURN             EXIT
+*
+TRYPROG  EQU   *
+*
+* PROGRAM FUNCTION
+*
+         MVC   ABDDEST,P0E0EPGM   MOVE PROGRAM AS DESTINATION
+         MVC   ABDCOMM,P0E0ECAP   SET ANY COMMAREA ADDRESS
+         MVC   ABDCALEN,EIBCALEN  SET ANY COMMAREA LENGTH
+         XC    ABDACTIV,ABDACTIV  SET ENTRY ACTIVE
+         MVC   ABDREGS(48),P0E0EREG SAVE CALLERS REGS
+         DROP  R1
+RETURN   EQU   *
+         CLI   P0E0ENED,X'FF'     NOEDF ?
+         BE    NOEDFA             EXIT IF IT IS
+         CLI   TCTTEEDF,X'FF'     EDF ON ?
+         BNE   NOEDFA             EXIT IF NOT
+         MVI   TCTTEEBA,X'FF'     SET 'AFTER' INTERCEPT
+         MVI   TCTTEEDL,X'00'     SET NORMAL LINKAGE
+         L     R15,TCTTEEDA       R15=EDF PROCESSOR ADDRESS
+         BAKR  0,R15              STACK REGS AND GO
+*
+NOEDFA   EQU   *
+         PR    ,                  UNSTACK AND RETURN TO MACRO
+*
+         P0E0E DSECT
+*
+         DFHEIBLK                 EIB
+         DFHTCTTE                 TCTTE
+         DFHABBLK                 HANDLE ABEND BLOCK
+*
+         EQUREGS REGS=GPR
+* R1  HANDLE ABEND BLOCK BASE
+* R3  PARM POINTER
+* R10 TCTTE
+* R11 EIB
+* R13 SAVE AREA AND BASE 1
+*
+         END
+

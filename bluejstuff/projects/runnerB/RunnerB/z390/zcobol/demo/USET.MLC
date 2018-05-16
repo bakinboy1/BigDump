@@ -1,0 +1,449 @@
+         ZCOBOL PGM='zcobol\demo\USET',VER=V1.5.06,CDATE=05/21/12,CTIMEX
+               =14:07:36,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),NOTIME,GUX
+               AM)
+         COPY  USET_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.  USET.
+         PROGRAM_ID USET
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        INPUT-OUTPUT SECTION.
+         INPUT_OUTPUT SECTION
+*        FILE-CONTROL.
+         FILE_CONTROL 
+*            SELECT IN-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\U1.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT IN_FILE,ASSIGN,TO,'ZCOBOL\DEMO\U1.CBL',ORGANIZATION,IS,X
+               LINE,SEQUENTIAL
+*            SELECT OUT-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\U4.CBL'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT OUT_FILE,ASSIGN,TO,'ZCOBOL\DEMO\U4.CBL',ORGANIZATION,ISX
+               ,LINE,SEQUENTIAL
+*        DATA DIVISION.
+         DATA  DIVISION
+*        FILE SECTION.
+         FILE  SECTION
+*        FD  IN-FILE
+*            DATA RECORD IS IN-RECORD.
+         FD    IN_FILE,DATA,RECORD,IS,IN_RECORD
+*        01  IN-RECORD.
+         WS      01,IN_RECORD
+*            03  FILLER             PIC X(24).
+         WS        03,FILLER,PIC,X(24)
+*            03  IN-FILE-NAME       PIC X(46).
+         WS        03,IN_FILE_NAME,PIC,X(46)
+*            03  FILLER             PIC X(08).  
+         WS        03,FILLER,PIC,X(08)
+*        FD  OUT-FILE
+*            DATA RECORD IS OUT-RECORD.
+         FD    OUT_FILE,DATA,RECORD,IS,OUT_RECORD
+*        01  OUT-RECORD             PIC X(80).
+         WS      01,OUT_RECORD,PIC,X(80)
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01  END-OF-FILE-FLAG       PIC X VALUE 'F'.
+         WS      01,END_OF_FILE_FLAG,PIC,X,VALUE,'F'
+*        01  THE-FILE-NAME          PIC X(46).
+         WS      01,THE_FILE_NAME,PIC,X(46)
+*        01  MY-SUB                 PIC 9(02).
+         WS      01,MY_SUB,PIC,9(02)
+*        01  SUB                    PIC 9(02).
+         WS      01,SUB,PIC,9(02)
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC      9         PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            PERFORM INITIALIZATION-ROUTINE.
+*ZC     30         PERFORM INITIALIZATION_ROUTINE
+         PERFORM INITIALIZATION_ROUTINE
+         PERIOD 
+*            PERFORM THE-LOOP
+*                    UNTIL END-OF-FILE-FLAG = 'Y'.
+*ZC     31         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERIOD 
+*            PERFORM EOJ-ROUTINE.
+*ZC     33         PERFORM EOJ_ROUTINE
+         PERFORM EOJ_ROUTINE
+         PERIOD 
+*            STOP RUN.
+*ZC     34         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INITIALIZATION-ROUTINE.
+         LABEL INITIALIZATION_ROUTINE
+*            OPEN INPUT IN-FILE.
+*ZC     36         OPEN  INPUT,IN_FILE
+         OPEN  INPUT,IN_FILE
+         PERIOD 
+*            OPEN OUTPUT OUT-FILE.
+*ZC     37         OPEN  OUTPUT,OUT_FILE
+         OPEN  OUTPUT,OUT_FILE
+         PERIOD 
+*            READ IN-FILE INTO OUT-RECORD
+*ZC     39         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     39         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD.
+*ZC     40         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     42         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     42         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD.
+*ZC     43         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     45         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     45         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD.
+*ZC     46         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     48         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     48         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD.
+*ZC     49         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     51         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     51         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD.
+*ZC     52         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     54         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     54         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD.
+*ZC     55         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            READ IN-FILE
+*ZC     57         READ  IN_FILE,AT,END
+         READ  IN_FILE,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     57         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            ACCEPT THE-FILE-NAME 
+*                               FROM CONSOLE.
+*ZC     58         ACCEPT THE_FILE_NAME,FROM,CONSOLE
+         ACCEPT THE_FILE_NAME,FROM,CONSOLE
+         PERIOD 
+*            PERFORM L-TO-U VARYING MY-SUB FROM 1 BY 1
+*              UNTIL MY-SUB > 46.
+*ZC     60         PERFORM L_TO_U,VARYING,MY_SUB,FROM,1,BY,1,UNTIL,MY_SX
+               UB,>,46
+         PERFORM L_TO_U,VARYING,MY_SUB,FROM,1,BY,1,UNTIL,MY_SUB,>,46
+         PERIOD 
+*            MOVE THE-FILE-NAME   TO IN-FILE-NAME.
+*ZC     62         MOVE  THE_FILE_NAME,TO,IN_FILE_NAME
+         MOVE  THE_FILE_NAME,TO,IN_FILE_NAME
+         PERIOD 
+*            WRITE OUT-RECORD   FROM IN-RECORD.
+*ZC     63         WRITE OUT_RECORD,FROM,IN_RECORD
+         WRITE OUT_RECORD,FROM,IN_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     65         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     65         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD   FROM IN-RECORD.
+*ZC     66         WRITE OUT_RECORD,FROM,IN_RECORD
+         WRITE OUT_RECORD,FROM,IN_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     68         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     68         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            WRITE OUT-RECORD   FROM IN-RECORD.
+*ZC     69         WRITE OUT_RECORD,FROM,IN_RECORD
+         WRITE OUT_RECORD,FROM,IN_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     71         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     71         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*            MOVE THE-FILE-NAME   TO IN-FILE-NAME.
+*ZC     72         MOVE  THE_FILE_NAME,TO,IN_FILE_NAME
+         MOVE  THE_FILE_NAME,TO,IN_FILE_NAME
+         PERIOD 
+*            PERFORM VARYING SUB FROM 1 BY 1 
+*              UNTIL SUB > 72
+*ZC     73         PERFORM VARYING,SUB,FROM,1,BY,1,UNTIL,SUB,>,72
+         PERFORM VARYING,SUB,FROM,1,BY,1,UNTIL,SUB,>,72
+*                 IF IN-RECORD (SUB:3) = 'CBL'
+*ZC     75         IF    IN_RECORD,'(',SUB,:,3,')',=,'CBL'
+         IF    IN_RECORD,'(',SUB,:,3,')',=,'CBL'
+*                     MOVE 'PRN'  TO IN-RECORD (SUB:3)
+*                 END-IF
+*ZC     76         MOVE  'PRN',TO,IN_RECORD,'(',SUB,:,3,')'
+         MOVE  'PRN',TO,IN_RECORD,'(',SUB,:,3,')'
+*            END-PERFORM.
+*ZC     78         END_IF 
+         END_IF 
+*ZC     78         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+*            WRITE OUT-RECORD   FROM IN-RECORD.
+*ZC     79         WRITE OUT_RECORD,FROM,IN_RECORD
+         WRITE OUT_RECORD,FROM,IN_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     81         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     81         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        THE-LOOP.
+         LABEL THE_LOOP
+*            WRITE OUT-RECORD.
+*ZC     83         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            READ IN-FILE       INTO OUT-RECORD
+*ZC     85         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     85         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        EOJ-ROUTINE.
+         LABEL EOJ_ROUTINE
+*            CLOSE IN-FILE.
+*ZC     87         CLOSE IN_FILE
+         CLOSE IN_FILE
+         PERIOD 
+*            CLOSE OUT-FILE.
+*ZC     88         CLOSE OUT_FILE
+         CLOSE OUT_FILE
+         PERIOD 
+*        L-TO-U.
+         LABEL L_TO_U
+*           IF THE-FILE-NAME (MY-SUB :1) = 'a'
+*ZC     88         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'a'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'a'
+*              MOVE 'A' TO THE-FILE-NAME (MY-SUB :1).
+*ZC     91         MOVE  'A',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'A',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'b'
+*ZC     91         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'b'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'b'
+*              MOVE 'B' TO THE-FILE-NAME (MY-SUB :1).
+*ZC     93         MOVE  'B',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'B',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'c'
+*ZC     93         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'c'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'c'
+*              MOVE 'C' TO THE-FILE-NAME (MY-SUB :1).
+*ZC     95         MOVE  'C',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'C',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'd'
+*ZC     95         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'d'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'d'
+*              MOVE 'D' TO THE-FILE-NAME (MY-SUB :1).
+*ZC     97         MOVE  'D',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'D',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'e'
+*ZC     97         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'e'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'e'
+*              MOVE 'E' TO THE-FILE-NAME (MY-SUB :1).
+*ZC     99         MOVE  'E',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'E',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'f'
+*ZC     99         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'f'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'f'
+*              MOVE 'F' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    101         MOVE  'F',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'F',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'g'
+*ZC    101         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'g'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'g'
+*              MOVE 'G' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    103         MOVE  'G',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'G',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'h'
+*ZC    103         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'h'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'h'
+*              MOVE 'H' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    105         MOVE  'H',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'H',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'i'
+*ZC    105         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'i'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'i'
+*              MOVE 'I' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    107         MOVE  'I',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'I',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'j'
+*ZC    107         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'j'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'j'
+*              MOVE 'J' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    109         MOVE  'J',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'J',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'k'
+*ZC    109         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'k'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'k'
+*              MOVE 'K' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    111         MOVE  'K',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'K',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'l'
+*ZC    111         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'l'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'l'
+*              MOVE 'L' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    113         MOVE  'L',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'L',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'm'
+*ZC    113         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'m'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'m'
+*              MOVE 'M' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    115         MOVE  'M',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'M',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'n'
+*ZC    115         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'n'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'n'
+*              MOVE 'N' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    117         MOVE  'N',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'N',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'o'
+*ZC    117         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'o'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'o'
+*              MOVE 'O' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    119         MOVE  'O',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'O',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'p'
+*ZC    119         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'p'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'p'
+*              MOVE 'P' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    121         MOVE  'P',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'P',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'q'
+*ZC    121         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'q'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'q'
+*              MOVE 'Q' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    123         MOVE  'Q',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'Q',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'r'
+*ZC    123         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'r'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'r'
+*              MOVE 'R' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    125         MOVE  'R',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'R',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 's'
+*ZC    125         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'s'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'s'
+*              MOVE 'S' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    127         MOVE  'S',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'S',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 't'
+*ZC    127         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'t'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'t'
+*              MOVE 'T' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    129         MOVE  'T',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'T',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'u'
+*ZC    129         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'u'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'u'
+*              MOVE 'U' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    131         MOVE  'U',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'U',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'v'
+*ZC    131         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'v'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'v'
+*              MOVE 'V' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    133         MOVE  'V',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'V',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'w'
+*ZC    133         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'w'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'w'
+*              MOVE 'W' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    135         MOVE  'W',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'W',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'x'
+*ZC    135         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'x'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'x'
+*              MOVE 'X' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    137         MOVE  'X',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'X',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'y'
+*ZC    137         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'y'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'y'
+*              MOVE 'Y' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    139         MOVE  'Y',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'Y',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+*           IF THE-FILE-NAME (MY-SUB :1) = 'z'
+*ZC    139         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'z'
+         IF    THE_FILE_NAME,'(',MY_SUB,:,1,')',=,'z'
+*              MOVE 'Z' TO THE-FILE-NAME (MY-SUB :1).
+*ZC    141         MOVE  'Z',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         MOVE  'Z',TO,THE_FILE_NAME,'(',MY_SUB,:,1,')'
+         PERIOD 
+         PROCEDURE END
+         END   

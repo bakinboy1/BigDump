@@ -1,0 +1,147 @@
+***********************************************************************
+* Copyright 2006 Automated Software Tools Corporation                 *
+* This source code is part of z390 assembler/emulator package         *
+* The z390 package is distributed under GNU general public license    *
+* Author - Don Higgins                                                *
+***********************************************************************
+         DFHEISTG
+SENDWCC  DS    X
+SENDSBA  DS    CL3
+SENDLINE DS    CL45
+MYCOMM   DS    XL2
+*
+TESTBED1 DFHEIENT CODEREG=(R12,R3)
+*
+* TEST BED 1
+*
+*    TEST RETURN TRANSID AND COMMAREA
+*    TEST ASSIGN INVOKINGPROG, RETURNPROG
+*
+*    BED1 DISPLAYS 1ST LINE
+*    EACH SUBSEQUENT LINE INDEX COMES FROM IMPORTED COMMAREA
+*
+*    UPDATE THE CWA AND TEST ON EACH CYCLE THAT THE CWA FIELD HAS
+*    THE CORRECT VALUE...ABEND IF IT DOESN'T
+*    THE CWASIZE MUST BE AT LEAST 500 BYTES.
+*
+*    LINK TO TESTBED2...NO COMMAREA
+*       DISPLAY "HOW SOUR...
+*    LINK TO TESTBED2...COMMAREA COMM1='QUOTE2'
+*       DISPLAY "THIS BLESSED PLOT...
+*    LINK TO TESTBED2...COMMAREA COMM2='QUOTE3'
+*       DISPLAY "HOW BEAUTEOUS...
+*       XCTL TO TESTBED3...NO COMMAREA
+*          DISPLAY "WE ARE SUCH STUFF...
+*    XCTL TO TESTBED3...COMMAREA 'QUOTE6'
+*       DISPLAY "BREVITY...TASK END...
+*
+         XC    MYCOMM,MYCOMM      INITIALISE COMMAREA
+         MVC   SENDWCC,WCC        MOVE WCC
+         EXEC  CICS ASSIGN INVOKINGPROG(INVPROG) RETURNPROG(RETPROG)
+         CLC   INVPROG,=8C' '     CORRECT ?
+         BNE   ABENDINV           ABEND IF NOT
+         CLC   RETPROG,=8C' '     CORRECT ?
+         BNE   ABENDRET           ABEND IF NOT
+         OC    TCTTECA,TCTTECA    ANY COMMAREA ?
+         BNZ   NOT1ST             EXIT IF NOT FIRST
+* FIRST LINE
+* TEST ADDRESS, THERE IS NO COMMAREA
+         EXEC  CICS ADDRESS CWA(R8) COMMAREA(R5) EIB(R6)
+         USING CWADSECT,R8
+         MVC   BED1CWA,=F'50'     PRIME THE CWA FIELD
+         DROP  R8
+         MVC   SENDSBA,SBA1       1ST SBA
+         MVC   SENDLINE,LINE1     1ST LINE
+         EXEC  CICS SEND FROM(SENDWCC) LENGTH(49)
+         EXEC  CICS RETURN TRANSID('BED1') COMMAREA(MYCOMM)
+*
+NOT1ST   EQU   *
+         EXEC  CICS ADDRESS CWA(R8) COMMAREA(R5) EIB(R6)
+         USING CWADSECT,R8
+         L     R5,TCTTECA         ADDRESS RECEIVED COMMAREA
+         LH    R6,0(R5)           R6=INDEX
+         AHI   R6,1               INCREMENT
+         STH   R6,0(R5)           SAVE
+         LR    R9,R6              R9=NEW INDEX
+         MS    R9,=F'50'          * 50
+         C     R9,BED1CWA         IS IT GOOD ?
+         BNE   ABEND              ABEND IF NOT
+         ASI   BED1CWA,50         INCREMENT CWA FIELD
+         DROP  R8
+         MS    R6,=F'3'           INDEX TO SBA
+         LA    R7,SBA1(R6)        R7=ADDRESS OF NEXT SBA
+         MVC   SENDSBA,0(R7)      MOVE NEXT SBA TO OUTPUT
+         LH    R6,0(R5)           R6=INDEX
+         MS    R6,=F'45'          INDEX TO NEXT LINE
+         LA    R7,LINE1(R6)       R7=ADDRESS OF NEXT LINE
+         MVC   SENDLINE,0(R7)     MOVE NEXT LINE TO OUTPUT
+         EXEC  CICS SEND FROM(SENDWCC) LENGTH(49)
+         CLC   0(2,R5),=H'8'      DISPLAYED LAST ?
+         BE    NEXT1              EXIT IF WE HAVE
+         EXEC  CICS RETURN TRANSID('BED1') COMMAREA(0(R5)) LENGTH(2)
+*
+NEXT1    EQU   *
+* TEST LINK
+         EXEC  CICS LINK PROGRAM(MYBED2)
+         EXEC  CICS ASSIGN INVOKINGPROG(INVPROG) RETURNPROG(RETPROG)
+         CLC   INVPROG,=8C' '     CORRECT ?
+         BNE   ABENDINV           ABEND IF NOT
+         CLC   RETPROG,=8C' '     CORRECT ?
+         BNE   ABENDRET           ABEND IF NOT
+* TEST LINK WITH COMMAREA 1
+         EXEC  CICS LINK PROGRAM('TESTBED2') COMMAREA(COMM1)
+         EXEC  CICS ASSIGN INVOKINGPROG(INVPROG) RETURNPROG(RETPROG)
+         CLC   INVPROG,=8C' '     CORRECT ?
+         BNE   ABENDINV           ABEND IF NOT
+         CLC   RETPROG,=8C' '     CORRECT ?
+         BNE   ABENDRET           ABEND IF NOT
+* TEST LINK WITH COMMAREA 2
+         EXEC  CICS LINK PROGRAM('TESTBED2') COMMAREA(COMM2) LENGTH(6)
+         EXEC  CICS ASSIGN INVOKINGPROG(INVPROG) RETURNPROG(RETPROG)
+         CLC   INVPROG,=8C' '     CORRECT ?
+         BNE   ABENDINV           ABEND IF NOT
+         CLC   RETPROG,=8C' '     CORRECT ?
+         BNE   ABENDRET           ABEND IF NOT
+* TEST XCTL WITH COMMAREA 3
+         EXEC  CICS XCTL PROGRAM('TESTBED3') COMMAREA(COMM3)
+*
+ABEND    DC    H'0',C'CWAERROR'
+INVPROG  DS    CL8
+RETPROG  DS    CL8
+ABENDINV DC    H'0'
+ABENDRET DC    H'0'
+*
+MYBED2   DC    CL8'TESTBED2'
+COMM1    DC    C'QUOTE2'
+COMM2    DC    C'QUOTE3'
+COMM3    DC    C'QUOTE6'
+*
+LINE1    DC    CL45'What a piece of work is man'
+         DC    CL45'How noble in reason'
+         DC    CL45'How infinite in faculties'
+         DC    CL45'In form and moving, how express and admirable'
+         DC    CL45'In action, how like an angel'
+         DC    CL45'In apprehension, how like a god'
+         DC    CL45'The beauty of the world'
+         DC    CL45'The paragon of animals'
+         DC    CL45'END'
+*
+SBA1     TN3270 (SBA,3,2)
+         TN3270 (SBA,4,2)
+         TN3270 (SBA,5,2)
+         TN3270 (SBA,6,2)
+         TN3270 (SBA,7,2)
+         TN3270 (SBA,8,2)
+         TN3270 (SBA,9,2)
+         TN3270 (SBA,10,2)
+         TN3270 (SBA,11,2)
+*
+WCC      TN3270 WRT_EW
+*
+CWADSECT DSECT
+         DS    CL508
+BED1CWA  DS    F
+*
+         TN3270 SYMBOLS
+         END
+

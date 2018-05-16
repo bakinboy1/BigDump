@@ -1,0 +1,267 @@
+***********************************************************************
+* Copyright 2006 Automated Software Tools Corporation                 *
+* This source code is part of z390 assembler/emulator package         *
+* The z390 package is distributed under GNU general public license    *
+* Author - Don Higgins                                                *
+***********************************************************************
+* WE CANNOT HAVE A CONVENTIONAL ENTRY
+* A FIXED SAVEAREA WOULD PREVENT XCTL A TO B TO C TO A
+* MUST OBEY THE MACRO RULES, NO EXTRA REGS
+* WE WILL ALWAYS HAVE ADDRESSABILITY TO A DSA
+LCL0E04  CSECT
+*
+* FN=0E04  EXEC CICS XCTL
+*
+* R1  >>> P0E04 BLOCK POINTER
+* R14 = RETURN ADDRESS
+         USING (P0E04,P0E04END),R1
+         USING *,R12
+         B     12(R15)            BYPASS EYECATCHER
+         DC    CL8'LCL0E04'
+         LR    R0,R12             R0=SAVED R12
+         LR    R12,R15            SET BASE
+         ST    R0,SAVER12         SAVE ORIGINAL R12
+         USING DFHEIBLK,DFHEIBR
+         USING DFHTCTTE,TCTTEAR
+         USING DFHEISTG,R13
+         MVC   EIBFN,P0E04FN      SET EIBFN
+         XC    EIBRCODE,EIBRCODE  CLEAR EIBRCODE
+         XC    EIBRESP,EIBRESP    CLEAR EIBRESP
+         XC    EIBRESP2,EIBRESP2  CLEAR EIBRESP2
+         ICM   R15,15,P0E04RSP    R15=RESP ADDRESS
+         BZ    NORESP             EXIT IF NONE
+         XC    0(4,R15),0(R15)    CLEAR RESP
+NORESP   EQU   *
+         ICM   R15,15,P0E04RS2    R15=RESP2 ADDRESS
+         BZ    NORESP2            EXIT IF NONE
+         XC    0(4,R15),0(R15)    CLEAR RESP2
+NORESP2  EQU   *
+         MVC   TCTTEINV,EIBPROG   SET INVOKINGPROG FOR ASSIGN
+         MVC   BLDLNAME,P0E04PGM  MOVE PROGRAM FOR BLDL
+         MVC   EIBRSRCE,P0E04PGM  SET EIBRSRCE
+         MVC   EIBPROG,P0E04PGM   SET EIBPROG
+* R1 IS NOT RESTORED BY THE STACKING PROCESS
+         ST    R1,P0E04PTR        SAVE P0E04 PARM POINTER
+         CLI   P0E04NED,X'FF'     NOEDF ?
+         BE    NOEDF              EXIT IF IT IS
+         CLI   TCTTEEDF,X'FF'     EDF ON ?
+         BNE   NOEDF              EXIT IF NOT
+         MVI   TCTTEEBA,X'00'     SET 'BEFORE' INTERCEPT
+         MVI   TCTTEEDL,X'FF'     SET DIRECT LINKAGE
+         L     R15,TCTTEEDA       R15=EDF PROCESSOR ADDRESS
+         BAKR  0,R15              STACK REGS AND GO
+*
+NOEDF    EQU   *
+         BLDL  0,BLDLLIST         BLDL
+         L     R1,P0E04PTR        RESTORE P0E04 PARM POINTER
+         LTR   R15,R15            RC=4 IF ENTRY NOT FOUND
+         BNZ   PGMIDERR           ERROR IF IT IS
+         ICM   R14,15,P0E04COM    ANY COMMAREA ADDRESS ?
+         BNZ   GOTCOMM            EXIT IF WE HAVE ONE
+* NO COMMAREA
+         XC    DFHEICAP,DFHEICAP  CLEAR COMMAREA ADDRESS
+         XC    EIBCALEN,EIBCALEN  CLEAR COMMAREA LENGTH
+         B     DOCHAN             EXIT
+*
+GOTCOMM  EQU   *
+* WE HAVE A COMMAREA
+         LH    R15,P0E04CLN       R15=COMMAREA LENGTH
+         C     R14,DFHEICAP       SAME COMMAREA ADDRESS ?
+         BNE   DIFFCOMM           EXIT IF NOT
+         CH    R15,EIBCALEN       SAME COMMAREA LENGTH ?
+         BE    DOCHAN             EXIT IF IT IS
+DIFFCOMM EQU   *
+* MUST TAKE A COPY OF THE COMMAREA
+         STH   R15,EIBCALEN       OLD LENGTH HOLDING AREA
+         GETMAIN R,LV=(R15)
+         LH    R15,EIBCALEN       R15=OLD LENGTH
+         STH   R0,EIBCALEN        SAVE ACTUAL LENGTH ACQUIRED
+         ST    R1,DFHEICAP        SAVE COMMAREA COPY ADDRESS
+         LR    R0,R1              R0=NEW ADDRESS
+         LR    R1,R15             USE OLD LENGTH FOR RECEIVING AREA
+         MVCL  R0,R14             COPY DATA
+         MVI   TCTTECND,X'FF'     TELL RETURN, FREEMAIN IS NEEDED
+DOCHAN   EQU   *
+         XC    TCTTECHN,TCTTECHN  CLEAR ANY PASSED CHANNEL NAME
+         L     R1,P0E04PTR        RESTORE P0E04 PARM POINTER
+         OC    P0E04CHN,P0E04CHN  ANY CHANNEL NAME ?
+         BZ    ALLDONE            EXIT IF NONE
+* WE HAVE A CHANNEL
+* VALIDATE THE NAME, NO LEADING OR EMBEDDED BLANKS,
+* TRAILING BLANKS PERMITTED
+         CLI   P0E04CHN,C' '      BLANK START ?
+         BE    CHANERR            ERROR IF IT IS
+         LA    R15,P0E04CHN       R15 POINTS TO CHANNEL NAME
+         LA    R0,16              R0=LENGTH
+CHANCHAR EQU   *
+         LA    R2,CHANTAB         R2 POINTS TO CHAR LIST
+CHANLOOP EQU   *
+         CLC   0(1,R15),0(R2)     MATCH TO CHAR ?
+         BNE   CHANCINC           EXIT IF NOT
+         AHI   R15,1              BUMP CHANNEL NAME POINTER
+         BCT   R0,CHANCHAR        LOOP THROUGH CHANNEL NAME
+         B     CHANDONE           EXIT
+*
+CHANCINC EQU   *
+         AHI   R2,1               BUMP CHAR LIST POINTER
+         CLI   0(R2),X'FF'        STOPPER ?
+         BNE   CHANLOOP           LOOP IF NOT
+* FOUND A BAD CHAR
+         CLI   0(R15),C' '        IS IT BLANK ?
+         BNE   CHANERR            ERROR IF NOT
+* FOUND A BLANK, CHECK FOR TRAILING BLANKS
+         LA    R2,P0E04CHN+15     R2=END OF CHANNEL NAME
+         SR    R2,R15             R2=LENGTH OF TRAILING CHARS-1
+         EX    R2,CHANCLC         TEST FOR TRAILING BLANKS
+         BNE   CHANERR            ERROR IF NOT ALL BLANK
+CHANDONE EQU   *
+* CHANNEL NAME VALID, SEARCH THE STRUCTURE
+         MVC   TCTTECHN,P0E04CHN  SET CURRENT CHANNEL
+         LA    R15,TCTTECAQ       R15=CHANNEL ANCHOR POINTER
+         ICM   R2,15,TCTTECAQ     R2=CHANNEL CHAIN ADDRESS
+         BZ    CHANNTFD           EXIT IF NONE
+         USING DFHCHAN,R2
+CHANCHLP EQU   *
+* ASSUMING THAT ANY CHANNEL IS UP FOR GRABS
+         CLC   CHANNAME,TCTTECHN  MATCH CHANNEL ?
+         BE    ALLDONE            EXIT IF IT DOES
+         LR    R15,R2             R15=PREVIOUS POINTER ADDRESS
+         ICM   R2,15,CHANADDR     CHAIN TO NEXT
+         BNZ   CHANCHLP           LOOP UNTIL CHAIN END
+CHANNTFD EQU   *
+* CHANNEL NOT FOUND, CREATE EMPTY ONE
+         GETMAIN R,LV=26
+         LR    R2,R1              SET NEW CHANNEL BASE
+         XC    DFHCHAN(26),DFHCHAN CLEAR CHANNEL
+         MVC   CHANNAME,TCTTECHN  SET CHANNEL NAME
+         ST    R2,0(R15)          SAVE NEW CHANADDR
+         MVC   CHANLINK,TCTTELNK  SET LINK LEVEL
+         XC    CHANCONT,CHANCONT  CLEAR CONTAINER POINTER
+         DROP  R2
+         B     ALLDONE            EXIT
+*
+PGMIDERR EQU   *
+* INVOKE PGMIDERR
+         MVI   EIBRCODE,X'01'     SET EIBRCODE
+         MVC   EIBRESP,DFHRESP(PGMIDERR) SET EIBRESP=PGMIDERR
+         MVC   EIBRESP2,=F'3'     SET EIBRESP2=PROGRAM NOT FOUND
+         B     DORESP             EXIT
+*
+CHANERR  EQU   *
+         MVI   EIBRCODE,X'DA'     SET EIBRCODE
+         MVC   EIBRESP,DFHRESP(CHANNELERR) SET EIBRESP=CHANNELERR
+         MVC   EIBRESP2,=F'1'     SET EIBRESP2=INVALID CHANNEL NAME
+DORESP   EQU   *
+         ICM   R15,15,P0E04RSP    R15=RESP ADDRESS
+         BZ    DORESP2            EXIT IF NONE
+         MVC   0(4,R15),EIBRESP   SET RESP
+DORESP2  EQU   *
+         ICM   R15,15,P0E04RS2    R15=RESP2 ADDRESS
+         BZ    RETURN             EXIT IF NONE
+         MVC   0(4,R15),EIBRESP2  SET RESP2
+RETURN   EQU   *
+         CLI   P0E04NED,X'FF'     NOEDF ?
+         BE    NOEDF2             EXIT IF IT IS
+         CLI   TCTTEEDF,X'FF'     EDF ON ?
+         BNE   NOEDF2             EXIT IF NOT
+         ST    R1,P0E04PTR        SAVE P0E04 PARM POINTER
+         MVI   TCTTEEBA,X'FE'     SET 'AFTER' INTERCEPT (XCTL FAIL)
+         MVI   TCTTEEDL,X'FF'     SET DIRECT LINKAGE
+         L     R15,TCTTEEDA       R15=EDF PROCESSOR ADDRESS
+         BAKR  0,R15              STACK REGS AND GO
+*
+NOEDF2   EQU   *
+         L     R12,SAVER12        RESTORE ORIGINAL R12
+         BR    R14                RETURN
+*
+ALLDONE  EQU   *
+* MUST COPY THE PARM, BECAUSE WE HAVE TO FREE THE DSA
+* THE CURRENT PROGRAM WILL BE AUTO-FREED
+         GETMAIN R,LV=8
+         ST    R1,PARMADDR        SAVE PARM ADDRESS
+         ST    DFHEIBR,0(R1)      SAVE EIB ADDRESS
+         MVC   4(4,R1),DFHEICAP   SAVE COMMAREA ADDRESS
+*
+* FREE ALL AID BLOCKS
+*
+         USING DFHADBLK,R1
+         ICM   R1,15,DFHEIAID     ANY AID BLOCK ADDRESSES ?
+         BZ    TRYHCN             EXIT IF NONE
+AIDLOOP  EQU   *
+         L     R14,AIDCHAIN       R14=NEXT AID BLOCK IF ANY
+         LA    R0,AIDLENG         R0=AID BLOCK LENGTH
+         FREEMAIN R,A=(R1),LV=(R0)
+         LTR   R1,R14             ANY MORE AID BLOCKS ?
+         BNZ   AIDLOOP            LOOP IF THERE ARE
+         DROP  R1                 DROP AID BLOCK ADDRESS
+TRYHCN   EQU   *
+*
+* FREE ALL HANDLE CONDITION BLOCKS
+*
+         USING DFHHCBLK,R1
+         ICM   R1,15,DFHEIHCN     ANY CONDITION BLOCK ADDRESSES ?
+         BZ    TRYABD             EXIT IF NONE
+HCNLOOP  EQU    *
+         L     R14,HCNCHAIN       R14=NEXT CONDITION BLOCK IF ANY
+         LA    R0,HCNLENG         R0=CONDITION BLOCK LENGTH
+         FREEMAIN R,A=(R1),LV=(R0)
+         LTR   R1,R14             ANY MORE CONDITION BLOCKS ?
+         BNZ   HCNLOOP            LOOP IF THERE ARE
+         DROP  R1                 DROP HANDLE BLOCK BASE
+TRYABD   EQU   *
+*
+* IF WE HAVE A HANDLE ABEND LABEL() THEN MUST CLEAR THE ENTRY
+* THE LABEL MAY NOT BE VIABLE. WE WILL LEAVE PROGRAM() ALONE.
+*
+         ICM   R1,15,TCTTEABD     ANY ABEND BLOCK ?
+         BZ    FREEDSA            EXIT IF NONE
+         USING ABDDEST,R1
+         LH    R0,TCTTELNK        R0=CURRENT LINK LEVEL
+         AHI   R0,-1              -1 FOR INDEX
+         MS    R0,=AL4(ABDLENG)   * ENTRY LENGTH
+         AR    R1,R0              R1=CORRECT ABEND BLOCK ENTRY
+         CLI   ABDDEST,X'00'      IS IT A LABEL ?
+         BNE   FREEDSA            EXIT IF NOT
+         XC    ABDDEST(ABDLENG),ABDDEST CLEAR ABEND ENTRY
+         DROP  R1
+FREEDSA  EQU   *
+*
+* FREE THE DSA
+*
+         FREEMAIN R,A=(R13),LA=DFHEILEN
+         LOAD  EPLOC=EIBPROG
+         L     R1,PARMADDR        R1=PARM ADDRESS
+         LA    R2,P0E04PTR        R2=POINTER TO P0E04 PARMS
+         L     R12,SAVER12        RESTORE ORIGINAL R12
+         BR    R0                 GO TO ENTRYPOINT
+*
+CHANCLC  CLC   0(0,R15),=15C' '   TEST FOR TRAILING BLANKS
+*
+P0E04PTR DS    F                  P0E04 PARM POINTER
+SAVER12  DS    F                  SAVE R12
+PARMADDR DS    F                  SAVE GETMAINED PARM ADDRESS
+CHANTAB  DC    C'ABCDEFGHIJKLMNOPQRSTUVWXYZ'
+         DC    C'abcdefghijklmnopqrstuvwxyz'
+         DC    C'0123456789'
+         DC    C'$@#/%&&?!:|"=ª,;<>.-_'
+         DC    X'FF'              STOPPER
+*
+BLDLLIST DC    H'1'               BLDL LIST WITH 1 ENTRY
+         DC    H'12'              BLDL ENTRY LENGTH
+BLDLNAME DS    CL8                BLDL ENTRY NAME TO FIND
+         DS    XL4
+*
+         P0E04 DSECT
+*
+         DFHEIBLK                 EIB
+         DFHTCTTE                 TCTTE
+         DFHCHAN                  CHANNEL/CONTAINER STRUCTURES
+         DFHEISTG                 DSA
+         DFHADBLK                 HANDLE AID BLOCK
+         DFHHCBLK                 HANDLE CONDITION BLOCK
+         DFHABBLK                 HANDLE ABEND BLOCK
+*
+         EQUREGS REGS=GPR
+*
+         END
+

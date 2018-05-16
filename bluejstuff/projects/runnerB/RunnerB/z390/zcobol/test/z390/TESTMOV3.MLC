@@ -1,0 +1,3045 @@
+         ZCOBOL PGM='zcobol\test\TESTMOV3',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTMOV3_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTMOV3.
+         PROGRAM_ID TESTMOV3
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  04/21/12.
+*      * TEST MOVE WITH SCALING FOR IMPLIED DECIMAL                    X
+                 
+         DATE_WRITTEN 04,/,21,/,12
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 EH1 FLOAT-HEX-7       VALUE 1.5.
+         WS      77,EH1,FLOAT_HEX_7,VALUE,1.5
+*        77 DH1 FLOAT-HEX-15      VALUE 1.5.
+         WS      77,DH1,FLOAT_HEX_15,VALUE,1.5
+*        77 LH1 FLOAT-HEX-30      VALUE 1.5.
+         WS      77,LH1,FLOAT_HEX_30,VALUE,1.5
+*        77 EB1 FLOAT-BINARY-7    VALUE 1.5.
+         WS      77,EB1,FLOAT_BINARY_7,VALUE,1.5
+*        77 DB1 FLOAT-BINARY-16   VALUE 1.5.
+         WS      77,DB1,FLOAT_BINARY_16,VALUE,1.5
+*        77 LB1 FLOAT-BINARY-34   VALUE 1.5.
+         WS      77,LB1,FLOAT_BINARY_34,VALUE,1.5
+*        77 ED1 FLOAT-DECIMAL-7   VALUE 1.5.
+         WS      77,ED1,FLOAT_DECIMAL_7,VALUE,1.5
+*        77 DD1 FLOAT-DECIMAL-16  VALUE 1.5.
+         WS      77,DD1,FLOAT_DECIMAL_16,VALUE,1.5
+*        77 LD1 FLOAT-DECIMAL-34  VALUE 1.5.
+         WS      77,LD1,FLOAT_DECIMAL_34,VALUE,1.5
+*        77 H1      COMP PIC S9(3)V9    VALUE 1.5.
+         WS      77,H1,COMP,PIC,S9(3)V9,VALUE,1.5
+*        77 F1      COMP PIC S9(8)V9    VALUE 1.5.
+         WS      77,F1,COMP,PIC,S9(8)V9,VALUE,1.5
+*        77 G1      COMP PIC S9(17)V9   VALUE 1.5.
+         WS      77,G1,COMP,PIC,S9(17)V9,VALUE,1.5
+*        77 Q1      COMP PIC S9(38)V9   VALUE 1.5.
+         WS      77,Q1,COMP,PIC,S9(38)V9,VALUE,1.5
+*        77 P1      COMP-3 PIC S9(30)V9 VALUE 1.5.
+         WS      77,P1,COMP_3,PIC,S9(30)V9,VALUE,1.5
+*        77 Z1             PIC S9(30)V9 VALUE 1.5.
+         WS      77,Z1,PIC,S9(30)V9,VALUE,1.5
+*        77 EH2 FLOAT-HEX-7       VALUE 1.50.
+         WS      77,EH2,FLOAT_HEX_7,VALUE,1.50
+*        77 DH2 FLOAT-HEX-15      VALUE 1.50.
+         WS      77,DH2,FLOAT_HEX_15,VALUE,1.50
+*        77 LH2 FLOAT-HEX-30      VALUE 1.50.
+         WS      77,LH2,FLOAT_HEX_30,VALUE,1.50
+*        77 EB2 FLOAT-BINARY-7    VALUE 1.50.
+         WS      77,EB2,FLOAT_BINARY_7,VALUE,1.50
+*        77 DB2 FLOAT-BINARY-16   VALUE 1.50.
+         WS      77,DB2,FLOAT_BINARY_16,VALUE,1.50
+*        77 LB2 FLOAT-BINARY-34   VALUE 1.50.
+         WS      77,LB2,FLOAT_BINARY_34,VALUE,1.50
+*        77 ED2 FLOAT-DECIMAL-7   VALUE 1.50.
+         WS      77,ED2,FLOAT_DECIMAL_7,VALUE,1.50
+*        77 DD2 FLOAT-DECIMAL-16  VALUE 1.50.
+         WS      77,DD2,FLOAT_DECIMAL_16,VALUE,1.50
+*        77 LD2 FLOAT-DECIMAL-34  VALUE 1.50.
+         WS      77,LD2,FLOAT_DECIMAL_34,VALUE,1.50
+*        77 H2      COMP PIC S9(2)V99         VALUE 1.50.
+         WS      77,H2,COMP,PIC,S9(2)V99,VALUE,1.50
+*        77 F2      COMP PIC S9(6)V999        VALUE 1.50.
+         WS      77,F2,COMP,PIC,S9(6)V999,VALUE,1.50
+*        77 G2      COMP PIC S9(14)V9999      VALUE 1.50.
+         WS      77,G2,COMP,PIC,S9(14)V9999,VALUE,1.50
+*        77 Q2      COMP PIC S9(34)V99999     VALUE 1.50.
+         WS      77,Q2,COMP,PIC,S9(34)V99999,VALUE,1.50
+*        77 P2      COMP-3 PIC S9(25)V999999  VALUE 1.50.
+         WS      77,P2,COMP_3,PIC,S9(25)V999999,VALUE,1.50
+*        77 Z2             PIC S9(24)V9999999 VALUE 1.50.
+         WS      77,Z2,PIC,S9(24)V9999999,VALUE,1.50
+*        77 GOOD    COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,9(4),VALUE,0
+*        77 BAD     COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,BAD,COMP_3,PIC,9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTMOV3 TEST SCALED MOVES'
+*ZC     43         DISPLAY 'TESTMOV3 TEST SCALED MOVES'
+         DISPLAY 'TESTMOV3 TEST SCALED MOVES'
+*            MOVE EH2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     44         MOVE  EH2,TO,EH1
+         MOVE  EH2,TO,EH1
+*ZC     44         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC     44         PERFORM GOOD
+         PERFORM GOOD
+*ZC     44         ELSE  
+         ELSE  
+*ZC     44         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     45         MOVE  EH2,TO,DH1
+         MOVE  EH2,TO,DH1
+*ZC     45         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC     45         PERFORM GOOD
+         PERFORM GOOD
+*ZC     45         ELSE  
+         ELSE  
+*ZC     45         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     46         MOVE  EH2,TO,LH1
+         MOVE  EH2,TO,LH1
+*ZC     46         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC     46         PERFORM GOOD
+         PERFORM GOOD
+*ZC     46         ELSE  
+         ELSE  
+*ZC     46         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     47         MOVE  EH2,TO,EB1
+         MOVE  EH2,TO,EB1
+*ZC     47         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC     47         PERFORM GOOD
+         PERFORM GOOD
+*ZC     47         ELSE  
+         ELSE  
+*ZC     47         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     48         MOVE  EH2,TO,DB1
+         MOVE  EH2,TO,DB1
+*ZC     48         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC     48         PERFORM GOOD
+         PERFORM GOOD
+*ZC     48         ELSE  
+         ELSE  
+*ZC     48         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     49         MOVE  EH2,TO,LB1
+         MOVE  EH2,TO,LB1
+*ZC     49         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC     49         PERFORM GOOD
+         PERFORM GOOD
+*ZC     49         ELSE  
+         ELSE  
+*ZC     49         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     50         MOVE  EH2,TO,ED1
+         MOVE  EH2,TO,ED1
+*ZC     50         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC     50         PERFORM GOOD
+         PERFORM GOOD
+*ZC     50         ELSE  
+         ELSE  
+*ZC     50         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     51         MOVE  EH2,TO,DD1
+         MOVE  EH2,TO,DD1
+*ZC     51         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC     51         PERFORM GOOD
+         PERFORM GOOD
+*ZC     51         ELSE  
+         ELSE  
+*ZC     51         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     52         MOVE  EH2,TO,LD1
+         MOVE  EH2,TO,LD1
+*ZC     52         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC     52         PERFORM GOOD
+         PERFORM GOOD
+*ZC     52         ELSE  
+         ELSE  
+*ZC     52         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     53         MOVE  EH2,TO,F1
+         MOVE  EH2,TO,F1
+*ZC     53         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC     53         PERFORM GOOD
+         PERFORM GOOD
+*ZC     53         ELSE  
+         ELSE  
+*ZC     53         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     54         MOVE  EH2,TO,G1
+         MOVE  EH2,TO,G1
+*ZC     54         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC     54         PERFORM GOOD
+         PERFORM GOOD
+*ZC     54         ELSE  
+         ELSE  
+*ZC     54         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     55         MOVE  EH2,TO,H1
+         MOVE  EH2,TO,H1
+*ZC     55         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC     55         PERFORM GOOD
+         PERFORM GOOD
+*ZC     55         ELSE  
+         ELSE  
+*ZC     55         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     56         MOVE  EH2,TO,P1
+         MOVE  EH2,TO,P1
+*ZC     56         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC     56         PERFORM GOOD
+         PERFORM GOOD
+*ZC     56         ELSE  
+         ELSE  
+*ZC     56         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     57         MOVE  EH2,TO,Q1
+         MOVE  EH2,TO,Q1
+*ZC     57         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC     57         PERFORM GOOD
+         PERFORM GOOD
+*ZC     57         ELSE  
+         ELSE  
+*ZC     57         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EH2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC     58         MOVE  EH2,TO,Z1
+         MOVE  EH2,TO,Z1
+*ZC     58         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC     58         PERFORM GOOD
+         PERFORM GOOD
+*ZC     58         ELSE  
+         ELSE  
+*ZC     58         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     59         MOVE  DH2,TO,EH1
+         MOVE  DH2,TO,EH1
+*ZC     59         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC     59         PERFORM GOOD
+         PERFORM GOOD
+*ZC     59         ELSE  
+         ELSE  
+*ZC     59         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     60         MOVE  DH2,TO,DH1
+         MOVE  DH2,TO,DH1
+*ZC     60         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC     60         PERFORM GOOD
+         PERFORM GOOD
+*ZC     60         ELSE  
+         ELSE  
+*ZC     60         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     61         MOVE  DH2,TO,LH1
+         MOVE  DH2,TO,LH1
+*ZC     61         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC     61         PERFORM GOOD
+         PERFORM GOOD
+*ZC     61         ELSE  
+         ELSE  
+*ZC     61         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     62         MOVE  DH2,TO,EB1
+         MOVE  DH2,TO,EB1
+*ZC     62         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC     62         PERFORM GOOD
+         PERFORM GOOD
+*ZC     62         ELSE  
+         ELSE  
+*ZC     62         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     63         MOVE  DH2,TO,DB1
+         MOVE  DH2,TO,DB1
+*ZC     63         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC     63         PERFORM GOOD
+         PERFORM GOOD
+*ZC     63         ELSE  
+         ELSE  
+*ZC     63         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     64         MOVE  DH2,TO,LB1
+         MOVE  DH2,TO,LB1
+*ZC     64         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC     64         PERFORM GOOD
+         PERFORM GOOD
+*ZC     64         ELSE  
+         ELSE  
+*ZC     64         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     65         MOVE  DH2,TO,ED1
+         MOVE  DH2,TO,ED1
+*ZC     65         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC     65         PERFORM GOOD
+         PERFORM GOOD
+*ZC     65         ELSE  
+         ELSE  
+*ZC     65         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     66         MOVE  DH2,TO,DD1
+         MOVE  DH2,TO,DD1
+*ZC     66         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC     66         PERFORM GOOD
+         PERFORM GOOD
+*ZC     66         ELSE  
+         ELSE  
+*ZC     66         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     67         MOVE  DH2,TO,LD1
+         MOVE  DH2,TO,LD1
+*ZC     67         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC     67         PERFORM GOOD
+         PERFORM GOOD
+*ZC     67         ELSE  
+         ELSE  
+*ZC     67         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     68         MOVE  DH2,TO,F1
+         MOVE  DH2,TO,F1
+*ZC     68         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC     68         PERFORM GOOD
+         PERFORM GOOD
+*ZC     68         ELSE  
+         ELSE  
+*ZC     68         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     69         MOVE  DH2,TO,G1
+         MOVE  DH2,TO,G1
+*ZC     69         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC     69         PERFORM GOOD
+         PERFORM GOOD
+*ZC     69         ELSE  
+         ELSE  
+*ZC     69         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     70         MOVE  DH2,TO,H1
+         MOVE  DH2,TO,H1
+*ZC     70         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC     70         PERFORM GOOD
+         PERFORM GOOD
+*ZC     70         ELSE  
+         ELSE  
+*ZC     70         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     71         MOVE  DH2,TO,P1
+         MOVE  DH2,TO,P1
+*ZC     71         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC     71         PERFORM GOOD
+         PERFORM GOOD
+*ZC     71         ELSE  
+         ELSE  
+*ZC     71         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     72         MOVE  DH2,TO,Q1
+         MOVE  DH2,TO,Q1
+*ZC     72         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC     72         PERFORM GOOD
+         PERFORM GOOD
+*ZC     72         ELSE  
+         ELSE  
+*ZC     72         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DH2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC     73         MOVE  DH2,TO,Z1
+         MOVE  DH2,TO,Z1
+*ZC     73         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC     73         PERFORM GOOD
+         PERFORM GOOD
+*ZC     73         ELSE  
+         ELSE  
+*ZC     73         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     74         MOVE  LH2,TO,EH1
+         MOVE  LH2,TO,EH1
+*ZC     74         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC     74         PERFORM GOOD
+         PERFORM GOOD
+*ZC     74         ELSE  
+         ELSE  
+*ZC     74         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     75         MOVE  LH2,TO,DH1
+         MOVE  LH2,TO,DH1
+*ZC     75         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC     75         PERFORM GOOD
+         PERFORM GOOD
+*ZC     75         ELSE  
+         ELSE  
+*ZC     75         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     76         MOVE  LH2,TO,LH1
+         MOVE  LH2,TO,LH1
+*ZC     76         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC     76         PERFORM GOOD
+         PERFORM GOOD
+*ZC     76         ELSE  
+         ELSE  
+*ZC     76         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     77         MOVE  LH2,TO,EB1
+         MOVE  LH2,TO,EB1
+*ZC     77         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC     77         PERFORM GOOD
+         PERFORM GOOD
+*ZC     77         ELSE  
+         ELSE  
+*ZC     77         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     78         MOVE  LH2,TO,DB1
+         MOVE  LH2,TO,DB1
+*ZC     78         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC     78         PERFORM GOOD
+         PERFORM GOOD
+*ZC     78         ELSE  
+         ELSE  
+*ZC     78         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     79         MOVE  LH2,TO,LB1
+         MOVE  LH2,TO,LB1
+*ZC     79         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC     79         PERFORM GOOD
+         PERFORM GOOD
+*ZC     79         ELSE  
+         ELSE  
+*ZC     79         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     80         MOVE  LH2,TO,ED1
+         MOVE  LH2,TO,ED1
+*ZC     80         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC     80         PERFORM GOOD
+         PERFORM GOOD
+*ZC     80         ELSE  
+         ELSE  
+*ZC     80         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     81         MOVE  LH2,TO,DD1
+         MOVE  LH2,TO,DD1
+*ZC     81         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC     81         PERFORM GOOD
+         PERFORM GOOD
+*ZC     81         ELSE  
+         ELSE  
+*ZC     81         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     82         MOVE  LH2,TO,LD1
+         MOVE  LH2,TO,LD1
+*ZC     82         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC     82         PERFORM GOOD
+         PERFORM GOOD
+*ZC     82         ELSE  
+         ELSE  
+*ZC     82         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     83         MOVE  LH2,TO,F1
+         MOVE  LH2,TO,F1
+*ZC     83         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC     83         PERFORM GOOD
+         PERFORM GOOD
+*ZC     83         ELSE  
+         ELSE  
+*ZC     83         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     84         MOVE  LH2,TO,G1
+         MOVE  LH2,TO,G1
+*ZC     84         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC     84         PERFORM GOOD
+         PERFORM GOOD
+*ZC     84         ELSE  
+         ELSE  
+*ZC     84         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     85         MOVE  LH2,TO,H1
+         MOVE  LH2,TO,H1
+*ZC     85         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC     85         PERFORM GOOD
+         PERFORM GOOD
+*ZC     85         ELSE  
+         ELSE  
+*ZC     85         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     86         MOVE  LH2,TO,P1
+         MOVE  LH2,TO,P1
+*ZC     86         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC     86         PERFORM GOOD
+         PERFORM GOOD
+*ZC     86         ELSE  
+         ELSE  
+*ZC     86         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     87         MOVE  LH2,TO,Q1
+         MOVE  LH2,TO,Q1
+*ZC     87         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC     87         PERFORM GOOD
+         PERFORM GOOD
+*ZC     87         ELSE  
+         ELSE  
+*ZC     87         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LH2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC     88         MOVE  LH2,TO,Z1
+         MOVE  LH2,TO,Z1
+*ZC     88         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC     88         PERFORM GOOD
+         PERFORM GOOD
+*ZC     88         ELSE  
+         ELSE  
+*ZC     88         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     89         MOVE  EB2,TO,EH1
+         MOVE  EB2,TO,EH1
+*ZC     89         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC     89         PERFORM GOOD
+         PERFORM GOOD
+*ZC     89         ELSE  
+         ELSE  
+*ZC     89         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     90         MOVE  EB2,TO,DH1
+         MOVE  EB2,TO,DH1
+*ZC     90         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC     90         PERFORM GOOD
+         PERFORM GOOD
+*ZC     90         ELSE  
+         ELSE  
+*ZC     90         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     91         MOVE  EB2,TO,LH1
+         MOVE  EB2,TO,LH1
+*ZC     91         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC     91         PERFORM GOOD
+         PERFORM GOOD
+*ZC     91         ELSE  
+         ELSE  
+*ZC     91         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     92         MOVE  EB2,TO,EB1
+         MOVE  EB2,TO,EB1
+*ZC     92         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC     92         PERFORM GOOD
+         PERFORM GOOD
+*ZC     92         ELSE  
+         ELSE  
+*ZC     92         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     93         MOVE  EB2,TO,DB1
+         MOVE  EB2,TO,DB1
+*ZC     93         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC     93         PERFORM GOOD
+         PERFORM GOOD
+*ZC     93         ELSE  
+         ELSE  
+*ZC     93         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     94         MOVE  EB2,TO,LB1
+         MOVE  EB2,TO,LB1
+*ZC     94         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC     94         PERFORM GOOD
+         PERFORM GOOD
+*ZC     94         ELSE  
+         ELSE  
+*ZC     94         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     95         MOVE  EB2,TO,ED1
+         MOVE  EB2,TO,ED1
+*ZC     95         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC     95         PERFORM GOOD
+         PERFORM GOOD
+*ZC     95         ELSE  
+         ELSE  
+*ZC     95         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     96         MOVE  EB2,TO,DD1
+         MOVE  EB2,TO,DD1
+*ZC     96         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC     96         PERFORM GOOD
+         PERFORM GOOD
+*ZC     96         ELSE  
+         ELSE  
+*ZC     96         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     97         MOVE  EB2,TO,LD1
+         MOVE  EB2,TO,LD1
+*ZC     97         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC     97         PERFORM GOOD
+         PERFORM GOOD
+*ZC     97         ELSE  
+         ELSE  
+*ZC     97         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     98         MOVE  EB2,TO,F1
+         MOVE  EB2,TO,F1
+*ZC     98         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC     98         PERFORM GOOD
+         PERFORM GOOD
+*ZC     98         ELSE  
+         ELSE  
+*ZC     98         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC     99         MOVE  EB2,TO,G1
+         MOVE  EB2,TO,G1
+*ZC     99         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC     99         PERFORM GOOD
+         PERFORM GOOD
+*ZC     99         ELSE  
+         ELSE  
+*ZC     99         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    100         MOVE  EB2,TO,H1
+         MOVE  EB2,TO,H1
+*ZC    100         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    100         PERFORM GOOD
+         PERFORM GOOD
+*ZC    100         ELSE  
+         ELSE  
+*ZC    100         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    101         MOVE  EB2,TO,P1
+         MOVE  EB2,TO,P1
+*ZC    101         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    101         PERFORM GOOD
+         PERFORM GOOD
+*ZC    101         ELSE  
+         ELSE  
+*ZC    101         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    102         MOVE  EB2,TO,Q1
+         MOVE  EB2,TO,Q1
+*ZC    102         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    102         PERFORM GOOD
+         PERFORM GOOD
+*ZC    102         ELSE  
+         ELSE  
+*ZC    102         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE EB2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    103         MOVE  EB2,TO,Z1
+         MOVE  EB2,TO,Z1
+*ZC    103         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    103         PERFORM GOOD
+         PERFORM GOOD
+*ZC    103         ELSE  
+         ELSE  
+*ZC    103         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    104         MOVE  DB2,TO,EH1
+         MOVE  DB2,TO,EH1
+*ZC    104         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    104         PERFORM GOOD
+         PERFORM GOOD
+*ZC    104         ELSE  
+         ELSE  
+*ZC    104         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    105         MOVE  DB2,TO,DH1
+         MOVE  DB2,TO,DH1
+*ZC    105         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    105         PERFORM GOOD
+         PERFORM GOOD
+*ZC    105         ELSE  
+         ELSE  
+*ZC    105         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    106         MOVE  DB2,TO,LH1
+         MOVE  DB2,TO,LH1
+*ZC    106         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    106         PERFORM GOOD
+         PERFORM GOOD
+*ZC    106         ELSE  
+         ELSE  
+*ZC    106         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    107         MOVE  DB2,TO,EB1
+         MOVE  DB2,TO,EB1
+*ZC    107         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    107         PERFORM GOOD
+         PERFORM GOOD
+*ZC    107         ELSE  
+         ELSE  
+*ZC    107         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    108         MOVE  DB2,TO,DB1
+         MOVE  DB2,TO,DB1
+*ZC    108         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    108         PERFORM GOOD
+         PERFORM GOOD
+*ZC    108         ELSE  
+         ELSE  
+*ZC    108         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    109         MOVE  DB2,TO,LB1
+         MOVE  DB2,TO,LB1
+*ZC    109         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    109         PERFORM GOOD
+         PERFORM GOOD
+*ZC    109         ELSE  
+         ELSE  
+*ZC    109         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    110         MOVE  DB2,TO,ED1
+         MOVE  DB2,TO,ED1
+*ZC    110         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    110         PERFORM GOOD
+         PERFORM GOOD
+*ZC    110         ELSE  
+         ELSE  
+*ZC    110         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    111         MOVE  DB2,TO,DD1
+         MOVE  DB2,TO,DD1
+*ZC    111         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    111         PERFORM GOOD
+         PERFORM GOOD
+*ZC    111         ELSE  
+         ELSE  
+*ZC    111         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    112         MOVE  DB2,TO,LD1
+         MOVE  DB2,TO,LD1
+*ZC    112         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    112         PERFORM GOOD
+         PERFORM GOOD
+*ZC    112         ELSE  
+         ELSE  
+*ZC    112         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    113         MOVE  DB2,TO,F1
+         MOVE  DB2,TO,F1
+*ZC    113         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    113         PERFORM GOOD
+         PERFORM GOOD
+*ZC    113         ELSE  
+         ELSE  
+*ZC    113         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    114         MOVE  DB2,TO,G1
+         MOVE  DB2,TO,G1
+*ZC    114         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    114         PERFORM GOOD
+         PERFORM GOOD
+*ZC    114         ELSE  
+         ELSE  
+*ZC    114         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    115         MOVE  DB2,TO,H1
+         MOVE  DB2,TO,H1
+*ZC    115         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    115         PERFORM GOOD
+         PERFORM GOOD
+*ZC    115         ELSE  
+         ELSE  
+*ZC    115         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    116         MOVE  DB2,TO,P1
+         MOVE  DB2,TO,P1
+*ZC    116         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    116         PERFORM GOOD
+         PERFORM GOOD
+*ZC    116         ELSE  
+         ELSE  
+*ZC    116         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    117         MOVE  DB2,TO,Q1
+         MOVE  DB2,TO,Q1
+*ZC    117         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    117         PERFORM GOOD
+         PERFORM GOOD
+*ZC    117         ELSE  
+         ELSE  
+*ZC    117         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DB2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    118         MOVE  DB2,TO,Z1
+         MOVE  DB2,TO,Z1
+*ZC    118         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    118         PERFORM GOOD
+         PERFORM GOOD
+*ZC    118         ELSE  
+         ELSE  
+*ZC    118         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    119         MOVE  LB2,TO,EH1
+         MOVE  LB2,TO,EH1
+*ZC    119         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    119         PERFORM GOOD
+         PERFORM GOOD
+*ZC    119         ELSE  
+         ELSE  
+*ZC    119         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    120         MOVE  LB2,TO,DH1
+         MOVE  LB2,TO,DH1
+*ZC    120         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    120         PERFORM GOOD
+         PERFORM GOOD
+*ZC    120         ELSE  
+         ELSE  
+*ZC    120         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    121         MOVE  LB2,TO,LH1
+         MOVE  LB2,TO,LH1
+*ZC    121         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    121         PERFORM GOOD
+         PERFORM GOOD
+*ZC    121         ELSE  
+         ELSE  
+*ZC    121         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    122         MOVE  LB2,TO,EB1
+         MOVE  LB2,TO,EB1
+*ZC    122         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    122         PERFORM GOOD
+         PERFORM GOOD
+*ZC    122         ELSE  
+         ELSE  
+*ZC    122         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    123         MOVE  LB2,TO,DB1
+         MOVE  LB2,TO,DB1
+*ZC    123         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    123         PERFORM GOOD
+         PERFORM GOOD
+*ZC    123         ELSE  
+         ELSE  
+*ZC    123         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    124         MOVE  LB2,TO,LB1
+         MOVE  LB2,TO,LB1
+*ZC    124         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    124         PERFORM GOOD
+         PERFORM GOOD
+*ZC    124         ELSE  
+         ELSE  
+*ZC    124         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    125         MOVE  LB2,TO,ED1
+         MOVE  LB2,TO,ED1
+*ZC    125         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    125         PERFORM GOOD
+         PERFORM GOOD
+*ZC    125         ELSE  
+         ELSE  
+*ZC    125         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    126         MOVE  LB2,TO,DD1
+         MOVE  LB2,TO,DD1
+*ZC    126         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    126         PERFORM GOOD
+         PERFORM GOOD
+*ZC    126         ELSE  
+         ELSE  
+*ZC    126         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    127         MOVE  LB2,TO,LD1
+         MOVE  LB2,TO,LD1
+*ZC    127         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    127         PERFORM GOOD
+         PERFORM GOOD
+*ZC    127         ELSE  
+         ELSE  
+*ZC    127         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    128         MOVE  LB2,TO,F1
+         MOVE  LB2,TO,F1
+*ZC    128         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    128         PERFORM GOOD
+         PERFORM GOOD
+*ZC    128         ELSE  
+         ELSE  
+*ZC    128         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    129         MOVE  LB2,TO,G1
+         MOVE  LB2,TO,G1
+*ZC    129         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    129         PERFORM GOOD
+         PERFORM GOOD
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    130         MOVE  LB2,TO,H1
+         MOVE  LB2,TO,H1
+*ZC    130         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    130         PERFORM GOOD
+         PERFORM GOOD
+*ZC    130         ELSE  
+         ELSE  
+*ZC    130         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    131         MOVE  LB2,TO,P1
+         MOVE  LB2,TO,P1
+*ZC    131         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    131         PERFORM GOOD
+         PERFORM GOOD
+*ZC    131         ELSE  
+         ELSE  
+*ZC    131         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    132         MOVE  LB2,TO,Q1
+         MOVE  LB2,TO,Q1
+*ZC    132         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    132         PERFORM GOOD
+         PERFORM GOOD
+*ZC    132         ELSE  
+         ELSE  
+*ZC    132         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LB2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    133         MOVE  LB2,TO,Z1
+         MOVE  LB2,TO,Z1
+*ZC    133         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    133         PERFORM GOOD
+         PERFORM GOOD
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    134         MOVE  ED2,TO,EH1
+         MOVE  ED2,TO,EH1
+*ZC    134         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    134         PERFORM GOOD
+         PERFORM GOOD
+*ZC    134         ELSE  
+         ELSE  
+*ZC    134         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    135         MOVE  ED2,TO,DH1
+         MOVE  ED2,TO,DH1
+*ZC    135         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    135         PERFORM GOOD
+         PERFORM GOOD
+*ZC    135         ELSE  
+         ELSE  
+*ZC    135         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    136         MOVE  ED2,TO,LH1
+         MOVE  ED2,TO,LH1
+*ZC    136         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    136         PERFORM GOOD
+         PERFORM GOOD
+*ZC    136         ELSE  
+         ELSE  
+*ZC    136         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    137         MOVE  ED2,TO,EB1
+         MOVE  ED2,TO,EB1
+*ZC    137         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    137         PERFORM GOOD
+         PERFORM GOOD
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    138         MOVE  ED2,TO,DB1
+         MOVE  ED2,TO,DB1
+*ZC    138         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    138         PERFORM GOOD
+         PERFORM GOOD
+*ZC    138         ELSE  
+         ELSE  
+*ZC    138         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    139         MOVE  ED2,TO,LB1
+         MOVE  ED2,TO,LB1
+*ZC    139         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    139         PERFORM GOOD
+         PERFORM GOOD
+*ZC    139         ELSE  
+         ELSE  
+*ZC    139         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    140         MOVE  ED2,TO,ED1
+         MOVE  ED2,TO,ED1
+*ZC    140         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    140         PERFORM GOOD
+         PERFORM GOOD
+*ZC    140         ELSE  
+         ELSE  
+*ZC    140         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    141         MOVE  ED2,TO,DD1
+         MOVE  ED2,TO,DD1
+*ZC    141         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    141         PERFORM GOOD
+         PERFORM GOOD
+*ZC    141         ELSE  
+         ELSE  
+*ZC    141         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    142         MOVE  ED2,TO,LD1
+         MOVE  ED2,TO,LD1
+*ZC    142         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    142         PERFORM GOOD
+         PERFORM GOOD
+*ZC    142         ELSE  
+         ELSE  
+*ZC    142         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    143         MOVE  ED2,TO,F1
+         MOVE  ED2,TO,F1
+*ZC    143         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    143         PERFORM GOOD
+         PERFORM GOOD
+*ZC    143         ELSE  
+         ELSE  
+*ZC    143         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    144         MOVE  ED2,TO,G1
+         MOVE  ED2,TO,G1
+*ZC    144         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    144         PERFORM GOOD
+         PERFORM GOOD
+*ZC    144         ELSE  
+         ELSE  
+*ZC    144         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    145         MOVE  ED2,TO,H1
+         MOVE  ED2,TO,H1
+*ZC    145         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    145         PERFORM GOOD
+         PERFORM GOOD
+*ZC    145         ELSE  
+         ELSE  
+*ZC    145         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    146         MOVE  ED2,TO,P1
+         MOVE  ED2,TO,P1
+*ZC    146         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    146         PERFORM GOOD
+         PERFORM GOOD
+*ZC    146         ELSE  
+         ELSE  
+*ZC    146         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    147         MOVE  ED2,TO,Q1
+         MOVE  ED2,TO,Q1
+*ZC    147         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    147         PERFORM GOOD
+         PERFORM GOOD
+*ZC    147         ELSE  
+         ELSE  
+*ZC    147         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE ED2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    148         MOVE  ED2,TO,Z1
+         MOVE  ED2,TO,Z1
+*ZC    148         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    148         PERFORM GOOD
+         PERFORM GOOD
+*ZC    148         ELSE  
+         ELSE  
+*ZC    148         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    149         MOVE  DD2,TO,EH1
+         MOVE  DD2,TO,EH1
+*ZC    149         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    149         PERFORM GOOD
+         PERFORM GOOD
+*ZC    149         ELSE  
+         ELSE  
+*ZC    149         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    150         MOVE  DD2,TO,DH1
+         MOVE  DD2,TO,DH1
+*ZC    150         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    150         PERFORM GOOD
+         PERFORM GOOD
+*ZC    150         ELSE  
+         ELSE  
+*ZC    150         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    151         MOVE  DD2,TO,LH1
+         MOVE  DD2,TO,LH1
+*ZC    151         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    151         PERFORM GOOD
+         PERFORM GOOD
+*ZC    151         ELSE  
+         ELSE  
+*ZC    151         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    152         MOVE  DD2,TO,EB1
+         MOVE  DD2,TO,EB1
+*ZC    152         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    152         PERFORM GOOD
+         PERFORM GOOD
+*ZC    152         ELSE  
+         ELSE  
+*ZC    152         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    153         MOVE  DD2,TO,DB1
+         MOVE  DD2,TO,DB1
+*ZC    153         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    153         PERFORM GOOD
+         PERFORM GOOD
+*ZC    153         ELSE  
+         ELSE  
+*ZC    153         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    154         MOVE  DD2,TO,LB1
+         MOVE  DD2,TO,LB1
+*ZC    154         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    154         PERFORM GOOD
+         PERFORM GOOD
+*ZC    154         ELSE  
+         ELSE  
+*ZC    154         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    155         MOVE  DD2,TO,ED1
+         MOVE  DD2,TO,ED1
+*ZC    155         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    155         PERFORM GOOD
+         PERFORM GOOD
+*ZC    155         ELSE  
+         ELSE  
+*ZC    155         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    156         MOVE  DD2,TO,DD1
+         MOVE  DD2,TO,DD1
+*ZC    156         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    156         PERFORM GOOD
+         PERFORM GOOD
+*ZC    156         ELSE  
+         ELSE  
+*ZC    156         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    157         MOVE  DD2,TO,LD1
+         MOVE  DD2,TO,LD1
+*ZC    157         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    157         PERFORM GOOD
+         PERFORM GOOD
+*ZC    157         ELSE  
+         ELSE  
+*ZC    157         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    158         MOVE  DD2,TO,F1
+         MOVE  DD2,TO,F1
+*ZC    158         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    158         PERFORM GOOD
+         PERFORM GOOD
+*ZC    158         ELSE  
+         ELSE  
+*ZC    158         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    159         MOVE  DD2,TO,G1
+         MOVE  DD2,TO,G1
+*ZC    159         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    159         PERFORM GOOD
+         PERFORM GOOD
+*ZC    159         ELSE  
+         ELSE  
+*ZC    159         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    160         MOVE  DD2,TO,H1
+         MOVE  DD2,TO,H1
+*ZC    160         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    160         PERFORM GOOD
+         PERFORM GOOD
+*ZC    160         ELSE  
+         ELSE  
+*ZC    160         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    161         MOVE  DD2,TO,P1
+         MOVE  DD2,TO,P1
+*ZC    161         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    161         PERFORM GOOD
+         PERFORM GOOD
+*ZC    161         ELSE  
+         ELSE  
+*ZC    161         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    162         MOVE  DD2,TO,Q1
+         MOVE  DD2,TO,Q1
+*ZC    162         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    162         PERFORM GOOD
+         PERFORM GOOD
+*ZC    162         ELSE  
+         ELSE  
+*ZC    162         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE DD2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    163         MOVE  DD2,TO,Z1
+         MOVE  DD2,TO,Z1
+*ZC    163         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    163         PERFORM GOOD
+         PERFORM GOOD
+*ZC    163         ELSE  
+         ELSE  
+*ZC    163         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    164         MOVE  LD2,TO,EH1
+         MOVE  LD2,TO,EH1
+*ZC    164         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    164         PERFORM GOOD
+         PERFORM GOOD
+*ZC    164         ELSE  
+         ELSE  
+*ZC    164         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    165         MOVE  LD2,TO,DH1
+         MOVE  LD2,TO,DH1
+*ZC    165         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    165         PERFORM GOOD
+         PERFORM GOOD
+*ZC    165         ELSE  
+         ELSE  
+*ZC    165         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    166         MOVE  LD2,TO,LH1
+         MOVE  LD2,TO,LH1
+*ZC    166         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    166         PERFORM GOOD
+         PERFORM GOOD
+*ZC    166         ELSE  
+         ELSE  
+*ZC    166         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    167         MOVE  LD2,TO,EB1
+         MOVE  LD2,TO,EB1
+*ZC    167         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    167         PERFORM GOOD
+         PERFORM GOOD
+*ZC    167         ELSE  
+         ELSE  
+*ZC    167         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    168         MOVE  LD2,TO,DB1
+         MOVE  LD2,TO,DB1
+*ZC    168         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    168         PERFORM GOOD
+         PERFORM GOOD
+*ZC    168         ELSE  
+         ELSE  
+*ZC    168         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    169         MOVE  LD2,TO,LB1
+         MOVE  LD2,TO,LB1
+*ZC    169         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    169         PERFORM GOOD
+         PERFORM GOOD
+*ZC    169         ELSE  
+         ELSE  
+*ZC    169         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    170         MOVE  LD2,TO,ED1
+         MOVE  LD2,TO,ED1
+*ZC    170         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    170         PERFORM GOOD
+         PERFORM GOOD
+*ZC    170         ELSE  
+         ELSE  
+*ZC    170         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    171         MOVE  LD2,TO,DD1
+         MOVE  LD2,TO,DD1
+*ZC    171         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    171         PERFORM GOOD
+         PERFORM GOOD
+*ZC    171         ELSE  
+         ELSE  
+*ZC    171         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    172         MOVE  LD2,TO,LD1
+         MOVE  LD2,TO,LD1
+*ZC    172         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    172         PERFORM GOOD
+         PERFORM GOOD
+*ZC    172         ELSE  
+         ELSE  
+*ZC    172         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    173         MOVE  LD2,TO,F1
+         MOVE  LD2,TO,F1
+*ZC    173         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    173         PERFORM GOOD
+         PERFORM GOOD
+*ZC    173         ELSE  
+         ELSE  
+*ZC    173         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    174         MOVE  LD2,TO,G1
+         MOVE  LD2,TO,G1
+*ZC    174         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    174         PERFORM GOOD
+         PERFORM GOOD
+*ZC    174         ELSE  
+         ELSE  
+*ZC    174         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    175         MOVE  LD2,TO,H1
+         MOVE  LD2,TO,H1
+*ZC    175         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    175         PERFORM GOOD
+         PERFORM GOOD
+*ZC    175         ELSE  
+         ELSE  
+*ZC    175         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    176         MOVE  LD2,TO,P1
+         MOVE  LD2,TO,P1
+*ZC    176         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    176         PERFORM GOOD
+         PERFORM GOOD
+*ZC    176         ELSE  
+         ELSE  
+*ZC    176         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    177         MOVE  LD2,TO,Q1
+         MOVE  LD2,TO,Q1
+*ZC    177         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    177         PERFORM GOOD
+         PERFORM GOOD
+*ZC    177         ELSE  
+         ELSE  
+*ZC    177         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE LD2 TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    178         MOVE  LD2,TO,Z1
+         MOVE  LD2,TO,Z1
+*ZC    178         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    178         PERFORM GOOD
+         PERFORM GOOD
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    179         MOVE  F2,TO,EH1
+         MOVE  F2,TO,EH1
+*ZC    179         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    179         PERFORM GOOD
+         PERFORM GOOD
+*ZC    179         ELSE  
+         ELSE  
+*ZC    179         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    180         MOVE  F2,TO,DH1
+         MOVE  F2,TO,DH1
+*ZC    180         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    180         PERFORM GOOD
+         PERFORM GOOD
+*ZC    180         ELSE  
+         ELSE  
+*ZC    180         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    181         MOVE  F2,TO,LH1
+         MOVE  F2,TO,LH1
+*ZC    181         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    181         PERFORM GOOD
+         PERFORM GOOD
+*ZC    181         ELSE  
+         ELSE  
+*ZC    181         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    182         MOVE  F2,TO,EB1
+         MOVE  F2,TO,EB1
+*ZC    182         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    182         PERFORM GOOD
+         PERFORM GOOD
+*ZC    182         ELSE  
+         ELSE  
+*ZC    182         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    183         MOVE  F2,TO,DB1
+         MOVE  F2,TO,DB1
+*ZC    183         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    183         PERFORM GOOD
+         PERFORM GOOD
+*ZC    183         ELSE  
+         ELSE  
+*ZC    183         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    184         MOVE  F2,TO,LB1
+         MOVE  F2,TO,LB1
+*ZC    184         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    184         PERFORM GOOD
+         PERFORM GOOD
+*ZC    184         ELSE  
+         ELSE  
+*ZC    184         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    185         MOVE  F2,TO,ED1
+         MOVE  F2,TO,ED1
+*ZC    185         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    185         PERFORM GOOD
+         PERFORM GOOD
+*ZC    185         ELSE  
+         ELSE  
+*ZC    185         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    186         MOVE  F2,TO,DD1
+         MOVE  F2,TO,DD1
+*ZC    186         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    186         PERFORM GOOD
+         PERFORM GOOD
+*ZC    186         ELSE  
+         ELSE  
+*ZC    186         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    187         MOVE  F2,TO,LD1
+         MOVE  F2,TO,LD1
+*ZC    187         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    187         PERFORM GOOD
+         PERFORM GOOD
+*ZC    187         ELSE  
+         ELSE  
+*ZC    187         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    188         MOVE  F2,TO,F1
+         MOVE  F2,TO,F1
+*ZC    188         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    188         PERFORM GOOD
+         PERFORM GOOD
+*ZC    188         ELSE  
+         ELSE  
+*ZC    188         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    189         MOVE  F2,TO,G1
+         MOVE  F2,TO,G1
+*ZC    189         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    189         PERFORM GOOD
+         PERFORM GOOD
+*ZC    189         ELSE  
+         ELSE  
+*ZC    189         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    190         MOVE  F2,TO,H1
+         MOVE  F2,TO,H1
+*ZC    190         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    190         PERFORM GOOD
+         PERFORM GOOD
+*ZC    190         ELSE  
+         ELSE  
+*ZC    190         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    191         MOVE  F2,TO,P1
+         MOVE  F2,TO,P1
+*ZC    191         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    191         PERFORM GOOD
+         PERFORM GOOD
+*ZC    191         ELSE  
+         ELSE  
+*ZC    191         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    192         MOVE  F2,TO,Q1
+         MOVE  F2,TO,Q1
+*ZC    192         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    192         PERFORM GOOD
+         PERFORM GOOD
+*ZC    192         ELSE  
+         ELSE  
+*ZC    192         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE F2  TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    193         MOVE  F2,TO,Z1
+         MOVE  F2,TO,Z1
+*ZC    193         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    193         PERFORM GOOD
+         PERFORM GOOD
+*ZC    193         ELSE  
+         ELSE  
+*ZC    193         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    194         MOVE  G2,TO,EH1
+         MOVE  G2,TO,EH1
+*ZC    194         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    194         PERFORM GOOD
+         PERFORM GOOD
+*ZC    194         ELSE  
+         ELSE  
+*ZC    194         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    195         MOVE  G2,TO,DH1
+         MOVE  G2,TO,DH1
+*ZC    195         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    195         PERFORM GOOD
+         PERFORM GOOD
+*ZC    195         ELSE  
+         ELSE  
+*ZC    195         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    196         MOVE  G2,TO,LH1
+         MOVE  G2,TO,LH1
+*ZC    196         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    196         PERFORM GOOD
+         PERFORM GOOD
+*ZC    196         ELSE  
+         ELSE  
+*ZC    196         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    197         MOVE  G2,TO,EB1
+         MOVE  G2,TO,EB1
+*ZC    197         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    197         PERFORM GOOD
+         PERFORM GOOD
+*ZC    197         ELSE  
+         ELSE  
+*ZC    197         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    198         MOVE  G2,TO,DB1
+         MOVE  G2,TO,DB1
+*ZC    198         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    198         PERFORM GOOD
+         PERFORM GOOD
+*ZC    198         ELSE  
+         ELSE  
+*ZC    198         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    199         MOVE  G2,TO,LB1
+         MOVE  G2,TO,LB1
+*ZC    199         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    199         PERFORM GOOD
+         PERFORM GOOD
+*ZC    199         ELSE  
+         ELSE  
+*ZC    199         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    200         MOVE  G2,TO,ED1
+         MOVE  G2,TO,ED1
+*ZC    200         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    200         PERFORM GOOD
+         PERFORM GOOD
+*ZC    200         ELSE  
+         ELSE  
+*ZC    200         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    201         MOVE  G2,TO,DD1
+         MOVE  G2,TO,DD1
+*ZC    201         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    201         PERFORM GOOD
+         PERFORM GOOD
+*ZC    201         ELSE  
+         ELSE  
+*ZC    201         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    202         MOVE  G2,TO,LD1
+         MOVE  G2,TO,LD1
+*ZC    202         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    202         PERFORM GOOD
+         PERFORM GOOD
+*ZC    202         ELSE  
+         ELSE  
+*ZC    202         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    203         MOVE  G2,TO,F1
+         MOVE  G2,TO,F1
+*ZC    203         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    203         PERFORM GOOD
+         PERFORM GOOD
+*ZC    203         ELSE  
+         ELSE  
+*ZC    203         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    204         MOVE  G2,TO,G1
+         MOVE  G2,TO,G1
+*ZC    204         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    204         PERFORM GOOD
+         PERFORM GOOD
+*ZC    204         ELSE  
+         ELSE  
+*ZC    204         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    205         MOVE  G2,TO,H1
+         MOVE  G2,TO,H1
+*ZC    205         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    205         PERFORM GOOD
+         PERFORM GOOD
+*ZC    205         ELSE  
+         ELSE  
+*ZC    205         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    206         MOVE  G2,TO,P1
+         MOVE  G2,TO,P1
+*ZC    206         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    206         PERFORM GOOD
+         PERFORM GOOD
+*ZC    206         ELSE  
+         ELSE  
+*ZC    206         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    207         MOVE  G2,TO,Q1
+         MOVE  G2,TO,Q1
+*ZC    207         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    207         PERFORM GOOD
+         PERFORM GOOD
+*ZC    207         ELSE  
+         ELSE  
+*ZC    207         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE G2  TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    208         MOVE  G2,TO,Z1
+         MOVE  G2,TO,Z1
+*ZC    208         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    208         PERFORM GOOD
+         PERFORM GOOD
+*ZC    208         ELSE  
+         ELSE  
+*ZC    208         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    209         MOVE  H2,TO,EH1
+         MOVE  H2,TO,EH1
+*ZC    209         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    209         PERFORM GOOD
+         PERFORM GOOD
+*ZC    209         ELSE  
+         ELSE  
+*ZC    209         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    210         MOVE  H2,TO,DH1
+         MOVE  H2,TO,DH1
+*ZC    210         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    210         PERFORM GOOD
+         PERFORM GOOD
+*ZC    210         ELSE  
+         ELSE  
+*ZC    210         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    211         MOVE  H2,TO,LH1
+         MOVE  H2,TO,LH1
+*ZC    211         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    211         PERFORM GOOD
+         PERFORM GOOD
+*ZC    211         ELSE  
+         ELSE  
+*ZC    211         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    212         MOVE  H2,TO,EB1
+         MOVE  H2,TO,EB1
+*ZC    212         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    212         PERFORM GOOD
+         PERFORM GOOD
+*ZC    212         ELSE  
+         ELSE  
+*ZC    212         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    213         MOVE  H2,TO,DB1
+         MOVE  H2,TO,DB1
+*ZC    213         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    213         PERFORM GOOD
+         PERFORM GOOD
+*ZC    213         ELSE  
+         ELSE  
+*ZC    213         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    214         MOVE  H2,TO,LB1
+         MOVE  H2,TO,LB1
+*ZC    214         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    214         PERFORM GOOD
+         PERFORM GOOD
+*ZC    214         ELSE  
+         ELSE  
+*ZC    214         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    215         MOVE  H2,TO,ED1
+         MOVE  H2,TO,ED1
+*ZC    215         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    215         PERFORM GOOD
+         PERFORM GOOD
+*ZC    215         ELSE  
+         ELSE  
+*ZC    215         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    216         MOVE  H2,TO,DD1
+         MOVE  H2,TO,DD1
+*ZC    216         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    216         PERFORM GOOD
+         PERFORM GOOD
+*ZC    216         ELSE  
+         ELSE  
+*ZC    216         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    217         MOVE  H2,TO,LD1
+         MOVE  H2,TO,LD1
+*ZC    217         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    217         PERFORM GOOD
+         PERFORM GOOD
+*ZC    217         ELSE  
+         ELSE  
+*ZC    217         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    218         MOVE  H2,TO,F1
+         MOVE  H2,TO,F1
+*ZC    218         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    218         PERFORM GOOD
+         PERFORM GOOD
+*ZC    218         ELSE  
+         ELSE  
+*ZC    218         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    219         MOVE  H2,TO,G1
+         MOVE  H2,TO,G1
+*ZC    219         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    219         PERFORM GOOD
+         PERFORM GOOD
+*ZC    219         ELSE  
+         ELSE  
+*ZC    219         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    220         MOVE  H2,TO,H1
+         MOVE  H2,TO,H1
+*ZC    220         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    220         PERFORM GOOD
+         PERFORM GOOD
+*ZC    220         ELSE  
+         ELSE  
+*ZC    220         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    221         MOVE  H2,TO,P1
+         MOVE  H2,TO,P1
+*ZC    221         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    221         PERFORM GOOD
+         PERFORM GOOD
+*ZC    221         ELSE  
+         ELSE  
+*ZC    221         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    222         MOVE  H2,TO,Q1
+         MOVE  H2,TO,Q1
+*ZC    222         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    222         PERFORM GOOD
+         PERFORM GOOD
+*ZC    222         ELSE  
+         ELSE  
+*ZC    222         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE H2  TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    223         MOVE  H2,TO,Z1
+         MOVE  H2,TO,Z1
+*ZC    223         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    223         PERFORM GOOD
+         PERFORM GOOD
+*ZC    223         ELSE  
+         ELSE  
+*ZC    223         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    224         MOVE  P2,TO,EH1
+         MOVE  P2,TO,EH1
+*ZC    224         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    224         PERFORM GOOD
+         PERFORM GOOD
+*ZC    224         ELSE  
+         ELSE  
+*ZC    224         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    225         MOVE  P2,TO,DH1
+         MOVE  P2,TO,DH1
+*ZC    225         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    225         PERFORM GOOD
+         PERFORM GOOD
+*ZC    225         ELSE  
+         ELSE  
+*ZC    225         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    226         MOVE  P2,TO,LH1
+         MOVE  P2,TO,LH1
+*ZC    226         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    226         PERFORM GOOD
+         PERFORM GOOD
+*ZC    226         ELSE  
+         ELSE  
+*ZC    226         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    227         MOVE  P2,TO,EB1
+         MOVE  P2,TO,EB1
+*ZC    227         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    227         PERFORM GOOD
+         PERFORM GOOD
+*ZC    227         ELSE  
+         ELSE  
+*ZC    227         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    228         MOVE  P2,TO,DB1
+         MOVE  P2,TO,DB1
+*ZC    228         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    228         PERFORM GOOD
+         PERFORM GOOD
+*ZC    228         ELSE  
+         ELSE  
+*ZC    228         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    229         MOVE  P2,TO,LB1
+         MOVE  P2,TO,LB1
+*ZC    229         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    229         PERFORM GOOD
+         PERFORM GOOD
+*ZC    229         ELSE  
+         ELSE  
+*ZC    229         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    230         MOVE  P2,TO,ED1
+         MOVE  P2,TO,ED1
+*ZC    230         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    230         PERFORM GOOD
+         PERFORM GOOD
+*ZC    230         ELSE  
+         ELSE  
+*ZC    230         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    231         MOVE  P2,TO,DD1
+         MOVE  P2,TO,DD1
+*ZC    231         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    231         PERFORM GOOD
+         PERFORM GOOD
+*ZC    231         ELSE  
+         ELSE  
+*ZC    231         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    232         MOVE  P2,TO,LD1
+         MOVE  P2,TO,LD1
+*ZC    232         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    232         PERFORM GOOD
+         PERFORM GOOD
+*ZC    232         ELSE  
+         ELSE  
+*ZC    232         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    233         MOVE  P2,TO,F1
+         MOVE  P2,TO,F1
+*ZC    233         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    233         PERFORM GOOD
+         PERFORM GOOD
+*ZC    233         ELSE  
+         ELSE  
+*ZC    233         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    234         MOVE  P2,TO,G1
+         MOVE  P2,TO,G1
+*ZC    234         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    234         PERFORM GOOD
+         PERFORM GOOD
+*ZC    234         ELSE  
+         ELSE  
+*ZC    234         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    235         MOVE  P2,TO,H1
+         MOVE  P2,TO,H1
+*ZC    235         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    235         PERFORM GOOD
+         PERFORM GOOD
+*ZC    235         ELSE  
+         ELSE  
+*ZC    235         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    236         MOVE  P2,TO,P1
+         MOVE  P2,TO,P1
+*ZC    236         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    236         PERFORM GOOD
+         PERFORM GOOD
+*ZC    236         ELSE  
+         ELSE  
+*ZC    236         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    237         MOVE  P2,TO,Q1
+         MOVE  P2,TO,Q1
+*ZC    237         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    237         PERFORM GOOD
+         PERFORM GOOD
+*ZC    237         ELSE  
+         ELSE  
+*ZC    237         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE P2  TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    238         MOVE  P2,TO,Z1
+         MOVE  P2,TO,Z1
+*ZC    238         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    238         PERFORM GOOD
+         PERFORM GOOD
+*ZC    238         ELSE  
+         ELSE  
+*ZC    238         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    239         MOVE  Q2,TO,EH1
+         MOVE  Q2,TO,EH1
+*ZC    239         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    239         PERFORM GOOD
+         PERFORM GOOD
+*ZC    239         ELSE  
+         ELSE  
+*ZC    239         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    240         MOVE  Q2,TO,DH1
+         MOVE  Q2,TO,DH1
+*ZC    240         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    240         PERFORM GOOD
+         PERFORM GOOD
+*ZC    240         ELSE  
+         ELSE  
+*ZC    240         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    241         MOVE  Q2,TO,LH1
+         MOVE  Q2,TO,LH1
+*ZC    241         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    241         PERFORM GOOD
+         PERFORM GOOD
+*ZC    241         ELSE  
+         ELSE  
+*ZC    241         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    242         MOVE  Q2,TO,EB1
+         MOVE  Q2,TO,EB1
+*ZC    242         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    242         PERFORM GOOD
+         PERFORM GOOD
+*ZC    242         ELSE  
+         ELSE  
+*ZC    242         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    243         MOVE  Q2,TO,DB1
+         MOVE  Q2,TO,DB1
+*ZC    243         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    243         PERFORM GOOD
+         PERFORM GOOD
+*ZC    243         ELSE  
+         ELSE  
+*ZC    243         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    244         MOVE  Q2,TO,LB1
+         MOVE  Q2,TO,LB1
+*ZC    244         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    244         PERFORM GOOD
+         PERFORM GOOD
+*ZC    244         ELSE  
+         ELSE  
+*ZC    244         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    245         MOVE  Q2,TO,ED1
+         MOVE  Q2,TO,ED1
+*ZC    245         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    245         PERFORM GOOD
+         PERFORM GOOD
+*ZC    245         ELSE  
+         ELSE  
+*ZC    245         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    246         MOVE  Q2,TO,DD1
+         MOVE  Q2,TO,DD1
+*ZC    246         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    246         PERFORM GOOD
+         PERFORM GOOD
+*ZC    246         ELSE  
+         ELSE  
+*ZC    246         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    247         MOVE  Q2,TO,LD1
+         MOVE  Q2,TO,LD1
+*ZC    247         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    247         PERFORM GOOD
+         PERFORM GOOD
+*ZC    247         ELSE  
+         ELSE  
+*ZC    247         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    248         MOVE  Q2,TO,F1
+         MOVE  Q2,TO,F1
+*ZC    248         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    248         PERFORM GOOD
+         PERFORM GOOD
+*ZC    248         ELSE  
+         ELSE  
+*ZC    248         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    249         MOVE  Q2,TO,G1
+         MOVE  Q2,TO,G1
+*ZC    249         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    249         PERFORM GOOD
+         PERFORM GOOD
+*ZC    249         ELSE  
+         ELSE  
+*ZC    249         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    250         MOVE  Q2,TO,H1
+         MOVE  Q2,TO,H1
+*ZC    250         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    250         PERFORM GOOD
+         PERFORM GOOD
+*ZC    250         ELSE  
+         ELSE  
+*ZC    250         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    251         MOVE  Q2,TO,P1
+         MOVE  Q2,TO,P1
+*ZC    251         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    251         PERFORM GOOD
+         PERFORM GOOD
+*ZC    251         ELSE  
+         ELSE  
+*ZC    251         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    252         MOVE  Q2,TO,Q1
+         MOVE  Q2,TO,Q1
+*ZC    252         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    252         PERFORM GOOD
+         PERFORM GOOD
+*ZC    252         ELSE  
+         ELSE  
+*ZC    252         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Q2  TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    253         MOVE  Q2,TO,Z1
+         MOVE  Q2,TO,Z1
+*ZC    253         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    253         PERFORM GOOD
+         PERFORM GOOD
+*ZC    253         ELSE  
+         ELSE  
+*ZC    253         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO EH1 IF EH1 = EH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    254         MOVE  Z2,TO,EH1
+         MOVE  Z2,TO,EH1
+*ZC    254         IF    EH1,=,EH1
+         IF    EH1,=,EH1
+*ZC    254         PERFORM GOOD
+         PERFORM GOOD
+*ZC    254         ELSE  
+         ELSE  
+*ZC    254         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO DH1 IF EH1 = DH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    255         MOVE  Z2,TO,DH1
+         MOVE  Z2,TO,DH1
+*ZC    255         IF    EH1,=,DH1
+         IF    EH1,=,DH1
+*ZC    255         PERFORM GOOD
+         PERFORM GOOD
+*ZC    255         ELSE  
+         ELSE  
+*ZC    255         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO LH1 IF EH1 = LH1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    256         MOVE  Z2,TO,LH1
+         MOVE  Z2,TO,LH1
+*ZC    256         IF    EH1,=,LH1
+         IF    EH1,=,LH1
+*ZC    256         PERFORM GOOD
+         PERFORM GOOD
+*ZC    256         ELSE  
+         ELSE  
+*ZC    256         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO EB1 IF EH1 = EB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    257         MOVE  Z2,TO,EB1
+         MOVE  Z2,TO,EB1
+*ZC    257         IF    EH1,=,EB1
+         IF    EH1,=,EB1
+*ZC    257         PERFORM GOOD
+         PERFORM GOOD
+*ZC    257         ELSE  
+         ELSE  
+*ZC    257         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO DB1 IF EH1 = DB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    258         MOVE  Z2,TO,DB1
+         MOVE  Z2,TO,DB1
+*ZC    258         IF    EH1,=,DB1
+         IF    EH1,=,DB1
+*ZC    258         PERFORM GOOD
+         PERFORM GOOD
+*ZC    258         ELSE  
+         ELSE  
+*ZC    258         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO LB1 IF EH1 = LB1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    259         MOVE  Z2,TO,LB1
+         MOVE  Z2,TO,LB1
+*ZC    259         IF    EH1,=,LB1
+         IF    EH1,=,LB1
+*ZC    259         PERFORM GOOD
+         PERFORM GOOD
+*ZC    259         ELSE  
+         ELSE  
+*ZC    259         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO ED1 IF EH1 = ED1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    260         MOVE  Z2,TO,ED1
+         MOVE  Z2,TO,ED1
+*ZC    260         IF    EH1,=,ED1
+         IF    EH1,=,ED1
+*ZC    260         PERFORM GOOD
+         PERFORM GOOD
+*ZC    260         ELSE  
+         ELSE  
+*ZC    260         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO DD1 IF EH1 = DD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    261         MOVE  Z2,TO,DD1
+         MOVE  Z2,TO,DD1
+*ZC    261         IF    EH1,=,DD1
+         IF    EH1,=,DD1
+*ZC    261         PERFORM GOOD
+         PERFORM GOOD
+*ZC    261         ELSE  
+         ELSE  
+*ZC    261         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO LD1 IF EH1 = LD1 PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    262         MOVE  Z2,TO,LD1
+         MOVE  Z2,TO,LD1
+*ZC    262         IF    EH1,=,LD1
+         IF    EH1,=,LD1
+*ZC    262         PERFORM GOOD
+         PERFORM GOOD
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO F1  IF EH1 = F1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    263         MOVE  Z2,TO,F1
+         MOVE  Z2,TO,F1
+*ZC    263         IF    EH1,=,F1
+         IF    EH1,=,F1
+*ZC    263         PERFORM GOOD
+         PERFORM GOOD
+*ZC    263         ELSE  
+         ELSE  
+*ZC    263         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO G1  IF EH1 = G1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    264         MOVE  Z2,TO,G1
+         MOVE  Z2,TO,G1
+*ZC    264         IF    EH1,=,G1
+         IF    EH1,=,G1
+*ZC    264         PERFORM GOOD
+         PERFORM GOOD
+*ZC    264         ELSE  
+         ELSE  
+*ZC    264         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO H1  IF EH1 = H1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    265         MOVE  Z2,TO,H1
+         MOVE  Z2,TO,H1
+*ZC    265         IF    EH1,=,H1
+         IF    EH1,=,H1
+*ZC    265         PERFORM GOOD
+         PERFORM GOOD
+*ZC    265         ELSE  
+         ELSE  
+*ZC    265         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO P1  IF EH1 = P1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    266         MOVE  Z2,TO,P1
+         MOVE  Z2,TO,P1
+*ZC    266         IF    EH1,=,P1
+         IF    EH1,=,P1
+*ZC    266         PERFORM GOOD
+         PERFORM GOOD
+*ZC    266         ELSE  
+         ELSE  
+*ZC    266         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO Q1  IF EH1 = Q1  PERFORM GOOD ELSE PERFORM BADX
+               .
+*ZC    267         MOVE  Z2,TO,Q1
+         MOVE  Z2,TO,Q1
+*ZC    267         IF    EH1,=,Q1
+         IF    EH1,=,Q1
+*ZC    267         PERFORM GOOD
+         PERFORM GOOD
+*ZC    267         ELSE  
+         ELSE  
+*ZC    267         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE Z2  TO Z1  IF EH1 = Z1  PERFORM GOOD ELSE PERFORM BADX
+               .          
+*ZC    268         MOVE  Z2,TO,Z1
+         MOVE  Z2,TO,Z1
+*ZC    268         IF    EH1,=,Z1
+         IF    EH1,=,Z1
+*ZC    268         PERFORM GOOD
+         PERFORM GOOD
+*ZC    268         ELSE  
+         ELSE  
+*ZC    268         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TOTAL GOOD = ' GOOD ' TOTAL BAD = ' BAD
+*ZC    269         DISPLAY 'TOTAL GOOD = ',GOOD,' TOTAL BAD = ',BAD
+         DISPLAY 'TOTAL GOOD = ',GOOD,' TOTAL BAD = ',BAD
+*            STOP RUN.
+*ZC    270         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC    272         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            ADD 1 TO BAD
+*ZC    274         ADD   1,TO,BAD
+         ADD   1,TO,BAD
+*            MOVE 16 TO RETURN-CODE
+*ZC    275         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            DISPLAY 'BAD'.
+*ZC    276         DISPLAY 'BAD'
+         DISPLAY 'BAD'
+         PERIOD 
+         PROCEDURE END
+         END   

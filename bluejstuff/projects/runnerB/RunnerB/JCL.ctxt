@@ -1,0 +1,13 @@
+#BlueJ class context
+comment0.params=
+comment0.target=JCL()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ JCL\r\n
+comment1.params=
+comment1.target=void\ loadJCL()
+comment2.params=
+comment2.target=java.lang.String\ getJCLAsString()
+comment3.params=ddName
+comment3.target=java.lang.String\ getPhysicalName(java.lang.String)
+comment4.params=ddName\ pName
+comment4.target=void\ setPhysicalName(java.lang.String,\ java.lang.String)
+numComments=5

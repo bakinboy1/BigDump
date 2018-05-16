@@ -1,0 +1,330 @@
+ZSTRMAC   MZ390 START
+ZSTRMAC   MZ390 MZ390E error 238     (1/480)480 ZSM AELSE missing AIF or ACASE
+ZSTRMAC   MZ390 MZ390E error 239     (1/484)484 ZSM AEND missing structure
+ZSTRMAC   MZ390 MZ390E error 114     (1/452)452 ZSTRMAC invalid AIF label - (&LVL_ACASE_FIRST(&LVL) NE 1))
+ZSTRMAZSTRMAC   MZ390 final_options=ALIGN
+ZSTRMAC   MZ390 final_options=NOALLOW
+ZSTRMAC   MZ390 final_options=NOAMODE24
+ZSTRMAC   MZ390 final_options=AMODE31
+ZSTRMAC   MZ390 final_options=NOASCII
+ZSTRMAC   MZ390 final_options=NOASM
+ZSTRMAC   MZ390 final_options=NOASSIST
+ZSTRMAC   MZ390 final_options=AUTOLINK
+ZSTRMAC   MZ390 final_options=NOBAL
+ZSTRMAC   MZ390 final_options=NOBS2000
+ZSTRMAC   MZ390 final_options=EDF
+ZSTRMAC   MZ390 final_options=NOCICS
+ZSTRMAC   MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+ZSTRMAC   MZ390 final_options=COMMENT
+ZSTRMAC   MZ390 final_options=CON
+ZZSTRMAC   MZ390 MZ390I FID=  1 ERR= 3 W:\work\z390\LINKLIB\ZSTRMAC.MLC
+ZSTRMAC   MZ390 ENDED   RC=12 MEM(MB)= MB IO=1184
+  MZ390 final_options=EXTEND
+ZSTRMAC   MZ390 final_options=FLOAT(DECIMAL)
+ZSTRMAC   MZ390 final_options=NOGUAM
+ZSTRMAC   MZ390 final_options=INIT
+ZSTRMAC   MZ390 final_options=LIST
+ZSTRMAC   MZ390 final_options=LISTCALL
+ZSTRMAC   MZ390 final_options=LISTUSE
+ZSTRMAC   MZ390 final_options=LOADHIGH
+ZSTRMAC   MZ390 final_options=NOMCALL
+ZSTRMAC   MZ390 final_options=NOMOD
+ZSTRMAC   MZ390 final_options=OBJ
+ZSTRMAC   MZ390 final_options=NOOBJHEX
+ZSTRMAC   MZ390 final_options=PC
+ZSTRMAC   MZ390 final_options=PCOPT
+ZSTRMAC   MZ390 final_options=NOPDSMEM8
+ZSTRMAC   MZ390 final_options=NOPRINTALL
+ZSTRMAC   MZ390 final_options=PROLOG
+ZSTRMAC   MZ390 final_options=PROTECT
+ZSTRMAC   MZ390 final_options=R64
+ZSTRMAC   MZ390 final_options=NOREFORMAT
+ZSTRMAC   MZ390 final_options=NOREGS
+ZSTRMAC   MZ390 final_options=RMODE24
+ZSTRMAC   MZ390 final_options=NORMODE31
+ZSTRMAC   MZ390 final_options=STATS
+ZSTRMAC   MZ390 final_options=NOTEST
+ZSTRMAC   MZ390 final_options=THREAD
+ZSTRMAC   MZ390 final_options=NOTIME
+ZSTRMAC   MZ390 final_options=NOTIMING
+ZSTRMAC   MZ390 final_options=NOTRACE
+ZSTRMAC   MZ390 final_options=NOTRACEA
+ZSTRMAC   MZ390 final_options=NOTRACEALL
+ZSTRMAC   MZ390 final_options=NOTRACEC
+ZSTRMAC   MZ390 final_options=NOTRACEG
+ZSTRMAC   MZ390 final_options=NOTRACEI
+ZSTRMAC   MZ390 final_options=NOTRACEL
+ZSTRMAC   MZ390 final_options=NOTRACEM
+ZSTRMAC   MZ390 final_options=NOTRACEP
+ZSTRMAC   MZ390 final_options=NOTRACEQ
+ZSTRMAC   MZ390 final_options=NOTRACES
+ZSTRMAC   MZ390 final_options=NOTRACET
+ZSTRMAC   MZ390 final_options=NOTRACEV
+ZSTRMAC   MZ390 final_options=TRAP
+ZSTRMAC   MZ390 final_options=NOTRUNC
+ZSTRMAC   MZ390 final_options=NOTS
+ZSTRMAC   MZ390 final_options=VCB
+ZSTRMAC   MZ390 final_options=WARN
+ZSTRMAC   MZ390 final_options=XREF
+ZSTRMAC   MZ390 final_options=ZSTRMAC
+ZSTRMAC   MZ390 final_options=CHKMAC=0
+ZSTRMAC   MZ390 final_options=CHKSRC=1
+ZSTRMAC   MZ390 final_options=ERR=100
+ZSTRMAC   MZ390 final_options=MAXCALL=50
+ZSTRMAC   MZ390 final_options=MAXDISPLAY=80
+ZSTRMAC   MZ390 final_options=MAXESD=1000
+ZSTRMAC   MZ390 final_options=MAXFILE=1000
+ZSTRMAC   MZ390 final_options=MAXGBL=100000
+ZSTRMAC   MZ390 final_options=MAXHEIGHT=600
+ZSTRMAC   MZ390 final_options=MAXLCL=100000
+ZSTRMAC   MZ390 final_options=MAXLEN=80
+ZSTRMAC   MZ390 final_options=MAXLINE=200000
+ZSTRMAC   MZ390 final_options=MAXLOG=1000000
+ZSTRMAC   MZ390 final_options=MAXPARM=10000
+ZSTRMAC   MZ390 final_options=MAXPASS=2
+ZSTRMAC   MZ390 final_options=MAXPC=50000
+ZSTRMAC   MZ390 final_options=MAXQUE=1000
+ZSTRMAC   MZ390 final_options=MAXRLD=10000
+ZSTRMAC   MZ390 final_options=MAXSIZE=52428800
+ZSTRMAC   MZ390 final_options=MAXSYM=50000
+ZSTRMAC   MZ390 final_options=MAXWARN=4
+ZSTRMAC   MZ390 final_options=MAXWIDTH=800
+ZSTRMAC   MZ390 final_options=MEM=1
+ZSTRMAC   MZ390 final_options=MINHEIGHT=150
+ZSTRMAC   MZ390 final_options=MINWIDTH=150
+ZSTRMAC   MZ390 final_options=MNOTE=0
+ZSTRMAC   MZ390 final_options=PARM=
+ZSTRMAC   MZ390 final_options=PROFILE=
+ZSTRMAC   MZ390 final_options=STATS=W:\work\z390\LINKLIB\ZSTRMAC
+ZSTRMAC   MZ390 final_options=SYSPARM=
+ZSTRMAC   MZ390 final_options=SYSTERM=W:\work\z390\LINKLIB\ZSTRMAC
+ZSTRMAC   MZ390 final_options=TESTDD=
+ZSTRMAC   MZ390 final_options=TIME=60
+ZSTRMAC   MZ390 final_options=TRACE=
+ZSTRMAC   MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+ZSTRMAC   MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+ZSTRMAC   MZ390 final_options=Z390COMMAND=cmd.exe
+ZSTRMAC   MZ390 final_options=Z390EDITOR=notepad.exe
+ZSTRMAC   MZ390 final_options=INSTALL=
+ZSTRMAC   MZ390 final_options=IPL=
+ZSTRMAC   MZ390 final_options=LOG=
+ZSTRMAC   MZ390 final_options=SYS390=LINKLIB\+linklib
+ZSTRMAC   MZ390 final_options=SYSBAL=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSCPY=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSDAT=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSERR=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSLOG=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSLST=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSMAC=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSMLC=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSPCH=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSPRN=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSOBJ=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSOPT=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSTRC=LINKLIB\
+ZSTRMAC   MZ390 total MLC/MAC loaded  = 1327
+ZSTRMAC   MZ390 total BAL output lines= 1340
+ZSTRMAC   MZ390 total BAL instructions= 0
+ZSTRMAC   MZ390 total macros          = 2
+ZSTRMAC   MZ390 total macro loads     = 2
+ZSTRMAC   MZ390 total macro calls     = 1
+ZSTRMAC   MZ390 total AENTRY blocks   = 33
+ZSTRMAC   MZ390 total ACALL  calls    = 127
+ZSTRMAC   MZ390 total AIF    blocks   = 79
+ZSTRMAC   MZ390 total ACASE  blocks   = 1
+ZSTRMAC   MZ390 total AWHILE calls    = 14
+ZSTRMAC   MZ390 total AUNTIL blocks   = 0
+ZSTRMAC   MZ390 total global set names= 46
+ZSTRMAC   MZ390 tot global seta cells = 9
+ZSTRMAC   MZ390 tot global setb cells = 7
+ZSTRMAC   MZ390 tot global setc cells = 39
+ZSTRMAC   MZ390 max local pos parms   = 1
+ZSTRMAC   MZ390 max local key parms   = 0
+ZSTRMAC   MZ390 max local set names   = 47
+ZSTRMAC   MZ390 max local seta cells  = 321
+ZSTRMAC   MZ390 max local setb cells  = 206
+ZSTRMAC   MZ390 max local setc cells  = 209
+ZSTRMAC   MZ390 total array expansions= 0
+ZSTRMAC   MZ390 total Keys            = 1506
+ZSTRMAC   MZ390 Key searches          = 2812
+ZSTRMAC   MZ390 Key avg comps         = 0
+ZSTRMAC   MZ390 Key max comps         = 4
+ZSTRMAC   MZ390 total macro line exec = 210
+ZSTRMAC   MZ390 total pcode line exec = 0
+ZSTRMAC   MZ390 total pcode line gen. = 10
+ZSTRMAC   MZ390 total pcode line reuse= 0
+ZSTRMAC   MZ390 total pcode op   gen. = 29
+ZSTRMAC   MZ390 total pcode op   exec = 0
+ZSTRMAC   MZ390 total pcode gen  opt  = 4
+ZSTRMAC   MZ390 total pcode exec opt  = 0
+ZSTRMAC   MZ390 FID=  1 ERR= 3 W:\work\z390\LINKLIB\ZSTRMAC.MLC
+ZSTRMAC   MZ390 total mnote warnings  = 0
+ZSTRMAC   MZ390 total mnote errors    = 0
+ZSTRMAC   MZ390 max   mnote level     = 0
+ZSTRMAC   MZ390 total mz390 errors    = 3
+ZSTRMAC   MZ390 ENDED   RC=12 MEM(MB)= MB IO=1184
+ZSTRMAC   MZ390 START
+ZSTRMAC   MZ390 MZ390E error 238     (1/480)480 ZSM AELSE missing AIF or ACASE
+ZSTRMAC   MZ390 MZ390E error 239     (1/484)484 ZSM AEND missing structure
+ZSTRMAC   MZ390 MZ390E error 114     (1/452)452 ZSTRMAC invalid AIF label - (&LVL_ACASE_FIRST(&LVL) NE 1))
+ZSTRMAZSTRMAC   MZ390 final_options=ALIGN
+ZSTRMAC   MZ390 final_options=NOALLOW
+ZSTRMAC   MZ390 final_options=NOAMODE24
+ZSTRMAC   MZ390 final_options=AMODE31
+ZSTRMAC   MZ390 final_options=NOASCII
+ZSTRMAC   MZ390 final_options=NOASM
+ZSTRMAC   MZ390 final_options=NOASSIST
+ZSTRMAC   MZ390 final_options=AUTOLINK
+ZSTRMAC   MZ390 final_options=NOBAL
+ZSTRMAC   MZ390 final_options=NOBS2000
+ZSTRMAC   MZ390 final_options=EDF
+ZSTRMAC   MZ390 final_options=NOCICS
+ZSTRMAC   MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+ZSTRMAC   MZ390 final_options=COMMENT
+ZSTRMAC   MZ390 final_options=CON
+ZZSTRMAC   MZ390 MZ390I FID=  1 ERR= 3 W:\work\z390\LINKLIB\ZSTRMAC.MLC
+ZSTRMAC   MZ390 ENDED   RC=12 MEM(MB)= MB IO=1184
+  MZ390 final_options=EXTEND
+ZSTRMAC   MZ390 final_options=FLOAT(DECIMAL)
+ZSTRMAC   MZ390 final_options=NOGUAM
+ZSTRMAC   MZ390 final_options=INIT
+ZSTRMAC   MZ390 final_options=LIST
+ZSTRMAC   MZ390 final_options=LISTCALL
+ZSTRMAC   MZ390 final_options=LISTUSE
+ZSTRMAC   MZ390 final_options=LOADHIGH
+ZSTRMAC   MZ390 final_options=NOMCALL
+ZSTRMAC   MZ390 final_options=NOMOD
+ZSTRMAC   MZ390 final_options=OBJ
+ZSTRMAC   MZ390 final_options=NOOBJHEX
+ZSTRMAC   MZ390 final_options=PC
+ZSTRMAC   MZ390 final_options=PCOPT
+ZSTRMAC   MZ390 final_options=NOPDSMEM8
+ZSTRMAC   MZ390 final_options=NOPRINTALL
+ZSTRMAC   MZ390 final_options=PROLOG
+ZSTRMAC   MZ390 final_options=PROTECT
+ZSTRMAC   MZ390 final_options=R64
+ZSTRMAC   MZ390 final_options=NOREFORMAT
+ZSTRMAC   MZ390 final_options=NOREGS
+ZSTRMAC   MZ390 final_options=RMODE24
+ZSTRMAC   MZ390 final_options=NORMODE31
+ZSTRMAC   MZ390 final_options=STATS
+ZSTRMAC   MZ390 final_options=NOTEST
+ZSTRMAC   MZ390 final_options=THREAD
+ZSTRMAC   MZ390 final_options=NOTIME
+ZSTRMAC   MZ390 final_options=NOTIMING
+ZSTRMAC   MZ390 final_options=NOTRACE
+ZSTRMAC   MZ390 final_options=NOTRACEA
+ZSTRMAC   MZ390 final_options=NOTRACEALL
+ZSTRMAC   MZ390 final_options=NOTRACEC
+ZSTRMAC   MZ390 final_options=NOTRACEG
+ZSTRMAC   MZ390 final_options=NOTRACEI
+ZSTRMAC   MZ390 final_options=NOTRACEL
+ZSTRMAC   MZ390 final_options=NOTRACEM
+ZSTRMAC   MZ390 final_options=NOTRACEP
+ZSTRMAC   MZ390 final_options=NOTRACEQ
+ZSTRMAC   MZ390 final_options=NOTRACES
+ZSTRMAC   MZ390 final_options=NOTRACET
+ZSTRMAC   MZ390 final_options=NOTRACEV
+ZSTRMAC   MZ390 final_options=TRAP
+ZSTRMAC   MZ390 final_options=NOTRUNC
+ZSTRMAC   MZ390 final_options=NOTS
+ZSTRMAC   MZ390 final_options=VCB
+ZSTRMAC   MZ390 final_options=WARN
+ZSTRMAC   MZ390 final_options=XREF
+ZSTRMAC   MZ390 final_options=ZSTRMAC
+ZSTRMAC   MZ390 final_options=CHKMAC=0
+ZSTRMAC   MZ390 final_options=CHKSRC=1
+ZSTRMAC   MZ390 final_options=ERR=100
+ZSTRMAC   MZ390 final_options=MAXCALL=50
+ZSTRMAC   MZ390 final_options=MAXDISPLAY=80
+ZSTRMAC   MZ390 final_options=MAXESD=1000
+ZSTRMAC   MZ390 final_options=MAXFILE=1000
+ZSTRMAC   MZ390 final_options=MAXGBL=100000
+ZSTRMAC   MZ390 final_options=MAXHEIGHT=600
+ZSTRMAC   MZ390 final_options=MAXLCL=100000
+ZSTRMAC   MZ390 final_options=MAXLEN=80
+ZSTRMAC   MZ390 final_options=MAXLINE=200000
+ZSTRMAC   MZ390 final_options=MAXLOG=1000000
+ZSTRMAC   MZ390 final_options=MAXPARM=10000
+ZSTRMAC   MZ390 final_options=MAXPASS=2
+ZSTRMAC   MZ390 final_options=MAXPC=50000
+ZSTRMAC   MZ390 final_options=MAXQUE=1000
+ZSTRMAC   MZ390 final_options=MAXRLD=10000
+ZSTRMAC   MZ390 final_options=MAXSIZE=52428800
+ZSTRMAC   MZ390 final_options=MAXSYM=50000
+ZSTRMAC   MZ390 final_options=MAXWARN=4
+ZSTRMAC   MZ390 final_options=MAXWIDTH=800
+ZSTRMAC   MZ390 final_options=MEM=1
+ZSTRMAC   MZ390 final_options=MINHEIGHT=150
+ZSTRMAC   MZ390 final_options=MINWIDTH=150
+ZSTRMAC   MZ390 final_options=MNOTE=0
+ZSTRMAC   MZ390 final_options=PARM=
+ZSTRMAC   MZ390 final_options=PROFILE=
+ZSTRMAC   MZ390 final_options=STATS=W:\work\z390\LINKLIB\ZSTRMAC
+ZSTRMAC   MZ390 final_options=SYSPARM=
+ZSTRMAC   MZ390 final_options=SYSTERM=W:\work\z390\LINKLIB\ZSTRMAC
+ZSTRMAC   MZ390 final_options=TESTDD=
+ZSTRMAC   MZ390 final_options=TIME=60
+ZSTRMAC   MZ390 final_options=TRACE=
+ZSTRMAC   MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+ZSTRMAC   MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+ZSTRMAC   MZ390 final_options=Z390COMMAND=cmd.exe
+ZSTRMAC   MZ390 final_options=Z390EDITOR=notepad.exe
+ZSTRMAC   MZ390 final_options=INSTALL=
+ZSTRMAC   MZ390 final_options=IPL=
+ZSTRMAC   MZ390 final_options=LOG=
+ZSTRMAC   MZ390 final_options=SYS390=LINKLIB\+linklib
+ZSTRMAC   MZ390 final_options=SYSBAL=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSCPY=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSDAT=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSERR=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSLOG=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSLST=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSMAC=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSMLC=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSPCH=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSPRN=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSOBJ=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSOPT=LINKLIB\
+ZSTRMAC   MZ390 final_options=SYSTRC=LINKLIB\
+ZSTRMAC   MZ390 total MLC/MAC loaded  = 1327
+ZSTRMAC   MZ390 total BAL output lines= 1340
+ZSTRMAC   MZ390 total BAL instructions= 0
+ZSTRMAC   MZ390 total macros          = 2
+ZSTRMAC   MZ390 total macro loads     = 2
+ZSTRMAC   MZ390 total macro calls     = 1
+ZSTRMAC   MZ390 total AENTRY blocks   = 33
+ZSTRMAC   MZ390 total ACALL  calls    = 127
+ZSTRMAC   MZ390 total AIF    blocks   = 79
+ZSTRMAC   MZ390 total ACASE  blocks   = 1
+ZSTRMAC   MZ390 total AWHILE calls    = 14
+ZSTRMAC   MZ390 total AUNTIL blocks   = 0
+ZSTRMAC   MZ390 total global set names= 46
+ZSTRMAC   MZ390 tot global seta cells = 9
+ZSTRMAC   MZ390 tot global setb cells = 7
+ZSTRMAC   MZ390 tot global setc cells = 39
+ZSTRMAC   MZ390 max local pos parms   = 1
+ZSTRMAC   MZ390 max local key parms   = 0
+ZSTRMAC   MZ390 max local set names   = 47
+ZSTRMAC   MZ390 max local seta cells  = 321
+ZSTRMAC   MZ390 max local setb cells  = 206
+ZSTRMAC   MZ390 max local setc cells  = 209
+ZSTRMAC   MZ390 total array expansions= 0
+ZSTRMAC   MZ390 total Keys            = 1506
+ZSTRMAC   MZ390 Key searches          = 2812
+ZSTRMAC   MZ390 Key avg comps         = 0
+ZSTRMAC   MZ390 Key max comps         = 4
+ZSTRMAC   MZ390 total macro line exec = 210
+ZSTRMAC   MZ390 total pcode line exec = 0
+ZSTRMAC   MZ390 total pcode line gen. = 10
+ZSTRMAC   MZ390 total pcode line reuse= 0
+ZSTRMAC   MZ390 total pcode op   gen. = 29
+ZSTRMAC   MZ390 total pcode op   exec = 0
+ZSTRMAC   MZ390 total pcode gen  opt  = 4
+ZSTRMAC   MZ390 total pcode exec opt  = 0
+ZSTRMAC   MZ390 FID=  1 ERR= 3 W:\work\z390\LINKLIB\ZSTRMAC.MLC
+ZSTRMAC   MZ390 total mnote warnings  = 0
+ZSTRMAC   MZ390 total mnote errors    = 0
+ZSTRMAC   MZ390 max   mnote level     = 0
+ZSTRMAC   MZ390 total mz390 errors    = 3
+ZSTRMAC   MZ390 ENDED   RC=12 MEM(MB)= MB IO=1184

@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=m\ address\ noBytes
+comment0.target=java.math.BigInteger\ packedToBigInteger(Memory,\ int,\ int)
+comment1.params=m\ address\ noBytes\ value
+comment1.target=void\ BigIntegerToPackedDecimal(Memory,\ int,\ int,\ java.math.BigInteger)
+comment2.params=answer\ length
+comment2.target=boolean\ overFlow(java.math.BigInteger,\ int)
+comment3.params=m\ address\ noBytes
+comment3.target=int\ packedToInt(Memory,\ int,\ int)
+comment4.params=m\ address\ noBytes\ value
+comment4.target=void\ intToPackedDecimal(Memory,\ int,\ int,\ int)
+comment5.params=answer\ length
+comment5.target=boolean\ overFlow(int,\ int)
+comment6.params=m\ address\ noBytes
+comment6.target=int\ isPacked(Memory,\ int,\ int)
+numComments=7

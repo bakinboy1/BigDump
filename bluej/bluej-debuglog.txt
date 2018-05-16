@@ -1,0 +1,18 @@
+BlueJ run started: Mon Sep 14 14:21:11 EDT 2015
+BlueJ version 3.1.5
+Java version 1.8.0_60
+Virtual machine: Java HotSpot(TM) Client VM 25.60-b23 (Oracle Corporation)
+Running on: Windows 10 10.0 (x86)
+Java Home: C:\Program Files (x86)\Java\jdk1.8.0_60\jre
+----
+Detected language "english" based on iso639-2 code "eng"
+Opening project: C:\Users\fabian\AppData\Local\Temp\Rar$DIa0.092
+Internal error: Failed to find 'from' target ChampionTester
+Internal error: Failed to find 'to' target Champion
+1442254872355: Listening for JDWP connection on address: javadebug
+Connected to debug VM via dt_shmem transport...
+Communication with debug VM fully established.
+Opening project: C:\Users\fabian\Documents\BlueJ projects\BattleFighters
+1442254948087: Listening for JDWP connection on address: javadebug
+Connected to debug VM via dt_shmem transport...
+Communication with debug VM fully established.

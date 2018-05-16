@@ -1,0 +1,16 @@
+TESTSIX2  EZ390 START
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = zcobol\test\TESTSIX2.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+TESTSIX2 STARTING
+ T2-ID(          1 ,          1 )= A
+ T2-ID(          1 ,          2 )= B
+ T2-ID(          1 ,          3 )= C
+ T2-ID(          2 ,          1 )= D
+ T2-ID(          2 ,          2 )= E
+ T2-ID(          2 ,          3 )= F
+ TESTSIX2 GOOD TESTS =        18
+EZ390I total errors         = 0
+TESTSIX2  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=324 INS=3671

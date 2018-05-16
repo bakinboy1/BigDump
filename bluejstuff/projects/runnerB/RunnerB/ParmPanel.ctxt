@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=cpu\ mp\ rp
+comment0.target=ParmPanel(CPU,\ MemoryPanel,\ RegisterPanel)
+comment1.params=page
+comment1.target=void\ paintComponent(java.awt.Graphics)
+comment2.params=
+comment2.target=int\ getNoParms()
+numComments=3

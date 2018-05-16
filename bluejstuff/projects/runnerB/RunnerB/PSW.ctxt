@@ -1,0 +1,27 @@
+#BlueJ class context
+comment0.params=IPLaddr
+comment0.target=PSW(int)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ PSW\r\n
+comment1.params=
+comment1.target=int\ fetchInstructionAddress()
+comment10.params=n
+comment10.target=java.lang.String\ toCodeWord(int)
+comment11.params=
+comment11.target=java.lang.String\ toString()
+comment2.params=address
+comment2.target=void\ setInstructionAddress(int)
+comment3.params=len
+comment3.target=void\ updatePSWAddress(int)
+comment4.params=
+comment4.target=int\ fetchConditionCode()
+comment5.params=conditionCode
+comment5.target=void\ setConditionCode(int)
+comment6.params=
+comment6.target=int\ getAddressingMode()
+comment7.params=m
+comment7.target=void\ setAddressingMode(int)
+comment8.params=
+comment8.target=int\ getMask()
+comment9.params=m
+comment9.target=void\ setMask(int)
+numComments=12

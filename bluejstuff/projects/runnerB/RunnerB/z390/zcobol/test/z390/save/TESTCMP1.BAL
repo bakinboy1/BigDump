@@ -1,0 +1,6827 @@
+*    ZCOBOL PGM='zcobol\test\TESTCMP1' VER=V1.5.06 MM/DD/YY  
+*    ZCOBOL OPTIONS=() 
+         COPY  TESTCMP1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+*        PROGRAM-ID.    TESTCMP1.
+         PRINT NOLIST,NOGEN,NOLISTUSE    SET LIST OPTION FOR INTERNAL CX
+               ODE
+TESTCMP1 CSECT ,                CSECT WITH PROCEDURE CODE AND WS
+         USING *,ZC_R15
+         STM   14,12,12+4*(14-14)(13)
+         CNOP  4,8             FORCE ZC390PVT TO DOUBLEWORD BOUNDARY
+         BRAS  ZC_R8,ZC_LOAD
+         USING *,ZC_R8            BASE FOR LOAD AND CICS V5 USE
+*
+*  THESE FIELDS MUST BE KEPT IN SYNC WITH zcobol\ZC390PVT.CPY
+*
+         DC    CL8'TESTCMP1'    PVTPGM   ZCOBOL PGM NAME
+         DC    CL8'01/02/05'   PVTDATE  ZCOBOL COMPILE DATE
+         DC    CL8'22.33'   PVTTIME  ZCOBOL COMPILE TIME
+         DC    CL8'V1.5.06'    PVTVER   ZCOBOL COMPILER VERSION
+         DC    C'0'     PVTCICS  ZCOBOL EXEC CICS PGM
+         DC    C'1'   PVTEXTND ZCOBOL EXTENDED PRECISION
+         DC    C'0'    PVTTRUNC ZCOBOL TRUNCATE TO PICTURE
+         DC    C'1'      PVTR64   ZCOBOL USE 64 BIT REGISTERS
+         DC    H'80' MAX DISPLAY LINE LEN  RPI 1118
+         DS    XL10            RESERVED
+ZC_LOAD  DS    0H
+         LA    0,=CL8'ZC390LIB'
+         SR    15,15 USE DEFAULT SYS390 SEARCH
+         SVC   8 LOAD R0=A(NAME) R15=DDNAME/DSNAME ADDR OR 0
+         LTR   ZC_R15,ZC_R15
+         JZ    ZC_LOAD_OK
+         BRAS  1,*+(WTO#0143_EOT-*+1)/2*2
+         DC    AL2(WTO#0143_EOT-*,0),C'ZC390LIB NOT FOUND'
+WTO#0143_EOT     EQU *
+         SVC   35
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+ZC_LOAD_OK DS  0H
+         LR    ZC_R9,ZC_R0
+         USING ZC390CVT,ZC_R9    R9=CVT
+         CLC   ZCVT_ID,=C'ZCVT'              CHECK ZCVT ID AND LENGTH
+         JNE   ZC_VER_ERR                    IN ZC390LIB.390 MATCH
+         CLC   ZCVT_LEN,=A(ZCVT_END-ZCVT_ID) ZCOBOL PGM COMPILED ID/LEN
+         BNE   ZC_VER_ERR
+         L     ZC_R15,ZCVT_ZC390NUC
+         BASR  ZC_R14,ZC_R15 CALL ZC390NUC TO VERIFY VER, OPTIONS
+         J     ZC_VER_OK
+ZC_VER_ERR DS 0H
+         BRAS  1,*+(WTO#0144_EOT-*+1)/2*2
+         DC    AL2(WTO#0144_EOT-*,0),C'ZC390LIB ZCVT VERIFY ERROR'
+WTO#0144_EOT     EQU *
+         SVC   35
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+         LTORG 
+         PUSH  PRINT,NOPRINT
+         PRINT OFF,NOPRINT
+ZC_R0    EQU   0
+ZC_R1    EQU   1
+ZC_R2    EQU   2
+ZC_R3    EQU   3
+ZC_R4    EQU   4
+ZC_R5    EQU   5
+ZC_R6    EQU   6
+ZC_R7    EQU   7
+ZC_R8    EQU   8
+ZC_R9    EQU   9
+ZC_R10   EQU  10
+ZC_R11   EQU  11
+ZC_R12   EQU  12
+ZC_R13   EQU  13
+ZC_R14   EQU  14
+ZC_R15   EQU  15
+ZC_F0    EQU   0
+ZC_F1    EQU   1
+ZC_F2    EQU   2
+ZC_F3    EQU   3
+ZC_F4    EQU   4
+ZC_F5    EQU   5
+ZC_F6    EQU   6
+ZC_F7    EQU   7
+ZC_F8    EQU   8
+ZC_F9    EQU   9
+ZC_F10   EQU  10
+ZC_F11   EQU  11
+ZC_F12   EQU  12
+ZC_F13   EQU  13
+ZC_F14   EQU  14
+ZC_F15   EQU  15
+ZC_H     EQU   2   HIGH
+ZC_L     EQU   4   LOW
+ZC_E     EQU   8   EQUAL
+ZC_NH    EQU   13  NOT HIGHT
+ZC_NL    EQU   11  NOT LOW
+ZC_NE    EQU   7   NOT EQUAL
+ZC_O     EQU   1   OVERFLOW
+ZC_P     EQU   2   POSITIVE
+ZC_M     EQU   4   MINUS
+ZC_Z     EQU   8   ZERO
+ZC_NP    EQU   13  NOT POSITIVE
+ZC_NM    EQU   11  NOT MINUS
+ZC_NZ    EQU   7   NOT ZERO
+ZC_NO    EQU   14  NOT OVERFLOW
+ZC_EQ    EQU   8   EQUAL
+ZC_GT    EQU   2   GREATER THAN
+ZC_LT    EQU   4   LESS    THAN
+ZC_GE    EQU   11  GREATER THAN OR EQUAL
+ZC_LE    EQU   13  LESS    THAN OR EQUAL
+         POP   PRINT,NOPRINT
+PFPO_TEST    EQU  X'80' PFPO TEST IF VALID OPCODE (NOT SUPPORTED YET)
+PFPO_RADIX   EQU  1 PFPO OPCODE - CONVERT FROM ONE RADIX TO ANOTHER
+PFPO_RND     EQU  0 PFOP ROUNDING OPTION (ONLY DEFAULT ALLOWED)
+PFPO_TYPE_EH EQU  0 EH HFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DH EQU  1 ED HFP LONG      64 BITS 15 DIGITS
+PFPO_TYPE_LH EQU  2 EL HFP EXTENDED 128 BITS 30 DIGITS
+PFPO_TYPE_EB EQU  5 EB BFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DB EQU  6 DB BFP LONG      64 BITS 16 DIGITS
+PFPO_TYPE_LB EQU  7 LB BFP EXTENDED 128 BITS 34 DIGITS
+PFPO_TYPE_ED EQU  8 ED DFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DD EQU  9 DD DFP LONG      64 BITS 16 DIGITS
+PFPO_TYPE_LD EQU 10 LD DFP EXTENDED 128 BITS 34 DIGITS
+ZC_VER_OK DS   0H
+         L     ZC_R2,24(ZC_R13) SET ZC_R2=PARMLIST ADDRESS AFTER LOAD
+         LARL  ZC_R1,ZC_WS     ZC_R2=A(WORKING STORAGE WITH SAVEAREA)
+         ST    ZC_R1,8(ZC_R13) FORWARD  SAVE CHAIN
+         ST    ZC_R13,4(ZC_R1) BACKWARD SAVE CHAIN
+         LR    ZC_R13,ZC_R1    LINK SAVE AREA IN ZC390CVT
+         USING ZC_WS,ZC_R13    BASE FOR ZCOBOL WS (SEE GEN_SYM_RX.MAC)
+         ST    ZC_R13,ZC_WS_START  SAVE ADDR WS IN WS PREFIX
+         LARL  ZC_R0,ZC_WS_END
+         SR    ZC_R0,ZC_R13
+         ST    ZC_R0,ZC_WS_LEN     SAVE LENGTH OF WS IN WS PREFIX
+         DROP  ZC_R15              RPI 1042
+ZC_WSLOC LOCTR 
+ZC_WS    DS    0D           START WORKING STORAGE
+ZC390CVT DSECT 
+ZCVT_ID            DC    C'ZCVT'             ZCVT ID  VERIFIED BY ZCOB
+ZCVT_LEN           DC    A(ZCVT_END-ZCVT_ID) ZCVT LEN VERIFIED BY ZCOB
+ZCVT_VER           DC    CL8'V1.5.06'    ZCVT VER VERIFIED BY ZC390NUC
+ZCVT_ZC390NUC  DC V(ZC390NUC)      MODULE  SYSTEM ROUTINE MODULE INIT
+ZCVT_CALL           DC V(CALL)       ENTRY R0=A(PGM),R1=A(PARMLIST)
+ZCVT_CMP64R32       DC V(CMP64R32)   ENTRY COMPARE R0-1=FLD1 R2-3=FLD2
+ZCVT_CVTLBTQ        DC V(CVTLBTQ)    ENTRY CVT LB IN F4-6 TO Q IN R0-1
+ZCVT_CVTLDTP        DC V(CVTLDTP)    ENTRY CVT LD IN F0-2 TO PL31 R0-1
+ZCVT_CVTQTLB        DC V(CVTQTLB)    ENTRY CVT Q IN R0-1 TO LB IN F4-6
+ZCVT_DIV64R32       DC V(DIV64R32)   ENTRY DIVIDE R0-1=N64, R2-3=MAX64
+ZCVT_DIVQ128        DC V(DIVQ128)    ENTRY DIVIDE Q128 R0-R1 BY R2-R3
+ZCVT_GOBACK         DC V(GOBACK)     ENTRY R1=RC
+ZCVT_MPYQ128        DC V(MPYQ128)    ENTRY MULTIPLY Q128 R0-R1 BY R2-R3
+ZCVT_OSE64R32       DC V(OSE64R32)   ENTRY ON SIZE ERR R0-1=N, R2-3=MAX
+ZCVT_PERFORM        DC V(PERFORM)    ENTRY R14=PGTAR,R0=PGEXT,R1=PMRET
+ZCVT_PMCHECK        DC V(PMCHECK)    ENTRY R14=RETURN TO NEXT INSTR.
+ZCVT_ROUNDF         DC V(ROUNDF)     ENTRY R0=REM,R1=QUO,R2=DIVISOR
+ZCVT_STACKORG       DC V(STACKORG)   ENTRY PERFORM STACK ORIGIN
+ZCVT_STACKPTR       DC V(STACKPTR)   ENTRY CUR ENTRY A(PG_END+4,RET)
+ZCVT_STACKEND       DC V(STACKEND)   ENTRY PERFORM STACK END
+ZCVT_STOPRUN        DC V(STOPRUN)    ENTRY R1=RC
+ZCVT_TALPHAX        DC V(TALPHAX)    ENTRY TEST ALPHABETIC X
+ZCVT_TNUMP          DC V(TNUMP)      ENTRY TEST NUMERIC P
+ZCVT_TNUMX          DC V(TNUMX)      ENTRY TEST NUMERIC X
+ZCVT_TNUMZ          DC V(TNUMZ)      ENTRY TEST NUMERIC Z
+*
+* ADDITIONAL SEPARATE MODULES LINKED WITH Z390NUC IN ZC390LIB.390
+*
+ZCVT_ABORT     DC V(ABORT)         MODULE  R1=ABORT ERROR MSG #
+ZCVT_ABORT_ALTER   EQU    1 ABORT ALTER DUE TO BRC NOT FOUND AT TARGET
+ZCVT_ABORT_CALL    EQU    2 ABORT DYNAMIC CALL - PGM NOT FOUND
+ZCVT_ABORT_DISPLAY EQU    3 ABORT DISPLAY DUE TO BUFFER EXCEEDED
+ZCVT_ABORT_OPEN    EQU    4 ABORT OPEN  INVALID DCB
+ZCVT_ABORT_STACK   EQU    6 ABORT PEROFRM STACK OVERFLOW
+ZCVT_ABORT_VERSION EQU    7 ABORT ZC390NUC INIT ZCOBOL VERSION ERROR
+ZCVT_ABORT_INT128  EQU    8 ABORT INTEGER 128 CONVERSION OVERFLO
+ZCVT_ABORT_DIVQ    EQU    9 ABORT DIVIDE Q IF DIVISOR 0 OR > 2**63
+ZCVT_ABORT_CICS    EQU   10 ABORT THIS PGM REQUIRES EXEC CICS TRANS MGR
+ZCVT_ABORT_ACCEPT  EQU   11 ABORT ACCEPT EOF
+ZCVT_ABORT_MAXERR  EQU   11 ABORT MAX ERROR CODE
+ZCVT_ACCEPT    DC V(ACCEPT)        MODULE  R1=A(TYPE,FLD_ADD,FLD_LEN)
+ZCVT_ACCEPT_DEFAULT EQU   1 INPUT DEFAULT DDNAME=SYSIN
+ZCVT_ACCEPT_CONSOLE EQU   2 INPUT VIA WTOR FROM CONSOLE
+ZCVT_ACCEPT_DDNAME  EQU   3 INPUT FROM DDNAME WITH DDNAME ADDR IN R3
+ZCVT_ACCEPT_DATE    EQU   4 RETURN DAY OF WEEK PIC 9(8) MMDDYYYY
+ZCVT_ACCEPT_TIME    EQU   5 RETURN DAY OF WEEK PIC 9(8) HHMMSSTH
+ZCVT_ACCEPT_DOW     EQU   6 RETURN DAY OF WEEK PIC 9 1-7
+ZCVT_DISPLAY   DC V(DISPLAY)       MODULE  R1=A(ADDR,LEN,TYPE)
+ZCVT_INSPECT   DC V(INSPECT)       MODULE  R0=TYPE,R1=PARMLIST
+ZCVT_TALLYING      EQU   0 INSPECT TALLYING
+ZCVT_REPLACING     EQU   4 INSPECT REPLACING
+ZCVT_CONVERTING    EQU   8 INSPECT CONVERTING
+*
+* SHARED DATA AREAS
+*
+ZCVT_PVTMAXDL  DS H          MAXIMUM DISPLAY LINE LENGTH  RPI 1118
+               DS 0D
+ZCVT_ZERO      DC XL16'00'   BINARY ZEROS
+ZCVT_HIGH_VALUES DC 0XL16,16X'FF' BINARY FF'S     RPI 1181
+ZCVT_PWORK     DS PL8        CVD/CVB WORK
+ZCVT_PWORK1    DS PL16       DIV DIVIDEND, CVDG/CVBG WORK
+ZCVT_PWORK2    DS PL16       DIV DIVISOR
+ZCVT_PWORK3    DS PL16       DIV QUOTIENT
+ZCVT_PWORK4    DS PL16       DIV REMAINDER
+ZCVT_NDDX      DS XL16       DIV DIVIDEND HOLD AREA
+ZCVT_WORKAREA  DS XL256      GEN_INSPECT PARMS, GEN_EDIT WORK, ETC.
+*
+* END OF ZC390CVT
+*
+ZCVT_END   EQU   *
+ZC390PVT DSECT 
+PVTPGM   DS    CL8  ZCOBOL PGM NAME
+PVTDATE  DS    CL8  ZCOBOL COMPILE DATE
+PVTTIME  DS    CL8  ZCOBOL COMPILE TIME
+PVTVER   DS    CL8  ZCOBOL COMPILER VERSION
+PVTCICS  DS    C    ZCOBOL EXEC CICS PGM
+PVTEXTND DS    C    ZCOBOL EXTENDED PRECISION
+PVTTRUNC DS    C    ZCOBOL TRUNCATE TO PICTURE
+PVTR64   DS    C    ZCOBOL USE 64 BIT REGISTERS
+PVTMAXDL DS    H    ZCOBOL MAX DISPLAY LINE LENGTH
+         DS    XL10 RESERVED
+ZC_WSLOC LOCTR              CONTINUE WS FOR FD AND DATA
+*        AUTHOR.        DON HIGGINS.
+*        DATE-WRITTEN.  10/13/08.
+*      * TEST ADD, SUBTRACT, MULTIPLEY, DIVIDE.                        
+*        ENVIRONMENT DIVISION.
+*        DATA DIVISION.
+         PRINT DATA
+*        WORKING-STORAGE SECTION.
+*        77 D1      COMP-2            VALUE 1.
+*        77 E1      COMP-1            VALUE 1.
+*        77 W1      COMP   PIC S9(9)  VALUE 1.
+*        77 G1      COMP   PIC S9(18) VALUE 1.
+*        77 H1      COMP   PIC S9(4)  VALUE 1.
+*        77 P1      COMP-3 PIC S9(4)  VALUE 1.
+*        77 Z1             PIC S9(4)  VALUE 1.
+*        77 D2      COMP-2            VALUE 2.
+*        77 E2      COMP-1            VALUE 2.
+*        77 W2      COMP   PIC S9(9)  VALUE 2.
+*        77 G2      COMP   PIC S9(18) VALUE 2.
+*        77 H2      COMP   PIC S9(4)  VALUE 2.
+*        77 P2      COMP-3 PIC S9(4)  VALUE 2.
+*        77 Z2             PIC S9(4)  VALUE 2.
+*        77 D3      COMP-2            VALUE 3.
+*        77 E3      COMP-1            VALUE 3.
+*        77 W3      COMP   PIC S9(9)  VALUE 3.
+*        77 G3      COMP   PIC S9(18) VALUE 3.
+*        77 H3      COMP   PIC S9(4)  VALUE 3.
+*        77 P3      COMP-3 PIC S9(4)  VALUE 3.
+*        77 Z3             PIC S9(4)  VALUE 3.
+*        77 GOOD   COMP-3 PIC 9(4)   VALUE 0.
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PRINT LIST,GEN,LISTUSE TURN PRINT LISTING ON FOR USER CODE GEN
+TESTCMP1 CSECT                SWITCH TO PROCEDURE CODE AHEAD OF WS
+*        MAINLINE.
+PG_MAINLINE DS 0H
+*            DISPLAY 'TESTCMP1 ADD, SUB, MPY, DIV, COMPUTE STARTING'
+*ZC     33         DISPLAY 'TESTCMP1 ADD, SUB, MPY, DIV, COMPUTE STARTIX
+               NG'
+         BRAS  1,*+(WTO#0275_EOT-*+1)/2*2
+         DC    AL2(WTO#0275_EOT-*,0),C'TESTCMP1 ADD, SUB, MPY, DIV, COMX
+               PUTE STARTING'
+WTO#0275_EOT     EQU *
+         SVC   35
+*            DISPLAY 'TESTCMP1 SUBTRACT 2 GOOD'
+*ZC     34         DISPLAY 'TESTCMP1 SUBTRACT 2 GOOD'
+         BRAS  1,*+(WTO#0278_EOT-*+1)/2*2
+         DC    AL2(WTO#0278_EOT-*,0),C'TESTCMP1 SUBTRACT 2 GOOD'
+WTO#0278_EOT     EQU *
+         SVC   35
+PG_MAINLINE_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_1     DS    0H
+*        1.  SUBTRACT 2 FROM D1
+*ZC     35         SUBTRACT 2,FROM,D1
+         LD    ZC_F0,D1
+         LARL  ZC_R14,=D'2'
+         SD    ZC_F0,0(ZC_R14)
+         STD   ZC_F0,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     36         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_1_1
+*ZC     36         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     36         ELSE
+         J     PG_IF_1_E
+PG_IF_1_1    DS    0H  &TYPE
+*ZC     36         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_1_E    DS    0H  &TYPE
+PG_1_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_2     DS    0H
+*        2.  SUBTRACT 2 FROM E1
+*ZC     37         SUBTRACT 2,FROM,E1
+         LE    ZC_F0,E1
+         LARL  ZC_R14,=E'2'
+         SE    ZC_F0,0(ZC_R14)
+         STE   ZC_F0,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     38         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_2_1
+*ZC     38         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     38         ELSE
+         J     PG_IF_2_E
+PG_IF_2_1    DS    0H  &TYPE
+*ZC     38         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_2_E    DS    0H  &TYPE
+PG_2_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_3     DS    0H
+*        3.  SUBTRACT 2 FROM W1
+*ZC     39         SUBTRACT 2,FROM,W1
+         ASI   W1,-2
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     40         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_3_1
+*ZC     40         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     40         ELSE
+         J     PG_IF_3_E
+PG_IF_3_1    DS    0H  &TYPE
+*ZC     40         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_3_E    DS    0H  &TYPE
+PG_3_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_4     DS    0H
+*        4.  SUBTRACT 2 FROM G1
+*ZC     41         SUBTRACT 2,FROM,G1
+         AGSI  G1,-2
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     42         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_4_1
+*ZC     42         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     42         ELSE
+         J     PG_IF_4_E
+PG_IF_4_1    DS    0H  &TYPE
+*ZC     42         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_4_E    DS    0H  &TYPE
+PG_4_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_5     DS    0H
+*        5.  SUBTRACT 2 FROM H1
+*ZC     43         SUBTRACT 2,FROM,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,-2
+         STH   ZC_R0,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     44         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_5_1
+*ZC     44         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     44         ELSE
+         J     PG_IF_5_E
+PG_IF_5_1    DS    0H  &TYPE
+*ZC     44         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_5_E    DS    0H  &TYPE
+PG_5_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_6     DS    0H
+*        6.  SUBTRACT 2 FROM P1
+*ZC     45         SUBTRACT 2,FROM,P1
+         BRAS  ZC_R14,3 SET ZC_R1 TO A(INLINE LIT) AND SKIP OVER IT
+         DC    PL2'2'
+         SP    P1,0(2,ZC_R14)
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     46         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_6_1
+*ZC     46         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     46         ELSE
+         J     PG_IF_6_E
+PG_IF_6_1    DS    0H  &TYPE
+*ZC     46         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_6_E    DS    0H  &TYPE
+PG_6_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_7     DS    0H
+*        7.  SUBTRACT 2 FROM Z1
+*ZC     47         SUBTRACT 2,FROM,Z1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R14,=PL2'2'
+         SP    ZCVT_PWORK1(3),0(2,ZC_R14)
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     48         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_7_1
+*ZC     48         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     48         ELSE
+         J     PG_IF_7_E
+PG_IF_7_1    DS    0H  &TYPE
+*ZC     48         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_7_E    DS    0H  &TYPE
+PG_7_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_8     DS    0H
+*        8.  DISPLAY 'TESTCMP1 SUBTRACT D2 GOOD'
+*ZC     49         DISPLAY 'TESTCMP1 SUBTRACT D2 GOOD'
+         BRAS  1,*+(WTO#0483_EOT-*+1)/2*2
+         DC    AL2(WTO#0483_EOT-*,0),C'TESTCMP1 SUBTRACT D2 GOOD'
+WTO#0483_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO D1
+*ZC     50         MOVE  1,TO,D1
+          LARL  ZC_R1,=DH'1'
+          MVC   D1,0(ZC_R1)
+*            MOVE 1 TO E1
+*ZC     51         MOVE  1,TO,E1
+          LARL  ZC_R1,=EH'1'
+          MVC   E1,0(ZC_R1)
+*            MOVE 1 TO W1
+*ZC     52         MOVE  1,TO,W1
+          MVHI  W1,1
+*            MOVE 1 TO G1
+*ZC     53         MOVE  1,TO,G1
+          MVGHI G1,1
+*            MOVE 1 TO H1
+*ZC     54         MOVE  1,TO,H1
+          MVHHI H1,1
+*            MOVE 1 TO P1
+*ZC     55         MOVE  1,TO,P1
+          LARL  ZC_R1,=PL4'1'
+          MVC   P1,1(ZC_R1)
+*            MOVE 1 TO Z1
+*ZC     56         MOVE  1,TO,Z1
+          LARL  ZC_R1,=ZL4'1'
+          MVC   Z1,0(ZC_R1)
+*            SUBTRACT D2 FROM D1
+*ZC     57         SUBTRACT D2,FROM,D1
+         LD    ZC_F0,D2
+         LD    ZC_F1,D1
+         SDR   ZC_F1,ZC_F0
+         STD   ZC_F1,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     58         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_8_1
+*ZC     58         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     58         ELSE
+         J     PG_IF_8_E
+PG_IF_8_1    DS    0H  &TYPE
+*ZC     58         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_8_E    DS    0H  &TYPE
+PG_8_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_9     DS    0H
+*        9.  SUBTRACT D2 FROM E1
+*ZC     59         SUBTRACT D2,FROM,E1
+         LD    ZC_F4,D2
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         LE    ZC_F1,E1
+         SER   ZC_F1,ZC_F0
+         STE   ZC_F1,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     60         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_9_1
+*ZC     60         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     60         ELSE
+         J     PG_IF_9_E
+PG_IF_9_1    DS    0H  &TYPE
+*ZC     60         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_9_E    DS    0H  &TYPE
+PG_9_END L     ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_10    DS    0H
+*        10. SUBTRACT D2 FROM W1
+*ZC     61         SUBTRACT D2,FROM,W1
+         LD    ZC_F0,D2
+         CFDR  ZC_R0,0,ZC_F0
+         L     ZC_R1,W1
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     62         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_10_1
+*ZC     62         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     62         ELSE
+         J     PG_IF_10_E
+PG_IF_10_1   DS    0H  &TYPE
+*ZC     62         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_10_E   DS    0H  &TYPE
+PG_10_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_11    DS    0H
+*        11. SUBTRACT D2 FROM G1
+*ZC     63         SUBTRACT D2,FROM,G1
+         LD    ZC_F0,D2
+         CGDR  ZC_R0,0,ZC_F0
+         LG    ZC_R1,G1
+         SGR   ZC_R1,ZC_R0
+         STG   ZC_R1,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     64         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_11_1
+*ZC     64         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     64         ELSE
+         J     PG_IF_11_E
+PG_IF_11_1   DS    0H  &TYPE
+*ZC     64         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_11_E   DS    0H  &TYPE
+PG_11_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_12    DS    0H
+*        12. SUBTRACT D2 FROM H1
+*ZC     65         SUBTRACT D2,FROM,H1
+         LD    ZC_F0,D2
+         CFDR  ZC_R0,0,ZC_F0
+         LH    ZC_R1,H1
+         SR    ZC_R1,ZC_R0
+         STH   ZC_R1,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     66         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_12_1
+*ZC     66         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     66         ELSE
+         J     PG_IF_12_E
+PG_IF_12_1   DS    0H  &TYPE
+*ZC     66         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_12_E   DS    0H  &TYPE
+PG_12_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_13    DS    0H
+*        13. SUBTRACT D2 FROM P1
+*ZC     67         SUBTRACT D2,FROM,P1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         SP    P1,ZCVT_PWORK2
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     68         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_13_1
+*ZC     68         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     68         ELSE
+         J     PG_IF_13_E
+PG_IF_13_1   DS    0H  &TYPE
+*ZC     68         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_13_E   DS    0H  &TYPE
+PG_13_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_14    DS    0H
+*        14. SUBTRACT D2 FROM Z1
+*ZC     69         SUBTRACT D2,FROM,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         SP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     70         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_14_1
+*ZC     70         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     70         ELSE
+         J     PG_IF_14_E
+PG_IF_14_1   DS    0H  &TYPE
+*ZC     70         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_14_E   DS    0H  &TYPE
+PG_14_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_15    DS    0H
+*        15. DISPLAY 'TESTCMP1 SUBTRACT E2 GOOD'
+*ZC     71         DISPLAY 'TESTCMP1 SUBTRACT E2 GOOD'
+         BRAS  1,*+(WTO#0723_EOT-*+1)/2*2
+         DC    AL2(WTO#0723_EOT-*,0),C'TESTCMP1 SUBTRACT E2 GOOD'
+WTO#0723_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO D1
+*ZC     72         MOVE  1,TO,D1
+          LARL  ZC_R1,=DH'1'
+          MVC   D1,0(ZC_R1)
+*            MOVE 1 TO E1
+*ZC     73         MOVE  1,TO,E1
+          LARL  ZC_R1,=EH'1'
+          MVC   E1,0(ZC_R1)
+*            MOVE 1 TO W1
+*ZC     74         MOVE  1,TO,W1
+          MVHI  W1,1
+*            MOVE 1 TO G1
+*ZC     75         MOVE  1,TO,G1
+          MVGHI G1,1
+*            MOVE 1 TO H1
+*ZC     76         MOVE  1,TO,H1
+          MVHHI H1,1
+*            MOVE 1 TO P1
+*ZC     77         MOVE  1,TO,P1
+          LARL  ZC_R1,=PL4'1'
+          MVC   P1,1(ZC_R1)
+*            MOVE 1 TO Z1
+*ZC     78         MOVE  1,TO,Z1
+          LARL  ZC_R1,=ZL4'1'
+          MVC   Z1,0(ZC_R1)
+*            SUBTRACT E2 FROM D1
+*ZC     79         SUBTRACT E2,FROM,D1
+         LE    ZC_F0,E2
+         LDER  ZC_F0,ZC_F0
+         LD    ZC_F1,D1
+         SDR   ZC_F1,ZC_F0
+         STD   ZC_F1,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     80         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_15_1
+*ZC     80         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     80         ELSE
+         J     PG_IF_15_E
+PG_IF_15_1   DS    0H  &TYPE
+*ZC     80         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_15_E   DS    0H  &TYPE
+PG_15_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_16    DS    0H
+*        16. SUBTRACT E2 FROM E1
+*ZC     81         SUBTRACT E2,FROM,E1
+         LE    ZC_F0,E2
+         LE    ZC_F1,E1
+         SER   ZC_F1,ZC_F0
+         STE   ZC_F1,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     82         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_16_1
+*ZC     82         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     82         ELSE
+         J     PG_IF_16_E
+PG_IF_16_1   DS    0H  &TYPE
+*ZC     82         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_16_E   DS    0H  &TYPE
+PG_16_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_17    DS    0H
+*        17. SUBTRACT E2 FROM W1
+*ZC     83         SUBTRACT E2,FROM,W1
+         LE    ZC_F0,E2
+         CFER  ZC_R0,0,ZC_F0
+         L     ZC_R1,W1
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     84         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_17_1
+*ZC     84         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     84         ELSE
+         J     PG_IF_17_E
+PG_IF_17_1   DS    0H  &TYPE
+*ZC     84         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_17_E   DS    0H  &TYPE
+PG_17_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_18    DS    0H
+*        18. SUBTRACT E2 FROM G1
+*ZC     85         SUBTRACT E2,FROM,G1
+         LE    ZC_F0,E2
+         CGER  ZC_R0,0,ZC_F0
+         LG    ZC_R1,G1
+         SGR   ZC_R1,ZC_R0
+         STG   ZC_R1,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     86         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_18_1
+*ZC     86         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     86         ELSE
+         J     PG_IF_18_E
+PG_IF_18_1   DS    0H  &TYPE
+*ZC     86         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_18_E   DS    0H  &TYPE
+PG_18_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_19    DS    0H
+*        19. SUBTRACT E2 FROM H1
+*ZC     87         SUBTRACT E2,FROM,H1
+         LE    ZC_F0,E2
+         CFER  ZC_R0,0,ZC_F0
+         LH    ZC_R1,H1
+         SR    ZC_R1,ZC_R0
+         STH   ZC_R1,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     88         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_19_1
+*ZC     88         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     88         ELSE
+         J     PG_IF_19_E
+PG_IF_19_1   DS    0H  &TYPE
+*ZC     88         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_19_E   DS    0H  &TYPE
+PG_19_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_20    DS    0H
+*        20. SUBTRACT E2 FROM P1
+*ZC     89         SUBTRACT E2,FROM,P1
+         LE    ZC_F0,E2
+         LER   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_EH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         SP    P1,ZCVT_PWORK2
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     90         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_20_1
+*ZC     90         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     90         ELSE
+         J     PG_IF_20_E
+PG_IF_20_1   DS    0H  &TYPE
+*ZC     90         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_20_E   DS    0H  &TYPE
+PG_20_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_21    DS    0H
+*        21. SUBTRACT E2 FROM Z1
+*ZC     91         SUBTRACT E2,FROM,Z1
+         LE    ZC_F0,E2
+         LER   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_EH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         SP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     92         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_21_1
+*ZC     92         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     92         ELSE
+         J     PG_IF_21_E
+PG_IF_21_1   DS    0H  &TYPE
+*ZC     92         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_21_E   DS    0H  &TYPE
+PG_21_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_22    DS    0H
+*        22. DISPLAY 'TESTCMP1 SUBTRACT W2 GOOD'
+*ZC     93         DISPLAY 'TESTCMP1 SUBTRACT W2 GOOD'
+         BRAS  1,*+(WTO#0962_EOT-*+1)/2*2
+         DC    AL2(WTO#0962_EOT-*,0),C'TESTCMP1 SUBTRACT W2 GOOD'
+WTO#0962_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO D1
+*ZC     94         MOVE  1,TO,D1
+          LARL  ZC_R1,=DH'1'
+          MVC   D1,0(ZC_R1)
+*            MOVE 1 TO E1
+*ZC     95         MOVE  1,TO,E1
+          LARL  ZC_R1,=EH'1'
+          MVC   E1,0(ZC_R1)
+*            MOVE 1 TO W1
+*ZC     96         MOVE  1,TO,W1
+          MVHI  W1,1
+*            MOVE 1 TO G1
+*ZC     97         MOVE  1,TO,G1
+          MVGHI G1,1
+*            MOVE 1 TO H1
+*ZC     98         MOVE  1,TO,H1
+          MVHHI H1,1
+*            MOVE 1 TO P1
+*ZC     99         MOVE  1,TO,P1
+          LARL  ZC_R1,=PL4'1'
+          MVC   P1,1(ZC_R1)
+*            MOVE 1 TO Z1
+*ZC    100         MOVE  1,TO,Z1
+          LARL  ZC_R1,=ZL4'1'
+          MVC   Z1,0(ZC_R1)
+*            SUBTRACT W2 FROM D1
+*ZC    101         SUBTRACT W2,FROM,D1
+         L     ZC_R0,W2
+         CDFR  ZC_F0,ZC_R0
+         LD    ZC_F1,D1
+         SDR   ZC_F1,ZC_F0
+         STD   ZC_F1,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    102         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_22_1
+*ZC    102         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    102         ELSE
+         J     PG_IF_22_E
+PG_IF_22_1   DS    0H  &TYPE
+*ZC    102         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_22_E   DS    0H  &TYPE
+PG_22_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_23    DS    0H
+*        23. SUBTRACT W2 FROM E1
+*ZC    103         SUBTRACT W2,FROM,E1
+         L     ZC_R0,W2
+         CEFR  ZC_F0,ZC_R0
+         LE    ZC_F1,E1
+         SER   ZC_F1,ZC_F0
+         STE   ZC_F1,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    104         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_23_1
+*ZC    104         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    104         ELSE
+         J     PG_IF_23_E
+PG_IF_23_1   DS    0H  &TYPE
+*ZC    104         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_23_E   DS    0H  &TYPE
+PG_23_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_24    DS    0H
+*        24. SUBTRACT W2 FROM W1
+*ZC    105         SUBTRACT W2,FROM,W1
+         L     ZC_R0,W2
+         L     ZC_R1,W1
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    106         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_24_1
+*ZC    106         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    106         ELSE
+         J     PG_IF_24_E
+PG_IF_24_1   DS    0H  &TYPE
+*ZC    106         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_24_E   DS    0H  &TYPE
+PG_24_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_25    DS    0H
+*        25. SUBTRACT W2 FROM G1
+*ZC    107         SUBTRACT W2,FROM,G1
+         LGF   ZC_R0,W2
+         LG    ZC_R1,G1
+         SGR   ZC_R1,ZC_R0
+         STG   ZC_R1,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    108         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_25_1
+*ZC    108         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    108         ELSE
+         J     PG_IF_25_E
+PG_IF_25_1   DS    0H  &TYPE
+*ZC    108         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_25_E   DS    0H  &TYPE
+PG_25_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_26    DS    0H
+*        26. SUBTRACT W2 FROM H1
+*ZC    109         SUBTRACT W2,FROM,H1
+         L     ZC_R0,W2
+         LH    ZC_R1,H1
+         SR    ZC_R1,ZC_R0
+         STH   ZC_R1,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    110         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_26_1
+*ZC    110         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    110         ELSE
+         J     PG_IF_26_E
+PG_IF_26_1   DS    0H  &TYPE
+*ZC    110         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_26_E   DS    0H  &TYPE
+PG_26_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_27    DS    0H
+*        27. SUBTRACT W2 FROM P1
+*ZC    111         SUBTRACT W2,FROM,P1
+         L     ZC_R0,W2
+         CVD   ZC_R0,ZCVT_PWORK
+         SP    P1,ZCVT_PWORK
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    112         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_27_1
+*ZC    112         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    112         ELSE
+         J     PG_IF_27_E
+PG_IF_27_1   DS    0H  &TYPE
+*ZC    112         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_27_E   DS    0H  &TYPE
+PG_27_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_28    DS    0H
+*        28. SUBTRACT W2 FROM Z1
+*ZC    113         SUBTRACT W2,FROM,Z1
+         LGF   ZC_R0,W2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         SP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    114         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_28_1
+*ZC    114         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    114         ELSE
+         J     PG_IF_28_E
+PG_IF_28_1   DS    0H  &TYPE
+*ZC    114         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_28_E   DS    0H  &TYPE
+PG_28_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_29    DS    0H
+*        29. DISPLAY 'TESTCMP1 SUBTRACT G2 GOOD'
+*ZC    115         DISPLAY 'TESTCMP1 SUBTRACT G2 GOOD'
+         BRAS  1,*+(WTO#1199_EOT-*+1)/2*2
+         DC    AL2(WTO#1199_EOT-*,0),C'TESTCMP1 SUBTRACT G2 GOOD'
+WTO#1199_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO D1
+*ZC    116         MOVE  1,TO,D1
+          LARL  ZC_R1,=DH'1'
+          MVC   D1,0(ZC_R1)
+*            MOVE 1 TO E1
+*ZC    117         MOVE  1,TO,E1
+          LARL  ZC_R1,=EH'1'
+          MVC   E1,0(ZC_R1)
+*            MOVE 1 TO W1
+*ZC    118         MOVE  1,TO,W1
+          MVHI  W1,1
+*            MOVE 1 TO G1
+*ZC    119         MOVE  1,TO,G1
+          MVGHI G1,1
+*            MOVE 1 TO H1
+*ZC    120         MOVE  1,TO,H1
+          MVHHI H1,1
+*            MOVE 1 TO P1
+*ZC    121         MOVE  1,TO,P1
+          LARL  ZC_R1,=PL4'1'
+          MVC   P1,1(ZC_R1)
+*            MOVE 1 TO Z1
+*ZC    122         MOVE  1,TO,Z1
+          LARL  ZC_R1,=ZL4'1'
+          MVC   Z1,0(ZC_R1)
+*            SUBTRACT G2 FROM D1
+*ZC    123         SUBTRACT G2,FROM,D1
+         LG    ZC_R0,G2
+         CDGR  ZC_F0,ZC_R0
+         LD    ZC_F1,D1
+         SDR   ZC_F1,ZC_F0
+         STD   ZC_F1,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    124         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_29_1
+*ZC    124         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    124         ELSE
+         J     PG_IF_29_E
+PG_IF_29_1   DS    0H  &TYPE
+*ZC    124         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_29_E   DS    0H  &TYPE
+PG_29_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_30    DS    0H
+*        30. SUBTRACT G2 FROM E1
+*ZC    125         SUBTRACT G2,FROM,E1
+         LG    ZC_R0,G2
+         CEGR  ZC_F0,ZC_R0
+         LE    ZC_F1,E1
+         SER   ZC_F1,ZC_F0
+         STE   ZC_F1,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    126         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_30_1
+*ZC    126         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    126         ELSE
+         J     PG_IF_30_E
+PG_IF_30_1   DS    0H  &TYPE
+*ZC    126         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_30_E   DS    0H  &TYPE
+PG_30_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_31    DS    0H
+*        31. SUBTRACT G2 FROM W1
+*ZC    127         SUBTRACT G2,FROM,W1
+         LG    ZC_R0,G2
+         L     ZC_R1,W1
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    128         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_31_1
+*ZC    128         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    128         ELSE
+         J     PG_IF_31_E
+PG_IF_31_1   DS    0H  &TYPE
+*ZC    128         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_31_E   DS    0H  &TYPE
+PG_31_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_32    DS    0H
+*        32. SUBTRACT G2 FROM G1
+*ZC    129         SUBTRACT G2,FROM,G1
+         LG    ZC_R0,G2
+         LG    ZC_R1,G1
+         SGR   ZC_R1,ZC_R0
+         STG   ZC_R1,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    130         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_32_1
+*ZC    130         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    130         ELSE
+         J     PG_IF_32_E
+PG_IF_32_1   DS    0H  &TYPE
+*ZC    130         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_32_E   DS    0H  &TYPE
+PG_32_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_33    DS    0H
+*        33. SUBTRACT G2 FROM H1
+*ZC    131         SUBTRACT G2,FROM,H1
+         LG    ZC_R0,G2
+         LH    ZC_R1,H1
+         SR    ZC_R1,ZC_R0
+         STH   ZC_R1,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    132         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_33_1
+*ZC    132         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    132         ELSE
+         J     PG_IF_33_E
+PG_IF_33_1   DS    0H  &TYPE
+*ZC    132         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_33_E   DS    0H  &TYPE
+PG_33_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_34    DS    0H
+*        34. SUBTRACT G2 FROM P1
+*ZC    133         SUBTRACT G2,FROM,P1
+         LG    ZC_R0,G2
+         CVDG  ZC_R0,ZCVT_PWORK1
+         SP    P1,ZCVT_PWORK1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    134         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_34_1
+*ZC    134         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    134         ELSE
+         J     PG_IF_34_E
+PG_IF_34_1   DS    0H  &TYPE
+*ZC    134         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_34_E   DS    0H  &TYPE
+PG_34_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_35    DS    0H
+*        35. SUBTRACT G2 FROM Z1
+*ZC    135         SUBTRACT G2,FROM,Z1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LG    ZC_R0,G2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         SP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    136         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_35_1
+*ZC    136         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    136         ELSE
+         J     PG_IF_35_E
+PG_IF_35_1   DS    0H  &TYPE
+*ZC    136         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_35_E   DS    0H  &TYPE
+PG_35_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_36    DS    0H
+*        36. DISPLAY 'TESTCMP1 SUBTRACT H2 GOOD'
+*ZC    137         DISPLAY 'TESTCMP1 SUBTRACT H2 GOOD'
+         BRAS  1,*+(WTO#1437_EOT-*+1)/2*2
+         DC    AL2(WTO#1437_EOT-*,0),C'TESTCMP1 SUBTRACT H2 GOOD'
+WTO#1437_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO D1
+*ZC    138         MOVE  1,TO,D1
+          LARL  ZC_R1,=DH'1'
+          MVC   D1,0(ZC_R1)
+*            MOVE 1 TO E1
+*ZC    139         MOVE  1,TO,E1
+          LARL  ZC_R1,=EH'1'
+          MVC   E1,0(ZC_R1)
+*            MOVE 1 TO W1
+*ZC    140         MOVE  1,TO,W1
+          MVHI  W1,1
+*            MOVE 1 TO G1
+*ZC    141         MOVE  1,TO,G1
+          MVGHI G1,1
+*            MOVE 1 TO H1
+*ZC    142         MOVE  1,TO,H1
+          MVHHI H1,1
+*            MOVE 1 TO P1
+*ZC    143         MOVE  1,TO,P1
+          LARL  ZC_R1,=PL4'1'
+          MVC   P1,1(ZC_R1)
+*            MOVE 1 TO Z1
+*ZC    144         MOVE  1,TO,Z1
+          LARL  ZC_R1,=ZL4'1'
+          MVC   Z1,0(ZC_R1)
+*            SUBTRACT H2 FROM D1
+*ZC    145         SUBTRACT H2,FROM,D1
+         LH    ZC_R0,H2
+         CDFR  ZC_F0,ZC_R0
+         LD    ZC_F1,D1
+         SDR   ZC_F1,ZC_F0
+         STD   ZC_F1,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    146         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_36_1
+*ZC    146         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    146         ELSE
+         J     PG_IF_36_E
+PG_IF_36_1   DS    0H  &TYPE
+*ZC    146         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_36_E   DS    0H  &TYPE
+PG_36_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_37    DS    0H
+*        37. SUBTRACT H2 FROM E1
+*ZC    147         SUBTRACT H2,FROM,E1
+         LH    ZC_R0,H2
+         CEFR  ZC_F0,ZC_R0
+         LE    ZC_F1,E1
+         SER   ZC_F1,ZC_F0
+         STE   ZC_F1,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    148         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_37_1
+*ZC    148         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    148         ELSE
+         J     PG_IF_37_E
+PG_IF_37_1   DS    0H  &TYPE
+*ZC    148         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_37_E   DS    0H  &TYPE
+PG_37_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_38    DS    0H
+*        38. SUBTRACT H2 FROM W1
+*ZC    149         SUBTRACT H2,FROM,W1
+         LH    ZC_R0,H2
+         L     ZC_R1,W1
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    150         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_38_1
+*ZC    150         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    150         ELSE
+         J     PG_IF_38_E
+PG_IF_38_1   DS    0H  &TYPE
+*ZC    150         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_38_E   DS    0H  &TYPE
+PG_38_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_39    DS    0H
+*        39. SUBTRACT H2 FROM G1
+*ZC    151         SUBTRACT H2,FROM,G1
+         LGH   ZC_R0,H2
+         LG    ZC_R1,G1
+         SGR   ZC_R1,ZC_R0
+         STG   ZC_R1,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    152         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_39_1
+*ZC    152         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    152         ELSE
+         J     PG_IF_39_E
+PG_IF_39_1   DS    0H  &TYPE
+*ZC    152         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_39_E   DS    0H  &TYPE
+PG_39_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_40    DS    0H
+*        40. SUBTRACT H2 FROM H1
+*ZC    153         SUBTRACT H2,FROM,H1
+         LH    ZC_R0,H2
+         LH    ZC_R1,H1
+         SR    ZC_R1,ZC_R0
+         STH   ZC_R1,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    154         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_40_1
+*ZC    154         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    154         ELSE
+         J     PG_IF_40_E
+PG_IF_40_1   DS    0H  &TYPE
+*ZC    154         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_40_E   DS    0H  &TYPE
+PG_40_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_41    DS    0H
+*        41. SUBTRACT H2 FROM P1
+*ZC    155         SUBTRACT H2,FROM,P1
+         LH    ZC_R0,H2
+         CVD   ZC_R0,ZCVT_PWORK
+         SP    P1,ZCVT_PWORK
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    156         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_41_1
+*ZC    156         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    156         ELSE
+         J     PG_IF_41_E
+PG_IF_41_1   DS    0H  &TYPE
+*ZC    156         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_41_E   DS    0H  &TYPE
+PG_41_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_42    DS    0H
+*        42. SUBTRACT H2 FROM Z1
+*ZC    157         SUBTRACT H2,FROM,Z1
+         LGH   ZC_R0,H2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         SP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    158         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_42_1
+*ZC    158         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    158         ELSE
+         J     PG_IF_42_E
+PG_IF_42_1   DS    0H  &TYPE
+*ZC    158         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_42_E   DS    0H  &TYPE
+PG_42_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_43    DS    0H
+*        43. DISPLAY 'TESTCMP1 SUBTRACT P2 GOOD'
+*ZC    159         DISPLAY 'TESTCMP1 SUBTRACT P2 GOOD'
+         BRAS  1,*+(WTO#1674_EOT-*+1)/2*2
+         DC    AL2(WTO#1674_EOT-*,0),C'TESTCMP1 SUBTRACT P2 GOOD'
+WTO#1674_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO D1
+*ZC    160         MOVE  1,TO,D1
+          LARL  ZC_R1,=DH'1'
+          MVC   D1,0(ZC_R1)
+*            MOVE 1 TO E1
+*ZC    161         MOVE  1,TO,E1
+          LARL  ZC_R1,=EH'1'
+          MVC   E1,0(ZC_R1)
+*            MOVE 1 TO W1
+*ZC    162         MOVE  1,TO,W1
+          MVHI  W1,1
+*            MOVE 1 TO G1
+*ZC    163         MOVE  1,TO,G1
+          MVGHI G1,1
+*            MOVE 1 TO H1
+*ZC    164         MOVE  1,TO,H1
+          MVHHI H1,1
+*            MOVE 1 TO P1
+*ZC    165         MOVE  1,TO,P1
+          LARL  ZC_R1,=PL4'1'
+          MVC   P1,1(ZC_R1)
+*            MOVE 1 TO Z1
+*ZC    166         MOVE  1,TO,Z1
+          LARL  ZC_R1,=ZL4'1'
+          MVC   Z1,0(ZC_R1)
+*            SUBTRACT P2 FROM D1
+*ZC    167         SUBTRACT P2,FROM,D1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_DH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         LD    ZC_F1,D1
+         SDR   ZC_F1,ZC_F0
+         STD   ZC_F1,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    168         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_43_1
+*ZC    168         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    168         ELSE
+         J     PG_IF_43_E
+PG_IF_43_1   DS    0H  &TYPE
+*ZC    168         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_43_E   DS    0H  &TYPE
+PG_43_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_44    DS    0H
+*        44. SUBTRACT P2 FROM E1
+*ZC    169         SUBTRACT P2,FROM,E1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         LE    ZC_F1,E1
+         SER   ZC_F1,ZC_F0
+         STE   ZC_F1,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    170         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_44_1
+*ZC    170         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    170         ELSE
+         J     PG_IF_44_E
+PG_IF_44_1   DS    0H  &TYPE
+*ZC    170         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_44_E   DS    0H  &TYPE
+PG_44_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_45    DS    0H
+*        45. SUBTRACT P2 FROM W1
+*ZC    171         SUBTRACT P2,FROM,W1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         L     ZC_R1,W1
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    172         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_45_1
+*ZC    172         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    172         ELSE
+         J     PG_IF_45_E
+PG_IF_45_1   DS    0H  &TYPE
+*ZC    172         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_45_E   DS    0H  &TYPE
+PG_45_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_46    DS    0H
+*        46. SUBTRACT P2 FROM G1
+*ZC    173         SUBTRACT P2,FROM,G1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         LG    ZC_R1,G1
+         SGR   ZC_R1,ZC_R0
+         STG   ZC_R1,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    174         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_46_1
+*ZC    174         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    174         ELSE
+         J     PG_IF_46_E
+PG_IF_46_1   DS    0H  &TYPE
+*ZC    174         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_46_E   DS    0H  &TYPE
+PG_46_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_47    DS    0H
+*        47. SUBTRACT P2 FROM H1
+*ZC    175         SUBTRACT P2,FROM,H1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         LH    ZC_R1,H1
+         SR    ZC_R1,ZC_R0
+         STH   ZC_R1,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    176         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_47_1
+*ZC    176         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    176         ELSE
+         J     PG_IF_47_E
+PG_IF_47_1   DS    0H  &TYPE
+*ZC    176         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_47_E   DS    0H  &TYPE
+PG_47_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_48    DS    0H
+*        48. SUBTRACT P2 FROM P1
+*ZC    177         SUBTRACT P2,FROM,P1
+         SP    P1,P2
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    178         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_48_1
+*ZC    178         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    178         ELSE
+         J     PG_IF_48_E
+PG_IF_48_1   DS    0H  &TYPE
+*ZC    178         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_48_E   DS    0H  &TYPE
+PG_48_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_49    DS    0H
+*        49. SUBTRACT P2 FROM Z1
+*ZC    179         SUBTRACT P2,FROM,Z1
+         ZAP   ZCVT_PWORK2,P2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         SP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    180         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_49_1
+*ZC    180         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    180         ELSE
+         J     PG_IF_49_E
+PG_IF_49_1   DS    0H  &TYPE
+*ZC    180         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_49_E   DS    0H  &TYPE
+PG_49_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_50    DS    0H
+*        50. DISPLAY 'TESTCMP1 SUBTRACT Z2 GOOD'
+*ZC    181         DISPLAY 'TESTCMP1 SUBTRACT Z2 GOOD'
+         BRAS  1,*+(WTO#1916_EOT-*+1)/2*2
+         DC    AL2(WTO#1916_EOT-*,0),C'TESTCMP1 SUBTRACT Z2 GOOD'
+WTO#1916_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO D1
+*ZC    182         MOVE  1,TO,D1
+          LARL  ZC_R1,=DH'1'
+          MVC   D1,0(ZC_R1)
+*            MOVE 1 TO E1
+*ZC    183         MOVE  1,TO,E1
+          LARL  ZC_R1,=EH'1'
+          MVC   E1,0(ZC_R1)
+*            MOVE 1 TO W1
+*ZC    184         MOVE  1,TO,W1
+          MVHI  W1,1
+*            MOVE 1 TO G1
+*ZC    185         MOVE  1,TO,G1
+          MVGHI G1,1
+*            MOVE 1 TO H1
+*ZC    186         MOVE  1,TO,H1
+          MVHHI H1,1
+*            MOVE 1 TO P1
+*ZC    187         MOVE  1,TO,P1
+          LARL  ZC_R1,=PL4'1'
+          MVC   P1,1(ZC_R1)
+*            MOVE 1 TO Z1
+*ZC    188         MOVE  1,TO,Z1
+          LARL  ZC_R1,=ZL4'1'
+          MVC   Z1,0(ZC_R1)
+*            SUBTRACT Z2 FROM D1
+*ZC    189         SUBTRACT Z2,FROM,D1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_DH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         LD    ZC_F1,D1
+         SDR   ZC_F1,ZC_F0
+         STD   ZC_F1,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    190         IF    D1,=,-,1
+         LD    0,D1
+         LARL  ZC_R1,=D'-1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_50_1
+*ZC    190         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    190         ELSE
+         J     PG_IF_50_E
+PG_IF_50_1   DS    0H  &TYPE
+*ZC    190         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_50_E   DS    0H  &TYPE
+PG_50_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_51    DS    0H
+*        51. SUBTRACT Z2 FROM E1
+*ZC    191         SUBTRACT Z2,FROM,E1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         LE    ZC_F1,E1
+         SER   ZC_F1,ZC_F0
+         STE   ZC_F1,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    192         IF    E1,=,-,1
+         LE    0,E1
+         LARL  ZC_R1,=E'-1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_51_1
+*ZC    192         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    192         ELSE
+         J     PG_IF_51_E
+PG_IF_51_1   DS    0H  &TYPE
+*ZC    192         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_51_E   DS    0H  &TYPE
+PG_51_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_52    DS    0H
+*        52. SUBTRACT Z2 FROM W1
+*ZC    193         SUBTRACT Z2,FROM,W1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         L     ZC_R1,W1
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    194         IF    W1,=,-,1
+         L     0,W1
+         CFI   0,-1
+         BRC   15-ZC_EQ,PG_IF_52_1
+*ZC    194         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    194         ELSE
+         J     PG_IF_52_E
+PG_IF_52_1   DS    0H  &TYPE
+*ZC    194         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_52_E   DS    0H  &TYPE
+PG_52_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_53    DS    0H
+*        53. SUBTRACT Z2 FROM G1
+*ZC    195         SUBTRACT Z2,FROM,G1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         LG    ZC_R1,G1
+         SGR   ZC_R1,ZC_R0
+         STG   ZC_R1,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    196         IF    G1,=,-,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_53_1
+*ZC    196         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    196         ELSE
+         J     PG_IF_53_E
+PG_IF_53_1   DS    0H  &TYPE
+*ZC    196         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_53_E   DS    0H  &TYPE
+PG_53_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_54    DS    0H
+*        54. SUBTRACT Z2 FROM H1
+*ZC    197         SUBTRACT Z2,FROM,H1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         LH    ZC_R1,H1
+         SR    ZC_R1,ZC_R0
+         STH   ZC_R1,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    198         IF    H1,=,-,1
+         LH    0,H1
+         CHI   0,-1
+         BRC   15-ZC_EQ,PG_IF_54_1
+*ZC    198         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    198         ELSE
+         J     PG_IF_54_E
+PG_IF_54_1   DS    0H  &TYPE
+*ZC    198         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_54_E   DS    0H  &TYPE
+PG_54_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_55    DS    0H
+*        55. SUBTRACT Z2 FROM P1
+*ZC    199         SUBTRACT Z2,FROM,P1
+         PACK  ZCVT_PWORK1(3),0+Z2(4) PACK #1 NORMAL
+         SP    P1,ZCVT_PWORK1(3)
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    200         IF    P1,=,-,1
+         LARL  ZC_R1,=PL4'-1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_55_1
+*ZC    200         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    200         ELSE
+         J     PG_IF_55_E
+PG_IF_55_1   DS    0H  &TYPE
+*ZC    200         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_55_E   DS    0H  &TYPE
+PG_55_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_56    DS    0H
+*        56. SUBTRACT Z2 FROM Z1
+*ZC    201         SUBTRACT Z2,FROM,Z1
+         PACK  ZCVT_PWORK2(16),0+Z2(4) PACK #1 NORMAL
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         SP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    202         IF    Z1,=,-,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_56_1
+*ZC    202         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    202         ELSE
+         J     PG_IF_56_E
+PG_IF_56_1   DS    0H  &TYPE
+*ZC    202         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_56_E   DS    0H  &TYPE
+PG_56_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_57    DS    0H
+*        57. DISPLAY 'TESTCMP1 ADD 2 GOOD'
+*ZC    203         DISPLAY 'TESTCMP1 ADD 2 GOOD'
+         BRAS  1,*+(WTO#2165_EOT-*+1)/2*2
+         DC    AL2(WTO#2165_EOT-*,0),C'TESTCMP1 ADD 2 GOOD'
+WTO#2165_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    204         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    205         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    206         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    207         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    208         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    209         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    210         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD 2 TO D1
+*ZC    211         ADD   2,TO,D1
+         LD    ZC_F0,D1
+         LARL  ZC_R14,=D'2'
+         AD    ZC_F0,0(ZC_R14)
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    212         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_57_1
+*ZC    212         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    212         ELSE
+         J     PG_IF_57_E
+PG_IF_57_1   DS    0H  &TYPE
+*ZC    212         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_57_E   DS    0H  &TYPE
+PG_57_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_58    DS    0H
+*        58. ADD 2 TO E1
+*ZC    213         ADD   2,TO,E1
+         LE    ZC_F0,E1
+         LARL  ZC_R14,=E'2'
+         AE    ZC_F0,0(ZC_R14)
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    214         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_58_1
+*ZC    214         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    214         ELSE
+         J     PG_IF_58_E
+PG_IF_58_1   DS    0H  &TYPE
+*ZC    214         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_58_E   DS    0H  &TYPE
+PG_58_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_59    DS    0H
+*        59. ADD 2 TO W1
+*ZC    215         ADD   2,TO,W1
+         ASI   W1,2
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    216         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_59_1
+*ZC    216         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    216         ELSE
+         J     PG_IF_59_E
+PG_IF_59_1   DS    0H  &TYPE
+*ZC    216         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_59_E   DS    0H  &TYPE
+PG_59_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_60    DS    0H
+*        60. ADD 2 TO G1
+*ZC    217         ADD   2,TO,G1
+         AGSI  G1,2
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    218         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_60_1
+*ZC    218         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    218         ELSE
+         J     PG_IF_60_E
+PG_IF_60_1   DS    0H  &TYPE
+*ZC    218         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_60_E   DS    0H  &TYPE
+PG_60_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_61    DS    0H
+*        61. ADD 2 TO H1
+*ZC    219         ADD   2,TO,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,2
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    220         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_61_1
+*ZC    220         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    220         ELSE
+         J     PG_IF_61_E
+PG_IF_61_1   DS    0H  &TYPE
+*ZC    220         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_61_E   DS    0H  &TYPE
+PG_61_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_62    DS    0H
+*        62. ADD 2 TO P1
+*ZC    221         ADD   2,TO,P1
+         BRAS  ZC_R14,3 SET ZC_R1 TO A(INLINE LIT) AND SKIP OVER IT
+         DC    PL2'2'
+         AP    P1,0(2,ZC_R14)
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    222         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_62_1
+*ZC    222         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    222         ELSE
+         J     PG_IF_62_E
+PG_IF_62_1   DS    0H  &TYPE
+*ZC    222         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_62_E   DS    0H  &TYPE
+PG_62_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_63    DS    0H
+*        63. ADD 2 TO Z1
+*ZC    223         ADD   2,TO,Z1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R14,=PL2'2'
+         AP    ZCVT_PWORK1(3),0(2,ZC_R14)
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    224         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_63_1
+*ZC    224         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    224         ELSE
+         J     PG_IF_63_E
+PG_IF_63_1   DS    0H  &TYPE
+*ZC    224         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_63_E   DS    0H  &TYPE
+PG_63_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_64    DS    0H
+*        64. DISPLAY 'TESTCMP1 ADD D2 GOOD'
+*ZC    225         DISPLAY 'TESTCMP1 ADD D2 GOOD'
+         BRAS  1,*+(WTO#2395_EOT-*+1)/2*2
+         DC    AL2(WTO#2395_EOT-*,0),C'TESTCMP1 ADD D2 GOOD'
+WTO#2395_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    226         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    227         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    228         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    229         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    230         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    231         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    232         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD D2 TO D1
+*ZC    233         ADD   D2,TO,D1
+         LD    ZC_F0,D2
+         AD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    234         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_64_1
+*ZC    234         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    234         ELSE
+         J     PG_IF_64_E
+PG_IF_64_1   DS    0H  &TYPE
+*ZC    234         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_64_E   DS    0H  &TYPE
+*            ADD D2 TO E1
+*ZC    235         ADD   D2,TO,E1
+         LD    ZC_F4,D2
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         AE    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    236         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_65_1
+*ZC    236         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    236         ELSE
+         J     PG_IF_65_E
+PG_IF_65_1   DS    0H  &TYPE
+*ZC    236         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_65_E   DS    0H  &TYPE
+*            ADD D2 TO W1
+*ZC    237         ADD   D2,TO,W1
+         LD    ZC_F0,D2
+         CFDR  ZC_R0,0,ZC_F0
+         A     ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    238         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_66_1
+*ZC    238         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    238         ELSE
+         J     PG_IF_66_E
+PG_IF_66_1   DS    0H  &TYPE
+*ZC    238         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_66_E   DS    0H  &TYPE
+*            ADD D2 TO G1
+*ZC    239         ADD   D2,TO,G1
+         LD    ZC_F0,D2
+         CGDR  ZC_R0,0,ZC_F0
+         AG    ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    240         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_67_1
+*ZC    240         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    240         ELSE
+         J     PG_IF_67_E
+PG_IF_67_1   DS    0H  &TYPE
+*ZC    240         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_67_E   DS    0H  &TYPE
+*            ADD D2 TO H1
+*ZC    241         ADD   D2,TO,H1
+         LD    ZC_F0,D2
+         CFDR  ZC_R0,0,ZC_F0
+         AH    ZC_R0,H1
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    242         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_68_1
+*ZC    242         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    242         ELSE
+         J     PG_IF_68_E
+PG_IF_68_1   DS    0H  &TYPE
+*ZC    242         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_68_E   DS    0H  &TYPE
+*            ADD D2 TO P1
+*ZC    243         ADD   D2,TO,P1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         AP    P1,ZCVT_PWORK2
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    244         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_69_1
+*ZC    244         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    244         ELSE
+         J     PG_IF_69_E
+PG_IF_69_1   DS    0H  &TYPE
+*ZC    244         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_69_E   DS    0H  &TYPE
+*            ADD D2 TO Z1
+*ZC    245         ADD   D2,TO,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         AP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    246         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_70_1
+*ZC    246         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    246         ELSE
+         J     PG_IF_70_E
+PG_IF_70_1   DS    0H  &TYPE
+*ZC    246         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_70_E   DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 ADD E2 GOOD'
+*ZC    247         DISPLAY 'TESTCMP1 ADD E2 GOOD'
+         BRAS  1,*+(WTO#2614_EOT-*+1)/2*2
+         DC    AL2(WTO#2614_EOT-*,0),C'TESTCMP1 ADD E2 GOOD'
+WTO#2614_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    248         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    249         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    250         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    251         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    252         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    253         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    254         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD E2 TO D1
+*ZC    255         ADD   E2,TO,D1
+         LE    ZC_F0,E2
+         LDER  ZC_F0,ZC_F0
+         AD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    256         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_71_1
+*ZC    256         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    256         ELSE
+         J     PG_IF_71_E
+PG_IF_71_1   DS    0H  &TYPE
+*ZC    256         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_71_E   DS    0H  &TYPE
+*            ADD E2 TO E1
+*ZC    257         ADD   E2,TO,E1
+         LE    ZC_F0,E2
+         AE    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    258         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_72_1
+*ZC    258         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    258         ELSE
+         J     PG_IF_72_E
+PG_IF_72_1   DS    0H  &TYPE
+*ZC    258         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_72_E   DS    0H  &TYPE
+*            ADD E2 TO W1
+*ZC    259         ADD   E2,TO,W1
+         LE    ZC_F0,E2
+         CFER  ZC_R0,0,ZC_F0
+         A     ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    260         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_73_1
+*ZC    260         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    260         ELSE
+         J     PG_IF_73_E
+PG_IF_73_1   DS    0H  &TYPE
+*ZC    260         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_73_E   DS    0H  &TYPE
+*            ADD E2 TO G1
+*ZC    261         ADD   E2,TO,G1
+         LE    ZC_F0,E2
+         CGER  ZC_R0,0,ZC_F0
+         AG    ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    262         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_74_1
+*ZC    262         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    262         ELSE
+         J     PG_IF_74_E
+PG_IF_74_1   DS    0H  &TYPE
+*ZC    262         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_74_E   DS    0H  &TYPE
+*            ADD E2 TO H1
+*ZC    263         ADD   E2,TO,H1
+         LE    ZC_F0,E2
+         CFER  ZC_R0,0,ZC_F0
+         AH    ZC_R0,H1
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    264         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_75_1
+*ZC    264         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    264         ELSE
+         J     PG_IF_75_E
+PG_IF_75_1   DS    0H  &TYPE
+*ZC    264         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_75_E   DS    0H  &TYPE
+*            ADD E2 TO P1
+*ZC    265         ADD   E2,TO,P1
+         LE    ZC_F0,E2
+         LER   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_EH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         AP    P1,ZCVT_PWORK2
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    266         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_76_1
+*ZC    266         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    266         ELSE
+         J     PG_IF_76_E
+PG_IF_76_1   DS    0H  &TYPE
+*ZC    266         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_76_E   DS    0H  &TYPE
+*            ADD E2 TO Z1
+*ZC    267         ADD   E2,TO,Z1
+         LE    ZC_F0,E2
+         LER   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_EH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         AP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    268         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_77_1
+*ZC    268         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    268         ELSE
+         J     PG_IF_77_E
+PG_IF_77_1   DS    0H  &TYPE
+*ZC    268         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_77_E   DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 ADD W2 GOOD'
+*ZC    269         DISPLAY 'TESTCMP1 ADD W2 GOOD'
+         BRAS  1,*+(WTO#2832_EOT-*+1)/2*2
+         DC    AL2(WTO#2832_EOT-*,0),C'TESTCMP1 ADD W2 GOOD'
+WTO#2832_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    270         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    271         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    272         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    273         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    274         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    275         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    276         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD W2 TO D1
+*ZC    277         ADD   W2,TO,D1
+         L     ZC_R0,W2
+         CDFR  ZC_F0,ZC_R0
+         AD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    278         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_78_1
+*ZC    278         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    278         ELSE
+         J     PG_IF_78_E
+PG_IF_78_1   DS    0H  &TYPE
+*ZC    278         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_78_E   DS    0H  &TYPE
+*            ADD W2 TO E1
+*ZC    279         ADD   W2,TO,E1
+         L     ZC_R0,W2
+         CEFR  ZC_F0,ZC_R0
+         AE    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    280         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_79_1
+*ZC    280         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    280         ELSE
+         J     PG_IF_79_E
+PG_IF_79_1   DS    0H  &TYPE
+*ZC    280         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_79_E   DS    0H  &TYPE
+*            ADD W2 TO W1
+*ZC    281         ADD   W2,TO,W1
+         L     ZC_R0,W2
+         A     ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    282         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_80_1
+*ZC    282         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    282         ELSE
+         J     PG_IF_80_E
+PG_IF_80_1   DS    0H  &TYPE
+*ZC    282         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_80_E   DS    0H  &TYPE
+*            ADD W2 TO G1
+*ZC    283         ADD   W2,TO,G1
+         LGF   ZC_R0,W2
+         AG    ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    284         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_81_1
+*ZC    284         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    284         ELSE
+         J     PG_IF_81_E
+PG_IF_81_1   DS    0H  &TYPE
+*ZC    284         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_81_E   DS    0H  &TYPE
+*            ADD W2 TO H1
+*ZC    285         ADD   W2,TO,H1
+         L     ZC_R0,W2
+         AH    ZC_R0,H1
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    286         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_82_1
+*ZC    286         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    286         ELSE
+         J     PG_IF_82_E
+PG_IF_82_1   DS    0H  &TYPE
+*ZC    286         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_82_E   DS    0H  &TYPE
+*            ADD W2 TO P1
+*ZC    287         ADD   W2,TO,P1
+         L     ZC_R0,W2
+         CVD   ZC_R0,ZCVT_PWORK
+         AP    P1,ZCVT_PWORK
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    288         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_83_1
+*ZC    288         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    288         ELSE
+         J     PG_IF_83_E
+PG_IF_83_1   DS    0H  &TYPE
+*ZC    288         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_83_E   DS    0H  &TYPE
+*            ADD W2 TO Z1
+*ZC    289         ADD   W2,TO,Z1
+         LGF   ZC_R0,W2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         AP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    290         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_84_1
+*ZC    290         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    290         ELSE
+         J     PG_IF_84_E
+PG_IF_84_1   DS    0H  &TYPE
+*ZC    290         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_84_E   DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 ADD G2 GOOD'
+*ZC    291         DISPLAY 'TESTCMP1 ADD G2 GOOD'
+         BRAS  1,*+(WTO#3048_EOT-*+1)/2*2
+         DC    AL2(WTO#3048_EOT-*,0),C'TESTCMP1 ADD G2 GOOD'
+WTO#3048_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    292         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    293         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    294         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    295         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    296         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    297         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    298         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD G2 TO D1
+*ZC    299         ADD   G2,TO,D1
+         LG    ZC_R0,G2
+         CDGR  ZC_F0,ZC_R0
+         AD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    300         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_85_1
+*ZC    300         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    300         ELSE
+         J     PG_IF_85_E
+PG_IF_85_1   DS    0H  &TYPE
+*ZC    300         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_85_E   DS    0H  &TYPE
+*            ADD G2 TO E1
+*ZC    301         ADD   G2,TO,E1
+         LG    ZC_R0,G2
+         CEGR  ZC_F0,ZC_R0
+         AE    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    302         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_86_1
+*ZC    302         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    302         ELSE
+         J     PG_IF_86_E
+PG_IF_86_1   DS    0H  &TYPE
+*ZC    302         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_86_E   DS    0H  &TYPE
+*            ADD G2 TO W1
+*ZC    303         ADD   G2,TO,W1
+         LG    ZC_R0,G2
+         A     ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    304         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_87_1
+*ZC    304         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    304         ELSE
+         J     PG_IF_87_E
+PG_IF_87_1   DS    0H  &TYPE
+*ZC    304         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_87_E   DS    0H  &TYPE
+*            ADD G2 TO G1
+*ZC    305         ADD   G2,TO,G1
+         LG    ZC_R0,G2
+         AG    ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    306         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_88_1
+*ZC    306         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    306         ELSE
+         J     PG_IF_88_E
+PG_IF_88_1   DS    0H  &TYPE
+*ZC    306         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_88_E   DS    0H  &TYPE
+*            ADD G2 TO H1
+*ZC    307         ADD   G2,TO,H1
+         LG    ZC_R0,G2
+         AH    ZC_R0,H1
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    308         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_89_1
+*ZC    308         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    308         ELSE
+         J     PG_IF_89_E
+PG_IF_89_1   DS    0H  &TYPE
+*ZC    308         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_89_E   DS    0H  &TYPE
+*            ADD G2 TO P1
+*ZC    309         ADD   G2,TO,P1
+         LG    ZC_R0,G2
+         CVDG  ZC_R0,ZCVT_PWORK1
+         AP    P1,ZCVT_PWORK1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    310         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_90_1
+*ZC    310         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    310         ELSE
+         J     PG_IF_90_E
+PG_IF_90_1   DS    0H  &TYPE
+*ZC    310         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_90_E   DS    0H  &TYPE
+*            ADD G2 TO Z1
+*ZC    311         ADD   G2,TO,Z1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LG    ZC_R0,G2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         AP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    312         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_91_1
+*ZC    312         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    312         ELSE
+         J     PG_IF_91_E
+PG_IF_91_1   DS    0H  &TYPE
+*ZC    312         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_91_E   DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 ADD H2 GOOD'
+*ZC    313         DISPLAY 'TESTCMP1 ADD H2 GOOD'
+         BRAS  1,*+(WTO#3265_EOT-*+1)/2*2
+         DC    AL2(WTO#3265_EOT-*,0),C'TESTCMP1 ADD H2 GOOD'
+WTO#3265_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    314         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    315         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    316         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    317         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    318         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    319         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    320         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD H2 TO D1
+*ZC    321         ADD   H2,TO,D1
+         LH    ZC_R0,H2
+         CDFR  ZC_F0,ZC_R0
+         AD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    322         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_92_1
+*ZC    322         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    322         ELSE
+         J     PG_IF_92_E
+PG_IF_92_1   DS    0H  &TYPE
+*ZC    322         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_92_E   DS    0H  &TYPE
+*            ADD H2 TO E1
+*ZC    323         ADD   H2,TO,E1
+         LH    ZC_R0,H2
+         CEFR  ZC_F0,ZC_R0
+         AE    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    324         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_93_1
+*ZC    324         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    324         ELSE
+         J     PG_IF_93_E
+PG_IF_93_1   DS    0H  &TYPE
+*ZC    324         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_93_E   DS    0H  &TYPE
+*            ADD H2 TO W1
+*ZC    325         ADD   H2,TO,W1
+         LH    ZC_R0,H2
+         A     ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    326         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_94_1
+*ZC    326         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    326         ELSE
+         J     PG_IF_94_E
+PG_IF_94_1   DS    0H  &TYPE
+*ZC    326         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_94_E   DS    0H  &TYPE
+*            ADD H2 TO G1
+*ZC    327         ADD   H2,TO,G1
+         LGH   ZC_R0,H2
+         AG    ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    328         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_95_1
+*ZC    328         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    328         ELSE
+         J     PG_IF_95_E
+PG_IF_95_1   DS    0H  &TYPE
+*ZC    328         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_95_E   DS    0H  &TYPE
+*            ADD H2 TO H1
+*ZC    329         ADD   H2,TO,H1
+         LH    ZC_R0,H2
+         AH    ZC_R0,H1
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    330         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_96_1
+*ZC    330         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    330         ELSE
+         J     PG_IF_96_E
+PG_IF_96_1   DS    0H  &TYPE
+*ZC    330         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_96_E   DS    0H  &TYPE
+*            ADD H2 TO P1
+*ZC    331         ADD   H2,TO,P1
+         LH    ZC_R0,H2
+         CVD   ZC_R0,ZCVT_PWORK
+         AP    P1,ZCVT_PWORK
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    332         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_97_1
+*ZC    332         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    332         ELSE
+         J     PG_IF_97_E
+PG_IF_97_1   DS    0H  &TYPE
+*ZC    332         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_97_E   DS    0H  &TYPE
+*            ADD H2 TO Z1
+*ZC    333         ADD   H2,TO,Z1
+         LGH   ZC_R0,H2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         AP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    334         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_98_1
+*ZC    334         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    334         ELSE
+         J     PG_IF_98_E
+PG_IF_98_1   DS    0H  &TYPE
+*ZC    334         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_98_E   DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 ADD P2 GOOD'
+*ZC    335         DISPLAY 'TESTCMP1 ADD P2 GOOD'
+         BRAS  1,*+(WTO#3481_EOT-*+1)/2*2
+         DC    AL2(WTO#3481_EOT-*,0),C'TESTCMP1 ADD P2 GOOD'
+WTO#3481_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    336         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    337         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    338         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    339         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    340         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    341         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    342         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD P2 TO D1
+*ZC    343         ADD   P2,TO,D1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_DH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         AD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    344         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_99_1
+*ZC    344         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    344         ELSE
+         J     PG_IF_99_E
+PG_IF_99_1   DS    0H  &TYPE
+*ZC    344         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_99_E   DS    0H  &TYPE
+*            ADD P2 TO E1
+*ZC    345         ADD   P2,TO,E1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         AE    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    346         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_100_1
+*ZC    346         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    346         ELSE
+         J     PG_IF_100_E
+PG_IF_100_1  DS    0H  &TYPE
+*ZC    346         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_100_E  DS    0H  &TYPE
+*            ADD P2 TO W1
+*ZC    347         ADD   P2,TO,W1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         A     ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    348         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_101_1
+*ZC    348         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    348         ELSE
+         J     PG_IF_101_E
+PG_IF_101_1  DS    0H  &TYPE
+*ZC    348         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_101_E  DS    0H  &TYPE
+*            ADD P2 TO G1
+*ZC    349         ADD   P2,TO,G1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         AG    ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    350         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_102_1
+*ZC    350         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    350         ELSE
+         J     PG_IF_102_E
+PG_IF_102_1  DS    0H  &TYPE
+*ZC    350         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_102_E  DS    0H  &TYPE
+*            ADD P2 TO H1
+*ZC    351         ADD   P2,TO,H1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         AH    ZC_R0,H1
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    352         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_103_1
+*ZC    352         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    352         ELSE
+         J     PG_IF_103_E
+PG_IF_103_1  DS    0H  &TYPE
+*ZC    352         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_103_E  DS    0H  &TYPE
+*            ADD P2 TO P1
+*ZC    353         ADD   P2,TO,P1
+         AP    P1,P2
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    354         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_104_1
+*ZC    354         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    354         ELSE
+         J     PG_IF_104_E
+PG_IF_104_1  DS    0H  &TYPE
+*ZC    354         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_104_E  DS    0H  &TYPE
+*            ADD P2 TO Z1
+*ZC    355         ADD   P2,TO,Z1
+         ZAP   ZCVT_PWORK2,P2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         AP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    356         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_105_1
+*ZC    356         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    356         ELSE
+         J     PG_IF_105_E
+PG_IF_105_1  DS    0H  &TYPE
+*ZC    356         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_105_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 ADD Z2 GOOD'
+*ZC    357         DISPLAY 'TESTCMP1 ADD Z2 GOOD'
+         BRAS  1,*+(WTO#3702_EOT-*+1)/2*2
+         DC    AL2(WTO#3702_EOT-*,0),C'TESTCMP1 ADD Z2 GOOD'
+WTO#3702_EOT     EQU *
+         SVC   35
+*            MOVE -1 TO D1
+*ZC    358         MOVE  -,1,TO,D1
+          LARL  ZC_R1,=DH'-1'
+          MVC   D1,0(ZC_R1)
+*            MOVE -1 TO E1
+*ZC    359         MOVE  -,1,TO,E1
+          LARL  ZC_R1,=EH'-1'
+          MVC   E1,0(ZC_R1)
+*            MOVE -1 TO W1
+*ZC    360         MOVE  -,1,TO,W1
+          MVHI  W1,-1
+*            MOVE -1 TO G1
+*ZC    361         MOVE  -,1,TO,G1
+          MVGHI G1,-1
+*            MOVE -1 TO H1
+*ZC    362         MOVE  -,1,TO,H1
+          MVHHI H1,-1
+*            MOVE -1 TO P1
+*ZC    363         MOVE  -,1,TO,P1
+          LARL  ZC_R1,=PL4'-1'
+          MVC   P1,1(ZC_R1)
+*            MOVE -1 TO Z1
+*ZC    364         MOVE  -,1,TO,Z1
+          LARL  ZC_R1,=ZL4'--1'
+          MVC   Z1,0(ZC_R1)
+*            ADD Z2 TO D1
+*ZC    365         ADD   Z2,TO,D1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_DH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         AD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    366         IF    D1,=,1
+         LD    0,D1
+         LARL  ZC_R1,=D'1'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_106_1
+*ZC    366         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    366         ELSE
+         J     PG_IF_106_E
+PG_IF_106_1  DS    0H  &TYPE
+*ZC    366         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_106_E  DS    0H  &TYPE
+*            ADD Z2 TO E1
+*ZC    367         ADD   Z2,TO,E1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         AE    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    368         IF    E1,=,1
+         LE    0,E1
+         LARL  ZC_R1,=E'1'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_107_1
+*ZC    368         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    368         ELSE
+         J     PG_IF_107_E
+PG_IF_107_1  DS    0H  &TYPE
+*ZC    368         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_107_E  DS    0H  &TYPE
+*            ADD Z2 TO W1
+*ZC    369         ADD   Z2,TO,W1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         A     ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    370         IF    W1,=,1
+         L     0,W1
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_108_1
+*ZC    370         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    370         ELSE
+         J     PG_IF_108_E
+PG_IF_108_1  DS    0H  &TYPE
+*ZC    370         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_108_E  DS    0H  &TYPE
+*            ADD Z2 TO G1
+*ZC    371         ADD   Z2,TO,G1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         AG    ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    372         IF    G1,=,1
+         LG     0,G1
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_109_1
+*ZC    372         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    372         ELSE
+         J     PG_IF_109_E
+PG_IF_109_1  DS    0H  &TYPE
+*ZC    372         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_109_E  DS    0H  &TYPE
+*            ADD Z2 TO H1
+*ZC    373         ADD   Z2,TO,H1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LR    ZC_R0,ZC_R1
+         AH    ZC_R0,H1
+         STH   ZC_R0,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    374         IF    H1,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_110_1
+*ZC    374         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    374         ELSE
+         J     PG_IF_110_E
+PG_IF_110_1  DS    0H  &TYPE
+*ZC    374         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_110_E  DS    0H  &TYPE
+*            ADD Z2 TO P1
+*ZC    375         ADD   Z2,TO,P1
+         PACK  ZCVT_PWORK1(3),0+Z2(4) PACK #1 NORMAL
+         AP    P1,ZCVT_PWORK1(3)
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    376         IF    P1,=,1
+         LARL  ZC_R1,=PL4'1'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_111_1
+*ZC    376         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    376         ELSE
+         J     PG_IF_111_E
+PG_IF_111_1  DS    0H  &TYPE
+*ZC    376         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_111_E  DS    0H  &TYPE
+*            ADD Z2 TO Z1
+*ZC    377         ADD   Z2,TO,Z1
+         PACK  ZCVT_PWORK2(16),0+Z2(4) PACK #1 NORMAL
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         AP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    378         IF    Z1,=,1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_112_1
+*ZC    378         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    378         ELSE
+         J     PG_IF_112_E
+PG_IF_112_1  DS    0H  &TYPE
+*ZC    378         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_112_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY 2 GOOD'
+*ZC    379         DISPLAY 'TESTCMP1 MULTIPLY 2 GOOD'
+         BRAS  1,*+(WTO#3930_EOT-*+1)/2*2
+         DC    AL2(WTO#3930_EOT-*,0),C'TESTCMP1 MULTIPLY 2 GOOD'
+WTO#3930_EOT     EQU *
+         SVC   35
+*            MOVE 3 TO D2
+*ZC    380         MOVE  3,TO,D2
+          LARL  ZC_R1,=DH'3'
+          MVC   D2,0(ZC_R1)
+*            MOVE 3 TO E2
+*ZC    381         MOVE  3,TO,E2
+          LARL  ZC_R1,=EH'3'
+          MVC   E2,0(ZC_R1)
+*            MOVE 3 TO W2
+*ZC    382         MOVE  3,TO,W2
+          MVHI  W2,3
+*            MOVE 3 TO G2
+*ZC    383         MOVE  3,TO,G2
+          MVGHI G2,3
+*            MOVE 3 TO H2
+*ZC    384         MOVE  3,TO,H2
+          MVHHI H2,3
+*            MOVE 3 TO P2
+*ZC    385         MOVE  3,TO,P2
+          LARL  ZC_R1,=PL4'3'
+          MVC   P2,1(ZC_R1)
+*            MOVE 3 TO Z2
+*ZC    386         MOVE  3,TO,Z2
+          LARL  ZC_R1,=ZL4'3'
+          MVC   Z2,0(ZC_R1)
+*            MOVE -2 TO D1
+*ZC    387         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    388         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    389         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    390         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    391         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    392         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    393         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY  3 BY D1
+*ZC    394         MULTIPLY 3,BY,D1
+         LD    ZC_F0,D1
+         LARL  ZC_R14,=D'3'
+         MD    ZC_F0,0(ZC_R14)
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    395         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_113_1
+*ZC    395         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    395         ELSE
+         J     PG_IF_113_E
+PG_IF_113_1  DS    0H  &TYPE
+*ZC    395         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_113_E  DS    0H  &TYPE
+*            MULTIPLY  3 BY E1
+*ZC    396         MULTIPLY 3,BY,E1
+         LE    ZC_F0,E1
+         LARL  ZC_R14,=E'3'
+         ME    ZC_F0,0(ZC_R14)
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    397         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_114_1
+*ZC    397         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    397         ELSE
+         J     PG_IF_114_E
+PG_IF_114_1  DS    0H  &TYPE
+*ZC    397         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_114_E  DS    0H  &TYPE
+*            MULTIPLY  3 BY W1
+*ZC    398         MULTIPLY 3,BY,W1
+         LGF   ZC_R0,W1
+         MSGFI ZC_R0,3
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    399         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_115_1
+*ZC    399         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    399         ELSE
+         J     PG_IF_115_E
+PG_IF_115_1  DS    0H  &TYPE
+*ZC    399         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_115_E  DS    0H  &TYPE
+*            MULTIPLY  3 BY G1
+*ZC    400         MULTIPLY 3,BY,G1
+         LG     ZC_R0,G1
+         MSGFI  ZC_R0,3
+         STG    ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    401         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_116_1
+*ZC    401         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    401         ELSE
+         J     PG_IF_116_E
+PG_IF_116_1  DS    0H  &TYPE
+*ZC    401         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_116_E  DS    0H  &TYPE
+*            MULTIPLY  3 BY H1
+*ZC    402         MULTIPLY 3,BY,H1
+         LGH   ZC_R0,H1
+         MSGFI ZC_R0,3
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    403         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_117_1
+*ZC    403         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    403         ELSE
+         J     PG_IF_117_E
+PG_IF_117_1  DS    0H  &TYPE
+*ZC    403         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_117_E  DS    0H  &TYPE
+*            MULTIPLY  3 BY P1
+*ZC    404         MULTIPLY 3,BY,P1
+         BRAS  ZC_R14,3 SET ZC_R1 TO A(INLINE LIT) AND SKIP OVER IT
+         DC    PL2'3'
+         MP    P1,0(2,ZC_R14)
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    405         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_118_1
+*ZC    405         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    405         ELSE
+         J     PG_IF_118_E
+PG_IF_118_1  DS    0H  &TYPE
+*ZC    405         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_118_E  DS    0H  &TYPE
+*            MULTIPLY  3 BY Z1
+*ZC    406         MULTIPLY 3,BY,Z1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R14,=PL2'3'
+         MP    ZCVT_PWORK1(3),0(2,ZC_R14)
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    407         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_119_1
+*ZC    407         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    407         ELSE
+         J     PG_IF_119_E
+PG_IF_119_1  DS    0H  &TYPE
+*ZC    407         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_119_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY D2 GOOD'
+*ZC    408         DISPLAY 'TESTCMP1 MULTIPLY D2 GOOD'
+         BRAS  1,*+(WTO#4167_EOT-*+1)/2*2
+         DC    AL2(WTO#4167_EOT-*,0),C'TESTCMP1 MULTIPLY D2 GOOD'
+WTO#4167_EOT     EQU *
+         SVC   35
+*            MOVE -2 TO D1
+*ZC    409         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    410         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    411         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    412         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    413         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    414         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    415         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY D2 BY D1
+*ZC    416         MULTIPLY D2,BY,D1
+         LD    ZC_F0,D2
+         MD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    417         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_120_1
+*ZC    417         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    417         ELSE
+         J     PG_IF_120_E
+PG_IF_120_1  DS    0H  &TYPE
+*ZC    417         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_120_E  DS    0H  &TYPE
+*            MULTIPLY D2 BY E1
+*ZC    418         MULTIPLY D2,BY,E1
+         LD    ZC_F4,D2
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         ME    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    419         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_121_1
+*ZC    419         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    419         ELSE
+         J     PG_IF_121_E
+PG_IF_121_1  DS    0H  &TYPE
+*ZC    419         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_121_E  DS    0H  &TYPE
+*            MULTIPLY D2 BY W1
+*ZC    420         MULTIPLY D2,BY,W1
+         LD    ZC_F0,D2
+         CGDR  ZC_R0,0,ZC_F0
+         MSGF  ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    421         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_122_1
+*ZC    421         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    421         ELSE
+         J     PG_IF_122_E
+PG_IF_122_1  DS    0H  &TYPE
+*ZC    421         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_122_E  DS    0H  &TYPE
+*            MULTIPLY D2 BY G1
+*ZC    422         MULTIPLY D2,BY,G1
+         LD    ZC_F0,D2
+         CGDR  ZC_R0,0,ZC_F0
+         MSG   ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    423         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_123_1
+*ZC    423         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    423         ELSE
+         J     PG_IF_123_E
+PG_IF_123_1  DS    0H  &TYPE
+*ZC    423         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_123_E  DS    0H  &TYPE
+*            MULTIPLY D2 BY H1
+*ZC    424         MULTIPLY D2,BY,H1
+         LD    ZC_F0,D2
+         CGDR  ZC_R0,0,ZC_F0
+         LGH   ZC_R1,H1
+         MSGR  ZC_R0,ZC_R1
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    425         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_124_1
+*ZC    425         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    425         ELSE
+         J     PG_IF_124_E
+PG_IF_124_1  DS    0H  &TYPE
+*ZC    425         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_124_E  DS    0H  &TYPE
+*            MULTIPLY D2 BY P1
+*ZC    426         MULTIPLY D2,BY,P1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         MP    P1,ZCVT_PWORK2
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    427         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_125_1
+*ZC    427         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    427         ELSE
+         J     PG_IF_125_E
+PG_IF_125_1  DS    0H  &TYPE
+*ZC    427         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_125_E  DS    0H  &TYPE
+*            MULTIPLY D2 BY Z1
+*ZC    428         MULTIPLY D2,BY,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    429         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_126_1
+*ZC    429         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    429         ELSE
+         J     PG_IF_126_E
+PG_IF_126_1  DS    0H  &TYPE
+*ZC    429         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_126_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY E2 GOOD'
+*ZC    430         DISPLAY 'TESTCMP1 MULTIPLY E2 GOOD'
+         BRAS  1,*+(WTO#4386_EOT-*+1)/2*2
+         DC    AL2(WTO#4386_EOT-*,0),C'TESTCMP1 MULTIPLY E2 GOOD'
+WTO#4386_EOT     EQU *
+         SVC   35
+*            MOVE -2 TO D1
+*ZC    431         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    432         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    433         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    434         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    435         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    436         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    437         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY E2 BY D1
+*ZC    438         MULTIPLY E2,BY,D1
+         LE    ZC_F0,E2
+         LDER  ZC_F0,ZC_F0
+         MD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    439         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_127_1
+*ZC    439         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    439         ELSE
+         J     PG_IF_127_E
+PG_IF_127_1  DS    0H  &TYPE
+*ZC    439         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_127_E  DS    0H  &TYPE
+*            MULTIPLY E2 BY E1
+*ZC    440         MULTIPLY E2,BY,E1
+         LE    ZC_F0,E2
+         ME    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    441         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_128_1
+*ZC    441         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    441         ELSE
+         J     PG_IF_128_E
+PG_IF_128_1  DS    0H  &TYPE
+*ZC    441         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_128_E  DS    0H  &TYPE
+*            MULTIPLY E2 BY W1
+*ZC    442         MULTIPLY E2,BY,W1
+         LE    ZC_F0,E2
+         CGER  ZC_R0,0,ZC_F0
+         MSGF  ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    443         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_129_1
+*ZC    443         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    443         ELSE
+         J     PG_IF_129_E
+PG_IF_129_1  DS    0H  &TYPE
+*ZC    443         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_129_E  DS    0H  &TYPE
+*            MULTIPLY E2 BY G1
+*ZC    444         MULTIPLY E2,BY,G1
+         LE    ZC_F0,E2
+         CGER  ZC_R0,0,ZC_F0
+         MSG   ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    445         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_130_1
+*ZC    445         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    445         ELSE
+         J     PG_IF_130_E
+PG_IF_130_1  DS    0H  &TYPE
+*ZC    445         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_130_E  DS    0H  &TYPE
+*            MULTIPLY E2 BY H1
+*ZC    446         MULTIPLY E2,BY,H1
+         LE    ZC_F0,E2
+         CGER  ZC_R0,0,ZC_F0
+         LGH   ZC_R1,H1
+         MSGR  ZC_R0,ZC_R1
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    447         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_131_1
+*ZC    447         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    447         ELSE
+         J     PG_IF_131_E
+PG_IF_131_1  DS    0H  &TYPE
+*ZC    447         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_131_E  DS    0H  &TYPE
+*            MULTIPLY E2 BY P1
+*ZC    448         MULTIPLY E2,BY,P1
+         LE    ZC_F0,E2
+         LER   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_EH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         MP    P1,ZCVT_PWORK2
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    449         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_132_1
+*ZC    449         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    449         ELSE
+         J     PG_IF_132_E
+PG_IF_132_1  DS    0H  &TYPE
+*ZC    449         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_132_E  DS    0H  &TYPE
+*            MULTIPLY E2 BY Z1
+*ZC    450         MULTIPLY E2,BY,Z1
+         LE    ZC_F0,E2
+         LER   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_EH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    451         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_133_1
+*ZC    451         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    451         ELSE
+         J     PG_IF_133_E
+PG_IF_133_1  DS    0H  &TYPE
+*ZC    451         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_133_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY W2 GOOD'
+*ZC    452         DISPLAY 'TESTCMP1 MULTIPLY W2 GOOD'
+         BRAS  1,*+(WTO#4604_EOT-*+1)/2*2
+         DC    AL2(WTO#4604_EOT-*,0),C'TESTCMP1 MULTIPLY W2 GOOD'
+WTO#4604_EOT     EQU *
+         SVC   35
+*            MOVE -2 TO D1
+*ZC    453         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    454         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    455         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    456         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    457         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    458         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    459         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY W2 BY D1
+*ZC    460         MULTIPLY W2,BY,D1
+         L     ZC_R0,W2
+         CDFR  ZC_F0,ZC_R0
+         MD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    461         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_134_1
+*ZC    461         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    461         ELSE
+         J     PG_IF_134_E
+PG_IF_134_1  DS    0H  &TYPE
+*ZC    461         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_134_E  DS    0H  &TYPE
+*            MULTIPLY W2 BY E1
+*ZC    462         MULTIPLY W2,BY,E1
+         L     ZC_R0,W2
+         CEFR  ZC_F0,ZC_R0
+         ME    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    463         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_135_1
+*ZC    463         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    463         ELSE
+         J     PG_IF_135_E
+PG_IF_135_1  DS    0H  &TYPE
+*ZC    463         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_135_E  DS    0H  &TYPE
+*            MULTIPLY W2 BY W1
+*ZC    464         MULTIPLY W2,BY,W1
+         LGF   ZC_R0,W2
+         MSGF  ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    465         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_136_1
+*ZC    465         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    465         ELSE
+         J     PG_IF_136_E
+PG_IF_136_1  DS    0H  &TYPE
+*ZC    465         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_136_E  DS    0H  &TYPE
+*            MULTIPLY W2 BY G1
+*ZC    466         MULTIPLY W2,BY,G1
+         LGF   ZC_R0,W2
+         MSG   ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    467         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_137_1
+*ZC    467         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    467         ELSE
+         J     PG_IF_137_E
+PG_IF_137_1  DS    0H  &TYPE
+*ZC    467         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_137_E  DS    0H  &TYPE
+*            MULTIPLY W2 BY H1
+*ZC    468         MULTIPLY W2,BY,H1
+         LGF   ZC_R0,W2
+         LGH   ZC_R1,H1
+         MSGR  ZC_R0,ZC_R1
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    469         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_138_1
+*ZC    469         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    469         ELSE
+         J     PG_IF_138_E
+PG_IF_138_1  DS    0H  &TYPE
+*ZC    469         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_138_E  DS    0H  &TYPE
+*            MULTIPLY W2 BY P1
+*ZC    470         MULTIPLY W2,BY,P1
+         L     ZC_R0,W2
+         CVD   ZC_R0,ZCVT_PWORK
+         MP    P1,ZCVT_PWORK
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    471         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_139_1
+*ZC    471         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    471         ELSE
+         J     PG_IF_139_E
+PG_IF_139_1  DS    0H  &TYPE
+*ZC    471         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_139_E  DS    0H  &TYPE
+*            MULTIPLY W2 BY Z1
+*ZC    472         MULTIPLY W2,BY,Z1
+         LGF   ZC_R0,W2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    473         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_140_1
+*ZC    473         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    473         ELSE
+         J     PG_IF_140_E
+PG_IF_140_1  DS    0H  &TYPE
+*ZC    473         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_140_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY G2 GOOD'
+*ZC    474         DISPLAY 'TESTCMP1 MULTIPLY G2 GOOD'
+         BRAS  1,*+(WTO#4820_EOT-*+1)/2*2
+         DC    AL2(WTO#4820_EOT-*,0),C'TESTCMP1 MULTIPLY G2 GOOD'
+WTO#4820_EOT     EQU *
+         SVC   35
+*            MOVE -2 TO D1
+*ZC    475         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    476         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    477         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    478         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    479         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    480         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    481         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY G2 BY D1
+*ZC    482         MULTIPLY G2,BY,D1
+         LG    ZC_R0,G2
+         CDGR  ZC_F0,ZC_R0
+         MD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    483         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_141_1
+*ZC    483         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    483         ELSE
+         J     PG_IF_141_E
+PG_IF_141_1  DS    0H  &TYPE
+*ZC    483         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_141_E  DS    0H  &TYPE
+*            MULTIPLY G2 BY E1
+*ZC    484         MULTIPLY G2,BY,E1
+         LG    ZC_R0,G2
+         CEGR  ZC_F0,ZC_R0
+         ME    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    485         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_142_1
+*ZC    485         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    485         ELSE
+         J     PG_IF_142_E
+PG_IF_142_1  DS    0H  &TYPE
+*ZC    485         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_142_E  DS    0H  &TYPE
+*            MULTIPLY G2 BY W1
+*ZC    486         MULTIPLY G2,BY,W1
+         LG    ZC_R0,G2
+         MSGF  ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    487         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_143_1
+*ZC    487         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    487         ELSE
+         J     PG_IF_143_E
+PG_IF_143_1  DS    0H  &TYPE
+*ZC    487         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_143_E  DS    0H  &TYPE
+*            MULTIPLY G2 BY G1
+*ZC    488         MULTIPLY G2,BY,G1
+         LG    ZC_R0,G2
+         MSG   ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    489         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_144_1
+*ZC    489         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    489         ELSE
+         J     PG_IF_144_E
+PG_IF_144_1  DS    0H  &TYPE
+*ZC    489         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_144_E  DS    0H  &TYPE
+*            MULTIPLY G2 BY H1
+*ZC    490         MULTIPLY G2,BY,H1
+         LG    ZC_R0,G2
+         LGH   ZC_R1,H1
+         MSGR  ZC_R0,ZC_R1
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    491         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_145_1
+*ZC    491         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    491         ELSE
+         J     PG_IF_145_E
+PG_IF_145_1  DS    0H  &TYPE
+*ZC    491         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_145_E  DS    0H  &TYPE
+*            MULTIPLY G2 BY P1
+*ZC    492         MULTIPLY G2,BY,P1
+         LG    ZC_R0,G2
+         CVDG  ZC_R0,ZCVT_PWORK1
+         MP    P1,ZCVT_PWORK1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    493         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_146_1
+*ZC    493         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    493         ELSE
+         J     PG_IF_146_E
+PG_IF_146_1  DS    0H  &TYPE
+*ZC    493         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_146_E  DS    0H  &TYPE
+*            MULTIPLY G2 BY Z1
+*ZC    494         MULTIPLY G2,BY,Z1
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LG    ZC_R0,G2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    495         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_147_1
+*ZC    495         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    495         ELSE
+         J     PG_IF_147_E
+PG_IF_147_1  DS    0H  &TYPE
+*ZC    495         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_147_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY H2 GOOD'
+*ZC    496         DISPLAY 'TESTCMP1 MULTIPLY H2 GOOD'
+         BRAS  1,*+(WTO#5037_EOT-*+1)/2*2
+         DC    AL2(WTO#5037_EOT-*,0),C'TESTCMP1 MULTIPLY H2 GOOD'
+WTO#5037_EOT     EQU *
+         SVC   35
+*            MOVE -2 TO D1
+*ZC    497         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    498         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    499         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    500         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    501         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    502         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    503         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY H2 BY D1
+*ZC    504         MULTIPLY H2,BY,D1
+         LH    ZC_R0,H2
+         CDFR  ZC_F0,ZC_R0
+         MD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    505         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_148_1
+*ZC    505         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    505         ELSE
+         J     PG_IF_148_E
+PG_IF_148_1  DS    0H  &TYPE
+*ZC    505         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_148_E  DS    0H  &TYPE
+*            MULTIPLY H2 BY E1
+*ZC    506         MULTIPLY H2,BY,E1
+         LH    ZC_R0,H2
+         CEFR  ZC_F0,ZC_R0
+         ME    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    507         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_149_1
+*ZC    507         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    507         ELSE
+         J     PG_IF_149_E
+PG_IF_149_1  DS    0H  &TYPE
+*ZC    507         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_149_E  DS    0H  &TYPE
+*            MULTIPLY H2 BY W1
+*ZC    508         MULTIPLY H2,BY,W1
+         LGH   ZC_R0,H2
+         MSGF  ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    509         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_150_1
+*ZC    509         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    509         ELSE
+         J     PG_IF_150_E
+PG_IF_150_1  DS    0H  &TYPE
+*ZC    509         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_150_E  DS    0H  &TYPE
+*            MULTIPLY H2 BY G1
+*ZC    510         MULTIPLY H2,BY,G1
+         LGH   ZC_R0,H2
+         MSG   ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    511         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_151_1
+*ZC    511         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    511         ELSE
+         J     PG_IF_151_E
+PG_IF_151_1  DS    0H  &TYPE
+*ZC    511         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_151_E  DS    0H  &TYPE
+*            MULTIPLY H2 BY H1
+*ZC    512         MULTIPLY H2,BY,H1
+         LGH   ZC_R0,H2
+         LGH   ZC_R1,H1
+         MSGR  ZC_R0,ZC_R1
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    513         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_152_1
+*ZC    513         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    513         ELSE
+         J     PG_IF_152_E
+PG_IF_152_1  DS    0H  &TYPE
+*ZC    513         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_152_E  DS    0H  &TYPE
+*            MULTIPLY H2 BY P1
+*ZC    514         MULTIPLY H2,BY,P1
+         LH    ZC_R0,H2
+         CVD   ZC_R0,ZCVT_PWORK
+         MP    P1,ZCVT_PWORK
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    515         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_153_1
+*ZC    515         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    515         ELSE
+         J     PG_IF_153_E
+PG_IF_153_1  DS    0H  &TYPE
+*ZC    515         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_153_E  DS    0H  &TYPE
+*            MULTIPLY H2 BY Z1
+*ZC    516         MULTIPLY H2,BY,Z1
+         LGH   ZC_R0,H2
+         CVDG  ZC_R0,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    517         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_154_1
+*ZC    517         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    517         ELSE
+         J     PG_IF_154_E
+PG_IF_154_1  DS    0H  &TYPE
+*ZC    517         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_154_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY P2 GOOD'
+*ZC    518         DISPLAY 'TESTCMP1 MULTIPLY P2 GOOD'
+         BRAS  1,*+(WTO#5253_EOT-*+1)/2*2
+         DC    AL2(WTO#5253_EOT-*,0),C'TESTCMP1 MULTIPLY P2 GOOD'
+WTO#5253_EOT     EQU *
+         SVC   35
+*            MOVE -2 TO D1
+*ZC    519         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    520         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    521         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    522         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    523         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    524         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    525         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY P2 BY D1
+*ZC    526         MULTIPLY P2,BY,D1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_DH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         MD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    527         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_155_1
+*ZC    527         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    527         ELSE
+         J     PG_IF_155_E
+PG_IF_155_1  DS    0H  &TYPE
+*ZC    527         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_155_E  DS    0H  &TYPE
+*            MULTIPLY P2 BY E1
+*ZC    528         MULTIPLY P2,BY,E1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         ME    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    529         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_156_1
+*ZC    529         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    529         ELSE
+         J     PG_IF_156_E
+PG_IF_156_1  DS    0H  &TYPE
+*ZC    529         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_156_E  DS    0H  &TYPE
+*            MULTIPLY P2 BY W1
+*ZC    530         MULTIPLY P2,BY,W1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         MSGF  ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    531         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_157_1
+*ZC    531         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    531         ELSE
+         J     PG_IF_157_E
+PG_IF_157_1  DS    0H  &TYPE
+*ZC    531         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_157_E  DS    0H  &TYPE
+*            MULTIPLY P2 BY G1
+*ZC    532         MULTIPLY P2,BY,G1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         MSG   ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    533         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_158_1
+*ZC    533         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    533         ELSE
+         J     PG_IF_158_E
+PG_IF_158_1  DS    0H  &TYPE
+*ZC    533         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_158_E  DS    0H  &TYPE
+*            MULTIPLY P2 BY H1
+*ZC    534         MULTIPLY P2,BY,H1
+         ZAP   ZCVT_PWORK1,P2
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         LGH   ZC_R1,H1
+         MSGR  ZC_R0,ZC_R1
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    535         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_159_1
+*ZC    535         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    535         ELSE
+         J     PG_IF_159_E
+PG_IF_159_1  DS    0H  &TYPE
+*ZC    535         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_159_E  DS    0H  &TYPE
+*            MULTIPLY P2 BY P1
+*ZC    536         MULTIPLY P2,BY,P1
+         MP    P1,P2
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    537         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_160_1
+*ZC    537         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    537         ELSE
+         J     PG_IF_160_E
+PG_IF_160_1  DS    0H  &TYPE
+*ZC    537         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_160_E  DS    0H  &TYPE
+*            MULTIPLY P2 BY Z1
+*ZC    538         MULTIPLY P2,BY,Z1
+         ZAP   ZCVT_PWORK2,P2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    539         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_161_1
+*ZC    539         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    539         ELSE
+         J     PG_IF_161_E
+PG_IF_161_1  DS    0H  &TYPE
+*ZC    539         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_161_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 MULTIPLY Z2 GOOD'
+*ZC    540         DISPLAY 'TESTCMP1 MULTIPLY Z2 GOOD'
+         BRAS  1,*+(WTO#5474_EOT-*+1)/2*2
+         DC    AL2(WTO#5474_EOT-*,0),C'TESTCMP1 MULTIPLY Z2 GOOD'
+WTO#5474_EOT     EQU *
+         SVC   35
+*            MOVE -2 TO D1
+*ZC    541         MOVE  -,2,TO,D1
+          LARL  ZC_R1,=DH'-2'
+          MVC   D1,0(ZC_R1)
+*            MOVE -2 TO E1
+*ZC    542         MOVE  -,2,TO,E1
+          LARL  ZC_R1,=EH'-2'
+          MVC   E1,0(ZC_R1)
+*            MOVE -2 TO W1
+*ZC    543         MOVE  -,2,TO,W1
+          MVHI  W1,-2
+*            MOVE -2 TO G1
+*ZC    544         MOVE  -,2,TO,G1
+          MVGHI G1,-2
+*            MOVE -2 TO H1
+*ZC    545         MOVE  -,2,TO,H1
+          MVHHI H1,-2
+*            MOVE -2 TO P1
+*ZC    546         MOVE  -,2,TO,P1
+          LARL  ZC_R1,=PL4'-2'
+          MVC   P1,1(ZC_R1)
+*            MOVE -2 TO Z1
+*ZC    547         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY Z2 BY D1
+*ZC    548         MULTIPLY Z2,BY,D1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_DH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         MD    ZC_F0,D1
+         STD   ZC_F0,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    549         IF    D1,=,-,6
+         LD    0,D1
+         LARL  ZC_R1,=D'-6'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_162_1
+*ZC    549         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    549         ELSE
+         J     PG_IF_162_E
+PG_IF_162_1  DS    0H  &TYPE
+*ZC    549         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_162_E  DS    0H  &TYPE
+*            MULTIPLY Z2 BY E1
+*ZC    550         MULTIPLY Z2,BY,E1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_EH,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         ME    ZC_F0,E1
+         STE   ZC_F0,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    551         IF    E1,=,-,6
+         LE    0,E1
+         LARL  ZC_R1,=E'-6'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_163_1
+*ZC    551         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    551         ELSE
+         J     PG_IF_163_E
+PG_IF_163_1  DS    0H  &TYPE
+*ZC    551         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_163_E  DS    0H  &TYPE
+*            MULTIPLY Z2 BY W1
+*ZC    552         MULTIPLY Z2,BY,W1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         MSGF  ZC_R0,W1
+         ST    ZC_R0,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    553         IF    W1,=,-,6
+         L     0,W1
+         CFI   0,-6
+         BRC   15-ZC_EQ,PG_IF_164_1
+*ZC    553         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    553         ELSE
+         J     PG_IF_164_E
+PG_IF_164_1  DS    0H  &TYPE
+*ZC    553         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_164_E  DS    0H  &TYPE
+*            MULTIPLY Z2 BY G1
+*ZC    554         MULTIPLY Z2,BY,G1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         MSG   ZC_R0,G1
+         STG   ZC_R0,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    555         IF    G1,=,-,6
+         LG     0,G1
+         LARL   ZC_R1,=FL8'-6'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_165_1
+*ZC    555         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    555         ELSE
+         J     PG_IF_165_E
+PG_IF_165_1  DS    0H  &TYPE
+*ZC    555         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_165_E  DS    0H  &TYPE
+*            MULTIPLY Z2 BY H1
+*ZC    556         MULTIPLY Z2,BY,H1
+         PACK  ZCVT_PWORK1(16),0+Z2(4) PACK #1 NORMAL
+         LMG   ZC_R0,ZC_R1,ZCVT_PWORK1
+         CXSTR ZC_F4,ZC_R0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         LGR   ZC_R0,ZC_R1
+         LGH   ZC_R1,H1
+         MSGR  ZC_R0,ZC_R1
+         STH   ZC_R0,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    557         IF    H1,=,-,6
+         LH    0,H1
+         CHI   0,-6
+         BRC   15-ZC_EQ,PG_IF_166_1
+*ZC    557         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    557         ELSE
+         J     PG_IF_166_E
+PG_IF_166_1  DS    0H  &TYPE
+*ZC    557         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_166_E  DS    0H  &TYPE
+*            MULTIPLY Z2 BY P1
+*ZC    558         MULTIPLY Z2,BY,P1
+         PACK  ZCVT_PWORK1(3),0+Z2(4) PACK #1 NORMAL
+         MP    P1,ZCVT_PWORK1(3)
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    559         IF    P1,=,-,6
+         LARL  ZC_R1,=PL4'-6'
+         CP    P1,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_167_1
+*ZC    559         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    559         ELSE
+         J     PG_IF_167_E
+PG_IF_167_1  DS    0H  &TYPE
+*ZC    559         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_167_E  DS    0H  &TYPE
+*            MULTIPLY Z2 BY Z1
+*ZC    560         MULTIPLY Z2,BY,Z1
+         PACK  ZCVT_PWORK2(16),0+Z2(4) PACK #1 NORMAL
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    561         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_168_1
+*ZC    561         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    561         ELSE
+         J     PG_IF_168_E
+PG_IF_168_1  DS    0H  &TYPE
+*ZC    561         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_168_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 DIVIDE COMP-1/2 GOOD'
+*ZC    562         DISPLAY 'TESTCMP1 DIVIDE COMP-1/2 GOOD'
+         BRAS  1,*+(WTO#5702_EOT-*+1)/2*2
+         DC    AL2(WTO#5702_EOT-*,0),C'TESTCMP1 DIVIDE COMP-1/2 GOOD'
+WTO#5702_EOT     EQU *
+         SVC   35
+*            DIVIDE 2 INTO 7 GIVING D2
+*ZC    563         DIVIDE 2,INTO,7,GIVING,D2
+         LARL  ZC_R2,=DH'7'
+         LARL  ZC_R1,=DH'2'
+         LD    ZC_F0,0(ZC_R1)
+         LDR   ZC_F1,ZC_F0
+         LD    ZC_F0,0(ZC_R2)
+         DDR   0,1
+         STD   ZC_F0,D2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    564         IF    D2,=,3.5
+         LD    0,D2
+         LARL  ZC_R1,=D'3.5'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_169_1
+*ZC    564         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    564         ELSE
+         J     PG_IF_169_E
+PG_IF_169_1  DS    0H  &TYPE
+*ZC    564         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_169_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING E2
+*ZC    565         DIVIDE 2,INTO,7,GIVING,E2
+         LARL  ZC_R2,=EH'7'
+         LARL  ZC_R1,=EH'2'
+         LE    ZC_F0,0(ZC_R1)
+         LER   ZC_F1,ZC_F0
+         LE    ZC_F0,0(ZC_R2)
+         DER   0,1
+         STE   ZC_F0,E2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    566         IF    E2,=,3.5
+         LE    0,E2
+         LARL  ZC_R1,=E'3.5'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_170_1
+*ZC    566         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    566         ELSE
+         J     PG_IF_170_E
+PG_IF_170_1  DS    0H  &TYPE
+*ZC    566         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_170_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING W2 REMAINDER W3
+*ZC    567         DIVIDE 2,INTO,7,GIVING,W2,REMAINDER,W3
+         LARL  ZC_R2,=F'7'
+         LARL  ZC_R1,=F'2'
+         MVC   ZCVT_NDDX(4),0(ZC_R2)
+         LGF   ZC_R2,0(ZC_R1)
+         LGF   ZC_R1,ZCVT_NDDX
+         DSGR    0,2
+         ST    ZC_R0,ZCVT_WORKAREA  SAVE REMAINDER
+         ST    1,W2
+         L     ZC_R0,ZCVT_WORKAREA RESTORE REMAINDER
+         ST    0,W3
+*             IF W2 = 3 AND W3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    568         IF    W2,=,3,AND,W3,=,1
+         L     0,W2
+         CFI   0,3
+         BRC   15-ZC_EQ,PG_IF_171_1
+         L     0,W3
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_171_1
+*ZC    568         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    568         ELSE
+         J     PG_IF_171_E
+PG_IF_171_1  DS    0H  &TYPE
+*ZC    568         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_171_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING G2 REMAINDER G3
+*ZC    569         DIVIDE 2,INTO,7,GIVING,G2,REMAINDER,G3
+         LARL  ZC_R2,=FL8'7'
+         LARL  ZC_R1,=FL8'2'
+         MVC   ZCVT_NDDX(8),0(ZC_R2)
+         LG    2,0(ZC_R1)
+         LG    1,ZCVT_NDDX
+         DSGR    0,2
+         STG   1,G2
+         STG   0,G3
+*             IF G2 = 3 AND G3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    570         IF    G2,=,3,AND,G3,=,1
+         LG     0,G2
+         LARL   ZC_R1,=FL8'3'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_172_1
+         LG     0,G3
+         LARL   ZC_R1,=FL8'1'
+         CG     0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_172_1
+*ZC    570         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    570         ELSE
+         J     PG_IF_172_E
+PG_IF_172_1  DS    0H  &TYPE
+*ZC    570         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_172_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING H2 REMAINDER H3
+*ZC    571         DIVIDE 2,INTO,7,GIVING,H2,REMAINDER,H3
+         LARL  ZC_R2,=H'7'
+         LARL  ZC_R1,=H'2'
+         MVC   ZCVT_NDDX(2),0(ZC_R2)
+         LGH   ZC_R2,0(ZC_R1)
+         LGH   ZC_R1,ZCVT_NDDX
+         DSGR    0,2
+         ST    ZC_R0,ZCVT_WORKAREA  SAVE REMAINDER
+         STH   1,H2
+         L     ZC_R0,ZCVT_WORKAREA RESTORE REMAINDER
+         STH   0,H3
+*             IF H2 = 3 AND H3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    572         IF    H2,=,3,AND,H3,=,1
+         LH    0,H2
+         CHI   0,3
+         BRC   15-ZC_EQ,PG_IF_173_1
+         LH    0,H3
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_173_1
+*ZC    572         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    572         ELSE
+         J     PG_IF_173_E
+PG_IF_173_1  DS    0H  &TYPE
+*ZC    572         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_173_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING P2 REMAINDER P3
+*ZC    573         DIVIDE 2,INTO,7,GIVING,P2,REMAINDER,P3
+         LARL  ZC_R2,=PL2'7'
+         LARL  ZC_R1,=PL2'2'
+         ZAP ZCVT_PWORK1(2),0(2,ZC_R2)
+         ZAP   ZCVT_PWORK2(2),0(2,ZC_R1)
+         ZAP   ZCVT_PWORK4(2+2),ZCVT_PWORK1(2)
+         DP    ZCVT_PWORK4(2+2),ZCVT_PWORK2(2)
+         ZAP   P2,ZCVT_PWORK4(2)
+         ZAP   P3,ZCVT_PWORK4+2(2)
+*             IF P2 = 3 AND P3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    574         IF    P2,=,3,AND,P3,=,1
+         LARL  ZC_R1,=PL4'3'
+         CP    P2,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_174_1
+         LARL  ZC_R1,=PL4'1'
+         CP    P3,0(4,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_174_1
+*ZC    574         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    574         ELSE
+         J     PG_IF_174_E
+PG_IF_174_1  DS    0H  &TYPE
+*ZC    574         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_174_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING Z2 REMAINDER Z3
+*ZC    575         DIVIDE 2,INTO,7,GIVING,Z2,REMAINDER,Z3
+         LARL  ZC_R2,=ZL2'7'
+         LARL  ZC_R1,=ZL2'2'
+         PACK  ZCVT_PWORK1(2),0+0(2,ZC_R2) PACK #1 NORMAL
+         PACK  ZCVT_PWORK2(2),0+0(2,ZC_R1) PACK #1 NORMAL
+         ZAP   ZCVT_PWORK4(2+2),ZCVT_PWORK1(2)
+         DP    ZCVT_PWORK4(2+2),ZCVT_PWORK2(2)
+         MVI   Z2,C'0'
+         UNPK  1+Z2(3),0+ZCVT_PWORK4(2) UNPK #1 NORMAL
+         MVI   Z3,C'0'
+         UNPK  1+Z3(3),0+ZCVT_PWORK4+2(2) UNPK #1 NORMAL
+*             IF Z2 = 3 AND Z3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    576         IF    Z2,=,3,AND,Z3,=,1
+         PACK  ZCVT_PWORK1(3),0+Z2(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'3'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_175_1
+         PACK  ZCVT_PWORK1(3),0+Z3(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'1'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_175_1
+*ZC    576         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    576         ELSE
+         J     PG_IF_175_E
+PG_IF_175_1  DS    0H  &TYPE
+*ZC    576         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_175_E  DS    0H  &TYPE
+*            DIVIDE 7 BY 2 GIVING D2
+*ZC    577         DIVIDE 7,BY,2,GIVING,D2
+         LARL  ZC_R2,=DH'7'
+         LARL  ZC_R1,=DH'2'
+         LD    ZC_F0,0(ZC_R1)
+         LDR   ZC_F1,ZC_F0
+         LD    ZC_F0,0(ZC_R2)
+         DDR   0,1
+         STD   ZC_F0,D2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    578         IF    D2,=,3.5
+         LD    0,D2
+         LARL  ZC_R1,=D'3.5'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_176_1
+*ZC    578         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    578         ELSE
+         J     PG_IF_176_E
+PG_IF_176_1  DS    0H  &TYPE
+*ZC    578         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_176_E  DS    0H  &TYPE
+*            DIVIDE 7 BY 2 GIVING E2
+*ZC    579         DIVIDE 7,BY,2,GIVING,E2
+         LARL  ZC_R2,=EH'7'
+         LARL  ZC_R1,=EH'2'
+         LE    ZC_F0,0(ZC_R1)
+         LER   ZC_F1,ZC_F0
+         LE    ZC_F0,0(ZC_R2)
+         DER   0,1
+         STE   ZC_F0,E2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    580         IF    E2,=,3.5
+         LE    0,E2
+         LARL  ZC_R1,=E'3.5'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_177_1
+*ZC    580         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    580         ELSE
+         J     PG_IF_177_E
+PG_IF_177_1  DS    0H  &TYPE
+*ZC    580         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_177_E  DS    0H  &TYPE
+*            DIVIDE 7 BY 2 GIVING W2 REMAINDER W3
+*ZC    581         DIVIDE 7,BY,2,GIVING,W2,REMAINDER,W3
+         LARL  ZC_R2,=F'7'
+         LARL  ZC_R1,=F'2'
+         MVC   ZCVT_NDDX(4),0(ZC_R2)
+         LGF   ZC_R2,0(ZC_R1)
+         LGF   ZC_R1,ZCVT_NDDX
+         DSGR    0,2
+         ST    ZC_R0,ZCVT_WORKAREA  SAVE REMAINDER
+         ST    1,W2
+         L     ZC_R0,ZCVT_WORKAREA RESTORE REMAINDER
+         ST    0,W3
+*             IF W2 = 3 AND W3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    582         IF    W2,=,3,AND,W3,=,1
+         L     0,W2
+         CFI   0,3
+         BRC   15-ZC_EQ,PG_IF_178_1
+         L     0,W3
+         CFI   0,1
+         BRC   15-ZC_EQ,PG_IF_178_1
+*ZC    582         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    582         ELSE
+         J     PG_IF_178_E
+PG_IF_178_1  DS    0H  &TYPE
+*ZC    582         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_178_E  DS    0H  &TYPE
+*            MOVE 7 TO D2
+*ZC    583         MOVE  7,TO,D2
+          LARL  ZC_R1,=DH'7'
+          MVC   D2,0(ZC_R1)
+*            DIVIDE 2 INTO D2
+*ZC    584         DIVIDE 2,INTO,D2
+         LARL  ZC_R1,=DH'2'
+         LD    ZC_F0,0(ZC_R1)
+         LDR   ZC_F1,ZC_F0
+         LD    ZC_F0,D2
+         DDR   0,1
+         STD   ZC_F0,D2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    585         IF    D2,=,3.5
+         LD    0,D2
+         LARL  ZC_R1,=D'3.5'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_179_1
+*ZC    585         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    585         ELSE
+         J     PG_IF_179_E
+PG_IF_179_1  DS    0H  &TYPE
+*ZC    585         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_179_E  DS    0H  &TYPE
+*            MOVE 7 TO E2
+*ZC    586         MOVE  7,TO,E2
+          LARL  ZC_R1,=EH'7'
+          MVC   E2,0(ZC_R1)
+*            DIVIDE 2 INTO E2
+*ZC    587         DIVIDE 2,INTO,E2
+         LARL  ZC_R1,=EH'2'
+         LE    ZC_F0,0(ZC_R1)
+         LER   ZC_F1,ZC_F0
+         LE    ZC_F0,E2
+         DER   0,1
+         STE   ZC_F0,E2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    588         IF    E2,=,3.5
+         LE    0,E2
+         LARL  ZC_R1,=E'3.5'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_180_1
+*ZC    588         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    588         ELSE
+         J     PG_IF_180_E
+PG_IF_180_1  DS    0H  &TYPE
+*ZC    588         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_180_E  DS    0H  &TYPE
+*            MOVE 7 TO D2
+*ZC    589         MOVE  7,TO,D2
+          LARL  ZC_R1,=DH'7'
+          MVC   D2,0(ZC_R1)
+*            DIVIDE D2 BY 2
+*ZC    590         DIVIDE D2,BY,2
+         LARL  ZC_R1,=DH'2'
+         LD    ZC_F0,0(ZC_R1)
+         LDR   ZC_F1,ZC_F0
+         LD    ZC_F0,D2
+         DDR   0,1
+         STD   ZC_F0,D2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    591         IF    D2,=,3.5
+         LD    0,D2
+         LARL  ZC_R1,=D'3.5'
+         CD    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_181_1
+*ZC    591         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    591         ELSE
+         J     PG_IF_181_E
+PG_IF_181_1  DS    0H  &TYPE
+*ZC    591         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_181_E  DS    0H  &TYPE
+*            MOVE 7 TO E2
+*ZC    592         MOVE  7,TO,E2
+          LARL  ZC_R1,=EH'7'
+          MVC   E2,0(ZC_R1)
+*            DIVIDE E2 BY 2
+*ZC    593         DIVIDE E2,BY,2
+         LARL  ZC_R1,=EH'2'
+         LE    ZC_F0,0(ZC_R1)
+         LER   ZC_F1,ZC_F0
+         LE    ZC_F0,E2
+         DER   0,1
+         STE   ZC_F0,E2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    594         IF    E2,=,3.5
+         LE    0,E2
+         LARL  ZC_R1,=E'3.5'
+         CE    0,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_182_1
+*ZC    594         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    594         ELSE
+         J     PG_IF_182_E
+PG_IF_182_1  DS    0H  &TYPE
+*      * TEST ADD WITH MULT SOURCE AND TARGETS
+*ZC    594         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_182_E  DS    0H  &TYPE
+*            MOVE 0 TO H1 H2
+*ZC    596         MOVE  0,TO,H1,H2
+          MVHHI H1,0
+          MVHHI H2,0
+*            ADD 1 2 3 TO H1 H2
+*ZC    597         ADD   1,2,3,TO,H1,H2
+         LH    ZC_R0,H1
+         AHI   ZC_R0,1
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,2
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,3
+         STH   ZC_R0,H1
+         LH    ZC_R0,H2
+         AHI   ZC_R0,1
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,2
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,3
+         STH   ZC_R0,H2
+*            IF H1 = 6 AND H2 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    598         IF    H1,=,6,AND,H2,=,6
+         LH    0,H1
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_183_1
+         LH    0,H2
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_183_1
+*ZC    598         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    598         ELSE
+         J     PG_IF_183_E
+PG_IF_183_1  DS    0H  &TYPE
+*ZC    598         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_183_E  DS    0H  &TYPE
+*            ADD 1 2 3 GIVING H1 H2
+*ZC    599         ADD   1,2,3,GIVING,H1,H2
+          MVHHI H1,1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,2
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,3
+         STH   ZC_R0,H1
+          MVHHI H2,1
+         LH    ZC_R0,H2
+         AHI   ZC_R0,2
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,3
+         STH   ZC_R0,H2
+*            IF H1 = 6 AND H2 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    600         IF    H1,=,6,AND,H2,=,6
+         LH    0,H1
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_184_1
+         LH    0,H2
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_184_1
+*ZC    600         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    600         ELSE
+         J     PG_IF_184_E
+PG_IF_184_1  DS    0H  &TYPE
+*ZC    600         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_184_E  DS    0H  &TYPE
+*            ADD 1 2 TO 3 GIVING H1 H2
+*ZC    601         ADD   1,2,TO,3,GIVING,H1,H2
+          MVHHI H1,1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,2
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,3
+         STH   ZC_R0,H1
+          MVHHI H2,1
+         LH    ZC_R0,H2
+         AHI   ZC_R0,2
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,3
+         STH   ZC_R0,H2
+*            IF H1 = 6 AND H2 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    602         IF    H1,=,6,AND,H2,=,6
+         LH    0,H1
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_185_1
+         LH    0,H2
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_185_1
+*ZC    602         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    602         ELSE
+         J     PG_IF_185_E
+PG_IF_185_1  DS    0H  &TYPE
+*      * TEST SUBTRACT WITH MULT SOURCE AND TARGETS
+*ZC    602         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_185_E  DS    0H  &TYPE
+*            MOVE 7 TO H1 H2
+*ZC    604         MOVE  7,TO,H1,H2
+          MVHHI H1,7
+          MVHHI H2,7
+*            SUBTRACT 1 2 3 FROM H1 H2
+*ZC    605         SUBTRACT 1,2,3,FROM,H1,H2
+         LH    ZC_R0,H1
+         AHI   ZC_R0,-1
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,-2
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,-3
+         STH   ZC_R0,H1
+         LH    ZC_R0,H2
+         AHI   ZC_R0,-1
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,-2
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,-3
+         STH   ZC_R0,H2
+*            IF H1 = 1 AND H2 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    606         IF    H1,=,1,AND,H2,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_186_1
+         LH    0,H2
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_186_1
+*ZC    606         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    606         ELSE
+         J     PG_IF_186_E
+PG_IF_186_1  DS    0H  &TYPE
+*ZC    606         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_186_E  DS    0H  &TYPE
+*            SUBTRACT 1 2 3 FROM 8 GIVING H1 H2
+*ZC    607         SUBTRACT 1,2,3,FROM,8,GIVING,H1,H2
+          MVHHI H1,8
+         LH    ZC_R0,H1
+         AHI   ZC_R0,-1
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,-2
+         STH   ZC_R0,H1
+         LH    ZC_R0,H1
+         AHI   ZC_R0,-3
+         STH   ZC_R0,H1
+          MVHHI H2,8
+         LH    ZC_R0,H2
+         AHI   ZC_R0,-1
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,-2
+         STH   ZC_R0,H2
+         LH    ZC_R0,H2
+         AHI   ZC_R0,-3
+         STH   ZC_R0,H2
+*            IF H1 = 2 AND H2 = 2 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    608         IF    H1,=,2,AND,H2,=,2
+         LH    0,H1
+         CHI   0,2
+         BRC   15-ZC_EQ,PG_IF_187_1
+         LH    0,H2
+         CHI   0,2
+         BRC   15-ZC_EQ,PG_IF_187_1
+*ZC    608         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    608         ELSE
+         J     PG_IF_187_E
+PG_IF_187_1  DS    0H  &TYPE
+*      * TEST DIVIDE WITH MULT TARGETS
+*ZC    608         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_187_E  DS    0H  &TYPE
+*            MOVE 3 TO H1 H2
+*ZC    610         MOVE  3,TO,H1,H2
+          MVHHI H1,3
+          MVHHI H2,3
+*            DIVIDE 2 INTO H1 H2
+*ZC    611         DIVIDE 2,INTO,H1,H2
+         LARL  ZC_R1,=H'2'
+         MVC   ZCVT_NDDX(2),H1
+         LGH   ZC_R2,0(ZC_R1)
+         LGH   ZC_R1,ZCVT_NDDX
+         DSGR    0,2
+         STH   1,H1
+         MVC   H2,H1  ALIGN LEFT X OTHER
+*            IF H1 = 1 AND H2 = 1
+*ZC    612         IF    H1,=,1,AND,H2,=,1
+         LH    0,H1
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_188_1
+         LH    0,H2
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_188_1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    613         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    613         ELSE
+         J     PG_IF_188_E
+PG_IF_188_1  DS    0H  &TYPE
+*ZC    613         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_188_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING H1 H2
+*ZC    614         DIVIDE 2,INTO,7,GIVING,H1,H2
+         LARL  ZC_R2,=H'7'
+         LARL  ZC_R1,=H'2'
+         MVC   ZCVT_NDDX(2),0(ZC_R2)
+         LGH   ZC_R2,0(ZC_R1)
+         LGH   ZC_R1,ZCVT_NDDX
+         DSGR    0,2
+         STH   1,H1
+         MVC   H2,H1  ALIGN LEFT X OTHER
+*            IF H1 = 3 AND H2 = 3
+*ZC    615         IF    H1,=,3,AND,H2,=,3
+         LH    0,H1
+         CHI   0,3
+         BRC   15-ZC_EQ,PG_IF_189_1
+         LH    0,H2
+         CHI   0,3
+         BRC   15-ZC_EQ,PG_IF_189_1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    616         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    616         ELSE
+         J     PG_IF_189_E
+PG_IF_189_1  DS    0H  &TYPE
+*ZC    616         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_189_E  DS    0H  &TYPE
+*            DIVIDE 2 INTO 7 GIVING H1 REMAINDER H2
+*ZC    617         DIVIDE 2,INTO,7,GIVING,H1,REMAINDER,H2
+         LARL  ZC_R2,=H'7'
+         LARL  ZC_R1,=H'2'
+         MVC   ZCVT_NDDX(2),0(ZC_R2)
+         LGH   ZC_R2,0(ZC_R1)
+         LGH   ZC_R1,ZCVT_NDDX
+         DSGR    0,2
+         ST    ZC_R0,ZCVT_WORKAREA  SAVE REMAINDER
+         STH   1,H1
+         L     ZC_R0,ZCVT_WORKAREA RESTORE REMAINDER
+         STH   0,H2
+*            IF H1 = 3 AND H2 = 1
+*ZC    618         IF    H1,=,3,AND,H2,=,1
+         LH    0,H1
+         CHI   0,3
+         BRC   15-ZC_EQ,PG_IF_190_1
+         LH    0,H2
+         CHI   0,1
+         BRC   15-ZC_EQ,PG_IF_190_1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    619         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    619         ELSE
+         J     PG_IF_190_E
+PG_IF_190_1  DS    0H  &TYPE
+*      * TEST MULTIPLY WITH MULT MULTIPLIERS AND MULT GIVING
+*ZC    619         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_190_E  DS    0H  &TYPE
+*            MOVE 3 TO H1
+*ZC    621         MOVE  3,TO,H1
+          MVHHI H1,3
+*            MULTIPLY 2 BY H1
+*ZC    622         MULTIPLY 2,BY,H1
+         LGH   ZC_R0,H1
+         MSGFI ZC_R0,2
+         STH   ZC_R0,H1
+*            IF H1 = 6
+*ZC    623         IF    H1,=,6
+         LH    0,H1
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_191_1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    624         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    624         ELSE
+         J     PG_IF_191_E
+PG_IF_191_1  DS    0H  &TYPE
+*ZC    624         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_191_E  DS    0H  &TYPE
+*            MOVE 3 TO H1
+*ZC    625         MOVE  3,TO,H1
+          MVHHI H1,3
+*            MULTIPLY 2 BY H1 H1
+*ZC    626         MULTIPLY 2,BY,H1,H1
+         LGH   ZC_R0,H1
+         MSGFI ZC_R0,2
+         STH   ZC_R0,H1
+         LGH   ZC_R0,H1
+         MSGFI ZC_R0,2
+         STH   ZC_R0,H1
+*            IF H1 = 12
+*ZC    627         IF    H1,=,12
+         LH    0,H1
+         CHI   0,12
+         BRC   15-ZC_EQ,PG_IF_192_1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    628         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    628         ELSE
+         J     PG_IF_192_E
+PG_IF_192_1  DS    0H  &TYPE
+*ZC    628         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_192_E  DS    0H  &TYPE
+*            MULTIPLY 3 BY 2 GIVING H1 H2
+*ZC    629         MULTIPLY 3,BY,2,GIVING,H1,H2
+          MVHHI H1,3
+         LGH   ZC_R0,H1
+         MSGFI ZC_R0,2
+         STH   ZC_R0,H1
+          MVHHI H2,3
+         LGH   ZC_R0,H2
+         MSGFI ZC_R0,2
+         STH   ZC_R0,H2
+*            IF H1 = 6 AND H2 = 6
+*ZC    630         IF    H1,=,6,AND,H2,=,6
+         LH    0,H1
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_193_1
+         LH    0,H2
+         CHI   0,6
+         BRC   15-ZC_EQ,PG_IF_193_1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    631         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    631         ELSE
+         J     PG_IF_193_E
+PG_IF_193_1  DS    0H  &TYPE
+*ZC    631         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_193_E  DS    0H  &TYPE
+*            DISPLAY 'TESTCMP1 GOOD TESTS =' GOOD
+*ZC    632         DISPLAY 'TESTCMP1 GOOD TESTS =',GOOD
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL22'TESTCMP1 GOOD TESTS =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,21
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,GOOD
+         LA    ZC_R1,3  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'P'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*            STOP RUN.
+*ZC    633         STOP  RUN
+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+         L     ZC_R15,ZCVT_GOBACK
+         BR    ZC_R15
+*        GOOD.
+PG_64_END L    ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_GOOD  DS    0H
+*            ADD 1 TO GOOD.
+*ZC    635         ADD   1,TO,GOOD
+         BRAS  ZC_R14,3 SET ZC_R1 TO A(INLINE LIT) AND SKIP OVER IT
+         DC    PL2'1'
+         AP    GOOD,0(2,ZC_R14)
+*        BAD.
+PG_GOOD_END L  ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_BAD   DS    0H
+*            MOVE 16 TO RETURN-CODE
+*ZC    637         MOVE  16,TO,RETURN_CODE
+          MVHHI RETURN_CODE,16
+*            STOP RUN.
+*ZC    638         STOP  RUN
+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+         L     ZC_R15,ZCVT_GOBACK
+         BR    ZC_R15
+PG_BAD_END L   ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+SN_END_PROCEDURE DS 0H SECTION
+*        PROCEDURE END
+         LH    ZC_R1,RETURN_CODE
+         L     ZC_R15,ZCVT_GOBACK
+         BASR  ZC_R14,ZC_R15
+         LTORG 
+*    ZCOBOL WORKING STORAGE SECTION DATA ITEMS 
+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC  X
+                     VALUE 
+*    01  ZC_SAVEAREA                    00000000 00000048 1   X   X(72)X
+                      
+*    01  ZC_WS_ID                       00000048 00000008 1   X   X(8) X
+                     ''WS*WS*WS'' 
+*    01  ZC_WS_START                    00000050 00000004 1   A        X
+                      
+*    01  ZC_WS_LEN                      00000054 00000004 1   F   9(9) X
+                      
+*    01  FILLER                         00000058 00000000 1   X        X
+                      
+*    01  D1                             00000058 00000008 1   2        X
+                     1 
+*    01  E1                             00000060 00000004 1   1        X
+                     1 
+*    01  W1                             00000064 00000004 1   F   9(9) X
+                     1 
+*    01  G1                             00000068 00000008 1   G   9(18)X
+                     1 
+*    01  H1                             00000070 00000002 1   H   9(4) X
+                     1 
+*    01  P1                             00000072 00000003 1   P   9(4) X
+                     1 
+*    01  Z1                             00000075 00000004 1   Z   9(4) X
+                     1 
+*    01  D2                             00000079 00000008 1   2        X
+                     2 
+*    01  E2                             00000081 00000004 1   1        X
+                     2 
+*    01  W2                             00000085 00000004 1   F   9(9) X
+                     2 
+*    01  G2                             00000089 00000008 1   G   9(18)X
+                     2 
+*    01  H2                             00000091 00000002 1   H   9(4) X
+                     2 
+*    01  P2                             00000093 00000003 1   P   9(4) X
+                     2 
+*    01  Z2                             00000096 00000004 1   Z   9(4) X
+                     2 
+*    01  D3                             0000009A 00000008 1   2        X
+                     3 
+*    01  E3                             000000A2 00000004 1   1        X
+                     3 
+*    01  W3                             000000A6 00000004 1   F   9(9) X
+                     3 
+*    01  G3                             000000AA 00000008 1   G   9(18)X
+                     3 
+*    01  H3                             000000B2 00000002 1   H   9(4) X
+                     3 
+*    01  P3                             000000B4 00000003 1   P   9(4) X
+                     3 
+*    01  Z3                             000000B7 00000004 1   Z   9(4) X
+                     3 
+*    01  GOOD                           000000BB 00000003 1   P   9(4) X
+                     0 
+*    01  DEBUG_ITEM                     000000BE 00000058 1   X        X
+                      
+*    02  DEBUG_LINE                     000000BE 00000006 1   X   X(6) X
+                      
+*    02  FILLER                         000000C4 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_NAME                     000000C5 0000001E 1   X   X(30)X
+                      
+*    02  FILLER                         000000E3 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_1                    000000E4 00000004 1   Z   9999 X
+                      
+*    02  FILLER                         000000E8 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_2                    000000E9 00000004 1   Z   9999 X
+                      
+*    02  FILLER                         000000ED 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_3                    000000EE 00000004 1   Z   9999 X
+                      
+*    02  FILLER                         000000F2 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_CONTENTS                 000000F3 00000023 1   X   X(35)X
+                      
+*    01  TRUE                           00000116 00000001 1   Z   9    X
+                     1 
+*    01  FALSE                          00000117 00000001 1   Z   9    X
+                     0 
+*    01  RETURN_CODE                    00000118 00000002 1   H   9(4) X
+                     0 
+ZC_WSLOC LOCTR 
+ZC_WS_LOC_1  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_SAVEAREA DS CL72
+ZC_WS_LOC_2  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_WS_ID DC CL8'WS*WS*WS'
+ZC_WS_LOC_3  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_WS_START DS AL4
+ZC_WS_LOC_4  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_WS_LEN DS FL4
+ZC_WS_LOC_5  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  0CL0
+ZC_WS_LOC_6  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+D1       DC DHL8'1'
+ZC_WS_LOC_7  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+E1       DC EHL4'1'
+ZC_WS_LOC_8  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+W1       DC AL4(1)                  RPI 1065
+ZC_WS_LOC_9  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+G1       DC FL8'1'                  RPI 1065
+ZC_WS_LOC_10 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+H1       DC AL2(1)                  RPI 1065
+ZC_WS_LOC_11 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+P1       DC PL3'1'
+ZC_WS_LOC_12 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+Z1       DC ZL4'1'
+ZC_WS_LOC_13 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+D2       DC DHL8'2'
+ZC_WS_LOC_14 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+E2       DC EHL4'2'
+ZC_WS_LOC_15 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+W2       DC AL4(2)                  RPI 1065
+ZC_WS_LOC_16 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+G2       DC FL8'2'                  RPI 1065
+ZC_WS_LOC_17 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+H2       DC AL2(2)                  RPI 1065
+ZC_WS_LOC_18 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+P2       DC PL3'2'
+ZC_WS_LOC_19 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+Z2       DC ZL4'2'
+ZC_WS_LOC_20 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+D3       DC DHL8'3'
+ZC_WS_LOC_21 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+E3       DC EHL4'3'
+ZC_WS_LOC_22 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+W3       DC AL4(3)                  RPI 1065
+ZC_WS_LOC_23 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+G3       DC FL8'3'                  RPI 1065
+ZC_WS_LOC_24 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+H3       DC AL2(3)                  RPI 1065
+ZC_WS_LOC_25 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+P3       DC PL3'3'
+ZC_WS_LOC_26 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+Z3       DC ZL4'3'
+ZC_WS_LOC_27 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+GOOD     DC PL3'0'
+ZC_WS_LOC_28 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_ITEM DS 0CL88
+ZC_WS_LOC_29 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_LINE DS CL6
+ZC_WS_LOC_30 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_31 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_NAME DS CL30
+ZC_WS_LOC_32 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_33 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_1 DS ZL4
+ZC_WS_LOC_34 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_35 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_2 DS ZL4
+ZC_WS_LOC_36 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_37 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_3 DS ZL4
+ZC_WS_LOC_38 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_39 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_CONTENTS DS CL35
+ZC_WS_LOC_40 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TRUE     DC CL1'1'
+ZC_WS_LOC_41 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FALSE    DC CL1'0'
+ZC_WS_LOC_42 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+RETURN_CODE DC AL2(0)                  RPI 1065
+*    ZCOBOL LINKAGE SECTION DATA ITEMS 
+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC  X
+                     VALUE 
+ZC_WSLOC LOCTR 
+ZC_WSLOC LOCTR 
+ZC_WS_DIFF EQU  *-ZC_WS-282  DIFF BETWEEN ALLOC AND CALC WS
+ZC_WS_END DS   0D
+         MNOTE *,'ZCOBOL TOTAL SYMBOLS                 = 42'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL DUPLICATES       = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL MAX DUP CHAIN    = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL LEVEL 88         = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL SET INDEXES      = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL LINKAGE SECTIONS = 0'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE SECTIONS      = 0'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPHS    = 67'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPH DUP = 0'
+         END 

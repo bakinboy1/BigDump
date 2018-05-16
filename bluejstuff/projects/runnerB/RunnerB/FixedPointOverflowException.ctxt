@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=FixedPointOverflowException()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ FixedPointOverflowException\r\n
+comment1.params=s
+comment1.target=FixedPointOverflowException(java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ DecimalDivideException\r\n
+numComments=2

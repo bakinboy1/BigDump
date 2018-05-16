@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=operator()
+comment1.params=
+comment1.target=java.lang.String\ getName()
+comment10.params=newDefender
+comment10.target=void\ setDefender(boolean)
+comment11.params=
+comment11.target=java.lang.String\ toString()
+comment2.params=newName
+comment2.target=void\ setName(java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ getWeapon()
+comment4.params=newWeapon
+comment4.target=void\ setWeapon(java.lang.String)
+comment5.params=
+comment5.target=java.lang.String\ getEquipment()
+comment6.params=newEquipment
+comment6.target=void\ setEquipment(java.lang.String)
+comment7.params=
+comment7.target=int\ getDamage()
+comment8.params=newDamage
+comment8.target=void\ setDamage(int)
+comment9.params=
+comment9.target=boolean\ getDefender()
+numComments=12

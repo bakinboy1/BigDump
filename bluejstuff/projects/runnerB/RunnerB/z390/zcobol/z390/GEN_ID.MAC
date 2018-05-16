@@ -1,0 +1,135 @@
+         MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 04/14/08                                                 *
+.*********************************************************************
+.* 04/14/08 initial coding for z390 PROGRAM_ID
+.* 06/10/08 reallocate global registers to not conflict with CICS
+.* 11/14/08 gen DFHEISTG DSA DSECT if CICS                          
+.* 03/12/09 RPI 1004 add ZC_PFPO copybook defining types
+.* 06/18/09 RPI 1042 move DROP ZC_R15 to non-cics section   
+.* 05/25/10 RPI 1118 add PVTMAXDL max display line length option
+.* 02/16/12 RPI 1181 add 01 FILLER to allow 05 levels in WS
+.*********************************************************************
+.* GLOBAL REGISTER ALLOCATION:
+.*  ZC_R0-ZC_R3 WORK USED BY ZCOBOL\Z390\GEN_*.MAC CODE GEN
+.*  ZC_R4  = ZCOBOL DYNAMIC LK BASE REGISTER 1
+.*  ZC_R5  = ZCOBOL DYNAMIC LK BASE REGISTER 2
+.*  ZC_R6  = ZCOBOL DYNAMIC WS BASE REGISTER 1
+.*  ZC_R7  = ZCOBOL DYNAMIC WS BASE REGISTER 2
+.*  ZC_R8  = ZCOBOL PGM VECTOR TABLE AND BASE DURING INIT
+.*  ZC_R9  = ZCOBOL ZC390CVT AT ENTRY TO ZC390LIB.390 MODULE
+.*  ZC_R10 = CICS DFHTCTTE
+.*  ZC_R11 = CICS DFHEIBLK
+.*  ZC_R12 = CICS CODE BASE
+.*  ZC_R13 = CICS SAVE AREA AND WORKING STORAGE (DFHEISTG DSA FOR CICS)
+.*  ZC_R14 = LINK RETURN FOR CALLS
+.*  ZC_R15 = ENTRY FOR CALLS
+.*********************************************************************
+         GEN_ID 
+         COPY  ZC_WS
+         PRINT &ZC_LIST    SET LIST OPTION FOR INTERNAL CODE 
+         AIF   (&ZC_CICS)
+               ACALL GEN_CICS_SECTIONS
+         AELSE
+               ACALL GEN_PGM_SECTIONS
+         AEND
+         MEXIT
+.*
+.* GEN CICS SECTIONS WHEN CICS OPTION SPECIFIED
+.*
+         AENTRY GEN_CICS_SECTIONS
+&ZC_PGM  CSECT , TRIGGERS &ZC_PGM DFHEINT1
+         ACALL GEN_INIT_ZCVT  LOAD ZC390LIB AND SET ZC_R9=ZC390CVT
+ZC390CVT DSECT                ZCOBOL CVT AT ENTRY TO ZC390LIB.390
+         COPY  ZC390CVT
+ZC390PVT DSECT
+         COPY  ZC390PVT
+DFHEISTG DSECT                CICS DYNAMIC STORAGE AREA (TRIGGERS MAC)
+ZC_WS    EQU   DFHEISTG
+&WS_LOC  SETA  DFHEIUSR-DFHEISTG
+         AEND
+.*
+.* GEN NON CICS PROGRAM WITH WS BEHIND PROCEDURE CODE IN SAME CSECT
+.*
+         AENTRY GEN_PGM_SECTIONS
+&ZC_PGM  CSECT ,                CSECT WITH PROCEDURE CODE AND WS
+         USING *,ZC_R15
+         SAVE  (14,12)
+         ACALL GEN_INIT_ZCVT    LOAD ZC390LIB AND SET AC_R9=ZC390CVT
+         L     ZC_R2,24(ZC_R13) SET ZC_R2=PARMLIST ADDRESS AFTER LOAD
+         LARL  ZC_R1,ZC_WS     ZC_R2=A(WORKING STORAGE WITH SAVEAREA)
+         ST    ZC_R1,8(ZC_R13) FORWARD  SAVE CHAIN                                            
+         ST    ZC_R13,4(ZC_R1) BACKWARD SAVE CHAIN                                            
+         LR    ZC_R13,ZC_R1    LINK SAVE AREA IN ZC390CVT                                            
+         USING ZC_WS,ZC_R13    BASE FOR ZCOBOL WS (SEE GEN_SYM_RX.MAC)
+         ST    ZC_R13,ZC_WS_START  SAVE ADDR WS IN WS PREFIX 
+         LARL  ZC_R0,ZC_WS_END
+         SR    ZC_R0,ZC_R13
+         ST    ZC_R0,ZC_WS_LEN     SAVE LENGTH OF WS IN WS PREFIX
+         DROP  ZC_R15              RPI 1042
+ZC_WSLOC LOCTR
+ZC_WS    DS    0D           START WORKING STORAGE                  
+         WS    77,ZC_SAVEAREA,PIC,X(72)              SAVE AREA
+         WS    77,ZC_WS_ID,PIC,X(8),VALUE,'WS*WS*WS' DUMP ID
+         WS    77,ZC_WS_START,POINTER                WS START
+         WS    77,ZC_WS_LEN,COMP,PIC,S9(9)           WS LENGTH
+         WS    01,FILLER                             RPI 1181 FORCE 01
+ZC390CVT DSECT
+         COPY  ZC390CVT
+ZC390PVT DSECT
+         COPY  ZC390PVT
+ZC_WSLOC LOCTR              CONTINUE WS FOR FD AND DATA                   
+         AEND
+.*
+.* GEN ID AND LOAD ZC390LIB.390 WITH ZC390CVT PTR IN ZC_R9
+.*
+.*   1.  RUN ZC390BLD.BAT TO REASSEMBLE AND LINK LINKLIB\Z390LIB.390
+.*
+         AENTRY GEN_INIT_ZCVT
+         CNOP  4,8             FORCE ZC390PVT TO DOUBLEWORD BOUNDARY
+         BRAS  ZC_R8,ZC_LOAD
+         USING *,ZC_R8            BASE FOR LOAD AND CICS V5 USE
+*
+*  THESE FIELDS MUST BE KEPT IN SYNC WITH zcobol\ZC390PVT.CPY
+*
+         DC    CL8'&ZC_PGM'    PVTPGM   ZCOBOL PGM NAME                    
+         DC    CL8'&SYSDATE'   PVTDATE  ZCOBOL COMPILE DATE              
+         DC    CL8'&SYSTIME'   PVTTIME  ZCOBOL COMPILE TIME              
+         DC    CL8'&ZC_VER'    PVTVER   ZCOBOL COMPILER VERSION       
+         DC    C'&ZC_CICS'     PVTCICS  ZCOBOL EXEC CICS PGM
+         DC    C'&ZC_EXTEND'   PVTEXTND ZCOBOL EXTENDED PRECISION
+         DC    C'&ZC_TRUNC'    PVTTRUNC ZCOBOL TRUNCATE TO PICTURE
+         DC    C'&ZC_R64'      PVTR64   ZCOBOL USE 64 BIT REGISTERS
+         DC    H'&ZC_MAXDISPLAY' MAX DISPLAY LINE LEN  RPI 1118
+         DS    XL10            RESERVED
+ZC_LOAD  DS    0H
+         LOAD  EP=ZC390LIB
+         LTR   ZC_R15,ZC_R15
+         JZ    ZC_LOAD_OK
+         WTO 'ZC390LIB NOT FOUND'
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+ZC_LOAD_OK DS  0H
+         LR    ZC_R9,ZC_R0
+         USING ZC390CVT,ZC_R9    R9=CVT 
+         CLC   ZCVT_ID,=C'ZCVT'              CHECK ZCVT ID AND LENGTH
+         JNE   ZC_VER_ERR                    IN ZC390LIB.390 MATCH
+         CLC   ZCVT_LEN,=A(ZCVT_END-ZCVT_ID) ZCOBOL PGM COMPILED ID/LEN
+         BNE   ZC_VER_ERR
+         L     ZC_R15,ZCVT_ZC390NUC
+         BASR  ZC_R14,ZC_R15 CALL ZC390NUC TO VERIFY VER, OPTIONS 
+         J     ZC_VER_OK
+ZC_VER_ERR DS 0H
+         WTO 'ZC390LIB ZCVT VERIFY ERROR'
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+         LTORG
+         COPY  ZC_EQUS RPI 1065
+         COPY  ZC_PFPO
+ZC_VER_OK DS   0H
+         AEND
+         MEND

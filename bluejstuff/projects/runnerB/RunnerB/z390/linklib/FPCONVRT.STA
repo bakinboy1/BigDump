@@ -1,0 +1,186 @@
+FPCONVRT  MZ390 START
+FPCONVRT  MZ390 Copyright 2011 Automated Software Tools Corporation
+FPCONVRT  MZ390 z390 is licensed under GNU General Public License
+FPCONVRT  MZ390 program = linklib\FPCONVRT.MLC
+FPCONVRT  MZ390 options = W:\work\z390\z390.OPT=(time(60)) bal notiming sysmac(mac) 
+  syscpy(mac) stats sysmac(mac+linklib) systerm(linklib\rtlink)
+FPCONVRT  MZ390 final_options=ALIGN
+FPCONVRT  MZ390 final_options=NOALLOW
+FPCONVRT  MZ390 final_options=NOAMODE24
+FPCONVRT  MZ390 final_options=AMODE31
+FPCONVRT  MZ390 final_options=NOASCII
+FPCONVRT  MZ390 final_options=ASM
+FPCONVRT  MZ390 final_options=NOASSIST
+FPCONVRT  MZ390 final_options=AUTOLINK
+FPCONVRT  MZ390 final_options=BAL
+FPCONVRT  MZ390 final_options=NOBS2000
+FPCONVRT  MZ390 final_options=EDF
+FPCONVRT  MZ390 final_options=NOCICS
+FPCONVRT  MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+FPCONVRT  MZ390 final_options=COMMENT
+FPCONVRT  MZ390 final_options=CON
+FPCONVRT  MZ390 final_options=NODUMP
+FPCONVRT  MZ390 final_options=EPILOG
+FPCONVRT  MZ390 final_options=NOERRSUM
+FPCONVRT  MZ390 final_options=EXTEND
+FPCONVRT  MZ390 final_options=FLOAT(DECIMAL)
+FPCONVRT  MZ390 final_options=NOGUAM
+FPCONVRT  MZ390 final_options=INIT
+FPCONVRT  MZ390 final_options=LIST
+FPCONVRT  MZ390 final_options=LISTCALL
+FPCONVRT  MZ390 final_options=LISTUSE
+FPCONVRT  MZ390 final_options=LOADHIGH
+FPCONVRT  MZ390 final_options=NOMCALL
+FPCONVRT  MZ390 final_options=NOMOD
+FPCONVRT  MZ390 final_options=OBJ
+FPCONVRT  MZ390 final_options=NOOBJHEX
+FPCONVRT  MZ390 final_options=PC
+FPCONVRT  MZ390 final_options=PCOPT
+FPCONVRT  MZ390 final_options=NOPDSMEM8
+FPCONVRT  MZ390 final_options=NOPRINTALL
+FPCONVRT  MZ390 final_options=PROLOG
+FPCONVRT  MZ390 final_options=PROTECT
+FPCONVRT  MZ390 final_options=R64
+FPCONVRT  MZ390 final_options=NOREFORMAT
+FPCONVRT  MZ390 final_options=NOREGS
+FPCONVRT  MZ390 final_options=RMODE24
+FPCONVRT  MZ390 final_options=NORMODE31
+FPCONVRT  MZ390 final_options=STATS
+FPCONVRT  MZ390 final_options=NOTEST
+FPCONVRT  MZ390 final_options=THREAD
+FPCONVRT  MZ390 final_options=NOTIME
+FPCONVRT  MZ390 final_options=NOTIMING
+FPCONVRT  MZ390 final_options=NOTRACE
+FPCONVRT  MZ390 final_options=NOTRACEA
+FPCONVRT  MZ390 final_options=NOTRACEALL
+FPCONVRT  MZ390 final_options=NOTRACEC
+FPCONVRT  MZ390 final_options=NOTRACEG
+FPCONVRT  MZ390 final_options=NOTRACEI
+FPCONVRT  MZ390 final_options=NOTRACEL
+FPCONVRT  MZ390 final_options=NOTRACEM
+FPCONVRT  MZ390 final_options=NOTRACEP
+FPCONVRT  MZ390 final_options=NOTRACEQ
+FPCONVRT  MZ390 final_options=NOTRACES
+FPCONVRT  MZ390 final_options=NOTRACET
+FPCONVRT  MZ390 final_options=NOTRACEV
+FPCONVRT  MZ390 final_options=TRAP
+FPCONVRT  MZ390 final_options=NOTRUNC
+FPCONVRT  MZ390 final_options=NOTS
+FPCONVRT  MZ390 final_options=VCB
+FPCONVRT  MZ390 final_options=WARN
+FPCONVRT  MZ390 final_options=XREF
+FPCONVRT  MZ390 final_options=ZSTRMAC
+FPCONVRT  MZ390 final_options=CHKMAC=0
+FPCONVRT  MZ390 final_options=CHKSRC=1
+FPCONVRT  MZ390 final_options=ERR=100
+FPCONVRT  MZ390 final_options=MAXCALL=50
+FPCONVRT  MZ390 final_options=MAXDISPLAY=80
+FPCONVRT  MZ390 final_options=MAXESD=1000
+FPCONVRT  MZ390 final_options=MAXFILE=1000
+FPCONVRT  MZ390 final_options=MAXGBL=100000
+FPCONVRT  MZ390 final_options=MAXHEIGHT=600
+FPCONVRT  MZ390 final_options=MAXLCL=100000
+FPCONVRT  MZ390 final_options=MAXLEN=80
+FPCONVRT  MZ390 final_options=MAXLINE=200000
+FPCONVRT  MZ390 final_options=MAXLOG=1000000
+FPCONVRT  MZ390 final_options=MAXPARM=10000
+FPCONVRT  MZ390 final_options=MAXPASS=2
+FPCONVRT  MZ390 final_options=MAXPC=50000
+FPCONVRT  MZ390 final_options=MAXQUE=1000
+FPCONVRT  MZ390 final_options=MAXRLD=10000
+FPCONVRT  MZ390 final_options=MAXSIZE=52428800
+FPCONVRT  MZ390 final_options=MAXSYM=50000
+FPCONVRT  MZ390 final_options=MAXWARN=4
+FPCONVRT  MZ390 final_options=MAXWIDTH=800
+FPCONVRT  MZ390 final_options=MEM=1
+FPCONVRT  MZ390 final_options=MINHEIGHT=150
+FPCONVRT  MZ390 final_options=MINWIDTH=150
+FPCONVRT  MZ390 final_options=MNOTE=0
+FPCONVRT  MZ390 final_options=PARM=
+FPCONVRT  MZ390 final_options=PROFILE=
+FPCONVRT  MZ390 final_options=STATS=W:\work\z390\linklib\FPCONVRT.STA
+FPCONVRT  MZ390 final_options=SYSPARM=
+FPCONVRT  MZ390 final_options=SYSTERM=W:\work\z390\linklib\rtlink.ERR
+FPCONVRT  MZ390 final_options=TESTDD=
+FPCONVRT  MZ390 final_options=TIME=60
+FPCONVRT  MZ390 final_options=TRACE=
+FPCONVRT  MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+FPCONVRT  MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+FPCONVRT  MZ390 final_options=Z390COMMAND=cmd.exe
+FPCONVRT  MZ390 final_options=Z390EDITOR=notepad.exe
+FPCONVRT  MZ390 final_options=INSTALL=
+FPCONVRT  MZ390 final_options=IPL=
+FPCONVRT  MZ390 final_options=LOG=
+FPCONVRT  MZ390 final_options=SYS390=linklib\+linklib
+FPCONVRT  MZ390 final_options=SYSBAL=linklib\
+FPCONVRT  MZ390 final_options=SYSCPY=mac
+FPCONVRT  MZ390 final_options=SYSDAT=linklib\
+FPCONVRT  MZ390 final_options=SYSERR=linklib\
+FPCONVRT  MZ390 final_options=SYSLOG=linklib\
+FPCONVRT  MZ390 final_options=SYSLST=linklib\
+FPCONVRT  MZ390 final_options=SYSMAC=mac+linklib
+FPCONVRT  MZ390 final_options=SYSMLC=linklib\
+FPCONVRT  MZ390 final_options=SYSPCH=linklib\
+FPCONVRT  MZ390 final_options=SYSPRN=linklib\
+FPCONVRT  MZ390 final_options=SYSOBJ=linklib\
+FPCONVRT  MZ390 final_options=SYSOPT=linklib\
+FPCONVRT  MZ390 final_options=SYSTRC=linklib\
+FPCONVRT  MZ390 total MLC/MAC loaded  = 3046
+FPCONVRT  MZ390 total BAL output lines= 2198
+FPCONVRT  MZ390 total BAL instructions= 143
+FPCONVRT  MZ390 total macros          = 5
+FPCONVRT  MZ390 total macro loads     = 5
+FPCONVRT  MZ390 total macro calls     = 29
+FPCONVRT  MZ390 total AENTRY blocks   = 0
+FPCONVRT  MZ390 total ACALL  calls    = 0
+FPCONVRT  MZ390 total AIF    blocks   = 0
+FPCONVRT  MZ390 total ACASE  blocks   = 0
+FPCONVRT  MZ390 total AWHILE calls    = 0
+FPCONVRT  MZ390 total AUNTIL blocks   = 0
+FPCONVRT  MZ390 total global set names= 49
+FPCONVRT  MZ390 tot global seta cells = 2
+FPCONVRT  MZ390 tot global setb cells = 7
+FPCONVRT  MZ390 tot global setc cells = 40
+FPCONVRT  MZ390 max local pos parms   = 4
+FPCONVRT  MZ390 max local key parms   = 5
+FPCONVRT  MZ390 max local set names   = 36
+FPCONVRT  MZ390 max local seta cells  = 3
+FPCONVRT  MZ390 max local setb cells  = 3
+FPCONVRT  MZ390 max local setc cells  = 30
+FPCONVRT  MZ390 total array expansions= 0
+FPCONVRT  MZ390 total Keys            = 1812
+FPCONVRT  MZ390 Key searches          = 14698
+FPCONVRT  MZ390 Key avg comps         = 1
+FPCONVRT  MZ390 Key max comps         = 4
+FPCONVRT  MZ390 total macro line exec = 2426
+FPCONVRT  MZ390 total pcode line exec = 112
+FPCONVRT  MZ390 total pcode line gen. = 92
+FPCONVRT  MZ390 total pcode line reuse= 0
+FPCONVRT  MZ390 total pcode op   gen. = 255
+FPCONVRT  MZ390 total pcode op   exec = 354
+FPCONVRT  MZ390 total pcode gen  opt  = 144
+FPCONVRT  MZ390 total pcode exec opt  = 2
+FPCONVRT  MZ390 FID=  1 ERR= 0 W:\work\z390\linklib\FPCONVRT.MLC
+FPCONVRT  MZ390 FID=  2 ERR= 0 W:\work\z390\linklib\ARCHLVL.MAC
+FPCONVRT  MZ390 FID=  3 ERR= 0 W:\work\z390\linklib\FPCONVRT.MAC
+FPCONVRT  MZ390 total mnote warnings  = 0
+FPCONVRT  MZ390 total mnote errors    = 0
+FPCONVRT  MZ390 max   mnote level     = 0
+FPCONVRT  MZ390 total mz390 errors    = 0
+FPCONVRT  AZ390 BAL lines             = 2198
+FPCONVRT  AZ390 symbols               = 322
+FPCONVRT  AZ390 Literals              = 11
+FPCONVRT  AZ390 alloc passes          = 3
+FPCONVRT  AZ390 Keys                  = 1652
+FPCONVRT  AZ390 Key searches          = 25622
+FPCONVRT  AZ390 Key avg comps         = 1
+FPCONVRT  AZ390 Key max comps         = 3
+FPCONVRT  AZ390 ESD symbols           = 6
+FPCONVRT  AZ390 object bytes          = 5930
+FPCONVRT  AZ390 object rlds           = 0
+FPCONVRT  AZ390 total mnote warnings  = 0
+FPCONVRT  AZ390 total mnote errors    = 0
+FPCONVRT  AZ390 max   mnote level     = 0
+FPCONVRT  AZ390 total mz390 errors    = 0
+FPCONVRT  AZ390 total az390 errors    = 0
+FPCONVRT  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=13756

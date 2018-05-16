@@ -1,0 +1,10 @@
+TESTFIL2  EZ390 START
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = zcobol\test\TESTFIL2.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+TESTFIL2 STARTED
+TESTFIL2 ENDED OK
+EZ390I total errors         = 0
+TESTFIL2  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=318 INS=43

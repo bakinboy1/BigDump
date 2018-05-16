@@ -1,0 +1,556 @@
+copyfile  ZC390 START
+copyfile  ZC390 Copyright 2011 Automated Software Tools Corporation
+copyfile  ZC390 z390 is licensed under GNU General Public License
+copyfile  ZC390 program = zcobol\demo\copyfile
+copyfile  ZC390 options = W:\work\z390\z390.OPT=(time(60)) SYSCPY(+zcobol+zcobol\z390) 
+  notiming stats
+copyfile  ZC390 total CBL lines in  =52
+copyfile  ZC390 total MLC lines out =278
+copyfile  ZC390 total errors        =0
+copyfile  ZC390 ENDED   RC= 0 MEM(MB)= MB IO=9
+copyfile  MZ390 START
+copyfile  MZ390 Copyright 2011 Automated Software Tools Corporation
+copyfile  MZ390 z390 is licensed under GNU General Public License
+copyfile  MZ390 program = zcobol\demo\copyfile.MLC
+copyfile  MZ390 options = W:\work\z390\z390.OPT=(time(60)) @zcobol\z390\ZC390CLG=(
+  sysmac(+zcobol+zcobol\z390+mac+cics) syscpy(+zcobol+zcobol\z390+mac+cics) 
+  BAL NOLISTCALL MAXGBL(1500000)) notiming stats
+copyfile  MZ390 final_options=ALIGN
+copyfile  MZ390 final_options=NOALLOW
+copyfile  MZ390 final_options=NOAMODE24
+copyfile  MZ390 final_options=AMODE31
+copyfile  MZ390 final_options=NOASCII
+copyfile  MZ390 final_options=ASM
+copyfile  MZ390 final_options=NOASSIST
+copyfile  MZ390 final_options=AUTOLINK
+copyfile  MZ390 final_options=BAL
+copyfile  MZ390 final_options=NOBS2000
+copyfile  MZ390 final_options=EDF
+copyfile  MZ390 final_options=NOCICS
+copyfile  MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+copyfile  MZ390 final_options=COMMENT
+copyfile  MZ390 final_options=CON
+copyfile  MZ390 final_options=NODUMP
+copyfile  MZ390 final_options=EPILOG
+copyfile  MZ390 final_options=NOERRSUM
+copyfile  MZ390 final_options=EXTEND
+copyfile  MZ390 final_options=FLOAT(DECIMAL)
+copyfile  MZ390 final_options=NOGUAM
+copyfile  MZ390 final_options=INIT
+copyfile  MZ390 final_options=LIST
+copyfile  MZ390 final_options=NOLISTCALL
+copyfile  MZ390 final_options=LISTUSE
+copyfile  MZ390 final_options=LOADHIGH
+copyfile  MZ390 final_options=NOMCALL
+copyfile  MZ390 final_options=NOMOD
+copyfile  MZ390 final_options=OBJ
+copyfile  MZ390 final_options=NOOBJHEX
+copyfile  MZ390 final_options=PC
+copyfile  MZ390 final_options=PCOPT
+copyfile  MZ390 final_options=NOPDSMEM8
+copyfile  MZ390 final_options=NOPRINTALL
+copyfile  MZ390 final_options=PROLOG
+copyfile  MZ390 final_options=PROTECT
+copyfile  MZ390 final_options=R64
+copyfile  MZ390 final_options=NOREFORMAT
+copyfile  MZ390 final_options=NOREGS
+copyfile  MZ390 final_options=RMODE24
+copyfile  MZ390 final_options=NORMODE31
+copyfile  MZ390 final_options=STATS
+copyfile  MZ390 final_options=NOTEST
+copyfile  MZ390 final_options=THREAD
+copyfile  MZ390 final_options=NOTIME
+copyfile  MZ390 final_options=NOTIMING
+copyfile  MZ390 final_options=NOTRACE
+copyfile  MZ390 final_options=NOTRACEA
+copyfile  MZ390 final_options=NOTRACEALL
+copyfile  MZ390 final_options=NOTRACEC
+copyfile  MZ390 final_options=NOTRACEG
+copyfile  MZ390 final_options=NOTRACEI
+copyfile  MZ390 final_options=NOTRACEL
+copyfile  MZ390 final_options=NOTRACEM
+copyfile  MZ390 final_options=NOTRACEP
+copyfile  MZ390 final_options=NOTRACEQ
+copyfile  MZ390 final_options=NOTRACES
+copyfile  MZ390 final_options=NOTRACET
+copyfile  MZ390 final_options=NOTRACEV
+copyfile  MZ390 final_options=TRAP
+copyfile  MZ390 final_options=NOTRUNC
+copyfile  MZ390 final_options=NOTS
+copyfile  MZ390 final_options=VCB
+copyfile  MZ390 final_options=WARN
+copyfile  MZ390 final_options=XREF
+copyfile  MZ390 final_options=ZSTRMAC
+copyfile  MZ390 final_options=CHKMAC=0
+copyfile  MZ390 final_options=CHKSRC=1
+copyfile  MZ390 final_options=ERR=100
+copyfile  MZ390 final_options=MAXCALL=50
+copyfile  MZ390 final_options=MAXDISPLAY=80
+copyfile  MZ390 final_options=MAXESD=1000
+copyfile  MZ390 final_options=MAXFILE=1000
+copyfile  MZ390 final_options=MAXGBL=1500000
+copyfile  MZ390 final_options=MAXHEIGHT=600
+copyfile  MZ390 final_options=MAXLCL=100000
+copyfile  MZ390 final_options=MAXLEN=80
+copyfile  MZ390 final_options=MAXLINE=200000
+copyfile  MZ390 final_options=MAXLOG=1000000
+copyfile  MZ390 final_options=MAXPARM=10000
+copyfile  MZ390 final_options=MAXPASS=2
+copyfile  MZ390 final_options=MAXPC=50000
+copyfile  MZ390 final_options=MAXQUE=1000
+copyfile  MZ390 final_options=MAXRLD=10000
+copyfile  MZ390 final_options=MAXSIZE=52428800
+copyfile  MZ390 final_options=MAXSYM=50000
+copyfile  MZ390 final_options=MAXWARN=4
+copyfile  MZ390 final_options=MAXWIDTH=800
+copyfile  MZ390 final_options=MEM=1
+copyfile  MZ390 final_options=MINHEIGHT=150
+copyfile  MZ390 final_options=MINWIDTH=150
+copyfile  MZ390 final_options=MNOTE=0
+copyfile  MZ390 final_options=PARM=
+copyfile  MZ390 final_options=PROFILE=
+copyfile  MZ390 final_options=STATS=W:\work\z390\zcobol\demo\copyfile.STA
+copyfile  MZ390 final_options=SYSPARM=
+copyfile  MZ390 final_options=SYSTERM=W:\work\z390\zcobol\demo\copyfile.ERR
+copyfile  MZ390 final_options=TESTDD=
+copyfile  MZ390 final_options=TIME=60
+copyfile  MZ390 final_options=TRACE=
+copyfile  MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+copyfile  MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+copyfile  MZ390 final_options=Z390COMMAND=cmd.exe
+copyfile  MZ390 final_options=Z390EDITOR=notepad.exe
+copyfile  MZ390 final_options=INSTALL=
+copyfile  MZ390 final_options=IPL=
+copyfile  MZ390 final_options=LOG=
+copyfile  MZ390 final_options=SYS390=zcobol\demo\+linklib
+copyfile  MZ390 final_options=SYSBAL=zcobol\demo\
+copyfile  MZ390 final_options=SYSCPY=zcobol\demo\+zcobol+zcobol\z390+mac+cics
+copyfile  MZ390 final_options=SYSDAT=zcobol\demo\
+copyfile  MZ390 final_options=SYSERR=zcobol\demo\
+copyfile  MZ390 final_options=SYSLOG=zcobol\demo\
+copyfile  MZ390 final_options=SYSLST=zcobol\demo\
+copyfile  MZ390 final_options=SYSMAC=zcobol\demo\+zcobol+zcobol\z390+mac+cics
+copyfile  MZ390 final_options=SYSMLC=zcobol\demo\
+copyfile  MZ390 final_options=SYSPCH=zcobol\demo\
+copyfile  MZ390 final_options=SYSPRN=zcobol\demo\
+copyfile  MZ390 final_options=SYSOBJ=zcobol\demo\
+copyfile  MZ390 final_options=SYSOPT=zcobol\demo\
+copyfile  MZ390 final_options=SYSTRC=zcobol\demo\
+copyfile  MZ390 total MLC/MAC loaded  = 19651
+copyfile  MZ390 total BAL output lines= 671
+copyfile  MZ390 total BAL instructions= 46
+copyfile  MZ390 total macros          = 66
+copyfile  MZ390 total macro loads     = 66
+copyfile  MZ390 total macro calls     = 332
+copyfile  MZ390 total AENTRY blocks   = 167
+copyfile  MZ390 total ACALL  calls    = 672
+copyfile  MZ390 total AIF    blocks   = 935
+copyfile  MZ390 total ACASE  blocks   = 60
+copyfile  MZ390 total AWHILE calls    = 80
+copyfile  MZ390 total AUNTIL blocks   = 0
+copyfile  MZ390 total global set names= 269
+copyfile  MZ390 tot global seta cells = 321816
+copyfile  MZ390 tot global setb cells = 40391
+copyfile  MZ390 tot global setc cells = 181884
+copyfile  MZ390 max local pos parms   = 18
+copyfile  MZ390 max local key parms   = 23
+copyfile  MZ390 max local set names   = 99
+copyfile  MZ390 max local seta cells  = 287
+copyfile  MZ390 max local setb cells  = 55
+copyfile  MZ390 max local setc cells  = 36
+copyfile  MZ390 total array expansions= 1
+copyfile  MZ390 total Keys            = 41914
+copyfile  MZ390 Key searches          = 432679
+copyfile  MZ390 Key avg comps         = 1
+copyfile  MZ390 Key max comps         = 8
+copyfile  MZ390 total macro line exec = 47202
+copyfile  MZ390 total pcode line exec = 10191
+copyfile  MZ390 total pcode line gen. = 1857
+copyfile  MZ390 total pcode line reuse= 0
+copyfile  MZ390 total pcode op   gen. = 6773
+copyfile  MZ390 total pcode op   exec = 48679
+copyfile  MZ390 total pcode gen  opt  = 2016
+copyfile  MZ390 total pcode exec opt  = 52
+copyfile  MZ390 FID=  1 ERR= 0 W:\work\z390\zcobol\demo\copyfile.MLC
+copyfile  MZ390 FID=  2 ERR= 0 W:\work\z390\zcobol\demo\copyfile_ZC_LABELS.CPY
+copyfile  MZ390 FID=  3 ERR= 0 W:\work\z390\zcobol\ZCOBOL.MAC
+copyfile  MZ390 FID=  4 ERR= 0 W:\work\z390\zcobol\ZC_WS.CPY
+copyfile  MZ390 FID=  5 ERR= 0 W:\work\z390\zcobol\ZC_KEYS.CPY
+copyfile  MZ390 FID=  6 ERR= 0 W:\work\z390\zcobol\z390\GEN_COMMENT.MAC
+copyfile  MZ390 FID=  7 ERR= 0 W:\work\z390\zcobol\LABEL.MAC
+copyfile  MZ390 FID=  8 ERR= 0 W:\work\z390\zcobol\z390\GEN_LABEL.MAC
+copyfile  MZ390 FID=  9 ERR= 0 W:\work\z390\zcobol\IDENTIFICATION.MAC
+copyfile  MZ390 FID= 10 ERR= 0 W:\work\z390\zcobol\PROGRAM_ID.MAC
+copyfile  MZ390 FID= 11 ERR= 0 W:\work\z390\zcobol\z390\GEN_ID.MAC
+copyfile  MZ390 FID= 12 ERR= 0 W:\work\z390\zcobol\z390\ZC390CVT.CPY
+copyfile  MZ390 FID= 13 ERR= 0 W:\work\z390\zcobol\z390\ZC390PVT.CPY
+copyfile  MZ390 FID= 14 ERR= 0 W:\work\z390\zcobol\z390\ZC_EQUS.CPY
+copyfile  MZ390 FID= 15 ERR= 0 W:\work\z390\zcobol\z390\ZC_PFPO.CPY
+copyfile  MZ390 FID= 16 ERR= 0 W:\work\z390\mac\SAVE.MAC
+copyfile  MZ390 FID= 17 ERR= 0 W:\work\z390\mac\LOAD.MAC
+copyfile  MZ390 FID= 18 ERR= 0 W:\work\z390\mac\WTO.MAC
+copyfile  MZ390 FID= 19 ERR= 0 W:\work\z390\zcobol\WS.MAC
+copyfile  MZ390 FID= 20 ERR= 0 W:\work\z390\zcobol\ZCGETFLD.CPY
+copyfile  MZ390 FID= 21 ERR= 0 W:\work\z390\zcobol\ZCNUMLIT.CPY
+copyfile  MZ390 FID= 22 ERR= 0 W:\work\z390\zcobol\ZC_SYM_INDEX.MAC
+copyfile  MZ390 FID= 23 ERR= 0 W:\work\z390\zcobol\ZC_SYM_FIND.MAC
+copyfile  MZ390 FID= 24 ERR= 0 W:\work\z390\zcobol\ZC_PIC_LEN.MAC
+copyfile  MZ390 FID= 25 ERR= 0 W:\work\z390\zcobol\ENVIRONMENT.MAC
+copyfile  MZ390 FID= 26 ERR= 0 W:\work\z390\zcobol\INPUT_OUTPUT.MAC
+copyfile  MZ390 FID= 27 ERR= 0 W:\work\z390\zcobol\FILE_CONTROL.MAC
+copyfile  MZ390 FID= 28 ERR= 0 W:\work\z390\zcobol\SELECT.MAC
+copyfile  MZ390 FID= 29 ERR= 0 W:\work\z390\zcobol\DATA.MAC
+copyfile  MZ390 FID= 30 ERR= 0 W:\work\z390\zcobol\FILE.MAC
+copyfile  MZ390 FID= 31 ERR= 0 W:\work\z390\zcobol\FD.MAC
+copyfile  MZ390 FID= 32 ERR= 0 W:\work\z390\zcobol\ZC_FILE_FIND.MAC
+copyfile  MZ390 FID= 33 ERR= 0 W:\work\z390\zcobol\WORKING_STORAGE.MAC
+copyfile  MZ390 FID= 34 ERR= 0 W:\work\z390\zcobol\LINKAGE.MAC
+copyfile  MZ390 FID= 35 ERR= 0 W:\work\z390\zcobol\PROCEDURE.MAC
+copyfile  MZ390 FID= 36 ERR= 0 W:\work\z390\zcobol\z390\GEN_PROC_START.MAC
+copyfile  MZ390 FID= 37 ERR= 0 W:\work\z390\zcobol\z390\GEN_VAR.MAC
+copyfile  MZ390 FID= 38 ERR= 0 W:\work\z390\zcobol\PERIOD.MAC
+copyfile  MZ390 FID= 39 ERR= 0 W:\work\z390\zcobol\z390\GEN_BASE_RESET.MAC
+copyfile  MZ390 FID= 40 ERR= 0 W:\work\z390\zcobol\DISPLAY.MAC
+copyfile  MZ390 FID= 41 ERR= 0 W:\work\z390\zcobol\z390\GEN_DISPLAY.MAC
+copyfile  MZ390 FID= 42 ERR= 0 W:\work\z390\zcobol\PERFORM.MAC
+copyfile  MZ390 FID= 43 ERR= 0 W:\work\z390\zcobol\z390\GEN_PERFORM.MAC
+copyfile  MZ390 FID= 44 ERR= 0 W:\work\z390\zcobol\IF.MAC
+copyfile  MZ390 FID= 45 ERR= 0 W:\work\z390\zcobol\ZCDFHLIT.CPY
+copyfile  MZ390 FID= 46 ERR= 0 W:\work\z390\zcobol\ZC_DFHRESP.CPY
+copyfile  MZ390 FID= 47 ERR= 0 W:\work\z390\zcobol\ZC_DFHVALUE.CPY
+copyfile  MZ390 FID= 48 ERR= 0 W:\work\z390\zcobol\z390\GEN_BASE.MAC
+copyfile  MZ390 FID= 49 ERR= 0 W:\work\z390\zcobol\z390\GEN_COMP.MAC
+copyfile  MZ390 FID= 50 ERR= 0 W:\work\z390\zcobol\z390\GEN_BC.MAC
+copyfile  MZ390 FID= 51 ERR= 0 W:\work\z390\zcobol\ZCGETLAB.CPY
+copyfile  MZ390 FID= 52 ERR= 0 W:\work\z390\zcobol\z390\GEN_B.MAC
+copyfile  MZ390 FID= 53 ERR= 0 W:\work\z390\zcobol\END_IF.MAC
+copyfile  MZ390 FID= 54 ERR= 0 W:\work\z390\zcobol\MOVE.MAC
+copyfile  MZ390 FID= 55 ERR= 0 W:\work\z390\zcobol\z390\GEN_MOVE.MAC
+copyfile  MZ390 FID= 56 ERR= 0 W:\work\z390\zcobol\STOP.MAC
+copyfile  MZ390 FID= 57 ERR= 0 W:\work\z390\zcobol\z390\GEN_STOP.MAC
+copyfile  MZ390 FID= 58 ERR= 0 W:\work\z390\zcobol\OPEN.MAC
+copyfile  MZ390 FID= 59 ERR= 0 W:\work\z390\zcobol\z390\GEN_OPEN.MAC
+copyfile  MZ390 FID= 60 ERR= 0 W:\work\z390\mac\ZOPEN.MAC
+copyfile  MZ390 FID= 61 ERR= 0 W:\work\z390\mac\DCBD.MAC
+copyfile  MZ390 FID= 62 ERR= 0 W:\work\z390\zcobol\READ.MAC
+copyfile  MZ390 FID= 63 ERR= 0 W:\work\z390\zcobol\z390\GEN_READ.MAC
+copyfile  MZ390 FID= 64 ERR= 0 W:\work\z390\mac\GET.MAC
+copyfile  MZ390 FID= 65 ERR= 0 W:\work\z390\mac\ZOPTLR.MAC
+copyfile  MZ390 FID= 66 ERR= 0 W:\work\z390\zcobol\END_READ.MAC
+copyfile  MZ390 FID= 67 ERR= 0 W:\work\z390\zcobol\WRITE.MAC
+copyfile  MZ390 FID= 68 ERR= 0 W:\work\z390\zcobol\z390\GEN_WRITE.MAC
+copyfile  MZ390 FID= 69 ERR= 0 W:\work\z390\mac\PUT.MAC
+copyfile  MZ390 FID= 70 ERR= 0 W:\work\z390\zcobol\ADD.MAC
+copyfile  MZ390 FID= 71 ERR= 0 W:\work\z390\zcobol\z390\GEN_ADD.MAC
+copyfile  MZ390 FID= 72 ERR= 0 W:\work\z390\zcobol\ZCRSTLAB.CPY
+copyfile  MZ390 FID= 73 ERR= 0 W:\work\z390\zcobol\CLOSE.MAC
+copyfile  MZ390 FID= 74 ERR= 0 W:\work\z390\zcobol\z390\GEN_CLOSE.MAC
+copyfile  MZ390 FID= 75 ERR= 0 W:\work\z390\mac\ZCLOSE.MAC
+copyfile  MZ390 FID= 76 ERR= 0 W:\work\z390\zcobol\z390\GEN_PROC_END.MAC
+copyfile  MZ390 FID= 77 ERR= 0 W:\work\z390\zcobol\ZC_DATA_LIST.MAC
+copyfile  MZ390 FID= 78 ERR= 0 W:\work\z390\zcobol\z390\GEN_WS.MAC
+copyfile  MZ390 FID= 79 ERR= 0 W:\work\z390\mac\DCB.MAC
+copyfile  MZ390 FID= 80 ERR= 0 W:\work\z390\zcobol\ZC_STATS.MAC
+copyfile  MZ390 total mnote warnings  = 0
+copyfile  MZ390 total mnote errors    = 0
+copyfile  MZ390 max   mnote level     = 0
+copyfile  MZ390 total mz390 errors    = 0
+copyfile  AZ390 BAL lines             = 671
+copyfile  AZ390 symbols               = 275
+copyfile  AZ390 Literals              = 9
+copyfile  AZ390 alloc passes          = 3
+copyfile  AZ390 Keys                  = 1603
+copyfile  AZ390 Key searches          = 8493
+copyfile  AZ390 Key avg comps         = 0
+copyfile  AZ390 Key max comps         = 3
+copyfile  AZ390 ESD symbols           = 6
+copyfile  AZ390 object bytes          = 1176
+copyfile  AZ390 object rlds           = 0
+copyfile  AZ390 total mnote warnings  = 0
+copyfile  AZ390 total mnote errors    = 0
+copyfile  AZ390 max   mnote level     = 0
+copyfile  AZ390 total mz390 errors    = 0
+copyfile  AZ390 total az390 errors    = 0
+copyfile  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=57918
+copyfile  LZ390 START
+copyfile  LZ390 Copyright 2011 Automated Software Tools Corporation
+copyfile  LZ390 z390 is licensed under GNU General Public License
+copyfile  LZ390 options = W:\work\z390\z390.OPT=(time(60)) SYSOBJ(+zcobol\z390) notiming 
+  stats
+copyfile  LZ390 program = zcobol\demo\copyfile.OBJ
+copyfile  LZ390 final_options=ALIGN
+copyfile  LZ390 final_options=NOALLOW
+copyfile  LZ390 final_options=NOAMODE24
+copyfile  LZ390 final_options=AMODE31
+copyfile  LZ390 final_options=NOASCII
+copyfile  LZ390 final_options=ASM
+copyfile  LZ390 final_options=NOASSIST
+copyfile  LZ390 final_options=AUTOLINK
+copyfile  LZ390 final_options=NOBAL
+copyfile  LZ390 final_options=NOBS2000
+copyfile  LZ390 final_options=EDF
+copyfile  LZ390 final_options=NOCICS
+copyfile  LZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+copyfile  LZ390 final_options=COMMENT
+copyfile  LZ390 final_options=CON
+copyfile  LZ390 final_options=NODUMP
+copyfile  LZ390 final_options=EPILOG
+copyfile  LZ390 final_options=NOERRSUM
+copyfile  LZ390 final_options=EXTEND
+copyfile  LZ390 final_options=FLOAT(DECIMAL)
+copyfile  LZ390 final_options=NOGUAM
+copyfile  LZ390 final_options=INIT
+copyfile  LZ390 final_options=LIST
+copyfile  LZ390 final_options=LISTCALL
+copyfile  LZ390 final_options=LISTUSE
+copyfile  LZ390 final_options=LOADHIGH
+copyfile  LZ390 final_options=NOMCALL
+copyfile  LZ390 final_options=NOMOD
+copyfile  LZ390 final_options=OBJ
+copyfile  LZ390 final_options=NOOBJHEX
+copyfile  LZ390 final_options=PC
+copyfile  LZ390 final_options=PCOPT
+copyfile  LZ390 final_options=NOPDSMEM8
+copyfile  LZ390 final_options=NOPRINTALL
+copyfile  LZ390 final_options=PROLOG
+copyfile  LZ390 final_options=PROTECT
+copyfile  LZ390 final_options=R64
+copyfile  LZ390 final_options=NOREFORMAT
+copyfile  LZ390 final_options=NOREGS
+copyfile  LZ390 final_options=RMODE24
+copyfile  LZ390 final_options=NORMODE31
+copyfile  LZ390 final_options=STATS
+copyfile  LZ390 final_options=NOTEST
+copyfile  LZ390 final_options=THREAD
+copyfile  LZ390 final_options=NOTIME
+copyfile  LZ390 final_options=NOTIMING
+copyfile  LZ390 final_options=NOTRACE
+copyfile  LZ390 final_options=NOTRACEA
+copyfile  LZ390 final_options=NOTRACEALL
+copyfile  LZ390 final_options=NOTRACEC
+copyfile  LZ390 final_options=NOTRACEG
+copyfile  LZ390 final_options=NOTRACEI
+copyfile  LZ390 final_options=NOTRACEL
+copyfile  LZ390 final_options=NOTRACEM
+copyfile  LZ390 final_options=NOTRACEP
+copyfile  LZ390 final_options=NOTRACEQ
+copyfile  LZ390 final_options=NOTRACES
+copyfile  LZ390 final_options=NOTRACET
+copyfile  LZ390 final_options=NOTRACEV
+copyfile  LZ390 final_options=TRAP
+copyfile  LZ390 final_options=NOTRUNC
+copyfile  LZ390 final_options=NOTS
+copyfile  LZ390 final_options=VCB
+copyfile  LZ390 final_options=WARN
+copyfile  LZ390 final_options=XREF
+copyfile  LZ390 final_options=ZSTRMAC
+copyfile  LZ390 final_options=CHKMAC=0
+copyfile  LZ390 final_options=CHKSRC=1
+copyfile  LZ390 final_options=ERR=100
+copyfile  LZ390 final_options=MAXCALL=50
+copyfile  LZ390 final_options=MAXDISPLAY=80
+copyfile  LZ390 final_options=MAXESD=1000
+copyfile  LZ390 final_options=MAXFILE=1000
+copyfile  LZ390 final_options=MAXGBL=100000
+copyfile  LZ390 final_options=MAXHEIGHT=600
+copyfile  LZ390 final_options=MAXLCL=100000
+copyfile  LZ390 final_options=MAXLEN=80
+copyfile  LZ390 final_options=MAXLINE=200000
+copyfile  LZ390 final_options=MAXLOG=1000000
+copyfile  LZ390 final_options=MAXPARM=10000
+copyfile  LZ390 final_options=MAXPASS=2
+copyfile  LZ390 final_options=MAXPC=50000
+copyfile  LZ390 final_options=MAXQUE=1000
+copyfile  LZ390 final_options=MAXRLD=10000
+copyfile  LZ390 final_options=MAXSIZE=52428800
+copyfile  LZ390 final_options=MAXSYM=50000
+copyfile  LZ390 final_options=MAXWARN=4
+copyfile  LZ390 final_options=MAXWIDTH=800
+copyfile  LZ390 final_options=MEM=1
+copyfile  LZ390 final_options=MINHEIGHT=150
+copyfile  LZ390 final_options=MINWIDTH=150
+copyfile  LZ390 final_options=MNOTE=0
+copyfile  LZ390 final_options=PARM=
+copyfile  LZ390 final_options=PROFILE=
+copyfile  LZ390 final_options=STATS=W:\work\z390\zcobol\demo\copyfile.STA
+copyfile  LZ390 final_options=SYSPARM=
+copyfile  LZ390 final_options=SYSTERM=W:\work\z390\zcobol\demo\copyfile.ERR
+copyfile  LZ390 final_options=TESTDD=
+copyfile  LZ390 final_options=TIME=60
+copyfile  LZ390 final_options=TRACE=
+copyfile  LZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+copyfile  LZ390 final_options=Z390BROWSER=cmd.exe /c Start
+copyfile  LZ390 final_options=Z390COMMAND=cmd.exe
+copyfile  LZ390 final_options=Z390EDITOR=notepad.exe
+copyfile  LZ390 final_options=INSTALL=
+copyfile  LZ390 final_options=IPL=
+copyfile  LZ390 final_options=LOG=
+copyfile  LZ390 final_options=SYS390=zcobol\demo\+linklib
+copyfile  LZ390 final_options=SYSBAL=zcobol\demo\
+copyfile  LZ390 final_options=SYSCPY=zcobol\demo\
+copyfile  LZ390 final_options=SYSDAT=zcobol\demo\
+copyfile  LZ390 final_options=SYSERR=zcobol\demo\
+copyfile  LZ390 final_options=SYSLOG=zcobol\demo\
+copyfile  LZ390 final_options=SYSLST=zcobol\demo\
+copyfile  LZ390 final_options=SYSMAC=zcobol\demo\
+copyfile  LZ390 final_options=SYSMLC=zcobol\demo\
+copyfile  LZ390 final_options=SYSPCH=zcobol\demo\
+copyfile  LZ390 final_options=SYSPRN=zcobol\demo\
+copyfile  LZ390 final_options=SYSOBJ=zcobol\demo\+zcobol\z390
+copyfile  LZ390 final_options=SYSOPT=zcobol\demo\
+copyfile  LZ390 final_options=SYSTRC=zcobol\demo\
+copyfile  LZ390 Stats total obj files = 1
+copyfile  LZ390 Stats total esds      = 1
+copyfile  LZ390 Stats total csects    = 1
+copyfile  LZ390 Stats total entries   = 0
+copyfile  LZ390 Stats missing wxtrn's = 0
+copyfile  LZ390 Stats Keys            = 1
+copyfile  LZ390 Stats Key searches    = 2
+copyfile  LZ390 Stats Key avg comps   = 0
+copyfile  LZ390 Stats Key max comps   = 1
+copyfile  LZ390 Stats total obj byte  = 1176
+copyfile  LZ390 Stats total obj rlds  = 0
+copyfile  LZ390 total errors          = 0
+copyfile  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=345
+copyfile  EZ390 START
+copyfile  EZ390 Copyright 2011 Automated Software Tools Corporation
+copyfile  EZ390 z390 is licensed under GNU General Public License
+copyfile  EZ390 program = zcobol\demo\copyfile.390
+copyfile  EZ390 options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+copyfile  EZ390 final_options=ALIGN
+copyfile  EZ390 final_options=NOALLOW
+copyfile  EZ390 final_options=NOAMODE24
+copyfile  EZ390 final_options=AMODE31
+copyfile  EZ390 final_options=NOASCII
+copyfile  EZ390 final_options=ASM
+copyfile  EZ390 final_options=NOASSIST
+copyfile  EZ390 final_options=AUTOLINK
+copyfile  EZ390 final_options=NOBAL
+copyfile  EZ390 final_options=NOBS2000
+copyfile  EZ390 final_options=EDF
+copyfile  EZ390 final_options=NOCICS
+copyfile  EZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+copyfile  EZ390 final_options=COMMENT
+copyfile  EZ390 final_options=CON
+copyfile  EZ390 final_options=NODUMP
+copyfile  EZ390 final_options=EPILOG
+copyfile  EZ390 final_options=NOERRSUM
+copyfile  EZ390 final_options=EXTEND
+copyfile  EZ390 final_options=FLOAT(DECIMAL)
+copyfile  EZ390 final_options=NOGUAM
+copyfile  EZ390 final_options=INIT
+copyfile  EZ390 final_options=LIST
+copyfile  EZ390 final_options=LISTCALL
+copyfile  EZ390 final_options=LISTUSE
+copyfile  EZ390 final_options=LOADHIGH
+copyfile  EZ390 final_options=NOMCALL
+copyfile  EZ390 final_options=NOMOD
+copyfile  EZ390 final_options=OBJ
+copyfile  EZ390 final_options=NOOBJHEX
+copyfile  EZ390 final_options=PC
+copyfile  EZ390 final_options=PCOPT
+copyfile  EZ390 final_options=NOPDSMEM8
+copyfile  EZ390 final_options=NOPRINTALL
+copyfile  EZ390 final_options=PROLOG
+copyfile  EZ390 final_options=PROTECT
+copyfile  EZ390 final_options=R64
+copyfile  EZ390 final_options=NOREFORMAT
+copyfile  EZ390 final_options=NOREGS
+copyfile  EZ390 final_options=RMODE24
+copyfile  EZ390 final_options=NORMODE31
+copyfile  EZ390 final_options=STATS
+copyfile  EZ390 final_options=NOTEST
+copyfile  EZ390 final_options=THREAD
+copyfile  EZ390 final_options=NOTIME
+copyfile  EZ390 final_options=NOTIMING
+copyfile  EZ390 final_options=NOTRACE
+copyfile  EZ390 final_options=NOTRACEA
+copyfile  EZ390 final_options=NOTRACEALL
+copyfile  EZ390 final_options=NOTRACEC
+copyfile  EZ390 final_options=NOTRACEG
+copyfile  EZ390 final_options=NOTRACEI
+copyfile  EZ390 final_options=NOTRACEL
+copyfile  EZ390 final_options=NOTRACEM
+copyfile  EZ390 final_options=NOTRACEP
+copyfile  EZ390 final_options=NOTRACEQ
+copyfile  EZ390 final_options=NOTRACES
+copyfile  EZ390 final_options=NOTRACET
+copyfile  EZ390 final_options=NOTRACEV
+copyfile  EZ390 final_options=TRAP
+copyfile  EZ390 final_options=NOTRUNC
+copyfile  EZ390 final_options=NOTS
+copyfile  EZ390 final_options=VCB
+copyfile  EZ390 final_options=WARN
+copyfile  EZ390 final_options=XREF
+copyfile  EZ390 final_options=ZSTRMAC
+copyfile  EZ390 final_options=CHKMAC=0
+copyfile  EZ390 final_options=CHKSRC=1
+copyfile  EZ390 final_options=ERR=100
+copyfile  EZ390 final_options=MAXCALL=50
+copyfile  EZ390 final_options=MAXDISPLAY=80
+copyfile  EZ390 final_options=MAXESD=1000
+copyfile  EZ390 final_options=MAXFILE=1000
+copyfile  EZ390 final_options=MAXGBL=100000
+copyfile  EZ390 final_options=MAXHEIGHT=600
+copyfile  EZ390 final_options=MAXLCL=100000
+copyfile  EZ390 final_options=MAXLEN=80
+copyfile  EZ390 final_options=MAXLINE=200000
+copyfile  EZ390 final_options=MAXLOG=1000000
+copyfile  EZ390 final_options=MAXPARM=10000
+copyfile  EZ390 final_options=MAXPASS=2
+copyfile  EZ390 final_options=MAXPC=50000
+copyfile  EZ390 final_options=MAXQUE=1000
+copyfile  EZ390 final_options=MAXRLD=10000
+copyfile  EZ390 final_options=MAXSIZE=52428800
+copyfile  EZ390 final_options=MAXSYM=50000
+copyfile  EZ390 final_options=MAXWARN=4
+copyfile  EZ390 final_options=MAXWIDTH=800
+copyfile  EZ390 final_options=MEM=1
+copyfile  EZ390 final_options=MINHEIGHT=150
+copyfile  EZ390 final_options=MINWIDTH=150
+copyfile  EZ390 final_options=MNOTE=0
+copyfile  EZ390 final_options=PARM=
+copyfile  EZ390 final_options=PROFILE=
+copyfile  EZ390 final_options=STATS=W:\work\z390\zcobol\demo\copyfile.STA
+copyfile  EZ390 final_options=SYSPARM=
+copyfile  EZ390 final_options=SYSTERM=W:\work\z390\zcobol\demo\copyfile.ERR
+copyfile  EZ390 final_options=TESTDD=
+copyfile  EZ390 final_options=TIME=60
+copyfile  EZ390 final_options=TRACE=
+copyfile  EZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+copyfile  EZ390 final_options=Z390BROWSER=cmd.exe /c Start
+copyfile  EZ390 final_options=Z390COMMAND=cmd.exe
+copyfile  EZ390 final_options=Z390EDITOR=notepad.exe
+copyfile  EZ390 final_options=INSTALL=
+copyfile  EZ390 final_options=IPL=
+copyfile  EZ390 final_options=LOG=W:\work\z390\zcobol\demo\copyfile.LOG
+copyfile  EZ390 final_options=SYS390=zcobol\demo\+linklib+zcobol\z390
+copyfile  EZ390 final_options=SYSBAL=zcobol\demo\
+copyfile  EZ390 final_options=SYSCPY=zcobol\demo\
+copyfile  EZ390 final_options=SYSDAT=zcobol\demo\
+copyfile  EZ390 final_options=SYSERR=zcobol\demo\
+copyfile  EZ390 final_options=SYSLOG=zcobol\demo\
+copyfile  EZ390 final_options=SYSLST=zcobol\demo\
+copyfile  EZ390 final_options=SYSMAC=zcobol\demo\
+copyfile  EZ390 final_options=SYSMLC=zcobol\demo\
+copyfile  EZ390 final_options=SYSPCH=zcobol\demo\
+copyfile  EZ390 final_options=SYSPRN=zcobol\demo\
+copyfile  EZ390 final_options=SYSOBJ=zcobol\demo\
+copyfile  EZ390 final_options=SYSOPT=zcobol\demo\
+copyfile  EZ390 final_options=SYSTRC=zcobol\demo\
+copyfile  EZ390 TCPIO operations      = 0
+copyfile  EZ390 DCB operations        = 39
+copyfile  EZ390 DCB open              = 2
+copyfile  EZ390 DCB close             = 2
+copyfile  EZ390 DCB get               = 18
+copyfile  EZ390 DCB put               = 17
+copyfile  EZ390 DCB read              = 0
+copyfile  EZ390 stats DCB write             = 0
+copyfile  EZ390 VSAM operations       = 0
+copyfile  EZ390 Keys                  = 2468
+copyfile  EZ390 Key searches          = 4
+copyfile  EZ390 Key avg comps         = 0
+copyfile  EZ390 Key max comps         = 0
+copyfile  EZ390 total errors          = 0
+copyfile  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=359 INS=999

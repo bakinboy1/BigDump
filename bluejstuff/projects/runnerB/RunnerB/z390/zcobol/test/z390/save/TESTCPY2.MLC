@@ -1,0 +1,78 @@
+         ZCOBOL PGM='zcobol\test\TESTCPY2',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s,syscpy(+zcobol\test))
+         COPY  TESTCPY2_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTCPY1.
+         PROGRAM_ID TESTCPY1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  12/01/08.
+*      ***************************************************************
+*      * REGRESSION TEST NESTED COPY SUPPORT
+*      ***************************************************************
+         DATE_WRITTEN 12,/,01,/,08
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01 VER1.
+*        COPY TESTCPY2.
+         WS      01,VER1
+*          05 FIELD PIC X(8).
+         WS        05,FIELD,PIC,X(8)
+*        01 VER2.        COPY TESTCPY2.
+         WS      01,VER2
+*          05 FIELD PIC X(8).
+         WS        05,FIELD,PIC,X(8)
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTCPY2 STARTING'
+*ZC     18         DISPLAY 'TESTCPY2 STARTING'
+         DISPLAY 'TESTCPY2 STARTING'
+*            MOVE 'VER1 FLD' TO FIELD OF VER1
+*ZC     19         MOVE  'VER1 FLD',TO,FIELD,OF,VER1
+         MOVE  'VER1 FLD',TO,FIELD,OF,VER1
+*            MOVE 'VER2 FLD' TO FIELD OF VER2
+*ZC     20         MOVE  'VER2 FLD',TO,FIELD,OF,VER2
+         MOVE  'VER2 FLD',TO,FIELD,OF,VER2
+*            DISPLAY 'TESTCPY2 VER1 FIELD =' FIELD OF VER1
+*ZC     21         DISPLAY 'TESTCPY2 VER1 FIELD =',FIELD,OF,VER1
+         DISPLAY 'TESTCPY2 VER1 FIELD =',FIELD,OF,VER1
+*            DISPLAY 'TESTCPY2 VER2 FIELD =' FIELD OF VER2
+*ZC     22         DISPLAY 'TESTCPY2 VER2 FIELD =',FIELD,OF,VER2
+         DISPLAY 'TESTCPY2 VER2 FIELD =',FIELD,OF,VER2
+*            IF  FIELD OF VER1 = 'VER1 FLD'
+*            AND FIELD OF VER2 = 'VER2 FLD'
+*ZC     23         IF    FIELD,OF,VER1,=,'VER1 FLD',AND,FIELD,OF,VER2,=X
+               ,'VER2 FLD'
+         IF    FIELD,OF,VER1,=,'VER1 FLD',AND,FIELD,OF,VER2,=,'VER2 FLDX
+               '
+*                DISPLAY 'TESTCPY2 ENDING OK'
+*            ELSE
+*ZC     25         DISPLAY 'TESTCPY2 ENDING OK'
+         DISPLAY 'TESTCPY2 ENDING OK'
+*                DISPLAY 'TESTCPY2 FAILED'
+*ZC     27         ELSE  
+         ELSE  
+*ZC     27         DISPLAY 'TESTCPY2 FAILED'
+         DISPLAY 'TESTCPY2 FAILED'
+*                MOVE 16 TO RETURN-CODE
+*            END-IF
+*ZC     28         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC     30         END_IF 
+         END_IF 
+*ZC     30         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

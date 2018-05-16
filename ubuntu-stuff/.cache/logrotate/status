@@ -1,0 +1,2 @@
+logrotate state -- version 2
+"/home/fhucke/.cache/upstart/*.log" 2017-8-23-15:0:0

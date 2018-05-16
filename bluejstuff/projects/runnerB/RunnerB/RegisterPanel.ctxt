@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=cpu
+comment0.target=RegisterPanel(CPU)
+comment1.params=regno\ c
+comment1.target=void\ setRegBackground(int,\ java.awt.Color)
+comment2.params=
+comment2.target=void\ repaintRegisters()
+comment3.params=page
+comment3.target=void\ paintComponent(java.awt.Graphics)
+comment4.params=i
+comment4.target=javax.swing.JTextField\ getRegField(int)
+numComments=5

@@ -1,0 +1,10 @@
+TESTIF2   LZ390 START
+LZ390I Copyright 2011 Automated Software Tools Corporation
+LZ390I z390 is licensed under GNU General Public License
+LZ390I options = W:\work\z390\z390.OPT=(time(60)) SYSOBJ(+zcobol\z390) notiming 
+  stats
+LZ390I program = zcobol\test\TESTIF2.OBJ
+LZ390I ESD=TESTIF2  LOC=00000000 LEN=000003D8
+LZ390I INCLUDE = zcobol\test\TESTIF2.OBJ
+LZ390I total errors         = 0
+TESTIF2   LZ390 ENDED   RC= 0 MEM(MB)= MB IO=279

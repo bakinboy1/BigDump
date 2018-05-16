@@ -1,0 +1,19 @@
+Comparing files GEN_WS.MAC and GEN_WS.SAV
+***** GEN_WS.MAC
+               AIF  (&I LT &SYM_TOT                                    X
+                     AND &SYM_LOC(&I+1) EQ &SYM_LOC(&I)                X
+                     AND &SYM_LVL(&I) LT &SYM_LVL(&I+1))
+                    :&GRP_VAL SETC '&SYM_VAL(&I)' RPI 1065
+                    :&CDUP     SETC  '0' ZERO LENGTH FOR GROUP
+                    AIF (&SYM_DUP(&I) GT 1)
+***** GEN_WS.SAV
+               AIF  (&I LT &SYM_TOT                                    X
+                     AND &SYM_LOC(&I+1) EQ &SYM_LOC(&I))
+                    AIF ('&SYM_VAL(&I)' NE '')
+                        :&GRP_VAL SETC '&SYM_VAL(&I)' RPI 1065
+                    AEND
+                    :&CDUP     SETC  '0' ZERO LENGTH FOR GROUP
+                    :&GRP_VAL SETC '&SYM_VAL(&I)' 
+                    AIF (&SYM_DUP(&I) GT 1)
+*****
+

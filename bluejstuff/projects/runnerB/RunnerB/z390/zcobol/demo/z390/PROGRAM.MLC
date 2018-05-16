@@ -1,0 +1,3455 @@
+         ZCOBOL PGM='zcobol\demo\PROGRAM',VER=V1.5.06rc1,CDATE=03/30/12X
+               ,CTIME=11:18:37,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),NOTX
+               IME,GUAM)
+         COPY  PROGRAM_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.  COPYFILE.
+         PROGRAM_ID COPYFILE
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        INPUT-OUTPUT SECTION.
+         INPUT_OUTPUT SECTION
+* TTTTTT     SELECT LINE-FILE
+* TTTTTT         ASSIGN TO 'ZCOBOL\DEMO\PROGRAM.LIN'
+* TTTTTT         ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT LINE_FILE,ASSIGN,TO,'ZCOBOL\DEMO\PROGRAM.LIN',ORGANIZATX
+               ION,IS,LINE,SEQUENTIAL
+*            SELECT IN-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\COPYFILE.IN'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT IN_FILE,ASSIGN,TO,'ZCOBOL\DEMO\COPYFILE.IN',ORGANIZATIOX
+               N,IS,LINE,SEQUENTIAL
+*            SELECT OUT-FILE
+*                ASSIGN TO 'ZCOBOL\DEMO\COPYFILE.OUT'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT OUT_FILE,ASSIGN,TO,'ZCOBOL\DEMO\COPYFILE.OUT',ORGANIZATX
+               ION,IS,LINE,SEQUENTIAL
+*        DATA DIVISION.
+         DATA  DIVISION
+* TTTTTT FD  LINE-FILE
+* TTTTTT     DATA RECORD IS LINE-RECORD.
+         FD    LINE_FILE,DATA,RECORD,IS,LINE_RECORD
+* TTTTTT 01  LINE-RECORD.
+         WS      01,LINE_RECORD
+* TTTTTT     03  LINE-LINE-NO          PIC X(06).
+         WS        03,LINE_LINE_NO,PIC,X(06)
+* TTTTTT     03  FILLER                PIC X(74).
+         WS        03,FILLER,PIC,X(74)
+*        FD  IN-FILE
+*            DATA RECORD IS IN-RECORD.
+         FD    IN_FILE,DATA,RECORD,IS,IN_RECORD
+*        01  IN-RECORD PIC X(80).
+         WS      01,IN_RECORD,PIC,X(80)
+*        FD  OUT-FILE
+*            DATA RECORD IS OUT-RECORD.
+         FD    OUT_FILE,DATA,RECORD,IS,OUT_RECORD
+*        01  OUT-RECORD PIC X(80).
+         WS      01,OUT_RECORD,PIC,X(80)
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+* TTTTTT 01  D1 PIC X(52) VALUE
+* TTTTTT       'T - Rudimentary Debugger for ZCOBOL'.
+         WS      01,D1,PIC,X(52),VALUE,'T - Rudimentary Debugger for ZCX
+               OBOL'
+* TTTTTT 01  D1B PIC X(52) VALUE
+* TTTTTT       '==================================='.
+         WS      01,D1B,PIC,X(52),VALUE,'==============================X
+               ====='
+* TTTTTT 01  D1C PIC X(52) VALUE
+* TTTTTT       'VERSION 1.01    John Hennesy'.
+         WS      01,D1C,PIC,X(52),VALUE,'VERSION 1.01    John Hennesy'
+* TTTTTT 01  D1D PIC X(52) VALUE
+* TTTTTT       '-----------------------------------'.
+         WS      01,D1D,PIC,X(52),VALUE,'------------------------------X
+               -----'
+* TTTTTT 01  D1E PIC X(52) VALUE ALL SPACES.
+         WS      01,D1E,PIC,X(52),VALUE,ALL,SPACES
+* TTTTTT 01  D2 PIC X(52) VALUE
+* TTTTTT       'Enter - single step'.
+         WS      01,D2,PIC,X(52),VALUE,'Enter - single step'
+* TTTTTT 01  D3 PIC X(52) VALUE
+* TTTTTT       'H     - Here'.
+         WS      01,D3,PIC,X(52),VALUE,'H     - Here'
+* TTTTTT 01  D4 PIC X(52) VALUE
+* TTTTTT       'E     - Erase              - E nnnnnn'.
+         WS      01,D4,PIC,X(52),VALUE,'E     - Erase              - E X
+               nnnnnn'
+* TTTTTT 01  D5 PIC X(52) VALUE
+* TTTTTT       'M     - Monitor            - M vvv... (max 30 char)'.
+         WS      01,D5,PIC,X(52),VALUE,'M     - Monitor            - M X
+               vvv... (max 30 char)'
+* TTTTTT 01  D6 PIC X(52) VALUE
+* TTTTTT       '                             M         List variables'.
+         WS      01,D6,PIC,X(52),VALUE,'                             M X
+                       List variables'
+* TTTTTT 01  D7 PIC X(52) VALUE
+* TTTTTT       'B     - Break              - B nnnnnn'.
+         WS      01,D7,PIC,X(52),VALUE,'B     - Break              - B X
+               nnnnnn'
+* TTTTTT 01  D8 PIC X(52) VALUE
+* TTTTTT       '                             B         List lines'.
+         WS      01,D8,PIC,X(52),VALUE,'                             B X
+                       List lines'
+* TTTTTT 01  D9 PIC X(52) VALUE
+* TTTTTT       'G     - Go                 - G nnnnnn'.
+         WS      01,D9,PIC,X(52),VALUE,'G     - Go                 - G X
+               nnnnnn'
+* TTTTTT 01  DA PIC X(52) VALUE
+* TTTTTT       '                             G         Go next break'.
+         WS      01,DA,PIC,X(52),VALUE,'                             G X
+                       Go next break'
+* TTTTTT 01  DB PIC X(52) VALUE
+* TTTTTT       'W     - Working storage    - W         Show w/s'.
+         WS      01,DB,PIC,X(52),VALUE,'W     - Working storage    - W X
+                       Show w/s'
+* TTTTTT 01  DC PIC X(52) VALUE
+* TTTTTT       'P     - Procedure division - P         Show proc div'.
+         WS      01,DC,PIC,X(52),VALUE,'P     - Procedure division - P X
+                       Show proc div'
+* TTTTTT 01  DD PIC X(52) VALUE
+* TTTTTT       'D     - Display            - D vvv... (max 30 char)'.
+         WS      01,DD,PIC,X(52),VALUE,'D     - Display            - D X
+               vvv... (max 30 char)'
+* TTTTTT 01  DE PIC X(52) VALUE
+* TTTTTT       'X     - eXit               - X         Exit'.
+         WS      01,DE,PIC,X(52),VALUE,'X     - eXit               - X X
+                       Exit'
+* TTTTTT 01  DF PIC X(52) VALUE
+* TTTTTT       '+     - another screen     - +         of W or P'.
+         WS      01,DF,PIC,X(52),VALUE,'+     - another screen     - + X
+                       of W or P'
+* TTTTTT 01  BREAKIT-ARRAY.
+         WS      01,BREAKIT_ARRAY
+* TTTTTT     03  BREAKIT-NUMBER OCCURS 9
+* TTTTTT                               PIC X(06).
+         WS        03,BREAKIT_NUMBER,OCCURS,9,PIC,X(06)
+* TTTTTT 01  BUB                       PIC 9(06).
+         WS      01,BUB,PIC,9(06)
+* TTTTTT 01  BUB2                      PIC 9(06).
+         WS      01,BUB2,PIC,9(06)
+* TTTTTT 01  SIX-SPACES                PIC X(06) VALUE SPACES.
+         WS      01,SIX_SPACES,PIC,X(06),VALUE,SPACES
+* TTTTTT 01  SIX-LOW-VALUES            PIC X(06) VALUE LOW-VALUES.
+         WS      01,SIX_LOW_VALUES,PIC,X(06),VALUE,LOW-VALUES
+* TTTTTT 01  MONITORIT-ARRAY.
+         WS      01,MONITORIT_ARRAY
+* TTTTTT     03  MONITORIT-ENTRY OCCURS 9.
+         WS        03,MONITORIT_ENTRY,OCCURS,9
+* TTTTTT         05  MONITORIT-VARIABLE
+* TTTTTT                               PIC X(32).
+         WS          05,MONITORIT_VARIABLE,PIC,X(32)
+* TTTTTT         05  MONITORIT-FLAG    PIC X(01).
+         WS          05,MONITORIT_FLAG,PIC,X(01)
+* TTTTTT         05  MONITORIT-POINTER PIC 9(06).
+         WS          05,MONITORIT_POINTER,PIC,9(06)
+* TTTTTT         05  MONITORIT-LENGTH  PIC 9(06).
+         WS          05,MONITORIT_LENGTH,PIC,9(06)
+* TTTTTT 01  MONITORIT-MAX             PIC 9(06) VALUE 1.
+         WS      01,MONITORIT_MAX,PIC,9(06),VALUE,1
+* TTTTTT 01  MONITORIT-CHUNK.
+         WS      01,MONITORIT_CHUNK
+* TTTTTT     03  MONITORIT-CHUNK-C     PIC X(01) OCCURS 500.
+         WS        03,MONITORIT_CHUNK_C,PIC,X(01),OCCURS,500
+* TTTTTT 01  EUB                       PIC 9(06).
+         WS      01,EUB,PIC,9(06)
+* TTTTTT 01  NUB                       PIC 9(06).
+         WS      01,NUB,PIC,9(06)
+* TTTTTT 01  NUB2                      PIC 9(06).
+         WS      01,NUB2,PIC,9(06)
+* TTTTTT 01  TH2-SPACES                PIC X(32) VALUE SPACES.
+         WS      01,TH2_SPACES,PIC,X(32),VALUE,SPACES
+* TTTTTT 01  TH2-LOW-VALUES            PIC X(32) VALUE LOW-VALUES.
+         WS      01,TH2_LOW_VALUES,PIC,X(32),VALUE,LOW-VALUES
+* TTTTTT 01  DUB                       PIC 9(06).
+         WS      01,DUB,PIC,9(06)
+* TTTTTT 01  MONITORIT-CHANGE          PIC X(01).
+         WS      01,MONITORIT_CHANGE,PIC,X(01)
+* TTTTTT 01  A-CHAR                    PIC X(01).
+         WS      01,A_CHAR,PIC,X(01)
+* TTTTTT 01  B-CHAR                    PIC X(01).
+         WS      01,B_CHAR,PIC,X(01)
+* TTTTTT 01  GOIT-OUTSTANDING          PIC X(01) VALUE 'N'.
+         WS      01,GOIT_OUTSTANDING,PIC,X(01),VALUE,'N'
+* TTTTTT 01  GOIT-NUMBER               PIC X(06).
+         WS      01,GOIT_NUMBER,PIC,X(06)
+* TTTTTT 01  WORKIT-END                PIC X(01).
+         WS      01,WORKIT_END,PIC,X(01)
+* TTTTTT 01  PROCIT-END                PIC X(01).
+         WS      01,PROCIT_END,PIC,X(01)
+* TTTTTT 01  PREV-COMMAND              PIC X(01).
+         WS      01,PREV_COMMAND,PIC,X(01)
+* TTTTTT 01  CARROTS                   PIC X(01).
+         WS      01,CARROTS,PIC,X(01)
+* TTTTTT 01  MUB2                      PIC 9(06).
+         WS      01,MUB2,PIC,9(06)
+* TTTTTT 01  MUB3                      PIC 9(06).
+         WS      01,MUB3,PIC,9(06)
+* TTTTTT 01  MUB4                      PIC 9(06).
+*TTTTTT*14/03/12 320 increased to 64000
+         WS      01,MUB4,PIC,9(06)
+* TTTTTT 01  LUMP.
+*TTTTTT*    03  LUMP-C OCCURS 320     PIC X(01).
+         WS      01,LUMP
+* TTTTT+     03  LUMP-C OCCURS 64000   PIC X(01).
+         WS        03,LUMP_C,OCCURS,64000,PIC,X(01)
+* TTTTTT 01  FILLER REDEFINES LUMP.
+*TTTTTT*    03  LUMP-BLOCK OCCURS 10  PIC X(32).
+         WS      01,FILLER,REDEFINES,LUMP
+* TTTTT+     03  LUMP-BLOCK OCCURS 2000 PIC X(32).
+         WS        03,LUMP_BLOCK,OCCURS,2000,PIC,X(32)
+* TTTTTT 01  BLOC.
+         WS      01,BLOC
+* TTTTTT     03  BLOC-C OCCURS 32      PIC X(01).
+         WS        03,BLOC_C,OCCURS,32,PIC,X(01)
+* TTTTTT 01  BLOCH.
+         WS      01,BLOCH
+* TTTTTT     03  BLOCH-BI OCCURS 32.
+         WS        03,BLOCH_BI,OCCURS,32
+* TTTTTT         05  BLOCH-BI-LHS      PIC X(01).
+         WS          05,BLOCH_BI_LHS,PIC,X(01)
+* TTTTTT         05  BLOCH-BI-RHS      PIC X(01).
+         WS          05,BLOCH_BI_RHS,PIC,X(01)
+* TTTTTT 01  GUB                       PIC 9(06).
+         WS      01,GUB,PIC,9(06)
+* TTTTTT 01  HUB                       PIC 9(06).
+         WS      01,HUB,PIC,9(06)
+* TTTTTT 01  GUB2                      PIC 9(06).
+         WS      01,GUB2,PIC,9(06)
+* TTTTTT 01  BLOCG.
+         WS      01,BLOCG
+* TTTTTT     03  BLOCG-BI OCCURS 32.
+         WS        03,BLOCG_BI,OCCURS,32
+* TTTTTT         05  BLOCG-BI-LHS      PIC X(01).
+         WS          05,BLOCG_BI_LHS,PIC,X(01)
+* TTTTTT         05  BLOCG-BI-RHS      PIC X(01).
+         WS          05,BLOCG_BI_RHS,PIC,X(01)
+* TTTTTT 01  GUB3                      PIC 9(06).
+         WS      01,GUB3,PIC,9(06)
+* TTTTTT 01  GUB4                      PIC 9(06).
+         WS      01,GUB4,PIC,9(06)
+* TTTTTT 01  GUB5                      PIC 9(06).
+         WS      01,GUB5,PIC,9(06)
+* TTTTTT 01  FLAGG                     PIC X(01).
+         WS      01,FLAGG,PIC,X(01)
+* TTTTTT 01  NINE-04-COMP              PIC 9(04) COMP.
+         WS      01,NINE_04_COMP,PIC,9(04),COMP
+* TTTTTT 01  FILLER REDEFINES NINE-04-COMP.
+         WS      01,FILLER,REDEFINES,NINE_04_COMP
+* TTTTTT     03  THE-1ST-CHAR          PIC X(01).
+         WS        03,THE_1ST_CHAR,PIC,X(01)
+* TTTTTT     03  THE-2ND-CHAR          PIC X(01).
+         WS        03,THE_2ND_CHAR,PIC,X(01)
+* TTTTTT 01  LHS                       PIC 9(03).
+         WS      01,LHS,PIC,9(03)
+* TTTTTT 01  RHS                       PIC 9(03).
+         WS      01,RHS,PIC,9(03)
+* TTTTTT 01  THE-ARRAY                 PIC X(16) VALUE '0123456789ABCDEX
+               F'.
+         WS      01,THE_ARRAY,PIC,X(16),VALUE,'0123456789ABCDEF'
+* TTTTTT 01  FILLER REDEFINES THE-ARRAY.
+         WS      01,FILLER,REDEFINES,THE_ARRAY
+* TTTTTT     03  THE-ARRAY-C OCCURS 16 PIC X(01).
+         WS        03,THE_ARRAY_C,OCCURS,16,PIC,X(01)
+* TTTTTT 01  DISPLAYABLE               PIC X(01).
+         WS      01,DISPLAYABLE,PIC,X(01)
+* TTTTTT 01  NONDISPLAYABLE            PIC X(01).
+         WS      01,NONDISPLAYABLE,PIC,X(01)
+* TTTTTT 01  T-FIRST                   PIC X(01) VALUE SPACE.
+         WS      01,T_FIRST,PIC,X(01),VALUE,SPACE
+* TTTTTT 01  A-LINE                    PIC X(06).
+         WS      01,A_LINE,PIC,X(06)
+* TTTTTT 01  MUB                       PIC 9(06).
+         WS      01,MUB,PIC,9(06)
+* TTTTTT 01  THE-COMMAND.
+         WS      01,THE_COMMAND
+* TTTTTT     03  THE-COMMAND-1         PIC X(01).
+         WS        03,THE_COMMAND_1,PIC,X(01)
+* TTTTTT     03  FILLER                PIC X(01).
+         WS        03,FILLER,PIC,X(01)
+* TTTTTT     03  THE-COMMAND-3-32.
+         WS        03,THE_COMMAND_3_32
+* TTTTTT         05  THE-COMMAND-3-8   PIC X(06).
+         WS          05,THE_COMMAND_3_8,PIC,X(06)
+* TTTTTT         05  FILLER            PIC X(24).
+         WS          05,FILLER,PIC,X(24)
+* TTTTTT     03  FILLER                PIC X(48).
+         WS        03,FILLER,PIC,X(48)
+* TTTTTT 01  FILLER REDEFINES THE-COMMAND.
+         WS      01,FILLER,REDEFINES,THE_COMMAND
+* TTTTTT     03  THE-COMMAND-C OCCURS 80 PIC X(01).
+         WS        03,THE_COMMAND_C,OCCURS,80,PIC,X(01)
+* TTTTTT 01  T-SERVICE.
+         WS      01,T_SERVICE
+* TTTTTT     03  T-PROG                PIC X(08).
+         WS        03,T_PROG,PIC,X(08)
+* TTTTTT     03  T-PARA                PIC X(30).
+         WS        03,T_PARA,PIC,X(30)
+* TTTTTT     03  T-LINE                PIC X(06).
+         WS        03,T_LINE,PIC,X(06)
+* TTTTTT     03  T-ARRAY.
+         WS        03,T_ARRAY
+* TTTTTT         05  T-C               PIC X(01) OCCURS 2.
+         WS          05,T_C,PIC,X(01),OCCURS,2
+* TTTTTT 01  FILLER PIC X(02) VALUE '!!'.
+         WS      01,FILLER,PIC,X(02),VALUE,'!!'
+* TTTTTT 01  FILLER PIC X(30) VALUE 'WS-LINE                       '.
+         WS      01,FILLER,PIC,X(30),VALUE,'WS-LINE                    X
+                  '
+*        01  WS-LINE PIC X(80).
+         WS      01,WS_LINE,PIC,X(80)
+* TTTTTT 01  FILLER PIC X(02) VALUE '~~'.
+         WS      01,FILLER,PIC,X(02),VALUE,'~~'
+* TTTTTT 01  FILLER PIC X(02) VALUE '!!'.
+         WS      01,FILLER,PIC,X(02),VALUE,'!!'
+* TTTTTT 01  FILLER PIC X(30) VALUE 'END-OF-FILE-FLAG              '.
+         WS      01,FILLER,PIC,X(30),VALUE,'END-OF-FILE-FLAG           X
+                  '
+*        01  END-OF-FILE-FLAG PIC X VALUE 'F'.
+         WS      01,END_OF_FILE_FLAG,PIC,X,VALUE,'F'
+* TTTTTT 01  FILLER PIC X(02) VALUE '~~'.
+         WS      01,FILLER,PIC,X(02),VALUE,'~~'
+* TTTTTT 01  FILLER PIC X(02) VALUE '!!'.
+         WS      01,FILLER,PIC,X(02),VALUE,'!!'
+* TTTTTT 01  FILLER PIC X(30) VALUE 'COUNT                         '.
+         WS      01,FILLER,PIC,X(30),VALUE,'COUNT                      X
+                  '
+*        77  COUNT COMP-3 PIC S9(4) VALUE 0.
+         WS      77,COUNT,COMP_3,PIC,S9(4),VALUE,0
+* TTTTTT 01  FILLER PIC X(02) VALUE '~~'.
+         WS      01,FILLER,PIC,X(02),VALUE,'~~'
+* TTTTTT 01  FILLER                    PIC X(02) VALUE '^^'.
+         WS      01,FILLER,PIC,X(02),VALUE,'^^'
+* TTTTTT 01  A-NUMBER                  PIC X(06).
+         WS      01,A_NUMBER,PIC,X(06)
+* TTTTTT 01  B-NUMBER                  PIC X(06).
+         WS      01,B_NUMBER,PIC,X(06)
+* TTTTTT 01  LINE-COUNT                PIC 9(06) VALUE ZERO.
+         WS      01,LINE_COUNT,PIC,9(06),VALUE,ZERO
+* TTTTTT 01  LINE-COUNT2               PIC 9(06) VALUE ZERO.
+         WS      01,LINE_COUNT2,PIC,9(06),VALUE,ZERO
+* TTTTTT 01  LINE-ARRAY.
+         WS      01,LINE_ARRAY
+* TTTTTT     03  LINE-ENTRY OCCURS 500.
+         WS        03,LINE_ENTRY,OCCURS,500
+* TTTTTT         05  LINE-NUMBER       PIC X(06).
+         WS          05,LINE_NUMBER,PIC,X(06)
+* TTTTTT         05  FILLER            PIC X(66).
+         WS          05,FILLER,PIC,X(66)
+* TTTTTT 01  LUB                       PIC 9(06).
+         WS      01,LUB,PIC,9(06)
+* TTTTTT 01  LUB2                      PIC 9(06).
+         WS      01,LUB2,PIC,9(06)
+* TTTTTT 01  LUB-MAX                   PIC 9(06).
+         WS      01,LUB_MAX,PIC,9(06)
+* TTTTTT 01  LINE-FILE-ENDED           PIC X(01).
+         WS      01,LINE_FILE_ENDED,PIC,X(01)
+* TTTTTT 01  MATCH-FOUND               PIC X(01).
+         WS      01,MATCH_FOUND,PIC,X(01)
+* TTTTTT 01  SCREEN-ARRAY.
+         WS      01,SCREEN_ARRAY
+* TTTTTT     03  SCREEN-ENTRY OCCURS 17.
+         WS        03,SCREEN_ENTRY,OCCURS,17
+* TTTTTT         05  SCREEN-NUMBER     PIC X(06).
+         WS          05,SCREEN_NUMBER,PIC,X(06)
+* TTTTTT         05  SCREEN-POINTER    PIC X(01).
+         WS          05,SCREEN_POINTER,PIC,X(01)
+* TTTTTT         05  SCREEN-REST       PIC X(66).
+         WS          05,SCREEN_REST,PIC,X(66)
+* TTTTTT 01  SCUB                      PIC 9(06).
+         WS      01,SCUB,PIC,9(06)
+* TTTTTT 01  SCREEN-FIRST              PIC 9(06).
+         WS      01,SCREEN_FIRST,PIC,9(06)
+* TTTTTT 01  SCUB2                     PIC 9(06).
+         WS      01,SCUB2,PIC,9(06)
+* TTTTTT 01  SCREEN-LAST               PIC 9(06).
+         WS      01,SCREEN_LAST,PIC,9(06)
+* TTTTTT 01  SCREEN-1ST-FLAG           PIC X(01).
+         WS      01,SCREEN_1ST_FLAG,PIC,X(01)
+* TTTTTT 01  LEFFED                    PIC X(06).
+         WS      01,LEFFED,PIC,X(06)
+* TTTTTT 01  RITE                      PIC X(06).
+         WS      01,RITE,PIC,X(06)
+* TTTTTT 01  SEVENT2                   PIC X(72).
+         WS      01,SEVENT2,PIC,X(72)
+* TTTTTT 01  THIRSTY.
+         WS      01,THIRSTY
+* TTTTTT     03  THIRSTY-C OCCURS 30   PIC X(01).
+         WS        03,THIRSTY_C,OCCURS,30,PIC,X(01)
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC     11         PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    195 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    196 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000001' TO T-LINE
+*ZC    197 TTTTTT  MOVE  '000001',TO,T_LINE
+         MOVE  '000001',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    198 TTTTTT  PERFORM T
+         PERFORM T
+* 000001     DISPLAY 'COPYFILE STARTED'
+*ZC    199 000001  DISPLAY 'COPYFILE STARTED'
+         DISPLAY 'COPYFILE STARTED'
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    200 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    201 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000002' TO T-LINE
+*ZC    202 TTTTTT  MOVE  '000002',TO,T_LINE
+         MOVE  '000002',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    203 TTTTTT  PERFORM T
+         PERFORM T
+* 000002     PERFORM INITIALIZATION-ROUTINE.
+*ZC    204 000002  PERFORM INITIALIZATION_ROUTINE
+         PERFORM INITIALIZATION_ROUTINE
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    205 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    206 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000003' TO T-LINE
+*ZC    207 TTTTTT  MOVE  '000003',TO,T_LINE
+         MOVE  '000003',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    208 TTTTTT  PERFORM T
+         PERFORM T
+* 000003     PERFORM THE-LOOP
+*                    UNTIL END-OF-FILE-FLAG = 'Y'.
+*ZC    209 000003  PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    211 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    212 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000004' TO T-LINE
+*ZC    213 TTTTTT  MOVE  '000004',TO,T_LINE
+         MOVE  '000004',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    214 TTTTTT  PERFORM T
+         PERFORM T
+* 000004     PERFORM EOJ-ROUTINE.
+*ZC    215 000004  PERFORM EOJ_ROUTINE
+         PERFORM EOJ_ROUTINE
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    216 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    217 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000005' TO T-LINE
+*ZC    218 TTTTTT  MOVE  '000005',TO,T_LINE
+         MOVE  '000005',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    219 TTTTTT  PERFORM T
+         PERFORM T
+* 000005     DISPLAY 'COPYFILE RECORDS COPIED = ' COUNT.
+*ZC    220 000005  DISPLAY 'COPYFILE RECORDS COPIED = ',COUNT
+         DISPLAY 'COPYFILE RECORDS COPIED = ',COUNT
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    221 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    222 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000006' TO T-LINE
+*ZC    223 TTTTTT  MOVE  '000006',TO,T_LINE
+         MOVE  '000006',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    224 TTTTTT  PERFORM T
+         PERFORM T
+* 000006     IF COUNT NOT = 17
+*ZC    225 000006  IF    COUNT,NOT,=,17
+         IF    COUNT,NOT,=,17
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    226 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    227 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000007' TO T-LINE
+*ZC    228 TTTTTT  MOVE  '000007',TO,T_LINE
+         MOVE  '000007',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    229 TTTTTT  PERFORM T
+         PERFORM T
+* 000007        DISPLAY 'COPYFILE RECORD COUNT ERROR'
+*ZC    230 000007  DISPLAY 'COPYFILE RECORD COUNT ERROR'
+         DISPLAY 'COPYFILE RECORD COUNT ERROR'
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    231 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    232 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000008' TO T-LINE
+*ZC    233 TTTTTT  MOVE  '000008',TO,T_LINE
+         MOVE  '000008',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    234 TTTTTT  PERFORM T
+         PERFORM T
+* 000008        MOVE 16 TO RETURN-CODE
+*ZC    235 000008  MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    236 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    237 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000009' TO T-LINE
+*ZC    238 TTTTTT  MOVE  '000009',TO,T_LINE
+         MOVE  '000009',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    239 TTTTTT  PERFORM T
+         PERFORM T
+* 000009        STOP RUN
+*            END-IF
+*ZC    240 000009  STOP  RUN
+         STOP  RUN
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    242 TTTTTT  END_IF 
+         END_IF 
+*ZC    242 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    243 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000010' TO T-LINE
+*ZC    244 TTTTTT  MOVE  '000010',TO,T_LINE
+         MOVE  '000010',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    245 TTTTTT  PERFORM T
+         PERFORM T
+* 000010     DISPLAY 'COPYFILE ENDED OK'
+*ZC    246 000010  DISPLAY 'COPYFILE ENDED OK'
+         DISPLAY 'COPYFILE ENDED OK'
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    247 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'MAINLINE                      ' TO T-PARA
+*ZC    248 TTTTTT  MOVE  'MAINLINE                      ',TO,T_PARA
+         MOVE  'MAINLINE                      ',TO,T_PARA
+* TTTTTT     MOVE '000011' TO T-LINE
+*ZC    249 TTTTTT  MOVE  '000011',TO,T_LINE
+         MOVE  '000011',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    250 TTTTTT  PERFORM T
+         PERFORM T
+* 000011     STOP RUN.
+*ZC    251 000011  STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INITIALIZATION-ROUTINE.
+         LABEL INITIALIZATION_ROUTINE
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    253 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'INITIALIZATION-ROUTINE        ' TO T-PARA
+*ZC    254 TTTTTT  MOVE  'INITIALIZATION-ROUTINE        ',TO,T_PARA
+         MOVE  'INITIALIZATION-ROUTINE        ',TO,T_PARA
+* TTTTTT     MOVE '000012' TO T-LINE
+*ZC    255 TTTTTT  MOVE  '000012',TO,T_LINE
+         MOVE  '000012',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    256 TTTTTT  PERFORM T
+         PERFORM T
+* 000012     OPEN INPUT IN-FILE.
+*ZC    257 000012  OPEN  INPUT,IN_FILE
+         OPEN  INPUT,IN_FILE
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    258 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'INITIALIZATION-ROUTINE        ' TO T-PARA
+*ZC    259 TTTTTT  MOVE  'INITIALIZATION-ROUTINE        ',TO,T_PARA
+         MOVE  'INITIALIZATION-ROUTINE        ',TO,T_PARA
+* TTTTTT     MOVE '000013' TO T-LINE
+*ZC    260 TTTTTT  MOVE  '000013',TO,T_LINE
+         MOVE  '000013',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    261 TTTTTT  PERFORM T
+         PERFORM T
+* 000013     OPEN OUTPUT OUT-FILE.
+*ZC    262 000013  OPEN  OUTPUT,OUT_FILE
+         OPEN  OUTPUT,OUT_FILE
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    263 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'INITIALIZATION-ROUTINE        ' TO T-PARA
+*ZC    264 TTTTTT  MOVE  'INITIALIZATION-ROUTINE        ',TO,T_PARA
+         MOVE  'INITIALIZATION-ROUTINE        ',TO,T_PARA
+* TTTTTT     MOVE '000014' TO T-LINE
+*ZC    265 TTTTTT  MOVE  '000014',TO,T_LINE
+         MOVE  '000014',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    266 TTTTTT  PERFORM T
+         PERFORM T
+* 000014     READ IN-FILE INTO OUT-RECORD
+*ZC    268         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC    268         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        THE-LOOP.
+         LABEL THE_LOOP
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    270 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'THE-LOOP                      ' TO T-PARA
+*ZC    271 TTTTTT  MOVE  'THE-LOOP                      ',TO,T_PARA
+         MOVE  'THE-LOOP                      ',TO,T_PARA
+* TTTTTT     MOVE '000015' TO T-LINE
+*ZC    272 TTTTTT  MOVE  '000015',TO,T_LINE
+         MOVE  '000015',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    273 TTTTTT  PERFORM T
+         PERFORM T
+* 000015     WRITE OUT-RECORD.
+*ZC    274 000015  WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    275 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'THE-LOOP                      ' TO T-PARA
+*ZC    276 TTTTTT  MOVE  'THE-LOOP                      ',TO,T_PARA
+         MOVE  'THE-LOOP                      ',TO,T_PARA
+* TTTTTT     MOVE '000016' TO T-LINE
+*ZC    277 TTTTTT  MOVE  '000016',TO,T_LINE
+         MOVE  '000016',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    278 TTTTTT  PERFORM T
+         PERFORM T
+* 000016     ADD 1 TO COUNT
+*ZC    279 000016  ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    280 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'THE-LOOP                      ' TO T-PARA
+*ZC    281 TTTTTT  MOVE  'THE-LOOP                      ',TO,T_PARA
+         MOVE  'THE-LOOP                      ',TO,T_PARA
+* TTTTTT     MOVE '000017' TO T-LINE
+*ZC    282 TTTTTT  MOVE  '000017',TO,T_LINE
+         MOVE  '000017',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    283 TTTTTT  PERFORM T
+         PERFORM T
+* 000017     READ IN-FILE INTO OUT-RECORD
+*ZC    285         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC    285         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        EOJ-ROUTINE.
+         LABEL EOJ_ROUTINE
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    287 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'EOJ-ROUTINE                   ' TO T-PARA
+*ZC    288 TTTTTT  MOVE  'EOJ-ROUTINE                   ',TO,T_PARA
+         MOVE  'EOJ-ROUTINE                   ',TO,T_PARA
+* TTTTTT     MOVE '000018' TO T-LINE
+*ZC    289 TTTTTT  MOVE  '000018',TO,T_LINE
+         MOVE  '000018',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    290 TTTTTT  PERFORM T
+         PERFORM T
+* 000018     CLOSE IN-FILE.
+*ZC    291 000018  CLOSE IN_FILE
+         CLOSE IN_FILE
+         PERIOD 
+* TTTTTT     MOVE 'COPYFILE' TO T-PROG
+*ZC    292 TTTTTT  MOVE  'COPYFILE',TO,T_PROG
+         MOVE  'COPYFILE',TO,T_PROG
+* TTTTTT     MOVE 'EOJ-ROUTINE                   ' TO T-PARA
+*ZC    293 TTTTTT  MOVE  'EOJ-ROUTINE                   ',TO,T_PARA
+         MOVE  'EOJ-ROUTINE                   ',TO,T_PARA
+* TTTTTT     MOVE '000019' TO T-LINE
+*ZC    294 TTTTTT  MOVE  '000019',TO,T_LINE
+         MOVE  '000019',TO,T_LINE
+* TTTTTT     PERFORM T
+*ZC    295 TTTTTT  PERFORM T
+         PERFORM T
+* 000019     CLOSE OUT-FILE.
+* TTTTTT/
+*ZC    296 000019  CLOSE OUT_FILE
+         CLOSE OUT_FILE
+         PERIOD 
+* TTTTTT T SECTION.
+*      *DISPLAY '0> ' GOIT-OUTSTANDING ' ' GOIT-NUMBER
+*      *DISPLAY '0> T-LINE=' T-LINE.
+         LABEL T,SECTION
+* TTTTTT     MOVE T-LINE               TO A-LINE.
+*ZC    301 TTTTTT  MOVE  T_LINE,TO,A_LINE
+         MOVE  T_LINE,TO,A_LINE
+         PERIOD 
+* TTTTTT     IF T-FIRST = SPACE
+*ZC    302 TTTTTT  IF    T_FIRST,=,SPACE
+         IF    T_FIRST,=,SPACE
+* TTTTTT         MOVE SPACES           TO BREAKIT-ARRAY
+*ZC    303 TTTTTT  MOVE  SPACES,TO,BREAKIT_ARRAY
+         MOVE  SPACES,TO,BREAKIT_ARRAY
+* TTTTTT         MOVE SPACES           TO MONITORIT-ARRAY
+*ZC    304 TTTTTT  MOVE  SPACES,TO,MONITORIT_ARRAY
+         MOVE  SPACES,TO,MONITORIT_ARRAY
+* TTTTTT         MOVE ZEROES           TO BUB
+*ZC    305 TTTTTT  MOVE  ZEROES,TO,BUB
+         MOVE  ZEROES,TO,BUB
+* TTTTTT         MOVE ZEROES           TO NUB
+*ZC    306 TTTTTT  MOVE  ZEROES,TO,NUB
+         MOVE  ZEROES,TO,NUB
+* TTTTTT         MOVE 'N'              TO T-FIRST
+*ZC    307 TTTTTT  MOVE  'N',TO,T_FIRST
+         MOVE  'N',TO,T_FIRST
+* TTTTTT         OPEN INPUT LINE-FILE
+*ZC    308 TTTTTT  OPEN  INPUT,LINE_FILE
+         OPEN  INPUT,LINE_FILE
+* TTTTTT         MOVE 'N'              TO LINE-FILE-ENDED
+*      *DISPLAY 'FIRST'
+*ZC    309 TTTTTT  MOVE  'N',TO,LINE_FILE_ENDED
+         MOVE  'N',TO,LINE_FILE_ENDED
+* TTTTTT         PERFORM READ-LINE-FILE
+* TTTTTT           UNTIL LINE-FILE-ENDED = 'Y'
+*ZC    311 TTTTTT  PERFORM READ_LINE_FILE,UNTIL,LINE_FILE_ENDED,=,'Y'
+         PERFORM READ_LINE_FILE,UNTIL,LINE_FILE_ENDED,=,'Y'
+* TTTTTT         CLOSE LINE-FILE
+*      *DISPLAY '1>'
+*ZC    313 TTTTTT  CLOSE LINE_FILE
+         CLOSE LINE_FILE
+* TTTTTT         DISPLAY D1
+*ZC    315 TTTTTT  DISPLAY D1
+         DISPLAY D1
+* TTTTTT         DISPLAY D1B
+*ZC    316 TTTTTT  DISPLAY D1B
+         DISPLAY D1B
+* TTTTTT         DISPLAY D1C
+*ZC    317 TTTTTT  DISPLAY D1C
+         DISPLAY D1C
+* TTTTTT         DISPLAY D1D
+*ZC    318 TTTTTT  DISPLAY D1D
+         DISPLAY D1D
+* TTTTTT         DISPLAY D1E
+*ZC    319 TTTTTT  DISPLAY D1E
+         DISPLAY D1E
+* TTTTTT         DISPLAY D2
+*ZC    320 TTTTTT  DISPLAY D2
+         DISPLAY D2
+* TTTTTT         DISPLAY D3
+*ZC    321 TTTTTT  DISPLAY D3
+         DISPLAY D3
+* TTTTTT         DISPLAY D4
+*ZC    322 TTTTTT  DISPLAY D4
+         DISPLAY D4
+* TTTTTT         DISPLAY D5
+*ZC    323 TTTTTT  DISPLAY D5
+         DISPLAY D5
+* TTTTTT         DISPLAY D6
+*ZC    324 TTTTTT  DISPLAY D6
+         DISPLAY D6
+* TTTTTT         DISPLAY D7
+*ZC    325 TTTTTT  DISPLAY D7
+         DISPLAY D7
+* TTTTTT         DISPLAY D8
+*ZC    326 TTTTTT  DISPLAY D8
+         DISPLAY D8
+* TTTTTT         DISPLAY D9
+*ZC    327 TTTTTT  DISPLAY D9
+         DISPLAY D9
+* TTTTTT         DISPLAY DA
+*ZC    328 TTTTTT  DISPLAY DA
+         DISPLAY DA
+* TTTTTT         DISPLAY DB
+*ZC    329 TTTTTT  DISPLAY DB
+         DISPLAY DB
+* TTTTTT         DISPLAY DC
+*ZC    330 TTTTTT  DISPLAY DC
+         DISPLAY DC
+* TTTTTT         DISPLAY DD
+*ZC    331 TTTTTT  DISPLAY DD
+         DISPLAY DD
+* TTTTTT         DISPLAY DE
+*ZC    332 TTTTTT  DISPLAY DE
+         DISPLAY DE
+* TTTTTT         DISPLAY DF
+*ZC    333 TTTTTT  DISPLAY DF
+         DISPLAY DF
+* TTTTTT         ACCEPT THE-COMMAND FROM CONSOLE
+*ZC    334 TTTTTT  ACCEPT THE_COMMAND,FROM,CONSOLE
+         ACCEPT THE_COMMAND,FROM,CONSOLE
+* TTTTTT     END-IF.
+*ZC    335 TTTTTT  END_IF 
+         END_IF 
+*      *DISPLAY '2>'
+         PERIOD 
+* TTTTTT     PERFORM DUMMY
+* TTTTTT         VARYING LINE-COUNT2
+* TTTTTT            FROM 1 BY 1
+* TTTTTT           UNTIL LINE-NUMBER (LINE-COUNT2) = A-LINE
+* TTTTTT              OR LINE-COUNT2 > LINE-COUNT.
+*ZC    337 TTTTTT  PERFORM DUMMY,VARYING,LINE_COUNT2,FROM,1,BY,1,UNTIL,X
+               LINE_NUMBER,'(',LINE_COUNT2,')',=,A_LINE,OR,LINE_COUNT2,X
+               >,LINE_COUNT
+         PERFORM DUMMY,VARYING,LINE_COUNT2,FROM,1,BY,1,UNTIL,LINE_NUMBEX
+               R,'(',LINE_COUNT2,')',=,A_LINE,OR,LINE_COUNT2,>,LINE_COUX
+               NT
+         PERIOD 
+* TTTTTT     IF LINE-COUNT2 > LINE-COUNT
+*ZC    342 TTTTTT  IF    LINE_COUNT2,>,LINE_COUNT
+         IF    LINE_COUNT2,>,LINE_COUNT
+* TTTTTT         DISPLAY 'T-LINE (' T-LINE ') NOT FOUND'
+*ZC    343 TTTTTT  DISPLAY 'T-LINE (',T_LINE,') NOT FOUND'
+         DISPLAY 'T-LINE (',T_LINE,') NOT FOUND'
+* TTTTTT         STOP RUN
+*ZC    344 TTTTTT  STOP  RUN
+         STOP  RUN
+* TTTTTT     END-IF.
+*ZC    345 TTTTTT  END_IF 
+         END_IF 
+*      *DISPLAY '3>'
+         PERIOD 
+* TTTTTT     PERFORM MONITORIT-FIND
+* TTTTTT         VARYING NUB2 FROM 1 BY 1 UNTIL NUB2 > NUB.
+*      *DISPLAY '4>'
+*ZC    347 TTTTTT  PERFORM MONITORIT_FIND,VARYING,NUB2,FROM,1,BY,1,UNTIX
+               L,NUB2,>,NUB
+         PERFORM MONITORIT_FIND,VARYING,NUB2,FROM,1,BY,1,UNTIL,NUB2,>,NX
+               UB
+         PERIOD 
+* TTTTTT     IF GOIT-OUTSTANDING = 'Y'
+*ZC    350 TTTTTT  IF    GOIT_OUTSTANDING,=,'Y'
+         IF    GOIT_OUTSTANDING,=,'Y'
+* TTTTTT         IF GOIT-NUMBER = 'BREAK'
+*ZC    351 TTTTTT  IF    GOIT_NUMBER,=,'BREAK'
+         IF    GOIT_NUMBER,=,'BREAK'
+* TTTTTT             PERFORM BREAKIT-FIND
+*ZC    352 TTTTTT  PERFORM BREAKIT_FIND
+         PERFORM BREAKIT_FIND
+* TTTTTT             IF A-NUMBER
+* TTTTTT              = B-NUMBER
+*ZC    353 TTTTTT  IF    A_NUMBER,=,B_NUMBER
+         IF    A_NUMBER,=,B_NUMBER
+* TTTTTT                 MOVE 'N'          TO GOIT-OUTSTANDING
+* TTTTTT             ELSE
+*ZC    355 TTTTTT  MOVE  'N',TO,GOIT_OUTSTANDING
+         MOVE  'N',TO,GOIT_OUTSTANDING
+* TTTTTT                 GO TO T-EXIT
+*ZC    357 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT             END-IF
+*ZC    357 TTTTTT  GO    TO,T_EXIT
+         GO    TO,T_EXIT
+* TTTTTT         ELSE
+*ZC    359 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT             IF GOIT-NUMBER = LINE-NUMBER (LINE-COUNT2)
+*ZC    360 TTTTTT  ELSE  
+         ELSE  
+*ZC    360 TTTTTT  IF    GOIT_NUMBER,=,LINE_NUMBER,'(',LINE_COUNT2,')'
+         IF    GOIT_NUMBER,=,LINE_NUMBER,'(',LINE_COUNT2,')'
+* TTTTTT                 MOVE 'N'          TO GOIT-OUTSTANDING
+* TTTTTT             ELSE
+*ZC    361 TTTTTT  MOVE  'N',TO,GOIT_OUTSTANDING
+         MOVE  'N',TO,GOIT_OUTSTANDING
+* TTTTTT                 GO TO T-EXIT
+*ZC    363 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT             END-IF
+*ZC    363 TTTTTT  GO    TO,T_EXIT
+         GO    TO,T_EXIT
+* TTTTTT         END-IF
+*ZC    365 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT     END-IF.
+*ZC    366 TTTTTT  END_IF 
+         END_IF 
+*ZC    366 TTTTTT  END_IF 
+         END_IF 
+*      *DISPLAY '5>'
+         PERIOD 
+* TTTTTT     MOVE  1                   TO LUB.
+*ZC    368 TTTTTT  MOVE  1,TO,LUB
+         MOVE  1,TO,LUB
+         PERIOD 
+* TTTTTT     MOVE 'Y'                  TO SCREEN-1ST-FLAG.
+*ZC    369 TTTTTT  MOVE  'Y',TO,SCREEN_1ST_FLAG
+         MOVE  'Y',TO,SCREEN_1ST_FLAG
+         PERIOD 
+* TTTTTT     MOVE ZEROES               TO SCREEN-FIRST.
+*ZC    370 TTTTTT  MOVE  ZEROES,TO,SCREEN_FIRST
+         MOVE  ZEROES,TO,SCREEN_FIRST
+         PERIOD 
+* TTTTTT     MOVE ZEROES               TO SCREEN-LAST.
+*ZC    371 TTTTTT  MOVE  ZEROES,TO,SCREEN_LAST
+         MOVE  ZEROES,TO,SCREEN_LAST
+         PERIOD 
+* TTTTTT     MOVE SPACES               TO SCREEN-ARRAY.
+*ZC    372 TTTTTT  MOVE  SPACES,TO,SCREEN_ARRAY
+         MOVE  SPACES,TO,SCREEN_ARRAY
+         PERIOD 
+* TTTTTT     MOVE  15                  TO LUB-MAX.
+*ZC    373 TTTTTT  MOVE  15,TO,LUB_MAX
+         MOVE  15,TO,LUB_MAX
+         PERIOD 
+* TTTTTT     DISPLAY '*-------------------------------*'.
+*ZC    374 TTTTTT  DISPLAY '*-------------------------------*'
+         DISPLAY '*-------------------------------*'
+         PERIOD 
+* TTTTTT     DISPLAY 'PROG=' T-PROG ' PARA=' T-PARA.
+*ZC    375 TTTTTT  DISPLAY 'PROG=',T_PROG,' PARA=',T_PARA
+         DISPLAY 'PROG=',T_PROG,' PARA=',T_PARA
+         PERIOD 
+* TTTTTT     DISPLAY ' '.
+*ZC    376 TTTTTT  DISPLAY ' '
+         DISPLAY ' '
+         PERIOD 
+* TTTTTT     PERFORM SCREENIT.
+*ZC    377 TTTTTT  PERFORM SCREENIT
+         PERFORM SCREENIT
+         PERIOD 
+* TTTTTT     DISPLAY '*-------------------------------*'.
+*      *DISPLAY '6>'.
+*ZC    378 TTTTTT  DISPLAY '*-------------------------------*'
+         DISPLAY '*-------------------------------*'
+         PERIOD 
+* TTTTTT T-ACCEPT.
+*      *DISPLAY '7>'.
+         LABEL T_ACCEPT
+* TTTTTT     ACCEPT THE-COMMAND      FROM CONSOLE.
+*ZC    382 TTTTTT  ACCEPT THE_COMMAND,FROM,CONSOLE
+         ACCEPT THE_COMMAND,FROM,CONSOLE
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'H'
+*ZC    383 TTTTTT  IF    THE_COMMAND_1,=,'H'
+         IF    THE_COMMAND_1,=,'H'
+* TTTTTT         MOVE 'H'              TO PREV-COMMAND
+*ZC    384 TTTTTT  MOVE  'H',TO,PREV_COMMAND
+         MOVE  'H',TO,PREV_COMMAND
+* TTTTTT         GO TO T
+*ZC    385 TTTTTT  GO    TO,T
+         GO    TO,T
+* TTTTTT     END-IF.
+*ZC    386 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'E'
+*ZC    387 TTTTTT  IF    THE_COMMAND_1,=,'E'
+         IF    THE_COMMAND_1,=,'E'
+* TTTTTT         IF THE-COMMAND-3-8 = SIX-SPACES
+*ZC    388 TTTTTT  IF    THE_COMMAND_3_8,=,SIX_SPACES
+         IF    THE_COMMAND_3_8,=,SIX_SPACES
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         END-IF
+*ZC    389 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT         PERFORM DUMMY VARYING BUB2
+*ZC    391 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT            FROM 1 BY 1
+* TTTTTT           UNTIL BREAKIT-NUMBER (BUB2) = THE-COMMAND-3-8
+* TTTTTT              OR BREAKIT-NUMBER (BUB2) = SIX-LOW-VALUES
+* TTTTTT              OR BUB2 > 8
+*ZC    391 TTTTTT  PERFORM DUMMY,VARYING,BUB2,FROM,1,BY,1,UNTIL,BREAKITX
+               _NUMBER,'(',BUB2,')',=,THE_COMMAND_3_8,OR,BREAKIT_NUMBERX
+               ,'(',BUB2,')',=,SIX_LOW_VALUES,OR,BUB2,>,8
+         PERFORM DUMMY,VARYING,BUB2,FROM,1,BY,1,UNTIL,BREAKIT_NUMBER,'(X
+               ',BUB2,')',=,THE_COMMAND_3_8,OR,BREAKIT_NUMBER,'(',BUB2,X
+               ')',=,SIX_LOW_VALUES,OR,BUB2,>,8
+* TTTTTT         IF BUB2 NOT > 8
+*ZC    396 TTTTTT  IF    BUB2,NOT,>,8
+         IF    BUB2,NOT,>,8
+* TTTTTT             MOVE SIX-LOW-VALUES   TO BREAKIT-NUMBER (BUB2)
+* TTTTTT         END-IF
+*ZC    397 TTTTTT  MOVE  SIX_LOW_VALUES,TO,BREAKIT_NUMBER,'(',BUB2,')'
+         MOVE  SIX_LOW_VALUES,TO,BREAKIT_NUMBER,'(',BUB2,')'
+* TTTTTT         PERFORM DUMMY VARYING NUB2
+*ZC    399 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT            FROM 1 BY 1
+* TTTTTT           UNTIL MONITORIT-VARIABLE (NUB2) = THE-COMMAND-3-32
+* TTTTTT              OR MONITORIT-VARIABLE (NUB2) = TH2-LOW-VALUES
+* TTTTTT              OR NUB2 > 8
+*ZC    399 TTTTTT  PERFORM DUMMY,VARYING,NUB2,FROM,1,BY,1,UNTIL,MONITORX
+               IT_VARIABLE,'(',NUB2,')',=,THE_COMMAND_3_32,OR,MONITORITX
+               _VARIABLE,'(',NUB2,')',=,TH2_LOW_VALUES,OR,NUB2,>,8
+         PERFORM DUMMY,VARYING,NUB2,FROM,1,BY,1,UNTIL,MONITORIT_VARIABLX
+               E,'(',NUB2,')',=,THE_COMMAND_3_32,OR,MONITORIT_VARIABLE,X
+               '(',NUB2,')',=,TH2_LOW_VALUES,OR,NUB2,>,8
+* TTTTTT         IF NUB2 NOT > 8
+*ZC    404 TTTTTT  IF    NUB2,NOT,>,8
+         IF    NUB2,NOT,>,8
+* TTTTTT             MOVE TH2-LOW-VALUES   TO MONITORIT-VARIABLE (NUB2)
+* TTTTTT         END-IF
+*ZC    405 TTTTTT  MOVE  TH2_LOW_VALUES,TO,MONITORIT_VARIABLE,'(',NUB2,X
+               ')'
+         MOVE  TH2_LOW_VALUES,TO,MONITORIT_VARIABLE,'(',NUB2,')'
+* TTTTTT         MOVE 'E'              TO PREV-COMMAND
+*ZC    407 TTTTTT  END_IF 
+         END_IF 
+*ZC    407 TTTTTT  MOVE  'E',TO,PREV_COMMAND
+         MOVE  'E',TO,PREV_COMMAND
+* TTTTTT         GO TO T-ACCEPT
+*ZC    408 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT     END-IF.
+*ZC    409 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'M'
+*ZC    410 TTTTTT  IF    THE_COMMAND_1,=,'M'
+         IF    THE_COMMAND_1,=,'M'
+* TTTTTT         IF THE-COMMAND-3-8 = SIX-SPACES
+*ZC    411 TTTTTT  IF    THE_COMMAND_3_8,=,SIX_SPACES
+         IF    THE_COMMAND_3_8,=,SIX_SPACES
+* TTTTTT             DISPLAY '*----------------------------*'
+*ZC    412 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+* TTTTTT             DISPLAY 'MONITOR LIST'
+*ZC    413 TTTTTT  DISPLAY 'MONITOR LIST'
+         DISPLAY 'MONITOR LIST'
+* TTTTTT             DISPLAY ' '
+*ZC    414 TTTTTT  DISPLAY ' '
+         DISPLAY ' '
+* TTTTTT             PERFORM MONITORIT-LIST VARYING NUB2
+* TTTTTT                FROM 1 BY 1
+* TTTTTT               UNTIL MONITORIT-VARIABLE (NUB2) = TH2-SPACES
+* TTTTTT                  OR NUB2 > 9
+*ZC    415 TTTTTT  PERFORM MONITORIT_LIST,VARYING,NUB2,FROM,1,BY,1,UNTIX
+               L,MONITORIT_VARIABLE,'(',NUB2,')',=,TH2_SPACES,OR,NUB2,>X
+               ,9
+         PERFORM MONITORIT_LIST,VARYING,NUB2,FROM,1,BY,1,UNTIL,MONITORIX
+               T_VARIABLE,'(',NUB2,')',=,TH2_SPACES,OR,NUB2,>,9
+* TTTTTT             DISPLAY '*----------------------------*'
+*ZC    419 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+* TTTTTT             MOVE 'M'          TO PREV-COMMAND
+*ZC    420 TTTTTT  MOVE  'M',TO,PREV_COMMAND
+         MOVE  'M',TO,PREV_COMMAND
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         ELSE
+*ZC    421 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT             PERFORM MATCHIT
+*ZC    423 TTTTTT  ELSE  
+         ELSE  
+*ZC    423 TTTTTT  PERFORM MATCHIT
+         PERFORM MATCHIT
+* TTTTTT             IF THE-COMMAND-3-32 NOT = THIRSTY
+*ZC    424 TTTTTT  IF    THE_COMMAND_3_32,NOT,=,THIRSTY
+         IF    THE_COMMAND_3_32,NOT,=,THIRSTY
+* TTTTTT                 MOVE'M'       TO PREV-COMMAND
+*ZC    425 TTTTTT  MOVE  'M',TO,PREV_COMMAND
+         MOVE  'M',TO,PREV_COMMAND
+* TTTTTT                 GO TO T-ACCEPT
+* TTTTTT             END-IF
+*ZC    426 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT             PERFORM DUMMY VARYING NUB
+*ZC    428 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT                FROM 1 BY 1
+* TTTTTT               UNTIL MONITORIT-VARIABLE (NUB) = TH2-SPACES
+* TTTTTT                  OR MONITORIT-VARIABLE (NUB) = THE-COMMAND-3-3X
+               2
+* TTTTTT                  OR MONITORIT-VARIABLE (NUB) = TH2-LOW-VALUES
+* TTTTTT                  OR NUB > 8
+*ZC    428 TTTTTT  PERFORM DUMMY,VARYING,NUB,FROM,1,BY,1,UNTIL,MONITORIX
+               T_VARIABLE,'(',NUB,')',=,TH2_SPACES,OR,MONITORIT_VARIABLX
+               E,'(',NUB,')',=,THE_COMMAND_3_32,OR,MONITORIT_VARIABLE,'X
+               (',NUB,')',=,TH2_LOW_VALUES,OR,NUB,>,8
+         PERFORM DUMMY,VARYING,NUB,FROM,1,BY,1,UNTIL,MONITORIT_VARIABLEX
+               ,'(',NUB,')',=,TH2_SPACES,OR,MONITORIT_VARIABLE,'(',NUB,X
+               ')',=,THE_COMMAND_3_32,OR,MONITORIT_VARIABLE,'(',NUB,')'X
+               ,=,TH2_LOW_VALUES,OR,NUB,>,8
+* TTTTTT             IF NUB > 8
+*ZC    434 TTTTTT  IF    NUB,>,8
+         IF    NUB,>,8
+* TTTTTT                 DISPLAY 'MAX MONITORS EXCEEDED'
+* TTTTTT             ELSE
+*ZC    435 TTTTTT  DISPLAY 'MAX MONITORS EXCEEDED'
+         DISPLAY 'MAX MONITORS EXCEEDED'
+* TTTTTT                 MOVE THE-COMMAND-3-32 TO MONITORIT-VARIABLE (NX
+               UB)
+*ZC    437 TTTTTT  ELSE  
+         ELSE  
+*ZC    437 TTTTTT  MOVE  THE_COMMAND_3_32,TO,MONITORIT_VARIABLE,'(',NUBX
+               ,')'
+         MOVE  THE_COMMAND_3_32,TO,MONITORIT_VARIABLE,'(',NUB,')'
+* TTTTTT                 MOVE 'N'              TO MONITORIT-FLAG     (NX
+               UB)
+*ZC    438 TTTTTT  MOVE  'N',TO,MONITORIT_FLAG,'(',NUB,')'
+         MOVE  'N',TO,MONITORIT_FLAG,'(',NUB,')'
+* TTTTTT                 MOVE ZEROES           TO MONITORIT-POINTER  (NX
+               UB)
+*ZC    439 TTTTTT  MOVE  ZEROES,TO,MONITORIT_POINTER,'(',NUB,')'
+         MOVE  ZEROES,TO,MONITORIT_POINTER,'(',NUB,')'
+* TTTTTT                 MOVE ZEROES           TO MONITORIT-LENGTH   (NX
+               UB)
+* TTTTTT             END-IF
+*ZC    440 TTTTTT  MOVE  ZEROES,TO,MONITORIT_LENGTH,'(',NUB,')'
+         MOVE  ZEROES,TO,MONITORIT_LENGTH,'(',NUB,')'
+* TTTTTT             PERFORM DUMMY VARYING NUB
+*ZC    442 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT                FROM 1 BY 1
+* TTTTTT               UNTIL MONITORIT-VARIABLE (NUB) = TH2-SPACES
+*ZC    442 TTTTTT  PERFORM DUMMY,VARYING,NUB,FROM,1,BY,1,UNTIL,MONITORIX
+               T_VARIABLE,'(',NUB,')',=,TH2_SPACES
+         PERFORM DUMMY,VARYING,NUB,FROM,1,BY,1,UNTIL,MONITORIT_VARIABLEX
+               ,'(',NUB,')',=,TH2_SPACES
+* TTTTTT             MOVE 'M'              TO PREV-COMMAND
+*ZC    445 TTTTTT  MOVE  'M',TO,PREV_COMMAND
+         MOVE  'M',TO,PREV_COMMAND
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         END-IF
+*ZC    446 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT     END-IF.
+*ZC    448 TTTTTT  END_IF 
+         END_IF 
+*ZC    448 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'B'
+*ZC    449 TTTTTT  IF    THE_COMMAND_1,=,'B'
+         IF    THE_COMMAND_1,=,'B'
+* TTTTTT         IF THE-COMMAND-3-8 = SIX-SPACES
+*ZC    450 TTTTTT  IF    THE_COMMAND_3_8,=,SIX_SPACES
+         IF    THE_COMMAND_3_8,=,SIX_SPACES
+* TTTTTT             DISPLAY '*----------------------------*'
+*ZC    451 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+* TTTTTT             DISPLAY 'BREAK LIST'
+*ZC    452 TTTTTT  DISPLAY 'BREAK LIST'
+         DISPLAY 'BREAK LIST'
+* TTTTTT             DISPLAY ' '
+*ZC    453 TTTTTT  DISPLAY ' '
+         DISPLAY ' '
+* TTTTTT             PERFORM BREAKIT-LIST VARYING BUB2
+* TTTTTT                FROM 1 BY 1
+* TTTTTT               UNTIL BREAKIT-NUMBER (BUB2) = SIX-SPACES
+* TTTTTT                  OR BUB2 > 9
+*ZC    454 TTTTTT  PERFORM BREAKIT_LIST,VARYING,BUB2,FROM,1,BY,1,UNTIL,X
+               BREAKIT_NUMBER,'(',BUB2,')',=,SIX_SPACES,OR,BUB2,>,9
+         PERFORM BREAKIT_LIST,VARYING,BUB2,FROM,1,BY,1,UNTIL,BREAKIT_NUX
+               MBER,'(',BUB2,')',=,SIX_SPACES,OR,BUB2,>,9
+* TTTTTT             DISPLAY '*----------------------------*'
+*ZC    458 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+* TTTTTT             MOVE 'B'          TO PREV-COMMAND
+*ZC    459 TTTTTT  MOVE  'B',TO,PREV_COMMAND
+         MOVE  'B',TO,PREV_COMMAND
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         ELSE
+*TTTTTT*MOVE 'Y'          TO GOIT-OUTSTANDING
+*ZC    460 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+*ZC    463 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT             MOVE 'BREAK'      TO GOIT-NUMBER
+*ZC    463 TTTTTT  MOVE  'BREAK',TO,GOIT_NUMBER
+         MOVE  'BREAK',TO,GOIT_NUMBER
+* TTTTTT             PERFORM DUMMY VARYING BUB
+* TTTTTT                FROM 1 BY 1
+* TTTTTT               UNTIL BREAKIT-NUMBER (BUB) = SIX-SPACES
+* TTTTTT                  OR BREAKIT-NUMBER (BUB) = THE-COMMAND-3-8
+* TTTTTT                  OR BREAKIT-NUMBER (BUB) = SIX-LOW-VALUES
+* TTTTTT                  OR BUB > 8
+*ZC    464 TTTTTT  PERFORM DUMMY,VARYING,BUB,FROM,1,BY,1,UNTIL,BREAKIT_X
+               NUMBER,'(',BUB,')',=,SIX_SPACES,OR,BREAKIT_NUMBER,'(',BUX
+               B,')',=,THE_COMMAND_3_8,OR,BREAKIT_NUMBER,'(',BUB,')',=,X
+               SIX_LOW_VALUES,OR,BUB,>,8
+         PERFORM DUMMY,VARYING,BUB,FROM,1,BY,1,UNTIL,BREAKIT_NUMBER,'('X
+               ,BUB,')',=,SIX_SPACES,OR,BREAKIT_NUMBER,'(',BUB,')',=,THX
+               E_COMMAND_3_8,OR,BREAKIT_NUMBER,'(',BUB,')',=,SIX_LOW_VAX
+               LUES,OR,BUB,>,8
+* TTTTTT             IF BUB > 8
+*ZC    470 TTTTTT  IF    BUB,>,8
+         IF    BUB,>,8
+* TTTTTT                 DISPLAY 'MAX BREAKS EXCEEDED'
+* TTTTTT             ELSE
+*ZC    471 TTTTTT  DISPLAY 'MAX BREAKS EXCEEDED'
+         DISPLAY 'MAX BREAKS EXCEEDED'
+* TTTTTT                 MOVE THE-COMMAND-3-8  TO BREAKIT-NUMBER (BUB)
+*ZC    473 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT             END-IF
+*ZC    473 TTTTTT  MOVE  THE_COMMAND_3_8,TO,BREAKIT_NUMBER,'(',BUB,')'
+         MOVE  THE_COMMAND_3_8,TO,BREAKIT_NUMBER,'(',BUB,')'
+* TTTTTT             PERFORM DUMMY VARYING BUB
+*ZC    475 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT                FROM 1 BY 1
+* TTTTTT               UNTIL BREAKIT-NUMBER (BUB) = SIX-SPACES
+*ZC    475 TTTTTT  PERFORM DUMMY,VARYING,BUB,FROM,1,BY,1,UNTIL,BREAKIT_X
+               NUMBER,'(',BUB,')',=,SIX_SPACES
+         PERFORM DUMMY,VARYING,BUB,FROM,1,BY,1,UNTIL,BREAKIT_NUMBER,'('X
+               ,BUB,')',=,SIX_SPACES
+* TTTTTT             MOVE 'B'              TO PREV-COMMAND
+*ZC    478 TTTTTT  MOVE  'B',TO,PREV_COMMAND
+         MOVE  'B',TO,PREV_COMMAND
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         END-IF
+*ZC    479 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT     END-IF.
+*ZC    481 TTTTTT  END_IF 
+         END_IF 
+*ZC    481 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'G'
+*ZC    482 TTTTTT  IF    THE_COMMAND_1,=,'G'
+         IF    THE_COMMAND_1,=,'G'
+* TTTTTT         MOVE 'Y'              TO GOIT-OUTSTANDING
+*ZC    483 TTTTTT  MOVE  'Y',TO,GOIT_OUTSTANDING
+         MOVE  'Y',TO,GOIT_OUTSTANDING
+* TTTTTT         IF THE-COMMAND-3-8 NOT = SIX-SPACES
+*ZC    484 TTTTTT  IF    THE_COMMAND_3_8,NOT,=,SIX_SPACES
+         IF    THE_COMMAND_3_8,NOT,=,SIX_SPACES
+* TTTTTT             MOVE THE-COMMAND-3-8  TO GOIT-NUMBER
+* TTTTTT         END-IF
+*ZC    485 TTTTTT  MOVE  THE_COMMAND_3_8,TO,GOIT_NUMBER
+         MOVE  THE_COMMAND_3_8,TO,GOIT_NUMBER
+* TTTTTT         MOVE THE-COMMAND-1    TO PREV-COMMAND
+*ZC    487 TTTTTT  END_IF 
+         END_IF 
+*ZC    487 TTTTTT  MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+         MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+* TTTTTT         GO TO T
+*ZC    488 TTTTTT  GO    TO,T
+         GO    TO,T
+* TTTTTT     END-IF.
+*ZC    489 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'W'
+*ZC    490 TTTTTT  IF    THE_COMMAND_1,=,'W'
+         IF    THE_COMMAND_1,=,'W'
+* TTTTTT         PERFORM WORKIT
+*ZC    491 TTTTTT  PERFORM WORKIT
+         PERFORM WORKIT
+* TTTTTT         MOVE THE-COMMAND-1    TO PREV-COMMAND
+*ZC    492 TTTTTT  MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+         MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+* TTTTTT         GO TO T-ACCEPT
+*ZC    493 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT     END-IF.
+*ZC    494 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'P'
+*ZC    495 TTTTTT  IF    THE_COMMAND_1,=,'P'
+         IF    THE_COMMAND_1,=,'P'
+* TTTTTT         PERFORM PROCIT
+*ZC    496 TTTTTT  PERFORM PROCIT
+         PERFORM PROCIT
+* TTTTTT         MOVE THE-COMMAND-1    TO PREV-COMMAND
+*ZC    497 TTTTTT  MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+         MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+* TTTTTT         GO TO T-ACCEPT
+*ZC    498 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT     END-IF.
+*ZC    499 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'D'
+*ZC    500 TTTTTT  IF    THE_COMMAND_1,=,'D'
+         IF    THE_COMMAND_1,=,'D'
+* TTTTTT         PERFORM MATCHIT
+*ZC    501 TTTTTT  PERFORM MATCHIT
+         PERFORM MATCHIT
+* TTTTTT         IF THE-COMMAND-3-32 = THIRSTY
+*ZC    502 TTTTTT  IF    THE_COMMAND_3_32,=,THIRSTY
+         IF    THE_COMMAND_3_32,=,THIRSTY
+* TTTTTT             PERFORM DO-DISPLAYIT
+*ZC    503 TTTTTT  PERFORM DO_DISPLAYIT
+         PERFORM DO_DISPLAYIT
+* TTTTTT             MOVE THE-COMMAND-1    TO PREV-COMMAND
+*ZC    504 TTTTTT  MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+         MOVE  THE_COMMAND_1,TO,PREV_COMMAND
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         ELSE
+*ZC    505 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT             IF MATCH-FOUND = 'N'
+*ZC    507 TTTTTT  ELSE  
+         ELSE  
+*ZC    507 TTTTTT  IF    MATCH_FOUND,=,'N'
+         IF    MATCH_FOUND,=,'N'
+* TTTTTT                 DISPLAY  'VARIABLE WAS NOT FOUND '
+* TTTTTT                           THE-COMMAND-3-32
+* TTTTTT             END-IF
+*ZC    508 TTTTTT  DISPLAY 'VARIABLE WAS NOT FOUND ',THE_COMMAND_3_32
+         DISPLAY 'VARIABLE WAS NOT FOUND ',THE_COMMAND_3_32
+* TTTTTT         END-IF
+*ZC    511 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT     END-IF.
+*ZC    512 TTTTTT  END_IF 
+         END_IF 
+*ZC    512 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = 'X'
+*ZC    513 TTTTTT  IF    THE_COMMAND_1,=,'X'
+         IF    THE_COMMAND_1,=,'X'
+* TTTTTT         DISPLAY 'EXITING'
+*ZC    514 TTTTTT  DISPLAY 'EXITING'
+         DISPLAY 'EXITING'
+* TTTTTT         STOP RUN
+*ZC    515 TTTTTT  STOP  RUN
+         STOP  RUN
+* TTTTIT     END-IF.
+*ZC    516 TTTTIT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-1 = '+'
+*ZC    517 TTTTTT  IF    THE_COMMAND_1,=,'+'
+         IF    THE_COMMAND_1,=,'+'
+* TTTTTT         IF PREV-COMMAND = 'W'
+*ZC    518 TTTTTT  IF    PREV_COMMAND,=,'W'
+         IF    PREV_COMMAND,=,'W'
+* TTTTTT             PERFORM WORKIT-PLUS
+*ZC    519 TTTTTT  PERFORM WORKIT_PLUS
+         PERFORM WORKIT_PLUS
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         END-IF
+*ZC    520 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT         IF PREV-COMMAND = 'P'
+*ZC    522 TTTTTT  END_IF 
+         END_IF 
+*ZC    522 TTTTTT  IF    PREV_COMMAND,=,'P'
+         IF    PREV_COMMAND,=,'P'
+* TTTTTT             PERFORM PROCIT-PLUS
+*ZC    523 TTTTTT  PERFORM PROCIT_PLUS
+         PERFORM PROCIT_PLUS
+* TTTTTT             GO TO T-ACCEPT
+* TTTTTT         END-IF
+*ZC    524 TTTTTT  GO    TO,T_ACCEPT
+         GO    TO,T_ACCEPT
+* TTTTTT     END-IF.
+*ZC    526 TTTTTT  END_IF 
+         END_IF 
+*ZC    526 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL T_EXIT
+*ZC    527 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT T-EXIT. EXIT.
+         PERIOD 
+* TTTTTT BREAKIT-LIST SECTION.
+         LABEL BREAKIT_LIST,SECTION
+* TTTTTT     IF BREAKIT-NUMBER (BUB2) NOT = SIX-LOW-VALUES
+*ZC    529 TTTTTT  IF    BREAKIT_NUMBER,'(',BUB2,')',NOT,=,SIX_LOW_VALUX
+               ES
+         IF    BREAKIT_NUMBER,'(',BUB2,')',NOT,=,SIX_LOW_VALUES
+* TTTTTT         DISPLAY BREAKIT-NUMBER (BUB2)
+*ZC    530 TTTTTT  DISPLAY BREAKIT_NUMBER,'(',BUB2,')'
+         DISPLAY BREAKIT_NUMBER,'(',BUB2,')'
+* TTTTTT     END-IF.
+*ZC    531 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL BREAKIT_LIST_EXIT
+*ZC    532 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT BREAKIT-LIST-EXIT. EXIT.
+         PERIOD 
+* TTTTTT BREAKIT-FIND SECTION.
+         LABEL BREAKIT_FIND,SECTION
+* TTTTTT     MOVE 1                    TO BUB2.
+*ZC    534 TTTTTT  MOVE  1,TO,BUB2
+         MOVE  1,TO,BUB2
+         PERIOD 
+* TTTTTT BREAKIT-FIND-LOOP.
+         LABEL BREAKIT_FIND_LOOP
+* TTTTTT     IF BUB2 > BUB
+*ZC    536 TTTTTT  IF    BUB2,>,BUB
+         IF    BUB2,>,BUB
+* TTTTTT        GO TO BREAKIT-FIND-EXIT
+*ZC    537 TTTTTT  GO    TO,BREAKIT_FIND_EXIT
+         GO    TO,BREAKIT_FIND_EXIT
+* TTTTTT     END-IF.
+*ZC    538 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE BREAKIT-NUMBER (BUB2) TO A-NUMBER.
+*ZC    539 TTTTTT  MOVE  BREAKIT_NUMBER,'(',BUB2,')',TO,A_NUMBER
+         MOVE  BREAKIT_NUMBER,'(',BUB2,')',TO,A_NUMBER
+         PERIOD 
+* TTTTTT     MOVE LINE-NUMBER (LINE-COUNT2) TO B-NUMBER.
+*ZC    540 TTTTTT  MOVE  LINE_NUMBER,'(',LINE_COUNT2,')',TO,B_NUMBER
+         MOVE  LINE_NUMBER,'(',LINE_COUNT2,')',TO,B_NUMBER
+         PERIOD 
+* TTTTTT     IF A-NUMBER = B-NUMBER
+*ZC    541 TTTTTT  IF    A_NUMBER,=,B_NUMBER
+         IF    A_NUMBER,=,B_NUMBER
+* TTTTTT         NEXT SENTENCE
+* TTTTTT     ELSE
+*ZC    542 TTTTTT  NEXT  SENTENCE
+         NEXT  SENTENCE
+* TTTTTT         ADD 1                 TO BUB2
+*ZC    544 TTTTTT  ELSE  
+         ELSE  
+*ZC    544 TTTTTT  ADD   1,TO,BUB2
+         ADD   1,TO,BUB2
+* TTTTTT         GO TO BREAKIT-FIND-LOOP
+*ZC    545 TTTTTT  GO    TO,BREAKIT_FIND_LOOP
+         GO    TO,BREAKIT_FIND_LOOP
+* TTTTTT     END-IF.
+*ZC    546 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL BREAKIT_FIND_EXIT
+*ZC    547 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT BREAKIT-FIND-EXIT. EXIT.
+         PERIOD 
+* TTTTTT MONITORIT-FIND SECTION.
+         LABEL MONITORIT_FIND,SECTION
+* TTTTTT     MOVE MONITORIT-VARIABLE (NUB2)
+* TTTTTT       TO THE-COMMAND-3-32.
+*ZC    549 TTTTTT  MOVE  MONITORIT_VARIABLE,'(',NUB2,')',TO,THE_COMMANDX
+               _3_32
+         MOVE  MONITORIT_VARIABLE,'(',NUB2,')',TO,THE_COMMAND_3_32
+         PERIOD 
+* TTTTTT     PERFORM MATCHIT.
+* TTTTTT
+*ZC    551 TTTTTT  PERFORM MATCHIT
+         PERFORM MATCHIT
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-3-32 = THIRSTY
+*      *DISPLAY 'M> MUB=' MUB
+*ZC    553 TTTTTT  IF    THE_COMMAND_3_32,=,THIRSTY
+         IF    THE_COMMAND_3_32,=,THIRSTY
+* TTTTTT         MOVE 'Y'              TO MATCH-FOUND
+*ZC    555 TTTTTT  MOVE  'Y',TO,MATCH_FOUND
+         MOVE  'Y',TO,MATCH_FOUND
+* TTTTTT         MOVE 'N'              TO DISPLAYABLE
+*ZC    556 TTTTTT  MOVE  'N',TO,DISPLAYABLE
+         MOVE  'N',TO,DISPLAYABLE
+* TTTTTT         MOVE 'N'              TO NONDISPLAYABLE
+*ZC    557 TTTTTT  MOVE  'N',TO,NONDISPLAYABLE
+         MOVE  'N',TO,NONDISPLAYABLE
+* TTTTTT         ADD 30                TO MUB
+*TTTTTT*DISPLAY THE-COMMAND-3-32
+*ZC    558 TTTTTT  ADD   30,TO,MUB
+         ADD   30,TO,MUB
+* TTTTTT         MOVE SPACES           TO LUMP
+*ZC    560 TTTTTT  MOVE  SPACES,TO,LUMP
+         MOVE  SPACES,TO,LUMP
+* TTTTTT         MOVE 1                TO MUB2
+*ZC    561 TTTTTT  MOVE  1,TO,MUB2
+         MOVE  1,TO,MUB2
+* TTTTTT         PERFORM DISPLAYIT
+*ZC    562 TTTTTT  PERFORM DISPLAYIT
+         PERFORM DISPLAYIT
+* TTTTTT         SUBTRACT 1          FROM MUB
+*ZC    563 TTTTTT  SUBTRACT 1,FROM,MUB
+         SUBTRACT 1,FROM,MUB
+* TTTTTT         SUBTRACT 1          FROM MUB2
+*ZC    564 TTTTTT  SUBTRACT 1,FROM,MUB2
+         SUBTRACT 1,FROM,MUB2
+* TTTTTT         IF MONITORIT-FLAG (NUB2) = 'N'
+*ZC    565 TTTTTT  IF    MONITORIT_FLAG,'(',NUB2,')',=,'N'
+         IF    MONITORIT_FLAG,'(',NUB2,')',=,'N'
+* TTTTTT             MOVE MONITORIT-MAX
+* TTTTTT               TO MONITORIT-POINTER (NUB2)
+*ZC    566 TTTTTT  MOVE  MONITORIT_MAX,TO,MONITORIT_POINTER,'(',NUB2,')X
+               '
+         MOVE  MONITORIT_MAX,TO,MONITORIT_POINTER,'(',NUB2,')'
+* TTTTTT             ADD  MUB2         TO MONITORIT-MAX
+*ZC    568 TTTTTT  ADD   MUB2,TO,MONITORIT_MAX
+         ADD   MUB2,TO,MONITORIT_MAX
+* TTTTTT             MOVE MUB2
+* TTTTTT               TO MONITORIT-LENGTH  (NUB2)
+*ZC    569 TTTTTT  MOVE  MUB2,TO,MONITORIT_LENGTH,'(',NUB2,')'
+         MOVE  MUB2,TO,MONITORIT_LENGTH,'(',NUB2,')'
+* TTTTTT             MOVE 'Y'
+* TTTTTT               TO MONITORIT-FLAG    (NUB2)
+*TTTTTT*DISPLAY 'M> ' MONITORIT-VARIABLE (NUB2)
+*TTTTTT*DISPLAY 'M> ' MONITORIT-POINTER  (NUB2)
+*TTTTTT*DISPLAY 'M> ' MONITORIT-LENGTH   (NUB2)
+*TTTTTT*DISPLAY 'M> ---------------------------'
+* TTTTTT         END-IF
+*ZC    571 TTTTTT  MOVE  'Y',TO,MONITORIT_FLAG,'(',NUB2,')'
+         MOVE  'Y',TO,MONITORIT_FLAG,'(',NUB2,')'
+* TTTTTT         PERFORM MONITORIT-CHECK
+*ZC    578 TTTTTT  END_IF 
+         END_IF 
+*ZC    578 TTTTTT  PERFORM MONITORIT_CHECK
+         PERFORM MONITORIT_CHECK
+* TTTTTT         IF MONITORIT-CHANGE = 'Y'
+*      *DISPLAY 'M> DO-DISPLAYIT'
+*ZC    579 TTTTTT  IF    MONITORIT_CHANGE,=,'Y'
+         IF    MONITORIT_CHANGE,=,'Y'
+* TTTTTT             PERFORM MATCHIT
+*ZC    581 TTTTTT  PERFORM MATCHIT
+         PERFORM MATCHIT
+* TTTTTT             PERFORM DO-DISPLAYIT
+* TTTTTT         END-IF
+*ZC    582 TTTTTT  PERFORM DO_DISPLAYIT
+         PERFORM DO_DISPLAYIT
+* TTTTTT         PERFORM MONITORIT-UPDATE
+*ZC    584 TTTTTT  END_IF 
+         END_IF 
+*ZC    584 TTTTTT  PERFORM MONITORIT_UPDATE
+         PERFORM MONITORIT_UPDATE
+* TTTTTT     END-IF.
+*ZC    585 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL MONITORIT_FIND_EXIT
+*ZC    586 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT MONITORIT-FIND-EXIT. EXIT.
+         PERIOD 
+* TTTTTT MONITORIT-CHECK SECTION.
+         LABEL MONITORIT_CHECK,SECTION
+* TTTTTT     MOVE 1                     TO DUB.
+*ZC    588 TTTTTT  MOVE  1,TO,DUB
+         MOVE  1,TO,DUB
+         PERIOD 
+* TTTTTT     MOVE MONITORIT-POINTER (NUB2)
+* TTTTTT                                TO EUB.
+*ZC    589 TTTTTT  MOVE  MONITORIT_POINTER,'(',NUB2,')',TO,EUB
+         MOVE  MONITORIT_POINTER,'(',NUB2,')',TO,EUB
+         PERIOD 
+* TTTTTT     MOVE 'N'                   TO MONITORIT-CHANGE.
+*ZC    591 TTTTTT  MOVE  'N',TO,MONITORIT_CHANGE
+         MOVE  'N',TO,MONITORIT_CHANGE
+         PERIOD 
+* TTTTTT MONITORIT-CHECK-LOOP.
+         LABEL MONITORIT_CHECK_LOOP
+* TTTTTT     IF DUB > MUB2
+*ZC    593 TTTTTT  IF    DUB,>,MUB2
+         IF    DUB,>,MUB2
+* TTTTTT         GO TO MONITORIT-CHECK-EXIT
+*ZC    594 TTTTTT  GO    TO,MONITORIT_CHECK_EXIT
+         GO    TO,MONITORIT_CHECK_EXIT
+* TTTTTT     END-IF.
+*ZC    595 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE MONITORIT-CHUNK-C (EUB) TO A-CHAR.
+*ZC    596 TTTTTT  MOVE  MONITORIT_CHUNK_C,'(',EUB,')',TO,A_CHAR
+         MOVE  MONITORIT_CHUNK_C,'(',EUB,')',TO,A_CHAR
+         PERIOD 
+* TTTTTT     MOVE LUMP-C (DUB)            TO B-CHAR.
+*ZC    597 TTTTTT  MOVE  LUMP_C,'(',DUB,')',TO,B_CHAR
+         MOVE  LUMP_C,'(',DUB,')',TO,B_CHAR
+         PERIOD 
+* TTTTTT     IF A-CHAR NOT = B-CHAR
+*ZC    598 TTTTTT  IF    A_CHAR,NOT,=,B_CHAR
+         IF    A_CHAR,NOT,=,B_CHAR
+* TTTTTT         MOVE 'Y'                 TO MONITORIT-CHANGE
+*ZC    599 TTTTTT  MOVE  'Y',TO,MONITORIT_CHANGE
+         MOVE  'Y',TO,MONITORIT_CHANGE
+* TTTTTT         GO TO MONITORIT-CHECK-EXIT
+*ZC    600 TTTTTT  GO    TO,MONITORIT_CHECK_EXIT
+         GO    TO,MONITORIT_CHECK_EXIT
+* TTTTTT     END-IF.
+*ZC    601 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD 1                        TO DUB.
+*ZC    602 TTTTTT  ADD   1,TO,DUB
+         ADD   1,TO,DUB
+         PERIOD 
+* TTTTTT     ADD 1                        TO EUB.
+*ZC    603 TTTTTT  ADD   1,TO,EUB
+         ADD   1,TO,EUB
+         PERIOD 
+* TTTTTT     GO TO MONITORIT-CHECK-LOOP.
+*ZC    604 TTTTTT  GO    TO,MONITORIT_CHECK_LOOP
+         GO    TO,MONITORIT_CHECK_LOOP
+         PERIOD 
+         LABEL MONITORIT_CHECK_EXIT
+*ZC    605 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT MONITORIT-CHECK-EXIT. EXIT.
+         PERIOD 
+* TTTTTT MONITORIT-UPDATE SECTION.
+         LABEL MONITORIT_UPDATE,SECTION
+* TTTTTT     MOVE 1                     TO DUB.
+*ZC    607 TTTTTT  MOVE  1,TO,DUB
+         MOVE  1,TO,DUB
+         PERIOD 
+* TTTTTT     MOVE MONITORIT-POINTER (NUB2)
+* TTTTTT                                TO EUB.
+*ZC    608 TTTTTT  MOVE  MONITORIT_POINTER,'(',NUB2,')',TO,EUB
+         MOVE  MONITORIT_POINTER,'(',NUB2,')',TO,EUB
+         PERIOD 
+* TTTTTT     MOVE 'N'                   TO MONITORIT-CHANGE.
+*ZC    610 TTTTTT  MOVE  'N',TO,MONITORIT_CHANGE
+         MOVE  'N',TO,MONITORIT_CHANGE
+         PERIOD 
+* TTTTTT MONITORIT-UPDATE-LOOP.
+         LABEL MONITORIT_UPDATE_LOOP
+* TTTTTT     IF DUB > MUB2
+*ZC    612 TTTTTT  IF    DUB,>,MUB2
+         IF    DUB,>,MUB2
+* TTTTTT         GO TO MONITORIT-UPDATE-EXIT
+*ZC    613 TTTTTT  GO    TO,MONITORIT_UPDATE_EXIT
+         GO    TO,MONITORIT_UPDATE_EXIT
+* TTTTTT     END-IF.
+*ZC    614 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE LUMP-C (DUB)
+* TTTTTT       TO MONITORIT-CHUNK-C (EUB).
+*ZC    615 TTTTTT  MOVE  LUMP_C,'(',DUB,')',TO,MONITORIT_CHUNK_C,'(',EUX
+               B,')'
+         MOVE  LUMP_C,'(',DUB,')',TO,MONITORIT_CHUNK_C,'(',EUB,')'
+         PERIOD 
+* TTTTTT     ADD 1                        TO DUB.
+*ZC    617 TTTTTT  ADD   1,TO,DUB
+         ADD   1,TO,DUB
+         PERIOD 
+* TTTTTT     ADD 1                        TO EUB.
+*ZC    618 TTTTTT  ADD   1,TO,EUB
+         ADD   1,TO,EUB
+         PERIOD 
+* TTTTTT     GO TO MONITORIT-UPDATE-LOOP.
+*ZC    619 TTTTTT  GO    TO,MONITORIT_UPDATE_LOOP
+         GO    TO,MONITORIT_UPDATE_LOOP
+         PERIOD 
+         LABEL MONITORIT_UPDATE_EXIT
+*ZC    620 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT MONITORIT-UPDATE-EXIT. EXIT.
+         PERIOD 
+* TTTTTT MONITORIT-LIST SECTION.
+         LABEL MONITORIT_LIST,SECTION
+* TTTTTT     IF MONITORIT-VARIABLE (NUB2) NOT = TH2-LOW-VALUES
+*ZC    622 TTTTTT  IF    MONITORIT_VARIABLE,'(',NUB2,')',NOT,=,TH2_LOW_X
+               VALUES
+         IF    MONITORIT_VARIABLE,'(',NUB2,')',NOT,=,TH2_LOW_VALUES
+* TTTTTT         DISPLAY MONITORIT-VARIABLE (NUB2)
+*ZC    623 TTTTTT  DISPLAY MONITORIT_VARIABLE,'(',NUB2,')'
+         DISPLAY MONITORIT_VARIABLE,'(',NUB2,')'
+* TTTTTT     END-IF.
+*ZC    624 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL MONITORIT_LIST_EXIT
+*ZC    625 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT MONITORIT-LIST-EXIT. EXIT.
+         PERIOD 
+* TTTTTT MATCHIT SECTION.
+         LABEL MATCHIT,SECTION
+* TTTTTT     MOVE 'N'                  TO MATCH-FOUND.
+*ZC    627 TTTTTT  MOVE  'N',TO,MATCH_FOUND
+         MOVE  'N',TO,MATCH_FOUND
+         PERIOD 
+* TTTTTT     MOVE 'N'                  TO CARROTS.
+*ZC    628 TTTTTT  MOVE  'N',TO,CARROTS
+         MOVE  'N',TO,CARROTS
+         PERIOD 
+* TTTTTT     MOVE  2                   TO MUB.
+*ZC    629 TTTTTT  MOVE  2,TO,MUB
+         MOVE  2,TO,MUB
+         PERIOD 
+* TTTTTT MATCH-LOOP.
+         LABEL MATCH_LOOP
+* TTTTTT     ADD   1                   TO MUB.
+*ZC    631 TTTTTT  ADD   1,TO,MUB
+         ADD   1,TO,MUB
+         PERIOD 
+* TTTTTT     IF   T-C (MUB     )   = '!'
+*ZC    632 TTTTTT  IF    T_C,'(',MUB,')',=,'!'
+         IF    T_C,'(',MUB,')',=,'!'
+* TTTTTT       IF T-C (MUB +  1)   = '!'
+*ZC    633 TTTTTT  IF    T_C,'(',MUB,+,1,')',=,'!'
+         IF    T_C,'(',MUB,+,1,')',=,'!'
+* TTTTTT           NEXT SENTENCE
+* TTTTTT       ELSE
+*ZC    634 TTTTTT  NEXT  SENTENCE
+         NEXT  SENTENCE
+* TTTTTT           IF   T-C (MUB     )   = '^'
+*ZC    636 TTTTTT  ELSE  
+         ELSE  
+*ZC    636 TTTTTT  IF    T_C,'(',MUB,')',=,'^'
+         IF    T_C,'(',MUB,')',=,'^'
+* TTTTTT               IF T-C (MUB +  1)   = '^'
+*ZC    637 TTTTTT  IF    T_C,'(',MUB,+,1,')',=,'^'
+         IF    T_C,'(',MUB,+,1,')',=,'^'
+* TTTTTT                   MOVE 'Y'    TO CARROTS
+* TTTTTT               END-IF
+*ZC    638 TTTTTT  MOVE  'Y',TO,CARROTS
+         MOVE  'Y',TO,CARROTS
+* TTTTTT           ELSE
+*ZC    640 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT               GO TO MATCH-LOOP
+*ZC    641 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT           END-IF
+*ZC    641 TTTTTT  GO    TO,MATCH_LOOP
+         GO    TO,MATCH_LOOP
+* TTTTTT       END-IF
+*ZC    643 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT     ELSE
+*ZC    644 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT           IF   T-C (MUB     )   = '^'
+*ZC    645 TTTTTT  ELSE  
+         ELSE  
+*ZC    645 TTTTTT  IF    T_C,'(',MUB,')',=,'^'
+         IF    T_C,'(',MUB,')',=,'^'
+* TTTTTT               IF T-C (MUB +  1)   = '^'
+*ZC    646 TTTTTT  IF    T_C,'(',MUB,+,1,')',=,'^'
+         IF    T_C,'(',MUB,+,1,')',=,'^'
+* TTTTTT                   MOVE 'Y'    TO CARROTS
+* TTTTTT               END-IF
+*ZC    647 TTTTTT  MOVE  'Y',TO,CARROTS
+         MOVE  'Y',TO,CARROTS
+* TTTTTT           ELSE
+*ZC    649 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT               GO TO MATCH-LOOP
+*ZC    650 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT           END-IF
+*ZC    650 TTTTTT  GO    TO,MATCH_LOOP
+         GO    TO,MATCH_LOOP
+* TTTTTT     END-IF.
+*ZC    652 TTTTTT  END_IF 
+         END_IF 
+*ZC    652 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD 2                     TO MUB.
+*ZC    653 TTTTTT  ADD   2,TO,MUB
+         ADD   2,TO,MUB
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB     )       TO THIRSTY-C (01).
+*ZC    654 TTTTTT  MOVE  T_C,'(',MUB,')',TO,THIRSTY_C,'(',01,')'
+         MOVE  T_C,'(',MUB,')',TO,THIRSTY_C,'(',01,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  1)       TO THIRSTY-C (02).
+*ZC    655 TTTTTT  MOVE  T_C,'(',MUB,+,1,')',TO,THIRSTY_C,'(',02,')'
+         MOVE  T_C,'(',MUB,+,1,')',TO,THIRSTY_C,'(',02,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  2)       TO THIRSTY-C (03).
+*ZC    656 TTTTTT  MOVE  T_C,'(',MUB,+,2,')',TO,THIRSTY_C,'(',03,')'
+         MOVE  T_C,'(',MUB,+,2,')',TO,THIRSTY_C,'(',03,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  3)       TO THIRSTY-C (04).
+*ZC    657 TTTTTT  MOVE  T_C,'(',MUB,+,3,')',TO,THIRSTY_C,'(',04,')'
+         MOVE  T_C,'(',MUB,+,3,')',TO,THIRSTY_C,'(',04,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  4)       TO THIRSTY-C (05).
+*ZC    658 TTTTTT  MOVE  T_C,'(',MUB,+,4,')',TO,THIRSTY_C,'(',05,')'
+         MOVE  T_C,'(',MUB,+,4,')',TO,THIRSTY_C,'(',05,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  5)       TO THIRSTY-C (06).
+*ZC    659 TTTTTT  MOVE  T_C,'(',MUB,+,5,')',TO,THIRSTY_C,'(',06,')'
+         MOVE  T_C,'(',MUB,+,5,')',TO,THIRSTY_C,'(',06,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  6)       TO THIRSTY-C (07).
+*ZC    660 TTTTTT  MOVE  T_C,'(',MUB,+,6,')',TO,THIRSTY_C,'(',07,')'
+         MOVE  T_C,'(',MUB,+,6,')',TO,THIRSTY_C,'(',07,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  7)       TO THIRSTY-C (08).
+*ZC    661 TTTTTT  MOVE  T_C,'(',MUB,+,7,')',TO,THIRSTY_C,'(',08,')'
+         MOVE  T_C,'(',MUB,+,7,')',TO,THIRSTY_C,'(',08,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  8)       TO THIRSTY-C (09).
+*ZC    662 TTTTTT  MOVE  T_C,'(',MUB,+,8,')',TO,THIRSTY_C,'(',09,')'
+         MOVE  T_C,'(',MUB,+,8,')',TO,THIRSTY_C,'(',09,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB +  9)       TO THIRSTY-C (10).
+*ZC    663 TTTTTT  MOVE  T_C,'(',MUB,+,9,')',TO,THIRSTY_C,'(',10,')'
+         MOVE  T_C,'(',MUB,+,9,')',TO,THIRSTY_C,'(',10,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 10)       TO THIRSTY-C (11).
+*ZC    664 TTTTTT  MOVE  T_C,'(',MUB,+,10,')',TO,THIRSTY_C,'(',11,')'
+         MOVE  T_C,'(',MUB,+,10,')',TO,THIRSTY_C,'(',11,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 11)       TO THIRSTY-C (12).
+*ZC    665 TTTTTT  MOVE  T_C,'(',MUB,+,11,')',TO,THIRSTY_C,'(',12,')'
+         MOVE  T_C,'(',MUB,+,11,')',TO,THIRSTY_C,'(',12,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 12)       TO THIRSTY-C (13).
+*ZC    666 TTTTTT  MOVE  T_C,'(',MUB,+,12,')',TO,THIRSTY_C,'(',13,')'
+         MOVE  T_C,'(',MUB,+,12,')',TO,THIRSTY_C,'(',13,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 13)       TO THIRSTY-C (14).
+*ZC    667 TTTTTT  MOVE  T_C,'(',MUB,+,13,')',TO,THIRSTY_C,'(',14,')'
+         MOVE  T_C,'(',MUB,+,13,')',TO,THIRSTY_C,'(',14,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 14)       TO THIRSTY-C (15).
+*ZC    668 TTTTTT  MOVE  T_C,'(',MUB,+,14,')',TO,THIRSTY_C,'(',15,')'
+         MOVE  T_C,'(',MUB,+,14,')',TO,THIRSTY_C,'(',15,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 15)       TO THIRSTY-C (16).
+*ZC    669 TTTTTT  MOVE  T_C,'(',MUB,+,15,')',TO,THIRSTY_C,'(',16,')'
+         MOVE  T_C,'(',MUB,+,15,')',TO,THIRSTY_C,'(',16,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 16)       TO THIRSTY-C (17).
+*ZC    670 TTTTTT  MOVE  T_C,'(',MUB,+,16,')',TO,THIRSTY_C,'(',17,')'
+         MOVE  T_C,'(',MUB,+,16,')',TO,THIRSTY_C,'(',17,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 17)       TO THIRSTY-C (18).
+*ZC    671 TTTTTT  MOVE  T_C,'(',MUB,+,17,')',TO,THIRSTY_C,'(',18,')'
+         MOVE  T_C,'(',MUB,+,17,')',TO,THIRSTY_C,'(',18,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 18)       TO THIRSTY-C (19).
+*ZC    672 TTTTTT  MOVE  T_C,'(',MUB,+,18,')',TO,THIRSTY_C,'(',19,')'
+         MOVE  T_C,'(',MUB,+,18,')',TO,THIRSTY_C,'(',19,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 19)       TO THIRSTY-C (20).
+*ZC    673 TTTTTT  MOVE  T_C,'(',MUB,+,19,')',TO,THIRSTY_C,'(',20,')'
+         MOVE  T_C,'(',MUB,+,19,')',TO,THIRSTY_C,'(',20,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 20)       TO THIRSTY-C (21).
+*ZC    674 TTTTTT  MOVE  T_C,'(',MUB,+,20,')',TO,THIRSTY_C,'(',21,')'
+         MOVE  T_C,'(',MUB,+,20,')',TO,THIRSTY_C,'(',21,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 21)       TO THIRSTY-C (22).
+*ZC    675 TTTTTT  MOVE  T_C,'(',MUB,+,21,')',TO,THIRSTY_C,'(',22,')'
+         MOVE  T_C,'(',MUB,+,21,')',TO,THIRSTY_C,'(',22,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 22)       TO THIRSTY-C (23).
+*ZC    676 TTTTTT  MOVE  T_C,'(',MUB,+,22,')',TO,THIRSTY_C,'(',23,')'
+         MOVE  T_C,'(',MUB,+,22,')',TO,THIRSTY_C,'(',23,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 23)       TO THIRSTY-C (24).
+*ZC    677 TTTTTT  MOVE  T_C,'(',MUB,+,23,')',TO,THIRSTY_C,'(',24,')'
+         MOVE  T_C,'(',MUB,+,23,')',TO,THIRSTY_C,'(',24,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 24)       TO THIRSTY-C (25).
+*ZC    678 TTTTTT  MOVE  T_C,'(',MUB,+,24,')',TO,THIRSTY_C,'(',25,')'
+         MOVE  T_C,'(',MUB,+,24,')',TO,THIRSTY_C,'(',25,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 25)       TO THIRSTY-C (26).
+*ZC    679 TTTTTT  MOVE  T_C,'(',MUB,+,25,')',TO,THIRSTY_C,'(',26,')'
+         MOVE  T_C,'(',MUB,+,25,')',TO,THIRSTY_C,'(',26,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 26)       TO THIRSTY-C (27).
+*ZC    680 TTTTTT  MOVE  T_C,'(',MUB,+,26,')',TO,THIRSTY_C,'(',27,')'
+         MOVE  T_C,'(',MUB,+,26,')',TO,THIRSTY_C,'(',27,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 27)       TO THIRSTY-C (28).
+*ZC    681 TTTTTT  MOVE  T_C,'(',MUB,+,27,')',TO,THIRSTY_C,'(',28,')'
+         MOVE  T_C,'(',MUB,+,27,')',TO,THIRSTY_C,'(',28,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 28)       TO THIRSTY-C (29).
+*ZC    682 TTTTTT  MOVE  T_C,'(',MUB,+,28,')',TO,THIRSTY_C,'(',29,')'
+         MOVE  T_C,'(',MUB,+,28,')',TO,THIRSTY_C,'(',29,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB + 29)       TO THIRSTY-C (30).
+*ZC    683 TTTTTT  MOVE  T_C,'(',MUB,+,29,')',TO,THIRSTY_C,'(',30,')'
+         MOVE  T_C,'(',MUB,+,29,')',TO,THIRSTY_C,'(',30,')'
+         PERIOD 
+* TTTTTT     IF THE-COMMAND-3-32 NOT = THIRSTY
+*ZC    684 TTTTTT  IF    THE_COMMAND_3_32,NOT,=,THIRSTY
+         IF    THE_COMMAND_3_32,NOT,=,THIRSTY
+* TTTTTT         IF CARROTS = 'N'
+*ZC    685 TTTTTT  IF    CARROTS,=,'N'
+         IF    CARROTS,=,'N'
+* TTTTTT             GO MATCH-LOOP
+* TTTTTT         END-IF
+*TTTTTT*     ELSE
+*TTTTTT*         PERFORM DO-DISPLAYIT
+*ZC    686 TTTTTT  GO    MATCH_LOOP
+         GO    MATCH_LOOP
+*ZC    690 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT     END-IF.
+*ZC    690 TTTTTT  END_IF 
+         END_IF 
+*TTTTTT*     IF MATCH-FOUND = 'N'
+*TTTTTT*         DISPLAY  'VARIABLE WAS NOT FOUND ' THE-COMMAND-3-32
+*TTTTTT*     END-IF.
+         PERIOD 
+         LABEL MATCHIT_EXIT
+*ZC    694 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT MATCHIT-EXIT. EXIT.
+         PERIOD 
+* TTTTTT DO-DISPLAYIT SECTION.
+         LABEL DO_DISPLAYIT,SECTION
+* TTTTTT     MOVE 'Y'                  TO MATCH-FOUND.
+*ZC    696 TTTTTT  MOVE  'Y',TO,MATCH_FOUND
+         MOVE  'Y',TO,MATCH_FOUND
+         PERIOD 
+* TTTTTT     MOVE 'N'                  TO DISPLAYABLE.
+*ZC    697 TTTTTT  MOVE  'N',TO,DISPLAYABLE
+         MOVE  'N',TO,DISPLAYABLE
+         PERIOD 
+* TTTTTT     MOVE 'N'                  TO NONDISPLAYABLE.
+*ZC    698 TTTTTT  MOVE  'N',TO,NONDISPLAYABLE
+         MOVE  'N',TO,NONDISPLAYABLE
+         PERIOD 
+* TTTTTT     ADD 30                    TO MUB.
+*ZC    699 TTTTTT  ADD   30,TO,MUB
+         ADD   30,TO,MUB
+         PERIOD 
+* TTTTTT     IF MONITORIT-CHANGE = 'Y'
+*ZC    700 TTTTTT  IF    MONITORIT_CHANGE,=,'Y'
+         IF    MONITORIT_CHANGE,=,'Y'
+* TTTTTT         DISPLAY THE-COMMAND-3-32
+* TTTTTT               ' AT LINE '
+* TTTTTT                 LINE-NUMBER (LINE-COUNT2)
+* TTTTTT     ELSE
+*ZC    701 TTTTTT  DISPLAY THE_COMMAND_3_32,' AT LINE ',LINE_NUMBER,'('X
+               ,LINE_COUNT2,')'
+         DISPLAY THE_COMMAND_3_32,' AT LINE ',LINE_NUMBER,'(',LINE_COUNX
+               T2,')'
+* TTTTTT         DISPLAY THE-COMMAND-3-32
+*ZC    705 TTTTTT  ELSE  
+         ELSE  
+*ZC    705 TTTTTT  DISPLAY THE_COMMAND_3_32
+         DISPLAY THE_COMMAND_3_32
+* TTTTTT     END-IF.
+*ZC    706 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE SPACES               TO LUMP.
+*ZC    707 TTTTTT  MOVE  SPACES,TO,LUMP
+         MOVE  SPACES,TO,LUMP
+         PERIOD 
+* TTTTTT     MOVE 1                    TO MUB2.
+*ZC    708 TTTTTT  MOVE  1,TO,MUB2
+         MOVE  1,TO,MUB2
+         PERIOD 
+* TTTTTT     PERFORM DISPLAYIT.
+*ZC    709 TTTTTT  PERFORM DISPLAYIT
+         PERFORM DISPLAYIT
+         PERIOD 
+* TTTTTT     SUBTRACT 1              FROM MUB.
+*ZC    710 TTTTTT  SUBTRACT 1,FROM,MUB
+         SUBTRACT 1,FROM,MUB
+         PERIOD 
+* TTTTTT     SUBTRACT 1              FROM MUB2.
+*ZC    711 TTTTTT  SUBTRACT 1,FROM,MUB2
+         SUBTRACT 1,FROM,MUB2
+         PERIOD 
+* TTTTTT     COMPUTE GUB = (MUB2 / 32).
+*ZC    712 TTTTTT  COMPUTE GUB,=,'(',MUB2,/,32,')'
+         COMPUTE GUB,=,'(',MUB2,/,32,')'
+         PERIOD 
+* TTTTTT     COMPUTE HUB = MUB2 - (GUB * 32).
+*ZC    713 TTTTTT  COMPUTE HUB,=,MUB2,-,'(',GUB,*,32,')'
+         COMPUTE HUB,=,MUB2,-,'(',GUB,*,32,')'
+         PERIOD 
+* TTTTTT     COMPUTE GUB = GUB + 1.
+*ZC    714 TTTTTT  COMPUTE GUB,=,GUB,+,1
+         COMPUTE GUB,=,GUB,+,1
+         PERIOD 
+* TTTTTT     MOVE 1                    TO GUB2.
+*ZC    715 TTTTTT  MOVE  1,TO,GUB2
+         MOVE  1,TO,GUB2
+         PERIOD 
+* TTTTTT     IF DISPLAYABLE = 'Y'
+*ZC    716 TTTTTT  IF    DISPLAYABLE,=,'Y'
+         IF    DISPLAYABLE,=,'Y'
+* TTTTTT         IF NONDISPLAYABLE = 'N'
+*ZC    717 TTTTTT  IF    NONDISPLAYABLE,=,'N'
+         IF    NONDISPLAYABLE,=,'N'
+* TTTTTT             PERFORM DISPLAYABLE-LUMP GUB TIMES
+* TTTTTT         ELSE
+*ZC    718 TTTTTT  PERFORM DISPLAYABLE_LUMP,GUB,TIMES
+         PERFORM DISPLAYABLE_LUMP,GUB,TIMES
+* TTTTTT             MOVE 1            TO GUB3
+*ZC    720 TTTTTT  ELSE  
+         ELSE  
+*ZC    720 TTTTTT  MOVE  1,TO,GUB3
+         MOVE  1,TO,GUB3
+* TTTTTT             PERFORM NONDISP-LUMP
+* TTTTTT         END-IF
+*ZC    721 TTTTTT  PERFORM NONDISP_LUMP
+         PERFORM NONDISP_LUMP
+* TTTTTT     ELSE
+*ZC    723 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT             MOVE 1            TO GUB3
+*ZC    724 TTTTTT  ELSE  
+         ELSE  
+*ZC    724 TTTTTT  MOVE  1,TO,GUB3
+         MOVE  1,TO,GUB3
+* TTTTTT             PERFORM NONDISP-LUMP
+*ZC    725 TTTTTT  PERFORM NONDISP_LUMP
+         PERFORM NONDISP_LUMP
+* TTTTTT     END-IF.
+*ZC    726 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL DO_DISPLAYIT_EXIT
+*ZC    727 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT DO-DISPLAYIT-EXIT. EXIT.
+         PERIOD 
+* TTTTTT DISPLAYABLE-LUMP SECTION.
+         LABEL DISPLAYABLE_LUMP,SECTION
+* TTTTTT     DISPLAY LUMP-BLOCK (GUB2).
+*ZC    729 TTTTTT  DISPLAY LUMP_BLOCK,'(',GUB2,')'
+         DISPLAY LUMP_BLOCK,'(',GUB2,')'
+         PERIOD 
+* TTTTTT     ADD 1                     TO GUB2.
+*ZC    730 TTTTTT  ADD   1,TO,GUB2
+         ADD   1,TO,GUB2
+         PERIOD 
+         LABEL DISPLAYABLE_LUMP_EXIT
+*ZC    731 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT DISPLAYABLE-LUMP-EXIT. EXIT.
+         PERIOD 
+* TTTTTT NONDISP-LUMP SECTION.
+         LABEL NONDISP_LUMP,SECTION
+* TTTTTT     MOVE LUMP-BLOCK (GUB3)    TO BLOC.
+*ZC    733 TTTTTT  MOVE  LUMP_BLOCK,'(',GUB3,')',TO,BLOC
+         MOVE  LUMP_BLOCK,'(',GUB3,')',TO,BLOC
+         PERIOD 
+* TTTTTT     MOVE 1                    TO GUB4.
+*ZC    734 TTTTTT  MOVE  1,TO,GUB4
+         MOVE  1,TO,GUB4
+         PERIOD 
+* TTTTTT     MOVE SPACES               TO BLOCG.
+*ZC    735 TTTTTT  MOVE  SPACES,TO,BLOCG
+         MOVE  SPACES,TO,BLOCG
+         PERIOD 
+* TTTTTT     MOVE SPACES               TO BLOCH.
+*ZC    736 TTTTTT  MOVE  SPACES,TO,BLOCH
+         MOVE  SPACES,TO,BLOCH
+         PERIOD 
+* TTTTTT     PERFORM EACH-ND-LUMP 32 TIMES.
+*ZC    737 TTTTTT  PERFORM EACH_ND_LUMP,32,TIMES
+         PERFORM EACH_ND_LUMP,32,TIMES
+         PERIOD 
+* TTTTTT     DISPLAY BLOCG.
+*ZC    738 TTTTTT  DISPLAY BLOCG
+         DISPLAY BLOCG
+         PERIOD 
+* TTTTTT     DISPLAY BLOCH.
+*ZC    739 TTTTTT  DISPLAY BLOCH
+         DISPLAY BLOCH
+         PERIOD 
+* TTTTTT     ADD 1                     TO GUB3.
+*ZC    740 TTTTTT  ADD   1,TO,GUB3
+         ADD   1,TO,GUB3
+         PERIOD 
+* TTTTTT     IF GUB3 > GUB
+*ZC    741 TTTTTT  IF    GUB3,>,GUB
+         IF    GUB3,>,GUB
+* TTTTTT         GO TO NONDISP-LUMP-EXIT
+* TTTTTT     ELSE
+*ZC    742 TTTTTT  GO    TO,NONDISP_LUMP_EXIT
+         GO    TO,NONDISP_LUMP_EXIT
+* TTTTTT         GO TO NONDISP-LUMP
+*ZC    744 TTTTTT  ELSE  
+         ELSE  
+*ZC    744 TTTTTT  GO    TO,NONDISP_LUMP
+         GO    TO,NONDISP_LUMP
+* TTTTTT     END-IF.
+*ZC    745 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL NONDISP_LUMP_EXIT
+*ZC    746 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT NONDISP-LUMP-EXIT. EXIT.
+         PERIOD 
+* TTTTTT EACH-ND-LUMP SECTION.
+         LABEL EACH_ND_LUMP,SECTION
+* TTTTTT     IF GUB3 = GUB
+*ZC    748 TTTTTT  IF    GUB3,=,GUB
+         IF    GUB3,=,GUB
+* TTTTTT         IF GUB4 > HUB
+*ZC    749 TTTTTT  IF    GUB4,>,HUB
+         IF    GUB4,>,HUB
+* TTTTTT             ADD 1             TO GUB4
+*ZC    750 TTTTTT  ADD   1,TO,GUB4
+         ADD   1,TO,GUB4
+* TTTTTT             GO TO EACH-ND-LUMP-EXIT
+* TTTTTT         END-IF
+*ZC    751 TTTTTT  GO    TO,EACH_ND_LUMP_EXIT
+         GO    TO,EACH_ND_LUMP_EXIT
+* TTTTTT     END-IF.
+*ZC    753 TTTTTT  END_IF 
+         END_IF 
+*ZC    753 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE '. '                 TO BLOCG-BI (GUB4).
+*ZC    754 TTTTTT  MOVE  '. ',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  '. ',TO,BLOCG_BI,'(',GUB4,')'
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = SPACE)
+*ZC    755 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,SPACE,')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,SPACE,')'
+* TTTTTT         MOVE 'SP'             TO BLOCG-BI (GUB4)
+*ZC    756 TTTTTT  MOVE  'SP',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  'SP',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    757 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    758 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) NOT < 'A' AND  BLOC-C (GUB4) NOT > 'Z')
+*ZC    759 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',NOT,<,'A',AND,BLOC_C,'X
+               (',GUB4,')',NOT,>,'Z',')'
+         IF    '(',BLOC_C,'(',GUB4,')',NOT,<,'A',AND,BLOC_C,'(',GUB4,')X
+               ',NOT,>,'Z',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    760 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    761 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    762 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) NOT < 'a' AND BLOC-C (GUB4) NOT > 'z')
+*ZC    763 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',NOT,<,'a',AND,BLOC_C,'X
+               (',GUB4,')',NOT,>,'z',')'
+         IF    '(',BLOC_C,'(',GUB4,')',NOT,<,'a',AND,BLOC_C,'(',GUB4,')X
+               ',NOT,>,'z',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    764 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    765 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    766 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = '@' OR '$' OR '*' OR '&' OR '%' OR '+'X
+               )
+*ZC    767 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,'@',OR,'$',OR,'*',ORX
+               ,'&&',OR,'%',OR,'+',')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,'@',OR,'$',OR,'*',OR,'&&',OR,'X
+               %',OR,'+',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    768 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    769 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    770 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = X'4D')
+*ZC    771 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,X'4D',')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,X'4D',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    772 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    773 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    774 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = X'5D')
+*ZC    775 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,X'5D',')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,X'5D',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    776 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    777 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    778 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = X'6B')
+*ZC    779 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,X'6B',')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,X'6B',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    780 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    781 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    782 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = '-' OR '=' OR '{' OR '}' OR '[' OR ']'X
+               )
+*ZC    783 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,'-',OR,'=',OR,'{',ORX
+               ,'}',OR,'[',OR,']',')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,'-',OR,'=',OR,'{',OR,'}',OR,'[X
+               ',OR,']',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    784 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    785 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    786 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = ':' OR '"' OR '<' OR '>' OR '?' OR '.'X
+               )
+*ZC    787 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,':',OR,'"',OR,'<',ORX
+               ,'>',OR,'?',OR,'.',')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,':',OR,'"',OR,'<',OR,'>',OR,'?X
+               ',OR,'.',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    788 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    789 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    790 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (BLOC-C (GUB4) = '/' OR '''')
+*ZC    791 TTTTTT  IF    '(',BLOC_C,'(',GUB4,')',=,'/',OR,'''',')'
+         IF    '(',BLOC_C,'(',GUB4,')',=,'/',OR,'''',')'
+* TTTTTT         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    792 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTTT         GO TO EACH-ND
+*ZC    793 TTTTTT  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTTT     END-IF.
+*ZC    794 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTT+     IF (BLOC-C (GUB4) NOT < '0' AND BLOC-C (GUB4) NOT > '9')
+*ZC    795 TTTTT+  IF    '(',BLOC_C,'(',GUB4,')',NOT,<,'0',AND,BLOC_C,'X
+               (',GUB4,')',NOT,>,'9',')'
+         IF    '(',BLOC_C,'(',GUB4,')',NOT,<,'0',AND,BLOC_C,'(',GUB4,')X
+               ',NOT,>,'9',')'
+* TTTTT+         MOVE BLOC-C (GUB4)    TO BLOCG-BI (GUB4)
+*ZC    796 TTTTT+  MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+         MOVE  BLOC_C,'(',GUB4,')',TO,BLOCG_BI,'(',GUB4,')'
+* TTTTT+         GO TO EACH-ND
+*ZC    797 TTTTT+  GO    TO,EACH_ND
+         GO    TO,EACH_ND
+* TTTTT+     END-IF.
+*ZC    798 TTTTT+  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT EACH-ND.
+         LABEL EACH_ND
+* TTTTTT     MOVE LOW-VALUES           TO THE-1ST-CHAR.
+*ZC    800 TTTTTT  MOVE  LOW_VALUES,TO,THE_1ST_CHAR
+         MOVE  LOW_VALUES,TO,THE_1ST_CHAR
+         PERIOD 
+* TTTTTT     MOVE BLOC-C (GUB4)        TO THE-2ND-CHAR.
+*ZC    801 TTTTTT  MOVE  BLOC_C,'(',GUB4,')',TO,THE_2ND_CHAR
+         MOVE  BLOC_C,'(',GUB4,')',TO,THE_2ND_CHAR
+         PERIOD 
+* TTTTTT     COMPUTE LHS = NINE-04-COMP / 16.
+*ZC    802 TTTTTT  COMPUTE LHS,=,NINE_04_COMP,/,16
+         COMPUTE LHS,=,NINE_04_COMP,/,16
+         PERIOD 
+* TTTTTT     COMPUTE RHS = NINE-04-COMP - (LHS * 16).
+*ZC    803 TTTTTT  COMPUTE RHS,=,NINE_04_COMP,-,'(',LHS,*,16,')'
+         COMPUTE RHS,=,NINE_04_COMP,-,'(',LHS,*,16,')'
+         PERIOD 
+* TTTTTT     ADD 1                     TO LHS.
+*ZC    804 TTTTTT  ADD   1,TO,LHS
+         ADD   1,TO,LHS
+         PERIOD 
+* TTTTTT     ADD 1                     TO RHS.
+*ZC    805 TTTTTT  ADD   1,TO,RHS
+         ADD   1,TO,RHS
+         PERIOD 
+* TTTTTT     MOVE THE-ARRAY-C (LHS)    TO BLOCH-BI-LHS (GUB4).
+*ZC    806 TTTTTT  MOVE  THE_ARRAY_C,'(',LHS,')',TO,BLOCH_BI_LHS,'(',GUX
+               B4,')'
+         MOVE  THE_ARRAY_C,'(',LHS,')',TO,BLOCH_BI_LHS,'(',GUB4,')'
+         PERIOD 
+* TTTTTT     MOVE THE-ARRAY-C (RHS)    TO BLOCH-BI-RHS (GUB4).
+*ZC    807 TTTTTT  MOVE  THE_ARRAY_C,'(',RHS,')',TO,BLOCH_BI_RHS,'(',GUX
+               B4,')'
+         MOVE  THE_ARRAY_C,'(',RHS,')',TO,BLOCH_BI_RHS,'(',GUB4,')'
+         PERIOD 
+* TTTTTT     ADD 1                     TO GUB4.
+*ZC    808 TTTTTT  ADD   1,TO,GUB4
+         ADD   1,TO,GUB4
+         PERIOD 
+         LABEL EACH_ND_LUMP_EXIT
+*ZC    809 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT EACH-ND-LUMP-EXIT. EXIT.
+         PERIOD 
+* TTTTTT DISPLAYIT SECTION.
+         LABEL DISPLAYIT,SECTION
+* TTTTTT     IF (T-C (MUB) = '~' AND T-C (MUB + 1) = '~')
+*ZC    811 TTTTTT  IF    '(',T_C,'(',MUB,')',=,'~',AND,T_C,'(',MUB,+,1,X
+               ')',=,'~',')'
+         IF    '(',T_C,'(',MUB,')',=,'~',AND,T_C,'(',MUB,+,1,')',=,'~',X
+               ')'
+* TTTTTT         GO TO DISPLAYIT-EXIT
+*ZC    812 TTTTTT  GO    TO,DISPLAYIT_EXIT
+         GO    TO,DISPLAYIT_EXIT
+* TTTTTT     END-IF.
+*ZC    813 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = SPACE)
+*ZC    814 TTTTTT  IF    '(',T_C,'(',MUB,')',=,SPACE,')'
+         IF    '(',T_C,'(',MUB,')',=,SPACE,')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    815 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    816 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    817 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) NOT < 'A' AND  T-C (MUB) NOT > 'Z')
+*ZC    818 TTTTTT  IF    '(',T_C,'(',MUB,')',NOT,<,'A',AND,T_C,'(',MUB,X
+               ')',NOT,>,'Z',')'
+         IF    '(',T_C,'(',MUB,')',NOT,<,'A',AND,T_C,'(',MUB,')',NOT,>,X
+               'Z',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    819 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    820 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    821 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) NOT < 'a' AND T-C (MUB) NOT > 'z')
+*ZC    822 TTTTTT  IF    '(',T_C,'(',MUB,')',NOT,<,'a',AND,T_C,'(',MUB,X
+               ')',NOT,>,'z',')'
+         IF    '(',T_C,'(',MUB,')',NOT,<,'a',AND,T_C,'(',MUB,')',NOT,>,X
+               'z',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    823 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    824 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    825 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = '@' OR '$' OR '*' OR '&' OR '%' OR '+')
+*ZC    826 TTTTTT  IF    '(',T_C,'(',MUB,')',=,'@',OR,'$',OR,'*',OR,'&&X
+               ',OR,'%',OR,'+',')'
+         IF    '(',T_C,'(',MUB,')',=,'@',OR,'$',OR,'*',OR,'&&',OR,'%',OX
+               R,'+',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    827 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    828 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    829 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = X'4D')
+*ZC    830 TTTTTT  IF    '(',T_C,'(',MUB,')',=,X'4D',')'
+         IF    '(',T_C,'(',MUB,')',=,X'4D',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    831 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    832 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    833 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = X'5D')
+*ZC    834 TTTTTT  IF    '(',T_C,'(',MUB,')',=,X'5D',')'
+         IF    '(',T_C,'(',MUB,')',=,X'5D',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    835 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    836 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    837 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = X'6B')
+*ZC    838 TTTTTT  IF    '(',T_C,'(',MUB,')',=,X'6B',')'
+         IF    '(',T_C,'(',MUB,')',=,X'6B',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    839 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    840 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    841 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = '-' OR '=' OR '{' OR '}' OR '[' OR ']')
+*ZC    842 TTTTTT  IF    '(',T_C,'(',MUB,')',=,'-',OR,'=',OR,'{',OR,'}'X
+               ,OR,'[',OR,']',')'
+         IF    '(',T_C,'(',MUB,')',=,'-',OR,'=',OR,'{',OR,'}',OR,'[',ORX
+               ,']',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    843 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    844 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    845 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = ':' OR '"' OR '<' OR '>' OR '?' OR '.')
+*ZC    846 TTTTTT  IF    '(',T_C,'(',MUB,')',=,':',OR,'"',OR,'<',OR,'>'X
+               ,OR,'?',OR,'.',')'
+         IF    '(',T_C,'(',MUB,')',=,':',OR,'"',OR,'<',OR,'>',OR,'?',ORX
+               ,'.',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    847 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    848 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    849 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF (T-C (MUB) = '/' OR '''')
+*ZC    850 TTTTTT  IF    '(',T_C,'(',MUB,')',=,'/',OR,'''',')'
+         IF    '(',T_C,'(',MUB,')',=,'/',OR,'''',')'
+* TTTTTT         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    851 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTTT         GO TO D-ADD
+*ZC    852 TTTTTT  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTTT     END-IF.
+*ZC    853 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTT+     IF (T-C (MUB) NOT < '0' AND T-C (MUB) NOT > '9')
+*ZC    854 TTTTT+  IF    '(',T_C,'(',MUB,')',NOT,<,'0',AND,T_C,'(',MUB,X
+               ')',NOT,>,'9',')'
+         IF    '(',T_C,'(',MUB,')',NOT,<,'0',AND,T_C,'(',MUB,')',NOT,>,X
+               '9',')'
+* TTTTT+         MOVE T-C (MUB)        TO LUMP-C (MUB2)
+*ZC    855 TTTTT+  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+* TTTTT+         GO TO D-ADD
+*ZC    856 TTTTT+  GO    TO,D_ADD
+         GO    TO,D_ADD
+* TTTTT+     END-IF.
+*ZC    857 TTTTT+  END_IF 
+         END_IF 
+* TTTTTT
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB)            TO LUMP-C (MUB2).
+*ZC    859 TTTTTT  MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         MOVE  T_C,'(',MUB,')',TO,LUMP_C,'(',MUB2,')'
+         PERIOD 
+* TTTTTT     ADD 1                     TO MUB.
+*ZC    860 TTTTTT  ADD   1,TO,MUB
+         ADD   1,TO,MUB
+         PERIOD 
+* TTTTTT     ADD 1                     TO MUB2.
+*TTTTTT*14/03/12 3200 changed to 64000
+*ZC    861 TTTTTT  ADD   1,TO,MUB2
+         ADD   1,TO,MUB2
+         PERIOD 
+* TTTTT+      IF MUB2 > 64000
+*ZC    863 TTTTT+  IF    MUB2,>,64000
+         IF    MUB2,>,64000
+* TTTTT+          DISPLAY 'MAX OF 64000 CHARACTERS HAS BEEN EXCEEDED'
+*TTTTTT*     IF MUB2 > 3200
+*TTTTTT*        DISPLAY 'MAX OF 3200 CHARACTERS HAS BEEN EXCEEDED'
+*ZC    864 TTTTT+  DISPLAY 'MAX OF 64000 CHARACTERS HAS BEEN EXCEEDED'
+         DISPLAY 'MAX OF 64000 CHARACTERS HAS BEEN EXCEEDED'
+* TTTTTT         DISPLAY 'BOMBING'
+*ZC    867 TTTTTT  DISPLAY 'BOMBING'
+         DISPLAY 'BOMBING'
+* TTTTTT         STOP RUN
+*ZC    868 TTTTTT  STOP  RUN
+         STOP  RUN
+* TTTTTT     END-IF.
+*ZC    869 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE 'Y'                  TO NONDISPLAYABLE.
+*ZC    870 TTTTTT  MOVE  'Y',TO,NONDISPLAYABLE
+         MOVE  'Y',TO,NONDISPLAYABLE
+         PERIOD 
+* TTTTTT     GO TO DISPLAYIT.
+*ZC    871 TTTTTT  GO    TO,DISPLAYIT
+         GO    TO,DISPLAYIT
+         PERIOD 
+* TTTTTT D-ADD.
+         LABEL D_ADD
+* TTTTTT     ADD 1                     TO MUB.
+*ZC    873 TTTTTT  ADD   1,TO,MUB
+         ADD   1,TO,MUB
+         PERIOD 
+* TTTTTT     ADD 1                     TO MUB2.
+*TTTTTT*14/03/12 3200 changed to 64000
+*ZC    874 TTTTTT  ADD   1,TO,MUB2
+         ADD   1,TO,MUB2
+         PERIOD 
+* TTTTT+      IF MUB2 > 64000
+*ZC    876 TTTTT+  IF    MUB2,>,64000
+         IF    MUB2,>,64000
+* TTTTT+          DISPLAY 'MAX OF 64000 CHARACTERS HAS BEEN EXCEEDED'
+*TTTTTT*    IF MUB2 > 3200
+*TTTTTT*        DISPLAY 'MAX OF 3200 CHARACTERS HAS BEEN EXCEEDED'
+*ZC    877 TTTTT+  DISPLAY 'MAX OF 64000 CHARACTERS HAS BEEN EXCEEDED'
+         DISPLAY 'MAX OF 64000 CHARACTERS HAS BEEN EXCEEDED'
+* TTTTTT         DISPLAY 'BOMBING'
+*ZC    880 TTTTTT  DISPLAY 'BOMBING'
+         DISPLAY 'BOMBING'
+* TTTTTT         STOP RUN
+*ZC    881 TTTTTT  STOP  RUN
+         STOP  RUN
+* TTTTTT     END-IF.
+*ZC    882 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE 'Y'                  TO DISPLAYABLE.
+*ZC    883 TTTTTT  MOVE  'Y',TO,DISPLAYABLE
+         MOVE  'Y',TO,DISPLAYABLE
+         PERIOD 
+* TTTTTT     GO TO DISPLAYIT.
+*ZC    884 TTTTTT  GO    TO,DISPLAYIT
+         GO    TO,DISPLAYIT
+         PERIOD 
+         LABEL DISPLAYIT_EXIT
+*ZC    885 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT DISPLAYIT-EXIT. EXIT.
+         PERIOD 
+* TTTTTT READ-LINE-FILE SECTION.
+         LABEL READ_LINE_FILE,SECTION
+* TTTTTT     READ LINE-FILE
+* TTTTTT         AT END
+*ZC    887 TTTTTT  READ  LINE_FILE,AT,END
+         READ  LINE_FILE,AT,END
+* TTTTTT             MOVE 'Y' TO LINE-FILE-ENDED.
+*ZC    889 TTTTTT  MOVE  'Y',TO,LINE_FILE_ENDED
+         MOVE  'Y',TO,LINE_FILE_ENDED
+         PERIOD 
+*            DISPLAY LINE-COUNT ' ' LINE-FILE-ENDED.
+*ZC    890         DISPLAY LINE_COUNT,' ',LINE_FILE_ENDED
+         DISPLAY LINE_COUNT,' ',LINE_FILE_ENDED
+         PERIOD 
+* TTTTTT     IF LINE-FILE-ENDED = 'N'
+*ZC    891 TTTTTT  IF    LINE_FILE_ENDED,=,'N'
+         IF    LINE_FILE_ENDED,=,'N'
+* TTTTTT         ADD 1                 TO LINE-COUNT
+*ZC    892 TTTTTT  ADD   1,TO,LINE_COUNT
+         ADD   1,TO,LINE_COUNT
+* TTTTTT         IF LINE-COUNT > 500
+*ZC    893 TTTTTT  IF    LINE_COUNT,>,500
+         IF    LINE_COUNT,>,500
+* TTTTTT             DISPLAY 'MAX OF 500 LINES EXCEEDED'
+*ZC    894 TTTTTT  DISPLAY 'MAX OF 500 LINES EXCEEDED'
+         DISPLAY 'MAX OF 500 LINES EXCEEDED'
+* TTTTTT             DISPLAY 'BOMBING'
+*ZC    895 TTTTTT  DISPLAY 'BOMBING'
+         DISPLAY 'BOMBING'
+* TTTTTT             STOP RUN
+* TTTTTT         END-IF
+*ZC    896 TTTTTT  STOP  RUN
+         STOP  RUN
+* TTTTTT         MOVE LINE-RECORD      TO LINE-ENTRY (LINE-COUNT)
+*ZC    898 TTTTTT  END_IF 
+         END_IF 
+*ZC    898 TTTTTT  MOVE  LINE_RECORD,TO,LINE_ENTRY,'(',LINE_COUNT,')'
+         MOVE  LINE_RECORD,TO,LINE_ENTRY,'(',LINE_COUNT,')'
+* TTTTTT     END-IF.
+*ZC    899 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL READ_LINE_FILE_EXIT
+*ZC    900 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT READ-LINE-FILE-EXIT. EXIT.
+         PERIOD 
+* TTTTTT WORKIT SECTION.
+         LABEL WORKIT,SECTION
+* TTTTTT     MOVE  2                   TO MUB3.
+*ZC    902 TTTTTT  MOVE  2,TO,MUB3
+         MOVE  2,TO,MUB3
+         PERIOD 
+* TTTTTT     MOVE  1                   TO MUB4.
+*ZC    903 TTTTTT  MOVE  1,TO,MUB4
+         MOVE  1,TO,MUB4
+         PERIOD 
+* TTTTTT     MOVE 'N'                  TO WORKIT-END.
+*ZC    904 TTTTTT  MOVE  'N',TO,WORKIT_END
+         MOVE  'N',TO,WORKIT_END
+         PERIOD 
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC    905 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+* TTTTTT WORKIT-LOOP.
+         LABEL WORKIT_LOOP
+* TTTTTT     ADD   1                   TO MUB3.
+*ZC    907 TTTTTT  ADD   1,TO,MUB3
+         ADD   1,TO,MUB3
+         PERIOD 
+* TTTTTT     IF   T-C (MUB3     )   = '!'
+*ZC    908 TTTTTT  IF    T_C,'(',MUB3,')',=,'!'
+         IF    T_C,'(',MUB3,')',=,'!'
+* TTTTTT       IF T-C (MUB3 +  1)   = '!'
+*ZC    909 TTTTTT  IF    T_C,'(',MUB3,+,1,')',=,'!'
+         IF    T_C,'(',MUB3,+,1,')',=,'!'
+* TTTTTT           NEXT SENTENCE
+* TTTTTT       ELSE
+*ZC    910 TTTTTT  NEXT  SENTENCE
+         NEXT  SENTENCE
+* TTTTTT           IF   T-C (MUB3     )   = '^'
+*ZC    912 TTTTTT  ELSE  
+         ELSE  
+*ZC    912 TTTTTT  IF    T_C,'(',MUB3,')',=,'^'
+         IF    T_C,'(',MUB3,')',=,'^'
+* TTTTTT               IF T-C (MUB3 +  1)   = '^'
+*ZC    913 TTTTTT  IF    T_C,'(',MUB3,+,1,')',=,'^'
+         IF    T_C,'(',MUB3,+,1,')',=,'^'
+* TTTTTT                   MOVE 'Y'    TO WORKIT-END
+*ZC    914 TTTTTT  MOVE  'Y',TO,WORKIT_END
+         MOVE  'Y',TO,WORKIT_END
+* TTTTTT                   GO TO WORKIT-LAST
+* TTTTTT               END-IF
+*ZC    915 TTTTTT  GO    TO,WORKIT_LAST
+         GO    TO,WORKIT_LAST
+* TTTTTT           ELSE
+*ZC    917 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT               GO TO WORKIT-LOOP
+*ZC    918 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT           END-IF
+*ZC    918 TTTTTT  GO    TO,WORKIT_LOOP
+         GO    TO,WORKIT_LOOP
+* TTTTTT       END-IF
+*ZC    920 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT     ELSE
+*ZC    921 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT           IF   T-C (MUB3     )   = '^'
+*ZC    922 TTTTTT  ELSE  
+         ELSE  
+*ZC    922 TTTTTT  IF    T_C,'(',MUB3,')',=,'^'
+         IF    T_C,'(',MUB3,')',=,'^'
+* TTTTTT               IF T-C (MUB3 +  1)   = '^'
+*ZC    923 TTTTTT  IF    T_C,'(',MUB3,+,1,')',=,'^'
+         IF    T_C,'(',MUB3,+,1,')',=,'^'
+* TTTTTT                   MOVE 'Y'    TO WORKIT-END
+*ZC    924 TTTTTT  MOVE  'Y',TO,WORKIT_END
+         MOVE  'Y',TO,WORKIT_END
+* TTTTTT                   GO TO WORKIT-LAST
+* TTTTTT               END-IF
+*ZC    925 TTTTTT  GO    TO,WORKIT_LAST
+         GO    TO,WORKIT_LAST
+* TTTTTT           ELSE
+*ZC    927 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT               GO TO WORKIT-LOOP
+*ZC    928 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT           END-IF
+*ZC    928 TTTTTT  GO    TO,WORKIT_LOOP
+         GO    TO,WORKIT_LOOP
+* TTTTTT     END-IF.
+*ZC    930 TTTTTT  END_IF 
+         END_IF 
+*ZC    930 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD 2                      TO MUB3.
+*ZC    931 TTTTTT  ADD   2,TO,MUB3
+         ADD   2,TO,MUB3
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3     )       TO THIRSTY-C (01).
+*ZC    932 TTTTTT  MOVE  T_C,'(',MUB3,')',TO,THIRSTY_C,'(',01,')'
+         MOVE  T_C,'(',MUB3,')',TO,THIRSTY_C,'(',01,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  1)       TO THIRSTY-C (02).
+*ZC    933 TTTTTT  MOVE  T_C,'(',MUB3,+,1,')',TO,THIRSTY_C,'(',02,')'
+         MOVE  T_C,'(',MUB3,+,1,')',TO,THIRSTY_C,'(',02,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  2)       TO THIRSTY-C (03).
+*ZC    934 TTTTTT  MOVE  T_C,'(',MUB3,+,2,')',TO,THIRSTY_C,'(',03,')'
+         MOVE  T_C,'(',MUB3,+,2,')',TO,THIRSTY_C,'(',03,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  3)       TO THIRSTY-C (04).
+*ZC    935 TTTTTT  MOVE  T_C,'(',MUB3,+,3,')',TO,THIRSTY_C,'(',04,')'
+         MOVE  T_C,'(',MUB3,+,3,')',TO,THIRSTY_C,'(',04,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  4)       TO THIRSTY-C (05).
+*ZC    936 TTTTTT  MOVE  T_C,'(',MUB3,+,4,')',TO,THIRSTY_C,'(',05,')'
+         MOVE  T_C,'(',MUB3,+,4,')',TO,THIRSTY_C,'(',05,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  5)       TO THIRSTY-C (06).
+*ZC    937 TTTTTT  MOVE  T_C,'(',MUB3,+,5,')',TO,THIRSTY_C,'(',06,')'
+         MOVE  T_C,'(',MUB3,+,5,')',TO,THIRSTY_C,'(',06,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  6)       TO THIRSTY-C (07).
+*ZC    938 TTTTTT  MOVE  T_C,'(',MUB3,+,6,')',TO,THIRSTY_C,'(',07,')'
+         MOVE  T_C,'(',MUB3,+,6,')',TO,THIRSTY_C,'(',07,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  7)       TO THIRSTY-C (08).
+*ZC    939 TTTTTT  MOVE  T_C,'(',MUB3,+,7,')',TO,THIRSTY_C,'(',08,')'
+         MOVE  T_C,'(',MUB3,+,7,')',TO,THIRSTY_C,'(',08,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  8)       TO THIRSTY-C (09).
+*ZC    940 TTTTTT  MOVE  T_C,'(',MUB3,+,8,')',TO,THIRSTY_C,'(',09,')'
+         MOVE  T_C,'(',MUB3,+,8,')',TO,THIRSTY_C,'(',09,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  9)       TO THIRSTY-C (10).
+*ZC    941 TTTTTT  MOVE  T_C,'(',MUB3,+,9,')',TO,THIRSTY_C,'(',10,')'
+         MOVE  T_C,'(',MUB3,+,9,')',TO,THIRSTY_C,'(',10,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 10)       TO THIRSTY-C (11).
+*ZC    942 TTTTTT  MOVE  T_C,'(',MUB3,+,10,')',TO,THIRSTY_C,'(',11,')'
+         MOVE  T_C,'(',MUB3,+,10,')',TO,THIRSTY_C,'(',11,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 11)       TO THIRSTY-C (12).
+*ZC    943 TTTTTT  MOVE  T_C,'(',MUB3,+,11,')',TO,THIRSTY_C,'(',12,')'
+         MOVE  T_C,'(',MUB3,+,11,')',TO,THIRSTY_C,'(',12,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 12)       TO THIRSTY-C (13).
+*ZC    944 TTTTTT  MOVE  T_C,'(',MUB3,+,12,')',TO,THIRSTY_C,'(',13,')'
+         MOVE  T_C,'(',MUB3,+,12,')',TO,THIRSTY_C,'(',13,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 13)       TO THIRSTY-C (14).
+*ZC    945 TTTTTT  MOVE  T_C,'(',MUB3,+,13,')',TO,THIRSTY_C,'(',14,')'
+         MOVE  T_C,'(',MUB3,+,13,')',TO,THIRSTY_C,'(',14,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 14)       TO THIRSTY-C (15).
+*ZC    946 TTTTTT  MOVE  T_C,'(',MUB3,+,14,')',TO,THIRSTY_C,'(',15,')'
+         MOVE  T_C,'(',MUB3,+,14,')',TO,THIRSTY_C,'(',15,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 15)       TO THIRSTY-C (16).
+*ZC    947 TTTTTT  MOVE  T_C,'(',MUB3,+,15,')',TO,THIRSTY_C,'(',16,')'
+         MOVE  T_C,'(',MUB3,+,15,')',TO,THIRSTY_C,'(',16,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 16)       TO THIRSTY-C (17).
+*ZC    948 TTTTTT  MOVE  T_C,'(',MUB3,+,16,')',TO,THIRSTY_C,'(',17,')'
+         MOVE  T_C,'(',MUB3,+,16,')',TO,THIRSTY_C,'(',17,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 17)       TO THIRSTY-C (18).
+*ZC    949 TTTTTT  MOVE  T_C,'(',MUB3,+,17,')',TO,THIRSTY_C,'(',18,')'
+         MOVE  T_C,'(',MUB3,+,17,')',TO,THIRSTY_C,'(',18,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 18)       TO THIRSTY-C (19).
+*ZC    950 TTTTTT  MOVE  T_C,'(',MUB3,+,18,')',TO,THIRSTY_C,'(',19,')'
+         MOVE  T_C,'(',MUB3,+,18,')',TO,THIRSTY_C,'(',19,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 19)       TO THIRSTY-C (20).
+*ZC    951 TTTTTT  MOVE  T_C,'(',MUB3,+,19,')',TO,THIRSTY_C,'(',20,')'
+         MOVE  T_C,'(',MUB3,+,19,')',TO,THIRSTY_C,'(',20,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 20)       TO THIRSTY-C (21).
+*ZC    952 TTTTTT  MOVE  T_C,'(',MUB3,+,20,')',TO,THIRSTY_C,'(',21,')'
+         MOVE  T_C,'(',MUB3,+,20,')',TO,THIRSTY_C,'(',21,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 21)       TO THIRSTY-C (22).
+*ZC    953 TTTTTT  MOVE  T_C,'(',MUB3,+,21,')',TO,THIRSTY_C,'(',22,')'
+         MOVE  T_C,'(',MUB3,+,21,')',TO,THIRSTY_C,'(',22,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 22)       TO THIRSTY-C (23).
+*ZC    954 TTTTTT  MOVE  T_C,'(',MUB3,+,22,')',TO,THIRSTY_C,'(',23,')'
+         MOVE  T_C,'(',MUB3,+,22,')',TO,THIRSTY_C,'(',23,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 23)       TO THIRSTY-C (24).
+*ZC    955 TTTTTT  MOVE  T_C,'(',MUB3,+,23,')',TO,THIRSTY_C,'(',24,')'
+         MOVE  T_C,'(',MUB3,+,23,')',TO,THIRSTY_C,'(',24,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 24)       TO THIRSTY-C (25).
+*ZC    956 TTTTTT  MOVE  T_C,'(',MUB3,+,24,')',TO,THIRSTY_C,'(',25,')'
+         MOVE  T_C,'(',MUB3,+,24,')',TO,THIRSTY_C,'(',25,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 25)       TO THIRSTY-C (26).
+*ZC    957 TTTTTT  MOVE  T_C,'(',MUB3,+,25,')',TO,THIRSTY_C,'(',26,')'
+         MOVE  T_C,'(',MUB3,+,25,')',TO,THIRSTY_C,'(',26,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 26)       TO THIRSTY-C (27).
+*ZC    958 TTTTTT  MOVE  T_C,'(',MUB3,+,26,')',TO,THIRSTY_C,'(',27,')'
+         MOVE  T_C,'(',MUB3,+,26,')',TO,THIRSTY_C,'(',27,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 27)       TO THIRSTY-C (28).
+*ZC    959 TTTTTT  MOVE  T_C,'(',MUB3,+,27,')',TO,THIRSTY_C,'(',28,')'
+         MOVE  T_C,'(',MUB3,+,27,')',TO,THIRSTY_C,'(',28,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 28)       TO THIRSTY-C (29).
+*ZC    960 TTTTTT  MOVE  T_C,'(',MUB3,+,28,')',TO,THIRSTY_C,'(',29,')'
+         MOVE  T_C,'(',MUB3,+,28,')',TO,THIRSTY_C,'(',29,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 29)       TO THIRSTY-C (30).
+*ZC    961 TTTTTT  MOVE  T_C,'(',MUB3,+,29,')',TO,THIRSTY_C,'(',30,')'
+         MOVE  T_C,'(',MUB3,+,29,')',TO,THIRSTY_C,'(',30,')'
+         PERIOD 
+* TTTTTT     DISPLAY '>>>>' THIRSTY.
+*ZC    962 TTTTTT  DISPLAY '>>>>',THIRSTY
+         DISPLAY '>>>>',THIRSTY
+         PERIOD 
+* TTTTTT     ADD  1                     TO MUB4.
+*ZC    963 TTTTTT  ADD   1,TO,MUB4
+         ADD   1,TO,MUB4
+         PERIOD 
+* TTTTTT     IF MUB4 > 15
+*ZC    964 TTTTTT  IF    MUB4,>,15
+         IF    MUB4,>,15
+* TTTTTT         GO TO WORKIT-LAST
+*ZC    965 TTTTTT  GO    TO,WORKIT_LAST
+         GO    TO,WORKIT_LAST
+* TTTTTT     END-IF.
+*ZC    966 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     GO WORKIT-LOOP.
+*ZC    967 TTTTTT  GO    WORKIT_LOOP
+         GO    WORKIT_LOOP
+         PERIOD 
+* TTTTTT WORKIT-LAST.
+         LABEL WORKIT_LAST
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC    969 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+         LABEL WORKIT_EXIT
+*ZC    970 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT WORKIT-EXIT. EXIT.
+         PERIOD 
+* TTTTTT WORKIT-PLUS SECTION.
+         LABEL WORKIT_PLUS,SECTION
+* TTTTTT     IF WORKIT-END = 'Y'
+*ZC    972 TTTTTT  IF    WORKIT_END,=,'Y'
+         IF    WORKIT_END,=,'Y'
+* TTTTTT         GO TO WORKIT-PLUS-EXIT
+*ZC    973 TTTTTT  GO    TO,WORKIT_PLUS_EXIT
+         GO    TO,WORKIT_PLUS_EXIT
+* TTTTTT     END-IF.
+*ZC    974 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE  1                   TO MUB4.
+*ZC    975 TTTTTT  MOVE  1,TO,MUB4
+         MOVE  1,TO,MUB4
+         PERIOD 
+* TTTTTT     MOVE 'N'                  TO WORKIT-END.
+*ZC    976 TTTTTT  MOVE  'N',TO,WORKIT_END
+         MOVE  'N',TO,WORKIT_END
+         PERIOD 
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC    977 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+* TTTTTT WORKIT-PLUS-LOOP.
+         LABEL WORKIT_PLUS_LOOP
+* TTTTTT     ADD   1                   TO MUB3.
+*ZC    979 TTTTTT  ADD   1,TO,MUB3
+         ADD   1,TO,MUB3
+         PERIOD 
+* TTTTTT     IF   T-C (MUB3     )   = '!'
+*ZC    980 TTTTTT  IF    T_C,'(',MUB3,')',=,'!'
+         IF    T_C,'(',MUB3,')',=,'!'
+* TTTTTT       IF T-C (MUB3 +  1)   = '!'
+*ZC    981 TTTTTT  IF    T_C,'(',MUB3,+,1,')',=,'!'
+         IF    T_C,'(',MUB3,+,1,')',=,'!'
+* TTTTTT           NEXT SENTENCE
+* TTTTTT       ELSE
+*ZC    982 TTTTTT  NEXT  SENTENCE
+         NEXT  SENTENCE
+* TTTTTT           IF   T-C (MUB3     )   = '^'
+*ZC    984 TTTTTT  ELSE  
+         ELSE  
+*ZC    984 TTTTTT  IF    T_C,'(',MUB3,')',=,'^'
+         IF    T_C,'(',MUB3,')',=,'^'
+* TTTTTT               IF T-C (MUB3 +  1)   = '^'
+*ZC    985 TTTTTT  IF    T_C,'(',MUB3,+,1,')',=,'^'
+         IF    T_C,'(',MUB3,+,1,')',=,'^'
+* TTTTTT                   MOVE 'Y'    TO WORKIT-END
+*ZC    986 TTTTTT  MOVE  'Y',TO,WORKIT_END
+         MOVE  'Y',TO,WORKIT_END
+* TTTTTT                   GO TO WORKIT-PLUS-LAST
+* TTTTTT               END-IF
+*ZC    987 TTTTTT  GO    TO,WORKIT_PLUS_LAST
+         GO    TO,WORKIT_PLUS_LAST
+* TTTTTT           ELSE
+*ZC    989 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT               GO TO WORKIT-PLUS-LOOP
+*ZC    990 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT           END-IF
+*ZC    990 TTTTTT  GO    TO,WORKIT_PLUS_LOOP
+         GO    TO,WORKIT_PLUS_LOOP
+* TTTTTT       END-IF
+*ZC    992 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT     ELSE
+*ZC    993 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT           IF   T-C (MUB3     )   = '^'
+*ZC    994 TTTTTT  ELSE  
+         ELSE  
+*ZC    994 TTTTTT  IF    T_C,'(',MUB3,')',=,'^'
+         IF    T_C,'(',MUB3,')',=,'^'
+* TTTTTT               IF T-C (MUB3 +  1)   = '^'
+*ZC    995 TTTTTT  IF    T_C,'(',MUB3,+,1,')',=,'^'
+         IF    T_C,'(',MUB3,+,1,')',=,'^'
+* TTTTTT                   MOVE 'Y'    TO WORKIT-END
+*ZC    996 TTTTTT  MOVE  'Y',TO,WORKIT_END
+         MOVE  'Y',TO,WORKIT_END
+* TTTTTT                   GO TO WORKIT-PLUS-LAST
+* TTTTTT               END-IF
+*ZC    997 TTTTTT  GO    TO,WORKIT_PLUS_LAST
+         GO    TO,WORKIT_PLUS_LAST
+* TTTTTT           ELSE
+*ZC    999 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT               GO TO WORKIT-PLUS-LOOP
+*ZC   1000 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT           END-IF
+*ZC   1000 TTTTTT  GO    TO,WORKIT_PLUS_LOOP
+         GO    TO,WORKIT_PLUS_LOOP
+* TTTTTT     END-IF.
+*ZC   1002 TTTTTT  END_IF 
+         END_IF 
+*ZC   1002 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD 2                      TO MUB3.
+*ZC   1003 TTTTTT  ADD   2,TO,MUB3
+         ADD   2,TO,MUB3
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3     )       TO THIRSTY-C (01).
+*ZC   1004 TTTTTT  MOVE  T_C,'(',MUB3,')',TO,THIRSTY_C,'(',01,')'
+         MOVE  T_C,'(',MUB3,')',TO,THIRSTY_C,'(',01,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  1)       TO THIRSTY-C (02).
+*ZC   1005 TTTTTT  MOVE  T_C,'(',MUB3,+,1,')',TO,THIRSTY_C,'(',02,')'
+         MOVE  T_C,'(',MUB3,+,1,')',TO,THIRSTY_C,'(',02,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  2)       TO THIRSTY-C (03).
+*ZC   1006 TTTTTT  MOVE  T_C,'(',MUB3,+,2,')',TO,THIRSTY_C,'(',03,')'
+         MOVE  T_C,'(',MUB3,+,2,')',TO,THIRSTY_C,'(',03,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  3)       TO THIRSTY-C (04).
+*ZC   1007 TTTTTT  MOVE  T_C,'(',MUB3,+,3,')',TO,THIRSTY_C,'(',04,')'
+         MOVE  T_C,'(',MUB3,+,3,')',TO,THIRSTY_C,'(',04,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  4)       TO THIRSTY-C (05).
+*ZC   1008 TTTTTT  MOVE  T_C,'(',MUB3,+,4,')',TO,THIRSTY_C,'(',05,')'
+         MOVE  T_C,'(',MUB3,+,4,')',TO,THIRSTY_C,'(',05,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  5)       TO THIRSTY-C (06).
+*ZC   1009 TTTTTT  MOVE  T_C,'(',MUB3,+,5,')',TO,THIRSTY_C,'(',06,')'
+         MOVE  T_C,'(',MUB3,+,5,')',TO,THIRSTY_C,'(',06,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  6)       TO THIRSTY-C (07).
+*ZC   1010 TTTTTT  MOVE  T_C,'(',MUB3,+,6,')',TO,THIRSTY_C,'(',07,')'
+         MOVE  T_C,'(',MUB3,+,6,')',TO,THIRSTY_C,'(',07,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  7)       TO THIRSTY-C (08).
+*ZC   1011 TTTTTT  MOVE  T_C,'(',MUB3,+,7,')',TO,THIRSTY_C,'(',08,')'
+         MOVE  T_C,'(',MUB3,+,7,')',TO,THIRSTY_C,'(',08,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  8)       TO THIRSTY-C (09).
+*ZC   1012 TTTTTT  MOVE  T_C,'(',MUB3,+,8,')',TO,THIRSTY_C,'(',09,')'
+         MOVE  T_C,'(',MUB3,+,8,')',TO,THIRSTY_C,'(',09,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 +  9)       TO THIRSTY-C (10).
+*ZC   1013 TTTTTT  MOVE  T_C,'(',MUB3,+,9,')',TO,THIRSTY_C,'(',10,')'
+         MOVE  T_C,'(',MUB3,+,9,')',TO,THIRSTY_C,'(',10,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 10)       TO THIRSTY-C (11).
+*ZC   1014 TTTTTT  MOVE  T_C,'(',MUB3,+,10,')',TO,THIRSTY_C,'(',11,')'
+         MOVE  T_C,'(',MUB3,+,10,')',TO,THIRSTY_C,'(',11,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 11)       TO THIRSTY-C (12).
+*ZC   1015 TTTTTT  MOVE  T_C,'(',MUB3,+,11,')',TO,THIRSTY_C,'(',12,')'
+         MOVE  T_C,'(',MUB3,+,11,')',TO,THIRSTY_C,'(',12,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 12)       TO THIRSTY-C (13).
+*ZC   1016 TTTTTT  MOVE  T_C,'(',MUB3,+,12,')',TO,THIRSTY_C,'(',13,')'
+         MOVE  T_C,'(',MUB3,+,12,')',TO,THIRSTY_C,'(',13,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 13)       TO THIRSTY-C (14).
+*ZC   1017 TTTTTT  MOVE  T_C,'(',MUB3,+,13,')',TO,THIRSTY_C,'(',14,')'
+         MOVE  T_C,'(',MUB3,+,13,')',TO,THIRSTY_C,'(',14,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 14)       TO THIRSTY-C (15).
+*ZC   1018 TTTTTT  MOVE  T_C,'(',MUB3,+,14,')',TO,THIRSTY_C,'(',15,')'
+         MOVE  T_C,'(',MUB3,+,14,')',TO,THIRSTY_C,'(',15,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 15)       TO THIRSTY-C (16).
+*ZC   1019 TTTTTT  MOVE  T_C,'(',MUB3,+,15,')',TO,THIRSTY_C,'(',16,')'
+         MOVE  T_C,'(',MUB3,+,15,')',TO,THIRSTY_C,'(',16,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 16)       TO THIRSTY-C (17).
+*ZC   1020 TTTTTT  MOVE  T_C,'(',MUB3,+,16,')',TO,THIRSTY_C,'(',17,')'
+         MOVE  T_C,'(',MUB3,+,16,')',TO,THIRSTY_C,'(',17,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 17)       TO THIRSTY-C (18).
+*ZC   1021 TTTTTT  MOVE  T_C,'(',MUB3,+,17,')',TO,THIRSTY_C,'(',18,')'
+         MOVE  T_C,'(',MUB3,+,17,')',TO,THIRSTY_C,'(',18,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 18)       TO THIRSTY-C (19).
+*ZC   1022 TTTTTT  MOVE  T_C,'(',MUB3,+,18,')',TO,THIRSTY_C,'(',19,')'
+         MOVE  T_C,'(',MUB3,+,18,')',TO,THIRSTY_C,'(',19,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 19)       TO THIRSTY-C (20).
+*ZC   1023 TTTTTT  MOVE  T_C,'(',MUB3,+,19,')',TO,THIRSTY_C,'(',20,')'
+         MOVE  T_C,'(',MUB3,+,19,')',TO,THIRSTY_C,'(',20,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 20)       TO THIRSTY-C (21).
+*ZC   1024 TTTTTT  MOVE  T_C,'(',MUB3,+,20,')',TO,THIRSTY_C,'(',21,')'
+         MOVE  T_C,'(',MUB3,+,20,')',TO,THIRSTY_C,'(',21,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 21)       TO THIRSTY-C (22).
+*ZC   1025 TTTTTT  MOVE  T_C,'(',MUB3,+,21,')',TO,THIRSTY_C,'(',22,')'
+         MOVE  T_C,'(',MUB3,+,21,')',TO,THIRSTY_C,'(',22,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 22)       TO THIRSTY-C (23).
+*ZC   1026 TTTTTT  MOVE  T_C,'(',MUB3,+,22,')',TO,THIRSTY_C,'(',23,')'
+         MOVE  T_C,'(',MUB3,+,22,')',TO,THIRSTY_C,'(',23,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 23)       TO THIRSTY-C (24).
+*ZC   1027 TTTTTT  MOVE  T_C,'(',MUB3,+,23,')',TO,THIRSTY_C,'(',24,')'
+         MOVE  T_C,'(',MUB3,+,23,')',TO,THIRSTY_C,'(',24,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 24)       TO THIRSTY-C (25).
+*ZC   1028 TTTTTT  MOVE  T_C,'(',MUB3,+,24,')',TO,THIRSTY_C,'(',25,')'
+         MOVE  T_C,'(',MUB3,+,24,')',TO,THIRSTY_C,'(',25,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 25)       TO THIRSTY-C (26).
+*ZC   1029 TTTTTT  MOVE  T_C,'(',MUB3,+,25,')',TO,THIRSTY_C,'(',26,')'
+         MOVE  T_C,'(',MUB3,+,25,')',TO,THIRSTY_C,'(',26,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 26)       TO THIRSTY-C (27).
+*ZC   1030 TTTTTT  MOVE  T_C,'(',MUB3,+,26,')',TO,THIRSTY_C,'(',27,')'
+         MOVE  T_C,'(',MUB3,+,26,')',TO,THIRSTY_C,'(',27,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 27)       TO THIRSTY-C (28).
+*ZC   1031 TTTTTT  MOVE  T_C,'(',MUB3,+,27,')',TO,THIRSTY_C,'(',28,')'
+         MOVE  T_C,'(',MUB3,+,27,')',TO,THIRSTY_C,'(',28,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 28)       TO THIRSTY-C (29).
+*ZC   1032 TTTTTT  MOVE  T_C,'(',MUB3,+,28,')',TO,THIRSTY_C,'(',29,')'
+         MOVE  T_C,'(',MUB3,+,28,')',TO,THIRSTY_C,'(',29,')'
+         PERIOD 
+* TTTTTT     MOVE T-C (MUB3 + 29)       TO THIRSTY-C (30).
+*ZC   1033 TTTTTT  MOVE  T_C,'(',MUB3,+,29,')',TO,THIRSTY_C,'(',30,')'
+         MOVE  T_C,'(',MUB3,+,29,')',TO,THIRSTY_C,'(',30,')'
+         PERIOD 
+* TTTTTT     DISPLAY '>>>>' THIRSTY.
+*ZC   1034 TTTTTT  DISPLAY '>>>>',THIRSTY
+         DISPLAY '>>>>',THIRSTY
+         PERIOD 
+* TTTTTT     ADD  1                     TO MUB4.
+*ZC   1035 TTTTTT  ADD   1,TO,MUB4
+         ADD   1,TO,MUB4
+         PERIOD 
+* TTTTTT     IF MUB4 > 15
+*ZC   1036 TTTTTT  IF    MUB4,>,15
+         IF    MUB4,>,15
+* TTTTTT         GO TO WORKIT-PLUS-LAST
+*ZC   1037 TTTTTT  GO    TO,WORKIT_PLUS_LAST
+         GO    TO,WORKIT_PLUS_LAST
+* TTTTTT     END-IF.
+*ZC   1038 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     GO WORKIT-PLUS-LOOP.
+*ZC   1039 TTTTTT  GO    WORKIT_PLUS_LOOP
+         GO    WORKIT_PLUS_LOOP
+         PERIOD 
+* TTTTTT WORKIT-PLUS-LAST.
+         LABEL WORKIT_PLUS_LAST
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC   1041 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+         LABEL WORKIT_PLUS_EXIT
+*ZC   1042 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT WORKIT-PLUS-EXIT. EXIT.
+         PERIOD 
+* TTTTTT PROCIT SECTION.
+         LABEL PROCIT,SECTION
+* TTTTTT     MOVE  1                    TO LUB.
+*ZC   1044 TTTTTT  MOVE  1,TO,LUB
+         MOVE  1,TO,LUB
+         PERIOD 
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC   1045 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+* TTTTTT PROCIT-LOOP.
+         LABEL PROCIT_LOOP
+* TTTTTT     DISPLAY LINE-ENTRY (LUB).
+*ZC   1047 TTTTTT  DISPLAY LINE_ENTRY,'(',LUB,')'
+         DISPLAY LINE_ENTRY,'(',LUB,')'
+         PERIOD 
+* TTTTTT     IF LUB = LINE-COUNT
+*ZC   1048 TTTTTT  IF    LUB,=,LINE_COUNT
+         IF    LUB,=,LINE_COUNT
+* TTTTTT         GO TO PROCIT-LAST
+*ZC   1049 TTTTTT  GO    TO,PROCIT_LAST
+         GO    TO,PROCIT_LAST
+* TTTTTT     END-IF.
+*ZC   1050 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD  1                     TO LUB.
+*ZC   1051 TTTTTT  ADD   1,TO,LUB
+         ADD   1,TO,LUB
+         PERIOD 
+* TTTTTT     IF LUB > 15
+*ZC   1052 TTTTTT  IF    LUB,>,15
+         IF    LUB,>,15
+* TTTTTT         GO TO PROCIT-LAST
+*ZC   1053 TTTTTT  GO    TO,PROCIT_LAST
+         GO    TO,PROCIT_LAST
+* TTTTTT     END-IF.
+*ZC   1054 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     GO TO PROCIT-LOOP.
+*ZC   1055 TTTTTT  GO    TO,PROCIT_LOOP
+         GO    TO,PROCIT_LOOP
+         PERIOD 
+* TTTTTT PROCIT-LAST.
+         LABEL PROCIT_LAST
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC   1057 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+         LABEL PROCIT_EXIT
+*ZC   1058 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT PROCIT-EXIT. EXIT.
+         PERIOD 
+* TTTTTT PROCIT-PLUS SECTION.
+         LABEL PROCIT_PLUS,SECTION
+* TTTTTT     MOVE 1                     TO LUB2.
+*ZC   1060 TTTTTT  MOVE  1,TO,LUB2
+         MOVE  1,TO,LUB2
+         PERIOD 
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC   1061 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+* TTTTTT PROCIT-PLUS-LOOP.
+         LABEL PROCIT_PLUS_LOOP
+* TTTTTT     DISPLAY LINE-ENTRY (LUB).
+*ZC   1063 TTTTTT  DISPLAY LINE_ENTRY,'(',LUB,')'
+         DISPLAY LINE_ENTRY,'(',LUB,')'
+         PERIOD 
+* TTTTTT     IF LUB = LINE-COUNT
+*ZC   1064 TTTTTT  IF    LUB,=,LINE_COUNT
+         IF    LUB,=,LINE_COUNT
+* TTTTTT         GO TO PROCIT-PLUS-LAST
+*ZC   1065 TTTTTT  GO    TO,PROCIT_PLUS_LAST
+         GO    TO,PROCIT_PLUS_LAST
+* TTTTTT     END-IF.
+*ZC   1066 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD  1                     TO LUB.
+*ZC   1067 TTTTTT  ADD   1,TO,LUB
+         ADD   1,TO,LUB
+         PERIOD 
+* TTTTTT     ADD  1                     TO LUB2.
+*ZC   1068 TTTTTT  ADD   1,TO,LUB2
+         ADD   1,TO,LUB2
+         PERIOD 
+* TTTTTT     IF LUB2 > 15
+*ZC   1069 TTTTTT  IF    LUB2,>,15
+         IF    LUB2,>,15
+* TTTTTT         GO TO PROCIT-PLUS-LAST
+*ZC   1070 TTTTTT  GO    TO,PROCIT_PLUS_LAST
+         GO    TO,PROCIT_PLUS_LAST
+* TTTTTT     END-IF.
+*ZC   1071 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     GO TO PROCIT-PLUS-LOOP.
+*ZC   1072 TTTTTT  GO    TO,PROCIT_PLUS_LOOP
+         GO    TO,PROCIT_PLUS_LOOP
+         PERIOD 
+* TTTTTT PROCIT-PLUS-LAST.
+         LABEL PROCIT_PLUS_LAST
+* TTTTTT     DISPLAY '*----------------------------*'.
+*ZC   1074 TTTTTT  DISPLAY '*----------------------------*'
+         DISPLAY '*----------------------------*'
+         PERIOD 
+         LABEL PROCIT_PLUS_EXIT
+*ZC   1075 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT PROCIT-PLUS-EXIT. EXIT.
+         PERIOD 
+* TTTTTT SCREENIT SECTION.
+         LABEL SCREENIT,SECTION
+* TTTTTT     MOVE  1                    TO SCUB.
+*ZC   1077 TTTTTT  MOVE  1,TO,SCUB
+         MOVE  1,TO,SCUB
+         PERIOD 
+* TTTTTT SCREENIT-LOOP.
+         LABEL SCREENIT_LOOP
+* TTTTTT     MOVE LINE-ENTRY (LUB)      TO SCREEN-ENTRY (SCUB).
+*ZC   1079 TTTTTT  MOVE  LINE_ENTRY,'(',LUB,')',TO,SCREEN_ENTRY,'(',SCUX
+               B,')'
+         MOVE  LINE_ENTRY,'(',LUB,')',TO,SCREEN_ENTRY,'(',SCUB,')'
+         PERIOD 
+* TTTTTT     IF SCREEN-NUMBER (SCUB) IS NUMERIC
+*ZC   1080 TTTTTT  IF    SCREEN_NUMBER,'(',SCUB,')',IS,NUMERIC
+         IF    SCREEN_NUMBER,'(',SCUB,')',IS,NUMERIC
+* TTTTTT         IF SCREEN-1ST-FLAG = 'Y'
+*ZC   1081 TTTTTT  IF    SCREEN_1ST_FLAG,=,'Y'
+         IF    SCREEN_1ST_FLAG,=,'Y'
+* TTTTTT             MOVE SCREEN-NUMBER (SCUB)
+* TTTTTT                                TO SCREEN-FIRST
+*ZC   1082 TTTTTT  MOVE  SCREEN_NUMBER,'(',SCUB,')',TO,SCREEN_FIRST
+         MOVE  SCREEN_NUMBER,'(',SCUB,')',TO,SCREEN_FIRST
+* TTTTTT             MOVE 'N'           TO SCREEN-1ST-FLAG
+* TTTTTT         END-IF
+*ZC   1084 TTTTTT  MOVE  'N',TO,SCREEN_1ST_FLAG
+         MOVE  'N',TO,SCREEN_1ST_FLAG
+* TTTTTT     END-IF.
+*ZC   1086 TTTTTT  END_IF 
+         END_IF 
+*ZC   1086 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF SCREEN-NUMBER (SCUB) IS NUMERIC
+*ZC   1087 TTTTTT  IF    SCREEN_NUMBER,'(',SCUB,')',IS,NUMERIC
+         IF    SCREEN_NUMBER,'(',SCUB,')',IS,NUMERIC
+* TTTTTT         MOVE SCREEN-NUMBER (SCUB)
+* TTTTTT                                TO SCREEN-LAST
+*ZC   1088 TTTTTT  MOVE  SCREEN_NUMBER,'(',SCUB,')',TO,SCREEN_LAST
+         MOVE  SCREEN_NUMBER,'(',SCUB,')',TO,SCREEN_LAST
+* TTTTTT     END-IF.
+*ZC   1090 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     IF LUB = LINE-COUNT
+*ZC   1091 TTTTTT  IF    LUB,=,LINE_COUNT
+         IF    LUB,=,LINE_COUNT
+* TTTTTT         GO TO SCREENIT-DISPLAY
+*ZC   1092 TTTTTT  GO    TO,SCREENIT_DISPLAY
+         GO    TO,SCREENIT_DISPLAY
+* TTTTTT     END-IF.
+*ZC   1093 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD  1                     TO LUB.
+*ZC   1094 TTTTTT  ADD   1,TO,LUB
+         ADD   1,TO,LUB
+         PERIOD 
+* TTTTTT     IF LUB > LUB-MAX
+*ZC   1095 TTTTTT  IF    LUB,>,LUB_MAX
+         IF    LUB,>,LUB_MAX
+* TTTTTT         ADD 15                 TO LUB-MAX
+*ZC   1096 TTTTTT  ADD   15,TO,LUB_MAX
+         ADD   15,TO,LUB_MAX
+* TTTTTT         GO TO SCREENIT-LAST
+*ZC   1097 TTTTTT  GO    TO,SCREENIT_LAST
+         GO    TO,SCREENIT_LAST
+* TTTTTT     END-IF.
+*ZC   1098 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     ADD  1                     TO SCUB.
+*ZC   1099 TTTTTT  ADD   1,TO,SCUB
+         ADD   1,TO,SCUB
+         PERIOD 
+* TTTTTT     GO TO SCREENIT-LOOP.
+*ZC   1100 TTTTTT  GO    TO,SCREENIT_LOOP
+         GO    TO,SCREENIT_LOOP
+         PERIOD 
+* TTTTTT SCREENIT-LAST.
+         LABEL SCREENIT_LAST
+* TTTTTT     IF LINE-NUMBER (LINE-COUNT2) NOT LESS THAN SCREEN-FIRST
+*ZC   1102 TTTTTT  IF    LINE_NUMBER,'(',LINE_COUNT2,')',NOT,LESS,THAN,X
+               SCREEN_FIRST
+         IF    LINE_NUMBER,'(',LINE_COUNT2,')',NOT,LESS,THAN,SCREEN_FIRX
+               ST
+* TTTTTT        IF LINE-NUMBER (LINE-COUNT2) NOT GREATER THAN SCREEN-LAX
+               ST
+*ZC   1103 TTTTTT  IF    LINE_NUMBER,'(',LINE_COUNT2,')',NOT,GREATER,THX
+               AN,SCREEN_LAST
+         IF    LINE_NUMBER,'(',LINE_COUNT2,')',NOT,GREATER,THAN,SCREEN_X
+               LAST
+* TTTTTT            GO TO SCREENIT-DISPLAY
+* TTTTTT        ELSE
+*ZC   1104 TTTTTT  GO    TO,SCREENIT_DISPLAY
+         GO    TO,SCREENIT_DISPLAY
+* TTTTTT            MOVE 'Y'            TO SCREEN-1ST-FLAG
+*ZC   1106 TTTTTT  ELSE  
+         ELSE  
+*ZC   1106 TTTTTT  MOVE  'Y',TO,SCREEN_1ST_FLAG
+         MOVE  'Y',TO,SCREEN_1ST_FLAG
+* TTTTTT            MOVE ZEROES         TO SCREEN-FIRST
+*ZC   1107 TTTTTT  MOVE  ZEROES,TO,SCREEN_FIRST
+         MOVE  ZEROES,TO,SCREEN_FIRST
+* TTTTTT            MOVE ZEROES         TO SCREEN-LAST
+*ZC   1108 TTTTTT  MOVE  ZEROES,TO,SCREEN_LAST
+         MOVE  ZEROES,TO,SCREEN_LAST
+* TTTTTT            MOVE SPACES         TO SCREEN-ARRAY
+*ZC   1109 TTTTTT  MOVE  SPACES,TO,SCREEN_ARRAY
+         MOVE  SPACES,TO,SCREEN_ARRAY
+* TTTTTT            GO TO SCREENIT
+* TTTTTT        END-IF
+*ZC   1110 TTTTTT  GO    TO,SCREENIT
+         GO    TO,SCREENIT
+* TTTTTT     ELSE
+*ZC   1112 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT        MOVE 'Y'                TO SCREEN-1ST-FLAG
+*ZC   1113 TTTTTT  ELSE  
+         ELSE  
+*ZC   1113 TTTTTT  MOVE  'Y',TO,SCREEN_1ST_FLAG
+         MOVE  'Y',TO,SCREEN_1ST_FLAG
+* TTTTTT        MOVE ZEROES             TO SCREEN-FIRST
+*ZC   1114 TTTTTT  MOVE  ZEROES,TO,SCREEN_FIRST
+         MOVE  ZEROES,TO,SCREEN_FIRST
+* TTTTTT        MOVE ZEROES             TO SCREEN-LAST
+*ZC   1115 TTTTTT  MOVE  ZEROES,TO,SCREEN_LAST
+         MOVE  ZEROES,TO,SCREEN_LAST
+* TTTTTT        MOVE SPACES             TO SCREEN-ARRAY
+*ZC   1116 TTTTTT  MOVE  SPACES,TO,SCREEN_ARRAY
+         MOVE  SPACES,TO,SCREEN_ARRAY
+* TTTTTT        GO TO SCREENIT
+*ZC   1117 TTTTTT  GO    TO,SCREENIT
+         GO    TO,SCREENIT
+* TTTTTT     END-IF.
+*ZC   1118 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT SCREENIT-DISPLAY.
+         LABEL SCREENIT_DISPLAY
+* TTTTTT     MOVE 1                     TO SCUB2.
+*ZC   1120 TTTTTT  MOVE  1,TO,SCUB2
+         MOVE  1,TO,SCUB2
+         PERIOD 
+* TTTTTT SCREEN-D-LOOP.
+         LABEL SCREEN_D_LOOP
+* TTTTTT     MOVE LINE-NUMBER (LINE-COUNT2) TO LEFFED.
+*ZC   1122 TTTTTT  MOVE  LINE_NUMBER,'(',LINE_COUNT2,')',TO,LEFFED
+         MOVE  LINE_NUMBER,'(',LINE_COUNT2,')',TO,LEFFED
+         PERIOD 
+* TTTTTT     MOVE SCREEN-NUMBER (SCUB2)     TO RITE.
+*ZC   1123 TTTTTT  MOVE  SCREEN_NUMBER,'(',SCUB2,')',TO,RITE
+         MOVE  SCREEN_NUMBER,'(',SCUB2,')',TO,RITE
+         PERIOD 
+* TTTTTT     MOVE SPACE                 TO SCREEN-POINTER (SCUB2).
+*ZC   1124 TTTTTT  MOVE  SPACE,TO,SCREEN_POINTER,'(',SCUB2,')'
+         MOVE  SPACE,TO,SCREEN_POINTER,'(',SCUB2,')'
+         PERIOD 
+* TTTTTT     IF LEFFED = RITE
+*ZC   1125 TTTTTT  IF    LEFFED,=,RITE
+         IF    LEFFED,=,RITE
+* TTTTTT         MOVE '>'               TO SCREEN-POINTER (SCUB2)
+*ZC   1126 TTTTTT  MOVE  '>',TO,SCREEN_POINTER,'(',SCUB2,')'
+         MOVE  '>',TO,SCREEN_POINTER,'(',SCUB2,')'
+* TTTTTT     END-IF.
+*ZC   1127 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+* TTTTTT     MOVE SCREEN-ENTRY (SCUB2)  TO SEVENT2.
+*ZC   1128 TTTTTT  MOVE  SCREEN_ENTRY,'(',SCUB2,')',TO,SEVENT2
+         MOVE  SCREEN_ENTRY,'(',SCUB2,')',TO,SEVENT2
+         PERIOD 
+* TTTTTT     DISPLAY SEVENT2.
+*ZC   1129 TTTTTT  DISPLAY SEVENT2
+         DISPLAY SEVENT2
+         PERIOD 
+* TTTTTT     ADD 1                      TO SCUB2.
+*ZC   1130 TTTTTT  ADD   1,TO,SCUB2
+         ADD   1,TO,SCUB2
+         PERIOD 
+* TTTTTT     IF SCUB2 > SCUB
+*ZC   1131 TTTTTT  IF    SCUB2,>,SCUB
+         IF    SCUB2,>,SCUB
+* TTTTTT         IF SCUB2 < 16
+*ZC   1132 TTTTTT  IF    SCUB2,<,16
+         IF    SCUB2,<,16
+* TTTTTT             MOVE '*------- END OF PROGRAM - -----*'
+* TTTTTT                                TO SCREEN-ENTRY (SCUB2)
+*ZC   1133 TTTTTT  MOVE  '*------- END OF PROGRAM - -----*',TO,SCREEN_EX
+               NTRY,'(',SCUB2,')'
+         MOVE  '*------- END OF PROGRAM - -----*',TO,SCREEN_ENTRY,'(',SX
+               CUB2,')'
+* TTTTTT             GO TO SCREEN-D-LOOP
+* TTTTTT         ELSE
+*ZC   1135 TTTTTT  GO    TO,SCREEN_D_LOOP
+         GO    TO,SCREEN_D_LOOP
+* TTTTTT             GO TO SCREENIT-EXIT
+*ZC   1137 TTTTTT  ELSE  
+         ELSE  
+* TTTTTT         END-IF
+*ZC   1137 TTTTTT  GO    TO,SCREENIT_EXIT
+         GO    TO,SCREENIT_EXIT
+* TTTTTT     ELSE
+*ZC   1139 TTTTTT  END_IF 
+         END_IF 
+* TTTTTT         GO TO SCREEN-D-LOOP
+*ZC   1140 TTTTTT  ELSE  
+         ELSE  
+*ZC   1140 TTTTTT  GO    TO,SCREEN_D_LOOP
+         GO    TO,SCREEN_D_LOOP
+* TTTTTT     END-IF.
+*ZC   1141 TTTTTT  END_IF 
+         END_IF 
+         PERIOD 
+         LABEL SCREENIT_EXIT
+*ZC   1142 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT SCREENIT-EXIT. EXIT.
+         PERIOD 
+         LABEL DUMMY,SECTION
+*ZC   1143 TTTTTT  EXIT  
+         EXIT  
+* TTTTTT DUMMY SECTION. EXIT.
+         PERIOD 
+         PROCEDURE END
+         END   

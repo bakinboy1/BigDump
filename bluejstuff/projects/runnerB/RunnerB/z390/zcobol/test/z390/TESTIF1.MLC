@@ -1,0 +1,2938 @@
+         ZCOBOL PGM='zcobol\test\TESTIF1',VER=V1.5.06,CDATE=MM/DD/YY,CTX
+               IME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statsX
+               )
+         COPY  TESTIF1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTIF1.
+         PROGRAM_ID TESTIF1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  10/13/08.
+*      * TEST IF ELSE END-IF                              
+         DATE_WRITTEN 10,/,13,/,08
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 A       PIC 9 VALUE 1.           
+         WS      77,A,PIC,9,VALUE,1
+*        77 B       PIC 9 VALUE 2.           
+         WS      77,B,PIC,9,VALUE,2
+*        77 C       PIC 9 VALUE 3.           
+         WS      77,C,PIC,9,VALUE,3
+*        77 D       PIC 9 VALUE 4.           
+         WS      77,D,PIC,9,VALUE,4
+*        77 ERRORS  PIC X VALUE 'F'.
+         WS      77,ERRORS,PIC,X,VALUE,'F'
+*        01  H1 PIC S9(4) COMP OCCURS 2 TIMES.
+         WS      01,H1,PIC,S9(4),COMP,OCCURS,2,TIMES
+*            88 H1-ZERO VALUE 10.
+         WS      88,H1_ZERO,VALUE,10
+*        01  H2 PIC S9(4) COMP OCCURS 2 TIMES.
+         WS      01,H2,PIC,S9(4),COMP,OCCURS,2,TIMES
+*            88 H2-ONE-TWO  VALUES 11 12.
+*      * THE FOLLOWING ARE 9 SUPPORTED FLOATING POINT TYPES
+         WS      88,H2_ONE_TWO,VALUES,11,12
+*        77 HFP-SRT FLOAT-HEX-7      VALUE 1234.
+         WS      77,HFP_SRT,FLOAT_HEX_7,VALUE,1234
+*        77 HFP-LNG FLOAT-HEX-15     VALUE 1234.
+         WS      77,HFP_LNG,FLOAT_HEX_15,VALUE,1234
+*        77 HFP-EXT FLOAT-HEX-30     VALUE 1234.
+         WS      77,HFP_EXT,FLOAT_HEX_30,VALUE,1234
+*        77 BFP-SRT FLOAT-BINARY-7   VALUE 1234.
+         WS      77,BFP_SRT,FLOAT_BINARY_7,VALUE,1234
+*        77 BFP-LNG FLOAT-BINARY-16  VALUE 1234.
+         WS      77,BFP_LNG,FLOAT_BINARY_16,VALUE,1234
+*        77 BFP-EXT FLOAT-BINARY-34  VALUE 1234.
+         WS      77,BFP_EXT,FLOAT_BINARY_34,VALUE,1234
+*        77 DFP-SRT FLOAT-DECIMAL-7  VALUE 1234.
+         WS      77,DFP_SRT,FLOAT_DECIMAL_7,VALUE,1234
+*        77 DFP-LNG FLOAT-DECIMAL-16 VALUE 1234.
+         WS      77,DFP_LNG,FLOAT_DECIMAL_16,VALUE,1234
+*        77 DFP-EXT FLOAT-DECIMAL-34 VALUE 1234.
+*      * THE FOLLOWING 4 TYPES DEFINE 16, 32, 64, AND 128 BINARY TYPES
+         WS      77,DFP_EXT,FLOAT_DECIMAL_34,VALUE,1234
+*        77 HW      COMP PIC S9(4)  VALUE 1234.
+         WS      77,HW,COMP,PIC,S9(4),VALUE,1234
+*        77 FW      COMP PIC S9(9)  VALUE 1234.
+         WS      77,FW,COMP,PIC,S9(9),VALUE,1234
+*        77 DW      COMP PIC S9(18) VALUE 1234.
+         WS      77,DW,COMP,PIC,S9(18),VALUE,1234
+*        77 QW      COMP PIC S9(39) VALUE 1234.
+*      * THE FOLLOWING 2 TYPES DEFINE 31 DIGIT PACKED AND ZONED DECIMAL
+         WS      77,QW,COMP,PIC,S9(39),VALUE,1234
+*        77 PD      COMP-3 PIC S9(31) VALUE 1234.
+         WS      77,PD,COMP_3,PIC,S9(31),VALUE,1234
+*        77 ZD             PIC S9(31) VALUE 1234.
+         WS      77,ZD,PIC,S9(31),VALUE,1234
+*        77  GOOD COMP-3 PIC S9(4) VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,S9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTIF1 STARTING'
+*ZC     39         DISPLAY 'TESTIF1 STARTING'
+         DISPLAY 'TESTIF1 STARTING'
+*      1     IF A = B 
+*ZC     40      1  IF    A,=,B
+         IF    A,=,B
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     41         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     41         PERFORM BAD
+         PERFORM BAD
+*ZC     41         ELSE  
+         ELSE  
+*ZC     41         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      2     IF A EQUAL B 
+*ZC     42      2  IF    A,EQUAL,B
+         IF    A,EQUAL,B
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     43         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     43         PERFORM BAD
+         PERFORM BAD
+*ZC     43         ELSE  
+         ELSE  
+*ZC     43         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      3     IF A > B 
+*ZC     44      3  IF    A,>,B
+         IF    A,>,B
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     45         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     45         PERFORM BAD
+         PERFORM BAD
+*ZC     45         ELSE  
+         ELSE  
+*ZC     45         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      4     IF A GREATER THAN B 
+*ZC     46      4  IF    A,GREATER,THAN,B
+         IF    A,GREATER,THAN,B
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     47         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     47         PERFORM BAD
+         PERFORM BAD
+*ZC     47         ELSE  
+         ELSE  
+*ZC     47         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      5     IF B < A 
+*ZC     48      5  IF    B,<,A
+         IF    B,<,A
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     49         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     49         PERFORM BAD
+         PERFORM BAD
+*ZC     49         ELSE  
+         ELSE  
+*ZC     49         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      6     IF B LESS THAN A 
+*ZC     50      6  IF    B,LESS,THAN,A
+         IF    B,LESS,THAN,A
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     51         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     51         PERFORM BAD
+         PERFORM BAD
+*ZC     51         ELSE  
+         ELSE  
+*ZC     51         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      7     IF A NOT < B 
+*ZC     52      7  IF    A,NOT,<,B
+         IF    A,NOT,<,B
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     53         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     53         PERFORM BAD
+         PERFORM BAD
+*ZC     53         ELSE  
+         ELSE  
+*ZC     53         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      8     IF A > B AND C > D 
+*ZC     54      8  IF    A,>,B,AND,C,>,D
+         IF    A,>,B,AND,C,>,D
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     55         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     55         PERFORM BAD
+         PERFORM BAD
+*ZC     55         ELSE  
+         ELSE  
+*ZC     55         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*      9     IF A NOT < B OR C NOT < D 
+*ZC     56      9  IF    A,NOT,<,B,OR,C,NOT,<,D
+         IF    A,NOT,<,B,OR,C,NOT,<,D
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     57         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     57         PERFORM BAD
+         PERFORM BAD
+*ZC     57         ELSE  
+         ELSE  
+*ZC     57         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     10     IF (A > B) AND (C > D) 
+*ZC     58     10  IF    '(',A,>,B,')',AND,'(',C,>,D,')'
+         IF    '(',A,>,B,')',AND,'(',C,>,D,')'
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     59         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     59         PERFORM BAD
+         PERFORM BAD
+*ZC     59         ELSE  
+         ELSE  
+*ZC     59         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     11     IF (A > B OR C > D) AND (A = B OR C = D) 
+*ZC     60     11  IF    '(',A,>,B,OR,C,>,D,')',AND,'(',A,=,B,OR,C,=,D,X
+               ')'
+         IF    '(',A,>,B,OR,C,>,D,')',AND,'(',A,=,B,OR,C,=,D,')'
+*               DISPLAY 'A NOT < B' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     61         DISPLAY 'A NOT < B'
+         DISPLAY 'A NOT < B'
+*ZC     61         PERFORM BAD
+         PERFORM BAD
+*ZC     61         ELSE  
+         ELSE  
+*ZC     61         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     12     IF A < B 
+*ZC     62     12  IF    A,<,B
+         IF    A,<,B
+*               PERFORM GOOD
+*ZC     63         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE  PERFORM BAD.
+*ZC     64         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     64         ELSE  
+         ELSE  
+*ZC     64         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     13     IF A EQUAL A 
+*ZC     65     13  IF    A,EQUAL,A
+         IF    A,EQUAL,A
+*               PERFORM GOOD
+*ZC     66         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE  PERFORM BAD.
+*ZC     67         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     67         ELSE  
+         ELSE  
+*ZC     67         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     14     IF B > A 
+*ZC     68     14  IF    B,>,A
+         IF    B,>,A
+*               PERFORM GOOD
+*ZC     69         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     70         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     70         ELSE  
+         ELSE  
+*ZC     70         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     15     IF B GREATER THAN A 
+*ZC     71     15  IF    B,GREATER,THAN,A
+         IF    B,GREATER,THAN,A
+*               PERFORM GOOD
+*ZC     72         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     73         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     73         ELSE  
+         ELSE  
+*ZC     73         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     16     IF A < B 
+*ZC     74     16  IF    A,<,B
+         IF    A,<,B
+*               PERFORM GOOD
+*ZC     75         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     76         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     76         ELSE  
+         ELSE  
+*ZC     76         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     17     IF A LESS THAN B 
+*ZC     77     17  IF    A,LESS,THAN,B
+         IF    A,LESS,THAN,B
+*               PERFORM GOOD
+*ZC     78         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     79         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     79         ELSE  
+         ELSE  
+*ZC     79         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     18     IF B NOT < A 
+*ZC     80     18  IF    B,NOT,<,A
+         IF    B,NOT,<,A
+*               PERFORM GOOD
+*ZC     81         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     82         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     82         ELSE  
+         ELSE  
+*ZC     82         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     19     IF B > A AND D > C 
+*ZC     83     19  IF    B,>,A,AND,D,>,C
+         IF    B,>,A,AND,D,>,C
+*               PERFORM GOOD
+*ZC     84         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     85         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     85         ELSE  
+         ELSE  
+*ZC     85         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     20     IF B NOT < A OR D NOT < C 
+*ZC     86     20  IF    B,NOT,<,A,OR,D,NOT,<,C
+         IF    B,NOT,<,A,OR,D,NOT,<,C
+*               PERFORM GOOD
+*ZC     87         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     88         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     88         ELSE  
+         ELSE  
+*ZC     88         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     21     IF (B > A) AND (D > C) 
+*ZC     89     21  IF    '(',B,>,A,')',AND,'(',D,>,C,')'
+         IF    '(',B,>,A,')',AND,'(',D,>,C,')'
+*               PERFORM GOOD
+*ZC     90         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     91         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     91         ELSE  
+         ELSE  
+*ZC     91         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     22     IF (B > A OR D > C) AND (B = B OR C = C) 
+*ZC     92     22  IF    '(',B,>,A,OR,D,>,C,')',AND,'(',B,=,B,OR,C,=,C,X
+               ')'
+         IF    '(',B,>,A,OR,D,>,C,')',AND,'(',B,=,B,OR,C,=,C,')'
+*               PERFORM GOOD
+*ZC     93         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     94         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     94         ELSE  
+         ELSE  
+*      * TEST CONDITIONAL 88'S
+*ZC     94         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 10 TO H1(2)
+*ZC     96         MOVE  10,TO,H1,'(',2,')'
+         MOVE  10,TO,H1,'(',2,')'
+*     23     IF H1-ZERO(2) 
+*ZC     97     23  IF    H1_ZERO,'(',2,')'
+         IF    H1_ZERO,'(',2,')'
+*               PERFORM GOOD
+*ZC     98         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC     99         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC     99         ELSE  
+         ELSE  
+*ZC     99         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 13 TO H1(2)
+*ZC    100         MOVE  13,TO,H1,'(',2,')'
+         MOVE  13,TO,H1,'(',2,')'
+*     24     IF NOT H1-ZERO(2) 
+*ZC    101     24  IF    NOT,H1_ZERO,'(',2,')'
+         IF    NOT,H1_ZERO,'(',2,')'
+*               PERFORM GOOD
+*ZC    102         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC    103         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC    103         ELSE  
+         ELSE  
+*ZC    103         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 12 TO H2(2)  
+*ZC    104         MOVE  12,TO,H2,'(',2,')'
+         MOVE  12,TO,H2,'(',2,')'
+*     25     IF H2-ONE-TWO(2) 
+*ZC    105     25  IF    H2_ONE_TWO,'(',2,')'
+         IF    H2_ONE_TWO,'(',2,')'
+*               PERFORM GOOD
+*ZC    106         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD.               
+*ZC    107         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC    107         ELSE  
+         ELSE  
+*ZC    107         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 13 TO H2(2)  
+*ZC    108         MOVE  13,TO,H2,'(',2,')'
+         MOVE  13,TO,H2,'(',2,')'
+*     26     IF NOT H2-ONE-TWO(2) 
+*ZC    109     26  IF    NOT,H2_ONE_TWO,'(',2,')'
+         IF    NOT,H2_ONE_TWO,'(',2,')'
+*               PERFORM GOOD
+*ZC    110         PERFORM GOOD
+         PERFORM GOOD
+*               NEXT SENTENCE ELSE PERFORM BAD. 
+*ZC    111         NEXT  SENTENCE
+         NEXT  SENTENCE
+*ZC    111         ELSE  
+         ELSE  
+*      * TEST ALL FIELD TYPE COMBINATIONS
+*ZC    111         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    113         IF    HFP_SRT,=,HFP_SRT
+         IF    HFP_SRT,=,HFP_SRT
+*ZC    113         PERFORM GOOD
+         PERFORM GOOD
+*ZC    113         ELSE  
+         ELSE  
+*ZC    113         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    114         IF    HFP_SRT,=,HFP_LNG
+         IF    HFP_SRT,=,HFP_LNG
+*ZC    114         PERFORM GOOD
+         PERFORM GOOD
+*ZC    114         ELSE  
+         ELSE  
+*ZC    114         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    115         IF    HFP_SRT,=,HFP_EXT
+         IF    HFP_SRT,=,HFP_EXT
+*ZC    115         PERFORM GOOD
+         PERFORM GOOD
+*ZC    115         ELSE  
+         ELSE  
+*ZC    115         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    116         IF    HFP_SRT,=,BFP_SRT
+         IF    HFP_SRT,=,BFP_SRT
+*ZC    116         PERFORM GOOD
+         PERFORM GOOD
+*ZC    116         ELSE  
+         ELSE  
+*ZC    116         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    117         IF    HFP_SRT,=,BFP_LNG
+         IF    HFP_SRT,=,BFP_LNG
+*ZC    117         PERFORM GOOD
+         PERFORM GOOD
+*ZC    117         ELSE  
+         ELSE  
+*ZC    117         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    118         IF    HFP_SRT,=,BFP_EXT
+         IF    HFP_SRT,=,BFP_EXT
+*ZC    118         PERFORM GOOD
+         PERFORM GOOD
+*ZC    118         ELSE  
+         ELSE  
+*ZC    118         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    119         IF    HFP_SRT,=,DFP_SRT
+         IF    HFP_SRT,=,DFP_SRT
+*ZC    119         PERFORM GOOD
+         PERFORM GOOD
+*ZC    119         ELSE  
+         ELSE  
+*ZC    119         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    120         IF    HFP_SRT,=,DFP_LNG
+         IF    HFP_SRT,=,DFP_LNG
+*ZC    120         PERFORM GOOD
+         PERFORM GOOD
+*ZC    120         ELSE  
+         ELSE  
+*ZC    120         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    121         IF    HFP_SRT,=,DFP_EXT
+         IF    HFP_SRT,=,DFP_EXT
+*ZC    121         PERFORM GOOD
+         PERFORM GOOD
+*ZC    121         ELSE  
+         ELSE  
+*ZC    121         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    122         IF    HFP_SRT,=,HW
+         IF    HFP_SRT,=,HW
+*ZC    122         PERFORM GOOD
+         PERFORM GOOD
+*ZC    122         ELSE  
+         ELSE  
+*ZC    122         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    123         IF    HFP_SRT,=,FW
+         IF    HFP_SRT,=,FW
+*ZC    123         PERFORM GOOD
+         PERFORM GOOD
+*ZC    123         ELSE  
+         ELSE  
+*ZC    123         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    124         IF    HFP_SRT,=,DW
+         IF    HFP_SRT,=,DW
+*ZC    124         PERFORM GOOD
+         PERFORM GOOD
+*ZC    124         ELSE  
+         ELSE  
+*ZC    124         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    125         IF    HFP_SRT,=,QW
+         IF    HFP_SRT,=,QW
+*ZC    125         PERFORM GOOD
+         PERFORM GOOD
+*ZC    125         ELSE  
+         ELSE  
+*ZC    125         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    126         IF    HFP_SRT,=,PD
+         IF    HFP_SRT,=,PD
+*ZC    126         PERFORM GOOD
+         PERFORM GOOD
+*ZC    126         ELSE  
+         ELSE  
+*ZC    126         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-SRT = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    127         IF    HFP_SRT,=,ZD
+         IF    HFP_SRT,=,ZD
+*ZC    127         PERFORM GOOD
+         PERFORM GOOD
+*ZC    127         ELSE  
+         ELSE  
+*ZC    127         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    128         IF    HFP_LNG,=,HFP_SRT
+         IF    HFP_LNG,=,HFP_SRT
+*ZC    128         PERFORM GOOD
+         PERFORM GOOD
+*ZC    128         ELSE  
+         ELSE  
+*ZC    128         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    129         IF    HFP_LNG,=,HFP_LNG
+         IF    HFP_LNG,=,HFP_LNG
+*ZC    129         PERFORM GOOD
+         PERFORM GOOD
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    130         IF    HFP_LNG,=,HFP_EXT
+         IF    HFP_LNG,=,HFP_EXT
+*ZC    130         PERFORM GOOD
+         PERFORM GOOD
+*ZC    130         ELSE  
+         ELSE  
+*ZC    130         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    131         IF    HFP_LNG,=,BFP_SRT
+         IF    HFP_LNG,=,BFP_SRT
+*ZC    131         PERFORM GOOD
+         PERFORM GOOD
+*ZC    131         ELSE  
+         ELSE  
+*ZC    131         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    132         IF    HFP_LNG,=,BFP_LNG
+         IF    HFP_LNG,=,BFP_LNG
+*ZC    132         PERFORM GOOD
+         PERFORM GOOD
+*ZC    132         ELSE  
+         ELSE  
+*ZC    132         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    133         IF    HFP_LNG,=,BFP_EXT
+         IF    HFP_LNG,=,BFP_EXT
+*ZC    133         PERFORM GOOD
+         PERFORM GOOD
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    134         IF    HFP_LNG,=,DFP_SRT
+         IF    HFP_LNG,=,DFP_SRT
+*ZC    134         PERFORM GOOD
+         PERFORM GOOD
+*ZC    134         ELSE  
+         ELSE  
+*ZC    134         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    135         IF    HFP_LNG,=,DFP_LNG
+         IF    HFP_LNG,=,DFP_LNG
+*ZC    135         PERFORM GOOD
+         PERFORM GOOD
+*ZC    135         ELSE  
+         ELSE  
+*ZC    135         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    136         IF    HFP_LNG,=,DFP_EXT
+         IF    HFP_LNG,=,DFP_EXT
+*ZC    136         PERFORM GOOD
+         PERFORM GOOD
+*ZC    136         ELSE  
+         ELSE  
+*ZC    136         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    137         IF    HFP_LNG,=,HW
+         IF    HFP_LNG,=,HW
+*ZC    137         PERFORM GOOD
+         PERFORM GOOD
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    138         IF    HFP_LNG,=,FW
+         IF    HFP_LNG,=,FW
+*ZC    138         PERFORM GOOD
+         PERFORM GOOD
+*ZC    138         ELSE  
+         ELSE  
+*ZC    138         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    139         IF    HFP_LNG,=,DW
+         IF    HFP_LNG,=,DW
+*ZC    139         PERFORM GOOD
+         PERFORM GOOD
+*ZC    139         ELSE  
+         ELSE  
+*ZC    139         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    140         IF    HFP_LNG,=,QW
+         IF    HFP_LNG,=,QW
+*ZC    140         PERFORM GOOD
+         PERFORM GOOD
+*ZC    140         ELSE  
+         ELSE  
+*ZC    140         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    141         IF    HFP_LNG,=,PD
+         IF    HFP_LNG,=,PD
+*ZC    141         PERFORM GOOD
+         PERFORM GOOD
+*ZC    141         ELSE  
+         ELSE  
+*ZC    141         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-LNG = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    142         IF    HFP_LNG,=,ZD
+         IF    HFP_LNG,=,ZD
+*ZC    142         PERFORM GOOD
+         PERFORM GOOD
+*ZC    142         ELSE  
+         ELSE  
+*ZC    142         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    143         IF    HFP_EXT,=,HFP_SRT
+         IF    HFP_EXT,=,HFP_SRT
+*ZC    143         PERFORM GOOD
+         PERFORM GOOD
+*ZC    143         ELSE  
+         ELSE  
+*ZC    143         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    144         IF    HFP_EXT,=,HFP_LNG
+         IF    HFP_EXT,=,HFP_LNG
+*ZC    144         PERFORM GOOD
+         PERFORM GOOD
+*ZC    144         ELSE  
+         ELSE  
+*ZC    144         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    145         IF    HFP_EXT,=,HFP_EXT
+         IF    HFP_EXT,=,HFP_EXT
+*ZC    145         PERFORM GOOD
+         PERFORM GOOD
+*ZC    145         ELSE  
+         ELSE  
+*ZC    145         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    146         IF    HFP_EXT,=,BFP_SRT
+         IF    HFP_EXT,=,BFP_SRT
+*ZC    146         PERFORM GOOD
+         PERFORM GOOD
+*ZC    146         ELSE  
+         ELSE  
+*ZC    146         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    147         IF    HFP_EXT,=,BFP_LNG
+         IF    HFP_EXT,=,BFP_LNG
+*ZC    147         PERFORM GOOD
+         PERFORM GOOD
+*ZC    147         ELSE  
+         ELSE  
+*ZC    147         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    148         IF    HFP_EXT,=,BFP_EXT
+         IF    HFP_EXT,=,BFP_EXT
+*ZC    148         PERFORM GOOD
+         PERFORM GOOD
+*ZC    148         ELSE  
+         ELSE  
+*ZC    148         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    149         IF    HFP_EXT,=,DFP_SRT
+         IF    HFP_EXT,=,DFP_SRT
+*ZC    149         PERFORM GOOD
+         PERFORM GOOD
+*ZC    149         ELSE  
+         ELSE  
+*ZC    149         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    150         IF    HFP_EXT,=,DFP_LNG
+         IF    HFP_EXT,=,DFP_LNG
+*ZC    150         PERFORM GOOD
+         PERFORM GOOD
+*ZC    150         ELSE  
+         ELSE  
+*ZC    150         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    151         IF    HFP_EXT,=,DFP_EXT
+         IF    HFP_EXT,=,DFP_EXT
+*ZC    151         PERFORM GOOD
+         PERFORM GOOD
+*ZC    151         ELSE  
+         ELSE  
+*ZC    151         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    152         IF    HFP_EXT,=,HW
+         IF    HFP_EXT,=,HW
+*ZC    152         PERFORM GOOD
+         PERFORM GOOD
+*ZC    152         ELSE  
+         ELSE  
+*ZC    152         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    153         IF    HFP_EXT,=,FW
+         IF    HFP_EXT,=,FW
+*ZC    153         PERFORM GOOD
+         PERFORM GOOD
+*ZC    153         ELSE  
+         ELSE  
+*ZC    153         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    154         IF    HFP_EXT,=,DW
+         IF    HFP_EXT,=,DW
+*ZC    154         PERFORM GOOD
+         PERFORM GOOD
+*ZC    154         ELSE  
+         ELSE  
+*ZC    154         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    155         IF    HFP_EXT,=,QW
+         IF    HFP_EXT,=,QW
+*ZC    155         PERFORM GOOD
+         PERFORM GOOD
+*ZC    155         ELSE  
+         ELSE  
+*ZC    155         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    156         IF    HFP_EXT,=,PD
+         IF    HFP_EXT,=,PD
+*ZC    156         PERFORM GOOD
+         PERFORM GOOD
+*ZC    156         ELSE  
+         ELSE  
+*ZC    156         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HFP-EXT = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    157         IF    HFP_EXT,=,ZD
+         IF    HFP_EXT,=,ZD
+*ZC    157         PERFORM GOOD
+         PERFORM GOOD
+*ZC    157         ELSE  
+         ELSE  
+*ZC    157         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    158         IF    BFP_SRT,=,HFP_SRT
+         IF    BFP_SRT,=,HFP_SRT
+*ZC    158         PERFORM GOOD
+         PERFORM GOOD
+*ZC    158         ELSE  
+         ELSE  
+*ZC    158         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    159         IF    BFP_SRT,=,HFP_LNG
+         IF    BFP_SRT,=,HFP_LNG
+*ZC    159         PERFORM GOOD
+         PERFORM GOOD
+*ZC    159         ELSE  
+         ELSE  
+*ZC    159         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    160         IF    BFP_SRT,=,HFP_EXT
+         IF    BFP_SRT,=,HFP_EXT
+*ZC    160         PERFORM GOOD
+         PERFORM GOOD
+*ZC    160         ELSE  
+         ELSE  
+*ZC    160         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    161         IF    BFP_SRT,=,BFP_SRT
+         IF    BFP_SRT,=,BFP_SRT
+*ZC    161         PERFORM GOOD
+         PERFORM GOOD
+*ZC    161         ELSE  
+         ELSE  
+*ZC    161         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    162         IF    BFP_SRT,=,BFP_LNG
+         IF    BFP_SRT,=,BFP_LNG
+*ZC    162         PERFORM GOOD
+         PERFORM GOOD
+*ZC    162         ELSE  
+         ELSE  
+*ZC    162         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    163         IF    BFP_SRT,=,BFP_EXT
+         IF    BFP_SRT,=,BFP_EXT
+*ZC    163         PERFORM GOOD
+         PERFORM GOOD
+*ZC    163         ELSE  
+         ELSE  
+*ZC    163         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    164         IF    BFP_SRT,=,DFP_SRT
+         IF    BFP_SRT,=,DFP_SRT
+*ZC    164         PERFORM GOOD
+         PERFORM GOOD
+*ZC    164         ELSE  
+         ELSE  
+*ZC    164         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    165         IF    BFP_SRT,=,DFP_LNG
+         IF    BFP_SRT,=,DFP_LNG
+*ZC    165         PERFORM GOOD
+         PERFORM GOOD
+*ZC    165         ELSE  
+         ELSE  
+*ZC    165         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    166         IF    BFP_SRT,=,DFP_EXT
+         IF    BFP_SRT,=,DFP_EXT
+*ZC    166         PERFORM GOOD
+         PERFORM GOOD
+*ZC    166         ELSE  
+         ELSE  
+*ZC    166         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    167         IF    BFP_SRT,=,HW
+         IF    BFP_SRT,=,HW
+*ZC    167         PERFORM GOOD
+         PERFORM GOOD
+*ZC    167         ELSE  
+         ELSE  
+*ZC    167         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    168         IF    BFP_SRT,=,FW
+         IF    BFP_SRT,=,FW
+*ZC    168         PERFORM GOOD
+         PERFORM GOOD
+*ZC    168         ELSE  
+         ELSE  
+*ZC    168         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    169         IF    BFP_SRT,=,DW
+         IF    BFP_SRT,=,DW
+*ZC    169         PERFORM GOOD
+         PERFORM GOOD
+*ZC    169         ELSE  
+         ELSE  
+*ZC    169         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    170         IF    BFP_SRT,=,QW
+         IF    BFP_SRT,=,QW
+*ZC    170         PERFORM GOOD
+         PERFORM GOOD
+*ZC    170         ELSE  
+         ELSE  
+*ZC    170         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    171         IF    BFP_SRT,=,PD
+         IF    BFP_SRT,=,PD
+*ZC    171         PERFORM GOOD
+         PERFORM GOOD
+*ZC    171         ELSE  
+         ELSE  
+*ZC    171         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-SRT = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    172         IF    BFP_SRT,=,ZD
+         IF    BFP_SRT,=,ZD
+*ZC    172         PERFORM GOOD
+         PERFORM GOOD
+*ZC    172         ELSE  
+         ELSE  
+*ZC    172         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    173         IF    BFP_LNG,=,HFP_SRT
+         IF    BFP_LNG,=,HFP_SRT
+*ZC    173         PERFORM GOOD
+         PERFORM GOOD
+*ZC    173         ELSE  
+         ELSE  
+*ZC    173         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    174         IF    BFP_LNG,=,HFP_LNG
+         IF    BFP_LNG,=,HFP_LNG
+*ZC    174         PERFORM GOOD
+         PERFORM GOOD
+*ZC    174         ELSE  
+         ELSE  
+*ZC    174         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    175         IF    BFP_LNG,=,HFP_EXT
+         IF    BFP_LNG,=,HFP_EXT
+*ZC    175         PERFORM GOOD
+         PERFORM GOOD
+*ZC    175         ELSE  
+         ELSE  
+*ZC    175         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    176         IF    BFP_LNG,=,BFP_SRT
+         IF    BFP_LNG,=,BFP_SRT
+*ZC    176         PERFORM GOOD
+         PERFORM GOOD
+*ZC    176         ELSE  
+         ELSE  
+*ZC    176         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    177         IF    BFP_LNG,=,BFP_LNG
+         IF    BFP_LNG,=,BFP_LNG
+*ZC    177         PERFORM GOOD
+         PERFORM GOOD
+*ZC    177         ELSE  
+         ELSE  
+*ZC    177         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    178         IF    BFP_LNG,=,BFP_EXT
+         IF    BFP_LNG,=,BFP_EXT
+*ZC    178         PERFORM GOOD
+         PERFORM GOOD
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    179         IF    BFP_LNG,=,DFP_SRT
+         IF    BFP_LNG,=,DFP_SRT
+*ZC    179         PERFORM GOOD
+         PERFORM GOOD
+*ZC    179         ELSE  
+         ELSE  
+*ZC    179         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    180         IF    BFP_LNG,=,DFP_LNG
+         IF    BFP_LNG,=,DFP_LNG
+*ZC    180         PERFORM GOOD
+         PERFORM GOOD
+*ZC    180         ELSE  
+         ELSE  
+*ZC    180         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    181         IF    BFP_LNG,=,DFP_EXT
+         IF    BFP_LNG,=,DFP_EXT
+*ZC    181         PERFORM GOOD
+         PERFORM GOOD
+*ZC    181         ELSE  
+         ELSE  
+*ZC    181         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    182         IF    BFP_LNG,=,HW
+         IF    BFP_LNG,=,HW
+*ZC    182         PERFORM GOOD
+         PERFORM GOOD
+*ZC    182         ELSE  
+         ELSE  
+*ZC    182         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    183         IF    BFP_LNG,=,FW
+         IF    BFP_LNG,=,FW
+*ZC    183         PERFORM GOOD
+         PERFORM GOOD
+*ZC    183         ELSE  
+         ELSE  
+*ZC    183         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    184         IF    BFP_LNG,=,DW
+         IF    BFP_LNG,=,DW
+*ZC    184         PERFORM GOOD
+         PERFORM GOOD
+*ZC    184         ELSE  
+         ELSE  
+*ZC    184         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    185         IF    BFP_LNG,=,QW
+         IF    BFP_LNG,=,QW
+*ZC    185         PERFORM GOOD
+         PERFORM GOOD
+*ZC    185         ELSE  
+         ELSE  
+*ZC    185         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    186         IF    BFP_LNG,=,PD
+         IF    BFP_LNG,=,PD
+*ZC    186         PERFORM GOOD
+         PERFORM GOOD
+*ZC    186         ELSE  
+         ELSE  
+*ZC    186         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-LNG = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    187         IF    BFP_LNG,=,ZD
+         IF    BFP_LNG,=,ZD
+*ZC    187         PERFORM GOOD
+         PERFORM GOOD
+*ZC    187         ELSE  
+         ELSE  
+*ZC    187         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    188         IF    BFP_EXT,=,HFP_SRT
+         IF    BFP_EXT,=,HFP_SRT
+*ZC    188         PERFORM GOOD
+         PERFORM GOOD
+*ZC    188         ELSE  
+         ELSE  
+*ZC    188         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    189         IF    BFP_EXT,=,HFP_LNG
+         IF    BFP_EXT,=,HFP_LNG
+*ZC    189         PERFORM GOOD
+         PERFORM GOOD
+*ZC    189         ELSE  
+         ELSE  
+*ZC    189         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    190         IF    BFP_EXT,=,HFP_EXT
+         IF    BFP_EXT,=,HFP_EXT
+*ZC    190         PERFORM GOOD
+         PERFORM GOOD
+*ZC    190         ELSE  
+         ELSE  
+*ZC    190         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    191         IF    BFP_EXT,=,BFP_SRT
+         IF    BFP_EXT,=,BFP_SRT
+*ZC    191         PERFORM GOOD
+         PERFORM GOOD
+*ZC    191         ELSE  
+         ELSE  
+*ZC    191         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    192         IF    BFP_EXT,=,BFP_LNG
+         IF    BFP_EXT,=,BFP_LNG
+*ZC    192         PERFORM GOOD
+         PERFORM GOOD
+*ZC    192         ELSE  
+         ELSE  
+*ZC    192         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    193         IF    BFP_EXT,=,BFP_EXT
+         IF    BFP_EXT,=,BFP_EXT
+*ZC    193         PERFORM GOOD
+         PERFORM GOOD
+*ZC    193         ELSE  
+         ELSE  
+*ZC    193         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    194         IF    BFP_EXT,=,DFP_SRT
+         IF    BFP_EXT,=,DFP_SRT
+*ZC    194         PERFORM GOOD
+         PERFORM GOOD
+*ZC    194         ELSE  
+         ELSE  
+*ZC    194         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    195         IF    BFP_EXT,=,DFP_LNG
+         IF    BFP_EXT,=,DFP_LNG
+*ZC    195         PERFORM GOOD
+         PERFORM GOOD
+*ZC    195         ELSE  
+         ELSE  
+*ZC    195         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    196         IF    BFP_EXT,=,DFP_EXT
+         IF    BFP_EXT,=,DFP_EXT
+*ZC    196         PERFORM GOOD
+         PERFORM GOOD
+*ZC    196         ELSE  
+         ELSE  
+*ZC    196         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    197         IF    BFP_EXT,=,HW
+         IF    BFP_EXT,=,HW
+*ZC    197         PERFORM GOOD
+         PERFORM GOOD
+*ZC    197         ELSE  
+         ELSE  
+*ZC    197         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    198         IF    BFP_EXT,=,FW
+         IF    BFP_EXT,=,FW
+*ZC    198         PERFORM GOOD
+         PERFORM GOOD
+*ZC    198         ELSE  
+         ELSE  
+*ZC    198         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    199         IF    BFP_EXT,=,DW
+         IF    BFP_EXT,=,DW
+*ZC    199         PERFORM GOOD
+         PERFORM GOOD
+*ZC    199         ELSE  
+         ELSE  
+*ZC    199         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    200         IF    BFP_EXT,=,QW
+         IF    BFP_EXT,=,QW
+*ZC    200         PERFORM GOOD
+         PERFORM GOOD
+*ZC    200         ELSE  
+         ELSE  
+*ZC    200         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    201         IF    BFP_EXT,=,PD
+         IF    BFP_EXT,=,PD
+*ZC    201         PERFORM GOOD
+         PERFORM GOOD
+*ZC    201         ELSE  
+         ELSE  
+*ZC    201         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF BFP-EXT = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    202         IF    BFP_EXT,=,ZD
+         IF    BFP_EXT,=,ZD
+*ZC    202         PERFORM GOOD
+         PERFORM GOOD
+*ZC    202         ELSE  
+         ELSE  
+*ZC    202         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    203         IF    DFP_SRT,=,HFP_SRT
+         IF    DFP_SRT,=,HFP_SRT
+*ZC    203         PERFORM GOOD
+         PERFORM GOOD
+*ZC    203         ELSE  
+         ELSE  
+*ZC    203         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    204         IF    DFP_SRT,=,HFP_LNG
+         IF    DFP_SRT,=,HFP_LNG
+*ZC    204         PERFORM GOOD
+         PERFORM GOOD
+*ZC    204         ELSE  
+         ELSE  
+*ZC    204         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    205         IF    DFP_SRT,=,HFP_EXT
+         IF    DFP_SRT,=,HFP_EXT
+*ZC    205         PERFORM GOOD
+         PERFORM GOOD
+*ZC    205         ELSE  
+         ELSE  
+*ZC    205         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    206         IF    DFP_SRT,=,BFP_SRT
+         IF    DFP_SRT,=,BFP_SRT
+*ZC    206         PERFORM GOOD
+         PERFORM GOOD
+*ZC    206         ELSE  
+         ELSE  
+*ZC    206         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    207         IF    DFP_SRT,=,BFP_LNG
+         IF    DFP_SRT,=,BFP_LNG
+*ZC    207         PERFORM GOOD
+         PERFORM GOOD
+*ZC    207         ELSE  
+         ELSE  
+*ZC    207         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    208         IF    DFP_SRT,=,BFP_EXT
+         IF    DFP_SRT,=,BFP_EXT
+*ZC    208         PERFORM GOOD
+         PERFORM GOOD
+*ZC    208         ELSE  
+         ELSE  
+*ZC    208         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    209         IF    DFP_SRT,=,DFP_SRT
+         IF    DFP_SRT,=,DFP_SRT
+*ZC    209         PERFORM GOOD
+         PERFORM GOOD
+*ZC    209         ELSE  
+         ELSE  
+*ZC    209         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    210         IF    DFP_SRT,=,DFP_LNG
+         IF    DFP_SRT,=,DFP_LNG
+*ZC    210         PERFORM GOOD
+         PERFORM GOOD
+*ZC    210         ELSE  
+         ELSE  
+*ZC    210         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    211         IF    DFP_SRT,=,DFP_EXT
+         IF    DFP_SRT,=,DFP_EXT
+*ZC    211         PERFORM GOOD
+         PERFORM GOOD
+*ZC    211         ELSE  
+         ELSE  
+*ZC    211         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    212         IF    DFP_SRT,=,HW
+         IF    DFP_SRT,=,HW
+*ZC    212         PERFORM GOOD
+         PERFORM GOOD
+*ZC    212         ELSE  
+         ELSE  
+*ZC    212         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    213         IF    DFP_SRT,=,FW
+         IF    DFP_SRT,=,FW
+*ZC    213         PERFORM GOOD
+         PERFORM GOOD
+*ZC    213         ELSE  
+         ELSE  
+*ZC    213         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    214         IF    DFP_SRT,=,DW
+         IF    DFP_SRT,=,DW
+*ZC    214         PERFORM GOOD
+         PERFORM GOOD
+*ZC    214         ELSE  
+         ELSE  
+*ZC    214         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    215         IF    DFP_SRT,=,QW
+         IF    DFP_SRT,=,QW
+*ZC    215         PERFORM GOOD
+         PERFORM GOOD
+*ZC    215         ELSE  
+         ELSE  
+*ZC    215         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    216         IF    DFP_SRT,=,PD
+         IF    DFP_SRT,=,PD
+*ZC    216         PERFORM GOOD
+         PERFORM GOOD
+*ZC    216         ELSE  
+         ELSE  
+*ZC    216         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-SRT = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    217         IF    DFP_SRT,=,ZD
+         IF    DFP_SRT,=,ZD
+*ZC    217         PERFORM GOOD
+         PERFORM GOOD
+*ZC    217         ELSE  
+         ELSE  
+*ZC    217         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    218         IF    DFP_LNG,=,HFP_SRT
+         IF    DFP_LNG,=,HFP_SRT
+*ZC    218         PERFORM GOOD
+         PERFORM GOOD
+*ZC    218         ELSE  
+         ELSE  
+*ZC    218         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    219         IF    DFP_LNG,=,HFP_LNG
+         IF    DFP_LNG,=,HFP_LNG
+*ZC    219         PERFORM GOOD
+         PERFORM GOOD
+*ZC    219         ELSE  
+         ELSE  
+*ZC    219         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    220         IF    DFP_LNG,=,HFP_EXT
+         IF    DFP_LNG,=,HFP_EXT
+*ZC    220         PERFORM GOOD
+         PERFORM GOOD
+*ZC    220         ELSE  
+         ELSE  
+*ZC    220         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    221         IF    DFP_LNG,=,BFP_SRT
+         IF    DFP_LNG,=,BFP_SRT
+*ZC    221         PERFORM GOOD
+         PERFORM GOOD
+*ZC    221         ELSE  
+         ELSE  
+*ZC    221         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    222         IF    DFP_LNG,=,BFP_LNG
+         IF    DFP_LNG,=,BFP_LNG
+*ZC    222         PERFORM GOOD
+         PERFORM GOOD
+*ZC    222         ELSE  
+         ELSE  
+*ZC    222         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    223         IF    DFP_LNG,=,BFP_EXT
+         IF    DFP_LNG,=,BFP_EXT
+*ZC    223         PERFORM GOOD
+         PERFORM GOOD
+*ZC    223         ELSE  
+         ELSE  
+*ZC    223         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    224         IF    DFP_LNG,=,DFP_SRT
+         IF    DFP_LNG,=,DFP_SRT
+*ZC    224         PERFORM GOOD
+         PERFORM GOOD
+*ZC    224         ELSE  
+         ELSE  
+*ZC    224         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    225         IF    DFP_LNG,=,DFP_LNG
+         IF    DFP_LNG,=,DFP_LNG
+*ZC    225         PERFORM GOOD
+         PERFORM GOOD
+*ZC    225         ELSE  
+         ELSE  
+*ZC    225         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    226         IF    DFP_LNG,=,DFP_EXT
+         IF    DFP_LNG,=,DFP_EXT
+*ZC    226         PERFORM GOOD
+         PERFORM GOOD
+*ZC    226         ELSE  
+         ELSE  
+*ZC    226         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    227         IF    DFP_LNG,=,HW
+         IF    DFP_LNG,=,HW
+*ZC    227         PERFORM GOOD
+         PERFORM GOOD
+*ZC    227         ELSE  
+         ELSE  
+*ZC    227         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    228         IF    DFP_LNG,=,FW
+         IF    DFP_LNG,=,FW
+*ZC    228         PERFORM GOOD
+         PERFORM GOOD
+*ZC    228         ELSE  
+         ELSE  
+*ZC    228         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    229         IF    DFP_LNG,=,DW
+         IF    DFP_LNG,=,DW
+*ZC    229         PERFORM GOOD
+         PERFORM GOOD
+*ZC    229         ELSE  
+         ELSE  
+*ZC    229         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    230         IF    DFP_LNG,=,QW
+         IF    DFP_LNG,=,QW
+*ZC    230         PERFORM GOOD
+         PERFORM GOOD
+*ZC    230         ELSE  
+         ELSE  
+*ZC    230         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    231         IF    DFP_LNG,=,PD
+         IF    DFP_LNG,=,PD
+*ZC    231         PERFORM GOOD
+         PERFORM GOOD
+*ZC    231         ELSE  
+         ELSE  
+*ZC    231         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-LNG = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    232         IF    DFP_LNG,=,ZD
+         IF    DFP_LNG,=,ZD
+*ZC    232         PERFORM GOOD
+         PERFORM GOOD
+*ZC    232         ELSE  
+         ELSE  
+*ZC    232         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    233         IF    DFP_EXT,=,HFP_SRT
+         IF    DFP_EXT,=,HFP_SRT
+*ZC    233         PERFORM GOOD
+         PERFORM GOOD
+*ZC    233         ELSE  
+         ELSE  
+*ZC    233         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    234         IF    DFP_EXT,=,HFP_LNG
+         IF    DFP_EXT,=,HFP_LNG
+*ZC    234         PERFORM GOOD
+         PERFORM GOOD
+*ZC    234         ELSE  
+         ELSE  
+*ZC    234         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    235         IF    DFP_EXT,=,HFP_EXT
+         IF    DFP_EXT,=,HFP_EXT
+*ZC    235         PERFORM GOOD
+         PERFORM GOOD
+*ZC    235         ELSE  
+         ELSE  
+*ZC    235         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    236         IF    DFP_EXT,=,BFP_SRT
+         IF    DFP_EXT,=,BFP_SRT
+*ZC    236         PERFORM GOOD
+         PERFORM GOOD
+*ZC    236         ELSE  
+         ELSE  
+*ZC    236         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    237         IF    DFP_EXT,=,BFP_LNG
+         IF    DFP_EXT,=,BFP_LNG
+*ZC    237         PERFORM GOOD
+         PERFORM GOOD
+*ZC    237         ELSE  
+         ELSE  
+*ZC    237         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    238         IF    DFP_EXT,=,BFP_EXT
+         IF    DFP_EXT,=,BFP_EXT
+*ZC    238         PERFORM GOOD
+         PERFORM GOOD
+*ZC    238         ELSE  
+         ELSE  
+*ZC    238         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    239         IF    DFP_EXT,=,DFP_SRT
+         IF    DFP_EXT,=,DFP_SRT
+*ZC    239         PERFORM GOOD
+         PERFORM GOOD
+*ZC    239         ELSE  
+         ELSE  
+*ZC    239         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    240         IF    DFP_EXT,=,DFP_LNG
+         IF    DFP_EXT,=,DFP_LNG
+*ZC    240         PERFORM GOOD
+         PERFORM GOOD
+*ZC    240         ELSE  
+         ELSE  
+*ZC    240         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    241         IF    DFP_EXT,=,DFP_EXT
+         IF    DFP_EXT,=,DFP_EXT
+*ZC    241         PERFORM GOOD
+         PERFORM GOOD
+*ZC    241         ELSE  
+         ELSE  
+*ZC    241         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    242         IF    DFP_EXT,=,HW
+         IF    DFP_EXT,=,HW
+*ZC    242         PERFORM GOOD
+         PERFORM GOOD
+*ZC    242         ELSE  
+         ELSE  
+*ZC    242         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    243         IF    DFP_EXT,=,FW
+         IF    DFP_EXT,=,FW
+*ZC    243         PERFORM GOOD
+         PERFORM GOOD
+*ZC    243         ELSE  
+         ELSE  
+*ZC    243         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    244         IF    DFP_EXT,=,DW
+         IF    DFP_EXT,=,DW
+*ZC    244         PERFORM GOOD
+         PERFORM GOOD
+*ZC    244         ELSE  
+         ELSE  
+*ZC    244         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    245         IF    DFP_EXT,=,QW
+         IF    DFP_EXT,=,QW
+*ZC    245         PERFORM GOOD
+         PERFORM GOOD
+*ZC    245         ELSE  
+         ELSE  
+*ZC    245         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    246         IF    DFP_EXT,=,PD
+         IF    DFP_EXT,=,PD
+*ZC    246         PERFORM GOOD
+         PERFORM GOOD
+*ZC    246         ELSE  
+         ELSE  
+*ZC    246         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DFP-EXT = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    247         IF    DFP_EXT,=,ZD
+         IF    DFP_EXT,=,ZD
+*ZC    247         PERFORM GOOD
+         PERFORM GOOD
+*ZC    247         ELSE  
+         ELSE  
+*ZC    247         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    248         IF    HW,=,HFP_SRT
+         IF    HW,=,HFP_SRT
+*ZC    248         PERFORM GOOD
+         PERFORM GOOD
+*ZC    248         ELSE  
+         ELSE  
+*ZC    248         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    249         IF    HW,=,HFP_LNG
+         IF    HW,=,HFP_LNG
+*ZC    249         PERFORM GOOD
+         PERFORM GOOD
+*ZC    249         ELSE  
+         ELSE  
+*ZC    249         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    250         IF    HW,=,HFP_EXT
+         IF    HW,=,HFP_EXT
+*ZC    250         PERFORM GOOD
+         PERFORM GOOD
+*ZC    250         ELSE  
+         ELSE  
+*ZC    250         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    251         IF    HW,=,BFP_SRT
+         IF    HW,=,BFP_SRT
+*ZC    251         PERFORM GOOD
+         PERFORM GOOD
+*ZC    251         ELSE  
+         ELSE  
+*ZC    251         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    252         IF    HW,=,BFP_LNG
+         IF    HW,=,BFP_LNG
+*ZC    252         PERFORM GOOD
+         PERFORM GOOD
+*ZC    252         ELSE  
+         ELSE  
+*ZC    252         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    253         IF    HW,=,BFP_EXT
+         IF    HW,=,BFP_EXT
+*ZC    253         PERFORM GOOD
+         PERFORM GOOD
+*ZC    253         ELSE  
+         ELSE  
+*ZC    253         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    254         IF    HW,=,DFP_SRT
+         IF    HW,=,DFP_SRT
+*ZC    254         PERFORM GOOD
+         PERFORM GOOD
+*ZC    254         ELSE  
+         ELSE  
+*ZC    254         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    255         IF    HW,=,DFP_LNG
+         IF    HW,=,DFP_LNG
+*ZC    255         PERFORM GOOD
+         PERFORM GOOD
+*ZC    255         ELSE  
+         ELSE  
+*ZC    255         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    256         IF    HW,=,DFP_EXT
+         IF    HW,=,DFP_EXT
+*ZC    256         PERFORM GOOD
+         PERFORM GOOD
+*ZC    256         ELSE  
+         ELSE  
+*ZC    256         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    257         IF    HW,=,HW
+         IF    HW,=,HW
+*ZC    257         PERFORM GOOD
+         PERFORM GOOD
+*ZC    257         ELSE  
+         ELSE  
+*ZC    257         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    258         IF    HW,=,FW
+         IF    HW,=,FW
+*ZC    258         PERFORM GOOD
+         PERFORM GOOD
+*ZC    258         ELSE  
+         ELSE  
+*ZC    258         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    259         IF    HW,=,DW
+         IF    HW,=,DW
+*ZC    259         PERFORM GOOD
+         PERFORM GOOD
+*ZC    259         ELSE  
+         ELSE  
+*ZC    259         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    260         IF    HW,=,QW
+         IF    HW,=,QW
+*ZC    260         PERFORM GOOD
+         PERFORM GOOD
+*ZC    260         ELSE  
+         ELSE  
+*ZC    260         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    261         IF    HW,=,PD
+         IF    HW,=,PD
+*ZC    261         PERFORM GOOD
+         PERFORM GOOD
+*ZC    261         ELSE  
+         ELSE  
+*ZC    261         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF HW      = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    262         IF    HW,=,ZD
+         IF    HW,=,ZD
+*ZC    262         PERFORM GOOD
+         PERFORM GOOD
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    263         IF    FW,=,HFP_SRT
+         IF    FW,=,HFP_SRT
+*ZC    263         PERFORM GOOD
+         PERFORM GOOD
+*ZC    263         ELSE  
+         ELSE  
+*ZC    263         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    264         IF    FW,=,HFP_LNG
+         IF    FW,=,HFP_LNG
+*ZC    264         PERFORM GOOD
+         PERFORM GOOD
+*ZC    264         ELSE  
+         ELSE  
+*ZC    264         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    265         IF    FW,=,HFP_EXT
+         IF    FW,=,HFP_EXT
+*ZC    265         PERFORM GOOD
+         PERFORM GOOD
+*ZC    265         ELSE  
+         ELSE  
+*ZC    265         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    266         IF    FW,=,BFP_SRT
+         IF    FW,=,BFP_SRT
+*ZC    266         PERFORM GOOD
+         PERFORM GOOD
+*ZC    266         ELSE  
+         ELSE  
+*ZC    266         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    267         IF    FW,=,BFP_LNG
+         IF    FW,=,BFP_LNG
+*ZC    267         PERFORM GOOD
+         PERFORM GOOD
+*ZC    267         ELSE  
+         ELSE  
+*ZC    267         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    268         IF    FW,=,BFP_EXT
+         IF    FW,=,BFP_EXT
+*ZC    268         PERFORM GOOD
+         PERFORM GOOD
+*ZC    268         ELSE  
+         ELSE  
+*ZC    268         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    269         IF    FW,=,DFP_SRT
+         IF    FW,=,DFP_SRT
+*ZC    269         PERFORM GOOD
+         PERFORM GOOD
+*ZC    269         ELSE  
+         ELSE  
+*ZC    269         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    270         IF    FW,=,DFP_LNG
+         IF    FW,=,DFP_LNG
+*ZC    270         PERFORM GOOD
+         PERFORM GOOD
+*ZC    270         ELSE  
+         ELSE  
+*ZC    270         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    271         IF    FW,=,DFP_EXT
+         IF    FW,=,DFP_EXT
+*ZC    271         PERFORM GOOD
+         PERFORM GOOD
+*ZC    271         ELSE  
+         ELSE  
+*ZC    271         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    272         IF    FW,=,HW
+         IF    FW,=,HW
+*ZC    272         PERFORM GOOD
+         PERFORM GOOD
+*ZC    272         ELSE  
+         ELSE  
+*ZC    272         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    273         IF    FW,=,FW
+         IF    FW,=,FW
+*ZC    273         PERFORM GOOD
+         PERFORM GOOD
+*ZC    273         ELSE  
+         ELSE  
+*ZC    273         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    274         IF    FW,=,DW
+         IF    FW,=,DW
+*ZC    274         PERFORM GOOD
+         PERFORM GOOD
+*ZC    274         ELSE  
+         ELSE  
+*ZC    274         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    275         IF    FW,=,QW
+         IF    FW,=,QW
+*ZC    275         PERFORM GOOD
+         PERFORM GOOD
+*ZC    275         ELSE  
+         ELSE  
+*ZC    275         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    276         IF    FW,=,PD
+         IF    FW,=,PD
+*ZC    276         PERFORM GOOD
+         PERFORM GOOD
+*ZC    276         ELSE  
+         ELSE  
+*ZC    276         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF FW      = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    277         IF    FW,=,ZD
+         IF    FW,=,ZD
+*ZC    277         PERFORM GOOD
+         PERFORM GOOD
+*ZC    277         ELSE  
+         ELSE  
+*ZC    277         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    278         IF    DW,=,HFP_SRT
+         IF    DW,=,HFP_SRT
+*ZC    278         PERFORM GOOD
+         PERFORM GOOD
+*ZC    278         ELSE  
+         ELSE  
+*ZC    278         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    279         IF    DW,=,HFP_LNG
+         IF    DW,=,HFP_LNG
+*ZC    279         PERFORM GOOD
+         PERFORM GOOD
+*ZC    279         ELSE  
+         ELSE  
+*ZC    279         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    280         IF    DW,=,HFP_EXT
+         IF    DW,=,HFP_EXT
+*ZC    280         PERFORM GOOD
+         PERFORM GOOD
+*ZC    280         ELSE  
+         ELSE  
+*ZC    280         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    281         IF    DW,=,BFP_SRT
+         IF    DW,=,BFP_SRT
+*ZC    281         PERFORM GOOD
+         PERFORM GOOD
+*ZC    281         ELSE  
+         ELSE  
+*ZC    281         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    282         IF    DW,=,BFP_LNG
+         IF    DW,=,BFP_LNG
+*ZC    282         PERFORM GOOD
+         PERFORM GOOD
+*ZC    282         ELSE  
+         ELSE  
+*ZC    282         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    283         IF    DW,=,BFP_EXT
+         IF    DW,=,BFP_EXT
+*ZC    283         PERFORM GOOD
+         PERFORM GOOD
+*ZC    283         ELSE  
+         ELSE  
+*ZC    283         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    284         IF    DW,=,DFP_SRT
+         IF    DW,=,DFP_SRT
+*ZC    284         PERFORM GOOD
+         PERFORM GOOD
+*ZC    284         ELSE  
+         ELSE  
+*ZC    284         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    285         IF    DW,=,DFP_LNG
+         IF    DW,=,DFP_LNG
+*ZC    285         PERFORM GOOD
+         PERFORM GOOD
+*ZC    285         ELSE  
+         ELSE  
+*ZC    285         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    286         IF    DW,=,DFP_EXT
+         IF    DW,=,DFP_EXT
+*ZC    286         PERFORM GOOD
+         PERFORM GOOD
+*ZC    286         ELSE  
+         ELSE  
+*ZC    286         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    287         IF    DW,=,HW
+         IF    DW,=,HW
+*ZC    287         PERFORM GOOD
+         PERFORM GOOD
+*ZC    287         ELSE  
+         ELSE  
+*ZC    287         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    288         IF    DW,=,FW
+         IF    DW,=,FW
+*ZC    288         PERFORM GOOD
+         PERFORM GOOD
+*ZC    288         ELSE  
+         ELSE  
+*ZC    288         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    289         IF    DW,=,DW
+         IF    DW,=,DW
+*ZC    289         PERFORM GOOD
+         PERFORM GOOD
+*ZC    289         ELSE  
+         ELSE  
+*ZC    289         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    290         IF    DW,=,QW
+         IF    DW,=,QW
+*ZC    290         PERFORM GOOD
+         PERFORM GOOD
+*ZC    290         ELSE  
+         ELSE  
+*ZC    290         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    291         IF    DW,=,PD
+         IF    DW,=,PD
+*ZC    291         PERFORM GOOD
+         PERFORM GOOD
+*ZC    291         ELSE  
+         ELSE  
+*ZC    291         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF DW      = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    292         IF    DW,=,ZD
+         IF    DW,=,ZD
+*ZC    292         PERFORM GOOD
+         PERFORM GOOD
+*ZC    292         ELSE  
+         ELSE  
+*ZC    292         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    293         IF    QW,=,HFP_SRT
+         IF    QW,=,HFP_SRT
+*ZC    293         PERFORM GOOD
+         PERFORM GOOD
+*ZC    293         ELSE  
+         ELSE  
+*ZC    293         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    294         IF    QW,=,HFP_LNG
+         IF    QW,=,HFP_LNG
+*ZC    294         PERFORM GOOD
+         PERFORM GOOD
+*ZC    294         ELSE  
+         ELSE  
+*ZC    294         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    295         IF    QW,=,HFP_EXT
+         IF    QW,=,HFP_EXT
+*ZC    295         PERFORM GOOD
+         PERFORM GOOD
+*ZC    295         ELSE  
+         ELSE  
+*ZC    295         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    296         IF    QW,=,BFP_SRT
+         IF    QW,=,BFP_SRT
+*ZC    296         PERFORM GOOD
+         PERFORM GOOD
+*ZC    296         ELSE  
+         ELSE  
+*ZC    296         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    297         IF    QW,=,BFP_LNG
+         IF    QW,=,BFP_LNG
+*ZC    297         PERFORM GOOD
+         PERFORM GOOD
+*ZC    297         ELSE  
+         ELSE  
+*ZC    297         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    298         IF    QW,=,BFP_EXT
+         IF    QW,=,BFP_EXT
+*ZC    298         PERFORM GOOD
+         PERFORM GOOD
+*ZC    298         ELSE  
+         ELSE  
+*ZC    298         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    299         IF    QW,=,DFP_SRT
+         IF    QW,=,DFP_SRT
+*ZC    299         PERFORM GOOD
+         PERFORM GOOD
+*ZC    299         ELSE  
+         ELSE  
+*ZC    299         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    300         IF    QW,=,DFP_LNG
+         IF    QW,=,DFP_LNG
+*ZC    300         PERFORM GOOD
+         PERFORM GOOD
+*ZC    300         ELSE  
+         ELSE  
+*ZC    300         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    301         IF    QW,=,DFP_EXT
+         IF    QW,=,DFP_EXT
+*ZC    301         PERFORM GOOD
+         PERFORM GOOD
+*ZC    301         ELSE  
+         ELSE  
+*ZC    301         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    302         IF    QW,=,HW
+         IF    QW,=,HW
+*ZC    302         PERFORM GOOD
+         PERFORM GOOD
+*ZC    302         ELSE  
+         ELSE  
+*ZC    302         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    303         IF    QW,=,FW
+         IF    QW,=,FW
+*ZC    303         PERFORM GOOD
+         PERFORM GOOD
+*ZC    303         ELSE  
+         ELSE  
+*ZC    303         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    304         IF    QW,=,DW
+         IF    QW,=,DW
+*ZC    304         PERFORM GOOD
+         PERFORM GOOD
+*ZC    304         ELSE  
+         ELSE  
+*ZC    304         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    305         IF    QW,=,QW
+         IF    QW,=,QW
+*ZC    305         PERFORM GOOD
+         PERFORM GOOD
+*ZC    305         ELSE  
+         ELSE  
+*ZC    305         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    306         IF    QW,=,PD
+         IF    QW,=,PD
+*ZC    306         PERFORM GOOD
+         PERFORM GOOD
+*ZC    306         ELSE  
+         ELSE  
+*ZC    306         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF QW      = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    307         IF    QW,=,ZD
+         IF    QW,=,ZD
+*ZC    307         PERFORM GOOD
+         PERFORM GOOD
+*ZC    307         ELSE  
+         ELSE  
+*ZC    307         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    308         IF    PD,=,HFP_SRT
+         IF    PD,=,HFP_SRT
+*ZC    308         PERFORM GOOD
+         PERFORM GOOD
+*ZC    308         ELSE  
+         ELSE  
+*ZC    308         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    309         IF    PD,=,HFP_LNG
+         IF    PD,=,HFP_LNG
+*ZC    309         PERFORM GOOD
+         PERFORM GOOD
+*ZC    309         ELSE  
+         ELSE  
+*ZC    309         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    310         IF    PD,=,HFP_EXT
+         IF    PD,=,HFP_EXT
+*ZC    310         PERFORM GOOD
+         PERFORM GOOD
+*ZC    310         ELSE  
+         ELSE  
+*ZC    310         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    311         IF    PD,=,BFP_SRT
+         IF    PD,=,BFP_SRT
+*ZC    311         PERFORM GOOD
+         PERFORM GOOD
+*ZC    311         ELSE  
+         ELSE  
+*ZC    311         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    312         IF    PD,=,BFP_LNG
+         IF    PD,=,BFP_LNG
+*ZC    312         PERFORM GOOD
+         PERFORM GOOD
+*ZC    312         ELSE  
+         ELSE  
+*ZC    312         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    313         IF    PD,=,BFP_EXT
+         IF    PD,=,BFP_EXT
+*ZC    313         PERFORM GOOD
+         PERFORM GOOD
+*ZC    313         ELSE  
+         ELSE  
+*ZC    313         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    314         IF    PD,=,DFP_SRT
+         IF    PD,=,DFP_SRT
+*ZC    314         PERFORM GOOD
+         PERFORM GOOD
+*ZC    314         ELSE  
+         ELSE  
+*ZC    314         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    315         IF    PD,=,DFP_LNG
+         IF    PD,=,DFP_LNG
+*ZC    315         PERFORM GOOD
+         PERFORM GOOD
+*ZC    315         ELSE  
+         ELSE  
+*ZC    315         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    316         IF    PD,=,DFP_EXT
+         IF    PD,=,DFP_EXT
+*ZC    316         PERFORM GOOD
+         PERFORM GOOD
+*ZC    316         ELSE  
+         ELSE  
+*ZC    316         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    317         IF    PD,=,HW
+         IF    PD,=,HW
+*ZC    317         PERFORM GOOD
+         PERFORM GOOD
+*ZC    317         ELSE  
+         ELSE  
+*ZC    317         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = FW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    318         IF    PD,=,FW
+         IF    PD,=,FW
+*ZC    318         PERFORM GOOD
+         PERFORM GOOD
+*ZC    318         ELSE  
+         ELSE  
+*ZC    318         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    319         IF    PD,=,DW
+         IF    PD,=,DW
+*ZC    319         PERFORM GOOD
+         PERFORM GOOD
+*ZC    319         ELSE  
+         ELSE  
+*ZC    319         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    320         IF    PD,=,QW
+         IF    PD,=,QW
+*ZC    320         PERFORM GOOD
+         PERFORM GOOD
+*ZC    320         ELSE  
+         ELSE  
+*ZC    320         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    321         IF    PD,=,PD
+         IF    PD,=,PD
+*ZC    321         PERFORM GOOD
+         PERFORM GOOD
+*ZC    321         ELSE  
+         ELSE  
+*ZC    321         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF PD      = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    322         IF    PD,=,ZD
+         IF    PD,=,ZD
+*ZC    322         PERFORM GOOD
+         PERFORM GOOD
+*ZC    322         ELSE  
+         ELSE  
+*ZC    322         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = HFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    323         IF    ZD,=,HFP_SRT
+         IF    ZD,=,HFP_SRT
+*ZC    323         PERFORM GOOD
+         PERFORM GOOD
+*ZC    323         ELSE  
+         ELSE  
+*ZC    323         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = HFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    324         IF    ZD,=,HFP_LNG
+         IF    ZD,=,HFP_LNG
+*ZC    324         PERFORM GOOD
+         PERFORM GOOD
+*ZC    324         ELSE  
+         ELSE  
+*ZC    324         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = HFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    325         IF    ZD,=,HFP_EXT
+         IF    ZD,=,HFP_EXT
+*ZC    325         PERFORM GOOD
+         PERFORM GOOD
+*ZC    325         ELSE  
+         ELSE  
+*ZC    325         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = BFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    326         IF    ZD,=,BFP_SRT
+         IF    ZD,=,BFP_SRT
+*ZC    326         PERFORM GOOD
+         PERFORM GOOD
+*ZC    326         ELSE  
+         ELSE  
+*ZC    326         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = BFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    327         IF    ZD,=,BFP_LNG
+         IF    ZD,=,BFP_LNG
+*ZC    327         PERFORM GOOD
+         PERFORM GOOD
+*ZC    327         ELSE  
+         ELSE  
+*ZC    327         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = BFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    328         IF    ZD,=,BFP_EXT
+         IF    ZD,=,BFP_EXT
+*ZC    328         PERFORM GOOD
+         PERFORM GOOD
+*ZC    328         ELSE  
+         ELSE  
+*ZC    328         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = DFP-SRT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    329         IF    ZD,=,DFP_SRT
+         IF    ZD,=,DFP_SRT
+*ZC    329         PERFORM GOOD
+         PERFORM GOOD
+*ZC    329         ELSE  
+         ELSE  
+*ZC    329         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = DFP-LNG      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    330         IF    ZD,=,DFP_LNG
+         IF    ZD,=,DFP_LNG
+*ZC    330         PERFORM GOOD
+         PERFORM GOOD
+*ZC    330         ELSE  
+         ELSE  
+*ZC    330         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = DFP-EXT      PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    331         IF    ZD,=,DFP_EXT
+         IF    ZD,=,DFP_EXT
+*ZC    331         PERFORM GOOD
+         PERFORM GOOD
+*ZC    331         ELSE  
+         ELSE  
+*ZC    331         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = HW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    332         IF    ZD,=,HW
+         IF    ZD,=,HW
+*ZC    332         PERFORM GOOD
+         PERFORM GOOD
+*ZC    332         ELSE  
+         ELSE  
+*ZC    332         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = DW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    333         IF    ZD,=,DW
+         IF    ZD,=,DW
+*ZC    333         PERFORM GOOD
+         PERFORM GOOD
+*ZC    333         ELSE  
+         ELSE  
+*ZC    333         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = QW           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    334         IF    ZD,=,QW
+         IF    ZD,=,QW
+*ZC    334         PERFORM GOOD
+         PERFORM GOOD
+*ZC    334         ELSE  
+         ELSE  
+*ZC    334         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = PD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    335         IF    ZD,=,PD
+         IF    ZD,=,PD
+*ZC    335         PERFORM GOOD
+         PERFORM GOOD
+*ZC    335         ELSE  
+         ELSE  
+*ZC    335         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            IF ZD      = ZD           PERFORM GOOD ELSE PERFORM BAD.  X
+                           
+*ZC    336         IF    ZD,=,ZD
+         IF    ZD,=,ZD
+*ZC    336         PERFORM GOOD
+         PERFORM GOOD
+*ZC    336         ELSE  
+         ELSE  
+*ZC    336         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTIF1 GOOD TESTS =' GOOD
+*ZC    337         DISPLAY 'TESTIF1 GOOD TESTS =',GOOD
+         DISPLAY 'TESTIF1 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC    338         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC    340         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            MOVE 16 TO RETURN-CODE
+*ZC    342         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    343         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

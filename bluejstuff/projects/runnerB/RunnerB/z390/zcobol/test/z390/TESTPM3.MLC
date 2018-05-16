@@ -1,0 +1,169 @@
+         ZCOBOL PGM='zcobol\test\TESTPM3',VER=V1.5.06,CDATE=MM/DD/YY,CTX
+               IME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statsX
+               )
+         COPY  TESTPM3_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.  BYTEFILE.
+         PROGRAM_ID BYTEFILE
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        INPUT-OUTPUT SECTION.
+         INPUT_OUTPUT SECTION
+*        FILE-CONTROL.
+         FILE_CONTROL 
+*            SELECT IN-FILE
+*                ASSIGN TO 'ZCOBOL\TEST\TESTPM3.IN'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT IN_FILE,ASSIGN,TO,'ZCOBOL\TEST\TESTPM3.IN',ORGANIZATIONX
+               ,IS,LINE,SEQUENTIAL
+*            SELECT OUT-FILE
+*                ASSIGN TO 'ZCOBOL\TEST\TESTPM3.OUT'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT OUT_FILE,ASSIGN,TO,'ZCOBOL\TEST\TESTPM3.OUT',ORGANIZATIX
+               ON,IS,LINE,SEQUENTIAL
+*        DATA DIVISION.
+         DATA  DIVISION
+*        FILE SECTION.
+         FILE  SECTION
+*        FD  IN-FILE
+*            DATA RECORD IS IN-RECORD.
+         FD    IN_FILE,DATA,RECORD,IS,IN_RECORD
+*        01  IN-RECORD.
+         WS      01,IN_RECORD
+*            03  IR   OCCURS  80 PIC X(01).
+********        01  IN-RECORD PIC X(80).
+         WS        03,IR,OCCURS,80,PIC,X(01)
+*        FD  OUT-FILE
+*            DATA RECORD IS OUT-RECORD.
+         FD    OUT_FILE,DATA,RECORD,IS,OUT_RECORD
+*        01  OUT-RECORD.
+         WS      01,OUT_RECORD
+*            03  OR   OCCURS  80 PIC X(01).
+********        01  OUT-RECORD PIC X(80).
+         WS        03,OR,OCCURS,80,PIC,X(01)
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01  WS-LINE PIC X(80).
+         WS      01,WS_LINE,PIC,X(80)
+*        01  END-OF-FILE-FLAG PIC X VALUE 'F'.
+         WS      01,END_OF_FILE_FLAG,PIC,X,VALUE,'F'
+*        77  ICHAR COMP   PIC S9(4) VALUE +0.
+         WS      77,ICHAR,COMP,PIC,S9(4),VALUE,+,0
+*        77  OCHAR COMP   PIC S9(4) VALUE +0.
+         WS      77,OCHAR,COMP,PIC,S9(4),VALUE,+,0
+*        77  IBYTES       COMP-3    PIC S9(18) VALUE +0.
+         WS      77,IBYTES,COMP_3,PIC,S9(18),VALUE,+,0
+*        77  COUNT COMP-3 PIC S9(4) VALUE +0.
+         WS      77,COUNT,COMP_3,PIC,S9(4),VALUE,+,0
+*        77  HOLD-CHAR    PIC X(01) VALUE SPACE.
+         WS      77,HOLD_CHAR,PIC,X(01),VALUE,SPACE
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC      9         PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'BYTEFILE STARTED'.
+*ZC     34         DISPLAY 'BYTEFILE STARTED'
+         DISPLAY 'BYTEFILE STARTED'
+         PERIOD 
+*            PERFORM INITIALIZATION-ROUTINE.
+*ZC     35         PERFORM INITIALIZATION_ROUTINE
+         PERFORM INITIALIZATION_ROUTINE
+         PERIOD 
+*            PERFORM THE-LOOP
+*                    UNTIL END-OF-FILE-FLAG = 'Y'.
+*ZC     36         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERIOD 
+*            PERFORM EOJ-ROUTINE.
+*ZC     38         PERFORM EOJ_ROUTINE
+         PERFORM EOJ_ROUTINE
+         PERIOD 
+*            DISPLAY 'BYTEFILE RECORDS COPIED = ' COUNT.
+*ZC     39         DISPLAY 'BYTEFILE RECORDS COPIED = ',COUNT
+         DISPLAY 'BYTEFILE RECORDS COPIED = ',COUNT
+         PERIOD 
+*            DISPLAY 'BYTES COPIED =' IBYTES.
+*ZC     40         DISPLAY 'BYTES COPIED =',IBYTES
+         DISPLAY 'BYTES COPIED =',IBYTES
+         PERIOD 
+*            DISPLAY 'BYTEFILE ENDED OK'
+*ZC     41         DISPLAY 'BYTEFILE ENDED OK'
+         DISPLAY 'BYTEFILE ENDED OK'
+*            STOP RUN.
+*ZC     42         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INITIALIZATION-ROUTINE.
+         LABEL INITIALIZATION_ROUTINE
+*            OPEN INPUT IN-FILE.
+*ZC     44         OPEN  INPUT,IN_FILE
+         OPEN  INPUT,IN_FILE
+         PERIOD 
+*            OPEN OUTPUT OUT-FILE.
+*ZC     45         OPEN  OUTPUT,OUT_FILE
+         OPEN  OUTPUT,OUT_FILE
+         PERIOD 
+*            READ IN-FILE INTO IN-RECORD
+*ZC     47         READ  IN_FILE,INTO,IN_RECORD,AT,END
+         READ  IN_FILE,INTO,IN_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     47         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        THE-LOOP.
+         LABEL THE_LOOP
+*            PERFORM THE-MOVE 
+*               VARYING ICHAR FROM 1 BY 1 UNTIL ICHAR > 80.
+*ZC     49         PERFORM THE_MOVE,VARYING,ICHAR,FROM,1,BY,1,UNTIL,ICHX
+               AR,>,80
+         PERFORM THE_MOVE,VARYING,ICHAR,FROM,1,BY,1,UNTIL,ICHAR,>,80
+         PERIOD 
+*            WRITE OUT-RECORD.
+*ZC     51         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            ADD 1 TO COUNT.
+*ZC     52         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+         PERIOD 
+*            READ IN-FILE INTO OUT-RECORD
+*ZC     54         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     54         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        THE-MOVE.
+         LABEL THE_MOVE
+*            MOVE ICHAR TO OCHAR.
+*ZC     56         MOVE  ICHAR,TO,OCHAR
+         MOVE  ICHAR,TO,OCHAR
+         PERIOD 
+*            MOVE IR (ICHAR) TO HOLD-CHAR.
+*   
+*ZC     57         MOVE  IR,'(',ICHAR,')',TO,HOLD_CHAR
+         MOVE  IR,'(',ICHAR,')',TO,HOLD_CHAR
+         PERIOD 
+*            MOVE HOLD-CHAR TO OR (OCHAR).
+*ZC     59         MOVE  HOLD_CHAR,TO,OR,'(',OCHAR,')'
+         MOVE  HOLD_CHAR,TO,OR,'(',OCHAR,')'
+         PERIOD 
+*            COMPUTE IBYTES = IBYTES + 1.
+*ZC     60         COMPUTE IBYTES,=,IBYTES,+,1
+         COMPUTE IBYTES,=,IBYTES,+,1
+         PERIOD 
+*        EOJ-ROUTINE.
+         LABEL EOJ_ROUTINE
+*            CLOSE IN-FILE.
+*ZC     62         CLOSE IN_FILE
+         CLOSE IN_FILE
+         PERIOD 
+*            CLOSE OUT-FILE.
+*ZC     63         CLOSE OUT_FILE
+         CLOSE OUT_FILE
+         PERIOD 
+         PROCEDURE END
+         END   

@@ -1,0 +1,31 @@
+body {
+    font-family: Arial, Helvetica, serif;
+    margin: 10px;
+    padding: 0;
+}
+#content {
+    width: 400px;
+    margin: auto;
+    padding: 10px;
+    background: white;
+}
+h1 {
+    color: black;
+}
+label {
+    width: 10em;
+    padding-right: 1em;
+    float: left;
+}
+#data input {
+    float: left;
+    width: 10em;
+    margin-bottom: .5em;
+}
+#buttons input {
+    float: left;
+    margin-bottom: .5em;
+}
+br {
+    clear: left;
+}

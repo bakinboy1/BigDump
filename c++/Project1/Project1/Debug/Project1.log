@@ -1,0 +1,64 @@
+﻿  Source.cpp
+d:\school program files\c++\project1\project1\source.cpp(10): error C3861: 'bunny': identifier not found
+d:\school program files\c++\project1\project1\source.cpp(25): error C2039: 'setID': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(25): error C2601: 'setID': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(28): error C2039: 'getID': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(28): error C2601: 'getID': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(31): error C2039: 'setGender': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(31): error C2601: 'setGender': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(34): error C2039: 'getGender': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(34): error C2601: 'getGender': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(37): error C2039: 'setAge': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(37): error C2601: 'setAge': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(40): error C2039: 'getAge': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(40): error C2601: 'getAge': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(43): error C2039: 'setName': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(43): error C2601: 'setName': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(46): error C2039: 'getName': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(46): error C2601: 'getName': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(49): error C2039: 'setColor': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(49): error C2601: 'setColor': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(52): error C2039: 'getColor': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(52): error C2601: 'getColor': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(55): error C2039: 'setMutant': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(55): error C2601: 'setMutant': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(58): error C2039: 'getMutant': is not a member of 'bunny'
+  d:\school program files\c++\project1\project1\source.cpp(13): note: see declaration of 'bunny'
+d:\school program files\c++\project1\project1\source.cpp(58): error C2601: 'getMutant': local function definitions are illegal
+  d:\school program files\c++\project1\project1\source.cpp(24): note: this line contains a '{' which has not yet been matched
+d:\school program files\c++\project1\project1\source.cpp(26): error C2065: 'bunnyID': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(29): error C2065: 'bunnyID': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(32): error C2065: 'gender': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(35): error C2065: 'gender': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(38): error C2065: 'age': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(41): error C2065: 'age': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(44): error C2065: 'name': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(47): error C2065: 'name': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(50): error C2065: 'color': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(53): error C2065: 'color': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(56): error C2065: 'mutant': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(59): error C2065: 'mutant': undeclared identifier
+d:\school program files\c++\project1\project1\source.cpp(62): error C4430: missing type specifier - int assumed. Note: C++ does not support default-int
+d:\school program files\c++\project1\project1\source.cpp(78): warning C4508: 'getNames': function should return a value; 'void' return type assumed

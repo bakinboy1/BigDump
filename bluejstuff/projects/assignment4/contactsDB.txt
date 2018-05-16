@@ -1,0 +1,24 @@
+Lisa
+18
+4225 University Avenue
+1000000
+true
+Columbus
+Leah
+100
+Planet Enterprise
+10
+true
+Columbus
+Isaac
+15
+Tatooine
+5
+true
+Columbus
+Bobo
+81
+2345 something lane
+239999
+false
+Columbus

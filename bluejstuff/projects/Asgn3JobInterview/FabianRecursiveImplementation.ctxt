@@ -1,0 +1,14 @@
+#BlueJ class context
+comment0.params=number
+comment0.target=int\ factorial(int)
+comment0.text=\r\n\ An\ implementation\ of\ this\ method\ must\ correctly\ compute\ the\ factorial\r\n\ of\ the\ parameter.\ \r\n\ The\ parameter\ is\ assumed\ to\ be\ a\ positive\ integer.\r\n\ \r\n\ @param\ \ number\ \ \ \ a\ positive\ integer\r\n\ @return\ \ \ \ \ \ \ \ the\ factorial\ of\ number\ \r\n
+comment1.params=toBeSearched\ searchChar
+comment1.target=int\ nbrOccurrences(java.lang.String,\ char)
+comment1.text=\r\n\ An\ implementation\ of\ this\ method\ must\ correctly\ return\r\n\ the\ number\ of\ times\ that\ searchChar\ can\ be\ found\ in\ toBeSearched\r\n\ \r\n\ @param\ \ toBeSearched\ \ \ \ a\ string\ to\ be\ searched\r\n\ @param\ \ searchChar\ \ \ \ \ \ a\ character\ that\ we\ are\ looking\ for\ in\ toBeSearched\r\n\ @return\ \ \ \ \ \ \ \ the\ number\ of\ occurrences\ of\ searchChar\ in\ toBeSearched\r\n
+comment2.params=x
+comment2.target=boolean\ isEven(int)
+comment2.text=\r\n\ An\ implementation\ of\ this\ method\ must\ correctly\ \r\n\ return\ true\ if\ the\ parameter\ is\ a\ multiple\ of\ 2\r\n\ Must\ return\ false\ otherwise\r\n\ \r\n\ @param\ \ x\ \ \ a\ positive\ integer\r\n\ \r\n\ @return\ true\ if\ x\ is\ an\ even\ number,\ false\ otherwise\r\n
+comment3.params=data\ threshold
+comment3.target=int\ sumUpper(int[],\ int)
+comment3.text=\r\n\ An\ implementation\ of\ this\ method\ must\ correctly\ \r\n\ scan\ the\ array\ of\ data\ and\ return\ the\ sum\ \r\n\ of\ the\ elements\ that\ are\ greater\ than\ the\ threshold;\ -1\ if\ none.\ \r\n\ \ \r\n\ @param\ \ data\ \ \ an\ array\ of\ positive\ integers\r\n\ @param\ threshold\ a\ positive\ integer\r\n\ @return\ \ the\ sum\ of\ the\ elements\ that\ are\ greater\ than\ the\ threshold\r\n
+numComments=4

@@ -1,0 +1,168 @@
+Comparing files ZCOBOL\DEMO\VCE\hello.STA and ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     ZC390 total CBL lines in  =5
+hello     ZC390 total MLC lines out =40
+hello     ZC390 total errors        =0
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     ZC390 total CBL lines in  =5
+hello     ZC390 total MLC lines out =16
+hello     ZC390 total errors        =0
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+  notiming stats
+hello     MZ390 final_options=ALIGN
+hello     MZ390 final_options=NOALLOW
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+  notiming stats
+hello     MZ390 final_options=NOALLOW
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     MZ390 final_options=NOCICS
+hello     MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+hello     MZ390 final_options=COMMENT
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     MZ390 final_options=NOCICS
+hello     MZ390 final_options=COMMENT
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     MZ390 final_options=SYSTRC=zcobol\demo\
+hello     MZ390 total MLC/MAC loaded  = 3476
+hello     MZ390 total BAL output lines= 127
+hello     MZ390 total AREAD input     = 0
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     MZ390 final_options=SYSTRC=zcobol\demo\
+hello     MZ390 total MLC/MAC loaded  = 2718
+hello     MZ390 total BAL output lines= 118
+hello     MZ390 total AREAD input     = 0
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     MZ390 total macro calls     = 49
+hello     MZ390 total AENTRY blocks   = 22
+hello     MZ390 total ACALL  calls    = 31
+hello     MZ390 total AIF    blocks   = 171
+hello     MZ390 total ACASE  blocks   = 0
+hello     MZ390 total AWHILE calls    = 23
+hello     MZ390 total AUNTIL blocks   = 0
+hello     MZ390 total global set names= 220
+hello     MZ390 tot global seta cells = 321011
+hello     MZ390 tot global setb cells = 40382
+hello     MZ390 tot global setc cells = 181779
+hello     MZ390 max local pos parms   = 17
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     MZ390 total macro calls     = 49
+hello     MZ390 total global set names= 185
+hello     MZ390 tot global seta cells = 300892
+hello     MZ390 tot global setb cells = 40171
+hello     MZ390 tot global setc cells = 140729
+hello     MZ390 max local pos parms   = 17
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     MZ390 max local key parms   = 5
+hello     MZ390 max local set names   = 83
+hello     MZ390 max local seta cells  = 46
+hello     MZ390 max local setb cells  = 6
+hello     MZ390 max local setc cells  = 31
+hello     MZ390 total array expansions= 0
+hello     MZ390 total Keys            = 8469
+hello     MZ390 Key searches          = 83441
+hello     MZ390 Key avg comps         = 1
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     MZ390 max local key parms   = 5
+hello     MZ390 max local set names   = 73
+hello     MZ390 max local seta cells  = 40
+hello     MZ390 max local setb cells  = 3
+hello     MZ390 max local setc cells  = 30
+hello     MZ390 total array expansions= 0
+hello     MZ390 total Keys            = 7242
+hello     MZ390 Key searches          = 68876
+hello     MZ390 Key avg comps         = 1
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     MZ390 Key max comps         = 7
+hello     MZ390 total macro line exec = 8944
+hello     MZ390 total pcode line exec = 2481
+hello     MZ390 total pcode line gen. = 488
+hello     MZ390 total pcode line reuse= 0
+hello     MZ390 total pcode op   gen. = 1848
+hello     MZ390 total pcode op   exec = 13180
+hello     MZ390 total pcode gen  opt  = 554
+hello     MZ390 total pcode exec opt  = 16
+hello     MZ390 FID=  1 ERR= 2 w:\work\z390\zcobol\demo\hello.MLC
+hello     MZ390 FID=  2 ERR= 0 w:\work\z390\zcobol\ZCOBOL.MAC
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     MZ390 Key max comps         = 7
+hello     MZ390 total macro line exec = 7542
+hello     MZ390 total pcode line exec = 2154
+hello     MZ390 total pcode line gen. = 433
+hello     MZ390 total pcode line reuse= 0
+hello     MZ390 total pcode op   gen. = 1554
+hello     MZ390 total pcode op   exec = 10678
+hello     MZ390 total pcode gen  opt  = 472
+hello     MZ390 total pcode exec opt  = 17
+hello     MZ390 FID=  1 ERR= 0 w:\work\z390\zcobol\demo\hello.MLC
+hello     MZ390 FID=  2 ERR= 0 w:\work\z390\zcobol\ZCOBOL.MAC
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     MZ390 FID=  3 ERR= 0 w:\work\z390\zcobol\ZC_WS.CPY
+hello     MZ390 FID=  4 ERR= 0 w:\work\z390\zcobol\ZC_KEYS.CPY
+hello     MZ390 FID=  5 ERR= 0 w:\work\z390\zcobol\vce\GEN_COMMENT.MAC
+hello     MZ390 FID=  6 ERR= 0 w:\work\z390\zcobol\IDENTIFICATION.MAC
+hello     MZ390 FID=  7 ERR= 0 w:\work\z390\zcobol\PROGRAM_ID.MAC
+hello     MZ390 FID=  8 ERR= 0 w:\work\z390\zcobol\vce\GEN_ID.MAC
+hello     MZ390 FID=  9 ERR= 0 w:\work\z390\zcobol\DATA.MAC
+hello     MZ390 FID= 10 ERR= 0 w:\work\z390\zcobol\WS.MAC
+hello     MZ390 FID= 11 ERR= 0 w:\work\z390\zcobol\ZCGETFLD.CPY
+hello     MZ390 FID= 12 ERR= 0 w:\work\z390\zcobol\ZCNUMLIT.CPY
+hello     MZ390 FID= 13 ERR= 0 w:\work\z390\zcobol\ZC_PIC_LEN.MAC
+hello     MZ390 FID= 14 ERR= 0 w:\work\z390\zcobol\ZC_SYM_INDEX.MAC
+hello     MZ390 FID= 15 ERR= 0 w:\work\z390\zcobol\ZC_SYM_FIND.MAC
+hello     MZ390 FID= 16 ERR= 0 w:\work\z390\zcobol\PROCEDURE.MAC
+hello     MZ390 FID= 17 ERR= 0 w:\work\z390\zcobol\vce\GEN_PROC_START.MAC
+hello     MZ390 FID= 18 ERR= 0 w:\work\z390\zcobol\DISPLAY.MAC
+hello     MZ390 FID= 19 ERR= 0 w:\work\z390\zcobol\vce\GEN_DISPLAY.MAC
+hello     MZ390 FID= 20 ERR= 0 w:\work\z390\zcobol\PERIOD.MAC
+hello     MZ390 FID= 21 ERR= 0 w:\work\z390\zcobol\STOP.MAC
+hello     MZ390 FID= 22 ERR= 0 w:\work\z390\zcobol\vce\GEN_STOP.MAC
+hello     MZ390 FID= 23 ERR= 0 w:\work\z390\zcobol\vce\GEN_PROC_END.MAC
+hello     MZ390 FID= 24 ERR= 0 w:\work\z390\zcobol\ZC_STATS.MAC
+hello     MZ390 total mnote warnings  = 0
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     MZ390 FID=  3 ERR= 0 w:\work\z390\zcobol\ZC_WS.CPY
+hello     MZ390 FID=  4 ERR= 0 w:\work\z390\zcobol\vce\GEN_COMMENT.MAC
+hello     MZ390 FID=  5 ERR= 0 w:\work\z390\zcobol\IDENTIFICATION.MAC
+hello     MZ390 FID=  6 ERR= 0 w:\work\z390\zcobol\PROGRAM_ID.MAC
+hello     MZ390 FID=  7 ERR= 0 w:\work\z390\zcobol\vce\GEN_ID.MAC
+hello     MZ390 FID=  8 ERR= 0 w:\work\z390\zcobol\DATA.MAC
+hello     MZ390 FID=  9 ERR= 0 w:\work\z390\zcobol\WS.MAC
+hello     MZ390 FID= 10 ERR= 0 w:\work\z390\zcobol\ZC_PIC_LEN.MAC
+hello     MZ390 FID= 11 ERR= 0 w:\work\z390\zcobol\ZC_SYM_INDEX.MAC
+hello     MZ390 FID= 12 ERR= 0 w:\work\z390\zcobol\ZC_SYM_FIND.MAC
+hello     MZ390 FID= 13 ERR= 0 w:\work\z390\zcobol\PROCEDURE.MAC
+hello     MZ390 FID= 14 ERR= 0 w:\work\z390\zcobol\vce\GEN_PROC_START.MAC
+hello     MZ390 FID= 15 ERR= 0 w:\work\z390\zcobol\DISPLAY.MAC
+hello     MZ390 FID= 16 ERR= 0 w:\work\z390\zcobol\vce\GEN_DISPLAY.MAC
+hello     MZ390 FID= 17 ERR= 0 w:\work\z390\zcobol\PERIOD.MAC
+hello     MZ390 FID= 18 ERR= 0 w:\work\z390\zcobol\STOP.MAC
+hello     MZ390 FID= 19 ERR= 0 w:\work\z390\zcobol\vce\GEN_STOP.MAC
+hello     MZ390 FID= 20 ERR= 0 w:\work\z390\zcobol\vce\GEN_PROC_END.MAC
+hello     MZ390 FID= 21 ERR= 0 w:\work\z390\zcobol\ZC_STATS.MAC
+hello     MZ390 total mnote warnings  = 0
+*****
+
+***** ZCOBOL\DEMO\VCE\hello.STA
+hello     MZ390 max   mnote level     = 0
+hello     MZ390 total mz390 errors    = 2
+hello     MZ390 ENDED   RC=12 MEM(MB)= MB IO=5698
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.STA
+hello     MZ390 max   mnote level     = 0
+hello     MZ390 total mz390 errors    = 0
+hello     MZ390 ENDED   RC= 0 MEM(MB)= MB IO=4401
+*****
+

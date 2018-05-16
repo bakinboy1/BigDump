@@ -1,0 +1,117 @@
+         MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 04/29/08                                                 *
+.*********************************************************************
+.* 04/29/08 initial coding for global CBL options call gen'd by zcobol  
+.* 02/25/09 RPI 1004 SET ZC_FLOAT to DECIMAL/BINARY/HEX def. DECIMAL         
+.* 03/06/09 RPI 1004 SET ZC_FLOAT from option FLOAT(?)  
+.* 05/25/10 RPI 1118 SET MAXDISPLAY(80) max display line length
+.*********************************************************************
+        ZCOBOL &VER=,      z390 version from tz390.version             X
+               &PGM=,      program name from args[0] overides PGM-ID.  X
+               &CDATE=,    current compile date or MM/DD/YY if notimingX
+               &CTIME=,    current compile start time if timing        X
+               &OPTIONS=   sublist of all options following program  
+         COPY ZC_WS
+.*
+.* SAVE ALL ZCOBOL PARMS IN GLOBALS
+.*
+         :&ZC_VER   SETC '&VER'
+         :&ZC_PGM   SETC '&PGM'
+         :&ZC_CDATE SETC '&CDATE'
+         :&ZC_CTIME SETC '&CTIME'
+         :&ZC_LIST  SETC 'NOLIST,NOGEN,NOLISTUSE'
+         :&ZC_OPTIONS SETC '&OPTIONS'
+.*
+.* DEFINE ZCOBOL CLOBAL OPTION DEFAULTS
+.*
+         :&ZC_COMMENT SETB 1     DEFAULT ON
+         :&ZC_EXTEND  SETB 1     DEFAULT ON
+         :&ZC_FLOAT   SETC 'DECIMAL' VS BINARY OR HEX FOR FLOAT-S/L/E
+         :&ZC_FLOAT_SHORT_TYPE    SETC '7'
+         :&ZC_FLOAT_LONG_TYPE     SETC '8'
+         :&ZC_FLOAT_EXTENDED_TYPE SETC '9'
+         :&ZC_R64     SETB 1     ALLOW 64 BIT REGISTER INSTRUCTIONS
+         :&ZC_MAXDISPLAY SETA 80 MAX DISPLAY LINE LENGTH   RPI 1118
+.*
+.* SET OVERRIDES FROM PARM OPTIONS
+.*
+         :&I   SETA 1
+         :&NP  SETA N'&OPTIONS
+         :&OPT_LIST SETC ''
+         AWHILE (&I LE &NP)
+               :&OPTION SETC (UPPER '&OPTIONS(&I)')
+               AIF ('&OPTION' EQ 'CICS')    GEN DFHEISTG CSECT
+                   :&ZC_CICS SETB 1
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'COMMENT') GEN CBL SOURCE COMMENTS
+                   :&ZC_COMMENT SETB 1
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION'(1,6) EQ 'FLOAT(') FLOAT(DFP/BFP/HFP)           
+                   :&ZC_FLOAT SETC '&OPTION'(7,K'&OPTION-7)
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+                   AIF ('&ZC_FLOAT' EQ 'DECIMAL')
+                       :&ZC_FLOAT_SHORT_TYPE    SETC '7'
+                       :&ZC_FLOAT_LONG_TYPE     SETC '8'
+                       :&ZC_FLOAT_EXTENDED_TYPE SETC '9'
+                   AELSEIF ('&ZC_FLOAT' EQ 'HEX')
+                       :&ZC_FLOAT_SHORT_TYPE    SETC '1'
+                       :&ZC_FLOAT_LONG_TYPE     SETC '2'
+                       :&ZC_FLOAT_EXTENDED_TYPE SETC '3'
+                   AELSEIF ('&ZC_FLOAT' EQ 'BINARY')
+                       :&ZC_FLOAT_SHORT_TYPE    SETC '4'
+                       :&ZC_FLOAT_LONG_TYPE     SETC '5'
+                       :&ZC_FLOAT_EXTENDED_TYPE SETC '6'
+                   AELSE
+                       MNOTE 8,'ZCOBOL INVALID FLOAT TYPE - &ZC_FLOAT'
+                   AEND    
+               AELSEIF ('&OPTION' EQ 'EXTEND')  ALLOW Q34 AND P31/Z31
+                   :&ZC_EXTEND  SETB 1
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION'(1,11) EQ 'MAXDISPLAY(')  RPI 1118
+                   :&ZC_MAXDISPLAY SETA ('&OPTION'(12,K'&OPTION-1))
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'NOR64')  TURN OFF 64 BIT REG CODE
+                   :&ZC_R64  SETB 0
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'TRACE')   TRACE PARAGRAPHS ON LOG
+                   :&ZC_TRACE   SETB 1
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'TRUNC')   TRUNCATE NUM TO PIC(N)
+                   :&ZC_TRUNC   SETB 1
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'WARN')    ISSUE M NOTE LVL 4    
+                   :&ZC_WARN    SETB 1
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'NOCICS')  NO EXEC CICS
+                   :&ZC_CICS SETB 0
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'NOCOMMENT') NO SOURCE COMMENTS
+                   :&ZC_COMMENT SETB 0
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'NOEXTEND')  NO G64 AND P31 COMPS
+                   :&ZC_EXTEND  SETB 0
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'NOTRACE') NO TRACE PARAGRAPHS
+                   :&ZC_TRACE   SETB 0
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'NOTRUNC') NO TRUNCATE NUM TO PIC
+                   :&ZC_TRUNC   SETB 0
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AELSEIF ('&OPTION' EQ 'NOWARN') NO M NOTE LVL 4 WARNINGS
+                   :&ZC_WARN    SETB 0
+                   :&OPT_LIST SETC '&OPT_LIST,&OPTION'
+               AEND
+               :&I SETA &I+1
+         AEND
+         AIF   (K'&OPT_LIST GT 0)
+               :&OPT_LIST SETC '&OPT_LIST'(2,*)
+         AEND
+         COPY  ZC_KEYS
+     GEN_COMMENT 'ZCOBOL PGM=&ZC_PGM VER=&ZC_VER &ZC_CDATE &ZC_CTIME'
+     GEN_COMMENT 'ZCOBOL OPTIONS=(&OPT_LIST)'
+         MEND

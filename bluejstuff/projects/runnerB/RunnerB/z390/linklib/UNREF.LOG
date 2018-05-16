@@ -1,0 +1,8 @@
+13:49:11 UNREF     EZ390 START USING z390 V1.5.06 ON J2SE 1.6.0_31 05/21/12
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = linklib\UNREF.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) ASCII
+EZ390I instructions/sec     = 2310767
+EZ390I total errors         = 0
+13:49:15 UNREF     EZ390 ENDED   RC= 0 SEC= 4 MEM(MB)= 31 IO=8222 INS=9374784

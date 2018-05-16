@@ -1,0 +1,287 @@
+.*********************************************************************
+.* Copyright 2005 Automated Software Tools Corporation               *
+.* This source code is part of z390 assembler/emulator package       *
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 11/07/09                                                *
+.*********************************************************************
+.* 11/07/09 RPI 865 ADD INTERNAL AND FILE SORT UTILITY SUPPORT
+.*********************************************************************
+.* SORT IS A FILE SORTING UTILITY DESIGNED TO BE COMPATIBLE WITH
+.* DFSORT AND SYNCSORT.
+.*
+.* SORTIN  = INPUT  UNSORTED RECORDS
+.* SORTOUT - OUTPUT SORTED RECORDS
+.* SYSIN   - COMMAND INPUT WITH SORT FIELDS(OFF,LEN,CH,A/D)
+.* SORTWK01 - OPTIONAL WORK FILE 1 (DYNAMICALLY ALLOC IF REQ)
+.* SORTWK02 - OPTIONAL WORK FILE 2 (DYNAMICALLY ALLOC IF REQ)
+.*
+.* RETURN CODE:
+.*   0  - OPERATION SUCCESSFUL
+.*  16  - SEE ERROR MESSAGE IF ZSORT ABORTS
+.*
+.* NOTES:
+.*   1.  ONLY FIXED AND VARIBLE LENGTH RECORDS SUPPORTED.
+.*   2.  VARIABLE RECORDS ARE PROCESSED AS IF THEY WERE MAX LENGTH
+.*       INCLUDING 4 BYTE LL00 PREFIX.  KEY OFFSET DOES NOT INCLUDE PFX
+.*   3.  MAX MEMORY USED FOR TABLE IS 10 MB IF AVAILABLE.
+.*
+.*********************************************************************
+SORT     SUBENTRY
+         PM    INIT
+         IF    (CLI,VAR,EQ,TRUE)
+               PM  ISORT    USE INTERNAL ZSORT TO MAP VAR TO FIXED
+         ELSE  
+               PM  FSORT
+         ENDIF
+         PM    TERM
+         SUBEXIT RC=(15)
+*
+* FSORT FOR FIXED RECORDS
+*
+FSORT    PENTRY       
+         L     R2,ZSORT_PARMS
+         ZSORT FSORT,            FIXED LENGTH RECORDS SORTIN > SORTOUT X
+               MF=(E,(R2))
+         PEXIT
+*
+* ISORT USED FOR VARIABLE LENGTH RECORDS 
+*
+ISORT    PENTRY      
+         LA    R2,ZSORT_PARMS
+         ZSORT ISORT,            USE ISORT TO MAP VAR TO FIXED         X
+               MF=(E,(R2))
+         PM    GET_VREC
+         DO    WHILE=(CLI,EOF,NE,TRUE)
+               ZSORT PUT,REC=(R2)
+               PM  GET_VREC
+         ENDDO
+         MVI   EOF,FALSE
+         PM    GET_SREC
+         DO    WHILE=(CLI,EOF,NE,TRUE)
+               LR  R2,R1
+               PUT SORTOUT,(R2)
+               PM  GET_SREC
+         ENDDO
+         PEXIT
+*
+* GET VARIABLE RECORD FROM SORTIN IN R2
+*
+GET_VREC PENTRY          
+         GET    SORTIN,(R2)
+         PEXIT
+SORTIN_EOF EQU  *
+         MVI    EOF,TRUE
+         PEXIT
+*
+* GET SORTED RECORD
+*
+GET_SREC PENTRY                                    
+         ZSORT GET             RETURN REC IN R1 ELSE EOF ELSE ABORT
+         IF    (CHI,R15,EQ,4)
+               MVI EOF,TRUE
+         ENDIF
+         PEXIT
+*
+* INIT SORT
+*
+INIT     PENTRY
+         PM    INIT_SYSIN
+         PM    INIT_SORTIN
+         PM    INIT_SORTOUT
+         PM    INIT_MEMORY
+         PEXIT
+*
+* INIT SYSIN - SET KEYOFF,KEYLEN,ORDER
+*
+INIT_SYSIN PENTRY 
+         OPEN  (SYSIN,(INPUT))
+         GET   SYSIN,SYSIN_REC
+         LA    R1,SYSIN_REC
+         DO    WHILE=(CLI,0(R1),EQ,C' ')
+               AHI R1,1
+         ENDDO
+         IF    (CLC,0(5,R1),NE,=C'SORT ')
+               WTO 'SORT COMMAND NOT FOUND'
+               SUBEXIT RC=16
+         ENDIF
+         AHI   R1,5
+         DO    WHILE=(CLI,0(R1),EQ,C' ')
+               AHI R1,1
+         ENDDO
+         IF    (CLC,0(8,R1),NE,=C'FIELDS=(')
+               WTO 'SORT FIELDS=( NOT FOUND'
+               SUBEXIT RC=16
+         ENDIF
+         AHI   R1,8
+         PM    GET_NUM
+         AHI   R0,-1           ADJ TO OFFSET FROM 0 VS 1
+         ST    R0,SORT_KEYOFF
+         AHI   R1,1
+         PM    GET_NUM
+         ST    R0,SORT_KEYLEN
+         AHI   R1,1
+         IF    (CLC,0(3,R1),NE,=C'CH,')
+               WTO 'SORT FIELDS TYPE NO CH'
+               SUBEXIT RC=16
+         ENDIF
+         AHI   R1,3
+         IF    (CLI,0(R1),EQ,C'A')
+               MVC  SORT_OPTIONS,=BL32'0' ASCENDING
+         ELSEIF (CLI,0(R1),EQ,C'D')
+               MVC  SORT_OPTIONS,=BL32'1' DESCENDING
+         ELSE
+               WTO 'SORT ORDER NOT A OR D'
+               SUBEXIT RC=16
+         ENDIF      
+         CLOSE (SYSIN)
+         PEXIT
+*
+* INIT SORTIN
+*
+INIT_SORTIN PENTRY
+         GETENV SORTIN_DD
+         IF    (LTR,R15,NE,R15)
+               WTO 'SORT SORTIN NOT FOUND'
+               SUBEXIT RC=15
+         ENDIF
+         LR    R8,R1
+         IF    (TRT,0(256,R8),NE,FIND_BRK) FIND [RECFM=F/V,LRECL-N]
+               LR   R15,R1
+               SR   R15,R8
+               BCTR R15,0
+               EX   R15,SORTIN_MVC         MOVE FILE SPEC WO BRK
+               LA   R2,SORTIN
+               PM   SET_DCB_PARMS
+               MVC SORTOUT+DCBRECFM-IHADCB(1),SORTIN+DCBRECFM-IHADCB
+               MVC SORTOUT+DCBLRECL-IHADCB(4),SORTIN+DCBLRECL-IHADCB
+               MVC SORTOUT+DCBBLKSI-IHADCB(4),SORTIN+DCBBLKSI-IHADCB
+         ELSE
+               WTO 'SORT SORTIN DDNAME REQUIRES[RECFM=F/V,LRECL=N]'
+               SUBEXIT RC=16
+         ENDIF
+         PEXIT
+*
+* SET_DCB_PARMS FOR SORTIN AND SORTOUT
+*
+SET_DCB_PARMS PENTRY
+         USING IHADCB,R2
+         IF    (CLC,1(6,R1),NE,=C'RECFM=')
+               WTO 'SORT SORTIN DDNAME REQUIRES[RECFM=F/FB/FT/V/VB,LRECX
+               L=N]'
+               SUBEXIT RC=16
+         ENDIF
+         AHI   R1,7
+         IF    (CLC,0(2,R1),EQ,=C'FT')
+               MVI DCBRECFM,DCBRECFM_FT
+               AHI R1,2
+         ELSEIF (CLC,0(2,R1),EQ,=C'FB')
+               MVI DCBRECFM,DCBRECFM_FB
+               AHI R1,2
+         ELSEIF (CLC,0(2,R1),EQ,=C'VT')
+               MVI VAR,TRUE
+               MVI DCBRECFM,DCBRECFM_VT
+               AHI R1,2
+         ELSEIF (CLC,0(2,R1),EQ,=C'VB')
+               MVI VAR,TRUE
+               MVI DCBRECFM,DCBRECFM_VB
+               AHI R1,2
+         ELSEIF (CLC,0(1,R1),EQ,=C'F')
+               MVI   DCBRECFM,DCBRECFM_F
+               AHI R1,1
+         ELSEIF (CLC,0(1,R1),EQ,=C'V')
+               MVI VAR,TRUE
+               MVI   DCBRECFM,DCBRECFM_V
+               AHI R1,1
+         ELSE 
+               WTO 'REPRO INVALID RECFM [RECFM=F/FB/T/V/VB/VT'
+               SUBEXIT RC=16
+         ENDIF
+         IF    (CLI,0(R1),EQ,C']')
+               PEXIT
+         ENDIF
+         IF    (CLC,0(7,R1),EQ,=C',LRECL=')
+               LA  R1,7(R1)
+               PM  GET_NUM
+               IF  (CLC,SORT_LRECL,NE,=F'0'),AND,(CL,R0,NE,SORT_LRECL)
+                   WTO 'SORT SORTIN/SORTOUT LRECL NOT EQUAL'
+                   SUBEXIT RC=16
+               ENDIF
+               ST  R0,SORT_LRECL  
+         ELSEIF (CLC,0(9,R1),EQ,=C',BLKSIZE=')
+               LA  R1,7(R1)
+               PM  GET_NUM
+               ST  R0,DCBBLKSI
+         ENDIF
+         PEXIT
+*
+* GET_NUM - SET R0 TO DECIMAL VALUE AT R1
+*
+GET_NUM  PENTRY
+         SR  R15,R15
+         SR  R0,R0
+         DO  WHILE=(CLI,0(R1),GE,C'0')
+             IC  R15,0(R1)
+             NILL R15,X'F'
+             MH  R0,=H'10'
+             AR  R0,R15
+             AHI R1,1
+         ENDDO
+         PEXIT
+*
+* INIT SORTOUT
+*
+INIT_SORTOUT PENTRY
+         OPEN (SORTOUT,(OUTPUT))
+         PEXIT
+*
+* INIT MEMORY (SEE DEFAULT SORT_MEMORY)
+*
+INIT_MEMORY PENTRY
+         PEXIT
+*
+* TERM
+*
+TERM     PENTRY
+         IF    (CLI,VAR,EQ,TRUE)
+               CLOSE (SORTOUT)
+               CLOSE (SORTIN)
+         ENDIF
+         PEXIT
+*
+* SHARED DATA
+*
+SORTIN_MVC   MVC SORTIN_DSN(0),0(R8)
+SORTOUT_MVC  MVC SORTOUT_DSN(0),0(R8)
+SYSIN_MVC    MVC SYSIN_DSN(0),0(R8)
+         LTORG
+         EQUREGS
+SORTIN   DCB   DSORG=PS,RECFM=F,MACRF=GM,EODAD=SORTIN_EOF,             X
+               DSNAME=SORTIN_DSN
+SORTOUT  DCB   DSORG=PS,RECFM=F,MACRF=PM
+SYSIN    DCB   DSORG=PS,RECFM=FT,MACRF=GM,BLKSIZE=80
+SYSIN_REC DC   CL80' '
+EOF      DC    AL1(FALSE)
+VAR      DC    AL1(FALSE)        ASSUME FIXED LENGTH USING FSORT
+FALSE    EQU   0
+TRUE     EQU   1
+SORT_PARMS   DS 0F
+SORT_LRECL   DC F'0'          FROM SORTIN OVERRIDE [RECFM=,LRECL=]
+SORT_MEMORY  DC F'10000000'   MSCIMUM MEMORY DEFAULT
+MAX_FIELDS   EQU 10           MAXIMUM KEY FIELDS (OFF,LEN,TYPE,ORDER)
+             DC (MAXFIELDS)FL12'0' A(OFFSET,LENGTH),AL2(TYPE,ORDER) 
+SORTIN_DD    DC C'SORTIN',X'00'
+SORTOUT_DD   DC C'SORTOUT',X'00'
+SYSIN_DD     DC C'SYSIN',X'00'
+SORTIN_DSN   DC XL256'00'
+SORTOUT_DSN  DC XL256'00'
+SYSIN_DSN    DC XL256'00'
+FIND_BRK DC 256X'00'
+         ORG   FIND_BRK+C'['
+         DC    C'[' STOP ON SOURCE BRACKET 
+         ORG
+FIND_NULL DC 256X'00'
+         ORG   FIND_NULL+X'00'
+         DC    C'[' STOP ON NULL 
+         ORG
+         END

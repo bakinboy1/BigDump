@@ -1,0 +1,11 @@
+{
+ "author": "Fabian Hucke",
+ "name": "censorify",
+ "version": "0.1.1",
+ "description": "Censors words out of text",
+ "main": "censor",
+ "dependencies": {},
+ "engines": {
+ "node": "*"
+ }
+}

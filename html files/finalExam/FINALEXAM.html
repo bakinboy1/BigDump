@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang ="en">
+
+	<head>
+
+		<title>Markers</title>
+		<meta charset ="utf-8">
+			<meta name="viewport"
+content="width=device-width, initial-scale=1.0">
+
+				<link rel="stylesheet" href="FINALEXAM.css">
+					<!--[if lt IE 9]
+<script src= "http://html5shim.googlecode.svn.trunk/html5.js">
+</script>
+<![endif]-->
+				</head>
+
+				<body>
+					<h1>Markers! Markers! Markers!</h1>
+					<h2>Markers on sale.</h2>
+					<p>
+						<b>Calculate Your Order</b>
+					</p>
+
+					<form method="post" name="form" action="javascript:void(0)">
+
+						<table>
+							<tr>
+								<td id="text">
+									<b>Price:</b>
+								</td>
+								<td id="field">
+									<input type="text" name="Price" id = "Price" size="1" value="5.49">
+									</td>
+								</tr>
+
+
+								<tr>
+									<td id="text">
+										<b>Quantity:</b>
+									</td>
+
+									<td id="field">
+										<select size="1" name="Quantity" id = "Quantity">
+
+											<option>0</option>
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+											<option value="3">4</option>
+											<option value="3">5</option>
+										</select>
+									</td>
+
+
+								</tr>
+
+								<tr>
+									<td id="text">
+										<b>State:</b>
+									</td>
+									<td id="field">
+										<select size="1" name="State">
+											<option>None</option>
+											<option value="0.085">Alabama</option>
+											<option value="0.075">Florida</option>
+											<option value="0.08">Georgia</option>
+
+
+										</select>
+									</td>
+								</tr>
+
+
+								<tr>
+									<td id="text">
+										<b> Delivery Method:</b>
+									</td>
+									<td id="field">
+										<select size="1" name="Delivery" id = "Delivery">
+
+											<option value="0.15">Standard UPS</option>
+											<option value="0.10">Book Rate</option>
+											<option value="0.3">Overnight</option>
+											<option value="0.6">Next Day Air</option>
+
+										</select>
+									</td>
+									<tr id="filler">
+										<td colspan="2">d</td>
+									</tr>
+								</tr>
+
+
+
+
+								<tr>
+									<td id="text">
+										<b> Cost:</b>
+									</td>
+									<td id="field">
+										<input type="text" name="TotalCost" size="7" value= "0.00">
+										</td>
+									</tr>
+									<tr>
+										<td id="text">
+											<b> Shipping Cost:</b>
+										</td>
+										<td id="field">
+											<input type="text" name="ShippingTotal" size="7" value= "0.00">
+											</td>
+										</tr>
+										<tr>
+											<td id="text">
+												<b> Tax Amount: </b>
+											</td>
+											<td id="field">
+												<input type="text" name="TaxTotal" size="7" value= "0.00">
+												</td>
+
+											</tr>
+											<tr id="filler">
+												<td colspan="2">d</td>
+											</tr>
+											
+													
+
+														<tr>
+															<td id="line" colspan="2">Your Total is:</td>
+														</tr>
+														<tr>
+															<td id="line" colspan="2">
+																<input type="text" name="Total" size="10"
+															value="0.00">
+																</td>
+															</tr>
+															<tr>
+																<td id="line" colspan="2">
+																	<input type="submit" value="Calculate My Order" 
+															name="Submit" onClick="CalcTotal()">
+																	</td>
+																</tr>
+															</table>
+
+
+
+
+														</form>
+
+														<script language="javascript">
+function CalcTotal(){
+  var  Price;
+  var Quantity;
+  var State;
+  var Delivery;
+  var TotalCost;
+  var ShippingTotal;
+  var TaxTotal;
+  var Total;
+
+  Price=document.form.Price.value;
+  Quantity=document.form.Quantity.value;
+  State=document.form.State.value;
+  Delivery=document.form.Delivery.value;
+  
+  TotalCost= Price * parseInt(Quantity);
+  TotalCost = TotalCost.toFixed(2);
+  document.form.TotalCost.value=TotalCost;
+  
+  ShippingTotal = Delivery * TotalCost;
+  ShippingTotal = ShippingTotal.toFixed(2);
+  document.form.ShippingTotal.value = ShippingTotal;
+  
+  TaxTotal = State * TotalCost;
+  TaxTotal = TaxTotal.toFixed(2);
+  document.form.TaxTotal.value=TaxTotal;
+  
+  TotalCost=parseFloat(TotalCost);
+  ShippingTotal=parseFloat(ShippingTotal);
+  TaxTotal=parseFloat(TaxTotal);
+  
+  Total = TotalCost+ShippingTotal+TaxTotal;
+  Total = Total.toFixed(2);
+  
+  document.form.Total.value=Total;
+}
+														</script>
+													</body>
+												</html>

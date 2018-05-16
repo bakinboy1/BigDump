@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=arr
+comment0.target=void\ showInventory(Student[])
+comment1.params=arr
+comment1.target=void\ changeName(Student[])
+comment2.params=ar
+comment2.target=void\ showAges(Person[])
+comment3.params=ar1
+comment3.target=void\ showAges(java.util.ArrayList)
+comment4.params=args
+comment4.target=void\ main(java.lang.String[])
+numComments=5

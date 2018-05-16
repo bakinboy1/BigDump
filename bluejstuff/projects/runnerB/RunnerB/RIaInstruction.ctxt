@@ -1,0 +1,15 @@
+#BlueJ class context
+comment0.params=addr\ myMemory\ psw\ registers
+comment0.target=RIaInstruction(int,\ Memory,\ PSW,\ Registers)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ RIbInstruction\r\n
+comment1.params=
+comment1.target=int\ getR1No()
+comment2.params=
+comment2.target=Register\ getReg1()
+comment3.params=
+comment3.target=short\ getMask()
+comment4.params=
+comment4.target=short\ getConstant()
+comment5.params=
+comment5.target=void\ execute()
+numComments=6

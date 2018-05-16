@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=addr\ myMemory\ psw\ registers
+comment0.target=RSYbInstruction(int,\ Memory,\ PSW,\ Registers)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ SS1Instruction\r\n
+comment1.params=
+comment1.target=Register\ getReg1()
+comment2.params=
+comment2.target=int\ getMask()
+comment3.params=
+comment3.target=Register\ getBaseReg2()
+comment4.params=
+comment4.target=int\ getDisplacement()
+comment5.params=
+comment5.target=int\ getEffectiveAddress()
+comment6.params=
+comment6.target=void\ execute()
+numComments=7

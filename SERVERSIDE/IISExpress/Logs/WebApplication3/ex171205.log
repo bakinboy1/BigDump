@@ -1,0 +1,37 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-12-05 20:15:42
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-12-05 20:15:42 ::1 GET / - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 - 403 14 0 3209
+2017-12-05 20:15:42 ::1 GET /favicon.ico - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 http://localhost:59154/ 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-12-05 20:34:01
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-12-05 20:34:01 ::1 GET / - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 - 403 14 0 3015
+2017-12-05 20:34:01 ::1 GET /favicon.ico - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 http://localhost:59154/ 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-12-05 20:40:56
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-12-05 20:40:56 ::1 GET /WebForm1.aspx - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 - 500 0 0 4385
+2017-12-05 20:40:56 ::1 GET /favicon.ico - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 http://localhost:59154/WebForm1.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-12-05 23:25:13
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-12-05 23:25:13 ::1 GET /WebForm1.aspx - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 - 500 0 0 6115
+2017-12-05 23:25:13 ::1 GET /favicon.ico - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 http://localhost:59154/WebForm1.aspx 404 0 2 5
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-12-05 23:36:23
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-12-05 23:36:23 ::1 GET / - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 - 403 14 0 2275
+2017-12-05 23:36:23 ::1 GET /favicon.ico - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 http://localhost:59154/ 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-12-05 23:38:35
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-12-05 23:38:35 ::1 GET / - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 - 200 0 0 2153
+2017-12-05 23:38:35 ::1 GET /favicon.ico - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 http://localhost:59154/ 404 0 2 17
+2017-12-05 23:38:45 ::1 GET /WebForm1.aspx - 59154 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/62.0.3202.94+Safari/537.36 http://localhost:59154/ 500 0 0 1559

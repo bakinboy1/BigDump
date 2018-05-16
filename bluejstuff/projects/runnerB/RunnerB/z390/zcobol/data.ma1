@@ -1,0 +1,81 @@
+         MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author.  Don Higgins                                              *
+.* Date   - 04/07/08                                                 *
+.*********************************************************************
+.* 04/11/08 initial coding for global data division
+.* 05/03/08 add DATA END to generate WS list and data definitions
+.* 10/05/08 ZSTRMAC
+.* 02/25/09 RPI 1002 CREATE USAGE IS INDEX FOR INDEX DATA ITEMS
+.* 02/27/09 RPI 1012 GENERATED DEBUG-ITEM AT END OF WS
+.* 01/27/12 DSH RPI 1181 ADD TRUE,FALSE FOR USE IN EVALUATE
+.* 02/16/12 DSH RPI 1181 ADD 01 FILLER AT END TO ALLOW 05 STARTING WS
+.********************************************************************
+         DATA  &TYPE
+         COPY  ZC_WS
+         AIF   ('&TYPE' EQ 'END')   
+               ACALL ADD_PREDEFINED_DATA  
+         AELSEIF ('&TYPE' NE 'DIVISION')
+               MNOTE 8,'DATA UNRECOGNIZED TYPE - &TYPE'
+         AEND
+         MEXIT
+.*
+.* ADD PREDEFINED WS AND LK SECTIONS
+.*
+        AENTRY ADD_PREDEFINED_DATA
+        :&FILE_IX SETA 0   END FILE RECORD DEFINITIONS
+        AIF    (&LK_MODE)
+         WS 01,ZC_LK_END,PIC,X
+        AEND       
+.*
+.* TURN OFF LK LINKAGE SECTION MODE AND RESTORE LAST WS LOC      
+.*
+        :&LK_MODE SETB 0          TURN OFF LK SECTION IF ON
+        AIF    (&LK_SAVE_WS_LOC GT 0)
+               :&WS_LOC SETA &LK_SAVE_WS_LOC RESTORE LAST WS LOC FOR PD
+        AEND
+.*
+.* GENERATE INDEX/SUBSCRIPT/LINKAGE POINTERS IN WS
+.*
+         :&I SETA 1
+         AWHILE (&I LE &SET_TOT)
+               :&NAME    SETC  '&SET_INDEX(&I)'
+               AIF   ('&NAME' EQ '')
+                     :&NAME SETC '&SYM_NAME(&SET_SYM_IX(&I))_PTR'
+                     WS 77,&NAME,USAGE,POINTER
+               AELSE 
+                     WS 77,&NAME,USAGE,INDEX                  RPI 1002
+                     :&SYM_REF(&SYM_TOT) SETA &SET_SYM_IX(&I) RPI 1002
+               AEND
+               :&I SETA &I+1
+         AEND
+.*
+.* ADD PREDEFINED WS ITEMS
+.*
+   WS 01,DEBUG_ITEM
+   WS   02,DEBUG_LINE,PIC,X(6)
+   WS   02,FILLER,PIC,X,VALUE,SPACE
+   WS   02,DEBUG_NAME,PIC,X(30)
+   WS   02,FILLER,PIC,X,VALUE,SPACE
+   WS   02,DEBUG_SUB_1,PIC,S9999,SIGN,IS,LEADING,SEPARATE,CHARACTER
+   WS   02,FILLER,PIC,X,VALUE,SPACE
+   WS   02,DEBUG_SUB_2,PIC,S9999,SIGN,IS,LEADING,SEPARATE,CHARACTER
+   WS   02,FILLER,PIC,X,VALUE,SPACE
+   WS   02,DEBUG_SUB_3,PIC,S9999,SIGN,IS,LEADING,SEPARATE,CHARACTER
+   WS   02,FILLER,PIC,X,VALUE,SPACE
+   WS   02,DEBUG_CONTENTS,PIC,X(35)
+   WS 77,TRUE,PIC,9,VALUE,1  RPI 1181
+   WS 77,FALSE,PIC,9,VALUE,0 RPI 1181
+   WS 77,RETURN_CODE,PIC,S9(4),COMP,VALUE,0
+           AIF  (&ZC_TRACE)
+   WS 77,READY_RESET_TRACE,PIC,X,VALUE,'T'
+   WS 77,FILLER,PIC,X(5)
+         AEND
+.*
+.* END OF PREDEFINED DATA (SEE GEN_PROC_END FOR WS/LK GEN)
+.*
+         AEND
+         MEND

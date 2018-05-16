@@ -1,0 +1,3 @@
+Comparing files ZCOBOL\DEMO\Z390\U.txt and ZCOBOL\DEMO\Z390\SAVE\U.TXT
+FC: no differences encountered
+

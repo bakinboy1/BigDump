@@ -1,0 +1,1963 @@
+*    ZCOBOL PGM='zcobol\test\TESTFUN1' VER=V1.5.06 MM/DD/YY  
+*    ZCOBOL OPTIONS=() 
+         COPY  TESTFUN1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+*        PROGRAM-ID.    TESTFUN1.
+         PRINT NOLIST,NOGEN,NOLISTUSE    SET LIST OPTION FOR INTERNAL CX
+               ODE
+TESTFUN1 CSECT ,                CSECT WITH PROCEDURE CODE AND WS
+         USING *,ZC_R15
+         STM   14,12,12+4*(14-14)(13)
+         CNOP  4,8             FORCE ZC390PVT TO DOUBLEWORD BOUNDARY
+         BRAS  ZC_R8,ZC_LOAD
+         USING *,ZC_R8            BASE FOR LOAD AND CICS V5 USE
+*
+*  THESE FIELDS MUST BE KEPT IN SYNC WITH zcobol\ZC390PVT.CPY
+*
+         DC    CL8'TESTFUN1'    PVTPGM   ZCOBOL PGM NAME
+         DC    CL8'01/02/05'   PVTDATE  ZCOBOL COMPILE DATE
+         DC    CL8'22.33'   PVTTIME  ZCOBOL COMPILE TIME
+         DC    CL8'V1.5.06'    PVTVER   ZCOBOL COMPILER VERSION
+         DC    C'0'     PVTCICS  ZCOBOL EXEC CICS PGM
+         DC    C'1'   PVTEXTND ZCOBOL EXTENDED PRECISION
+         DC    C'0'    PVTTRUNC ZCOBOL TRUNCATE TO PICTURE
+         DC    C'1'      PVTR64   ZCOBOL USE 64 BIT REGISTERS
+         DC    H'80' MAX DISPLAY LINE LEN  RPI 1118
+         DS    XL10            RESERVED
+ZC_LOAD  DS    0H
+         LA    0,=CL8'ZC390LIB'
+         SR    15,15 USE DEFAULT SYS390 SEARCH
+         SVC   8 LOAD R0=A(NAME) R15=DDNAME/DSNAME ADDR OR 0
+         LTR   ZC_R15,ZC_R15
+         JZ    ZC_LOAD_OK
+         BRAS  1,*+(WTO#0015_EOT-*+1)/2*2
+         DC    AL2(WTO#0015_EOT-*,0),C'ZC390LIB NOT FOUND'
+WTO#0015_EOT     EQU *
+         SVC   35
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+ZC_LOAD_OK DS  0H
+         LR    ZC_R9,ZC_R0
+         USING ZC390CVT,ZC_R9    R9=CVT
+         CLC   ZCVT_ID,=C'ZCVT'              CHECK ZCVT ID AND LENGTH
+         JNE   ZC_VER_ERR                    IN ZC390LIB.390 MATCH
+         CLC   ZCVT_LEN,=A(ZCVT_END-ZCVT_ID) ZCOBOL PGM COMPILED ID/LEN
+         BNE   ZC_VER_ERR
+         L     ZC_R15,ZCVT_ZC390NUC
+         BASR  ZC_R14,ZC_R15 CALL ZC390NUC TO VERIFY VER, OPTIONS
+         J     ZC_VER_OK
+ZC_VER_ERR DS 0H
+         BRAS  1,*+(WTO#0016_EOT-*+1)/2*2
+         DC    AL2(WTO#0016_EOT-*,0),C'ZC390LIB ZCVT VERIFY ERROR'
+WTO#0016_EOT     EQU *
+         SVC   35
+         LA  ZC_R15,16
+         SVC 3      EXIT TO CALLER WITH RC=16
+         LTORG 
+         PUSH  PRINT,NOPRINT
+         PRINT OFF,NOPRINT
+ZC_R0    EQU   0
+ZC_R1    EQU   1
+ZC_R2    EQU   2
+ZC_R3    EQU   3
+ZC_R4    EQU   4
+ZC_R5    EQU   5
+ZC_R6    EQU   6
+ZC_R7    EQU   7
+ZC_R8    EQU   8
+ZC_R9    EQU   9
+ZC_R10   EQU  10
+ZC_R11   EQU  11
+ZC_R12   EQU  12
+ZC_R13   EQU  13
+ZC_R14   EQU  14
+ZC_R15   EQU  15
+ZC_F0    EQU   0
+ZC_F1    EQU   1
+ZC_F2    EQU   2
+ZC_F3    EQU   3
+ZC_F4    EQU   4
+ZC_F5    EQU   5
+ZC_F6    EQU   6
+ZC_F7    EQU   7
+ZC_F8    EQU   8
+ZC_F9    EQU   9
+ZC_F10   EQU  10
+ZC_F11   EQU  11
+ZC_F12   EQU  12
+ZC_F13   EQU  13
+ZC_F14   EQU  14
+ZC_F15   EQU  15
+ZC_H     EQU   2   HIGH
+ZC_L     EQU   4   LOW
+ZC_E     EQU   8   EQUAL
+ZC_NH    EQU   13  NOT HIGHT
+ZC_NL    EQU   11  NOT LOW
+ZC_NE    EQU   7   NOT EQUAL
+ZC_O     EQU   1   OVERFLOW
+ZC_P     EQU   2   POSITIVE
+ZC_M     EQU   4   MINUS
+ZC_Z     EQU   8   ZERO
+ZC_NP    EQU   13  NOT POSITIVE
+ZC_NM    EQU   11  NOT MINUS
+ZC_NZ    EQU   7   NOT ZERO
+ZC_NO    EQU   14  NOT OVERFLOW
+ZC_EQ    EQU   8   EQUAL
+ZC_GT    EQU   2   GREATER THAN
+ZC_LT    EQU   4   LESS    THAN
+ZC_GE    EQU   11  GREATER THAN OR EQUAL
+ZC_LE    EQU   13  LESS    THAN OR EQUAL
+         POP   PRINT,NOPRINT
+PFPO_TEST    EQU  X'80' PFPO TEST IF VALID OPCODE (NOT SUPPORTED YET)
+PFPO_RADIX   EQU  1 PFPO OPCODE - CONVERT FROM ONE RADIX TO ANOTHER
+PFPO_RND     EQU  0 PFOP ROUNDING OPTION (ONLY DEFAULT ALLOWED)
+PFPO_TYPE_EH EQU  0 EH HFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DH EQU  1 ED HFP LONG      64 BITS 15 DIGITS
+PFPO_TYPE_LH EQU  2 EL HFP EXTENDED 128 BITS 30 DIGITS
+PFPO_TYPE_EB EQU  5 EB BFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DB EQU  6 DB BFP LONG      64 BITS 16 DIGITS
+PFPO_TYPE_LB EQU  7 LB BFP EXTENDED 128 BITS 34 DIGITS
+PFPO_TYPE_ED EQU  8 ED DFP SHORT     32 BITS 7  DIGITS
+PFPO_TYPE_DD EQU  9 DD DFP LONG      64 BITS 16 DIGITS
+PFPO_TYPE_LD EQU 10 LD DFP EXTENDED 128 BITS 34 DIGITS
+ZC_VER_OK DS   0H
+         L     ZC_R2,24(ZC_R13) SET ZC_R2=PARMLIST ADDRESS AFTER LOAD
+         LARL  ZC_R1,ZC_WS     ZC_R2=A(WORKING STORAGE WITH SAVEAREA)
+         ST    ZC_R1,8(ZC_R13) FORWARD  SAVE CHAIN
+         ST    ZC_R13,4(ZC_R1) BACKWARD SAVE CHAIN
+         LR    ZC_R13,ZC_R1    LINK SAVE AREA IN ZC390CVT
+         USING ZC_WS,ZC_R13    BASE FOR ZCOBOL WS (SEE GEN_SYM_RX.MAC)
+         ST    ZC_R13,ZC_WS_START  SAVE ADDR WS IN WS PREFIX
+         LARL  ZC_R0,ZC_WS_END
+         SR    ZC_R0,ZC_R13
+         ST    ZC_R0,ZC_WS_LEN     SAVE LENGTH OF WS IN WS PREFIX
+         DROP  ZC_R15              RPI 1042
+ZC_WSLOC LOCTR 
+ZC_WS    DS    0D           START WORKING STORAGE
+ZC390CVT DSECT 
+ZCVT_ID            DC    C'ZCVT'             ZCVT ID  VERIFIED BY ZCOB
+ZCVT_LEN           DC    A(ZCVT_END-ZCVT_ID) ZCVT LEN VERIFIED BY ZCOB
+ZCVT_VER           DC    CL8'V1.5.06'    ZCVT VER VERIFIED BY ZC390NUC
+ZCVT_ZC390NUC  DC V(ZC390NUC)      MODULE  SYSTEM ROUTINE MODULE INIT
+ZCVT_CALL           DC V(CALL)       ENTRY R0=A(PGM),R1=A(PARMLIST)
+ZCVT_CMP64R32       DC V(CMP64R32)   ENTRY COMPARE R0-1=FLD1 R2-3=FLD2
+ZCVT_CVTLBTQ        DC V(CVTLBTQ)    ENTRY CVT LB IN F4-6 TO Q IN R0-1
+ZCVT_CVTLDTP        DC V(CVTLDTP)    ENTRY CVT LD IN F0-2 TO PL31 R0-1
+ZCVT_CVTQTLB        DC V(CVTQTLB)    ENTRY CVT Q IN R0-1 TO LB IN F4-6
+ZCVT_DIV64R32       DC V(DIV64R32)   ENTRY DIVIDE R0-1=N64, R2-3=MAX64
+ZCVT_DIVQ128        DC V(DIVQ128)    ENTRY DIVIDE Q128 R0-R1 BY R2-R3
+ZCVT_GOBACK         DC V(GOBACK)     ENTRY R1=RC
+ZCVT_MPYQ128        DC V(MPYQ128)    ENTRY MULTIPLY Q128 R0-R1 BY R2-R3
+ZCVT_OSE64R32       DC V(OSE64R32)   ENTRY ON SIZE ERR R0-1=N, R2-3=MAX
+ZCVT_PERFORM        DC V(PERFORM)    ENTRY R14=PGTAR,R0=PGEXT,R1=PMRET
+ZCVT_PMCHECK        DC V(PMCHECK)    ENTRY R14=RETURN TO NEXT INSTR.
+ZCVT_ROUNDF         DC V(ROUNDF)     ENTRY R0=REM,R1=QUO,R2=DIVISOR
+ZCVT_STACKORG       DC V(STACKORG)   ENTRY PERFORM STACK ORIGIN
+ZCVT_STACKPTR       DC V(STACKPTR)   ENTRY CUR ENTRY A(PG_END+4,RET)
+ZCVT_STACKEND       DC V(STACKEND)   ENTRY PERFORM STACK END
+ZCVT_STOPRUN        DC V(STOPRUN)    ENTRY R1=RC
+ZCVT_TALPHAX        DC V(TALPHAX)    ENTRY TEST ALPHABETIC X
+ZCVT_TNUMP          DC V(TNUMP)      ENTRY TEST NUMERIC P
+ZCVT_TNUMX          DC V(TNUMX)      ENTRY TEST NUMERIC X
+ZCVT_TNUMZ          DC V(TNUMZ)      ENTRY TEST NUMERIC Z
+*
+* ADDITIONAL SEPARATE MODULES LINKED WITH Z390NUC IN ZC390LIB.390
+*
+ZCVT_ABORT     DC V(ABORT)         MODULE  R1=ABORT ERROR MSG #
+ZCVT_ABORT_ALTER   EQU    1 ABORT ALTER DUE TO BRC NOT FOUND AT TARGET
+ZCVT_ABORT_CALL    EQU    2 ABORT DYNAMIC CALL - PGM NOT FOUND
+ZCVT_ABORT_DISPLAY EQU    3 ABORT DISPLAY DUE TO BUFFER EXCEEDED
+ZCVT_ABORT_OPEN    EQU    4 ABORT OPEN  INVALID DCB
+ZCVT_ABORT_STACK   EQU    6 ABORT PEROFRM STACK OVERFLOW
+ZCVT_ABORT_VERSION EQU    7 ABORT ZC390NUC INIT ZCOBOL VERSION ERROR
+ZCVT_ABORT_INT128  EQU    8 ABORT INTEGER 128 CONVERSION OVERFLO
+ZCVT_ABORT_DIVQ    EQU    9 ABORT DIVIDE Q IF DIVISOR 0 OR > 2**63
+ZCVT_ABORT_CICS    EQU   10 ABORT THIS PGM REQUIRES EXEC CICS TRANS MGR
+ZCVT_ABORT_ACCEPT  EQU   11 ABORT ACCEPT EOF
+ZCVT_ABORT_MAXERR  EQU   11 ABORT MAX ERROR CODE
+ZCVT_ACCEPT    DC V(ACCEPT)        MODULE  R1=A(TYPE,FLD_ADD,FLD_LEN)
+ZCVT_ACCEPT_DEFAULT EQU   1 INPUT DEFAULT DDNAME=SYSIN
+ZCVT_ACCEPT_CONSOLE EQU   2 INPUT VIA WTOR FROM CONSOLE
+ZCVT_ACCEPT_DDNAME  EQU   3 INPUT FROM DDNAME WITH DDNAME ADDR IN R3
+ZCVT_ACCEPT_DATE    EQU   4 RETURN DAY OF WEEK PIC 9(8) MMDDYYYY
+ZCVT_ACCEPT_TIME    EQU   5 RETURN DAY OF WEEK PIC 9(8) HHMMSSTH
+ZCVT_ACCEPT_DOW     EQU   6 RETURN DAY OF WEEK PIC 9 1-7
+ZCVT_DISPLAY   DC V(DISPLAY)       MODULE  R1=A(ADDR,LEN,TYPE)
+ZCVT_INSPECT   DC V(INSPECT)       MODULE  R0=TYPE,R1=PARMLIST
+ZCVT_TALLYING      EQU   0 INSPECT TALLYING
+ZCVT_REPLACING     EQU   4 INSPECT REPLACING
+ZCVT_CONVERTING    EQU   8 INSPECT CONVERTING
+*
+* SHARED DATA AREAS
+*
+ZCVT_PVTMAXDL  DS H          MAXIMUM DISPLAY LINE LENGTH  RPI 1118
+               DS 0D
+ZCVT_ZERO      DC XL16'00'   BINARY ZEROS
+ZCVT_HIGH_VALUES DC 0XL16,16X'FF' BINARY FF'S     RPI 1181
+ZCVT_PWORK     DS PL8        CVD/CVB WORK
+ZCVT_PWORK1    DS PL16       DIV DIVIDEND, CVDG/CVBG WORK
+ZCVT_PWORK2    DS PL16       DIV DIVISOR
+ZCVT_PWORK3    DS PL16       DIV QUOTIENT
+ZCVT_PWORK4    DS PL16       DIV REMAINDER
+ZCVT_NDDX      DS XL16       DIV DIVIDEND HOLD AREA
+ZCVT_WORKAREA  DS XL256      GEN_INSPECT PARMS, GEN_EDIT WORK, ETC.
+*
+* END OF ZC390CVT
+*
+ZCVT_END   EQU   *
+ZC390PVT DSECT 
+PVTPGM   DS    CL8  ZCOBOL PGM NAME
+PVTDATE  DS    CL8  ZCOBOL COMPILE DATE
+PVTTIME  DS    CL8  ZCOBOL COMPILE TIME
+PVTVER   DS    CL8  ZCOBOL COMPILER VERSION
+PVTCICS  DS    C    ZCOBOL EXEC CICS PGM
+PVTEXTND DS    C    ZCOBOL EXTENDED PRECISION
+PVTTRUNC DS    C    ZCOBOL TRUNCATE TO PICTURE
+PVTR64   DS    C    ZCOBOL USE 64 BIT REGISTERS
+PVTMAXDL DS    H    ZCOBOL MAX DISPLAY LINE LENGTH
+         DS    XL10 RESERVED
+ZC_WSLOC LOCTR              CONTINUE WS FOR FD AND DATA
+*        AUTHOR.        DON HIGGINS.
+*        DATE-WRITTEN.  10/13/08.
+*      * TEST FUNCTIONS - LENGTH OF, ADDRESS OF                        
+*        ENVIRONMENT DIVISION.
+*        DATA DIVISION.
+         PRINT DATA
+*        WORKING-STORAGE SECTION.
+*        77 PTR-1   USAGE POINTER.
+*        77 PTR-2   USAGE POINTER.
+*        77 PTR-3   USAGE POINTER.
+*        77 W1      PIC 9(9) COMP VALUE 0.
+*        77 ADDR-1  PIC X(20).
+*        77 ADDR-2  PIC X(20).
+*        77 TP1     COMP-3 PIC S9.
+*        77 TP2     COMP-3 PIC S9.
+*        77 TZ1     PIC S9.
+*        77 TZ2     PIC S99.
+*        77 TX3     PIC X(3).
+*        77 TRM1    PIC X(3) VALUE 'ABC'.
+*      * THE FOLLOWING 3 TYPES ARE MAPPED TO DFP USING FLOAT(DECIMAL)
+*      * NOTE: FLOAT(DECIMAL) IS THE DEFAULT
+*        77 FLT-SRT FLOAT-SHORT.
+*        77 FLT-LNG FLOAT-LONG.
+*        77 FLT-EXT FLOAT-EXTENDED.
+*      * THE FOLLOWING 9 TYPES ALWAYS MAP TO HFP, BFP, AND DFP.
+*        77 HFP-SRT FLOAT-HEX-7      VALUE 1234567.
+*        77 HFP-LNG FLOAT-HEX-15     VALUE 123456789012345.
+*        77 HFP-EXT FLOAT-HEX-30
+*                   VALUE 123456789012345678901234567890.
+*        77 BFP-SRT FLOAT-BINARY-7   VALUE 1234567.
+*        77 BFP-LNG FLOAT-BINARY-16  VALUE 1234567890123456.
+*        77 BFP-EXT FLOAT-BINARY-34
+*                   VALUE 1234567890123456789012345678901234.
+*        77 DFP-SRT FLOAT-DECIMAL-7  VALUE 1234567.
+*        77 DFP-LNG FLOAT-DECIMAL-16 VALUE 1234567890123456.
+*        77 DFP-EXT FLOAT-DECIMAL-34
+*                   VALUE 1234567890123456789012345678901234.
+*      * THE FOLLOWING 4 TYPES DEFINE 16, 32, 64, AND 128 BINARY TYPES
+*      * NOTE 39 DIGIT QW LIMITED TO 34 DIGITS TO FIT IN BFP/DFP_EXT
+*        77 HW      COMP PIC S9(4)  VALUE 1234.
+*        77 FW      COMP PIC S9(9)  VALUE 123456789.
+*        77 DW      COMP PIC S9(18) VALUE 123456789012345.
+*        77 QW      COMP PIC S9(39)
+*                   VALUE 1234567890123456789012345678901234.
+*      * THE FOLLOWING 2 TYPES DEFINE 31 DIGIT PACKED AND ZONED DECIMAL
+*        77 PD      COMP-3 PIC S9(31)
+*                   VALUE 1234567890123456789012345678901.
+*        77 ZD             PIC S9(31)
+*                   VALUE 1234567890123456789012345678901.
+*        77 P1      COMP-3 PIC S9(31) VALUE 1.
+*        77 Q1      COMP   PIC S9(39) VALUE 1.
+*        77 Z1             PIC S9(4)  VALUE 1.
+*        77 D2      COMP-2            VALUE 2.
+*        77 GOOD   COMP-3 PIC 9(4)   VALUE 0.
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PRINT LIST,GEN,LISTUSE TURN PRINT LISTING ON FOR USER CODE GEN
+TESTFUN1 CSECT                SWITCH TO PROCEDURE CODE AHEAD OF WS
+*        MAINLINE.
+PG_MAINLINE DS 0H
+*            DISPLAY 'TESTFUN1 FUNCTIONS STARTING'
+*ZC     58         DISPLAY 'TESTFUN1 FUNCTIONS STARTING'
+         BRAS  1,*+(WTO#0186_EOT-*+1)/2*2
+         DC    AL2(WTO#0186_EOT-*,0),C'TESTFUN1 FUNCTIONS STARTING'
+WTO#0186_EOT     EQU *
+         SVC   35
+*            NOTE TEST COMMENT SENTENCE
+*      * TEST LENGTH OF
+*ZC     59         NOTE  TEST,COMMENT,SENTENCE
+*            DISPLAY 'TEST LENGTH OF'
+*ZC     61         DISPLAY 'TEST LENGTH OF'
+         BRAS  1,*+(WTO#0190_EOT-*+1)/2*2
+         DC    AL2(WTO#0190_EOT-*,0),C'TEST LENGTH OF'
+WTO#0190_EOT     EQU *
+         SVC   35
+*            MOVE LENGTH OF PTR-1 TO W1
+*ZC     62         MOVE  LENGTH,OF,PTR_1,TO,W1
+          MVHI  W1,4
+*             IF W1 = 4 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     63         IF    W1,=,4
+         L     0,W1
+         CFI   0,4
+         BRC   15-ZC_EQ,PG_IF_1_1
+*ZC     63         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     63         ELSE
+         J     PG_IF_1_E
+PG_IF_1_1    DS    0H  &TYPE
+*      * TEST ADDRESS OF
+*ZC     63         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_1_E    DS    0H  &TYPE
+*            DISPLAY 'TEST ADDRESS OF'
+*ZC     65         DISPLAY 'TEST ADDRESS OF'
+         BRAS  1,*+(WTO#0218_EOT-*+1)/2*2
+         DC    AL2(WTO#0218_EOT-*,0),C'TEST ADDRESS OF'
+WTO#0218_EOT     EQU *
+         SVC   35
+*            MOVE ADDRESS OF ADDR-1 TO PTR-1
+*ZC     66         MOVE  ADDRESS,OF,ADDR_1,TO,PTR_1
+                  LA    ZC_R0,ADDR_1
+                  ST    ZC_R0,PTR_1
+*            MOVE ADDRESS OF ADDR-2 TO PTR-2
+*ZC     67         MOVE  ADDRESS,OF,ADDR_2,TO,PTR_2
+                  LA    ZC_R0,ADDR_2
+                  ST    ZC_R0,PTR_2
+*            SUBTRACT PTR-1 FROM PTR-2
+*ZC     68         SUBTRACT PTR_1,FROM,PTR_2
+         L     ZC_R0,PTR_1
+         L     ZC_R1,PTR_2
+         SR    ZC_R1,ZC_R0
+         ST    ZC_R1,PTR_2
+*             IF PTR-2 = 20 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     69         IF    PTR_2,=,20
+         L     0,PTR_2
+         CFI   0,20
+         BRC   15-ZC_EQ,PG_IF_2_1
+*ZC     69         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     69         ELSE
+         J     PG_IF_2_E
+PG_IF_2_1    DS    0H  &TYPE
+*      * TEST NUMERIC
+*ZC     69         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_2_E    DS    0H  &TYPE
+*            DISPLAY 'TEST NUMERIC'
+*ZC     71         DISPLAY 'TEST NUMERIC'
+         BRAS  1,*+(WTO#0261_EOT-*+1)/2*2
+         DC    AL2(WTO#0261_EOT-*,0),C'TEST NUMERIC'
+WTO#0261_EOT     EQU *
+         SVC   35
+*            MOVE 1 TO TP1
+*ZC     72         MOVE  1,TO,TP1
+          LARL  ZC_R1,=PL2'1'
+          MVC   TP1,1(ZC_R1)
+*             IF TP1 = NUMERIC PERFORM GOOD ELSE PERFORM BAD.          
+*ZC     73         IF    TP1,=,NUMERIC
+         LA   ZC_R1,TP1
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMP
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_EQ,PG_IF_3_1
+*ZC     73         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     73         ELSE
+         J     PG_IF_3_E
+PG_IF_3_1    DS    0H  &TYPE
+*ZC     73         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_3_E    DS    0H  &TYPE
+*            MOVE SPACES TO TP1
+*ZC     74         MOVE  SPACES,TO,TP1
+         MVI   TP1,C' '
+*             IF TP1 NOT = NUMERIC PERFORM GOOD ELSE PERFORM BAD.      
+*ZC     75         IF    TP1,NOT,=,NUMERIC
+         LA   ZC_R1,TP1
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMP
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_4_1
+*ZC     75         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     75         ELSE
+         J     PG_IF_4_E
+PG_IF_4_1    DS    0H  &TYPE
+*ZC     75         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_4_E    DS    0H  &TYPE
+*            MOVE LOW-VALUES TO TP1
+*ZC     76         MOVE  LOW_VALUES,TO,TP1
+         MVI   TP1,X'00'
+*             IF TP1 NOT = NUMERIC PERFORM GOOD ELSE PERFORM BAD.      
+*ZC     77         IF    TP1,NOT,=,NUMERIC
+         LA   ZC_R1,TP1
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMP
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_5_1
+*ZC     77         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     77         ELSE
+         J     PG_IF_5_E
+PG_IF_5_1    DS    0H  &TYPE
+*ZC     77         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_5_E    DS    0H  &TYPE
+*            MOVE HIGH-VALUES TO TP1
+*ZC     78         MOVE  HIGH_VALUES,TO,TP1
+         MVI   TP1,X'FF'
+*             IF TP1 NOT = NUMERIC PERFORM GOOD ELSE PERFORM BAD.      
+*ZC     79         IF    TP1,NOT,=,NUMERIC
+         LA   ZC_R1,TP1
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMP
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_6_1
+*ZC     79         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     79         ELSE
+         J     PG_IF_6_E
+PG_IF_6_1    DS    0H  &TYPE
+*ZC     79         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_6_E    DS    0H  &TYPE
+*            MOVE 123 TO TP2
+*ZC     80         MOVE  123,TO,TP2
+          LARL  ZC_R1,=PL2'123'
+          MVC   TP2,1(ZC_R1)
+*             IF TP2 = NUMERIC PERFORM GOOD ELSE PERFORM BAD.          
+*ZC     81         IF    TP2,=,NUMERIC
+         LA   ZC_R1,TP2
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMP
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_EQ,PG_IF_7_1
+*ZC     81         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     81         ELSE
+         J     PG_IF_7_E
+PG_IF_7_1    DS    0H  &TYPE
+*ZC     81         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_7_E    DS    0H  &TYPE
+*            MOVE SPACES TO TP2
+*ZC     82         MOVE  SPACES,TO,TP2
+         MVI   TP2,C' '
+*             IF TP2 NOT = NUMERIC PERFORM GOOD ELSE PERFORM BAD.      
+*ZC     83         IF    TP2,NOT,=,NUMERIC
+         LA   ZC_R1,TP2
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMP
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_8_1
+*ZC     83         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     83         ELSE
+         J     PG_IF_8_E
+PG_IF_8_1    DS    0H  &TYPE
+*ZC     83         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_8_E    DS    0H  &TYPE
+*            MOVE 1 TO TZ1
+*ZC     84         MOVE  1,TO,TZ1
+          LARL  ZC_R1,=ZL2'1'
+          MVC   TZ1,1(ZC_R1)
+*             IF TZ1 = NUMERIC PERFORM GOOD ELSE PERFORM BAD.          
+*ZC     85         IF    TZ1,=,NUMERIC
+         LA   ZC_R1,TZ1
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMZ
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_EQ,PG_IF_9_1
+*ZC     85         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     85         ELSE
+         J     PG_IF_9_E
+PG_IF_9_1    DS    0H  &TYPE
+*ZC     85         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_9_E    DS    0H  &TYPE
+*            MOVE SPACES TO TZ1
+*ZC     86         MOVE  SPACES,TO,TZ1
+         MVI   TZ1,C' '
+*             IF TZ1 NOT = NUMERIC PERFORM GOOD ELSE PERFORM BAD.      
+*ZC     87         IF    TZ1,NOT,=,NUMERIC
+         LA   ZC_R1,TZ1
+         LA   ZC_R2,1
+         L    ZC_R15,ZCVT_TNUMZ
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_10_1
+*ZC     87         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     87         ELSE
+         J     PG_IF_10_E
+PG_IF_10_1   DS    0H  &TYPE
+*ZC     87         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_10_E   DS    0H  &TYPE
+*            MOVE -12 TO TZ2
+*ZC     88         MOVE  -,12,TO,TZ2
+          LARL  ZC_R1,=ZL2'--12'
+          MVC   TZ2,0(ZC_R1)
+*             IF TZ2 = NUMERIC PERFORM GOOD ELSE PERFORM BAD.          
+*ZC     89         IF    TZ2,=,NUMERIC
+         LA   ZC_R1,TZ2
+         LA   ZC_R2,2
+         L    ZC_R15,ZCVT_TNUMZ
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_EQ,PG_IF_11_1
+*ZC     89         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     89         ELSE
+         J     PG_IF_11_E
+PG_IF_11_1   DS    0H  &TYPE
+*ZC     89         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_11_E   DS    0H  &TYPE
+*            MOVE SPACES TO TZ2
+*ZC     90         MOVE  SPACES,TO,TZ2
+         MVI   TZ2,C' '
+         MVC   TZ2+1(2-1),TZ2
+*             IF TZ2 NOT = NUMERIC PERFORM GOOD ELSE PERFORM BAD.      
+*ZC     91         IF    TZ2,NOT,=,NUMERIC
+         LA   ZC_R1,TZ2
+         LA   ZC_R2,2
+         L    ZC_R15,ZCVT_TNUMZ
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_12_1
+*ZC     91         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     91         ELSE
+         J     PG_IF_12_E
+PG_IF_12_1   DS    0H  &TYPE
+*ZC     91         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_12_E   DS    0H  &TYPE
+*            MOVE '123' TO TX3
+*ZC     92         MOVE  '123',TO,TX3
+         LARL  ZC_R1,=CL4'123'
+          MVC   TX3,0(ZC_R1)
+*             IF TX3 = NUMERIC PERFORM GOOD ELSE PERFORM BAD.          
+*ZC     93         IF    TX3,=,NUMERIC
+         LA   ZC_R1,TX3
+         LA   ZC_R2,3
+         L    ZC_R15,ZCVT_TNUMX
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_EQ,PG_IF_13_1
+*ZC     93         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     93         ELSE
+         J     PG_IF_13_E
+PG_IF_13_1   DS    0H  &TYPE
+*ZC     93         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_13_E   DS    0H  &TYPE
+*            MOVE SPACES TO TX3
+*ZC     94         MOVE  SPACES,TO,TX3
+         MVI   TX3,C' '
+         MVC   TX3+1(3-1),TX3
+*             IF TX3 NOT = NUMERIC PERFORM GOOD ELSE PERFORM BAD.      
+*ZC     95         IF    TX3,NOT,=,NUMERIC
+         LA   ZC_R1,TX3
+         LA   ZC_R2,3
+         L    ZC_R15,ZCVT_TNUMX
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_14_1
+*ZC     95         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     95         ELSE
+         J     PG_IF_14_E
+PG_IF_14_1   DS    0H  &TYPE
+*      * TEST ALPHANUMERIC
+*ZC     95         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_14_E   DS    0H  &TYPE
+*            DISPLAY 'TEST ALPHANUMERIC'
+*ZC     97         DISPLAY 'TEST ALPHANUMERIC'
+         BRAS  1,*+(WTO#0578_EOT-*+1)/2*2
+         DC    AL2(WTO#0578_EOT-*,0),C'TEST ALPHANUMERIC'
+WTO#0578_EOT     EQU *
+         SVC   35
+*            MOVE 'ABC' TO TX3
+*ZC     98         MOVE  'ABC',TO,TX3
+         LARL  ZC_R1,=CL4'ABC'
+          MVC   TX3,0(ZC_R1)
+*             IF TX3 = ALPHABETIC PERFORM GOOD ELSE PERFORM BAD.       
+*ZC     99         IF    TX3,=,ALPHABETIC
+         LA   ZC_R1,TX3
+         LA   ZC_R2,3
+         L    ZC_R15,ZCVT_TALPHAX
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_EQ,PG_IF_15_1
+*ZC     99         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC     99         ELSE
+         J     PG_IF_15_E
+PG_IF_15_1   DS    0H  &TYPE
+*ZC     99         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_15_E   DS    0H  &TYPE
+*            MOVE SPACES TO TX3
+*ZC    100         MOVE  SPACES,TO,TX3
+         MVI   TX3,C' '
+         MVC   TX3+1(3-1),TX3
+*            IF TX3 NOT = ALPHABETIC PERFORM GOOD ELSE PERFORM BAD.    
+*ZC    101         IF    TX3,NOT,=,ALPHABETIC
+         LA   ZC_R1,TX3
+         LA   ZC_R2,3
+         L    ZC_R15,ZCVT_TALPHAX
+         BASR ZC_R14,ZC_R15
+         BRC   15-ZC_NE,PG_IF_16_1
+*ZC    101         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    101         ELSE
+         J     PG_IF_16_E
+PG_IF_16_1   DS    0H  &TYPE
+*      * TEST TRANSFORM
+*ZC    101         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_16_E   DS    0H  &TYPE
+*            DISPLAY 'TEST TRANSFORM'
+*ZC    103         DISPLAY 'TEST TRANSFORM'
+         BRAS  1,*+(WTO#0633_EOT-*+1)/2*2
+         DC    AL2(WTO#0633_EOT-*,0),C'TEST TRANSFORM'
+WTO#0633_EOT     EQU *
+         SVC   35
+*            TRANSFORM TRM1 CHARACTERS FROM 'CBA' TO '321'
+*ZC    104         TRANSFORM TRM1,CHARACTERS,FROM,'CBA',TO,'321'
+         LA    ZC_R1,ZCVT_WORKAREA
+         LA    ZC_R0,TRM1
+         ST    ZC_R0,0(ZC_R1)                 P1=A(V1) INSPECT FIELD
+         MVHI  4(ZC_R1),3 P2=L'V1  INSPECT FIELD LENGTH
+         LARL  ZC_R0,=CL4'CBA'
+         ST    ZC_R0,8(ZC_R1)
+         MVHI  8+4(ZC_R1),3
+         LA    ZC_R0,C'X'
+         ST    ZC_R0,16(ZC_R1)           P5= REPLACING STYPE C'C/A/L/F'
+         LARL  ZC_R0,=CL4'321'
+         ST    ZC_R0,20(ZC_R1)
+         MVHI  20+4(ZC_R1),3
+         SR    ZC_R0,ZC_R0
+         ST    ZC_R0,28(ZC_R1)                  P8=A(TEST_VAR)
+         ST    ZC_R0,32(ZC_R1)                  P9=L'TEST_VAR   NO TEST
+         LA    ZC_R0,ZCVT_CONVERTING
+         L     ZC_R15,ZCVT_INSPECT
+         BASR  ZC_R14,ZC_R15
+*            IF TRM1 = '123' PERFORM GOOD ELSE PERFORM BAD.
+*ZC    105         IF    TRM1,=,'123'
+         LARL  ZC_R1,=CL4'123'
+         CLC   TRM1,0(ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_17_1
+*ZC    105         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    105         ELSE
+         J     PG_IF_17_E
+PG_IF_17_1   DS    0H  &TYPE
+*      * TEST CVTQTLB CONVERT Q 128 INT TO BFP LB
+*ZC    105         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_17_E   DS    0H  &TYPE
+*            DISPLAY 'TEST CVTQTLB'
+*ZC    107         DISPLAY 'TEST CVTQTLB'
+         BRAS  1,*+(WTO#0662_EOT-*+1)/2*2
+         DC    AL2(WTO#0662_EOT-*,0),C'TEST CVTQTLB'
+WTO#0662_EOT     EQU *
+         SVC   35
+*            MOVE 1  TO Q1
+*ZC    108         MOVE  1,TO,Q1
+          LARL  ZC_R1,=FL16'1'
+          MVC   Q1,0(ZC_R1)
+*            MOVE Q1 TO BFP-EXT
+*ZC    109         MOVE  Q1,TO,BFP_EXT
+         LG    ZC_R0,Q1
+         LG    ZC_R1,8+Q1
+         L     ZC_R15,ZCVT_CVTQTLB   CVT Q IN ZC_R0-ZC_R1              X
+                                     TO LB IN ZC_F4-ZC_F6
+         BASR  ZC_R14,ZC_R15
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         STD   ZC_F0,BFP_EXT
+         STD   ZC_F2,8+BFP_EXT
+*            DISPLAY 'BFP-EXT 1 =' BFP-EXT
+*ZC    110         DISPLAY 'BFP-EXT 1 =',BFP_EXT
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL12'BFP-EXT 1 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,11
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,BFP_EXT
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'6'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    111         IF    Q1,=,1
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'1'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_18_1
+*ZC    111         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    111         ELSE
+         J     PG_IF_18_E
+PG_IF_18_1   DS    0H  &TYPE
+*ZC    111         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_18_E   DS    0H  &TYPE
+*            MOVE -1  TO Q1
+*ZC    112         MOVE  -,1,TO,Q1
+          LARL  ZC_R1,=FL16'-1'
+          MVC   Q1,0(ZC_R1)
+*            MOVE Q1 TO BFP-EXT
+*ZC    113         MOVE  Q1,TO,BFP_EXT
+         LG    ZC_R0,Q1
+         LG    ZC_R1,8+Q1
+         L     ZC_R15,ZCVT_CVTQTLB   CVT Q IN ZC_R0-ZC_R1              X
+                                     TO LB IN ZC_F4-ZC_F6
+         BASR  ZC_R14,ZC_R15
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         STD   ZC_F0,BFP_EXT
+         STD   ZC_F2,8+BFP_EXT
+*            DISPLAY 'BFP-EXT -1 =' BFP-EXT
+*ZC    114         DISPLAY 'BFP-EXT -1 =',BFP_EXT
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL12'BFP-EXT -1 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,12
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,BFP_EXT
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'6'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    115         IF    Q1,=,-,1
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'-1'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_19_1
+*ZC    115         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    115         ELSE
+         J     PG_IF_19_E
+PG_IF_19_1   DS    0H  &TYPE
+*ZC    115         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_19_E   DS    0H  &TYPE
+*            MOVE 0  TO Q1
+*ZC    116         MOVE  0,TO,Q1
+          LARL  ZC_R1,=FL16'0'
+          MVC   Q1,0(ZC_R1)
+*            MOVE Q1 TO BFP-EXT
+*ZC    117         MOVE  Q1,TO,BFP_EXT
+         LG    ZC_R0,Q1
+         LG    ZC_R1,8+Q1
+         L     ZC_R15,ZCVT_CVTQTLB   CVT Q IN ZC_R0-ZC_R1              X
+                                     TO LB IN ZC_F4-ZC_F6
+         BASR  ZC_R14,ZC_R15
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         STD   ZC_F0,BFP_EXT
+         STD   ZC_F2,8+BFP_EXT
+*            DISPLAY 'BFP-EXT 0 =' BFP-EXT
+*ZC    118         DISPLAY 'BFP-EXT 0 =',BFP_EXT
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL12'BFP-EXT 0 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,11
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,BFP_EXT
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'6'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    119         IF    Q1,=,0
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'0'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_20_1
+*ZC    119         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    119         ELSE
+         J     PG_IF_20_E
+PG_IF_20_1   DS    0H  &TYPE
+*ZC    119         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_20_E   DS    0H  &TYPE
+*            MOVE 1234567890123456789012345678901234 TO Q1
+*ZC    120         MOVE  1234567890123456789012345678901234,TO,Q1
+          LARL  ZC_R1,=FL16'1234567890123456789012345678901234'
+          MVC   Q1,0(ZC_R1)
+*            MOVE Q1 TO BFP-EXT
+*ZC    121         MOVE  Q1,TO,BFP_EXT
+         LG    ZC_R0,Q1
+         LG    ZC_R1,8+Q1
+         L     ZC_R15,ZCVT_CVTQTLB   CVT Q IN ZC_R0-ZC_R1              X
+                                     TO LB IN ZC_F4-ZC_F6
+         BASR  ZC_R14,ZC_R15
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         STD   ZC_F0,BFP_EXT
+         STD   ZC_F2,8+BFP_EXT
+*            DISPLAY 'BFP-EXT 1234567890123456789012345678901234 ='
+*               BFP-EXT
+*ZC    122         DISPLAY 'BFP-EXT 1234567890123456789012345678901234 X
+               =',BFP_EXT
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL44'BFP-EXT 1234567890123456789012345678901234 =X
+               ' PAD TO EVEN LEN LIT
+         LA    ZC_R1,44
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,BFP_EXT
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'6'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = 1234567890123456789012345678901234
+*ZC    124         IF    Q1,=,1234567890123456789012345678901234
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'1234567890123456789012345678901234'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_21_1
+*                PERFORM GOOD ELSE PERFORM BAD.
+*ZC    125         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    125         ELSE
+         J     PG_IF_21_E
+PG_IF_21_1   DS    0H  &TYPE
+*ZC    125         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_21_E   DS    0H  &TYPE
+*            MOVE 123456789012345678901234567890123456789 TO Q1
+*ZC    126         MOVE  123456789012345678901234567890123456789,TO,Q1
+          LARL  ZC_R1,=FL16'123456789012345678901234567890123456789'
+          MVC   Q1,0(ZC_R1)
+*            MOVE Q1 TO BFP-EXT
+*ZC    127         MOVE  Q1,TO,BFP_EXT
+         LG    ZC_R0,Q1
+         LG    ZC_R1,8+Q1
+         L     ZC_R15,ZCVT_CVTQTLB   CVT Q IN ZC_R0-ZC_R1              X
+                                     TO LB IN ZC_F4-ZC_F6
+         BASR  ZC_R14,ZC_R15
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         STD   ZC_F0,BFP_EXT
+         STD   ZC_F2,8+BFP_EXT
+*            DISPLAY 'BFP-EXT 123456789012345678901234567890123456789 =X
+                              '
+*               BFP-EXT
+*ZC    128         DISPLAY 'BFP-EXT 12345678901234567890123456789012345X
+               6789 =',BFP_EXT
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL50'BFP-EXT 123456789012345678901234567890123456X
+               789 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,49
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,BFP_EXT
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'6'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = 123456789012345678901234567890123456789
+*ZC    130         IF    Q1,=,123456789012345678901234567890123456789
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'123456789012345678901234567890123456789'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_22_1
+*                PERFORM GOOD ELSE PERFORM BAD.
+*ZC    131         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    131         ELSE
+         J     PG_IF_22_E
+PG_IF_22_1   DS    0H  &TYPE
+*      * TEST CVTLBTQ CONVERT BFP LB TO Q 128 BIT INTEGER
+*ZC    131         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_22_E   DS    0H  &TYPE
+*            DISPLAY 'TEST CVTLBTQ'
+*ZC    133         DISPLAY 'TEST CVTLBTQ'
+         BRAS  1,*+(WTO#0845_EOT-*+1)/2*2
+         DC    AL2(WTO#0845_EOT-*,0),C'TEST CVTLBTQ'
+WTO#0845_EOT     EQU *
+         SVC   35
+*            MOVE 1  TO BFP-EXT
+*ZC    134         MOVE  1,TO,BFP_EXT
+          LARL  ZC_R1,=LB'1'
+          MVC   BFP_EXT,0(ZC_R1)
+*            MOVE BFP-EXT TO Q1
+*ZC    135         MOVE  BFP_EXT,TO,Q1
+         LD    ZC_F4,BFP_EXT
+         LD    ZC_F6,8+BFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,Q1
+*            DISPLAY 'Q1 1 =' Q1
+*ZC    136         DISPLAY 'Q1 1 =',Q1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL6'Q1 1 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,6
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,Q1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'Q'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    137         IF    Q1,=,1
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'1'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_23_1
+*ZC    137         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    137         ELSE
+         J     PG_IF_23_E
+PG_IF_23_1   DS    0H  &TYPE
+*ZC    137         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_23_E   DS    0H  &TYPE
+*            MOVE -1  TO BFP-EXT
+*ZC    138         MOVE  -,1,TO,BFP_EXT
+          LARL  ZC_R1,=LB'-1'
+          MVC   BFP_EXT,0(ZC_R1)
+*            MOVE BFP-EXT TO Q1
+*ZC    139         MOVE  BFP_EXT,TO,Q1
+         LD    ZC_F4,BFP_EXT
+         LD    ZC_F6,8+BFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,Q1
+*            DISPLAY 'Q1 -1 =' Q1
+*ZC    140         DISPLAY 'Q1 -1 =',Q1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL8'Q1 -1 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,7
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,Q1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'Q'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    141         IF    Q1,=,-,1
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'-1'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_24_1
+*ZC    141         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    141         ELSE
+         J     PG_IF_24_E
+PG_IF_24_1   DS    0H  &TYPE
+*ZC    141         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_24_E   DS    0H  &TYPE
+*            MOVE 0  TO BFP-EXT
+*ZC    142         MOVE  0,TO,BFP_EXT
+          LARL  ZC_R1,=LB'0'
+          MVC   BFP_EXT,0(ZC_R1)
+*            MOVE BFP-EXT TO Q1
+*ZC    143         MOVE  BFP_EXT,TO,Q1
+         LD    ZC_F4,BFP_EXT
+         LD    ZC_F6,8+BFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,Q1
+*            DISPLAY 'Q1 0 =' Q1
+*ZC    144         DISPLAY 'Q1 0 =',Q1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL6'Q1 0 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,6
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,Q1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'Q'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    145         IF    Q1,=,0
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'0'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_25_1
+*ZC    145         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    145         ELSE
+         J     PG_IF_25_E
+PG_IF_25_1   DS    0H  &TYPE
+*ZC    145         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_25_E   DS    0H  &TYPE
+*            MOVE 1234567890123456789012345678901234 TO BFP-EXT
+*ZC    146         MOVE  1234567890123456789012345678901234,TO,BFP_EXT
+          LARL  ZC_R1,=LB'1234567890123456789012345678901234'
+          MVC   BFP_EXT,0(ZC_R1)
+*            MOVE BFP-EXT TO Q1
+*ZC    147         MOVE  BFP_EXT,TO,Q1
+         LD    ZC_F4,BFP_EXT
+         LD    ZC_F6,8+BFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LB,PFPO_TYPE_LB,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLBTQ CVT LB IN F0-F2 TO Q IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,Q1
+*            DISPLAY 'Q1 1234567890123456789012345678901234 =' Q1
+*ZC    148         DISPLAY 'Q1 1234567890123456789012345678901234 =',Q1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL40'Q1 1234567890123456789012345678901234 =' PADX
+                TO EVEN LEN LIT
+         LA    ZC_R1,39
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,Q1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'Q'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF Q1 = 1234567890123456789012345678901234
+*ZC    149         IF    Q1,=,1234567890123456789012345678901234
+         LMG   ZC_R0,ZC_R1,Q1
+         LARL  ZC_R2,=FL16'1234567890123456789012345678901234'
+         CG    0,0(ZC_R2)
+         JNE   *+4+6
+         CLG   1,8(ZC_R2)
+         BRC   15-ZC_EQ,PG_IF_26_1
+*                PERFORM GOOD ELSE PERFORM BAD.
+*ZC    150         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    150         ELSE
+         J     PG_IF_26_E
+PG_IF_26_1   DS    0H  &TYPE
+*      * TEST CVTLDTP  CVT LD TO PD31
+*ZC    150         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_26_E   DS    0H  &TYPE
+*            DISPLAY 'TEST CVTLDTP'
+*ZC    152         DISPLAY 'TEST CVTLDTP'
+         BRAS  1,*+(WTO#0992_EOT-*+1)/2*2
+         DC    AL2(WTO#0992_EOT-*,0),C'TEST CVTLDTP'
+WTO#0992_EOT     EQU *
+         SVC   35
+*            MOVE 1  TO DFP-EXT
+*ZC    153         MOVE  1,TO,DFP_EXT
+          LARL  ZC_R1,=LD'1'
+          MVC   DFP_EXT,0(ZC_R1)
+*            MOVE DFP-EXT TO P1
+*ZC    154         MOVE  DFP_EXT,TO,P1
+         LD    ZC_F4,DFP_EXT
+         LD    ZC_F6,8+DFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         ZAP   P1,ZCVT_PWORK2
+*            DISPLAY 'P1 1 =' P1
+*ZC    155         DISPLAY 'P1 1 =',P1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL6'P1 1 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,6
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,P1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'P'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    156         IF    P1,=,1
+         LARL  ZC_R1,=PL16'1'
+         CP    P1,0(16,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_27_1
+*ZC    156         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    156         ELSE
+         J     PG_IF_27_E
+PG_IF_27_1   DS    0H  &TYPE
+*ZC    156         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_27_E   DS    0H  &TYPE
+*            MOVE -1  TO DFP-EXT
+*ZC    157         MOVE  -,1,TO,DFP_EXT
+          LARL  ZC_R1,=LD'-1'
+          MVC   DFP_EXT,0(ZC_R1)
+*            MOVE DFP-EXT TO P1
+*ZC    158         MOVE  DFP_EXT,TO,P1
+         LD    ZC_F4,DFP_EXT
+         LD    ZC_F6,8+DFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         ZAP   P1,ZCVT_PWORK2
+*            DISPLAY 'P1 -1 =' P1
+*ZC    159         DISPLAY 'P1 -1 =',P1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL8'P1 -1 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,7
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,P1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'P'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    160         IF    P1,=,-,1
+         LARL  ZC_R1,=PL16'-1'
+         CP    P1,0(16,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_28_1
+*ZC    160         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    160         ELSE
+         J     PG_IF_28_E
+PG_IF_28_1   DS    0H  &TYPE
+*ZC    160         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_28_E   DS    0H  &TYPE
+*            MOVE 0  TO DFP-EXT
+*ZC    161         MOVE  0,TO,DFP_EXT
+          LARL  ZC_R1,=LD'0'
+          MVC   DFP_EXT,0(ZC_R1)
+*            MOVE DFP-EXT TO P1
+*ZC    162         MOVE  DFP_EXT,TO,P1
+         LD    ZC_F4,DFP_EXT
+         LD    ZC_F6,8+DFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         ZAP   P1,ZCVT_PWORK2
+*            DISPLAY 'P1 0 =' P1
+*ZC    163         DISPLAY 'P1 0 =',P1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL6'P1 0 =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,6
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,P1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'P'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF P1 = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    164         IF    P1,=,0
+         LARL  ZC_R1,=PL16'0'
+         CP    P1,0(16,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_29_1
+*ZC    164         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    164         ELSE
+         J     PG_IF_29_E
+PG_IF_29_1   DS    0H  &TYPE
+*ZC    164         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_29_E   DS    0H  &TYPE
+*            MOVE 1234567890123456789012345678901 TO DFP-EXT
+*ZC    165         MOVE  1234567890123456789012345678901,TO,DFP_EXT
+          LARL  ZC_R1,=LD'1234567890123456789012345678901'
+          MVC   DFP_EXT,0(ZC_R1)
+*            MOVE DFP-EXT TO P1
+*ZC    166         MOVE  DFP_EXT,TO,P1
+         LD    ZC_F4,DFP_EXT
+         LD    ZC_F6,8+DFP_EXT
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_LD,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         ZAP   P1,ZCVT_PWORK2
+*            DISPLAY 'P1 1234567890123456789012345678901 =' P1
+*ZC    167         DISPLAY 'P1 1234567890123456789012345678901 =',P1
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL36'P1 1234567890123456789012345678901 =' PAD TOX
+                EVEN LEN LIT
+         LA    ZC_R1,36
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,P1
+         LA    ZC_R1,16  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'P'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*             IF P1 = 1234567890123456789012345678901
+*ZC    168         IF    P1,=,1234567890123456789012345678901
+         LARL  ZC_R1,=PL16'1234567890123456789012345678901'
+         CP    P1,0(16,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_30_1
+*                PERFORM GOOD ELSE PERFORM BAD.
+*ZC    169         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    169         ELSE
+         J     PG_IF_30_E
+PG_IF_30_1   DS    0H  &TYPE
+*      * TEST MPYQ 128 BIT R0-R1 * 128 BIT R2-R3
+*ZC    169         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_30_E   DS    0H  &TYPE
+*            DISPLAY 'TEST MPYQ'
+*ZC    171         DISPLAY 'TEST MPYQ'
+         BRAS  1,*+(WTO#1139_EOT-*+1)/2*2
+         DC    AL2(WTO#1139_EOT-*,0),C'TEST MPYQ'
+WTO#1139_EOT     EQU *
+         SVC   35
+*            MOVE     3  TO D2
+*ZC    172         MOVE  3,TO,D2
+          LARL  ZC_R1,=DH'3'
+          MVC   D2,0(ZC_R1)
+*            MOVE     2  TO Z1
+*ZC    173         MOVE  2,TO,Z1
+          LARL  ZC_R1,=ZL4'2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY D2 BY Z1
+*ZC    174         MULTIPLY D2,BY,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    175         IF    Z1,=,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_31_1
+*ZC    175         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    175         ELSE
+         J     PG_IF_31_E
+PG_IF_31_1   DS    0H  &TYPE
+*ZC    175         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_31_E   DS    0H  &TYPE
+*            MOVE     3  TO D2
+*ZC    176         MOVE  3,TO,D2
+          LARL  ZC_R1,=DH'3'
+          MVC   D2,0(ZC_R1)
+*            MOVE     -2 TO Z1
+*ZC    177         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY D2 BY Z1
+*ZC    178         MULTIPLY D2,BY,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    179         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_32_1
+*ZC    179         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    179         ELSE
+         J     PG_IF_32_E
+PG_IF_32_1   DS    0H  &TYPE
+*ZC    179         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_32_E   DS    0H  &TYPE
+*            MOVE     -3  TO D2
+*ZC    180         MOVE  -,3,TO,D2
+          LARL  ZC_R1,=DH'-3'
+          MVC   D2,0(ZC_R1)
+*            MOVE     2 TO Z1
+*ZC    181         MOVE  2,TO,Z1
+          LARL  ZC_R1,=ZL4'2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY D2 BY Z1
+*ZC    182         MULTIPLY D2,BY,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    183         IF    Z1,=,-,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'-6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_33_1
+*ZC    183         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    183         ELSE
+         J     PG_IF_33_E
+PG_IF_33_1   DS    0H  &TYPE
+*ZC    183         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_33_E   DS    0H  &TYPE
+*            MOVE     -3  TO D2
+*ZC    184         MOVE  -,3,TO,D2
+          LARL  ZC_R1,=DH'-3'
+          MVC   D2,0(ZC_R1)
+*            MOVE     -2 TO Z1
+*ZC    185         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY D2 BY Z1
+*ZC    186         MULTIPLY D2,BY,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    187         IF    Z1,=,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_34_1
+*ZC    187         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    187         ELSE
+         J     PG_IF_34_E
+PG_IF_34_1   DS    0H  &TYPE
+*ZC    187         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_34_E   DS    0H  &TYPE
+*            MOVE     -3  TO D2
+*ZC    188         MOVE  -,3,TO,D2
+          LARL  ZC_R1,=DH'-3'
+          MVC   D2,0(ZC_R1)
+*            MOVE     -2 TO Z1
+*ZC    189         MOVE  -,2,TO,Z1
+          LARL  ZC_R1,=ZL4'--2'
+          MVC   Z1,0(ZC_R1)
+*            MULTIPLY D2 BY Z1
+*ZC    190         MULTIPLY D2,BY,Z1
+         LD    ZC_F0,D2
+         LDR   ZC_F4,ZC_F0
+         LRL   ZC_R0,=AL1(PFPO_RADIX,PFPO_TYPE_LD,PFPO_TYPE_DH,PFPO_RNDX
+               )
+         PFPO 
+         L     ZC_R15,ZCVT_CVTLDTP IN F0-F2 TO PL31 IN ZC_R0-ZC_R1
+         BASR  ZC_R14,ZC_R15
+         STMG  ZC_R0,ZC_R1,ZCVT_PWORK2
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         MP    ZCVT_PWORK1(3),ZCVT_PWORK2
+         UNPK  0+Z1(4),0+ZCVT_PWORK1(3) UNPK #1 NORMAL
+*             IF Z1 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    191         IF    Z1,=,6
+         PACK  ZCVT_PWORK1(3),0+Z1(4) PACK #1 NORMAL
+         LARL  ZC_R1,=PL2'6'
+         CP    ZCVT_PWORK1(3),0(2,ZC_R1)
+         BRC   15-ZC_EQ,PG_IF_35_1
+*ZC    191         PERFORM GOOD
+         LARL  ZC_R14,PG_GOOD
+         LARL  ZC_R0,PG_GOOD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+*ZC    191         ELSE
+         J     PG_IF_35_E
+PG_IF_35_1   DS    0H  &TYPE
+*ZC    191         PERFORM BAD
+         LARL  ZC_R14,PG_BAD
+         LARL  ZC_R0,PG_BAD_END+6
+         L     ZC_R15,ZCVT_PERFORM
+         BASR  ZC_R1,ZC_R15
+PG_IF_35_E   DS    0H  &TYPE
+*            DISPLAY 'TESTFUN1 GOOD TESTS =' GOOD
+*ZC    192         DISPLAY 'TESTFUN1 GOOD TESTS =',GOOD
+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+         LARL  ZC_R0,=CL22'TESTFUN1 GOOD TESTS =' PAD TO EVEN LEN LIT
+         LA    ZC_R1,21
+         LA    ZC_R2,C'X'
+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+         LA    ZC_R0,GOOD
+         LA    ZC_R1,3  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+         LA    ZC_R2,C'P'
+         STM   ZC_R0,ZC_R2,12(ZC_R3)  SET DISPLAY LIST ENTRY
+         OI    24-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+         LR    ZC_R1,ZC_R3
+         L     ZC_R15,ZCVT_DISPLAY
+         BASR  ZC_R14,ZC_R15
+*            STOP RUN.
+*ZC    193         STOP  RUN
+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+         L     ZC_R15,ZCVT_GOBACK
+         BR    ZC_R15
+*        GOOD.
+PG_MAINLINE_END L ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_GOOD  DS    0H
+*            ADD 1 TO GOOD.
+*ZC    195         ADD   1,TO,GOOD
+         BRAS  ZC_R14,3 SET ZC_R1 TO A(INLINE LIT) AND SKIP OVER IT
+         DC    PL2'1'
+         AP    GOOD,0(2,ZC_R14)
+*        BAD.
+PG_GOOD_END L  ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+PG_BAD   DS    0H
+*            MOVE 16 TO RETURN-CODE
+*ZC    197         MOVE  16,TO,RETURN_CODE
+          MVHHI RETURN_CODE,16
+*            STOP RUN.
+*ZC    198         STOP  RUN
+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+         L     ZC_R15,ZCVT_GOBACK
+         BR    ZC_R15
+PG_BAD_END L   ZC_R15,ZCVT_PMCHECK
+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+SN_END_PROCEDURE DS 0H SECTION
+*        PROCEDURE END
+         LH    ZC_R1,RETURN_CODE
+         L     ZC_R15,ZCVT_GOBACK
+         BASR  ZC_R14,ZC_R15
+         LTORG 
+*    ZCOBOL WORKING STORAGE SECTION DATA ITEMS 
+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC  X
+                     VALUE 
+*    01  ZC_SAVEAREA                    00000000 00000048 1   X   X(72)X
+                      
+*    01  ZC_WS_ID                       00000048 00000008 1   X   X(8) X
+                     ''WS*WS*WS'' 
+*    01  ZC_WS_START                    00000050 00000004 1   A        X
+                      
+*    01  ZC_WS_LEN                      00000054 00000004 1   F   9(9) X
+                      
+*    01  FILLER                         00000058 00000000 1   X        X
+                      
+*    01  PTR_1                          00000058 00000004 1   A        X
+                      
+*    01  PTR_2                          0000005C 00000004 1   A        X
+                      
+*    01  PTR_3                          00000060 00000004 1   A        X
+                      
+*    01  W1                             00000064 00000004 1   F   9(9) X
+                     0 
+*    01  ADDR_1                         00000068 00000014 1   X   X(20)X
+                      
+*    01  ADDR_2                         0000007C 00000014 1   X   X(20)X
+                      
+*    01  TP1                            00000090 00000001 1   P   9    X
+                      
+*    01  TP2                            00000091 00000001 1   P   9    X
+                      
+*    01  TZ1                            00000092 00000001 1   Z   9    X
+                      
+*    01  TZ2                            00000093 00000002 1   Z   99   X
+                      
+*    01  TX3                            00000095 00000003 1   X   X(3) X
+                      
+*    01  TRM1                           00000098 00000003 1   X   X(3) X
+                     ''ABC'' 
+*    01  FLT_SRT                        0000009B 00000004 1   7        X
+                      
+*    01  FLT_LNG                        0000009F 00000008 1   8        X
+                      
+*    01  FLT_EXT                        000000A7 00000010 1   9        X
+                      
+*    01  HFP_SRT                        000000B7 00000004 1   1        X
+                     1234567 
+*    01  HFP_LNG                        000000BB 00000008 1   2        X
+                     123456789012345 
+*    01  HFP_EXT                        000000C3 00000010 1   3        X
+                     123456789012345678901234567890 
+*    01  BFP_SRT                        000000D3 00000004 1   4        X
+                     1234567 
+*    01  BFP_LNG                        000000D7 00000008 1   5        X
+                     1234567890123456 
+*    01  BFP_EXT                        000000DF 00000010 1   6        X
+                     1234567890123456789012345678901234 
+*    01  DFP_SRT                        000000EF 00000004 1   7        X
+                     1234567 
+*    01  DFP_LNG                        000000F3 00000008 1   8        X
+                     1234567890123456 
+*    01  DFP_EXT                        000000FB 00000010 1   9        X
+                     1234567890123456789012345678901234 
+*    01  HW                             0000010B 00000002 1   H   9(4) X
+                     1234 
+*    01  FW                             0000010D 00000004 1   F   9(9) X
+                     123456789 
+*    01  DW                             00000111 00000008 1   G   9(18)X
+                     123456789012345 
+*    01  QW                             00000119 00000010 1   Q   9(39)X
+                     1234567890123456789012345678901234 
+*    01  PD                             00000129 00000010 1   P   9(31)X
+                     1234567890123456789012345678901 
+*    01  ZD                             00000139 0000001F 1   Z   9(31)X
+                     1234567890123456789012345678901 
+*    01  P1                             00000158 00000010 1   P   9(31)X
+                     1 
+*    01  Q1                             00000168 00000010 1   Q   9(39)X
+                     1 
+*    01  Z1                             00000178 00000004 1   Z   9(4) X
+                     1 
+*    01  D2                             0000017C 00000008 1   2        X
+                     2 
+*    01  GOOD                           00000184 00000003 1   P   9(4) X
+                     0 
+*    01  DEBUG_ITEM                     00000187 00000058 1   X        X
+                      
+*    02  DEBUG_LINE                     00000187 00000006 1   X   X(6) X
+                      
+*    02  FILLER                         0000018D 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_NAME                     0000018E 0000001E 1   X   X(30)X
+                      
+*    02  FILLER                         000001AC 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_1                    000001AD 00000004 1   Z   9999 X
+                      
+*    02  FILLER                         000001B1 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_2                    000001B2 00000004 1   Z   9999 X
+                      
+*    02  FILLER                         000001B6 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_SUB_3                    000001B7 00000004 1   Z   9999 X
+                      
+*    02  FILLER                         000001BB 00000001 1   X   X    X
+                     SPACE 
+*    02  DEBUG_CONTENTS                 000001BC 00000023 1   X   X(35)X
+                      
+*    01  TRUE                           000001DF 00000001 1   Z   9    X
+                     1 
+*    01  FALSE                          000001E0 00000001 1   Z   9    X
+                     0 
+*    01  RETURN_CODE                    000001E1 00000002 1   H   9(4) X
+                     0 
+ZC_WSLOC LOCTR 
+ZC_WS_LOC_1  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_SAVEAREA DS CL72
+ZC_WS_LOC_2  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_WS_ID DC CL8'WS*WS*WS'
+ZC_WS_LOC_3  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_WS_START DS AL4
+ZC_WS_LOC_4  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZC_WS_LEN DS FL4
+ZC_WS_LOC_5  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DS  0CL0
+ZC_WS_LOC_6  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+PTR_1    DS  AL4
+ZC_WS_LOC_7  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+PTR_2    DS  AL4
+ZC_WS_LOC_8  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+PTR_3    DS  AL4
+ZC_WS_LOC_9  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+W1       DC AL4(0)                  RPI 1065
+ZC_WS_LOC_10 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ADDR_1   DS  CL20
+ZC_WS_LOC_11 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ADDR_2   DS  CL20
+ZC_WS_LOC_12 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TP1      DS  PL1
+ZC_WS_LOC_13 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TP2      DS  PL1
+ZC_WS_LOC_14 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TZ1      DS  ZL1
+ZC_WS_LOC_15 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TZ2      DS  ZL2
+ZC_WS_LOC_16 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TX3      DS  CL3
+ZC_WS_LOC_17 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TRM1     DC CL3'ABC'
+ZC_WS_LOC_18 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FLT_SRT  DS EDL4
+ZC_WS_LOC_19 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FLT_LNG  DS DDL8
+ZC_WS_LOC_20 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FLT_EXT  DS LDL16
+ZC_WS_LOC_21 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+HFP_SRT  DC EHL4'1234567'
+ZC_WS_LOC_22 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+HFP_LNG  DC DHL8'123456789012345'
+ZC_WS_LOC_23 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+HFP_EXT  DC LHL16'123456789012345678901234567890'
+ZC_WS_LOC_24 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+BFP_SRT  DC EBL4'1234567'
+ZC_WS_LOC_25 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+BFP_LNG  DC DBL8'1234567890123456'
+ZC_WS_LOC_26 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+BFP_EXT  DC LBL16'1234567890123456789012345678901234'
+ZC_WS_LOC_27 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DFP_SRT  DC EDL4'1234567'
+ZC_WS_LOC_28 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DFP_LNG  DC DDL8'1234567890123456'
+ZC_WS_LOC_29 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DFP_EXT  DC LDL16'1234567890123456789012345678901234'
+ZC_WS_LOC_30 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+HW       DC AL2(1234)                  RPI 1065
+ZC_WS_LOC_31 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FW       DC AL4(123456789)                  RPI 1065
+ZC_WS_LOC_32 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DW       DC FL8'123456789012345'                  RPI 1065
+ZC_WS_LOC_33 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+QW       DC FL16'1234567890123456789012345678901234'                 RPX
+               I 1065
+ZC_WS_LOC_34 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+PD       DC PL16'1234567890123456789012345678901'
+ZC_WS_LOC_35 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+ZD       DC ZL31'1234567890123456789012345678901'
+ZC_WS_LOC_36 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+P1       DC PL16'1'
+ZC_WS_LOC_37 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+Q1       DC FL16'1'                 RPI 1065
+ZC_WS_LOC_38 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+Z1       DC ZL4'1'
+ZC_WS_LOC_39 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+D2       DC DHL8'2'
+ZC_WS_LOC_40 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+GOOD     DC PL3'0'
+ZC_WS_LOC_41 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_ITEM DS 0CL88
+ZC_WS_LOC_42 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_LINE DS CL6
+ZC_WS_LOC_43 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_44 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_NAME DS CL30
+ZC_WS_LOC_45 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_46 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_1 DS ZL4
+ZC_WS_LOC_47 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_48 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_2 DS ZL4
+ZC_WS_LOC_49 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_50 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_SUB_3 DS ZL4
+ZC_WS_LOC_51 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+         DC CL1' '
+ZC_WS_LOC_52 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+DEBUG_CONTENTS DS CL35
+ZC_WS_LOC_53 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+TRUE     DC CL1'1'
+ZC_WS_LOC_54 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+FALSE    DC CL1'0'
+ZC_WS_LOC_55 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+RETURN_CODE DC AL2(0)                  RPI 1065
+*    ZCOBOL LINKAGE SECTION DATA ITEMS 
+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC  X
+                     VALUE 
+ZC_WSLOC LOCTR 
+ZC_WSLOC LOCTR 
+ZC_WS_DIFF EQU  *-ZC_WS-483  DIFF BETWEEN ALLOC AND CALC WS
+ZC_WS_END DS   0D
+         MNOTE *,'ZCOBOL TOTAL SYMBOLS                 = 55'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL DUPLICATES       = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL MAX DUP CHAIN    = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL LEVEL 88         = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL SET INDEXES      = 0'
+         MNOTE *,'ZCOBOL TOTAL SYMBOL LINKAGE SECTIONS = 0'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE SECTIONS      = 0'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPHS    = 3'
+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPH DUP = 0'
+         END 

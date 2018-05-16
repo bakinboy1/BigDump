@@ -1,0 +1,203 @@
+13:40:48 MAP01C    MZ390 START USING z390 V1.5.06 ON J2SE 1.6.0_31 05/21/12
+AZ390I Copyright 2011 Automated Software Tools Corporation
+AZ390I z390 is licensed under GNU General Public License
+AZ390I program = cics\MAP01C
+AZ390I options = W:\work\z390\z390.OPT=(time(60)) SYSMAC(cics+MAC) SYSCPY(MAC) 
+  SYSPARM(DSECT) SYSPRN(cics\MAP01C.PR1)
+Assembler Listing
+000000                                        (1/1)1 ***********************************************************************
+000000                                        (1/2)2 * Copyright 2006 Automated Software Tools Corporation                 *
+000000                                        (1/3)3 * This source code is part of z390 assembler/emulator package         *
+000000                                        (1/4)4 * The z390 package is distributed under GNU general public license    *
+000000                                        (1/5)5 * Author - Don Higgins                                                *
+000000                                        (1/6)6 ***********************************************************************
+000000                                        (1/8)7 MAP01C   DFHMSD TYPE=DSECT,STORAGE=AUTO,MODE=INOUT,LANG=COBOL,CTRL=FREEKB,CURSLOC=YES,TIOAPFX=YES
+000000                                       (1/9)10 GUI4     DFHMDI SIZE=(24,44),LINE=1,COLUMN=1,NOLABEL=AFL
+000000                                     (3/409)12+         PUNCH '       01  GUI4I.',DSNAME=&SYSIN_MEMBER..CPZ
+000000                                     (3/427)13+         PUNCH '           02  FILLER  PIC X(12).                                               '
+000000                                      (1/11)16          DFHMDF POS=(2,10),LENGTH=34,ATTRB=(ASKIP,BRT),INITIAL='TESTGUI4 TEST TN3270 GUI INTERFACE'
+000000                                      (1/13)19          DFHMDF POS=(4,10),LENGTH=12,ATTRB=ASKIP,INITIAL='TEXT OR END='
+000000                                      (1/15)22 INPUT    DFHMDF POS=(4,23),LENGTH=3,ATTRB=(UNPROT,ALPHA,IC,FSET),NOLABEL=AFLO,INITIAL='???'
+000000                                    (4/1404)24+         PUNCH '           02  FILLER   PIC S9(4) COMP.                                         '
+000000                                    (4/1418)26+         PUNCH '           02  FILLER   PIC X.                                                  '
+000000                                    (4/1483)28+         PUNCH '           02  INPUTI   PIC X(3).                                               '
+000000                                      (1/16)31          DFHMDF POS=(4,27),LENGTH=0,ATTRB=ASKIP
+000000                                      (1/17)33 REPLY    DFHMDF POS=(6,10),LENGTH=3,ATTRB=ASKIP
+000000                                    (4/1404)34+         PUNCH '           02  FILLER   PIC S9(4) COMP.                                         '
+000000                                    (4/1418)36+         PUNCH '           02  FILLER   PIC X.                                                  '
+000000                                    (4/1483)38+         PUNCH '           02  REPLYI   PIC X(3).                                               '
+000000                                    (4/1485)40+         PUNCH '           02  FILLER REDEFINES REPLYI.                                         '
+000000                                    (4/1486)42+         PUNCH '               03  REPLYO   PIC X(3).                                           '
+000000                                      (1/18)45 *
+000000                                      (1/19)46 GUI6     DFHMDI SIZE=(23,80),LINE=1,COLUMN=1,NOLABEL=AL
+000000                                      (3/93)48+         PUNCH '       01  GUI4O REDEFINES GUI4I.                                               '
+000000                                      (3/94)50+         PUNCH '          02  FILLER PIC X(24).                                                 '
+000000                                     (3/409)52+         PUNCH '       01  GUI6I.',DSNAME=&SYSIN_MEMBER..CPZ
+000000                                     (3/427)53+         PUNCH '           02  FILLER  PIC X(12).                                               '
+000000                                      (1/22)56          DFHMDF POS=(1,6),LENGTH=74,ATTRB=(ASKIP,BRT),INITIAL='TESTGUI6 UPDATE NAME, ADDR, AND/OR ZIP (PF1=HELP PF2=ERASE INPUT PF3=EXIT)'
+000000                                      (1/23)60          DFHMDF POS=(3,6),LENGTH=10,ATTRB=ASKIP,INITIAL='ENTER NAME'
+000000                                      (1/25)63 NAME     DFHMDF POS=(3,17),LENGTH=40,ATTRB=(UNPROT,ALPHA,IC),XINIT=FF6D,NOLABEL=AO
+000000                                    (4/1402)65+         PUNCH '           02  NAMEL    PIC S9(4) COMP.                                         '
+000000                                    (4/1415)67+         PUNCH '           02  NAMEF    PIC X.                                                  '
+000000                                    (4/1483)69+         PUNCH '           02  NAMEI    PIC X(40).                                              '
+000000                                      (1/26)72          DFHMDF POS=(3,58),LENGTH=0,ATTRB=ASKIP
+000000                                      (1/27)74          DFHMDF POS=(5,6),LENGTH=10,ATTRB=ASKIP,INITIAL='ENTER ADDR'
+000000                                      (1/29)77 ADDR     DFHMDF POS=(5,17),LENGTH=40,ATTRB=(UNPROT,ALPHA),XINIT=FF6D,NOLABEL=AO
+000000                                    (4/1402)79+         PUNCH '           02  ADDRL    PIC S9(4) COMP.                                         '
+000000                                    (4/1415)81+         PUNCH '           02  ADDRF    PIC X.                                                  '
+000000                                    (4/1483)83+         PUNCH '           02  ADDRI    PIC X(40).                                              '
+000000                                      (1/30)86          DFHMDF POS=(5,58),LENGTH=0,ATTRB=ASKIP
+000000                                      (1/31)88          DFHMDF POS=(7,6),LENGTH=10,ATTRB=ASKIP,INITIAL='ENTER ZIP'
+000000                                      (1/33)91 ZIP      DFHMDF POS=(7,17),LENGTH=5,ATTRB=(UNPROT,NUM),NOLABEL=AO,INITIAL='_____'
+000000                                    (4/1402)93+         PUNCH '           02  ZIPL     PIC S9(4) COMP.                                         '
+000000                                    (4/1415)95+         PUNCH '           02  ZIPF     PIC X.                                                  '
+000000                                    (4/1483)97+         PUNCH '           02  ZIPI     PIC X(5).                                               '
+000000                                     (1/34)100          DFHMDF POS=(7,23),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/35)102 NAMEHD   DFHMDF POS=(9,6),LENGTH=4,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)104+         PUNCH '           02  FILLER  PIC S9(4) COMP.                                          '
+000000                                   (4/1418)106+         PUNCH '           02  FILLER  PIC X.                                                   '
+000000                                   (4/1483)108+         PUNCH '           02  NAMEHDI  PIC X(4).                                               '
+000000                                   (4/1485)110+         PUNCH '           02  FILLER REDEFINES NAMEHDI.                                        '
+000000                                   (4/1486)112+         PUNCH '               03  NAMEHDO  PIC X(4).                                           '
+000000                                     (1/36)115 NEWNAME  DFHMDF POS=(9,11),LENGTH=40,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)117+         PUNCH '           02  FILLER PIC S9(4) COMP.                                           '
+000000                                   (4/1418)119+         PUNCH '           02  FILLER PIC X.                                                    '
+000000                                   (4/1483)121+         PUNCH '           02  NEWNAMEI PIC X(40).                                              '
+000000                                   (4/1485)123+         PUNCH '           02  FILLER REDEFINES NEWNAMEI.                                       '
+000000                                   (4/1486)125+         PUNCH '               03  NEWNAMEO PIC X(40).                                          '
+000000                                     (1/37)128 ADDRHD   DFHMDF POS=(11,6),LENGTH=4,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)130+         PUNCH '           02  FILLER  PIC S9(4) COMP.                                          '
+000000                                   (4/1418)132+         PUNCH '           02  FILLER  PIC X.                                                   '
+000000                                   (4/1483)134+         PUNCH '           02  ADDRHDI  PIC X(4).                                               '
+000000                                   (4/1485)136+         PUNCH '           02  FILLER REDEFINES ADDRHDI.                                        '
+000000                                   (4/1486)138+         PUNCH '               03  ADDRHDO  PIC X(4).                                           '
+000000                                     (1/38)141 NEWADDR  DFHMDF POS=(11,11),LENGTH=40,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)143+         PUNCH '           02  FILLER PIC S9(4) COMP.                                           '
+000000                                   (4/1418)145+         PUNCH '           02  FILLER PIC X.                                                    '
+000000                                   (4/1483)147+         PUNCH '           02  NEWADDRI PIC X(40).                                              '
+000000                                   (4/1485)149+         PUNCH '           02  FILLER REDEFINES NEWADDRI.                                       '
+000000                                   (4/1486)151+         PUNCH '               03  NEWADDRO PIC X(40).                                          '
+000000                                     (1/39)154 ZIPHD    DFHMDF POS=(13,6),LENGTH=4,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)156+         PUNCH '           02  FILLER   PIC S9(4) COMP.                                         '
+000000                                   (4/1418)158+         PUNCH '           02  FILLER   PIC X.                                                  '
+000000                                   (4/1483)160+         PUNCH '           02  ZIPHDI   PIC X(4).                                               '
+000000                                   (4/1485)162+         PUNCH '           02  FILLER REDEFINES ZIPHDI.                                         '
+000000                                   (4/1486)164+         PUNCH '               03  ZIPHDO   PIC X(4).                                           '
+000000                                     (1/40)167 NEWZIP   DFHMDF POS=(13,11),LENGTH=5,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)169+         PUNCH '           02  FILLER  PIC S9(4) COMP.                                          '
+000000                                   (4/1418)171+         PUNCH '           02  FILLER  PIC X.                                                   '
+000000                                   (4/1483)173+         PUNCH '           02  NEWZIPI  PIC X(5).                                               '
+000000                                   (4/1485)175+         PUNCH '           02  FILLER REDEFINES NEWZIPI.                                        '
+000000                                   (4/1486)177+         PUNCH '               03  NEWZIPO  PIC X(5).                                           '
+000000                                     (1/42)180          DFHMDF POS=(15,6),LENGTH=17,ATTRB=ASKIP,INITIAL='PRESS F1 FOR HELP'
+000000                                     (1/43)183 ERRMSG   DFHMDF POS=(17,6),LENGTH=34,ATTRB=(ASKIP,BRT),NOLABEL=AFL
+000000                                   (4/1404)185+         PUNCH '           02  FILLER  PIC S9(4) COMP.                                          '
+000000                                   (4/1418)187+         PUNCH '           02  FILLER  PIC X.                                                   '
+000000                                   (4/1483)189+         PUNCH '           02  ERRMSGI  PIC X(34).                                              '
+000000                                   (4/1485)191+         PUNCH '           02  FILLER REDEFINES ERRMSGI.                                        '
+000000                                   (4/1486)193+         PUNCH '               03  ERRMSGO  PIC X(34).                                          '
+000000                                     (1/44)196 * TEST OCCURS
+000000                                     (1/46)197          DFHMDF POS=(19,1),LENGTH=11,ATTRB=(ASKIP,BRT),INITIAL='TEST OCCURS'
+000000                                     (1/48)200 TESTOCC  DFHMDF POS=(19,20),LENGTH=5,ATTRB=(UNPROT,NUM),OCCURS=5,PICIN='9(5)',NOLABEL=ALO
+000000                                   (4/1351)202+         PUNCH '           02  TESTOCCD OCCURS 5 TIMES.                                         '
+000000                                   (4/1432)204+         PUNCH '               03  FILLER PIC S9(4) COMP.                                       '
+000000                                   (4/1443)206+         PUNCH '               03  TESTOCCF PIC X.                                              '
+000000                                   (4/1476)208+         PUNCH '               03  TESTOCCI PIC 9(5).                                           '
+000000                                     (1/49)211          DFHMDF POS=(19,50),LENGTH=4,ATTRB=ASKIP,INITIAL='SUM='
+000000                                     (1/51)214 OCCSUM   DFHMDF POS=(19,55),LENGTH=10,ATTRB=ASKIP,NOLABEL=AFL,PICOUT='ZZ,ZZZ,ZZ9'
+000000                                   (4/1404)216+         PUNCH '           02  FILLER  PIC S9(4) COMP.                                          '
+000000                                   (4/1418)218+         PUNCH '           02  FILLER  PIC X.                                                   '
+000000                                   (4/1483)220+         PUNCH '           02  OCCSUMI  PIC X(10).                                              '
+000000                                   (4/1485)222+         PUNCH '           02  FILLER REDEFINES OCCSUMI.                                        '
+000000                                   (4/1486)224+         PUNCH '               03  OCCSUMO  PIC ZZ,ZZZ,ZZ9.                                     '
+000000                                     (1/52)227 * TEST GRPNAME
+000000                                     (1/54)228          DFHMDF POS=(20,1),LENGTH=12,ATTRB=(ASKIP,BRT),INITIAL='TEST GRPNAME'
+000000                                     (1/55)231 MO       DFHMDF POS=(20,20),LENGTH=2,ATTRB=(UNPROT,NORM),GRPNAME=DATE
+000000                                   (4/1212)233+         PUNCH '           02  FILLER    PIC S9(4) COMP.                                        '
+000000                                   (4/1223)235+         PUNCH '           02  DATEF    PIC X.                                                  '
+000000                                   (4/1236)237+         PUNCH '           02  DATEI.                                                           '
+000000                                   (4/1238)239+         PUNCH '           02  DATEO REDEFINES DATEI.                                           '
+000000                                   (4/1274)241+         PUNCH '               03  MOI      PIC X(2).                                           '
+000000                                   (4/1276)243+         PUNCH '               03  FILLER REDEFINES MOI.                                        '
+000000                                   (4/1278)245+         PUNCH '                   04  MOO      PIC X(2).                                       '
+000000                                     (1/57)248 SEP1     DFHMDF POS=(20,22),LENGTH=1,INITIAL='-',GRPNAME=DATE,NOLABEL=O
+000000                                   (4/1329)250+         PUNCH '               03  SEP1I    PIC X.                                              '
+000000                                     (1/58)253 DAY      DFHMDF POS=(20,23),LENGTH=2,GRPNAME=DATE
+000000                                   (4/1329)254+         PUNCH '               03  DAYI     PIC X(2).                                           '
+000000                                   (4/1331)256+         PUNCH '               03  FILLER REDEFINES DAYI.                                       '
+000000                                   (4/1333)258+         PUNCH '                   04  DAYO     PIC X(2).                                       '
+000000                                     (1/60)261 SEP2     DFHMDF POS=(20,25),LENGTH=1,INITIAL='-',GRPNAME=DATE,NOLABEL=O
+000000                                   (4/1329)263+         PUNCH '               03  SEP2I    PIC X.                                              '
+000000                                     (1/61)266 YR       DFHMDF POS=(20,26),LENGTH=2,GRPNAME=DATE
+000000                                   (4/1329)267+         PUNCH '               03  YRI      PIC X(2).                                           '
+000000                                   (4/1331)269+         PUNCH '               03  FILLER REDEFINES YRI.                                        '
+000000                                   (4/1333)271+         PUNCH '                   04  YRO      PIC X(2).                                       '
+000000                                     (1/62)274          DFHMDF POS=(20,29),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/63)276 * MO=.. DAY=.. YR=..
+000000                                     (1/64)277 SHOWMDY  DFHMDF POS=(20,38),LENGTH=18,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)279+         PUNCH '           02  FILLER PIC S9(4) COMP.                                           '
+000000                                   (4/1418)281+         PUNCH '           02  FILLER PIC X.                                                    '
+000000                                   (4/1483)283+         PUNCH '           02  SHOWMDYI PIC X(18).                                              '
+000000                                   (4/1485)285+         PUNCH '           02  FILLER REDEFINES SHOWMDYI.                                       '
+000000                                   (4/1486)287+         PUNCH '               03  SHOWMDYO PIC X(18).                                          '
+000000                                     (1/65)290 *
+000000                                     (1/67)291          DFHMDF POS=(21,1),LENGTH=12,ATTRB=(ASKIP,BRT),INITIAL='TEST PICS   '
+000000                                     (1/69)294 TESTPCO  DFHMDF POS=(21,20),LENGTH=12,ATTRB=(UNPROT,NUM),PICIN='9(12)',NOLABEL=A
+000000                                   (4/1402)296+         PUNCH '           02  TESTPCOL PIC S9(4) COMP.                                         '
+000000                                   (4/1415)298+         PUNCH '           02  TESTPCOF PIC X.                                                  '
+000000                                   (4/1483)300+         PUNCH '           02  TESTPCOI PIC 9(12).                                              '
+000000                                   (4/1485)302+         PUNCH '           02  FILLER REDEFINES TESTPCOI.                                       '
+000000                                   (4/1486)304+         PUNCH '               03  TESTPCOO PIC X(12).                                          '
+000000                                     (1/70)307          DFHMDF POS=(21,33),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/71)309 * PAY THE AUTHOR $123,456,789
+000000                                     (1/72)310 PAYME    DFHMDF POS=(22,1),LENGTH=14,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)312+         PUNCH '           02  FILLER   PIC S9(4) COMP.                                         '
+000000                                   (4/1418)314+         PUNCH '           02  FILLER   PIC X.                                                  '
+000000                                   (4/1483)316+         PUNCH '           02  PAYMEI   PIC X(14).                                              '
+000000                                   (4/1485)318+         PUNCH '           02  FILLER REDEFINES PAYMEI.                                         '
+000000                                   (4/1486)320+         PUNCH '               03  PAYMEO   PIC X(14).                                          '
+000000                                     (1/74)323 PAYME1   DFHMDF POS=(22,16),LENGTH=12,ATTRB=ASKIP,NOLABEL=AFL,PICOUT='$$$$,$$$,$$9'
+000000                                   (4/1404)325+         PUNCH '           02  FILLER  PIC S9(4) COMP.                                          '
+000000                                   (4/1418)327+         PUNCH '           02  FILLER  PIC X.                                                   '
+000000                                   (4/1483)329+         PUNCH '           02  PAYME1I  PIC X(12).                                              '
+000000                                   (4/1485)331+         PUNCH '           02  FILLER REDEFINES PAYME1I.                                        '
+000000                                   (4/1486)333+         PUNCH '               03  PAYME1O  PIC $$$$,$$$,$$9.                                   '
+000000                                     (1/76)336          DFHMDF POS=(23,1),LENGTH=16,ATTRB=(ASKIP,BRT),INITIAL='CURSOR LOCATION='
+000000                                     (1/77)339 CURS     DFHMDF POS=(23,18),LENGTH=9,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1404)341+         PUNCH '           02  FILLER    PIC S9(4) COMP.                                        '
+000000                                   (4/1418)343+         PUNCH '           02  FILLER    PIC X.                                                 '
+000000                                   (4/1483)345+         PUNCH '           02  CURSI    PIC X(9).                                               '
+000000                                   (4/1485)347+         PUNCH '           02  FILLER REDEFINES CURSI.                                          '
+000000                                   (4/1486)349+         PUNCH '               03  CURSO    PIC X(9).                                           '
+000000                                     (1/78)352 *
+000000                                     (1/79)353 GUI6H    DFHMDI SIZE=(11,70),LINE=1,COLUMN=10,MODE=OUT
+000000                                     (3/93)355+         PUNCH '       01  GUI6O REDEFINES GUI6I.                                               '
+000000                                     (3/94)357+         PUNCH '          02  FILLER PIC X(402).                                                '
+000000                                    (3/409)359+         PUNCH '       01  GUI6HI.',DSNAME=&SYSIN_MEMBER..CPZ
+000000                                    (3/427)360+         PUNCH '           02  FILLER  PIC X(12).                                               '
+000000                                     (1/81)363          DFHMDF POS=(2,1),LENGTH=44,ATTRB=(ASKIP,IC),INITIAL='TESTGUI6 TEST EXEC CICS TN3270 WITH 3 FIELDS'
+000000                                     (1/84)367          DFHMDF POS=(3,1),LENGTH=51,ATTRB=ASKIP,INITIAL='PRESS ENTER OR ANY AID KEY TO RETURN TO MAIN SCREEN'
+000000                                     (1/86)371          DFHMDF POS=(4,1),LENGTH=38,ATTRB=ASKIP,INITIAL='TAB CURSOR TO FIELD YOU WISH TO CHANGE'
+000000                                     (1/89)374          DFHMDF POS=(5,1),LENGTH=48,ATTRB=ASKIP,INITIAL='ENTER DATA IN ONE OR MORE FIELDS AND PRESS ENTER'
+000000                                     (1/91)378          DFHMDF POS=(6,1),LENGTH=44,ATTRB=ASKIP,INITIAL='THE ZIP FIELD IS NUMERIC SO ALPHA IS IGNORED'
+000000                                     (1/93)381          DFHMDF POS=(7,1),LENGTH=44,ATTRB=ASKIP,INITIAL='USE BACK SPACE WITHIN FIELD TO CORRECT FIELD'
+000000                                     (1/95)384          DFHMDF POS=(8,1),LENGTH=28,ATTRB=ASKIP,INITIAL='USE CLEAR TO REFRESH SCREEN'
+000000                                     (1/97)387          DFHMDF POS=(9,1),LENGTH=44,ATTRB=ASKIP,INITIAL='USE PF3 TO EXIT APPLICATION FROM MAIN SCREEN'
+000000                                    (1/100)390          DFHMDF POS=(10,1),LENGTH=51,ATTRB=ASKIP,INITIAL='ANY UNUSED AID KEY SUCH AS PF4-PF24 SHOWS HEX VALUE'
+000000                                    (1/103)394          DFHMDF POS=(11,1),LENGTH=50,ATTRB=ASKIP,INITIAL='SUBMIT RPI IF YOU FIND ANY ERRORS VIA WWW.Z390.ORG'
+000000                                    (1/104)398 *
+000000                                    (1/105)399          DFHMSD TYPE=FINAL
+000000                                    (1/106)403          END 
+
+Symbol Table Listing
+
+
+Literal Table Listing
+
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+13:40:49 MAP01C    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 69 IO=2824

@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Female()
+comment0.text=\r\n\ @Female()\ sets\ default\ values\ for\ the\ female\ class\r\n
+comment1.params=newOnSite\ newFemale\ newTransfer\ newDiet\ newName\ newWeight\ newAge\ newAir\ newMilk
+comment1.target=Female(boolean,\ boolean,\ boolean,\ java.lang.String,\ java.lang.String,\ double,\ int,\ int,\ int)
+comment1.text=\r\n\ @\ public\ Female\ assigns\ the\ set\ method\ for\ each\ variable\ to\ be\ for\ a\ new\ variable\ of\ that\ type\r\n
+comment2.params=
+comment2.target=int\ getMilk()
+comment2.text=\r\n\ @getMilk\ gets\ the\ milk\ variable\r\n
+comment3.params=newMilk
+comment3.target=void\ setMilk(int)
+comment3.text=\r\n\ @setMilk\ sets\ the\ milk\ variable\ to\ be\ newMilk\r\n
+comment4.params=
+comment4.target=java.lang.String\ toString()
+comment4.text=\r\n\ @toString()\ prints\ out\ the\ toString\ line\ describing\ all\ the\ Female's\ stats\r\n
+numComments=5

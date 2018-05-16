@@ -1,0 +1,52 @@
+         MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 04/16/08                                                 *
+.*********************************************************************
+.* 04/16/08 initial coding for global ALTER    
+.* 09/29/08 ZSTRMAC
+.*********************************************************************
+.* WARNING: THIS CODE DOES NOT VERIFY THAT THE TARGET IS A GO TO.
+.* PLEASE REPLACE USE OF ALTER WITH EVALUATE WHEN STRUCTURE.
+.*********************************************************************
+         ALTER
+         :&NP      SETA  N'&SYSLIST
+         :&PARM_IX SETA 1
+         AWHILE (&PARM_IX LE &NP-2)
+               :&PG_OLD SETC  '&SYSLIST(&PARM_IX)'
+               AIF ('&SYSLIST(&PARM_IX+1)' EQ 'OF'                     X
+                    OR '&SYSLIST(&PARM_IX+1)' EQ 'IN')
+                   :&SN_OLD SETC '&SYSLIST(&PARM_IX+2)'
+                   :&PARM_IX SETA &PARM_IX+2
+               AELSE 
+                   :&SN_OLD SETC ''
+               AEND
+               AIF ('&SYSLIST(&PARM_IX+1)' EQ 'TO')
+                   AIF ('&SYSLIST(&PARM_IX+2)' EQ 'PROCEED'            X         
+                        AND '&SYSLIST(&PARM_IX+3)' EQ 'TO')
+                        :&PARM_IX SETA &PARM_IX+5
+                   AELSE
+                        :&PARM_IX SETA &PARM_IX+3
+                   AEND
+                   :&PG_NEW SETC  '&SYSLIST(&PARM_IX-1)'
+                   AIF ('&SYSLIST(&PARM_IX+1)' EQ 'OF'                 X
+                        OR '&SYSLIST(&PARM_IX+1)' EQ 'IN')
+                       :&SN_NEW SETC '&SYSLIST(&PARM_IX+2)'
+                       :&PARM_IX SETA &PARM_IX+2
+                   AELSE 
+                       :&SN_NEW SETC ''
+                   AEND
+               AELSE
+                   MNOTE 8,'ALTER TO NOT FOUND'
+                   MEXIT
+               AEND
+               GEN_ALTER &PG_OLD,&SN_OLD,&PG_NEW,&SN_NEW
+         AEND   
+         AIF   (&PARM_IX NE &NP+1)
+               MNOTE 8,'ALTER TO OR TO PROCEED TO PARAMETER ERROR'
+               MEXIT
+         AEND
+         MEND

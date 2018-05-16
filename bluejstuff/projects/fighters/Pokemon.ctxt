@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=health\ strength\ speed
+comment0.target=Pokemon(int,\ int,\ int)
+comment0.text=\r\n\ Constructs\ the\ pokemon\r\n\ @Require\:\r\n\ \ \ \ health\ is\ an\ integer\ greater\ than\ or\ equal\ to\ 1\ but\ less\ than\ or\ equal\ to\ 300\r\n\ \ \ \ strength\ is\ and\ integer\ greater\ than\ or\ equal\ to\ 1\ but\ less\ than\ or\ equal\ to\ 300\r\n\ \ \ \ speed\ is\ an\ integer\ greater\ than\ or\ equal\ to\ 1\ but\ less\ than\ or\ equal\ to\ 300\r\n
+comment1.params=pokemon1\ pokemon2
+comment1.target=void\ battle(Pokemon,\ Pokemon)
+numComments=2

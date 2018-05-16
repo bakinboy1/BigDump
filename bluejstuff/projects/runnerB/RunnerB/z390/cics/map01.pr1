@@ -1,0 +1,279 @@
+13:40:43 MAP01     MZ390 START USING z390 V1.5.06 ON J2SE 1.6.0_31 05/21/12
+AZ390I Copyright 2011 Automated Software Tools Corporation
+AZ390I z390 is licensed under GNU General Public License
+AZ390I program = cics\MAP01
+AZ390I options = W:\work\z390\z390.OPT=(time(60)) SYSMAC(cics+MAC) SYSCPY(MAC) 
+  SYSPARM(DSECT) SYSPRN(cics\MAP01.PR1)
+Assembler Listing
+000000                                        (1/1)1 ***********************************************************************
+000000                                        (1/2)2 * Copyright 2006 Automated Software Tools Corporation                 *
+000000                                        (1/3)3 * This source code is part of z390 assembler/emulator package         *
+000000                                        (1/4)4 * The z390 package is distributed under GNU general public license    *
+000000                                        (1/5)5 * Author - Don Higgins                                                *
+000000                                        (1/6)6 ***********************************************************************
+000000                                        (1/8)7 MAP01    DFHMSD TYPE=DSECT,STORAGE=AUTO,MODE=INOUT,LANG=ASM,CTRL=FREEKB,CURSLOC=YES,TIOAPFX=YES
+000000                                       (1/9)10 GUI4     DFHMDI SIZE=(24,44),LINE=1,COLUMN=1,NOLABEL=AFL
+000000                                     (3/407)12+         PUNCH 'GUI4S    DS    0H                 START OF MAP DEFINITION',DSNAME=&SYSIN_MEMBER..CPY
+000000                                     (3/416)14+         PUNCH 'GUI4I    DS    0H                 START OF MAP INPUT DEFINITION                 '
+000000                                     (3/420)16+         PUNCH 'GUI4O    DS    0H                 START OF MAP OUTPUT DEFINITION                '
+000000                                     (3/425)18+         PUNCH '         DS    12C                TIOA PREFIX                                   '
+000000                                      (1/11)21          DFHMDF POS=(2,10),LENGTH=34,ATTRB=(ASKIP,BRT),INITIAL='TESTGUI4 TEST TN3270 GUI INTERFACE'
+000000                                      (1/13)24          DFHMDF POS=(4,10),LENGTH=12,ATTRB=ASKIP,INITIAL='TEXT OR END='
+000000                                      (1/15)27 INPUT    DFHMDF POS=(4,23),LENGTH=3,ATTRB=(UNPROT,ALPHA,IC,FSET),INITIAL='???',NOLABEL=AFLO
+000000                                    (4/1357)29+         PUNCH '*                                                                               '
+000000                                    (4/1365)31+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                    (4/1371)33+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                    (4/1377)35+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                    (4/1390)37+         PUNCH 'INPUTI   DS    CL3                INPUT FIELD                                   '
+000000                                    (4/1391)39+         PUNCH '         ORG   INPUTI                                                           '
+000000                                    (4/1397)41+         PUNCH '         DS    CL3                OUTPUT FIELD                                  '
+000000                                      (1/16)44          DFHMDF POS=(4,27),LENGTH=0,ATTRB=ASKIP
+000000                                      (1/17)46 REPLY    DFHMDF POS=(6,10),LENGTH=3,ATTRB=ASKIP
+000000                                    (4/1357)47+         PUNCH '*                                                                               '
+000000                                    (4/1365)49+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                    (4/1371)51+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                    (4/1377)53+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                    (4/1390)55+         PUNCH 'REPLYI   DS    CL3                INPUT FIELD                                   '
+000000                                    (4/1391)57+         PUNCH '         ORG   REPLYI                                                           '
+000000                                    (4/1394)59+         PUNCH 'REPLYO   DS    CL3                OUTPUT FIELD                                  '
+000000                                      (1/18)62 *
+000000                                      (1/19)63 GUI6     DFHMDI SIZE=(23,80),LINE=1,COLUMN=1,NOLABEL=A
+000000                                      (3/82)65+         PUNCH '*                                                                               '
+000000                                      (3/83)67+         PUNCH 'GUI4E    EQU   *                                                                '
+000000                                      (3/84)69+         PUNCH 'GUI4L    EQU   GUI4E-GUI4S                                                      '
+000000                                      (3/88)71+         PUNCH '*                                                                               '
+000000                                      (3/89)73+         PUNCH '* * * END OF MAP DEFINITION     * * *                                           '
+000000                                      (3/90)75+         PUNCH '*                                                                               '
+000000                                     (3/407)77+         PUNCH 'GUI6S    DS    0H                 START OF MAP DEFINITION',DSNAME=&SYSIN_MEMBER..CPY
+000000                                     (3/416)79+         PUNCH 'GUI6I    DS    0H                 START OF MAP INPUT DEFINITION                 '
+000000                                     (3/420)81+         PUNCH 'GUI6O    DS    0H                 START OF MAP OUTPUT DEFINITION                '
+000000                                     (3/425)83+         PUNCH '         DS    12C                TIOA PREFIX                                   '
+000000                                      (1/22)86          DFHMDF POS=(1,6),LENGTH=74,ATTRB=(ASKIP,BRT),INITIAL='TESTGUI6 UPDATE NAME, ADDR, AND/OR ZIP (PF1=HELP PF2=ERASE INPUT PF3=EXIT)'
+000000                                      (1/23)90          DFHMDF POS=(3,6),LENGTH=10,ATTRB=ASKIP,INITIAL='ENTER NAME'
+000000                                      (1/25)93 NAME     DFHMDF POS=(3,17),LENGTH=40,ATTRB=(UNPROT,ALPHA,IC),XINIT=FF6D,NOLABEL=AO
+000000                                    (4/1357)95+         PUNCH '*                                                                               '
+000000                                    (4/1363)97+         PUNCH 'NAMEL    DS    AL2                INPUT FIELD LENGTH                            '
+000000                                    (4/1369)99+         PUNCH 'NAMEF    DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)101+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)103+         PUNCH 'NAMEI    DS    CL40               INPUT FIELD                                   '
+000000                                   (4/1391)105+         PUNCH '         ORG   NAMEI                                                            '
+000000                                   (4/1397)107+         PUNCH '         DS    CL40               OUTPUT FIELD                                  '
+000000                                     (1/26)110          DFHMDF POS=(3,58),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/27)112          DFHMDF POS=(5,6),LENGTH=10,ATTRB=ASKIP,INITIAL='ENTER ADDR'
+000000                                     (1/29)115 ADDR     DFHMDF POS=(5,17),LENGTH=40,ATTRB=(UNPROT,ALPHA),NOLABEL=AO,XINIT=FF6D
+000000                                   (4/1357)117+         PUNCH '*                                                                               '
+000000                                   (4/1363)119+         PUNCH 'ADDRL    DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1369)121+         PUNCH 'ADDRF    DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)123+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)125+         PUNCH 'ADDRI    DS    CL40               INPUT FIELD                                   '
+000000                                   (4/1391)127+         PUNCH '         ORG   ADDRI                                                            '
+000000                                   (4/1397)129+         PUNCH '         DS    CL40               OUTPUT FIELD                                  '
+000000                                     (1/30)132          DFHMDF POS=(5,58),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/31)134          DFHMDF POS=(7,6),LENGTH=10,ATTRB=ASKIP,INITIAL='ENTER ZIP'
+000000                                     (1/33)137 ZIP      DFHMDF POS=(7,17),LENGTH=5,ATTRB=(UNPROT,NUM),NOLABEL=AO,INITIAL='_____'
+000000                                   (4/1357)139+         PUNCH '*                                                                               '
+000000                                   (4/1363)141+         PUNCH 'ZIPL     DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1369)143+         PUNCH 'ZIPF     DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)145+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)147+         PUNCH 'ZIPI     DS    CL5                INPUT FIELD                                   '
+000000                                   (4/1391)149+         PUNCH '         ORG   ZIPI                                                             '
+000000                                   (4/1397)151+         PUNCH '         DS    CL5                OUTPUT FIELD                                  '
+000000                                     (1/34)154          DFHMDF POS=(7,23),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/35)156 NAMEHD   DFHMDF POS=(9,6),LENGTH=4,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)158+         PUNCH '*                                                                               '
+000000                                   (4/1365)160+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)162+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)164+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)166+         PUNCH 'NAMEHDI  DS    CL4                INPUT FIELD                                   '
+000000                                   (4/1391)168+         PUNCH '         ORG   NAMEHDI                                                          '
+000000                                   (4/1394)170+         PUNCH 'NAMEHDO  DS    CL4                OUTPUT FIELD                                  '
+000000                                     (1/36)173 NEWNAME  DFHMDF POS=(9,11),LENGTH=40,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)175+         PUNCH '*                                                                               '
+000000                                   (4/1365)177+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)179+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)181+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)183+         PUNCH 'NEWNAMEI DS    CL40               INPUT FIELD                                   '
+000000                                   (4/1391)185+         PUNCH '         ORG   NEWNAMEI                                                         '
+000000                                   (4/1394)187+         PUNCH 'NEWNAMEO DS    CL40               OUTPUT FIELD                                  '
+000000                                     (1/37)190 ADDRHD   DFHMDF POS=(11,6),LENGTH=4,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)192+         PUNCH '*                                                                               '
+000000                                   (4/1365)194+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)196+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)198+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)200+         PUNCH 'ADDRHDI  DS    CL4                INPUT FIELD                                   '
+000000                                   (4/1391)202+         PUNCH '         ORG   ADDRHDI                                                          '
+000000                                   (4/1394)204+         PUNCH 'ADDRHDO  DS    CL4                OUTPUT FIELD                                  '
+000000                                     (1/38)207 NEWADDR  DFHMDF POS=(11,11),LENGTH=40,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)209+         PUNCH '*                                                                               '
+000000                                   (4/1365)211+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)213+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)215+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)217+         PUNCH 'NEWADDRI DS    CL40               INPUT FIELD                                   '
+000000                                   (4/1391)219+         PUNCH '         ORG   NEWADDRI                                                         '
+000000                                   (4/1394)221+         PUNCH 'NEWADDRO DS    CL40               OUTPUT FIELD                                  '
+000000                                     (1/39)224 ZIPHD    DFHMDF POS=(13,6),LENGTH=4,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)226+         PUNCH '*                                                                               '
+000000                                   (4/1365)228+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)230+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)232+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)234+         PUNCH 'ZIPHDI   DS    CL4                INPUT FIELD                                   '
+000000                                   (4/1391)236+         PUNCH '         ORG   ZIPHDI                                                           '
+000000                                   (4/1394)238+         PUNCH 'ZIPHDO   DS    CL4                OUTPUT FIELD                                  '
+000000                                     (1/40)241 NEWZIP   DFHMDF POS=(13,11),LENGTH=5,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)243+         PUNCH '*                                                                               '
+000000                                   (4/1365)245+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)247+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)249+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)251+         PUNCH 'NEWZIPI  DS    CL5                INPUT FIELD                                   '
+000000                                   (4/1391)253+         PUNCH '         ORG   NEWZIPI                                                          '
+000000                                   (4/1394)255+         PUNCH 'NEWZIPO  DS    CL5                OUTPUT FIELD                                  '
+000000                                     (1/42)258          DFHMDF POS=(15,6),LENGTH=17,ATTRB=ASKIP,NOLABEL=AFL,INITIAL='PRESS F1 FOR HELP'
+000000                                     (1/43)261 ERRMSG   DFHMDF POS=(17,6),LENGTH=34,ATTRB=(ASKIP,BRT),NOLABEL=AFL
+000000                                   (4/1357)263+         PUNCH '*                                                                               '
+000000                                   (4/1365)265+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)267+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)269+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)271+         PUNCH 'ERRMSGI  DS    CL34               INPUT FIELD                                   '
+000000                                   (4/1391)273+         PUNCH '         ORG   ERRMSGI                                                          '
+000000                                   (4/1394)275+         PUNCH 'ERRMSGO  DS    CL34               OUTPUT FIELD                                  '
+000000                                     (1/44)278 * TEST OCCURS
+000000                                     (1/46)279          DFHMDF POS=(19,1),LENGTH=11,ATTRB=(ASKIP,BRT),INITIAL='TEST OCCURS'
+000000                                     (1/48)282 TESTOCC  DFHMDF POS=(19,20),LENGTH=5,ATTRB=(UNPROT,NUM),OCCURS=5,NOLABEL=AL
+000000                                   (4/1347)284+         PUNCH '*                                                                               '
+000000                                   (4/1349)286+         PUNCH 'TESTOCCD DS    0C                 I/O FIELD FIRST OCCURRING                     '
+000000                                   (4/1365)288+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1369)290+         PUNCH 'TESTOCCF DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)292+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)294+         PUNCH 'TESTOCCI DS    CL5                INPUT FIELD                                   '
+000000                                   (4/1391)296+         PUNCH '         ORG   TESTOCCI                                                         '
+000000                                   (4/1394)298+         PUNCH 'TESTOCCO DS    CL5                OUTPUT FIELD                                  '
+000000                                   (4/1499)300+         PUNCH 'TESTOCCN DS    0C                 I/O FIELD NEXT OCCURRING                      '
+000000                                   (4/1500)302+         PUNCH '         ORG   TESTOCCD+5*(TESTOCCN-TESTOCCD)                                   '
+000000                                     (1/49)305          DFHMDF POS=(19,50),LENGTH=4,ATTRB=ASKIP,INITIAL='SUM='
+000000                                     (1/51)308 OCCSUM   DFHMDF POS=(19,55),LENGTH=10,ATTRB=ASKIP,NOLABEL=AFL,PICOUT=40206B2020206B202120
+000000                                   (4/1357)310+         PUNCH '*                                                                               '
+000000                                   (4/1365)312+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)314+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)316+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)318+         PUNCH 'OCCSUMI  DS    CL10               INPUT FIELD                                   '
+000000                                   (4/1391)320+         PUNCH '         ORG   OCCSUMI                                                          '
+000000                                   (4/1394)322+         PUNCH 'OCCSUMO  DS    CL10               OUTPUT FIELD                                  '
+000000                                     (1/52)325 * TEST GRPNAME
+000000                                     (1/54)326          DFHMDF POS=(20,1),LENGTH=12,ATTRB=(ASKIP,BRT),INITIAL='TEST GRPNAME'
+000000                                     (1/56)329 MO       DFHMDF POS=(20,20),LENGTH=2,ATTRB=(UNPROT,NORM),GRPNAME=DATE,NOLABEL=AL
+000000                                   (4/1165)331+         PUNCH '*                                                                               '
+000000                                   (4/1171)333+         PUNCH '         DS    AL2                INPUT GROUP FIELD LENGTH                      '
+000000                                   (4/1175)335+         PUNCH 'DATEF    DS    0X                 INPUT GROUP FIELD FLAG                        '
+000000                                   (4/1185)337+         PUNCH '         DS    X                  OUTPUT GROUP FIELD ATTRIBUTE                  '
+000000                                   (4/1198)339+         PUNCH 'DATEI    DS    0C                 INPUT GROUP FIELD ORIGIN                      '
+000000                                   (4/1201)341+         PUNCH 'DATEO    DS    0C                 OUTPUT GROUP FIELD ORIGIN                     '
+000000                                   (4/1249)343+         PUNCH 'MOI      DS    CL2                INPUT GROUP FIELD                             '
+000000                                   (4/1250)345+         PUNCH '         ORG   MOI                                                              '
+000000                                   (4/1253)347+         PUNCH 'MOO      DS    CL2                OUTPUT GROUP FIELD                            '
+000000                                     (1/57)350 SEP1     DFHMDF POS=(20,22),LENGTH=1,INITIAL='-',GRPNAME=DATE,NOLABEL=O
+000000                                   (4/1301)352+         PUNCH 'SEP1I    DS    CL1                INPUT GROUP FIELD                             '
+000000                                   (4/1302)354+         PUNCH '         ORG   SEP1I                                                            '
+000000                                   (4/1308)356+         PUNCH '         DS    CL1                OUTPUT GROUP FIELD                            '
+000000                                     (1/58)359 DAY      DFHMDF POS=(20,23),LENGTH=2,GRPNAME=DATE
+000000                                   (4/1301)360+         PUNCH 'DAYI     DS    CL2                INPUT GROUP FIELD                             '
+000000                                   (4/1302)362+         PUNCH '         ORG   DAYI                                                             '
+000000                                   (4/1305)364+         PUNCH 'DAYO     DS    CL2                OUTPUT GROUP FIELD                            '
+000000                                     (1/59)367 SEP2     DFHMDF POS=(20,25),LENGTH=1,INITIAL='-',GRPNAME=DATE,NOLABEL=O
+000000                                   (4/1301)369+         PUNCH 'SEP2I    DS    CL1                INPUT GROUP FIELD                             '
+000000                                   (4/1302)371+         PUNCH '         ORG   SEP2I                                                            '
+000000                                   (4/1308)373+         PUNCH '         DS    CL1                OUTPUT GROUP FIELD                            '
+000000                                     (1/60)376 YR       DFHMDF POS=(20,26),LENGTH=2,GRPNAME=DATE
+000000                                   (4/1301)377+         PUNCH 'YRI      DS    CL2                INPUT GROUP FIELD                             '
+000000                                   (4/1302)379+         PUNCH '         ORG   YRI                                                              '
+000000                                   (4/1305)381+         PUNCH 'YRO      DS    CL2                OUTPUT GROUP FIELD                            '
+000000                                     (1/61)384          DFHMDF POS=(20,29),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/62)386 * MO=.. DAY=.. YR=..
+000000                                     (1/63)387 SHOWMDY  DFHMDF POS=(20,38),LENGTH=18,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)389+         PUNCH '*                                                                               '
+000000                                   (4/1365)391+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)393+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)395+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)397+         PUNCH 'SHOWMDYI DS    CL18               INPUT FIELD                                   '
+000000                                   (4/1391)399+         PUNCH '         ORG   SHOWMDYI                                                         '
+000000                                   (4/1394)401+         PUNCH 'SHOWMDYO DS    CL18               OUTPUT FIELD                                  '
+000000                                     (1/64)404 *
+000000                                     (1/66)405          DFHMDF POS=(21,1),LENGTH=12,ATTRB=(ASKIP,BRT),INITIAL='TEST PICS   '
+000000                                     (1/68)408 TESTPCO  DFHMDF POS=(21,20),LENGTH=12,ATTRB=(UNPROT,NUM),PICIN=5B2020206B2020206B202120
+000000                                   (4/1357)410+         PUNCH '*                                                                               '
+000000                                   (4/1363)412+         PUNCH 'TESTPCOL DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1369)414+         PUNCH 'TESTPCOF DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)416+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)418+         PUNCH 'TESTPCOI DS    CL12               INPUT FIELD                                   '
+000000                                   (4/1391)420+         PUNCH '         ORG   TESTPCOI                                                         '
+000000                                   (4/1394)422+         PUNCH 'TESTPCOO DS    CL12               OUTPUT FIELD                                  '
+000000                                     (1/69)425          DFHMDF POS=(21,33),LENGTH=0,ATTRB=ASKIP
+000000                                     (1/70)427 * PAY THE AUTHOR $123,456,789
+000000                                     (1/71)428 PAYME    DFHMDF POS=(22,1),LENGTH=14,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)430+         PUNCH '*                                                                               '
+000000                                   (4/1365)432+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)434+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)436+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)438+         PUNCH 'PAYMEI   DS    CL14               INPUT FIELD                                   '
+000000                                   (4/1391)440+         PUNCH '         ORG   PAYMEI                                                           '
+000000                                   (4/1394)442+         PUNCH 'PAYMEO   DS    CL14               OUTPUT FIELD                                  '
+000000                                     (1/72)445 PAYME1   DFHMDF POS=(22,16),LENGTH=12,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)447+         PUNCH '*                                                                               '
+000000                                   (4/1365)449+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)451+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)453+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)455+         PUNCH 'PAYME1I  DS    CL12               INPUT FIELD                                   '
+000000                                   (4/1391)457+         PUNCH '         ORG   PAYME1I                                                          '
+000000                                   (4/1394)459+         PUNCH 'PAYME1O  DS    CL12               OUTPUT FIELD                                  '
+000000                                     (1/74)462          DFHMDF POS=(23,1),LENGTH=16,ATTRB=(ASKIP,BRT),INITIAL='CURSOR LOCATION='
+000000                                     (1/75)465 CURS     DFHMDF POS=(23,18),LENGTH=9,ATTRB=ASKIP,NOLABEL=AFL
+000000                                   (4/1357)467+         PUNCH '*                                                                               '
+000000                                   (4/1365)469+         PUNCH '         DS    AL2                INPUT FIELD LENGTH                            '
+000000                                   (4/1371)471+         PUNCH '         DS    0X                 INPUT FIELD FLAG                              '
+000000                                   (4/1377)473+         PUNCH '         DS    X                  OUTPUT ATTRIBUTE                              '
+000000                                   (4/1390)475+         PUNCH 'CURSI    DS    CL9                INPUT FIELD                                   '
+000000                                   (4/1391)477+         PUNCH '         ORG   CURSI                                                            '
+000000                                   (4/1394)479+         PUNCH 'CURSO    DS    CL9                OUTPUT FIELD                                  '
+000000                                     (1/76)482 *
+000000                                     (1/77)483 GUI6H    DFHMDI SIZE=(11,70),LINE=1,COLUMN=10,MODE=OUT,NOLABEL=AFL
+000000                                     (3/82)485+         PUNCH '*                                                                               '
+000000                                     (3/83)487+         PUNCH 'GUI6E    EQU   *                                                                '
+000000                                     (3/84)489+         PUNCH 'GUI6L    EQU   GUI6E-GUI6S                                                      '
+000000                                     (3/88)491+         PUNCH '*                                                                               '
+000000                                     (3/89)493+         PUNCH '* * * END OF MAP DEFINITION     * * *                                           '
+000000                                     (3/90)495+         PUNCH '*                                                                               '
+000000                                    (3/407)497+         PUNCH 'GUI6HS   DS    0H                 START OF MAP DEFINITION',DSNAME=&SYSIN_MEMBER..CPY
+000000                                    (3/420)499+         PUNCH 'GUI6HO   DS    0H                 START OF MAP OUTPUT DEFINITION                '
+000000                                    (3/425)501+         PUNCH '         DS    12C                TIOA PREFIX                                   '
+000000                                     (1/79)504          DFHMDF POS=(2,1),LENGTH=44,ATTRB=(ASKIP,IC),INITIAL='TESTGUI6 TEST EXEC CICS TN3270 WITH 3 FIELDS'
+000000                                     (1/82)508          DFHMDF POS=(3,1),LENGTH=51,ATTRB=ASKIP,INITIAL='PRESS ENTER OR ANY AID KEY TO RETURN TO MAIN SCREEN'
+000000                                     (1/84)512          DFHMDF POS=(4,1),LENGTH=38,ATTRB=ASKIP,INITIAL='TAB CURSOR TO FIELD YOU WISH TO CHANGE'
+000000                                     (1/87)515          DFHMDF POS=(5,1),LENGTH=48,ATTRB=ASKIP,INITIAL='ENTER DATA IN ONE OR MORE FIELDS AND PRESS ENTER'
+000000                                     (1/89)519          DFHMDF POS=(6,1),LENGTH=44,ATTRB=ASKIP,INITIAL='THE ZIP FIELD IS NUMERIC SO ALPHA IS IGNORED'
+000000                                     (1/91)522          DFHMDF POS=(7,1),LENGTH=44,ATTRB=ASKIP,INITIAL='USE BACK SPACE WITHIN FIELD TO CORRECT FIELD'
+000000                                     (1/93)525          DFHMDF POS=(8,1),LENGTH=28,ATTRB=ASKIP,INITIAL='USE CLEAR TO REFRESH SCREEN'
+000000                                     (1/95)528          DFHMDF POS=(9,1),LENGTH=44,ATTRB=ASKIP,INITIAL='USE PF3 TO EXIT APPLICATION FROM MAIN SCREEN'
+000000                                     (1/98)531          DFHMDF POS=(10,1),LENGTH=51,ATTRB=ASKIP,INITIAL='ANY UNUSED AID KEY SUCH AS PF4-PF24 SHOWS HEX VALUE'
+000000                                    (1/101)535          DFHMDF POS=(11,1),LENGTH=50,ATTRB=ASKIP,INITIAL='SUBMIT RPI IF YOU FIND ANY ERRORS VIA WWW.Z390.ORG'
+000000                                    (1/102)539 *
+000000                                    (1/103)540          DFHMSD TYPE=FINAL
+000000                                     (3/82)542+         PUNCH '*                                                                               '
+000000                                     (3/83)544+         PUNCH 'GUI6HE   EQU   *                                                                '
+000000                                     (3/84)546+         PUNCH 'GUI6HL   EQU   GUI6HE-GUI6HS                                                    '
+000000                                     (3/88)548+         PUNCH '*                                                                               '
+000000                                     (3/89)550+         PUNCH '* * * END OF MAP DEFINITION     * * *                                           '
+000000                                     (3/90)552+         PUNCH '*                                                                               '
+000000                                     (2/57)555+         PUNCH '* * * END OF MAP SET DEFINITION * * *                                           '
+000000                                    (1/104)558          END 
+
+Symbol Table Listing
+
+
+Literal Table Listing
+
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+13:40:44 MAP01     MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 69 IO=2974

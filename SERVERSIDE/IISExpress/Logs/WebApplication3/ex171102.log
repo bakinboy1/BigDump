@@ -1,0 +1,160 @@
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 15:20:38
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 15:20:38 ::1 GET / - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 403 14 0 3228
+2017-11-02 15:20:38 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/ 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 15:49:29
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 15:49:29 ::1 GET /WebForm3.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 8526
+2017-11-02 15:49:29 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm3.aspx 404 0 2 12
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 15:49:48
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 15:49:48 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 1866
+2017-11-02 15:49:48 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 15:50:29
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 15:50:29 ::1 GET /WebForm1.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 1586
+2017-11-02 15:50:29 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 404 0 2 21
+2017-11-02 15:50:29 127.0.0.1 GET /images/1.PNG - 50069 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 200 0 0 21
+2017-11-02 15:50:29 127.0.0.1 GET /favicon.ico - 50069 - 127.0.0.1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 404 0 2 3
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 16:00:56
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 16:00:56 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 3342
+2017-11-02 16:00:56 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 45
+2017-11-02 16:00:56 ::1 GET /images/1.PNG - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 304 0 0 47
+2017-11-02 16:00:56 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+2017-11-02 16:00:59 ::1 POST /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 114
+2017-11-02 16:00:59 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 16:03:40
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 16:03:40 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 4131
+2017-11-02 16:03:40 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 4
+2017-11-02 16:03:40 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 16:04:00
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 16:04:00 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 3294
+2017-11-02 16:04:00 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 3
+2017-11-02 16:04:00 ::1 GET /images/1.PNG - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 304 0 0 3
+2017-11-02 16:04:00 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 3
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 16:06:33
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 16:06:33 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 3228
+2017-11-02 16:06:33 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 41
+2017-11-02 16:06:33 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 3
+2017-11-02 16:06:37 ::1 POST /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 70
+2017-11-02 16:06:37 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 3
+2017-11-02 16:06:42 ::1 POST /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 54
+2017-11-02 16:06:42 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 16:09:36
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 16:09:36 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 3373
+2017-11-02 16:09:36 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 21
+2017-11-02 16:09:36 ::1 GET /images/1.PNG - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 304 0 0 21
+2017-11-02 16:09:36 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 4
+2017-11-02 16:09:36 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 3
+2017-11-02 16:10:11 ::1 POST /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 73
+2017-11-02 16:10:11 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 304 0 0 13
+2017-11-02 16:10:11 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 1
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:27:46
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:27:46 ::1 GET /WebForm1.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 8812
+2017-11-02 18:27:46 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 304 0 0 26
+2017-11-02 18:27:46 ::1 GET /images/1.PNG - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 304 0 0 5
+2017-11-02 18:27:46 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 4
+2017-11-02 18:27:46 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 404 0 2 3
+2017-11-02 18:27:49 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 500 0 0 275
+2017-11-02 18:28:03 ::1 GET /WebForm3.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 200 0 0 55
+2017-11-02 18:28:06 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm3.aspx 500 0 0 26
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:29:05
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:29:05 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 500 0 0 1693
+2017-11-02 18:29:05 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:32:28
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:32:28 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 500 0 0 2451
+2017-11-02 18:32:28 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 3
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:33:28
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:33:27 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 500 0 0 2426
+2017-11-02 18:33:27 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:35:22
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:35:22 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 4904
+2017-11-02 18:35:22 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 2
+2017-11-02 18:35:22 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+2017-11-02 18:35:26 ::1 POST /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 74
+2017-11-02 18:35:26 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:37:04
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:37:04 ::1 GET /WebForm1.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 2617
+2017-11-02 18:37:04 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 17
+2017-11-02 18:37:04 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 404 0 2 1
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:37:41
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:37:41 ::1 GET / - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 403 14 0 1336
+2017-11-02 18:37:41 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/ 404 0 2 3
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:38:00
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:38:00 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 1972
+2017-11-02 18:38:00 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 2
+2017-11-02 18:38:00 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 1
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:38:50
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:38:50 ::1 GET /WebForm1.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 500 0 0 2544
+2017-11-02 18:38:50 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:41:29
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:41:29 ::1 GET /WebForm1.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 500 0 0 2992
+2017-11-02 18:41:29 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm1.aspx 404 0 2 2
+#Software: Microsoft Internet Information Services 10.0
+#Version: 1.0
+#Date: 2017-11-02 18:45:34
+#Fields: date time s-ip cs-method cs-uri-stem cs-uri-query s-port cs-username c-ip cs(User-Agent) cs(Referer) sc-status sc-substatus sc-win32-status time-taken
+2017-11-02 18:45:34 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 - 200 0 0 4081
+2017-11-02 18:45:34 ::1 GET /style.css - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 304 0 0 10
+2017-11-02 18:45:34 ::1 GET /images/1.PNG - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 304 0 0 17
+2017-11-02 18:45:34 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 3
+2017-11-02 18:45:34 ::1 GET /favicon.ico - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 404 0 2 2
+2017-11-02 18:45:36 ::1 GET /WebForm3.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 50
+2017-11-02 18:45:36 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 3
+2017-11-02 18:45:39 ::1 GET /WebForm2.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm3.aspx 200 0 0 60
+2017-11-02 18:45:39 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 4
+2017-11-02 18:45:44 ::1 GET /WebForm3.aspx - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/WebForm2.aspx 200 0 0 42
+2017-11-02 18:45:44 ::1 GET /Images/banner.jpg - 50069 - ::1 Mozilla/5.0+(Windows+NT+10.0;+Win64;+x64)+AppleWebKit/537.36+(KHTML,+like+Gecko)+Chrome/61.0.3163.100+Safari/537.36 http://localhost:50069/style.css 404 0 2 2

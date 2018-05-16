@@ -1,0 +1,2015 @@
+         ZCOBOL PGM='zcobol\test\TESTCMP2',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTCMP2_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTCMP2.
+         PROGRAM_ID TESTCMP2
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  10/13/08.
+*      * TEST ADD, SUBTRACT, MULTIPLEY, DIVIDE.                        X
+                 
+         DATE_WRITTEN 10,/,13,/,08
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 HFP-SRT FLOAT-HEX-7       VALUE 1234.
+         WS      77,HFP_SRT,FLOAT_HEX_7,VALUE,1234
+*        77 HFP-LNG FLOAT-HEX-15      VALUE 1234.
+         WS      77,HFP_LNG,FLOAT_HEX_15,VALUE,1234
+*        77 HFP-EXT FLOAT-HEX-30      VALUE 1234.
+         WS      77,HFP_EXT,FLOAT_HEX_30,VALUE,1234
+*        77 BFP-SRT FLOAT-BINARY-7    VALUE 1234.
+         WS      77,BFP_SRT,FLOAT_BINARY_7,VALUE,1234
+*        77 BFP-LNG FLOAT-BINARY-16   VALUE 1234.
+         WS      77,BFP_LNG,FLOAT_BINARY_16,VALUE,1234
+*        77 BFP-EXT FLOAT-BINARY-34   VALUE 1234.
+         WS      77,BFP_EXT,FLOAT_BINARY_34,VALUE,1234
+*        77 DFP-SRT FLOAT-DECIMAL-7   VALUE 1234.
+         WS      77,DFP_SRT,FLOAT_DECIMAL_7,VALUE,1234
+*        77 DFP-LNG FLOAT-DECIMAL-16  VALUE 1234.
+         WS      77,DFP_LNG,FLOAT_DECIMAL_16,VALUE,1234
+*        77 DFP-EXT FLOAT-DECIMAL-34  VALUE 1234.
+         WS      77,DFP_EXT,FLOAT_DECIMAL_34,VALUE,1234
+*        77 HW      COMP PIC S9(4)    VALUE 1234.
+         WS      77,HW,COMP,PIC,S9(4),VALUE,1234
+*        77 FW      COMP PIC S9(9)    VALUE 1234.
+         WS      77,FW,COMP,PIC,S9(9),VALUE,1234
+*        77 DW      COMP PIC S9(18)   VALUE 1234.
+         WS      77,DW,COMP,PIC,S9(18),VALUE,1234
+*        77 QW      COMP PIC S9(39)   VALUE 1234.
+         WS      77,QW,COMP,PIC,S9(39),VALUE,1234
+*        77 PD      COMP-3 PIC S9(31) VALUE 1234.
+         WS      77,PD,COMP_3,PIC,S9(31),VALUE,1234
+*        77 ZD             PIC S9(31) VALUE 1234.
+         WS      77,ZD,PIC,S9(31),VALUE,1234
+*        77 FLT-SRT USAGE FLOAT-SHORT.
+         WS      77,FLT_SRT,USAGE,FLOAT_SHORT
+*        77 FLT-LNG USAGE FLOAT-LONG.
+         WS      77,FLT_LNG,USAGE,FLOAT_LONG
+*        77 FLT-EXT USAGE FLOAT-EXTENDED.
+         WS      77,FLT_EXT,USAGE,FLOAT_EXTENDED
+*        77 HW2     COMP PIC S9(4).
+         WS      77,HW2,COMP,PIC,S9(4)
+*        77 FW2     COMP PIC S9(9).
+         WS      77,FW2,COMP,PIC,S9(9)
+*        77 DW2     COMP PIC S9(18).
+         WS      77,DW2,COMP,PIC,S9(18)
+*        77 QW2     COMP PIC S9(39).
+         WS      77,QW2,COMP,PIC,S9(39)
+*        77 PD2     COMP-3 PIC S9(31).
+         WS      77,PD2,COMP_3,PIC,S9(31)
+*        77 ZD2            PIC S9(31).
+         WS      77,ZD2,PIC,S9(31)
+*        77 GOOD    COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTCMP2 TEST COMPUTE ADDITION'
+*ZC     36         DISPLAY 'TESTCMP2 TEST COMPUTE ADDITION'
+         DISPLAY 'TESTCMP2 TEST COMPUTE ADDITION'
+*            COMPUTE FLT-SRT = 
+*             (HFP-SRT +HFP-SRT)+(HFP-SRT +HFP-LNG)+(HFP-SRT +HFP-EXT)
+*            +(HFP-SRT +BFP-SRT)+(HFP-SRT +BFP-LNG)+(HFP-SRT +BFP-EXT)
+*            +(HFP-SRT +DFP-SRT)+(HFP-SRT +DFP-LNG)+(HFP-SRT +DFP-EXT)
+*            +(HFP-SRT +HW     )+(HFP-SRT +FW     )+(HFP-SRT +DW     )
+*            +(HFP-SRT +QW     )+(HFP-SRT +PD     )+(HFP-SRT +ZD     )
+*            -30*1234
+*ZC     37         COMPUTE FLT_SRT,=,'(',HFP_SRT,+,HFP_SRT,')',+,'(',HFX
+               P_SRT,+,HFP_LNG,')',+,'(',HFP_SRT,+,HFP_EXT,')',+,'(',HFX
+               P_SRT,+,BFP_SRT,')',+,'(',HFP_SRT,+,BFP_LNG,')',+,'(',HFX
+               P_SRT,+,BFP_EXT,')',+,'(',HFP_SRT,+,DFP_SRT,')',+,'(',HFX
+               P_SRT,+,DFP_LNG,')',+,'(',HFP_SRT,+,DFP_EXT,')',+,'(',HFX
+               P_SRT,+,HW,')',+,'(',HFP_SRT,+,FW,')',+,'(',HFP_SRT,+,DWX
+               ,')',+,'(',HFP_SRT,+,QW,')',+,'(',HFP_SRT,+,PD,')',+,'('X
+               ,HFP_SRT,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_SRT,=,'(',HFP_SRT,+,HFP_SRT,')',+,'(',HFP_SRT,+,HFX
+               P_LNG,')',+,'(',HFP_SRT,+,HFP_EXT,')',+,'(',HFP_SRT,+,BFX
+               P_SRT,')',+,'(',HFP_SRT,+,BFP_LNG,')',+,'(',HFP_SRT,+,BFX
+               P_EXT,')',+,'(',HFP_SRT,+,DFP_SRT,')',+,'(',HFP_SRT,+,DFX
+               P_LNG,')',+,'(',HFP_SRT,+,DFP_EXT,')',+,'(',HFP_SRT,+,HWX
+               ,')',+,'(',HFP_SRT,+,FW,')',+,'(',HFP_SRT,+,DW,')',+,'('X
+               ,HFP_SRT,+,QW,')',+,'(',HFP_SRT,+,PD,')',+,'(',HFP_SRT,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     44         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC     44         PERFORM GOOD
+         PERFORM GOOD
+*ZC     44         ELSE  
+         ELSE  
+*ZC     44         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-LNG = 
+*             (HFP-LNG +HFP-SRT)+(HFP-LNG +HFP-LNG)+(HFP-LNG +HFP-EXT)
+*            +(HFP-LNG +BFP-SRT)+(HFP-LNG +BFP-LNG)+(HFP-LNG +BFP-EXT)
+*            +(HFP-LNG +DFP-SRT)+(HFP-LNG +DFP-LNG)+(HFP-LNG +DFP-EXT)
+*            +(HFP-LNG +HW     )+(HFP-LNG +FW     )+(HFP-LNG +DW     )
+*            +(HFP-LNG +QW     )+(HFP-LNG +PD     )+(HFP-LNG +ZD     )
+*            -30*1234
+*ZC     45         COMPUTE FLT_LNG,=,'(',HFP_LNG,+,HFP_SRT,')',+,'(',HFX
+               P_LNG,+,HFP_LNG,')',+,'(',HFP_LNG,+,HFP_EXT,')',+,'(',HFX
+               P_LNG,+,BFP_SRT,')',+,'(',HFP_LNG,+,BFP_LNG,')',+,'(',HFX
+               P_LNG,+,BFP_EXT,')',+,'(',HFP_LNG,+,DFP_SRT,')',+,'(',HFX
+               P_LNG,+,DFP_LNG,')',+,'(',HFP_LNG,+,DFP_EXT,')',+,'(',HFX
+               P_LNG,+,HW,')',+,'(',HFP_LNG,+,FW,')',+,'(',HFP_LNG,+,DWX
+               ,')',+,'(',HFP_LNG,+,QW,')',+,'(',HFP_LNG,+,PD,')',+,'('X
+               ,HFP_LNG,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_LNG,=,'(',HFP_LNG,+,HFP_SRT,')',+,'(',HFP_LNG,+,HFX
+               P_LNG,')',+,'(',HFP_LNG,+,HFP_EXT,')',+,'(',HFP_LNG,+,BFX
+               P_SRT,')',+,'(',HFP_LNG,+,BFP_LNG,')',+,'(',HFP_LNG,+,BFX
+               P_EXT,')',+,'(',HFP_LNG,+,DFP_SRT,')',+,'(',HFP_LNG,+,DFX
+               P_LNG,')',+,'(',HFP_LNG,+,DFP_EXT,')',+,'(',HFP_LNG,+,HWX
+               ,')',+,'(',HFP_LNG,+,FW,')',+,'(',HFP_LNG,+,DW,')',+,'('X
+               ,HFP_LNG,+,QW,')',+,'(',HFP_LNG,+,PD,')',+,'(',HFP_LNG,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-LNG = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     52         IF    FLT_LNG,=,0
+         IF    FLT_LNG,=,0
+*ZC     52         PERFORM GOOD
+         PERFORM GOOD
+*ZC     52         ELSE  
+         ELSE  
+*ZC     52         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-EXT = 
+*             (HFP-EXT +HFP-SRT)+(HFP-EXT +HFP-LNG)+(HFP-EXT +HFP-EXT)
+*            +(HFP-EXT +BFP-SRT)+(HFP-EXT +BFP-LNG)+(HFP-EXT +BFP-EXT)
+*            +(HFP-EXT +DFP-SRT)+(HFP-EXT +DFP-LNG)+(HFP-EXT +DFP-EXT)
+*            +(HFP-EXT +HW     )+(HFP-EXT +FW     )+(HFP-EXT +DW     )
+*            +(HFP-EXT +QW     )+(HFP-EXT +PD     )+(HFP-EXT +ZD     )
+*            -30*1234
+*ZC     53         COMPUTE FLT_EXT,=,'(',HFP_EXT,+,HFP_SRT,')',+,'(',HFX
+               P_EXT,+,HFP_LNG,')',+,'(',HFP_EXT,+,HFP_EXT,')',+,'(',HFX
+               P_EXT,+,BFP_SRT,')',+,'(',HFP_EXT,+,BFP_LNG,')',+,'(',HFX
+               P_EXT,+,BFP_EXT,')',+,'(',HFP_EXT,+,DFP_SRT,')',+,'(',HFX
+               P_EXT,+,DFP_LNG,')',+,'(',HFP_EXT,+,DFP_EXT,')',+,'(',HFX
+               P_EXT,+,HW,')',+,'(',HFP_EXT,+,FW,')',+,'(',HFP_EXT,+,DWX
+               ,')',+,'(',HFP_EXT,+,QW,')',+,'(',HFP_EXT,+,PD,')',+,'('X
+               ,HFP_EXT,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_EXT,=,'(',HFP_EXT,+,HFP_SRT,')',+,'(',HFP_EXT,+,HFX
+               P_LNG,')',+,'(',HFP_EXT,+,HFP_EXT,')',+,'(',HFP_EXT,+,BFX
+               P_SRT,')',+,'(',HFP_EXT,+,BFP_LNG,')',+,'(',HFP_EXT,+,BFX
+               P_EXT,')',+,'(',HFP_EXT,+,DFP_SRT,')',+,'(',HFP_EXT,+,DFX
+               P_LNG,')',+,'(',HFP_EXT,+,DFP_EXT,')',+,'(',HFP_EXT,+,HWX
+               ,')',+,'(',HFP_EXT,+,FW,')',+,'(',HFP_EXT,+,DW,')',+,'('X
+               ,HFP_EXT,+,QW,')',+,'(',HFP_EXT,+,PD,')',+,'(',HFP_EXT,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-EXT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     60         IF    FLT_EXT,=,0
+         IF    FLT_EXT,=,0
+*ZC     60         PERFORM GOOD
+         PERFORM GOOD
+*ZC     60         ELSE  
+         ELSE  
+*ZC     60         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-SRT +HFP-SRT)+(BFP-SRT +HFP-LNG)+(BFP-SRT +HFP-EXT)
+*            +(BFP-SRT +BFP-SRT)+(BFP-SRT +BFP-LNG)+(BFP-SRT +BFP-EXT)
+*            +(BFP-SRT +DFP-SRT)+(BFP-SRT +DFP-LNG)+(BFP-SRT +DFP-EXT)
+*            +(BFP-SRT +HW     )+(BFP-SRT +FW     )+(BFP-SRT +DW     )
+*            +(BFP-SRT +QW     )+(BFP-SRT +PD     )+(BFP-SRT +ZD     )
+*            -30*1234
+*ZC     61         COMPUTE FLT_SRT,=,'(',BFP_SRT,+,HFP_SRT,')',+,'(',BFX
+               P_SRT,+,HFP_LNG,')',+,'(',BFP_SRT,+,HFP_EXT,')',+,'(',BFX
+               P_SRT,+,BFP_SRT,')',+,'(',BFP_SRT,+,BFP_LNG,')',+,'(',BFX
+               P_SRT,+,BFP_EXT,')',+,'(',BFP_SRT,+,DFP_SRT,')',+,'(',BFX
+               P_SRT,+,DFP_LNG,')',+,'(',BFP_SRT,+,DFP_EXT,')',+,'(',BFX
+               P_SRT,+,HW,')',+,'(',BFP_SRT,+,FW,')',+,'(',BFP_SRT,+,DWX
+               ,')',+,'(',BFP_SRT,+,QW,')',+,'(',BFP_SRT,+,PD,')',+,'('X
+               ,BFP_SRT,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_SRT,=,'(',BFP_SRT,+,HFP_SRT,')',+,'(',BFP_SRT,+,HFX
+               P_LNG,')',+,'(',BFP_SRT,+,HFP_EXT,')',+,'(',BFP_SRT,+,BFX
+               P_SRT,')',+,'(',BFP_SRT,+,BFP_LNG,')',+,'(',BFP_SRT,+,BFX
+               P_EXT,')',+,'(',BFP_SRT,+,DFP_SRT,')',+,'(',BFP_SRT,+,DFX
+               P_LNG,')',+,'(',BFP_SRT,+,DFP_EXT,')',+,'(',BFP_SRT,+,HWX
+               ,')',+,'(',BFP_SRT,+,FW,')',+,'(',BFP_SRT,+,DW,')',+,'('X
+               ,BFP_SRT,+,QW,')',+,'(',BFP_SRT,+,PD,')',+,'(',BFP_SRT,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     68         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC     68         PERFORM GOOD
+         PERFORM GOOD
+*ZC     68         ELSE  
+         ELSE  
+*ZC     68         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-LNG +HFP-SRT)+(BFP-LNG +HFP-LNG)+(BFP-LNG +HFP-EXT)
+*            +(BFP-LNG +BFP-SRT)+(BFP-LNG +BFP-LNG)+(BFP-LNG +BFP-EXT)
+*            +(BFP-LNG +DFP-SRT)+(BFP-LNG +DFP-LNG)+(BFP-LNG +DFP-EXT)
+*            +(BFP-LNG +HW     )+(BFP-LNG +FW     )+(BFP-LNG +DW     )
+*            +(BFP-LNG +QW     )+(BFP-LNG +PD     )+(BFP-LNG +ZD     )
+*            -30*1234
+*ZC     69         COMPUTE FLT_SRT,=,'(',BFP_LNG,+,HFP_SRT,')',+,'(',BFX
+               P_LNG,+,HFP_LNG,')',+,'(',BFP_LNG,+,HFP_EXT,')',+,'(',BFX
+               P_LNG,+,BFP_SRT,')',+,'(',BFP_LNG,+,BFP_LNG,')',+,'(',BFX
+               P_LNG,+,BFP_EXT,')',+,'(',BFP_LNG,+,DFP_SRT,')',+,'(',BFX
+               P_LNG,+,DFP_LNG,')',+,'(',BFP_LNG,+,DFP_EXT,')',+,'(',BFX
+               P_LNG,+,HW,')',+,'(',BFP_LNG,+,FW,')',+,'(',BFP_LNG,+,DWX
+               ,')',+,'(',BFP_LNG,+,QW,')',+,'(',BFP_LNG,+,PD,')',+,'('X
+               ,BFP_LNG,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_SRT,=,'(',BFP_LNG,+,HFP_SRT,')',+,'(',BFP_LNG,+,HFX
+               P_LNG,')',+,'(',BFP_LNG,+,HFP_EXT,')',+,'(',BFP_LNG,+,BFX
+               P_SRT,')',+,'(',BFP_LNG,+,BFP_LNG,')',+,'(',BFP_LNG,+,BFX
+               P_EXT,')',+,'(',BFP_LNG,+,DFP_SRT,')',+,'(',BFP_LNG,+,DFX
+               P_LNG,')',+,'(',BFP_LNG,+,DFP_EXT,')',+,'(',BFP_LNG,+,HWX
+               ,')',+,'(',BFP_LNG,+,FW,')',+,'(',BFP_LNG,+,DW,')',+,'('X
+               ,BFP_LNG,+,QW,')',+,'(',BFP_LNG,+,PD,')',+,'(',BFP_LNG,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     76         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC     76         PERFORM GOOD
+         PERFORM GOOD
+*ZC     76         ELSE  
+         ELSE  
+*ZC     76         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-EXT +HFP-SRT)+(BFP-EXT +HFP-LNG)+(BFP-EXT +HFP-EXT)
+*            +(BFP-EXT +BFP-SRT)+(BFP-EXT +BFP-LNG)+(BFP-EXT +BFP-EXT)
+*            +(BFP-EXT +DFP-SRT)+(BFP-EXT +DFP-LNG)+(BFP-EXT +DFP-EXT)
+*            +(BFP-EXT +HW     )+(BFP-EXT +FW     )+(BFP-EXT +DW     )
+*            +(BFP-EXT +QW     )+(BFP-EXT +PD     )+(BFP-EXT +ZD     )
+*            -30*1234
+*ZC     77         COMPUTE FLT_SRT,=,'(',BFP_EXT,+,HFP_SRT,')',+,'(',BFX
+               P_EXT,+,HFP_LNG,')',+,'(',BFP_EXT,+,HFP_EXT,')',+,'(',BFX
+               P_EXT,+,BFP_SRT,')',+,'(',BFP_EXT,+,BFP_LNG,')',+,'(',BFX
+               P_EXT,+,BFP_EXT,')',+,'(',BFP_EXT,+,DFP_SRT,')',+,'(',BFX
+               P_EXT,+,DFP_LNG,')',+,'(',BFP_EXT,+,DFP_EXT,')',+,'(',BFX
+               P_EXT,+,HW,')',+,'(',BFP_EXT,+,FW,')',+,'(',BFP_EXT,+,DWX
+               ,')',+,'(',BFP_EXT,+,QW,')',+,'(',BFP_EXT,+,PD,')',+,'('X
+               ,BFP_EXT,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_SRT,=,'(',BFP_EXT,+,HFP_SRT,')',+,'(',BFP_EXT,+,HFX
+               P_LNG,')',+,'(',BFP_EXT,+,HFP_EXT,')',+,'(',BFP_EXT,+,BFX
+               P_SRT,')',+,'(',BFP_EXT,+,BFP_LNG,')',+,'(',BFP_EXT,+,BFX
+               P_EXT,')',+,'(',BFP_EXT,+,DFP_SRT,')',+,'(',BFP_EXT,+,DFX
+               P_LNG,')',+,'(',BFP_EXT,+,DFP_EXT,')',+,'(',BFP_EXT,+,HWX
+               ,')',+,'(',BFP_EXT,+,FW,')',+,'(',BFP_EXT,+,DW,')',+,'('X
+               ,BFP_EXT,+,QW,')',+,'(',BFP_EXT,+,PD,')',+,'(',BFP_EXT,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     84         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC     84         PERFORM GOOD
+         PERFORM GOOD
+*ZC     84         ELSE  
+         ELSE  
+*ZC     84         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-SRT +HFP-SRT)+(DFP-SRT +HFP-LNG)+(DFP-SRT +HFP-EXT)
+*            +(DFP-SRT +BFP-SRT)+(DFP-SRT +BFP-LNG)+(DFP-SRT +BFP-EXT)
+*            +(DFP-SRT +DFP-SRT)+(DFP-SRT +DFP-LNG)+(DFP-SRT +DFP-EXT)
+*            +(DFP-SRT +HW     )+(DFP-SRT +FW     )+(DFP-SRT +DW     )
+*            +(DFP-SRT +QW     )+(DFP-SRT +PD     )+(DFP-SRT +ZD     )
+*            -30*1234
+*ZC     85         COMPUTE FLT_SRT,=,'(',DFP_SRT,+,HFP_SRT,')',+,'(',DFX
+               P_SRT,+,HFP_LNG,')',+,'(',DFP_SRT,+,HFP_EXT,')',+,'(',DFX
+               P_SRT,+,BFP_SRT,')',+,'(',DFP_SRT,+,BFP_LNG,')',+,'(',DFX
+               P_SRT,+,BFP_EXT,')',+,'(',DFP_SRT,+,DFP_SRT,')',+,'(',DFX
+               P_SRT,+,DFP_LNG,')',+,'(',DFP_SRT,+,DFP_EXT,')',+,'(',DFX
+               P_SRT,+,HW,')',+,'(',DFP_SRT,+,FW,')',+,'(',DFP_SRT,+,DWX
+               ,')',+,'(',DFP_SRT,+,QW,')',+,'(',DFP_SRT,+,PD,')',+,'('X
+               ,DFP_SRT,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_SRT,=,'(',DFP_SRT,+,HFP_SRT,')',+,'(',DFP_SRT,+,HFX
+               P_LNG,')',+,'(',DFP_SRT,+,HFP_EXT,')',+,'(',DFP_SRT,+,BFX
+               P_SRT,')',+,'(',DFP_SRT,+,BFP_LNG,')',+,'(',DFP_SRT,+,BFX
+               P_EXT,')',+,'(',DFP_SRT,+,DFP_SRT,')',+,'(',DFP_SRT,+,DFX
+               P_LNG,')',+,'(',DFP_SRT,+,DFP_EXT,')',+,'(',DFP_SRT,+,HWX
+               ,')',+,'(',DFP_SRT,+,FW,')',+,'(',DFP_SRT,+,DW,')',+,'('X
+               ,DFP_SRT,+,QW,')',+,'(',DFP_SRT,+,PD,')',+,'(',DFP_SRT,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     92         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC     92         PERFORM GOOD
+         PERFORM GOOD
+*ZC     92         ELSE  
+         ELSE  
+*ZC     92         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-LNG +HFP-SRT)+(DFP-LNG +HFP-LNG)+(DFP-LNG +HFP-EXT)
+*            +(DFP-LNG +BFP-SRT)+(DFP-LNG +BFP-LNG)+(DFP-LNG +BFP-EXT)
+*            +(DFP-LNG +DFP-SRT)+(DFP-LNG +DFP-LNG)+(DFP-LNG +DFP-EXT)
+*            +(DFP-LNG +HW     )+(DFP-LNG +FW     )+(DFP-LNG +DW     )
+*            +(DFP-LNG +QW     )+(DFP-LNG +PD     )+(DFP-LNG +ZD     )
+*            -30*1234
+*ZC     93         COMPUTE FLT_SRT,=,'(',DFP_LNG,+,HFP_SRT,')',+,'(',DFX
+               P_LNG,+,HFP_LNG,')',+,'(',DFP_LNG,+,HFP_EXT,')',+,'(',DFX
+               P_LNG,+,BFP_SRT,')',+,'(',DFP_LNG,+,BFP_LNG,')',+,'(',DFX
+               P_LNG,+,BFP_EXT,')',+,'(',DFP_LNG,+,DFP_SRT,')',+,'(',DFX
+               P_LNG,+,DFP_LNG,')',+,'(',DFP_LNG,+,DFP_EXT,')',+,'(',DFX
+               P_LNG,+,HW,')',+,'(',DFP_LNG,+,FW,')',+,'(',DFP_LNG,+,DWX
+               ,')',+,'(',DFP_LNG,+,QW,')',+,'(',DFP_LNG,+,PD,')',+,'('X
+               ,DFP_LNG,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_SRT,=,'(',DFP_LNG,+,HFP_SRT,')',+,'(',DFP_LNG,+,HFX
+               P_LNG,')',+,'(',DFP_LNG,+,HFP_EXT,')',+,'(',DFP_LNG,+,BFX
+               P_SRT,')',+,'(',DFP_LNG,+,BFP_LNG,')',+,'(',DFP_LNG,+,BFX
+               P_EXT,')',+,'(',DFP_LNG,+,DFP_SRT,')',+,'(',DFP_LNG,+,DFX
+               P_LNG,')',+,'(',DFP_LNG,+,DFP_EXT,')',+,'(',DFP_LNG,+,HWX
+               ,')',+,'(',DFP_LNG,+,FW,')',+,'(',DFP_LNG,+,DW,')',+,'('X
+               ,DFP_LNG,+,QW,')',+,'(',DFP_LNG,+,PD,')',+,'(',DFP_LNG,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    100         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    100         PERFORM GOOD
+         PERFORM GOOD
+*ZC    100         ELSE  
+         ELSE  
+*ZC    100         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-EXT +HFP-SRT)+(DFP-EXT +HFP-LNG)+(DFP-EXT +HFP-EXT)
+*            +(DFP-EXT +BFP-SRT)+(DFP-EXT +BFP-LNG)+(DFP-EXT +BFP-EXT)
+*            +(DFP-EXT +DFP-SRT)+(DFP-EXT +DFP-LNG)+(DFP-EXT +DFP-EXT)
+*            +(DFP-EXT +HW     )+(DFP-EXT +FW     )+(DFP-EXT +DW     )
+*            +(DFP-EXT +QW     )+(DFP-EXT +PD     )+(DFP-EXT +ZD     )
+*            -30*1234
+*ZC    101         COMPUTE FLT_SRT,=,'(',DFP_EXT,+,HFP_SRT,')',+,'(',DFX
+               P_EXT,+,HFP_LNG,')',+,'(',DFP_EXT,+,HFP_EXT,')',+,'(',DFX
+               P_EXT,+,BFP_SRT,')',+,'(',DFP_EXT,+,BFP_LNG,')',+,'(',DFX
+               P_EXT,+,BFP_EXT,')',+,'(',DFP_EXT,+,DFP_SRT,')',+,'(',DFX
+               P_EXT,+,DFP_LNG,')',+,'(',DFP_EXT,+,DFP_EXT,')',+,'(',DFX
+               P_EXT,+,HW,')',+,'(',DFP_EXT,+,FW,')',+,'(',DFP_EXT,+,DWX
+               ,')',+,'(',DFP_EXT,+,QW,')',+,'(',DFP_EXT,+,PD,')',+,'('X
+               ,DFP_EXT,+,ZD,')',-,30,*,1234
+         COMPUTE FLT_SRT,=,'(',DFP_EXT,+,HFP_SRT,')',+,'(',DFP_EXT,+,HFX
+               P_LNG,')',+,'(',DFP_EXT,+,HFP_EXT,')',+,'(',DFP_EXT,+,BFX
+               P_SRT,')',+,'(',DFP_EXT,+,BFP_LNG,')',+,'(',DFP_EXT,+,BFX
+               P_EXT,')',+,'(',DFP_EXT,+,DFP_SRT,')',+,'(',DFP_EXT,+,DFX
+               P_LNG,')',+,'(',DFP_EXT,+,DFP_EXT,')',+,'(',DFP_EXT,+,HWX
+               ,')',+,'(',DFP_EXT,+,FW,')',+,'(',DFP_EXT,+,DW,')',+,'('X
+               ,DFP_EXT,+,QW,')',+,'(',DFP_EXT,+,PD,')',+,'(',DFP_EXT,+X
+               ,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    108         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    108         PERFORM GOOD
+         PERFORM GOOD
+*ZC    108         ELSE  
+         ELSE  
+*ZC    108         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (HW      +HFP-SRT)+(HW      +HFP-LNG)+(HW      +HFP-EXT)
+*            +(HW      +BFP-SRT)+(HW      +BFP-LNG)+(HW      +BFP-EXT)
+*            +(HW      +DFP-SRT)+(HW      +DFP-LNG)+(HW      +DFP-EXT)
+*            +(HW      +HW     )+(HW      +FW     )+(HW      +DW     )
+*            +(HW      +QW     )+(HW      +PD     )+(HW      +ZD     )
+*            -30*1234
+*ZC    109         COMPUTE FLT_SRT,=,'(',HW,+,HFP_SRT,')',+,'(',HW,+,HFX
+               P_LNG,')',+,'(',HW,+,HFP_EXT,')',+,'(',HW,+,BFP_SRT,')',X
+               +,'(',HW,+,BFP_LNG,')',+,'(',HW,+,BFP_EXT,')',+,'(',HW,+X
+               ,DFP_SRT,')',+,'(',HW,+,DFP_LNG,')',+,'(',HW,+,DFP_EXT,'X
+               )',+,'(',HW,+,HW,')',+,'(',HW,+,FW,')',+,'(',HW,+,DW,')'X
+               ,+,'(',HW,+,QW,')',+,'(',HW,+,PD,')',+,'(',HW,+,ZD,')',-X
+               ,30,*,1234
+         COMPUTE FLT_SRT,=,'(',HW,+,HFP_SRT,')',+,'(',HW,+,HFP_LNG,')',X
+               +,'(',HW,+,HFP_EXT,')',+,'(',HW,+,BFP_SRT,')',+,'(',HW,+X
+               ,BFP_LNG,')',+,'(',HW,+,BFP_EXT,')',+,'(',HW,+,DFP_SRT,'X
+               )',+,'(',HW,+,DFP_LNG,')',+,'(',HW,+,DFP_EXT,')',+,'(',HX
+               W,+,HW,')',+,'(',HW,+,FW,')',+,'(',HW,+,DW,')',+,'(',HW,X
+               +,QW,')',+,'(',HW,+,PD,')',+,'(',HW,+,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    116         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    116         PERFORM GOOD
+         PERFORM GOOD
+*ZC    116         ELSE  
+         ELSE  
+*ZC    116         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (FW      +HFP-SRT)+(FW      +HFP-LNG)+(FW      +HFP-EXT)
+*            +(FW      +BFP-SRT)+(FW      +BFP-LNG)+(FW      +BFP-EXT)
+*            +(FW      +DFP-SRT)+(FW      +DFP-LNG)+(FW      +DFP-EXT)
+*            +(FW      +HW     )+(FW      +FW     )+(FW      +DW     )
+*            +(FW      +QW     )+(FW      +PD     )+(FW      +ZD     )
+*            -30*1234
+*ZC    117         COMPUTE FLT_SRT,=,'(',FW,+,HFP_SRT,')',+,'(',FW,+,HFX
+               P_LNG,')',+,'(',FW,+,HFP_EXT,')',+,'(',FW,+,BFP_SRT,')',X
+               +,'(',FW,+,BFP_LNG,')',+,'(',FW,+,BFP_EXT,')',+,'(',FW,+X
+               ,DFP_SRT,')',+,'(',FW,+,DFP_LNG,')',+,'(',FW,+,DFP_EXT,'X
+               )',+,'(',FW,+,HW,')',+,'(',FW,+,FW,')',+,'(',FW,+,DW,')'X
+               ,+,'(',FW,+,QW,')',+,'(',FW,+,PD,')',+,'(',FW,+,ZD,')',-X
+               ,30,*,1234
+         COMPUTE FLT_SRT,=,'(',FW,+,HFP_SRT,')',+,'(',FW,+,HFP_LNG,')',X
+               +,'(',FW,+,HFP_EXT,')',+,'(',FW,+,BFP_SRT,')',+,'(',FW,+X
+               ,BFP_LNG,')',+,'(',FW,+,BFP_EXT,')',+,'(',FW,+,DFP_SRT,'X
+               )',+,'(',FW,+,DFP_LNG,')',+,'(',FW,+,DFP_EXT,')',+,'(',FX
+               W,+,HW,')',+,'(',FW,+,FW,')',+,'(',FW,+,DW,')',+,'(',FW,X
+               +,QW,')',+,'(',FW,+,PD,')',+,'(',FW,+,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    124         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    124         PERFORM GOOD
+         PERFORM GOOD
+*ZC    124         ELSE  
+         ELSE  
+*ZC    124         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DW      +HFP-SRT)+(DW      +HFP-LNG)+(DW      +HFP-EXT)
+*            +(DW      +BFP-SRT)+(DW      +BFP-LNG)+(DW      +BFP-EXT)
+*            +(DW      +DFP-SRT)+(DW      +DFP-LNG)+(DW      +DFP-EXT)
+*            +(DW      +HW     )+(DW      +FW     )+(DW      +DW     )
+*            +(DW      +QW     )+(DW      +PD     )+(DW      +ZD     )
+*            -30*1234
+*ZC    125         COMPUTE FLT_SRT,=,'(',DW,+,HFP_SRT,')',+,'(',DW,+,HFX
+               P_LNG,')',+,'(',DW,+,HFP_EXT,')',+,'(',DW,+,BFP_SRT,')',X
+               +,'(',DW,+,BFP_LNG,')',+,'(',DW,+,BFP_EXT,')',+,'(',DW,+X
+               ,DFP_SRT,')',+,'(',DW,+,DFP_LNG,')',+,'(',DW,+,DFP_EXT,'X
+               )',+,'(',DW,+,HW,')',+,'(',DW,+,FW,')',+,'(',DW,+,DW,')'X
+               ,+,'(',DW,+,QW,')',+,'(',DW,+,PD,')',+,'(',DW,+,ZD,')',-X
+               ,30,*,1234
+         COMPUTE FLT_SRT,=,'(',DW,+,HFP_SRT,')',+,'(',DW,+,HFP_LNG,')',X
+               +,'(',DW,+,HFP_EXT,')',+,'(',DW,+,BFP_SRT,')',+,'(',DW,+X
+               ,BFP_LNG,')',+,'(',DW,+,BFP_EXT,')',+,'(',DW,+,DFP_SRT,'X
+               )',+,'(',DW,+,DFP_LNG,')',+,'(',DW,+,DFP_EXT,')',+,'(',DX
+               W,+,HW,')',+,'(',DW,+,FW,')',+,'(',DW,+,DW,')',+,'(',DW,X
+               +,QW,')',+,'(',DW,+,PD,')',+,'(',DW,+,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    132         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    132         PERFORM GOOD
+         PERFORM GOOD
+*ZC    132         ELSE  
+         ELSE  
+*ZC    132         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (QW      +HFP-SRT)+(QW      +HFP-LNG)+(QW      +HFP-EXT)
+*            +(QW      +BFP-SRT)+(QW      +BFP-LNG)+(QW      +BFP-EXT)
+*            +(QW      +DFP-SRT)+(QW      +DFP-LNG)+(QW      +DFP-EXT)
+*            +(QW      +HW     )+(QW      +FW     )+(QW      +DW     )
+*            +(QW      +QW     )+(QW      +PD     )+(QW      +ZD     )
+*            -30*1234
+*ZC    133         COMPUTE FLT_SRT,=,'(',QW,+,HFP_SRT,')',+,'(',QW,+,HFX
+               P_LNG,')',+,'(',QW,+,HFP_EXT,')',+,'(',QW,+,BFP_SRT,')',X
+               +,'(',QW,+,BFP_LNG,')',+,'(',QW,+,BFP_EXT,')',+,'(',QW,+X
+               ,DFP_SRT,')',+,'(',QW,+,DFP_LNG,')',+,'(',QW,+,DFP_EXT,'X
+               )',+,'(',QW,+,HW,')',+,'(',QW,+,FW,')',+,'(',QW,+,DW,')'X
+               ,+,'(',QW,+,QW,')',+,'(',QW,+,PD,')',+,'(',QW,+,ZD,')',-X
+               ,30,*,1234
+         COMPUTE FLT_SRT,=,'(',QW,+,HFP_SRT,')',+,'(',QW,+,HFP_LNG,')',X
+               +,'(',QW,+,HFP_EXT,')',+,'(',QW,+,BFP_SRT,')',+,'(',QW,+X
+               ,BFP_LNG,')',+,'(',QW,+,BFP_EXT,')',+,'(',QW,+,DFP_SRT,'X
+               )',+,'(',QW,+,DFP_LNG,')',+,'(',QW,+,DFP_EXT,')',+,'(',QX
+               W,+,HW,')',+,'(',QW,+,FW,')',+,'(',QW,+,DW,')',+,'(',QW,X
+               +,QW,')',+,'(',QW,+,PD,')',+,'(',QW,+,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    140         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    140         PERFORM GOOD
+         PERFORM GOOD
+*ZC    140         ELSE  
+         ELSE  
+*ZC    140         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (PD      +HFP-SRT)+(PD      +HFP-LNG)+(PD      +HFP-EXT)
+*            +(PD      +BFP-SRT)+(PD      +BFP-LNG)+(PD      +BFP-EXT)
+*            +(PD      +DFP-SRT)+(PD      +DFP-LNG)+(PD      +DFP-EXT)
+*            +(PD      +HW     )+(PD      +FW     )+(PD      +DW     )
+*            +(PD      +QW     )+(PD      +PD     )+(PD      +ZD     )
+*            -30*1234
+*ZC    141         COMPUTE FLT_SRT,=,'(',PD,+,HFP_SRT,')',+,'(',PD,+,HFX
+               P_LNG,')',+,'(',PD,+,HFP_EXT,')',+,'(',PD,+,BFP_SRT,')',X
+               +,'(',PD,+,BFP_LNG,')',+,'(',PD,+,BFP_EXT,')',+,'(',PD,+X
+               ,DFP_SRT,')',+,'(',PD,+,DFP_LNG,')',+,'(',PD,+,DFP_EXT,'X
+               )',+,'(',PD,+,HW,')',+,'(',PD,+,FW,')',+,'(',PD,+,DW,')'X
+               ,+,'(',PD,+,QW,')',+,'(',PD,+,PD,')',+,'(',PD,+,ZD,')',-X
+               ,30,*,1234
+         COMPUTE FLT_SRT,=,'(',PD,+,HFP_SRT,')',+,'(',PD,+,HFP_LNG,')',X
+               +,'(',PD,+,HFP_EXT,')',+,'(',PD,+,BFP_SRT,')',+,'(',PD,+X
+               ,BFP_LNG,')',+,'(',PD,+,BFP_EXT,')',+,'(',PD,+,DFP_SRT,'X
+               )',+,'(',PD,+,DFP_LNG,')',+,'(',PD,+,DFP_EXT,')',+,'(',PX
+               D,+,HW,')',+,'(',PD,+,FW,')',+,'(',PD,+,DW,')',+,'(',PD,X
+               +,QW,')',+,'(',PD,+,PD,')',+,'(',PD,+,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    148         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    148         PERFORM GOOD
+         PERFORM GOOD
+*ZC    148         ELSE  
+         ELSE  
+*ZC    148         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (ZD      +HFP-SRT)+(ZD      +HFP-LNG)+(ZD      +HFP-EXT)
+*            +(ZD      +BFP-SRT)+(ZD      +BFP-LNG)+(ZD      +BFP-EXT)
+*            +(ZD      +DFP-SRT)+(ZD      +DFP-LNG)+(ZD      +DFP-EXT)
+*            +(ZD      +HW     )+(ZD      +FW     )+(ZD      +DW     )
+*            +(ZD      +QW     )+(ZD      +PD     )+(ZD      +ZD     )
+*            -30*1234
+*ZC    149         COMPUTE FLT_SRT,=,'(',ZD,+,HFP_SRT,')',+,'(',ZD,+,HFX
+               P_LNG,')',+,'(',ZD,+,HFP_EXT,')',+,'(',ZD,+,BFP_SRT,')',X
+               +,'(',ZD,+,BFP_LNG,')',+,'(',ZD,+,BFP_EXT,')',+,'(',ZD,+X
+               ,DFP_SRT,')',+,'(',ZD,+,DFP_LNG,')',+,'(',ZD,+,DFP_EXT,'X
+               )',+,'(',ZD,+,HW,')',+,'(',ZD,+,FW,')',+,'(',ZD,+,DW,')'X
+               ,+,'(',ZD,+,QW,')',+,'(',ZD,+,PD,')',+,'(',ZD,+,ZD,')',-X
+               ,30,*,1234
+         COMPUTE FLT_SRT,=,'(',ZD,+,HFP_SRT,')',+,'(',ZD,+,HFP_LNG,')',X
+               +,'(',ZD,+,HFP_EXT,')',+,'(',ZD,+,BFP_SRT,')',+,'(',ZD,+X
+               ,BFP_LNG,')',+,'(',ZD,+,BFP_EXT,')',+,'(',ZD,+,DFP_SRT,'X
+               )',+,'(',ZD,+,DFP_LNG,')',+,'(',ZD,+,DFP_EXT,')',+,'(',ZX
+               D,+,HW,')',+,'(',ZD,+,FW,')',+,'(',ZD,+,DW,')',+,'(',ZD,X
+               +,QW,')',+,'(',ZD,+,PD,')',+,'(',ZD,+,ZD,')',-,30,*,1234
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    156         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    156         PERFORM GOOD
+         PERFORM GOOD
+*ZC    156         ELSE  
+         ELSE  
+*ZC    156         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP2 TEST COMPUTE SUBTRACTION'
+*ZC    157         DISPLAY 'TESTCMP2 TEST COMPUTE SUBTRACTION'
+         DISPLAY 'TESTCMP2 TEST COMPUTE SUBTRACTION'
+*            COMPUTE FLT-SRT = 
+*             (HFP-SRT -HFP-SRT)+(HFP-SRT -HFP-LNG)+(HFP-SRT -HFP-EXT)
+*            +(HFP-SRT -BFP-SRT)+(HFP-SRT -BFP-LNG)+(HFP-SRT -BFP-EXT)
+*            +(HFP-SRT -DFP-SRT)+(HFP-SRT -DFP-LNG)+(HFP-SRT -DFP-EXT)
+*            +(HFP-SRT -HW     )+(HFP-SRT -FW     )+(HFP-SRT -DW     )
+*            +(HFP-SRT -QW     )+(HFP-SRT -PD     )+(HFP-SRT -ZD     )
+*ZC    158         COMPUTE FLT_SRT,=,'(',HFP_SRT,-,HFP_SRT,')',+,'(',HFX
+               P_SRT,-,HFP_LNG,')',+,'(',HFP_SRT,-,HFP_EXT,')',+,'(',HFX
+               P_SRT,-,BFP_SRT,')',+,'(',HFP_SRT,-,BFP_LNG,')',+,'(',HFX
+               P_SRT,-,BFP_EXT,')',+,'(',HFP_SRT,-,DFP_SRT,')',+,'(',HFX
+               P_SRT,-,DFP_LNG,')',+,'(',HFP_SRT,-,DFP_EXT,')',+,'(',HFX
+               P_SRT,-,HW,')',+,'(',HFP_SRT,-,FW,')',+,'(',HFP_SRT,-,DWX
+               ,')',+,'(',HFP_SRT,-,QW,')',+,'(',HFP_SRT,-,PD,')',+,'('X
+               ,HFP_SRT,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',HFP_SRT,-,HFP_SRT,')',+,'(',HFP_SRT,-,HFX
+               P_LNG,')',+,'(',HFP_SRT,-,HFP_EXT,')',+,'(',HFP_SRT,-,BFX
+               P_SRT,')',+,'(',HFP_SRT,-,BFP_LNG,')',+,'(',HFP_SRT,-,BFX
+               P_EXT,')',+,'(',HFP_SRT,-,DFP_SRT,')',+,'(',HFP_SRT,-,DFX
+               P_LNG,')',+,'(',HFP_SRT,-,DFP_EXT,')',+,'(',HFP_SRT,-,HWX
+               ,')',+,'(',HFP_SRT,-,FW,')',+,'(',HFP_SRT,-,DW,')',+,'('X
+               ,HFP_SRT,-,QW,')',+,'(',HFP_SRT,-,PD,')',+,'(',HFP_SRT,-X
+               ,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    164         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    164         PERFORM GOOD
+         PERFORM GOOD
+*ZC    164         ELSE  
+         ELSE  
+*ZC    164         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-LNG = 
+*             (HFP-LNG -HFP-SRT)+(HFP-LNG -HFP-LNG)+(HFP-LNG -HFP-EXT)
+*            +(HFP-LNG -BFP-SRT)+(HFP-LNG -BFP-LNG)+(HFP-LNG -BFP-EXT)
+*            +(HFP-LNG -DFP-SRT)+(HFP-LNG -DFP-LNG)+(HFP-LNG -DFP-EXT)
+*            +(HFP-LNG -HW     )+(HFP-LNG -FW     )+(HFP-LNG -DW     )
+*            +(HFP-LNG -QW     )+(HFP-LNG -PD     )+(HFP-LNG -ZD     )
+*ZC    165         COMPUTE FLT_LNG,=,'(',HFP_LNG,-,HFP_SRT,')',+,'(',HFX
+               P_LNG,-,HFP_LNG,')',+,'(',HFP_LNG,-,HFP_EXT,')',+,'(',HFX
+               P_LNG,-,BFP_SRT,')',+,'(',HFP_LNG,-,BFP_LNG,')',+,'(',HFX
+               P_LNG,-,BFP_EXT,')',+,'(',HFP_LNG,-,DFP_SRT,')',+,'(',HFX
+               P_LNG,-,DFP_LNG,')',+,'(',HFP_LNG,-,DFP_EXT,')',+,'(',HFX
+               P_LNG,-,HW,')',+,'(',HFP_LNG,-,FW,')',+,'(',HFP_LNG,-,DWX
+               ,')',+,'(',HFP_LNG,-,QW,')',+,'(',HFP_LNG,-,PD,')',+,'('X
+               ,HFP_LNG,-,ZD,')'
+         COMPUTE FLT_LNG,=,'(',HFP_LNG,-,HFP_SRT,')',+,'(',HFP_LNG,-,HFX
+               P_LNG,')',+,'(',HFP_LNG,-,HFP_EXT,')',+,'(',HFP_LNG,-,BFX
+               P_SRT,')',+,'(',HFP_LNG,-,BFP_LNG,')',+,'(',HFP_LNG,-,BFX
+               P_EXT,')',+,'(',HFP_LNG,-,DFP_SRT,')',+,'(',HFP_LNG,-,DFX
+               P_LNG,')',+,'(',HFP_LNG,-,DFP_EXT,')',+,'(',HFP_LNG,-,HWX
+               ,')',+,'(',HFP_LNG,-,FW,')',+,'(',HFP_LNG,-,DW,')',+,'('X
+               ,HFP_LNG,-,QW,')',+,'(',HFP_LNG,-,PD,')',+,'(',HFP_LNG,-X
+               ,ZD,')'
+*            IF FLT-LNG = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    171         IF    FLT_LNG,=,0
+         IF    FLT_LNG,=,0
+*ZC    171         PERFORM GOOD
+         PERFORM GOOD
+*ZC    171         ELSE  
+         ELSE  
+*ZC    171         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-EXT = 
+*             (HFP-EXT -HFP-SRT)+(HFP-EXT -HFP-LNG)+(HFP-EXT -HFP-EXT)
+*            +(HFP-EXT -BFP-SRT)+(HFP-EXT -BFP-LNG)+(HFP-EXT -BFP-EXT)
+*            +(HFP-EXT -DFP-SRT)+(HFP-EXT -DFP-LNG)+(HFP-EXT -DFP-EXT)
+*            +(HFP-EXT -HW     )+(HFP-EXT -FW     )+(HFP-EXT -DW     )
+*            +(HFP-EXT -QW     )+(HFP-EXT -PD     )+(HFP-EXT -ZD     )
+*ZC    172         COMPUTE FLT_EXT,=,'(',HFP_EXT,-,HFP_SRT,')',+,'(',HFX
+               P_EXT,-,HFP_LNG,')',+,'(',HFP_EXT,-,HFP_EXT,')',+,'(',HFX
+               P_EXT,-,BFP_SRT,')',+,'(',HFP_EXT,-,BFP_LNG,')',+,'(',HFX
+               P_EXT,-,BFP_EXT,')',+,'(',HFP_EXT,-,DFP_SRT,')',+,'(',HFX
+               P_EXT,-,DFP_LNG,')',+,'(',HFP_EXT,-,DFP_EXT,')',+,'(',HFX
+               P_EXT,-,HW,')',+,'(',HFP_EXT,-,FW,')',+,'(',HFP_EXT,-,DWX
+               ,')',+,'(',HFP_EXT,-,QW,')',+,'(',HFP_EXT,-,PD,')',+,'('X
+               ,HFP_EXT,-,ZD,')'
+         COMPUTE FLT_EXT,=,'(',HFP_EXT,-,HFP_SRT,')',+,'(',HFP_EXT,-,HFX
+               P_LNG,')',+,'(',HFP_EXT,-,HFP_EXT,')',+,'(',HFP_EXT,-,BFX
+               P_SRT,')',+,'(',HFP_EXT,-,BFP_LNG,')',+,'(',HFP_EXT,-,BFX
+               P_EXT,')',+,'(',HFP_EXT,-,DFP_SRT,')',+,'(',HFP_EXT,-,DFX
+               P_LNG,')',+,'(',HFP_EXT,-,DFP_EXT,')',+,'(',HFP_EXT,-,HWX
+               ,')',+,'(',HFP_EXT,-,FW,')',+,'(',HFP_EXT,-,DW,')',+,'('X
+               ,HFP_EXT,-,QW,')',+,'(',HFP_EXT,-,PD,')',+,'(',HFP_EXT,-X
+               ,ZD,')'
+*            IF FLT-EXT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    178         IF    FLT_EXT,=,0
+         IF    FLT_EXT,=,0
+*ZC    178         PERFORM GOOD
+         PERFORM GOOD
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-SRT -HFP-SRT)+(BFP-SRT -HFP-LNG)+(BFP-SRT -HFP-EXT)
+*            +(BFP-SRT -BFP-SRT)+(BFP-SRT -BFP-LNG)+(BFP-SRT -BFP-EXT)
+*            +(BFP-SRT -DFP-SRT)+(BFP-SRT -DFP-LNG)+(BFP-SRT -DFP-EXT)
+*            +(BFP-SRT -HW     )+(BFP-SRT -FW     )+(BFP-SRT -DW     )
+*            +(BFP-SRT -QW     )+(BFP-SRT -PD     )+(BFP-SRT -ZD     )
+*ZC    179         COMPUTE FLT_SRT,=,'(',BFP_SRT,-,HFP_SRT,')',+,'(',BFX
+               P_SRT,-,HFP_LNG,')',+,'(',BFP_SRT,-,HFP_EXT,')',+,'(',BFX
+               P_SRT,-,BFP_SRT,')',+,'(',BFP_SRT,-,BFP_LNG,')',+,'(',BFX
+               P_SRT,-,BFP_EXT,')',+,'(',BFP_SRT,-,DFP_SRT,')',+,'(',BFX
+               P_SRT,-,DFP_LNG,')',+,'(',BFP_SRT,-,DFP_EXT,')',+,'(',BFX
+               P_SRT,-,HW,')',+,'(',BFP_SRT,-,FW,')',+,'(',BFP_SRT,-,DWX
+               ,')',+,'(',BFP_SRT,-,QW,')',+,'(',BFP_SRT,-,PD,')',+,'('X
+               ,BFP_SRT,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',BFP_SRT,-,HFP_SRT,')',+,'(',BFP_SRT,-,HFX
+               P_LNG,')',+,'(',BFP_SRT,-,HFP_EXT,')',+,'(',BFP_SRT,-,BFX
+               P_SRT,')',+,'(',BFP_SRT,-,BFP_LNG,')',+,'(',BFP_SRT,-,BFX
+               P_EXT,')',+,'(',BFP_SRT,-,DFP_SRT,')',+,'(',BFP_SRT,-,DFX
+               P_LNG,')',+,'(',BFP_SRT,-,DFP_EXT,')',+,'(',BFP_SRT,-,HWX
+               ,')',+,'(',BFP_SRT,-,FW,')',+,'(',BFP_SRT,-,DW,')',+,'('X
+               ,BFP_SRT,-,QW,')',+,'(',BFP_SRT,-,PD,')',+,'(',BFP_SRT,-X
+               ,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    185         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    185         PERFORM GOOD
+         PERFORM GOOD
+*ZC    185         ELSE  
+         ELSE  
+*ZC    185         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-LNG -HFP-SRT)+(BFP-LNG -HFP-LNG)+(BFP-LNG -HFP-EXT)
+*            +(BFP-LNG -BFP-SRT)+(BFP-LNG -BFP-LNG)+(BFP-LNG -BFP-EXT)
+*            +(BFP-LNG -DFP-SRT)+(BFP-LNG -DFP-LNG)+(BFP-LNG -DFP-EXT)
+*            +(BFP-LNG -HW     )+(BFP-LNG -FW     )+(BFP-LNG -DW     )
+*            +(BFP-LNG -QW     )+(BFP-LNG -PD     )+(BFP-LNG -ZD     )
+*ZC    186         COMPUTE FLT_SRT,=,'(',BFP_LNG,-,HFP_SRT,')',+,'(',BFX
+               P_LNG,-,HFP_LNG,')',+,'(',BFP_LNG,-,HFP_EXT,')',+,'(',BFX
+               P_LNG,-,BFP_SRT,')',+,'(',BFP_LNG,-,BFP_LNG,')',+,'(',BFX
+               P_LNG,-,BFP_EXT,')',+,'(',BFP_LNG,-,DFP_SRT,')',+,'(',BFX
+               P_LNG,-,DFP_LNG,')',+,'(',BFP_LNG,-,DFP_EXT,')',+,'(',BFX
+               P_LNG,-,HW,')',+,'(',BFP_LNG,-,FW,')',+,'(',BFP_LNG,-,DWX
+               ,')',+,'(',BFP_LNG,-,QW,')',+,'(',BFP_LNG,-,PD,')',+,'('X
+               ,BFP_LNG,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',BFP_LNG,-,HFP_SRT,')',+,'(',BFP_LNG,-,HFX
+               P_LNG,')',+,'(',BFP_LNG,-,HFP_EXT,')',+,'(',BFP_LNG,-,BFX
+               P_SRT,')',+,'(',BFP_LNG,-,BFP_LNG,')',+,'(',BFP_LNG,-,BFX
+               P_EXT,')',+,'(',BFP_LNG,-,DFP_SRT,')',+,'(',BFP_LNG,-,DFX
+               P_LNG,')',+,'(',BFP_LNG,-,DFP_EXT,')',+,'(',BFP_LNG,-,HWX
+               ,')',+,'(',BFP_LNG,-,FW,')',+,'(',BFP_LNG,-,DW,')',+,'('X
+               ,BFP_LNG,-,QW,')',+,'(',BFP_LNG,-,PD,')',+,'(',BFP_LNG,-X
+               ,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    192         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    192         PERFORM GOOD
+         PERFORM GOOD
+*ZC    192         ELSE  
+         ELSE  
+*ZC    192         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-EXT -HFP-SRT)+(BFP-EXT -HFP-LNG)+(BFP-EXT -HFP-EXT)
+*            +(BFP-EXT -BFP-SRT)+(BFP-EXT -BFP-LNG)+(BFP-EXT -BFP-EXT)
+*            +(BFP-EXT -DFP-SRT)+(BFP-EXT -DFP-LNG)+(BFP-EXT -DFP-EXT)
+*            +(BFP-EXT -HW     )+(BFP-EXT -FW     )+(BFP-EXT -DW     )
+*            +(BFP-EXT -QW     )+(BFP-EXT -PD     )+(BFP-EXT -ZD     )
+*ZC    193         COMPUTE FLT_SRT,=,'(',BFP_EXT,-,HFP_SRT,')',+,'(',BFX
+               P_EXT,-,HFP_LNG,')',+,'(',BFP_EXT,-,HFP_EXT,')',+,'(',BFX
+               P_EXT,-,BFP_SRT,')',+,'(',BFP_EXT,-,BFP_LNG,')',+,'(',BFX
+               P_EXT,-,BFP_EXT,')',+,'(',BFP_EXT,-,DFP_SRT,')',+,'(',BFX
+               P_EXT,-,DFP_LNG,')',+,'(',BFP_EXT,-,DFP_EXT,')',+,'(',BFX
+               P_EXT,-,HW,')',+,'(',BFP_EXT,-,FW,')',+,'(',BFP_EXT,-,DWX
+               ,')',+,'(',BFP_EXT,-,QW,')',+,'(',BFP_EXT,-,PD,')',+,'('X
+               ,BFP_EXT,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',BFP_EXT,-,HFP_SRT,')',+,'(',BFP_EXT,-,HFX
+               P_LNG,')',+,'(',BFP_EXT,-,HFP_EXT,')',+,'(',BFP_EXT,-,BFX
+               P_SRT,')',+,'(',BFP_EXT,-,BFP_LNG,')',+,'(',BFP_EXT,-,BFX
+               P_EXT,')',+,'(',BFP_EXT,-,DFP_SRT,')',+,'(',BFP_EXT,-,DFX
+               P_LNG,')',+,'(',BFP_EXT,-,DFP_EXT,')',+,'(',BFP_EXT,-,HWX
+               ,')',+,'(',BFP_EXT,-,FW,')',+,'(',BFP_EXT,-,DW,')',+,'('X
+               ,BFP_EXT,-,QW,')',+,'(',BFP_EXT,-,PD,')',+,'(',BFP_EXT,-X
+               ,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    199         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    199         PERFORM GOOD
+         PERFORM GOOD
+*ZC    199         ELSE  
+         ELSE  
+*ZC    199         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-SRT -HFP-SRT)+(DFP-SRT -HFP-LNG)+(DFP-SRT -HFP-EXT)
+*            +(DFP-SRT -BFP-SRT)+(DFP-SRT -BFP-LNG)+(DFP-SRT -BFP-EXT)
+*            +(DFP-SRT -DFP-SRT)+(DFP-SRT -DFP-LNG)+(DFP-SRT -DFP-EXT)
+*            +(DFP-SRT -HW     )+(DFP-SRT -FW     )+(DFP-SRT -DW     )
+*            +(DFP-SRT -QW     )+(DFP-SRT -PD     )+(DFP-SRT -ZD     )
+*ZC    200         COMPUTE FLT_SRT,=,'(',DFP_SRT,-,HFP_SRT,')',+,'(',DFX
+               P_SRT,-,HFP_LNG,')',+,'(',DFP_SRT,-,HFP_EXT,')',+,'(',DFX
+               P_SRT,-,BFP_SRT,')',+,'(',DFP_SRT,-,BFP_LNG,')',+,'(',DFX
+               P_SRT,-,BFP_EXT,')',+,'(',DFP_SRT,-,DFP_SRT,')',+,'(',DFX
+               P_SRT,-,DFP_LNG,')',+,'(',DFP_SRT,-,DFP_EXT,')',+,'(',DFX
+               P_SRT,-,HW,')',+,'(',DFP_SRT,-,FW,')',+,'(',DFP_SRT,-,DWX
+               ,')',+,'(',DFP_SRT,-,QW,')',+,'(',DFP_SRT,-,PD,')',+,'('X
+               ,DFP_SRT,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',DFP_SRT,-,HFP_SRT,')',+,'(',DFP_SRT,-,HFX
+               P_LNG,')',+,'(',DFP_SRT,-,HFP_EXT,')',+,'(',DFP_SRT,-,BFX
+               P_SRT,')',+,'(',DFP_SRT,-,BFP_LNG,')',+,'(',DFP_SRT,-,BFX
+               P_EXT,')',+,'(',DFP_SRT,-,DFP_SRT,')',+,'(',DFP_SRT,-,DFX
+               P_LNG,')',+,'(',DFP_SRT,-,DFP_EXT,')',+,'(',DFP_SRT,-,HWX
+               ,')',+,'(',DFP_SRT,-,FW,')',+,'(',DFP_SRT,-,DW,')',+,'('X
+               ,DFP_SRT,-,QW,')',+,'(',DFP_SRT,-,PD,')',+,'(',DFP_SRT,-X
+               ,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    206         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    206         PERFORM GOOD
+         PERFORM GOOD
+*ZC    206         ELSE  
+         ELSE  
+*ZC    206         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-LNG -HFP-SRT)+(DFP-LNG -HFP-LNG)+(DFP-LNG -HFP-EXT)
+*            +(DFP-LNG -BFP-SRT)+(DFP-LNG -BFP-LNG)+(DFP-LNG -BFP-EXT)
+*            +(DFP-LNG -DFP-SRT)+(DFP-LNG -DFP-LNG)+(DFP-LNG -DFP-EXT)
+*            +(DFP-LNG -HW     )+(DFP-LNG -FW     )+(DFP-LNG -DW     )
+*            +(DFP-LNG -QW     )+(DFP-LNG -PD     )+(DFP-LNG -ZD     )
+*ZC    207         COMPUTE FLT_SRT,=,'(',DFP_LNG,-,HFP_SRT,')',+,'(',DFX
+               P_LNG,-,HFP_LNG,')',+,'(',DFP_LNG,-,HFP_EXT,')',+,'(',DFX
+               P_LNG,-,BFP_SRT,')',+,'(',DFP_LNG,-,BFP_LNG,')',+,'(',DFX
+               P_LNG,-,BFP_EXT,')',+,'(',DFP_LNG,-,DFP_SRT,')',+,'(',DFX
+               P_LNG,-,DFP_LNG,')',+,'(',DFP_LNG,-,DFP_EXT,')',+,'(',DFX
+               P_LNG,-,HW,')',+,'(',DFP_LNG,-,FW,')',+,'(',DFP_LNG,-,DWX
+               ,')',+,'(',DFP_LNG,-,QW,')',+,'(',DFP_LNG,-,PD,')',+,'('X
+               ,DFP_LNG,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',DFP_LNG,-,HFP_SRT,')',+,'(',DFP_LNG,-,HFX
+               P_LNG,')',+,'(',DFP_LNG,-,HFP_EXT,')',+,'(',DFP_LNG,-,BFX
+               P_SRT,')',+,'(',DFP_LNG,-,BFP_LNG,')',+,'(',DFP_LNG,-,BFX
+               P_EXT,')',+,'(',DFP_LNG,-,DFP_SRT,')',+,'(',DFP_LNG,-,DFX
+               P_LNG,')',+,'(',DFP_LNG,-,DFP_EXT,')',+,'(',DFP_LNG,-,HWX
+               ,')',+,'(',DFP_LNG,-,FW,')',+,'(',DFP_LNG,-,DW,')',+,'('X
+               ,DFP_LNG,-,QW,')',+,'(',DFP_LNG,-,PD,')',+,'(',DFP_LNG,-X
+               ,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    213         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    213         PERFORM GOOD
+         PERFORM GOOD
+*ZC    213         ELSE  
+         ELSE  
+*ZC    213         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-EXT -HFP-SRT)+(DFP-EXT -HFP-LNG)+(DFP-EXT -HFP-EXT)
+*            +(DFP-EXT -BFP-SRT)+(DFP-EXT -BFP-LNG)+(DFP-EXT -BFP-EXT)
+*            +(DFP-EXT -DFP-SRT)+(DFP-EXT -DFP-LNG)+(DFP-EXT -DFP-EXT)
+*            +(DFP-EXT -HW     )+(DFP-EXT -FW     )+(DFP-EXT -DW     )
+*            +(DFP-EXT -QW     )+(DFP-EXT -PD     )+(DFP-EXT -ZD     )
+*ZC    214         COMPUTE FLT_SRT,=,'(',DFP_EXT,-,HFP_SRT,')',+,'(',DFX
+               P_EXT,-,HFP_LNG,')',+,'(',DFP_EXT,-,HFP_EXT,')',+,'(',DFX
+               P_EXT,-,BFP_SRT,')',+,'(',DFP_EXT,-,BFP_LNG,')',+,'(',DFX
+               P_EXT,-,BFP_EXT,')',+,'(',DFP_EXT,-,DFP_SRT,')',+,'(',DFX
+               P_EXT,-,DFP_LNG,')',+,'(',DFP_EXT,-,DFP_EXT,')',+,'(',DFX
+               P_EXT,-,HW,')',+,'(',DFP_EXT,-,FW,')',+,'(',DFP_EXT,-,DWX
+               ,')',+,'(',DFP_EXT,-,QW,')',+,'(',DFP_EXT,-,PD,')',+,'('X
+               ,DFP_EXT,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',DFP_EXT,-,HFP_SRT,')',+,'(',DFP_EXT,-,HFX
+               P_LNG,')',+,'(',DFP_EXT,-,HFP_EXT,')',+,'(',DFP_EXT,-,BFX
+               P_SRT,')',+,'(',DFP_EXT,-,BFP_LNG,')',+,'(',DFP_EXT,-,BFX
+               P_EXT,')',+,'(',DFP_EXT,-,DFP_SRT,')',+,'(',DFP_EXT,-,DFX
+               P_LNG,')',+,'(',DFP_EXT,-,DFP_EXT,')',+,'(',DFP_EXT,-,HWX
+               ,')',+,'(',DFP_EXT,-,FW,')',+,'(',DFP_EXT,-,DW,')',+,'('X
+               ,DFP_EXT,-,QW,')',+,'(',DFP_EXT,-,PD,')',+,'(',DFP_EXT,-X
+               ,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    220         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    220         PERFORM GOOD
+         PERFORM GOOD
+*ZC    220         ELSE  
+         ELSE  
+*ZC    220         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (HW      -HFP-SRT)+(HW      -HFP-LNG)+(HW      -HFP-EXT)
+*            +(HW      -BFP-SRT)+(HW      -BFP-LNG)+(HW      -BFP-EXT)
+*            +(HW      -DFP-SRT)+(HW      -DFP-LNG)+(HW      -DFP-EXT)
+*            +(HW      -HW     )+(HW      -FW     )+(HW      -DW     )
+*            +(HW      -QW     )+(HW      -PD     )+(HW      -ZD     )
+*ZC    221         COMPUTE FLT_SRT,=,'(',HW,-,HFP_SRT,')',+,'(',HW,-,HFX
+               P_LNG,')',+,'(',HW,-,HFP_EXT,')',+,'(',HW,-,BFP_SRT,')',X
+               +,'(',HW,-,BFP_LNG,')',+,'(',HW,-,BFP_EXT,')',+,'(',HW,-X
+               ,DFP_SRT,')',+,'(',HW,-,DFP_LNG,')',+,'(',HW,-,DFP_EXT,'X
+               )',+,'(',HW,-,HW,')',+,'(',HW,-,FW,')',+,'(',HW,-,DW,')'X
+               ,+,'(',HW,-,QW,')',+,'(',HW,-,PD,')',+,'(',HW,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',HW,-,HFP_SRT,')',+,'(',HW,-,HFP_LNG,')',X
+               +,'(',HW,-,HFP_EXT,')',+,'(',HW,-,BFP_SRT,')',+,'(',HW,-X
+               ,BFP_LNG,')',+,'(',HW,-,BFP_EXT,')',+,'(',HW,-,DFP_SRT,'X
+               )',+,'(',HW,-,DFP_LNG,')',+,'(',HW,-,DFP_EXT,')',+,'(',HX
+               W,-,HW,')',+,'(',HW,-,FW,')',+,'(',HW,-,DW,')',+,'(',HW,X
+               -,QW,')',+,'(',HW,-,PD,')',+,'(',HW,-,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    227         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    227         PERFORM GOOD
+         PERFORM GOOD
+*ZC    227         ELSE  
+         ELSE  
+*ZC    227         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (FW      -HFP-SRT)+(FW      -HFP-LNG)+(FW      -HFP-EXT)
+*            +(FW      -BFP-SRT)+(FW      -BFP-LNG)+(FW      -BFP-EXT)
+*            +(FW      -DFP-SRT)+(FW      -DFP-LNG)+(FW      -DFP-EXT)
+*            +(FW      -HW     )+(FW      -FW     )+(FW      -DW     )
+*            +(FW      -QW     )+(FW      -PD     )+(FW      -ZD     )
+*ZC    228         COMPUTE FLT_SRT,=,'(',FW,-,HFP_SRT,')',+,'(',FW,-,HFX
+               P_LNG,')',+,'(',FW,-,HFP_EXT,')',+,'(',FW,-,BFP_SRT,')',X
+               +,'(',FW,-,BFP_LNG,')',+,'(',FW,-,BFP_EXT,')',+,'(',FW,-X
+               ,DFP_SRT,')',+,'(',FW,-,DFP_LNG,')',+,'(',FW,-,DFP_EXT,'X
+               )',+,'(',FW,-,HW,')',+,'(',FW,-,FW,')',+,'(',FW,-,DW,')'X
+               ,+,'(',FW,-,QW,')',+,'(',FW,-,PD,')',+,'(',FW,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',FW,-,HFP_SRT,')',+,'(',FW,-,HFP_LNG,')',X
+               +,'(',FW,-,HFP_EXT,')',+,'(',FW,-,BFP_SRT,')',+,'(',FW,-X
+               ,BFP_LNG,')',+,'(',FW,-,BFP_EXT,')',+,'(',FW,-,DFP_SRT,'X
+               )',+,'(',FW,-,DFP_LNG,')',+,'(',FW,-,DFP_EXT,')',+,'(',FX
+               W,-,HW,')',+,'(',FW,-,FW,')',+,'(',FW,-,DW,')',+,'(',FW,X
+               -,QW,')',+,'(',FW,-,PD,')',+,'(',FW,-,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    234         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    234         PERFORM GOOD
+         PERFORM GOOD
+*ZC    234         ELSE  
+         ELSE  
+*ZC    234         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DW      -HFP-SRT)+(DW      -HFP-LNG)+(DW      -HFP-EXT)
+*            +(DW      -BFP-SRT)+(DW      -BFP-LNG)+(DW      -BFP-EXT)
+*            +(DW      -DFP-SRT)+(DW      -DFP-LNG)+(DW      -DFP-EXT)
+*            +(DW      -HW     )+(DW      -FW     )+(DW      -DW     )
+*            +(DW      -QW     )+(DW      -PD     )+(DW      -ZD     )
+*ZC    235         COMPUTE FLT_SRT,=,'(',DW,-,HFP_SRT,')',+,'(',DW,-,HFX
+               P_LNG,')',+,'(',DW,-,HFP_EXT,')',+,'(',DW,-,BFP_SRT,')',X
+               +,'(',DW,-,BFP_LNG,')',+,'(',DW,-,BFP_EXT,')',+,'(',DW,-X
+               ,DFP_SRT,')',+,'(',DW,-,DFP_LNG,')',+,'(',DW,-,DFP_EXT,'X
+               )',+,'(',DW,-,HW,')',+,'(',DW,-,FW,')',+,'(',DW,-,DW,')'X
+               ,+,'(',DW,-,QW,')',+,'(',DW,-,PD,')',+,'(',DW,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',DW,-,HFP_SRT,')',+,'(',DW,-,HFP_LNG,')',X
+               +,'(',DW,-,HFP_EXT,')',+,'(',DW,-,BFP_SRT,')',+,'(',DW,-X
+               ,BFP_LNG,')',+,'(',DW,-,BFP_EXT,')',+,'(',DW,-,DFP_SRT,'X
+               )',+,'(',DW,-,DFP_LNG,')',+,'(',DW,-,DFP_EXT,')',+,'(',DX
+               W,-,HW,')',+,'(',DW,-,FW,')',+,'(',DW,-,DW,')',+,'(',DW,X
+               -,QW,')',+,'(',DW,-,PD,')',+,'(',DW,-,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    241         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    241         PERFORM GOOD
+         PERFORM GOOD
+*ZC    241         ELSE  
+         ELSE  
+*ZC    241         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (QW      -HFP-SRT)+(QW      -HFP-LNG)+(QW      -HFP-EXT)
+*            +(QW      -BFP-SRT)+(QW      -BFP-LNG)+(QW      -BFP-EXT)
+*            +(QW      -DFP-SRT)+(QW      -DFP-LNG)+(QW      -DFP-EXT)
+*            +(QW      -HW     )+(QW      -FW     )+(QW      -DW     )
+*            +(QW      -QW     )+(QW      -PD     )+(QW      -ZD     )
+*ZC    242         COMPUTE FLT_SRT,=,'(',QW,-,HFP_SRT,')',+,'(',QW,-,HFX
+               P_LNG,')',+,'(',QW,-,HFP_EXT,')',+,'(',QW,-,BFP_SRT,')',X
+               +,'(',QW,-,BFP_LNG,')',+,'(',QW,-,BFP_EXT,')',+,'(',QW,-X
+               ,DFP_SRT,')',+,'(',QW,-,DFP_LNG,')',+,'(',QW,-,DFP_EXT,'X
+               )',+,'(',QW,-,HW,')',+,'(',QW,-,FW,')',+,'(',QW,-,DW,')'X
+               ,+,'(',QW,-,QW,')',+,'(',QW,-,PD,')',+,'(',QW,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',QW,-,HFP_SRT,')',+,'(',QW,-,HFP_LNG,')',X
+               +,'(',QW,-,HFP_EXT,')',+,'(',QW,-,BFP_SRT,')',+,'(',QW,-X
+               ,BFP_LNG,')',+,'(',QW,-,BFP_EXT,')',+,'(',QW,-,DFP_SRT,'X
+               )',+,'(',QW,-,DFP_LNG,')',+,'(',QW,-,DFP_EXT,')',+,'(',QX
+               W,-,HW,')',+,'(',QW,-,FW,')',+,'(',QW,-,DW,')',+,'(',QW,X
+               -,QW,')',+,'(',QW,-,PD,')',+,'(',QW,-,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    248         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    248         PERFORM GOOD
+         PERFORM GOOD
+*ZC    248         ELSE  
+         ELSE  
+*ZC    248         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (PD      -HFP-SRT)+(PD      -HFP-LNG)+(PD      -HFP-EXT)
+*            +(PD      -BFP-SRT)+(PD      -BFP-LNG)+(PD      -BFP-EXT)
+*            +(PD      -DFP-SRT)+(PD      -DFP-LNG)+(PD      -DFP-EXT)
+*            +(PD      -HW     )+(PD      -FW     )+(PD      -DW     )
+*            +(PD      -QW     )+(PD      -PD     )+(PD      -ZD     )
+*ZC    249         COMPUTE FLT_SRT,=,'(',PD,-,HFP_SRT,')',+,'(',PD,-,HFX
+               P_LNG,')',+,'(',PD,-,HFP_EXT,')',+,'(',PD,-,BFP_SRT,')',X
+               +,'(',PD,-,BFP_LNG,')',+,'(',PD,-,BFP_EXT,')',+,'(',PD,-X
+               ,DFP_SRT,')',+,'(',PD,-,DFP_LNG,')',+,'(',PD,-,DFP_EXT,'X
+               )',+,'(',PD,-,HW,')',+,'(',PD,-,FW,')',+,'(',PD,-,DW,')'X
+               ,+,'(',PD,-,QW,')',+,'(',PD,-,PD,')',+,'(',PD,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',PD,-,HFP_SRT,')',+,'(',PD,-,HFP_LNG,')',X
+               +,'(',PD,-,HFP_EXT,')',+,'(',PD,-,BFP_SRT,')',+,'(',PD,-X
+               ,BFP_LNG,')',+,'(',PD,-,BFP_EXT,')',+,'(',PD,-,DFP_SRT,'X
+               )',+,'(',PD,-,DFP_LNG,')',+,'(',PD,-,DFP_EXT,')',+,'(',PX
+               D,-,HW,')',+,'(',PD,-,FW,')',+,'(',PD,-,DW,')',+,'(',PD,X
+               -,QW,')',+,'(',PD,-,PD,')',+,'(',PD,-,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    255         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    255         PERFORM GOOD
+         PERFORM GOOD
+*ZC    255         ELSE  
+         ELSE  
+*ZC    255         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (ZD      -HFP-SRT)+(ZD      -HFP-LNG)+(ZD      -HFP-EXT)
+*            +(ZD      -BFP-SRT)+(ZD      -BFP-LNG)+(ZD      -BFP-EXT)
+*            +(ZD      -DFP-SRT)+(ZD      -DFP-LNG)+(ZD      -DFP-EXT)
+*            +(ZD      -HW     )+(ZD      -FW     )+(ZD      -DW     )
+*            +(ZD      -QW     )+(ZD      -PD     )+(ZD      -ZD     )
+*ZC    256         COMPUTE FLT_SRT,=,'(',ZD,-,HFP_SRT,')',+,'(',ZD,-,HFX
+               P_LNG,')',+,'(',ZD,-,HFP_EXT,')',+,'(',ZD,-,BFP_SRT,')',X
+               +,'(',ZD,-,BFP_LNG,')',+,'(',ZD,-,BFP_EXT,')',+,'(',ZD,-X
+               ,DFP_SRT,')',+,'(',ZD,-,DFP_LNG,')',+,'(',ZD,-,DFP_EXT,'X
+               )',+,'(',ZD,-,HW,')',+,'(',ZD,-,FW,')',+,'(',ZD,-,DW,')'X
+               ,+,'(',ZD,-,QW,')',+,'(',ZD,-,PD,')',+,'(',ZD,-,ZD,')'
+         COMPUTE FLT_SRT,=,'(',ZD,-,HFP_SRT,')',+,'(',ZD,-,HFP_LNG,')',X
+               +,'(',ZD,-,HFP_EXT,')',+,'(',ZD,-,BFP_SRT,')',+,'(',ZD,-X
+               ,BFP_LNG,')',+,'(',ZD,-,BFP_EXT,')',+,'(',ZD,-,DFP_SRT,'X
+               )',+,'(',ZD,-,DFP_LNG,')',+,'(',ZD,-,DFP_EXT,')',+,'(',ZX
+               D,-,HW,')',+,'(',ZD,-,FW,')',+,'(',ZD,-,DW,')',+,'(',ZD,X
+               -,QW,')',+,'(',ZD,-,PD,')',+,'(',ZD,-,ZD,')'
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    262         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    262         PERFORM GOOD
+         PERFORM GOOD
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP2 TEST COMPUTE MULTIPLICATION'
+*ZC    263         DISPLAY 'TESTCMP2 TEST COMPUTE MULTIPLICATION'
+         DISPLAY 'TESTCMP2 TEST COMPUTE MULTIPLICATION'
+*            MOVE 2 TO        
+*              HFP-SRT HFP-LNG HFP-EXT
+*              BFP-SRT BFP-LNG BFP-EXT
+*              DFP-SRT DFP-LNG DFP-EXT
+*              HW      FW      DW
+*              QW      PD      ZD
+*ZC    264         MOVE  2,TO,HFP_SRT,HFP_LNG,HFP_EXT,BFP_SRT,BFP_LNG,BX
+               FP_EXT,DFP_SRT,DFP_LNG,DFP_EXT,HW,FW,DW,QW,PD,ZD
+         MOVE  2,TO,HFP_SRT,HFP_LNG,HFP_EXT,BFP_SRT,BFP_LNG,BFP_EXT,DFPX
+               _SRT,DFP_LNG,DFP_EXT,HW,FW,DW,QW,PD,ZD
+*            COMPUTE FLT-SRT = 
+*             (HFP-SRT *HFP-SRT)+(HFP-SRT *HFP-LNG)+(HFP-SRT *HFP-EXT)
+*            +(HFP-SRT *BFP-SRT)+(HFP-SRT *BFP-LNG)+(HFP-SRT *BFP-EXT)
+*            +(HFP-SRT *DFP-SRT)+(HFP-SRT *DFP-LNG)+(HFP-SRT *DFP-EXT)
+*            +(HFP-SRT *HW     )+(HFP-SRT *FW     )+(HFP-SRT *DW     )
+*            +(HFP-SRT *QW     )+(HFP-SRT *PD     )+(HFP-SRT *ZD     )
+*            -15*2*2
+*ZC    270         COMPUTE FLT_SRT,=,'(',HFP_SRT,*,HFP_SRT,')',+,'(',HFX
+               P_SRT,*,HFP_LNG,')',+,'(',HFP_SRT,*,HFP_EXT,')',+,'(',HFX
+               P_SRT,*,BFP_SRT,')',+,'(',HFP_SRT,*,BFP_LNG,')',+,'(',HFX
+               P_SRT,*,BFP_EXT,')',+,'(',HFP_SRT,*,DFP_SRT,')',+,'(',HFX
+               P_SRT,*,DFP_LNG,')',+,'(',HFP_SRT,*,DFP_EXT,')',+,'(',HFX
+               P_SRT,*,HW,')',+,'(',HFP_SRT,*,FW,')',+,'(',HFP_SRT,*,DWX
+               ,')',+,'(',HFP_SRT,*,QW,')',+,'(',HFP_SRT,*,PD,')',+,'('X
+               ,HFP_SRT,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',HFP_SRT,*,HFP_SRT,')',+,'(',HFP_SRT,*,HFX
+               P_LNG,')',+,'(',HFP_SRT,*,HFP_EXT,')',+,'(',HFP_SRT,*,BFX
+               P_SRT,')',+,'(',HFP_SRT,*,BFP_LNG,')',+,'(',HFP_SRT,*,BFX
+               P_EXT,')',+,'(',HFP_SRT,*,DFP_SRT,')',+,'(',HFP_SRT,*,DFX
+               P_LNG,')',+,'(',HFP_SRT,*,DFP_EXT,')',+,'(',HFP_SRT,*,HWX
+               ,')',+,'(',HFP_SRT,*,FW,')',+,'(',HFP_SRT,*,DW,')',+,'('X
+               ,HFP_SRT,*,QW,')',+,'(',HFP_SRT,*,PD,')',+,'(',HFP_SRT,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    277         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    277         PERFORM GOOD
+         PERFORM GOOD
+*ZC    277         ELSE  
+         ELSE  
+*ZC    277         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-LNG = 
+*             (HFP-LNG *HFP-SRT)+(HFP-LNG *HFP-LNG)+(HFP-LNG *HFP-EXT)
+*            +(HFP-LNG *BFP-SRT)+(HFP-LNG *BFP-LNG)+(HFP-LNG *BFP-EXT)
+*            +(HFP-LNG *DFP-SRT)+(HFP-LNG *DFP-LNG)+(HFP-LNG *DFP-EXT)
+*            +(HFP-LNG *HW     )+(HFP-LNG *FW     )+(HFP-LNG *DW     )
+*            +(HFP-LNG *QW     )+(HFP-LNG *PD     )+(HFP-LNG *ZD     )
+*            -15*2*2
+*ZC    278         COMPUTE FLT_LNG,=,'(',HFP_LNG,*,HFP_SRT,')',+,'(',HFX
+               P_LNG,*,HFP_LNG,')',+,'(',HFP_LNG,*,HFP_EXT,')',+,'(',HFX
+               P_LNG,*,BFP_SRT,')',+,'(',HFP_LNG,*,BFP_LNG,')',+,'(',HFX
+               P_LNG,*,BFP_EXT,')',+,'(',HFP_LNG,*,DFP_SRT,')',+,'(',HFX
+               P_LNG,*,DFP_LNG,')',+,'(',HFP_LNG,*,DFP_EXT,')',+,'(',HFX
+               P_LNG,*,HW,')',+,'(',HFP_LNG,*,FW,')',+,'(',HFP_LNG,*,DWX
+               ,')',+,'(',HFP_LNG,*,QW,')',+,'(',HFP_LNG,*,PD,')',+,'('X
+               ,HFP_LNG,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_LNG,=,'(',HFP_LNG,*,HFP_SRT,')',+,'(',HFP_LNG,*,HFX
+               P_LNG,')',+,'(',HFP_LNG,*,HFP_EXT,')',+,'(',HFP_LNG,*,BFX
+               P_SRT,')',+,'(',HFP_LNG,*,BFP_LNG,')',+,'(',HFP_LNG,*,BFX
+               P_EXT,')',+,'(',HFP_LNG,*,DFP_SRT,')',+,'(',HFP_LNG,*,DFX
+               P_LNG,')',+,'(',HFP_LNG,*,DFP_EXT,')',+,'(',HFP_LNG,*,HWX
+               ,')',+,'(',HFP_LNG,*,FW,')',+,'(',HFP_LNG,*,DW,')',+,'('X
+               ,HFP_LNG,*,QW,')',+,'(',HFP_LNG,*,PD,')',+,'(',HFP_LNG,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-LNG = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    285         IF    FLT_LNG,=,0
+         IF    FLT_LNG,=,0
+*ZC    285         PERFORM GOOD
+         PERFORM GOOD
+*ZC    285         ELSE  
+         ELSE  
+*ZC    285         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-EXT = 
+*             (HFP-EXT *HFP-SRT)+(HFP-EXT *HFP-LNG)+(HFP-EXT *HFP-EXT)
+*            +(HFP-EXT *BFP-SRT)+(HFP-EXT *BFP-LNG)+(HFP-EXT *BFP-EXT)
+*            +(HFP-EXT *DFP-SRT)+(HFP-EXT *DFP-LNG)+(HFP-EXT *DFP-EXT)
+*            +(HFP-EXT *HW     )+(HFP-EXT *FW     )+(HFP-EXT *DW     )
+*            +(HFP-EXT *QW     )+(HFP-EXT *PD     )+(HFP-EXT *ZD     )
+*            -15*2*2
+*ZC    286         COMPUTE FLT_EXT,=,'(',HFP_EXT,*,HFP_SRT,')',+,'(',HFX
+               P_EXT,*,HFP_LNG,')',+,'(',HFP_EXT,*,HFP_EXT,')',+,'(',HFX
+               P_EXT,*,BFP_SRT,')',+,'(',HFP_EXT,*,BFP_LNG,')',+,'(',HFX
+               P_EXT,*,BFP_EXT,')',+,'(',HFP_EXT,*,DFP_SRT,')',+,'(',HFX
+               P_EXT,*,DFP_LNG,')',+,'(',HFP_EXT,*,DFP_EXT,')',+,'(',HFX
+               P_EXT,*,HW,')',+,'(',HFP_EXT,*,FW,')',+,'(',HFP_EXT,*,DWX
+               ,')',+,'(',HFP_EXT,*,QW,')',+,'(',HFP_EXT,*,PD,')',+,'('X
+               ,HFP_EXT,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_EXT,=,'(',HFP_EXT,*,HFP_SRT,')',+,'(',HFP_EXT,*,HFX
+               P_LNG,')',+,'(',HFP_EXT,*,HFP_EXT,')',+,'(',HFP_EXT,*,BFX
+               P_SRT,')',+,'(',HFP_EXT,*,BFP_LNG,')',+,'(',HFP_EXT,*,BFX
+               P_EXT,')',+,'(',HFP_EXT,*,DFP_SRT,')',+,'(',HFP_EXT,*,DFX
+               P_LNG,')',+,'(',HFP_EXT,*,DFP_EXT,')',+,'(',HFP_EXT,*,HWX
+               ,')',+,'(',HFP_EXT,*,FW,')',+,'(',HFP_EXT,*,DW,')',+,'('X
+               ,HFP_EXT,*,QW,')',+,'(',HFP_EXT,*,PD,')',+,'(',HFP_EXT,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-EXT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    293         IF    FLT_EXT,=,0
+         IF    FLT_EXT,=,0
+*ZC    293         PERFORM GOOD
+         PERFORM GOOD
+*ZC    293         ELSE  
+         ELSE  
+*ZC    293         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-SRT *HFP-SRT)+(BFP-SRT *HFP-LNG)+(BFP-SRT *HFP-EXT)
+*            +(BFP-SRT *BFP-SRT)+(BFP-SRT *BFP-LNG)+(BFP-SRT *BFP-EXT)
+*            +(BFP-SRT *DFP-SRT)+(BFP-SRT *DFP-LNG)+(BFP-SRT *DFP-EXT)
+*            +(BFP-SRT *HW     )+(BFP-SRT *FW     )+(BFP-SRT *DW     )
+*            +(BFP-SRT *QW     )+(BFP-SRT *PD     )+(BFP-SRT *ZD     )
+*            -15*2*2
+*ZC    294         COMPUTE FLT_SRT,=,'(',BFP_SRT,*,HFP_SRT,')',+,'(',BFX
+               P_SRT,*,HFP_LNG,')',+,'(',BFP_SRT,*,HFP_EXT,')',+,'(',BFX
+               P_SRT,*,BFP_SRT,')',+,'(',BFP_SRT,*,BFP_LNG,')',+,'(',BFX
+               P_SRT,*,BFP_EXT,')',+,'(',BFP_SRT,*,DFP_SRT,')',+,'(',BFX
+               P_SRT,*,DFP_LNG,')',+,'(',BFP_SRT,*,DFP_EXT,')',+,'(',BFX
+               P_SRT,*,HW,')',+,'(',BFP_SRT,*,FW,')',+,'(',BFP_SRT,*,DWX
+               ,')',+,'(',BFP_SRT,*,QW,')',+,'(',BFP_SRT,*,PD,')',+,'('X
+               ,BFP_SRT,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',BFP_SRT,*,HFP_SRT,')',+,'(',BFP_SRT,*,HFX
+               P_LNG,')',+,'(',BFP_SRT,*,HFP_EXT,')',+,'(',BFP_SRT,*,BFX
+               P_SRT,')',+,'(',BFP_SRT,*,BFP_LNG,')',+,'(',BFP_SRT,*,BFX
+               P_EXT,')',+,'(',BFP_SRT,*,DFP_SRT,')',+,'(',BFP_SRT,*,DFX
+               P_LNG,')',+,'(',BFP_SRT,*,DFP_EXT,')',+,'(',BFP_SRT,*,HWX
+               ,')',+,'(',BFP_SRT,*,FW,')',+,'(',BFP_SRT,*,DW,')',+,'('X
+               ,BFP_SRT,*,QW,')',+,'(',BFP_SRT,*,PD,')',+,'(',BFP_SRT,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    301         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    301         PERFORM GOOD
+         PERFORM GOOD
+*ZC    301         ELSE  
+         ELSE  
+*ZC    301         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-LNG *HFP-SRT)+(BFP-LNG *HFP-LNG)+(BFP-LNG *HFP-EXT)
+*            +(BFP-LNG *BFP-SRT)+(BFP-LNG *BFP-LNG)+(BFP-LNG *BFP-EXT)
+*            +(BFP-LNG *DFP-SRT)+(BFP-LNG *DFP-LNG)+(BFP-LNG *DFP-EXT)
+*            +(BFP-LNG *HW     )+(BFP-LNG *FW     )+(BFP-LNG *DW     )
+*            +(BFP-LNG *QW     )+(BFP-LNG *PD     )+(BFP-LNG *ZD     )
+*            -15*2*2
+*ZC    302         COMPUTE FLT_SRT,=,'(',BFP_LNG,*,HFP_SRT,')',+,'(',BFX
+               P_LNG,*,HFP_LNG,')',+,'(',BFP_LNG,*,HFP_EXT,')',+,'(',BFX
+               P_LNG,*,BFP_SRT,')',+,'(',BFP_LNG,*,BFP_LNG,')',+,'(',BFX
+               P_LNG,*,BFP_EXT,')',+,'(',BFP_LNG,*,DFP_SRT,')',+,'(',BFX
+               P_LNG,*,DFP_LNG,')',+,'(',BFP_LNG,*,DFP_EXT,')',+,'(',BFX
+               P_LNG,*,HW,')',+,'(',BFP_LNG,*,FW,')',+,'(',BFP_LNG,*,DWX
+               ,')',+,'(',BFP_LNG,*,QW,')',+,'(',BFP_LNG,*,PD,')',+,'('X
+               ,BFP_LNG,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',BFP_LNG,*,HFP_SRT,')',+,'(',BFP_LNG,*,HFX
+               P_LNG,')',+,'(',BFP_LNG,*,HFP_EXT,')',+,'(',BFP_LNG,*,BFX
+               P_SRT,')',+,'(',BFP_LNG,*,BFP_LNG,')',+,'(',BFP_LNG,*,BFX
+               P_EXT,')',+,'(',BFP_LNG,*,DFP_SRT,')',+,'(',BFP_LNG,*,DFX
+               P_LNG,')',+,'(',BFP_LNG,*,DFP_EXT,')',+,'(',BFP_LNG,*,HWX
+               ,')',+,'(',BFP_LNG,*,FW,')',+,'(',BFP_LNG,*,DW,')',+,'('X
+               ,BFP_LNG,*,QW,')',+,'(',BFP_LNG,*,PD,')',+,'(',BFP_LNG,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    309         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    309         PERFORM GOOD
+         PERFORM GOOD
+*ZC    309         ELSE  
+         ELSE  
+*ZC    309         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-EXT *HFP-SRT)+(BFP-EXT *HFP-LNG)+(BFP-EXT *HFP-EXT)
+*            +(BFP-EXT *BFP-SRT)+(BFP-EXT *BFP-LNG)+(BFP-EXT *BFP-EXT)
+*            +(BFP-EXT *DFP-SRT)+(BFP-EXT *DFP-LNG)+(BFP-EXT *DFP-EXT)
+*            +(BFP-EXT *HW     )+(BFP-EXT *FW     )+(BFP-EXT *DW     )
+*            +(BFP-EXT *QW     )+(BFP-EXT *PD     )+(BFP-EXT *ZD     )
+*            -15*2*2
+*ZC    310         COMPUTE FLT_SRT,=,'(',BFP_EXT,*,HFP_SRT,')',+,'(',BFX
+               P_EXT,*,HFP_LNG,')',+,'(',BFP_EXT,*,HFP_EXT,')',+,'(',BFX
+               P_EXT,*,BFP_SRT,')',+,'(',BFP_EXT,*,BFP_LNG,')',+,'(',BFX
+               P_EXT,*,BFP_EXT,')',+,'(',BFP_EXT,*,DFP_SRT,')',+,'(',BFX
+               P_EXT,*,DFP_LNG,')',+,'(',BFP_EXT,*,DFP_EXT,')',+,'(',BFX
+               P_EXT,*,HW,')',+,'(',BFP_EXT,*,FW,')',+,'(',BFP_EXT,*,DWX
+               ,')',+,'(',BFP_EXT,*,QW,')',+,'(',BFP_EXT,*,PD,')',+,'('X
+               ,BFP_EXT,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',BFP_EXT,*,HFP_SRT,')',+,'(',BFP_EXT,*,HFX
+               P_LNG,')',+,'(',BFP_EXT,*,HFP_EXT,')',+,'(',BFP_EXT,*,BFX
+               P_SRT,')',+,'(',BFP_EXT,*,BFP_LNG,')',+,'(',BFP_EXT,*,BFX
+               P_EXT,')',+,'(',BFP_EXT,*,DFP_SRT,')',+,'(',BFP_EXT,*,DFX
+               P_LNG,')',+,'(',BFP_EXT,*,DFP_EXT,')',+,'(',BFP_EXT,*,HWX
+               ,')',+,'(',BFP_EXT,*,FW,')',+,'(',BFP_EXT,*,DW,')',+,'('X
+               ,BFP_EXT,*,QW,')',+,'(',BFP_EXT,*,PD,')',+,'(',BFP_EXT,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    317         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    317         PERFORM GOOD
+         PERFORM GOOD
+*ZC    317         ELSE  
+         ELSE  
+*ZC    317         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-SRT *HFP-SRT)+(DFP-SRT *HFP-LNG)+(DFP-SRT *HFP-EXT)
+*            +(DFP-SRT *BFP-SRT)+(DFP-SRT *BFP-LNG)+(DFP-SRT *BFP-EXT)
+*            +(DFP-SRT *DFP-SRT)+(DFP-SRT *DFP-LNG)+(DFP-SRT *DFP-EXT)
+*            +(DFP-SRT *HW     )+(DFP-SRT *FW     )+(DFP-SRT *DW     )
+*            +(DFP-SRT *QW     )+(DFP-SRT *PD     )+(DFP-SRT *ZD     )
+*            -15*2*2
+*ZC    318         COMPUTE FLT_SRT,=,'(',DFP_SRT,*,HFP_SRT,')',+,'(',DFX
+               P_SRT,*,HFP_LNG,')',+,'(',DFP_SRT,*,HFP_EXT,')',+,'(',DFX
+               P_SRT,*,BFP_SRT,')',+,'(',DFP_SRT,*,BFP_LNG,')',+,'(',DFX
+               P_SRT,*,BFP_EXT,')',+,'(',DFP_SRT,*,DFP_SRT,')',+,'(',DFX
+               P_SRT,*,DFP_LNG,')',+,'(',DFP_SRT,*,DFP_EXT,')',+,'(',DFX
+               P_SRT,*,HW,')',+,'(',DFP_SRT,*,FW,')',+,'(',DFP_SRT,*,DWX
+               ,')',+,'(',DFP_SRT,*,QW,')',+,'(',DFP_SRT,*,PD,')',+,'('X
+               ,DFP_SRT,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',DFP_SRT,*,HFP_SRT,')',+,'(',DFP_SRT,*,HFX
+               P_LNG,')',+,'(',DFP_SRT,*,HFP_EXT,')',+,'(',DFP_SRT,*,BFX
+               P_SRT,')',+,'(',DFP_SRT,*,BFP_LNG,')',+,'(',DFP_SRT,*,BFX
+               P_EXT,')',+,'(',DFP_SRT,*,DFP_SRT,')',+,'(',DFP_SRT,*,DFX
+               P_LNG,')',+,'(',DFP_SRT,*,DFP_EXT,')',+,'(',DFP_SRT,*,HWX
+               ,')',+,'(',DFP_SRT,*,FW,')',+,'(',DFP_SRT,*,DW,')',+,'('X
+               ,DFP_SRT,*,QW,')',+,'(',DFP_SRT,*,PD,')',+,'(',DFP_SRT,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    325         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    325         PERFORM GOOD
+         PERFORM GOOD
+*ZC    325         ELSE  
+         ELSE  
+*ZC    325         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-LNG *HFP-SRT)+(DFP-LNG *HFP-LNG)+(DFP-LNG *HFP-EXT)
+*            +(DFP-LNG *BFP-SRT)+(DFP-LNG *BFP-LNG)+(DFP-LNG *BFP-EXT)
+*            +(DFP-LNG *DFP-SRT)+(DFP-LNG *DFP-LNG)+(DFP-LNG *DFP-EXT)
+*            +(DFP-LNG *HW     )+(DFP-LNG *FW     )+(DFP-LNG *DW     )
+*            +(DFP-LNG *QW     )+(DFP-LNG *PD     )+(DFP-LNG *ZD     )
+*            -15*2*2
+*ZC    326         COMPUTE FLT_SRT,=,'(',DFP_LNG,*,HFP_SRT,')',+,'(',DFX
+               P_LNG,*,HFP_LNG,')',+,'(',DFP_LNG,*,HFP_EXT,')',+,'(',DFX
+               P_LNG,*,BFP_SRT,')',+,'(',DFP_LNG,*,BFP_LNG,')',+,'(',DFX
+               P_LNG,*,BFP_EXT,')',+,'(',DFP_LNG,*,DFP_SRT,')',+,'(',DFX
+               P_LNG,*,DFP_LNG,')',+,'(',DFP_LNG,*,DFP_EXT,')',+,'(',DFX
+               P_LNG,*,HW,')',+,'(',DFP_LNG,*,FW,')',+,'(',DFP_LNG,*,DWX
+               ,')',+,'(',DFP_LNG,*,QW,')',+,'(',DFP_LNG,*,PD,')',+,'('X
+               ,DFP_LNG,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',DFP_LNG,*,HFP_SRT,')',+,'(',DFP_LNG,*,HFX
+               P_LNG,')',+,'(',DFP_LNG,*,HFP_EXT,')',+,'(',DFP_LNG,*,BFX
+               P_SRT,')',+,'(',DFP_LNG,*,BFP_LNG,')',+,'(',DFP_LNG,*,BFX
+               P_EXT,')',+,'(',DFP_LNG,*,DFP_SRT,')',+,'(',DFP_LNG,*,DFX
+               P_LNG,')',+,'(',DFP_LNG,*,DFP_EXT,')',+,'(',DFP_LNG,*,HWX
+               ,')',+,'(',DFP_LNG,*,FW,')',+,'(',DFP_LNG,*,DW,')',+,'('X
+               ,DFP_LNG,*,QW,')',+,'(',DFP_LNG,*,PD,')',+,'(',DFP_LNG,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    333         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    333         PERFORM GOOD
+         PERFORM GOOD
+*ZC    333         ELSE  
+         ELSE  
+*ZC    333         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-EXT *HFP-SRT)+(DFP-EXT *HFP-LNG)+(DFP-EXT *HFP-EXT)
+*            +(DFP-EXT *BFP-SRT)+(DFP-EXT *BFP-LNG)+(DFP-EXT *BFP-EXT)
+*            +(DFP-EXT *DFP-SRT)+(DFP-EXT *DFP-LNG)+(DFP-EXT *DFP-EXT)
+*            +(DFP-EXT *HW     )+(DFP-EXT *FW     )+(DFP-EXT *DW     )
+*            +(DFP-EXT *QW     )+(DFP-EXT *PD     )+(DFP-EXT *ZD     )
+*            -15*2*2
+*ZC    334         COMPUTE FLT_SRT,=,'(',DFP_EXT,*,HFP_SRT,')',+,'(',DFX
+               P_EXT,*,HFP_LNG,')',+,'(',DFP_EXT,*,HFP_EXT,')',+,'(',DFX
+               P_EXT,*,BFP_SRT,')',+,'(',DFP_EXT,*,BFP_LNG,')',+,'(',DFX
+               P_EXT,*,BFP_EXT,')',+,'(',DFP_EXT,*,DFP_SRT,')',+,'(',DFX
+               P_EXT,*,DFP_LNG,')',+,'(',DFP_EXT,*,DFP_EXT,')',+,'(',DFX
+               P_EXT,*,HW,')',+,'(',DFP_EXT,*,FW,')',+,'(',DFP_EXT,*,DWX
+               ,')',+,'(',DFP_EXT,*,QW,')',+,'(',DFP_EXT,*,PD,')',+,'('X
+               ,DFP_EXT,*,ZD,')',-,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',DFP_EXT,*,HFP_SRT,')',+,'(',DFP_EXT,*,HFX
+               P_LNG,')',+,'(',DFP_EXT,*,HFP_EXT,')',+,'(',DFP_EXT,*,BFX
+               P_SRT,')',+,'(',DFP_EXT,*,BFP_LNG,')',+,'(',DFP_EXT,*,BFX
+               P_EXT,')',+,'(',DFP_EXT,*,DFP_SRT,')',+,'(',DFP_EXT,*,DFX
+               P_LNG,')',+,'(',DFP_EXT,*,DFP_EXT,')',+,'(',DFP_EXT,*,HWX
+               ,')',+,'(',DFP_EXT,*,FW,')',+,'(',DFP_EXT,*,DW,')',+,'('X
+               ,DFP_EXT,*,QW,')',+,'(',DFP_EXT,*,PD,')',+,'(',DFP_EXT,*X
+               ,ZD,')',-,15,*,2,*,2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    341         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    341         PERFORM GOOD
+         PERFORM GOOD
+*ZC    341         ELSE  
+         ELSE  
+*ZC    341         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (HW      *HFP-SRT)+(HW      *HFP-LNG)+(HW      *HFP-EXT)
+*            +(HW      *BFP-SRT)+(HW      *BFP-LNG)+(HW      *BFP-EXT)
+*            +(HW      *DFP-SRT)+(HW      *DFP-LNG)+(HW      *DFP-EXT)
+*            +(HW      *HW     )+(HW      *FW     )+(HW      *DW     )
+*            +(HW      *QW     )+(HW      *PD     )+(HW      *ZD     )
+*            -15*2*2
+*ZC    342         COMPUTE FLT_SRT,=,'(',HW,*,HFP_SRT,')',+,'(',HW,*,HFX
+               P_LNG,')',+,'(',HW,*,HFP_EXT,')',+,'(',HW,*,BFP_SRT,')',X
+               +,'(',HW,*,BFP_LNG,')',+,'(',HW,*,BFP_EXT,')',+,'(',HW,*X
+               ,DFP_SRT,')',+,'(',HW,*,DFP_LNG,')',+,'(',HW,*,DFP_EXT,'X
+               )',+,'(',HW,*,HW,')',+,'(',HW,*,FW,')',+,'(',HW,*,DW,')'X
+               ,+,'(',HW,*,QW,')',+,'(',HW,*,PD,')',+,'(',HW,*,ZD,')',-X
+               ,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',HW,*,HFP_SRT,')',+,'(',HW,*,HFP_LNG,')',X
+               +,'(',HW,*,HFP_EXT,')',+,'(',HW,*,BFP_SRT,')',+,'(',HW,*X
+               ,BFP_LNG,')',+,'(',HW,*,BFP_EXT,')',+,'(',HW,*,DFP_SRT,'X
+               )',+,'(',HW,*,DFP_LNG,')',+,'(',HW,*,DFP_EXT,')',+,'(',HX
+               W,*,HW,')',+,'(',HW,*,FW,')',+,'(',HW,*,DW,')',+,'(',HW,X
+               *,QW,')',+,'(',HW,*,PD,')',+,'(',HW,*,ZD,')',-,15,*,2,*,X
+               2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    349         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    349         PERFORM GOOD
+         PERFORM GOOD
+*ZC    349         ELSE  
+         ELSE  
+*ZC    349         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (FW      *HFP-SRT)+(FW      *HFP-LNG)+(FW      *HFP-EXT)
+*            +(FW      *BFP-SRT)+(FW      *BFP-LNG)+(FW      *BFP-EXT)
+*            +(FW      *DFP-SRT)+(FW      *DFP-LNG)+(FW      *DFP-EXT)
+*            +(FW      *HW     )+(FW      *FW     )+(FW      *DW     )
+*            +(FW      *QW     )+(FW      *PD     )+(FW      *ZD     )
+*            -15*2*2
+*ZC    350         COMPUTE FLT_SRT,=,'(',FW,*,HFP_SRT,')',+,'(',FW,*,HFX
+               P_LNG,')',+,'(',FW,*,HFP_EXT,')',+,'(',FW,*,BFP_SRT,')',X
+               +,'(',FW,*,BFP_LNG,')',+,'(',FW,*,BFP_EXT,')',+,'(',FW,*X
+               ,DFP_SRT,')',+,'(',FW,*,DFP_LNG,')',+,'(',FW,*,DFP_EXT,'X
+               )',+,'(',FW,*,HW,')',+,'(',FW,*,FW,')',+,'(',FW,*,DW,')'X
+               ,+,'(',FW,*,QW,')',+,'(',FW,*,PD,')',+,'(',FW,*,ZD,')',-X
+               ,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',FW,*,HFP_SRT,')',+,'(',FW,*,HFP_LNG,')',X
+               +,'(',FW,*,HFP_EXT,')',+,'(',FW,*,BFP_SRT,')',+,'(',FW,*X
+               ,BFP_LNG,')',+,'(',FW,*,BFP_EXT,')',+,'(',FW,*,DFP_SRT,'X
+               )',+,'(',FW,*,DFP_LNG,')',+,'(',FW,*,DFP_EXT,')',+,'(',FX
+               W,*,HW,')',+,'(',FW,*,FW,')',+,'(',FW,*,DW,')',+,'(',FW,X
+               *,QW,')',+,'(',FW,*,PD,')',+,'(',FW,*,ZD,')',-,15,*,2,*,X
+               2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    357         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    357         PERFORM GOOD
+         PERFORM GOOD
+*ZC    357         ELSE  
+         ELSE  
+*ZC    357         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DW      *HFP-SRT)+(DW      *HFP-LNG)+(DW      *HFP-EXT)
+*            +(DW      *BFP-SRT)+(DW      *BFP-LNG)+(DW      *BFP-EXT)
+*            +(DW      *DFP-SRT)+(DW      *DFP-LNG)+(DW      *DFP-EXT)
+*            +(DW      *HW     )+(DW      *FW     )+(DW      *DW     )
+*            +(DW      *QW     )+(DW      *PD     )+(DW      *ZD     )
+*            -15*2*2
+*ZC    358         COMPUTE FLT_SRT,=,'(',DW,*,HFP_SRT,')',+,'(',DW,*,HFX
+               P_LNG,')',+,'(',DW,*,HFP_EXT,')',+,'(',DW,*,BFP_SRT,')',X
+               +,'(',DW,*,BFP_LNG,')',+,'(',DW,*,BFP_EXT,')',+,'(',DW,*X
+               ,DFP_SRT,')',+,'(',DW,*,DFP_LNG,')',+,'(',DW,*,DFP_EXT,'X
+               )',+,'(',DW,*,HW,')',+,'(',DW,*,FW,')',+,'(',DW,*,DW,')'X
+               ,+,'(',DW,*,QW,')',+,'(',DW,*,PD,')',+,'(',DW,*,ZD,')',-X
+               ,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',DW,*,HFP_SRT,')',+,'(',DW,*,HFP_LNG,')',X
+               +,'(',DW,*,HFP_EXT,')',+,'(',DW,*,BFP_SRT,')',+,'(',DW,*X
+               ,BFP_LNG,')',+,'(',DW,*,BFP_EXT,')',+,'(',DW,*,DFP_SRT,'X
+               )',+,'(',DW,*,DFP_LNG,')',+,'(',DW,*,DFP_EXT,')',+,'(',DX
+               W,*,HW,')',+,'(',DW,*,FW,')',+,'(',DW,*,DW,')',+,'(',DW,X
+               *,QW,')',+,'(',DW,*,PD,')',+,'(',DW,*,ZD,')',-,15,*,2,*,X
+               2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    365         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    365         PERFORM GOOD
+         PERFORM GOOD
+*ZC    365         ELSE  
+         ELSE  
+*ZC    365         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (QW      *HFP-SRT)+(QW      *HFP-LNG)+(QW      *HFP-EXT)
+*            +(QW      *BFP-SRT)+(QW      *BFP-LNG)+(QW      *BFP-EXT)
+*            +(QW      *DFP-SRT)+(QW      *DFP-LNG)+(QW      *DFP-EXT)
+*            +(QW      *HW     )+(QW      *FW     )+(QW      *DW     )
+*            +(QW      *QW     )+(QW      *PD     )+(QW      *ZD     )
+*            -15*2*2
+*ZC    366         COMPUTE FLT_SRT,=,'(',QW,*,HFP_SRT,')',+,'(',QW,*,HFX
+               P_LNG,')',+,'(',QW,*,HFP_EXT,')',+,'(',QW,*,BFP_SRT,')',X
+               +,'(',QW,*,BFP_LNG,')',+,'(',QW,*,BFP_EXT,')',+,'(',QW,*X
+               ,DFP_SRT,')',+,'(',QW,*,DFP_LNG,')',+,'(',QW,*,DFP_EXT,'X
+               )',+,'(',QW,*,HW,')',+,'(',QW,*,FW,')',+,'(',QW,*,DW,')'X
+               ,+,'(',QW,*,QW,')',+,'(',QW,*,PD,')',+,'(',QW,*,ZD,')',-X
+               ,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',QW,*,HFP_SRT,')',+,'(',QW,*,HFP_LNG,')',X
+               +,'(',QW,*,HFP_EXT,')',+,'(',QW,*,BFP_SRT,')',+,'(',QW,*X
+               ,BFP_LNG,')',+,'(',QW,*,BFP_EXT,')',+,'(',QW,*,DFP_SRT,'X
+               )',+,'(',QW,*,DFP_LNG,')',+,'(',QW,*,DFP_EXT,')',+,'(',QX
+               W,*,HW,')',+,'(',QW,*,FW,')',+,'(',QW,*,DW,')',+,'(',QW,X
+               *,QW,')',+,'(',QW,*,PD,')',+,'(',QW,*,ZD,')',-,15,*,2,*,X
+               2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    373         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    373         PERFORM GOOD
+         PERFORM GOOD
+*ZC    373         ELSE  
+         ELSE  
+*ZC    373         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (PD      *HFP-SRT)+(PD      *HFP-LNG)+(PD      *HFP-EXT)
+*            +(PD      *BFP-SRT)+(PD      *BFP-LNG)+(PD      *BFP-EXT)
+*            +(PD      *DFP-SRT)+(PD      *DFP-LNG)+(PD      *DFP-EXT)
+*            +(PD      *HW     )+(PD      *FW     )+(PD      *DW     )
+*            +(PD      *QW     )+(PD      *PD     )+(PD      *ZD     )
+*            -15*2*2
+*ZC    374         COMPUTE FLT_SRT,=,'(',PD,*,HFP_SRT,')',+,'(',PD,*,HFX
+               P_LNG,')',+,'(',PD,*,HFP_EXT,')',+,'(',PD,*,BFP_SRT,')',X
+               +,'(',PD,*,BFP_LNG,')',+,'(',PD,*,BFP_EXT,')',+,'(',PD,*X
+               ,DFP_SRT,')',+,'(',PD,*,DFP_LNG,')',+,'(',PD,*,DFP_EXT,'X
+               )',+,'(',PD,*,HW,')',+,'(',PD,*,FW,')',+,'(',PD,*,DW,')'X
+               ,+,'(',PD,*,QW,')',+,'(',PD,*,PD,')',+,'(',PD,*,ZD,')',-X
+               ,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',PD,*,HFP_SRT,')',+,'(',PD,*,HFP_LNG,')',X
+               +,'(',PD,*,HFP_EXT,')',+,'(',PD,*,BFP_SRT,')',+,'(',PD,*X
+               ,BFP_LNG,')',+,'(',PD,*,BFP_EXT,')',+,'(',PD,*,DFP_SRT,'X
+               )',+,'(',PD,*,DFP_LNG,')',+,'(',PD,*,DFP_EXT,')',+,'(',PX
+               D,*,HW,')',+,'(',PD,*,FW,')',+,'(',PD,*,DW,')',+,'(',PD,X
+               *,QW,')',+,'(',PD,*,PD,')',+,'(',PD,*,ZD,')',-,15,*,2,*,X
+               2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    381         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    381         PERFORM GOOD
+         PERFORM GOOD
+*ZC    381         ELSE  
+         ELSE  
+*ZC    381         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (ZD      *HFP-SRT)+(ZD      *HFP-LNG)+(ZD      *HFP-EXT)
+*            +(ZD      *BFP-SRT)+(ZD      *BFP-LNG)+(ZD      *BFP-EXT)
+*            +(ZD      *DFP-SRT)+(ZD      *DFP-LNG)+(ZD      *DFP-EXT)
+*            +(ZD      *HW     )+(ZD      *FW     )+(ZD      *DW     )
+*            +(ZD      *QW     )+(ZD      *PD     )+(ZD      *ZD     )
+*            -15*2*2
+*ZC    382         COMPUTE FLT_SRT,=,'(',ZD,*,HFP_SRT,')',+,'(',ZD,*,HFX
+               P_LNG,')',+,'(',ZD,*,HFP_EXT,')',+,'(',ZD,*,BFP_SRT,')',X
+               +,'(',ZD,*,BFP_LNG,')',+,'(',ZD,*,BFP_EXT,')',+,'(',ZD,*X
+               ,DFP_SRT,')',+,'(',ZD,*,DFP_LNG,')',+,'(',ZD,*,DFP_EXT,'X
+               )',+,'(',ZD,*,HW,')',+,'(',ZD,*,FW,')',+,'(',ZD,*,DW,')'X
+               ,+,'(',ZD,*,QW,')',+,'(',ZD,*,PD,')',+,'(',ZD,*,ZD,')',-X
+               ,15,*,2,*,2
+         COMPUTE FLT_SRT,=,'(',ZD,*,HFP_SRT,')',+,'(',ZD,*,HFP_LNG,')',X
+               +,'(',ZD,*,HFP_EXT,')',+,'(',ZD,*,BFP_SRT,')',+,'(',ZD,*X
+               ,BFP_LNG,')',+,'(',ZD,*,BFP_EXT,')',+,'(',ZD,*,DFP_SRT,'X
+               )',+,'(',ZD,*,DFP_LNG,')',+,'(',ZD,*,DFP_EXT,')',+,'(',ZX
+               D,*,HW,')',+,'(',ZD,*,FW,')',+,'(',ZD,*,DW,')',+,'(',ZD,X
+               *,QW,')',+,'(',ZD,*,PD,')',+,'(',ZD,*,ZD,')',-,15,*,2,*,X
+               2
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    389         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    389         PERFORM GOOD
+         PERFORM GOOD
+*ZC    389         ELSE  
+         ELSE  
+*ZC    389         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP2 TEST COMPUTE DIVIDE'
+*ZC    390         DISPLAY 'TESTCMP2 TEST COMPUTE DIVIDE'
+         DISPLAY 'TESTCMP2 TEST COMPUTE DIVIDE'
+*            COMPUTE FLT-SRT = 
+*             (HFP-SRT /HFP-SRT)+(HFP-SRT /HFP-LNG)+(HFP-SRT /HFP-EXT)
+*            +(HFP-SRT /BFP-SRT)+(HFP-SRT /BFP-LNG)+(HFP-SRT /BFP-EXT)
+*            +(HFP-SRT /DFP-SRT)+(HFP-SRT /DFP-LNG)+(HFP-SRT /DFP-EXT)
+*            +(HFP-SRT /HW     )+(HFP-SRT /FW     )+(HFP-SRT /DW     )
+*            +(HFP-SRT /QW     )+(HFP-SRT /PD     )+(HFP-SRT /ZD     )
+*            -15
+*ZC    391         COMPUTE FLT_SRT,=,'(',HFP_SRT,/,HFP_SRT,')',+,'(',HFX
+               P_SRT,/,HFP_LNG,')',+,'(',HFP_SRT,/,HFP_EXT,')',+,'(',HFX
+               P_SRT,/,BFP_SRT,')',+,'(',HFP_SRT,/,BFP_LNG,')',+,'(',HFX
+               P_SRT,/,BFP_EXT,')',+,'(',HFP_SRT,/,DFP_SRT,')',+,'(',HFX
+               P_SRT,/,DFP_LNG,')',+,'(',HFP_SRT,/,DFP_EXT,')',+,'(',HFX
+               P_SRT,/,HW,')',+,'(',HFP_SRT,/,FW,')',+,'(',HFP_SRT,/,DWX
+               ,')',+,'(',HFP_SRT,/,QW,')',+,'(',HFP_SRT,/,PD,')',+,'('X
+               ,HFP_SRT,/,ZD,')',-,15
+         COMPUTE FLT_SRT,=,'(',HFP_SRT,/,HFP_SRT,')',+,'(',HFP_SRT,/,HFX
+               P_LNG,')',+,'(',HFP_SRT,/,HFP_EXT,')',+,'(',HFP_SRT,/,BFX
+               P_SRT,')',+,'(',HFP_SRT,/,BFP_LNG,')',+,'(',HFP_SRT,/,BFX
+               P_EXT,')',+,'(',HFP_SRT,/,DFP_SRT,')',+,'(',HFP_SRT,/,DFX
+               P_LNG,')',+,'(',HFP_SRT,/,DFP_EXT,')',+,'(',HFP_SRT,/,HWX
+               ,')',+,'(',HFP_SRT,/,FW,')',+,'(',HFP_SRT,/,DW,')',+,'('X
+               ,HFP_SRT,/,QW,')',+,'(',HFP_SRT,/,PD,')',+,'(',HFP_SRT,/X
+               ,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    398         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    398         PERFORM GOOD
+         PERFORM GOOD
+*ZC    398         ELSE  
+         ELSE  
+*ZC    398         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-LNG = 
+*             (HFP-LNG /HFP-SRT)+(HFP-LNG /HFP-LNG)+(HFP-LNG /HFP-EXT)
+*            +(HFP-LNG /BFP-SRT)+(HFP-LNG /BFP-LNG)+(HFP-LNG /BFP-EXT)
+*            +(HFP-LNG /DFP-SRT)+(HFP-LNG /DFP-LNG)+(HFP-LNG /DFP-EXT)
+*            +(HFP-LNG /HW     )+(HFP-LNG /FW     )+(HFP-LNG /DW     )
+*            +(HFP-LNG /QW     )+(HFP-LNG /PD     )+(HFP-LNG /ZD     )
+*            -15     
+*ZC    399         COMPUTE FLT_LNG,=,'(',HFP_LNG,/,HFP_SRT,')',+,'(',HFX
+               P_LNG,/,HFP_LNG,')',+,'(',HFP_LNG,/,HFP_EXT,')',+,'(',HFX
+               P_LNG,/,BFP_SRT,')',+,'(',HFP_LNG,/,BFP_LNG,')',+,'(',HFX
+               P_LNG,/,BFP_EXT,')',+,'(',HFP_LNG,/,DFP_SRT,')',+,'(',HFX
+               P_LNG,/,DFP_LNG,')',+,'(',HFP_LNG,/,DFP_EXT,')',+,'(',HFX
+               P_LNG,/,HW,')',+,'(',HFP_LNG,/,FW,')',+,'(',HFP_LNG,/,DWX
+               ,')',+,'(',HFP_LNG,/,QW,')',+,'(',HFP_LNG,/,PD,')',+,'('X
+               ,HFP_LNG,/,ZD,')',-,15
+         COMPUTE FLT_LNG,=,'(',HFP_LNG,/,HFP_SRT,')',+,'(',HFP_LNG,/,HFX
+               P_LNG,')',+,'(',HFP_LNG,/,HFP_EXT,')',+,'(',HFP_LNG,/,BFX
+               P_SRT,')',+,'(',HFP_LNG,/,BFP_LNG,')',+,'(',HFP_LNG,/,BFX
+               P_EXT,')',+,'(',HFP_LNG,/,DFP_SRT,')',+,'(',HFP_LNG,/,DFX
+               P_LNG,')',+,'(',HFP_LNG,/,DFP_EXT,')',+,'(',HFP_LNG,/,HWX
+               ,')',+,'(',HFP_LNG,/,FW,')',+,'(',HFP_LNG,/,DW,')',+,'('X
+               ,HFP_LNG,/,QW,')',+,'(',HFP_LNG,/,PD,')',+,'(',HFP_LNG,/X
+               ,ZD,')',-,15
+*            IF FLT-LNG = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    406         IF    FLT_LNG,=,0
+         IF    FLT_LNG,=,0
+*ZC    406         PERFORM GOOD
+         PERFORM GOOD
+*ZC    406         ELSE  
+         ELSE  
+*ZC    406         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-EXT = 
+*             (HFP-EXT /HFP-SRT)+(HFP-EXT /HFP-LNG)+(HFP-EXT /HFP-EXT)
+*            +(HFP-EXT /BFP-SRT)+(HFP-EXT /BFP-LNG)+(HFP-EXT /BFP-EXT)
+*            +(HFP-EXT /DFP-SRT)+(HFP-EXT /DFP-LNG)+(HFP-EXT /DFP-EXT)
+*            +(HFP-EXT /HW     )+(HFP-EXT /FW     )+(HFP-EXT /DW     )
+*            +(HFP-EXT /QW     )+(HFP-EXT /PD     )+(HFP-EXT /ZD     )
+*            -15       
+*ZC    407         COMPUTE FLT_EXT,=,'(',HFP_EXT,/,HFP_SRT,')',+,'(',HFX
+               P_EXT,/,HFP_LNG,')',+,'(',HFP_EXT,/,HFP_EXT,')',+,'(',HFX
+               P_EXT,/,BFP_SRT,')',+,'(',HFP_EXT,/,BFP_LNG,')',+,'(',HFX
+               P_EXT,/,BFP_EXT,')',+,'(',HFP_EXT,/,DFP_SRT,')',+,'(',HFX
+               P_EXT,/,DFP_LNG,')',+,'(',HFP_EXT,/,DFP_EXT,')',+,'(',HFX
+               P_EXT,/,HW,')',+,'(',HFP_EXT,/,FW,')',+,'(',HFP_EXT,/,DWX
+               ,')',+,'(',HFP_EXT,/,QW,')',+,'(',HFP_EXT,/,PD,')',+,'('X
+               ,HFP_EXT,/,ZD,')',-,15
+         COMPUTE FLT_EXT,=,'(',HFP_EXT,/,HFP_SRT,')',+,'(',HFP_EXT,/,HFX
+               P_LNG,')',+,'(',HFP_EXT,/,HFP_EXT,')',+,'(',HFP_EXT,/,BFX
+               P_SRT,')',+,'(',HFP_EXT,/,BFP_LNG,')',+,'(',HFP_EXT,/,BFX
+               P_EXT,')',+,'(',HFP_EXT,/,DFP_SRT,')',+,'(',HFP_EXT,/,DFX
+               P_LNG,')',+,'(',HFP_EXT,/,DFP_EXT,')',+,'(',HFP_EXT,/,HWX
+               ,')',+,'(',HFP_EXT,/,FW,')',+,'(',HFP_EXT,/,DW,')',+,'('X
+               ,HFP_EXT,/,QW,')',+,'(',HFP_EXT,/,PD,')',+,'(',HFP_EXT,/X
+               ,ZD,')',-,15
+*            IF FLT-EXT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    414         IF    FLT_EXT,=,0
+         IF    FLT_EXT,=,0
+*ZC    414         PERFORM GOOD
+         PERFORM GOOD
+*ZC    414         ELSE  
+         ELSE  
+*ZC    414         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-SRT /HFP-SRT)+(BFP-SRT /HFP-LNG)+(BFP-SRT /HFP-EXT)
+*            +(BFP-SRT /BFP-SRT)+(BFP-SRT /BFP-LNG)+(BFP-SRT /BFP-EXT)
+*            +(BFP-SRT /DFP-SRT)+(BFP-SRT /DFP-LNG)+(BFP-SRT /DFP-EXT)
+*            +(BFP-SRT /HW     )+(BFP-SRT /FW     )+(BFP-SRT /DW     )
+*            +(BFP-SRT /QW     )+(BFP-SRT /PD     )+(BFP-SRT /ZD     )
+*            -15     
+*ZC    415         COMPUTE FLT_SRT,=,'(',BFP_SRT,/,HFP_SRT,')',+,'(',BFX
+               P_SRT,/,HFP_LNG,')',+,'(',BFP_SRT,/,HFP_EXT,')',+,'(',BFX
+               P_SRT,/,BFP_SRT,')',+,'(',BFP_SRT,/,BFP_LNG,')',+,'(',BFX
+               P_SRT,/,BFP_EXT,')',+,'(',BFP_SRT,/,DFP_SRT,')',+,'(',BFX
+               P_SRT,/,DFP_LNG,')',+,'(',BFP_SRT,/,DFP_EXT,')',+,'(',BFX
+               P_SRT,/,HW,')',+,'(',BFP_SRT,/,FW,')',+,'(',BFP_SRT,/,DWX
+               ,')',+,'(',BFP_SRT,/,QW,')',+,'(',BFP_SRT,/,PD,')',+,'('X
+               ,BFP_SRT,/,ZD,')',-,15
+         COMPUTE FLT_SRT,=,'(',BFP_SRT,/,HFP_SRT,')',+,'(',BFP_SRT,/,HFX
+               P_LNG,')',+,'(',BFP_SRT,/,HFP_EXT,')',+,'(',BFP_SRT,/,BFX
+               P_SRT,')',+,'(',BFP_SRT,/,BFP_LNG,')',+,'(',BFP_SRT,/,BFX
+               P_EXT,')',+,'(',BFP_SRT,/,DFP_SRT,')',+,'(',BFP_SRT,/,DFX
+               P_LNG,')',+,'(',BFP_SRT,/,DFP_EXT,')',+,'(',BFP_SRT,/,HWX
+               ,')',+,'(',BFP_SRT,/,FW,')',+,'(',BFP_SRT,/,DW,')',+,'('X
+               ,BFP_SRT,/,QW,')',+,'(',BFP_SRT,/,PD,')',+,'(',BFP_SRT,/X
+               ,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    422         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    422         PERFORM GOOD
+         PERFORM GOOD
+*ZC    422         ELSE  
+         ELSE  
+*ZC    422         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-LNG /HFP-SRT)+(BFP-LNG /HFP-LNG)+(BFP-LNG /HFP-EXT)
+*            +(BFP-LNG /BFP-SRT)+(BFP-LNG /BFP-LNG)+(BFP-LNG /BFP-EXT)
+*            +(BFP-LNG /DFP-SRT)+(BFP-LNG /DFP-LNG)+(BFP-LNG /DFP-EXT)
+*            +(BFP-LNG /HW     )+(BFP-LNG /FW     )+(BFP-LNG /DW     )
+*            +(BFP-LNG /QW     )+(BFP-LNG /PD     )+(BFP-LNG /ZD     )
+*            -15     
+*ZC    423         COMPUTE FLT_SRT,=,'(',BFP_LNG,/,HFP_SRT,')',+,'(',BFX
+               P_LNG,/,HFP_LNG,')',+,'(',BFP_LNG,/,HFP_EXT,')',+,'(',BFX
+               P_LNG,/,BFP_SRT,')',+,'(',BFP_LNG,/,BFP_LNG,')',+,'(',BFX
+               P_LNG,/,BFP_EXT,')',+,'(',BFP_LNG,/,DFP_SRT,')',+,'(',BFX
+               P_LNG,/,DFP_LNG,')',+,'(',BFP_LNG,/,DFP_EXT,')',+,'(',BFX
+               P_LNG,/,HW,')',+,'(',BFP_LNG,/,FW,')',+,'(',BFP_LNG,/,DWX
+               ,')',+,'(',BFP_LNG,/,QW,')',+,'(',BFP_LNG,/,PD,')',+,'('X
+               ,BFP_LNG,/,ZD,')',-,15
+         COMPUTE FLT_SRT,=,'(',BFP_LNG,/,HFP_SRT,')',+,'(',BFP_LNG,/,HFX
+               P_LNG,')',+,'(',BFP_LNG,/,HFP_EXT,')',+,'(',BFP_LNG,/,BFX
+               P_SRT,')',+,'(',BFP_LNG,/,BFP_LNG,')',+,'(',BFP_LNG,/,BFX
+               P_EXT,')',+,'(',BFP_LNG,/,DFP_SRT,')',+,'(',BFP_LNG,/,DFX
+               P_LNG,')',+,'(',BFP_LNG,/,DFP_EXT,')',+,'(',BFP_LNG,/,HWX
+               ,')',+,'(',BFP_LNG,/,FW,')',+,'(',BFP_LNG,/,DW,')',+,'('X
+               ,BFP_LNG,/,QW,')',+,'(',BFP_LNG,/,PD,')',+,'(',BFP_LNG,/X
+               ,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    430         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    430         PERFORM GOOD
+         PERFORM GOOD
+*ZC    430         ELSE  
+         ELSE  
+*ZC    430         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (BFP-EXT /HFP-SRT)+(BFP-EXT /HFP-LNG)+(BFP-EXT /HFP-EXT)
+*            +(BFP-EXT /BFP-SRT)+(BFP-EXT /BFP-LNG)+(BFP-EXT /BFP-EXT)
+*            +(BFP-EXT /DFP-SRT)+(BFP-EXT /DFP-LNG)+(BFP-EXT /DFP-EXT)
+*            +(BFP-EXT /HW     )+(BFP-EXT /FW     )+(BFP-EXT /DW     )
+*            +(BFP-EXT /QW     )+(BFP-EXT /PD     )+(BFP-EXT /ZD     )
+*            -15       
+*ZC    431         COMPUTE FLT_SRT,=,'(',BFP_EXT,/,HFP_SRT,')',+,'(',BFX
+               P_EXT,/,HFP_LNG,')',+,'(',BFP_EXT,/,HFP_EXT,')',+,'(',BFX
+               P_EXT,/,BFP_SRT,')',+,'(',BFP_EXT,/,BFP_LNG,')',+,'(',BFX
+               P_EXT,/,BFP_EXT,')',+,'(',BFP_EXT,/,DFP_SRT,')',+,'(',BFX
+               P_EXT,/,DFP_LNG,')',+,'(',BFP_EXT,/,DFP_EXT,')',+,'(',BFX
+               P_EXT,/,HW,')',+,'(',BFP_EXT,/,FW,')',+,'(',BFP_EXT,/,DWX
+               ,')',+,'(',BFP_EXT,/,QW,')',+,'(',BFP_EXT,/,PD,')',+,'('X
+               ,BFP_EXT,/,ZD,')',-,15
+         COMPUTE FLT_SRT,=,'(',BFP_EXT,/,HFP_SRT,')',+,'(',BFP_EXT,/,HFX
+               P_LNG,')',+,'(',BFP_EXT,/,HFP_EXT,')',+,'(',BFP_EXT,/,BFX
+               P_SRT,')',+,'(',BFP_EXT,/,BFP_LNG,')',+,'(',BFP_EXT,/,BFX
+               P_EXT,')',+,'(',BFP_EXT,/,DFP_SRT,')',+,'(',BFP_EXT,/,DFX
+               P_LNG,')',+,'(',BFP_EXT,/,DFP_EXT,')',+,'(',BFP_EXT,/,HWX
+               ,')',+,'(',BFP_EXT,/,FW,')',+,'(',BFP_EXT,/,DW,')',+,'('X
+               ,BFP_EXT,/,QW,')',+,'(',BFP_EXT,/,PD,')',+,'(',BFP_EXT,/X
+               ,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    438         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    438         PERFORM GOOD
+         PERFORM GOOD
+*ZC    438         ELSE  
+         ELSE  
+*ZC    438         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-SRT /HFP-SRT)+(DFP-SRT /HFP-LNG)+(DFP-SRT /HFP-EXT)
+*            +(DFP-SRT /BFP-SRT)+(DFP-SRT /BFP-LNG)+(DFP-SRT /BFP-EXT)
+*            +(DFP-SRT /DFP-SRT)+(DFP-SRT /DFP-LNG)+(DFP-SRT /DFP-EXT)
+*            +(DFP-SRT /HW     )+(DFP-SRT /FW     )+(DFP-SRT /DW     )
+*            +(DFP-SRT /QW     )+(DFP-SRT /PD     )+(DFP-SRT /ZD     )
+*            -15     
+*ZC    439         COMPUTE FLT_SRT,=,'(',DFP_SRT,/,HFP_SRT,')',+,'(',DFX
+               P_SRT,/,HFP_LNG,')',+,'(',DFP_SRT,/,HFP_EXT,')',+,'(',DFX
+               P_SRT,/,BFP_SRT,')',+,'(',DFP_SRT,/,BFP_LNG,')',+,'(',DFX
+               P_SRT,/,BFP_EXT,')',+,'(',DFP_SRT,/,DFP_SRT,')',+,'(',DFX
+               P_SRT,/,DFP_LNG,')',+,'(',DFP_SRT,/,DFP_EXT,')',+,'(',DFX
+               P_SRT,/,HW,')',+,'(',DFP_SRT,/,FW,')',+,'(',DFP_SRT,/,DWX
+               ,')',+,'(',DFP_SRT,/,QW,')',+,'(',DFP_SRT,/,PD,')',+,'('X
+               ,DFP_SRT,/,ZD,')',-,15
+         COMPUTE FLT_SRT,=,'(',DFP_SRT,/,HFP_SRT,')',+,'(',DFP_SRT,/,HFX
+               P_LNG,')',+,'(',DFP_SRT,/,HFP_EXT,')',+,'(',DFP_SRT,/,BFX
+               P_SRT,')',+,'(',DFP_SRT,/,BFP_LNG,')',+,'(',DFP_SRT,/,BFX
+               P_EXT,')',+,'(',DFP_SRT,/,DFP_SRT,')',+,'(',DFP_SRT,/,DFX
+               P_LNG,')',+,'(',DFP_SRT,/,DFP_EXT,')',+,'(',DFP_SRT,/,HWX
+               ,')',+,'(',DFP_SRT,/,FW,')',+,'(',DFP_SRT,/,DW,')',+,'('X
+               ,DFP_SRT,/,QW,')',+,'(',DFP_SRT,/,PD,')',+,'(',DFP_SRT,/X
+               ,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    446         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    446         PERFORM GOOD
+         PERFORM GOOD
+*ZC    446         ELSE  
+         ELSE  
+*ZC    446         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-LNG /HFP-SRT)+(DFP-LNG /HFP-LNG)+(DFP-LNG /HFP-EXT)
+*            +(DFP-LNG /BFP-SRT)+(DFP-LNG /BFP-LNG)+(DFP-LNG /BFP-EXT)
+*            +(DFP-LNG /DFP-SRT)+(DFP-LNG /DFP-LNG)+(DFP-LNG /DFP-EXT)
+*            +(DFP-LNG /HW     )+(DFP-LNG /FW     )+(DFP-LNG /DW     )
+*            +(DFP-LNG /QW     )+(DFP-LNG /PD     )+(DFP-LNG /ZD     )
+*            -15     
+*ZC    447         COMPUTE FLT_SRT,=,'(',DFP_LNG,/,HFP_SRT,')',+,'(',DFX
+               P_LNG,/,HFP_LNG,')',+,'(',DFP_LNG,/,HFP_EXT,')',+,'(',DFX
+               P_LNG,/,BFP_SRT,')',+,'(',DFP_LNG,/,BFP_LNG,')',+,'(',DFX
+               P_LNG,/,BFP_EXT,')',+,'(',DFP_LNG,/,DFP_SRT,')',+,'(',DFX
+               P_LNG,/,DFP_LNG,')',+,'(',DFP_LNG,/,DFP_EXT,')',+,'(',DFX
+               P_LNG,/,HW,')',+,'(',DFP_LNG,/,FW,')',+,'(',DFP_LNG,/,DWX
+               ,')',+,'(',DFP_LNG,/,QW,')',+,'(',DFP_LNG,/,PD,')',+,'('X
+               ,DFP_LNG,/,ZD,')',-,15
+         COMPUTE FLT_SRT,=,'(',DFP_LNG,/,HFP_SRT,')',+,'(',DFP_LNG,/,HFX
+               P_LNG,')',+,'(',DFP_LNG,/,HFP_EXT,')',+,'(',DFP_LNG,/,BFX
+               P_SRT,')',+,'(',DFP_LNG,/,BFP_LNG,')',+,'(',DFP_LNG,/,BFX
+               P_EXT,')',+,'(',DFP_LNG,/,DFP_SRT,')',+,'(',DFP_LNG,/,DFX
+               P_LNG,')',+,'(',DFP_LNG,/,DFP_EXT,')',+,'(',DFP_LNG,/,HWX
+               ,')',+,'(',DFP_LNG,/,FW,')',+,'(',DFP_LNG,/,DW,')',+,'('X
+               ,DFP_LNG,/,QW,')',+,'(',DFP_LNG,/,PD,')',+,'(',DFP_LNG,/X
+               ,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    454         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    454         PERFORM GOOD
+         PERFORM GOOD
+*ZC    454         ELSE  
+         ELSE  
+*ZC    454         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DFP-EXT /HFP-SRT)+(DFP-EXT /HFP-LNG)+(DFP-EXT /HFP-EXT)
+*            +(DFP-EXT /BFP-SRT)+(DFP-EXT /BFP-LNG)+(DFP-EXT /BFP-EXT)
+*            +(DFP-EXT /DFP-SRT)+(DFP-EXT /DFP-LNG)+(DFP-EXT /DFP-EXT)
+*            +(DFP-EXT /HW     )+(DFP-EXT /FW     )+(DFP-EXT /DW     )
+*            +(DFP-EXT /QW     )+(DFP-EXT /PD     )+(DFP-EXT /ZD     )
+*            -15       
+*ZC    455         COMPUTE FLT_SRT,=,'(',DFP_EXT,/,HFP_SRT,')',+,'(',DFX
+               P_EXT,/,HFP_LNG,')',+,'(',DFP_EXT,/,HFP_EXT,')',+,'(',DFX
+               P_EXT,/,BFP_SRT,')',+,'(',DFP_EXT,/,BFP_LNG,')',+,'(',DFX
+               P_EXT,/,BFP_EXT,')',+,'(',DFP_EXT,/,DFP_SRT,')',+,'(',DFX
+               P_EXT,/,DFP_LNG,')',+,'(',DFP_EXT,/,DFP_EXT,')',+,'(',DFX
+               P_EXT,/,HW,')',+,'(',DFP_EXT,/,FW,')',+,'(',DFP_EXT,/,DWX
+               ,')',+,'(',DFP_EXT,/,QW,')',+,'(',DFP_EXT,/,PD,')',+,'('X
+               ,DFP_EXT,/,ZD,')',-,15
+         COMPUTE FLT_SRT,=,'(',DFP_EXT,/,HFP_SRT,')',+,'(',DFP_EXT,/,HFX
+               P_LNG,')',+,'(',DFP_EXT,/,HFP_EXT,')',+,'(',DFP_EXT,/,BFX
+               P_SRT,')',+,'(',DFP_EXT,/,BFP_LNG,')',+,'(',DFP_EXT,/,BFX
+               P_EXT,')',+,'(',DFP_EXT,/,DFP_SRT,')',+,'(',DFP_EXT,/,DFX
+               P_LNG,')',+,'(',DFP_EXT,/,DFP_EXT,')',+,'(',DFP_EXT,/,HWX
+               ,')',+,'(',DFP_EXT,/,FW,')',+,'(',DFP_EXT,/,DW,')',+,'('X
+               ,DFP_EXT,/,QW,')',+,'(',DFP_EXT,/,PD,')',+,'(',DFP_EXT,/X
+               ,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    462         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    462         PERFORM GOOD
+         PERFORM GOOD
+*ZC    462         ELSE  
+         ELSE  
+*ZC    462         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (HW      /HFP-SRT)+(HW      /HFP-LNG)+(HW      /HFP-EXT)
+*            +(HW      /BFP-SRT)+(HW      /BFP-LNG)+(HW      /BFP-EXT)
+*            +(HW      /DFP-SRT)+(HW      /DFP-LNG)+(HW      /DFP-EXT)
+*            +(HW      /HW     )+(HW      /FW     )+(HW      /DW     )
+*            +(HW      /QW     )+(HW      /PD     )+(HW      /ZD     )
+*            -15       
+*ZC    463         COMPUTE FLT_SRT,=,'(',HW,/,HFP_SRT,')',+,'(',HW,/,HFX
+               P_LNG,')',+,'(',HW,/,HFP_EXT,')',+,'(',HW,/,BFP_SRT,')',X
+               +,'(',HW,/,BFP_LNG,')',+,'(',HW,/,BFP_EXT,')',+,'(',HW,/X
+               ,DFP_SRT,')',+,'(',HW,/,DFP_LNG,')',+,'(',HW,/,DFP_EXT,'X
+               )',+,'(',HW,/,HW,')',+,'(',HW,/,FW,')',+,'(',HW,/,DW,')'X
+               ,+,'(',HW,/,QW,')',+,'(',HW,/,PD,')',+,'(',HW,/,ZD,')',-X
+               ,15
+         COMPUTE FLT_SRT,=,'(',HW,/,HFP_SRT,')',+,'(',HW,/,HFP_LNG,')',X
+               +,'(',HW,/,HFP_EXT,')',+,'(',HW,/,BFP_SRT,')',+,'(',HW,/X
+               ,BFP_LNG,')',+,'(',HW,/,BFP_EXT,')',+,'(',HW,/,DFP_SRT,'X
+               )',+,'(',HW,/,DFP_LNG,')',+,'(',HW,/,DFP_EXT,')',+,'(',HX
+               W,/,HW,')',+,'(',HW,/,FW,')',+,'(',HW,/,DW,')',+,'(',HW,X
+               /,QW,')',+,'(',HW,/,PD,')',+,'(',HW,/,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    470         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    470         PERFORM GOOD
+         PERFORM GOOD
+*ZC    470         ELSE  
+         ELSE  
+*ZC    470         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (FW      /HFP-SRT)+(FW      /HFP-LNG)+(FW      /HFP-EXT)
+*            +(FW      /BFP-SRT)+(FW      /BFP-LNG)+(FW      /BFP-EXT)
+*            +(FW      /DFP-SRT)+(FW      /DFP-LNG)+(FW      /DFP-EXT)
+*            +(FW      /HW     )+(FW      /FW     )+(FW      /DW     )
+*            +(FW      /QW     )+(FW      /PD     )+(FW      /ZD     )
+*            -15       
+*ZC    471         COMPUTE FLT_SRT,=,'(',FW,/,HFP_SRT,')',+,'(',FW,/,HFX
+               P_LNG,')',+,'(',FW,/,HFP_EXT,')',+,'(',FW,/,BFP_SRT,')',X
+               +,'(',FW,/,BFP_LNG,')',+,'(',FW,/,BFP_EXT,')',+,'(',FW,/X
+               ,DFP_SRT,')',+,'(',FW,/,DFP_LNG,')',+,'(',FW,/,DFP_EXT,'X
+               )',+,'(',FW,/,HW,')',+,'(',FW,/,FW,')',+,'(',FW,/,DW,')'X
+               ,+,'(',FW,/,QW,')',+,'(',FW,/,PD,')',+,'(',FW,/,ZD,')',-X
+               ,15
+         COMPUTE FLT_SRT,=,'(',FW,/,HFP_SRT,')',+,'(',FW,/,HFP_LNG,')',X
+               +,'(',FW,/,HFP_EXT,')',+,'(',FW,/,BFP_SRT,')',+,'(',FW,/X
+               ,BFP_LNG,')',+,'(',FW,/,BFP_EXT,')',+,'(',FW,/,DFP_SRT,'X
+               )',+,'(',FW,/,DFP_LNG,')',+,'(',FW,/,DFP_EXT,')',+,'(',FX
+               W,/,HW,')',+,'(',FW,/,FW,')',+,'(',FW,/,DW,')',+,'(',FW,X
+               /,QW,')',+,'(',FW,/,PD,')',+,'(',FW,/,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    478         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    478         PERFORM GOOD
+         PERFORM GOOD
+*ZC    478         ELSE  
+         ELSE  
+*ZC    478         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (DW      /HFP-SRT)+(DW      /HFP-LNG)+(DW      /HFP-EXT)
+*            +(DW      /BFP-SRT)+(DW      /BFP-LNG)+(DW      /BFP-EXT)
+*            +(DW      /DFP-SRT)+(DW      /DFP-LNG)+(DW      /DFP-EXT)
+*            +(DW      /HW     )+(DW      /FW     )+(DW      /DW     )
+*            +(DW      /QW     )+(DW      /PD     )+(DW      /ZD     )
+*            -15     
+*ZC    479         COMPUTE FLT_SRT,=,'(',DW,/,HFP_SRT,')',+,'(',DW,/,HFX
+               P_LNG,')',+,'(',DW,/,HFP_EXT,')',+,'(',DW,/,BFP_SRT,')',X
+               +,'(',DW,/,BFP_LNG,')',+,'(',DW,/,BFP_EXT,')',+,'(',DW,/X
+               ,DFP_SRT,')',+,'(',DW,/,DFP_LNG,')',+,'(',DW,/,DFP_EXT,'X
+               )',+,'(',DW,/,HW,')',+,'(',DW,/,FW,')',+,'(',DW,/,DW,')'X
+               ,+,'(',DW,/,QW,')',+,'(',DW,/,PD,')',+,'(',DW,/,ZD,')',-X
+               ,15
+         COMPUTE FLT_SRT,=,'(',DW,/,HFP_SRT,')',+,'(',DW,/,HFP_LNG,')',X
+               +,'(',DW,/,HFP_EXT,')',+,'(',DW,/,BFP_SRT,')',+,'(',DW,/X
+               ,BFP_LNG,')',+,'(',DW,/,BFP_EXT,')',+,'(',DW,/,DFP_SRT,'X
+               )',+,'(',DW,/,DFP_LNG,')',+,'(',DW,/,DFP_EXT,')',+,'(',DX
+               W,/,HW,')',+,'(',DW,/,FW,')',+,'(',DW,/,DW,')',+,'(',DW,X
+               /,QW,')',+,'(',DW,/,PD,')',+,'(',DW,/,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    486         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    486         PERFORM GOOD
+         PERFORM GOOD
+*ZC    486         ELSE  
+         ELSE  
+*ZC    486         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (QW      /HFP-SRT)+(QW      /HFP-LNG)+(QW      /HFP-EXT)
+*            +(QW      /BFP-SRT)+(QW      /BFP-LNG)+(QW      /BFP-EXT)
+*            +(QW      /DFP-SRT)+(QW      /DFP-LNG)+(QW      /DFP-EXT)
+*            +(QW      /HW     )+(QW      /FW     )+(QW      /DW     )
+*            +(QW      /QW     )+(QW      /PD     )+(QW      /ZD     )
+*            -15     
+*ZC    487         COMPUTE FLT_SRT,=,'(',QW,/,HFP_SRT,')',+,'(',QW,/,HFX
+               P_LNG,')',+,'(',QW,/,HFP_EXT,')',+,'(',QW,/,BFP_SRT,')',X
+               +,'(',QW,/,BFP_LNG,')',+,'(',QW,/,BFP_EXT,')',+,'(',QW,/X
+               ,DFP_SRT,')',+,'(',QW,/,DFP_LNG,')',+,'(',QW,/,DFP_EXT,'X
+               )',+,'(',QW,/,HW,')',+,'(',QW,/,FW,')',+,'(',QW,/,DW,')'X
+               ,+,'(',QW,/,QW,')',+,'(',QW,/,PD,')',+,'(',QW,/,ZD,')',-X
+               ,15
+         COMPUTE FLT_SRT,=,'(',QW,/,HFP_SRT,')',+,'(',QW,/,HFP_LNG,')',X
+               +,'(',QW,/,HFP_EXT,')',+,'(',QW,/,BFP_SRT,')',+,'(',QW,/X
+               ,BFP_LNG,')',+,'(',QW,/,BFP_EXT,')',+,'(',QW,/,DFP_SRT,'X
+               )',+,'(',QW,/,DFP_LNG,')',+,'(',QW,/,DFP_EXT,')',+,'(',QX
+               W,/,HW,')',+,'(',QW,/,FW,')',+,'(',QW,/,DW,')',+,'(',QW,X
+               /,QW,')',+,'(',QW,/,PD,')',+,'(',QW,/,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    494         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    494         PERFORM GOOD
+         PERFORM GOOD
+*ZC    494         ELSE  
+         ELSE  
+*ZC    494         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (PD      /HFP-SRT)+(PD      /HFP-LNG)+(PD      /HFP-EXT)
+*            +(PD      /BFP-SRT)+(PD      /BFP-LNG)+(PD      /BFP-EXT)
+*            +(PD      /DFP-SRT)+(PD      /DFP-LNG)+(PD      /DFP-EXT)
+*            +(PD      /HW     )+(PD      /FW     )+(PD      /DW     )
+*            +(PD      /QW     )+(PD      /PD     )+(PD      /ZD     )
+*            -15     
+*ZC    495         COMPUTE FLT_SRT,=,'(',PD,/,HFP_SRT,')',+,'(',PD,/,HFX
+               P_LNG,')',+,'(',PD,/,HFP_EXT,')',+,'(',PD,/,BFP_SRT,')',X
+               +,'(',PD,/,BFP_LNG,')',+,'(',PD,/,BFP_EXT,')',+,'(',PD,/X
+               ,DFP_SRT,')',+,'(',PD,/,DFP_LNG,')',+,'(',PD,/,DFP_EXT,'X
+               )',+,'(',PD,/,HW,')',+,'(',PD,/,FW,')',+,'(',PD,/,DW,')'X
+               ,+,'(',PD,/,QW,')',+,'(',PD,/,PD,')',+,'(',PD,/,ZD,')',-X
+               ,15
+         COMPUTE FLT_SRT,=,'(',PD,/,HFP_SRT,')',+,'(',PD,/,HFP_LNG,')',X
+               +,'(',PD,/,HFP_EXT,')',+,'(',PD,/,BFP_SRT,')',+,'(',PD,/X
+               ,BFP_LNG,')',+,'(',PD,/,BFP_EXT,')',+,'(',PD,/,DFP_SRT,'X
+               )',+,'(',PD,/,DFP_LNG,')',+,'(',PD,/,DFP_EXT,')',+,'(',PX
+               D,/,HW,')',+,'(',PD,/,FW,')',+,'(',PD,/,DW,')',+,'(',PD,X
+               /,QW,')',+,'(',PD,/,PD,')',+,'(',PD,/,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    502         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    502         PERFORM GOOD
+         PERFORM GOOD
+*ZC    502         ELSE  
+         ELSE  
+*ZC    502         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            COMPUTE FLT-SRT = 
+*             (ZD      /HFP-SRT)+(ZD      /HFP-LNG)+(ZD      /HFP-EXT)
+*            +(ZD      /BFP-SRT)+(ZD      /BFP-LNG)+(ZD      /BFP-EXT)
+*            +(ZD      /DFP-SRT)+(ZD      /DFP-LNG)+(ZD      /DFP-EXT)
+*            +(ZD      /HW     )+(ZD      /FW     )+(ZD      /DW     )
+*            +(ZD      /QW     )+(ZD      /PD     )+(ZD      /ZD     )
+*            -15     
+*ZC    503         COMPUTE FLT_SRT,=,'(',ZD,/,HFP_SRT,')',+,'(',ZD,/,HFX
+               P_LNG,')',+,'(',ZD,/,HFP_EXT,')',+,'(',ZD,/,BFP_SRT,')',X
+               +,'(',ZD,/,BFP_LNG,')',+,'(',ZD,/,BFP_EXT,')',+,'(',ZD,/X
+               ,DFP_SRT,')',+,'(',ZD,/,DFP_LNG,')',+,'(',ZD,/,DFP_EXT,'X
+               )',+,'(',ZD,/,HW,')',+,'(',ZD,/,FW,')',+,'(',ZD,/,DW,')'X
+               ,+,'(',ZD,/,QW,')',+,'(',ZD,/,PD,')',+,'(',ZD,/,ZD,')',-X
+               ,15
+         COMPUTE FLT_SRT,=,'(',ZD,/,HFP_SRT,')',+,'(',ZD,/,HFP_LNG,')',X
+               +,'(',ZD,/,HFP_EXT,')',+,'(',ZD,/,BFP_SRT,')',+,'(',ZD,/X
+               ,BFP_LNG,')',+,'(',ZD,/,BFP_EXT,')',+,'(',ZD,/,DFP_SRT,'X
+               )',+,'(',ZD,/,DFP_LNG,')',+,'(',ZD,/,DFP_EXT,')',+,'(',ZX
+               D,/,HW,')',+,'(',ZD,/,FW,')',+,'(',ZD,/,DW,')',+,'(',ZD,X
+               /,QW,')',+,'(',ZD,/,PD,')',+,'(',ZD,/,ZD,')',-,15
+*            IF FLT-SRT = 0 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    510         IF    FLT_SRT,=,0
+         IF    FLT_SRT,=,0
+*ZC    510         PERFORM GOOD
+         PERFORM GOOD
+*ZC    510         ELSE  
+         ELSE  
+*ZC    510         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP2 GOOD TESTS =' GOOD
+*ZC    511         DISPLAY 'TESTCMP2 GOOD TESTS =',GOOD
+         DISPLAY 'TESTCMP2 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC    512         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC    514         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            MOVE 16 TO RETURN-CODE
+*ZC    516         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    517         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

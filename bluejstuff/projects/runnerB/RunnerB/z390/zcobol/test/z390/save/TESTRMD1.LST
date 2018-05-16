@@ -1,0 +1,10 @@
+TESTRMD1  LZ390 START
+LZ390I Copyright 2011 Automated Software Tools Corporation
+LZ390I z390 is licensed under GNU General Public License
+LZ390I options = W:\work\z390\z390.OPT=(time(60)) SYSOBJ(+zcobol\z390) notiming 
+  stats TRUNC NOR64
+LZ390I program = zcobol\test\TESTRMD1.OBJ
+LZ390I ESD=TESTRMD1 LOC=00000000 LEN=00000648
+LZ390I INCLUDE = zcobol\test\TESTRMD1.OBJ
+LZ390I total errors         = 0
+TESTRMD1  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=355

@@ -1,0 +1,12 @@
+***********************************************************************
+* Copyright 2006 Automated Software Tools Corporation                 *
+* This source code is part of z390 assembler/emulator package         *
+* The z390 package is distributed under GNU general public license    *
+* Author - Don Higgins                                                *
+***********************************************************************
+DFHEISTG DSECT                    DSA STORAGE
+Z390LOGO CSECT
+         EXEC  CICS SEND MAPSET('MAPLOGO') MAP('LOGO') MAPONLY ERASE
+         EXEC  CICS RETURN
+         END
+

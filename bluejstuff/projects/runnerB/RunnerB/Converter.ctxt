@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Converter()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Conversion\r\n\ EBCIDIC\ to\ ASCII\ converter\r\n
+comment1.params=b
+comment1.target=java.lang.Character\ EBCDICtoASCII(byte)
+numComments=2

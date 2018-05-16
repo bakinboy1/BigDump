@@ -1,0 +1,166 @@
+REPRO     EZ390 START
+REPRO     EZ390 Copyright 2011 Automated Software Tools Corporation
+REPRO     EZ390 z390 is licensed under GNU General Public License
+REPRO     EZ390 program = W:\work\z390\linklib\REPRO.390
+REPRO     EZ390 options = @..\rtvsam=(notiming stats tracev traceq 
+  dump) systerm(w:\work\z390\vsam\test\rtvsam)
+REPRO     EZ390 ZSORT ID=1 started= ended=
+REPRO     EZ390 ZSORT ID=1 lrecl=13 keys=2
+REPRO     EZ390 ZSORT ID=1 records=6 memory= 506610
+REPRO     EZ390 ZSORT ID=1 record compares=10 moves=21
+REPRO     EZ390 ZSORT ID=1 sorted blocks=1 merge passes=0
+REPRO     EZ390 ZSORT ID=1 block writes=0 reads=0
+REPRO     EZ390 final_options=ALIGN
+REPRO     EZ390 final_options=NOALLOW
+REPRO     EZ390 final_options=NOAMODE24
+REPRO     EZ390 final_options=AMODE31
+REPRO     EZ390 final_options=NOASCII
+REPRO     EZ390 final_options=ASM
+REPRO     EZ390 final_options=NOASSIST
+REPRO     EZ390 final_options=AUTOLINK
+REPRO     EZ390 final_options=NOBAL
+REPRO     EZ390 final_options=NOBS2000
+REPRO     EZ390 final_options=EDF
+REPRO     EZ390 final_options=NOCICS
+REPRO     EZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+REPRO     EZ390 final_options=COMMENT
+REPRO     EZ390 final_options=NOCON
+REPRO     EZ390 final_options=DUMP
+REPRO     EZ390 final_options=EPILOG
+REPRO     EZ390 final_options=NOERRSUM
+REPRO     EZ390 final_options=EXTEND
+REPRO     EZ390 final_options=FLOAT(DECIMAL)
+REPRO     EZ390 final_options=NOGUAM
+REPRO     EZ390 final_options=INIT
+REPRO     EZ390 final_options=LIST
+REPRO     EZ390 final_options=LISTCALL
+REPRO     EZ390 final_options=LISTUSE
+REPRO     EZ390 final_options=LOADHIGH
+REPRO     EZ390 final_options=NOMCALL
+REPRO     EZ390 final_options=NOMOD
+REPRO     EZ390 final_options=OBJ
+REPRO     EZ390 final_options=NOOBJHEX
+REPRO     EZ390 final_options=PC
+REPRO     EZ390 final_options=PCOPT
+REPRO     EZ390 final_options=NOPDSMEM8
+REPRO     EZ390 final_options=NOPRINTALL
+REPRO     EZ390 final_options=PROLOG
+REPRO     EZ390 final_options=PROTECT
+REPRO     EZ390 final_options=R64
+REPRO     EZ390 final_options=NOREFORMAT
+REPRO     EZ390 final_options=NOREGS
+REPRO     EZ390 final_options=RMODE24
+REPRO     EZ390 final_options=NORMODE31
+REPRO     EZ390 final_options=STATS
+REPRO     EZ390 final_options=NOTEST
+REPRO     EZ390 final_options=THREAD
+REPRO     EZ390 final_options=NOTIME
+REPRO     EZ390 final_options=NOTIMING
+REPRO     EZ390 final_options=NOTRACE
+REPRO     EZ390 final_options=NOTRACEA
+REPRO     EZ390 final_options=NOTRACEALL
+REPRO     EZ390 final_options=NOTRACEC
+REPRO     EZ390 final_options=NOTRACEG
+REPRO     EZ390 final_options=NOTRACEI
+REPRO     EZ390 final_options=NOTRACEL
+REPRO     EZ390 final_options=NOTRACEM
+REPRO     EZ390 final_options=NOTRACEP
+REPRO     EZ390 final_options=TRACEQ
+REPRO     EZ390 final_options=NOTRACES
+REPRO     EZ390 final_options=NOTRACET
+REPRO     EZ390 final_options=TRACEV
+REPRO     EZ390 final_options=TRAP
+REPRO     EZ390 final_options=NOTRUNC
+REPRO     EZ390 final_options=NOTS
+REPRO     EZ390 final_options=VCB
+REPRO     EZ390 final_options=WARN
+REPRO     EZ390 final_options=XREF
+REPRO     EZ390 final_options=ZSTRMAC
+REPRO     EZ390 final_options=CHKMAC=0
+REPRO     EZ390 final_options=CHKSRC=1
+REPRO     EZ390 final_options=ERR=100
+REPRO     EZ390 final_options=MAXCALL=50
+REPRO     EZ390 final_options=MAXDISPLAY=80
+REPRO     EZ390 final_options=MAXESD=1000
+REPRO     EZ390 final_options=MAXFILE=1000
+REPRO     EZ390 final_options=MAXGBL=100000
+REPRO     EZ390 final_options=MAXHEIGHT=600
+REPRO     EZ390 final_options=MAXLCL=100000
+REPRO     EZ390 final_options=MAXLEN=80
+REPRO     EZ390 final_options=MAXLINE=200000
+REPRO     EZ390 final_options=MAXLOG=1000000
+REPRO     EZ390 final_options=MAXPARM=10000
+REPRO     EZ390 final_options=MAXPASS=2
+REPRO     EZ390 final_options=MAXPC=50000
+REPRO     EZ390 final_options=MAXQUE=1000
+REPRO     EZ390 final_options=MAXRLD=10000
+REPRO     EZ390 final_options=MAXSIZE=52428800
+REPRO     EZ390 final_options=MAXSYM=50000
+REPRO     EZ390 final_options=MAXWARN=4
+REPRO     EZ390 final_options=MAXWIDTH=800
+REPRO     EZ390 final_options=MEM=1
+REPRO     EZ390 final_options=MINHEIGHT=150
+REPRO     EZ390 final_options=MINWIDTH=150
+REPRO     EZ390 final_options=MNOTE=0
+REPRO     EZ390 final_options=PARM=
+REPRO     EZ390 final_options=PROFILE=
+REPRO     EZ390 final_options=STATS=W:\work\z390\linklib\REPRO.STA
+REPRO     EZ390 final_options=SYSPARM=
+REPRO     EZ390 final_options=SYSTERM=w:\work\z390\vsam\test\rtvsam.ERR
+REPRO     EZ390 final_options=TESTDD=
+REPRO     EZ390 final_options=TIME=15
+REPRO     EZ390 final_options=TRACE=
+REPRO     EZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+REPRO     EZ390 final_options=Z390BROWSER=cmd.exe /c Start
+REPRO     EZ390 final_options=Z390COMMAND=cmd.exe
+REPRO     EZ390 final_options=Z390EDITOR=notepad.exe
+REPRO     EZ390 final_options=INSTALL=
+REPRO     EZ390 final_options=IPL=
+REPRO     EZ390 final_options=LOG=W:\work\z390\linklib\REPRO.LOG
+REPRO     EZ390 final_options=SYS390=W:\work\z390\linklib\+linklib
+REPRO     EZ390 final_options=SYSBAL=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSCPY=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSDAT=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSERR=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSLOG=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSLST=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSMAC=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSMLC=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSPCH=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSPRN=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSOBJ=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSOPT=W:\work\z390\linklib\
+REPRO     EZ390 final_options=SYSTRC=W:\work\z390\linklib\
+REPRO     EZ390 TCPIO operations      = 0
+REPRO     EZ390 DCB operations        = 25
+REPRO     EZ390 DCB open              = 3
+REPRO     EZ390 DCB close             = 3
+REPRO     EZ390 DCB get               = 0
+REPRO     EZ390 DCB put               = 1
+REPRO     EZ390 DCB read              = 18
+REPRO     EZ390 stats DCB write             = 0
+REPRO     EZ390 VSAM operations       = 9
+REPRO     EZ390 VSAM ACB open         = 1
+REPRO     EZ390 VSAM ACB close        = 1
+REPRO     EZ390 VSAM RPL get          = 7
+REPRO     EZ390 VSAM RPL put          = 0
+REPRO     EZ390 VSAM VXN find         = 0
+REPRO     EZ390 VSAM VXN max height   = 0
+REPRO     EZ390 VSAM AVL find         = 0
+REPRO     EZ390 VSAM AVL max height   = 0
+REPRO     EZ390 VSAM AVL insert tree  = 0
+REPRO     EZ390 VSAM AVL insert record= 0
+REPRO     EZ390 VSAM ACB point        = 0
+REPRO     EZ390 VSAM ACB erase        = 0
+REPRO     EZ390 VSAM VES read  cache  = 0
+REPRO     EZ390 VSAM VES read  file   = 6
+REPRO     EZ390 VSAM VES write file   = 0
+REPRO     EZ390 VSAM VXN read  cache  = 0
+REPRO     EZ390 VSAM VXN read  file   = 12
+REPRO     EZ390 VSAM VXN write file   = 0
+REPRO     EZ390 Keys                  = 2468
+REPRO     EZ390 Key searches          = 6
+REPRO     EZ390 Key avg comps         = 1
+REPRO     EZ390 Key max comps         = 2
+REPRO     EZ390 total errors          = 0
+REPRO     EZ390 ENDED   RC= 0 MEM(MB)= MB IO=487 INS=1049

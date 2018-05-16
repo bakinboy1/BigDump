@@ -1,0 +1,44 @@
+Class documentation
+<---- javadoc command: ---->
+C:\Program Files (x86)\BlueJ\jdk\bin\javadoc.exe
+-author
+-version
+-nodeprecated
+-package
+-noindex
+-notree
+-nohelp
+-nonavbar
+-source
+1.8
+-classpath
+C:\Program Files (x86)\BlueJ\lib\bluejcore.jar;C:\Program Files (x86)\BlueJ\lib\junit-4.8.2.jar;C:\Program Files (x86)\BlueJ\lib\userlib\pi4j-core.jar;C:\Program Files (x86)\BlueJ\lib\userlib\pi4j-device.jar;C:\Program Files (x86)\BlueJ\lib\userlib\pi4j-gpio-extension.jar;C:\Program Files (x86)\BlueJ\lib\userlib\pi4j-service.jar;D:\programs\bluej\bluej files\BlueJ projects\Hello Universe
+-d
+D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc
+-encoding
+UTF-8
+-charset
+UTF-8
+-docletpath
+C:\Program Files (x86)\BlueJ\lib\bjdoclet.jar
+-doclet
+bluej.doclet.doclets.formats.html.HtmlDoclet
+D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\ChocolateBar.java
+<---- end of javadoc command ---->
+Loading source file D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\ChocolateBar.java...
+Constructing Javadoc information...
+Standard Doclet version 1.8.0_40
+Building tree for all the packages and classes...
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\ChocolateBar.html...
+D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\ChocolateBar.java:34: warning - @postcondition: is an unknown tag.
+D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\ChocolateBar.java:75: warning - @precondition is an unknown tag.
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\package-frame.html...
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\package-summary.html...
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\constant-values.html...
+Building index for all the packages and classes...
+Building index for all classes...
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\allclasses-frame.html...
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\allclasses-noframe.html...
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\index.html...
+Generating D:\programs\bluej\bluej files\BlueJ projects\Hello Universe\doc\stylesheet.css...
+2 warnings

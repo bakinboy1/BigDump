@@ -1,0 +1,132 @@
+Z390I V1.5.06
+Copyright 2011 Automated Software Tools Corporation
+z390 is licensed under GNU General Public License
+Log file = C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390\z390_2016_1214_125804.LOG
+Enter command or help
+
+z390 help command summary
+File menu selections
+  EDIT  - open source file to edit
+  MAC   - expand MLC macro source to BAL assembler source
+  ASM   - assemble MLC to relocatable OBJ file
+  ASML  - assemble and link MLC to 390 load module file
+  ASMLG - assemble, link, and execule 390 load module file
+  JOB   - execute selected batch job
+  LINK  - link OBJ files into 390 load module file
+  EXEC  - execute 390 load module file
+Option menu - toggle default options for above cmds
+View menu - toggle status line and cmd input mode
+Type COMMANDS for alphabetical list of all commands
+Type GUIDE to view online or local help (if installed)
+Type SUPPORT to visit support web site
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 12:58:44 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>eidt
+'eidt' is not recognized as an internal or external command,
+operable program or batch file.
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/14/16 12:58:44 CMD task ended TOT SEC=0 TOT LOG IO=7
+SZ390E error 71 previous command execution ended with rc =9009
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 13:03:27 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM C:\ASM\Marst1 null
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+TZ390E invalid option=null  (CMD-LINE/4)
+TZ390E abort error 21 - invalid options -  null
+z390_abort_request
+13:03:29 Marst1    MZ390 ENDED   RC=16 SEC=1481738608 MEM(MB)= 10 IO=2
+Could Not Find C:\ASM\Marst1.obj
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/14/16 13:03:29 CMD task ended TOT SEC=1 TOT LOG IO=13
+
+z390 help command summary
+File menu selections
+  EDIT  - open source file to edit
+  MAC   - expand MLC macro source to BAL assembler source
+  ASM   - assemble MLC to relocatable OBJ file
+  ASML  - assemble and link MLC to 390 load module file
+  ASMLG - assemble, link, and execule 390 load module file
+  JOB   - execute selected batch job
+  LINK  - link OBJ files into 390 load module file
+  EXEC  - execute 390 load module file
+Option menu - toggle default options for above cmds
+View menu - toggle status line and cmd input mode
+Type COMMANDS for alphabetical list of all commands
+Type GUIDE to view online or local help (if installed)
+Type SUPPORT to visit support web site
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 13:09:10 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASMLG demo\DEMO 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asmlg assemble, link, and go from mlc to 390 execution 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+13:09:10 DEMO      MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+13:09:11 DEMO      MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 39 IO=786
+13:09:11 DEMO      LZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+13:09:11 DEMO      LZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 11 IO=46
+13:09:11 DEMO      EZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+HELLO WORLD
+13:09:11 DEMO      EZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 20 IO=21 INS=13
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/14/16 13:09:12 CMD task ended TOT SEC=1 TOT LOG IO=14
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 13:14:50 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>EXEC demo\DEMO trace con
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+13:14:50 DEMO      EZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+ CDE LOAD=800FFF60 LEN=000000A0 NAME=demo\DEMO.390
+13:14:50 DEMO      EZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+ 800FFF60 0 90ECD00C     STM   RE=00002018 RC=F4F4F4F4 S2(0000210C)=00000000
+ 800FFF64 0 45FF0068     BAL   RF=800FFF60 S2(000FFFC8)=50FD0008 ST   
+ 800FFFC8 0 50FD0008     ST    RF=800FFF68 S2(00002108)=00000000
+ 800FFFCC 0 50DF0004     ST    RD=00002100 S2(000FFF6C)=00000000
+ 800FFFD0 0 18DF         LR    RD=00002100 RF=800FFF68
+ 800FFFD2 0 A715000A     BRAS  R1=00002300 S2(000FFFE6)=0A23 SVC  
+ 800FFFE6 0 0A23         SVC   I1=23 WTO R1=ADDR(AL2(LEN),AL2(FLAGS),C'MSG')
+HELLO WORLD
+ 800FFFE8 0 41F00000     LA    RF=00000000 S2(00000000)
+ 800FFFEC 0 58D0D004     L     RD=800FFF68 S2(000FFF6C)=00002100
+ 800FFFF0 0 58E0D00C     L     RE=00002018 S2(0000210C)=00002018
+ 800FFFF4 0 982CD01C     LM    R2=F4F4F4F4 RC=F4F4F4F4 S2(0000211C)=F4F4F4F4
+ 800FFFF8 0 07FE         BR    RE(00002018)=0A03 SVC  
+ 80002018 0 0A03         SVC   I1=03 EXIT
+13:14:51 DEMO      EZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 20 IO=21 INS=13
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/14/16 13:14:51 CMD task ended TOT SEC=1 TOT LOG IO=24
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 13:16:04 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASMLG demo\DEMO 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asmlg assemble, link, and go from mlc to 390 execution 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+13:16:04 DEMO      MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+13:16:04 DEMO      MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 39 IO=786
+13:16:05 DEMO      LZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+13:16:05 DEMO      LZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 11 IO=46
+13:16:05 DEMO      EZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+HELLO WORLD
+13:16:05 DEMO      EZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 20 IO=21 INS=13
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/14/16 13:16:05 CMD task ended TOT SEC=1 TOT LOG IO=14
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/14/16 13:16:31 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASMLG demo\DEMO 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asmlg assemble, link, and go from mlc to 390 execution 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+13:16:31 DEMO      MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+13:16:31 DEMO      MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 39 IO=786
+13:16:32 DEMO      LZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/14/16
+13:16:32 DEMO      LZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 11 IO=46
+13:16:32 DEMO      EZ390 START USING z390 V1.5.06 ON J2

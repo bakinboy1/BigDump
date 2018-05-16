@@ -1,0 +1,14 @@
+REPRO     EZ390 START
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = W:\work\z390\REPRO.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) @vsam\rtvsam=(notiming stats tracev 
+  traceq dump) systerm(w:\work\z390\vsam\test\rtvsam)
+REPRO z390 VSAM UTILITY V1.2
+REPRO UNLOADING VSAM INFILE TO QSAM OUTFILE
+REPRO RECFM=FT LRECL =      80
+SNAP DUMP ID=1 TEXT=REPRO FILES OPENED
+ REPRO TOTAL RECORDS =       6
+REPRO ENDED OK
+EZ390I total errors         = 0
+REPRO     EZ390 ENDED   RC= 0 MEM(MB)= MB IO=486 INS=475

@@ -1,0 +1,409 @@
+ TITLE 'DAT - DATE AND TIME SUBROUTINE'
+**********************************************************************
+*  AUTHOR.    DON HIGGINS.
+*  DATE.      04/01/85.
+**********************************************************************
+* 03/21/08 DSH1 UPGRADE FROM PC/370 TO Z390 AFTER 23 YEARS
+*  1.  DISPLAY DATE, TIME OF DAY, INSTRUCTION COUNTER, AND MIPS
+*  2.  DISPLAY JDBC TIME-STAMP WITH NANO-SECOND EXTENSION USING TIME TS
+*  3.  DISPLAY TOTAL Z390 INSTRUCTIONS EXECUTED USING TIME INS
+*  4.  FOR REPEATED CALLS, CALCULATE AND DISPLAY MIP RATE FOR INTERVAL
+**********************************************************************
+*MCALL #=     1 LV= 1 DAT      SUBENTRY 
+DAT      CSECT 
+         STM   14,12,12(13)
+         BAL   15,104(15)
+         DC    18F'0'
+         DC    CL8'DAT'
+         DC    CL8'01/02/05'
+         DC    CL8'22.33'
+         ST    15,8(13)
+         ST    13,4(15)
+         LR    13,15
+         USING DAT+8,13
+*MEXIT #=     1 LV= 1 SUBENTRY
+*MCALL #=     2 LV= 1          TIME  TS,JDBCTS         GET JDBC TIME STX
+               AMP WITH NANO-SEC EXT.
+         LA    0,9 OBDC TIMESTAMP WITH 9 DIGIT NANOSECONDS
+         LA    1,JDBCTS
+         SVC   11 TIME AND DATE
+*MEXIT #=     2 LV= 1 TIME
+         LG    R3,NSPREV         R3 = PREV NS TIME
+*MCALL #=     3 LV= 1          TIME  NS,NSTIME         GET TOD IN NANO-X
+               SECONDS
+         LA    0,8 NANOSECONDS - DOUBLE WORD BIT 63 NANO-SEC COUNTER
+         LA    1,NSTIME
+         SVC   11 TIME AND DATE
+*MEXIT #=     3 LV= 1 TIME
+         MVC   NSPREV,NSTIME     SAVE CURR NS TIME
+         LG    R4,LASTINS        R4 = PREV INSTR COUNT
+*MCALL #=     4 LV= 1          TIME  INS               R1 = CURR INSTR X
+               COUNT
+         LA    0,16 RPI 825 R1=INSTRUCTION COUNTER
+         SVC   11 TIME AND DATE
+*MEXIT #=     4 LV= 1 TIME
+         STG   R1,LASTINS        SAVE CURR INSTR COUNT
+         CVDG  R1,PWORK          CVT 64 BIT COUNT
+         MVC   DINS,MASKINS
+         ED    DINS,PWORK+10     DISPLAY LOW 11 DIGITS OF COUNT
+         LTGR  R3,R3             IS PREV NSTIME ZERO
+         BZ    NOMIPS            YES, SKIP MIP CALC
+         LG    R0,NSTIME
+         SGR   R0,R3
+         BZ    NOMIPS            SKIP MIP CALC IF NANO-SEC INT = 0
+         STG   R0,NSDIFF         SAVE ELAPSED TIME IN NANO-SECONDS
+         LG    R1,LASTINS
+         SGR   R1,R4            R1 = INSTR INTERVAL COUNT
+         MSG   R1,=FL8'100000'  R1 = INSTR * 100,000
+         DSG   R0,NSDIFF        R1 = MIPS * 100
+ CVD   R1,PWORK
+         MVC   DMIPS,MASKMIPS
+         ED    DMIPS,PWORK+5
+         B     DISPLAY
+NOMIPS   DS    0H
+         MVI   DMIPS,C' '
+         MVC   DMIPS(L'DMIPS-1),DMIPS
+DISPLAY  DS    0H
+*MCALL #=     5 LV= 1          WTO   MF=(E,DATMSG)     DISPLAY TS, TOTAX
+               L INSTRUCTIONS, MIPS
+         LA    1,DATMSG
+         SVC   35
+*MEXIT #=     5 LV= 1 WTO
+*MCALL #=     6 LV= 1          SUBEXIT 
+         LA    15,0
+         L     13,4(,13)
+         L     14,12(,13)
+         LM    2,12,28(13)
+         BR    14
+*MEXIT #=     6 LV= 1 SUBEXIT
+DATMSG   DC    AL2(MSGEND-*,0)
+JDBCTS   DC    CL29' ',C' INS='
+DINS     DC    C' ZZ,ZZZ,ZZZ,ZZZ',C' MIPS='
+DMIPS    DC    C'   0.00'
+MSGEND   EQU   *
+PWORK    DC    PL16'0'
+LASTINS  DC    FL8'0'
+MASKINS  DC    C' ',X'2020',3AL1(C',',X'20',X'20',X'20')
+MASKMIPS DC    C' ',X'202120',C'.',X'2020'
+NSPREV   DC    FL8'0'  PREV NS
+NSTIME   DC    FL8'0'  CURR NS
+NSDIFF   DC    FL8'0'  NS IN INTERVAL
+*MCALL #=     7 LV= 1          EQUREGS 
+R0     EQU 0
+R1     EQU 1
+R2     EQU 2
+R3     EQU 3
+R4     EQU 4
+R5     EQU 5
+R6     EQU 6
+R7     EQU 7
+R8     EQU 8
+R9     EQU 9
+R10    EQU 10
+R11    EQU 11
+R12    EQU 12
+R13    EQU 13
+R14    EQU 14
+R15    EQU 15
+*MEXIT #=     7 LV= 1 EQUREGS
+         LTORG 
+         END 
+                   (3/104)42+         LA    0,16 RPI 825 R1=INSTRUCTION COUNTER
+00009C 0A0B                                 (3/81)43+         SVC   11 TIME AND DATE
+00009E E310D1680024            000170       (1/19)45          STG   R1,LASTINS        SAVE CURR INSTR COUNT
+0000A4 E310D158002E            000160       (1/20)46          CVDG  R1,PWORK          CVT 64 BIT COUNT
+0000AA D20ED13CD170     000144 000178       (1/21)47          MVC   DINS,MASKINS
+0000B0 DE0ED13CD162     000144 00016A       (1/22)48          ED    DINS,PWORK+10     DISPLAY LOW 11 DIGITS OF COUNT
+0000B6 B9020033                             (1/23)49          LTGR  R3,R3             IS PREV NSTIME ZERO
+0000BA 4780D0F4                0000FC       (1/24)50          BZ    NOMIPS            YES, SKIP MIP CALC
+0000BE E300D18E0004            000196       (1/25)51          LG    R0,NSTIME
+0000C4 B9090003                             (1/26)52          SGR   R0,R3
+0000C8 4780D0F4                0000FC       (1/27)53          BZ    NOMIPS            SKIP MIP CALC IF NANO-SEC INT = 0
+0000CC E300D1960024            00019E       (1/28)54          STG   R0,NSDIFF         SAVE ELAPSED TIME IN NANO-SECONDS
+0000D2 E310D1680004            000170       (1/29)55          LG    R1,LASTINS
+0000D8 B9090014                             (1/30)56          SGR   R1,R4            R1 = INSTR INTERVAL COUNT
+0000DC E310D1A0000C            0001A8       (1/31)57          MSG   R1,=FL8'100000'  R1 = INSTR * 100,000
+0000E2 E300D196000D            00019E       (1/32)58          DSG   R0,NSDIFF        R1 = MIPS * 100
+0000E8 4E10D158                000160       (1/33)59  CVD   R1,PWORK
+0000EC D206D151D17F     000159 000187       (1/34)60          MVC   DMIPS,MASKMIPS
+0000F2 DE06D151D15D     000159 000165       (1/35)61          ED    DMIPS,PWORK+5
+0000F8 47F0D0FE                000106       (1/36)62          B     DISPLAY
+0000FC                                      (1/37)63 NOMIPS   DS    0H
+0000FC 9240D151                000159       (1/38)64          MVI   DMIPS,C' '
+000100 D205D151D151     000159 000159       (1/39)65          MVC   DMIPS(L'DMIPS-1),DMIPS
+000106                                      (1/40)66 DISPLAY  DS    0H
+000106                                      (1/41)67          WTO   MF=(E,DATMSG)     DISPLAY TS, TOTAL INSTRUCTIONS, MIPS
+000106 4110D116                00011E       (4/61)69+         LA    1,DATMSG
+00010A 0A23                                 (4/66)70+         SVC   35
+00010C                                      (1/42)72          SUBEXIT 
+00010C 41F00000                             (5/33)73+         LA    15,0
+000110 58D0D004                             (5/50)74+         L     13,4(,13)
+000114 58E0D00C                             (5/51)75+         L     14,12(,13)
+000118 982CD01C                             (5/52)76+         LM    2,12,28(13)
+00011C 07FE                                 (5/53)77+         BR    14
+00011E 00420000                             (1/43)79 DATMSG   DC    AL2(MSGEND-*,0)
+000122 4040404040404040                     (1/44)80 JDBCTS   DC    CL29' ',C' INS='
+000144 40E9E96BE9E9E96B                     (1/45)81 DINS     DC    C' ZZ,ZZZ,ZZZ,ZZZ',C' MIPS='
+000159 404040F04BF0F0                       (1/46)82 DMIPS    DC    C'   0.00'
+000160                  00000160            (1/47)83 MSGEND   EQU   *
+000160 0000000000000000                     (1/48)84 PWORK    DC    PL16'0'
+000170 0000000000000000                     (1/49)85 LASTINS  DC    FL8'0'
+000178 4020206B2020206B                     (1/50)86 MASKINS  DC    C' ',X'2020',3AL1(C',',X'20',X'20',X'20')
+000187 402021204B2020                       (1/51)87 MASKMIPS DC    C' ',X'202120',C'.',X'2020'
+00018E 0000000000000000                     (1/52)88 NSPREV   DC    FL8'0'  PREV NS
+000196 0000000000000000                     (1/53)89 NSTIME   DC    FL8'0'  CURR NS
+00019E 0000000000000000                     (1/54)90 NSDIFF   DC    FL8'0'  NS IN INTERVAL
+0001A6                                      (1/55)91          EQUREGS 
+0001A6                  00000000            (6/41)92+R0     EQU 0
+0001A6                  00000001            (6/41)93+R1     EQU 1
+0001A6                  00000002            (6/41)94+R2     EQU 2
+0001A6                  00000003            (6/41)95+R3     EQU 3
+0001A6                  00000004            (6/41)96+R4     EQU 4
+0001A6                  00000005            (6/41)97+R5     EQU 5
+0001A6                  00000006            (6/41)98+R6     EQU 6
+0001A6                  00000007            (6/41)99+R7     EQU 7
+0001A6                  00000008           (6/41)100+R8     EQU 8
+0001A6                  00000009           (6/41)101+R9     EQU 9
+0001A6                  0000000A           (6/41)102+R10    EQU 10
+0001A6                  0000000B           (6/41)103+R11    EQU 11
+0001A6                  0000000C           (6/41)104+R12    EQU 12
+0001A6                  0000000D           (6/41)105+R13    EQU 13
+0001A6                  0000000E           (6/41)106+R14    EQU 14
+0001A6                  0000000F           (6/41)107+R15    EQU 15
+0001A6                                     (1/56)109          LTORG 
+0001A8 00000000000186A0 =FL8'100000'
+0001B0                                     (1/57)110          END 
+
+Symbol Table Listing
+
+ SYM=DAT      LOC=00000000 LEN=000001B0 ESD=0001 TYPE=CST  XREF=13 23 
+ SYM=DATMSG   LOC=0000011E LEN=00000002 ESD=0001 TYPE=REL  XREF=79 69 
+ SYM=DINS     LOC=00000144 LEN=0000000F ESD=0001 TYPE=REL  XREF=81 47 48 
+ SYM=DISPLAY  LOC=00000106 LEN=00000002 ESD=0001 TYPE=REL  XREF=66 62 
+ SYM=DMIPS    LOC=00000159 LEN=00000007 ESD=0001 TYPE=REL  XREF=82 60 61 64 65 
+ SYM=JDBCTS   LOC=00000122 LEN=0000001D ESD=0001 TYPE=REL  XREF=80 28 
+ SYM=LASTINS  LOC=00000170 LEN=00000008 ESD=0001 TYPE=REL  XREF=85 39 45 55 
+ SYM=MASKINS  LOC=00000178 LEN=00000001 ESD=0001 TYPE=REL  XREF=86 47 
+ SYM=MASKMIPS LOC=00000187 LEN=00000001 ESD=0001 TYPE=REL  XREF=87 60 
+ SYM=MSGEND   LOC=00000160 LEN=00000001 ESD=0001 TYPE=REL  XREF=83 79 
+ SYM=NOMIPS   LOC=000000FC LEN=00000002 ESD=0001 TYPE=REL  XREF=63 50 53 
+ SYM=NSDIFF   LOC=0000019E LEN=00000008 ESD=0001 TYPE=REL  XREF=90 54 58 
+ SYM=NSPREV   LOC=0000018E LEN=00000008 ESD=0001 TYPE=REL  XREF=88 31 38 
+ SYM=NSTIME   LOC=00000196 LEN=00000008 ESD=0001 TYPE=REL  XREF=89 35 38 51 
+ SYM=PWORK    LOC=00000160 LEN=00000010 ESD=0001 TYPE=REL  XREF=84 46 48 59 61 
+ SYM=R0       LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=92 51 52 54 58 
+ SYM=R10      LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=102 
+ SYM=R1       LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=93 45 46 55 56 57 
+  59 
+ SYM=R11      LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=103 
+ SYM=R12      LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=104 
+ SYM=R13      LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=105 
+ SYM=R14      LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=106 
+ SYM=R15      LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=107 
+ SYM=R2       LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=94 
+ SYM=R3       LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=95 31 49 52 
+ SYM=R4       LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=96 39 56 
+ SYM=R5       LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=97 
+ SYM=R6       LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=98 
+ SYM=R7       LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=99 
+ SYM=R8       LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=100 
+ SYM=R9       LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=101 
+
+Literal Table Listing
+
+ LIT=FL8'100000' LOC=000001A8 LEN=00000008 ESD=0001 POOL=0001 XREF=57 
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+DAT       MZ390 ENDED   RC= 0 MEM(MB)= MB IO=920
+                       DAT       MZ390 Copyright 2011 Automated Software Tools Corporation
+DAT       MZ390 z390 is licensed under GNU General Public License
+DAT       MZ390 program = linklib\DAT.MLC
+DAT       MZ390 options = W:\work\z390\z390.OPT=(time(60)) bal notiming sysmac(mac) 
+  syscpy(mac) stats systerm(linklib\rtlink)
+DAT       MZ390 final_options=ALIGN
+DAT       MZ390 final_options=NOALLOW
+DAT       MZ390 final_options=NOAMODE24
+DAT       MZ390 final_options=AMODE31
+DAT       MZ390 final_options=NOASCII
+DAT       MZ390 final_options=ASM
+DAT       MZ390 final_options=NOASSIST
+DAT       MZ390 final_options=AUTOLINK
+DAT       MZ390 final_options=BAL
+DAT       MZ390 final_options=NOBS2000
+DAT       MZ390 final_options=EDF
+DAT       MZ390 final_options=NOCICS
+DAT       MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+DAT       MZ390 final_options=COMMENT
+DAT       MZ390 final_options=CON
+DAT       MZ390 final_options=NODUMP
+DAT       MZ390 final_options=EPILOG
+DAT       MZ390 final_options=NOERRSUM
+DAT       MZ390 final_options=EXTEND
+DAT       MZ390 final_options=FLOAT(DECIMAL)
+DAT       MZ390 final_options=NOGUAM
+DAT       MZ390 final_options=INIT
+DAT       MZ390 final_options=LIST
+DAT       MZ390 final_options=LISTCALL
+DAT       MZ390 final_options=LISTUSE
+DAT       MZ390 final_options=LOADHIGH
+DAT       MZ390 final_options=NOMCALL
+DAT       MZ390 final_options=NOMOD
+DAT       MZ390 final_options=OBJ
+DAT       MZ390 final_options=NOOBJHEX
+DAT       MZ390 final_options=PC
+DAT       MZ390 final_options=PCOPT
+DAT       MZ390 final_options=NOPDSMEM8
+DAT       MZ390 final_options=NOPRINTALL
+DAT       MZ390 final_options=PROLOG
+DAT       MZ390 final_options=PROTECT
+DAT       MZ390 final_options=R64
+DAT       MZ390 final_options=NOREFORMAT
+DAT       MZ390 final_options=NOREGS
+DAT       MZ390 final_options=RMODE24
+DAT       MZ390 final_options=NORMODE31
+DAT       MZ390 final_options=STATS
+DAT       MZ390 final_options=NOTEST
+DAT       MZ390 final_options=THREAD
+DAT       MZ390 final_options=NOTIME
+DAT       MZ390 final_options=NOTIMING
+DAT       MZ390 final_options=NOTRACE
+DAT       MZ390 final_options=NOTRACEA
+DAT       MZ390 final_options=NOTRACEALL
+DAT       MZ390 final_options=NOTRACEC
+DAT       MZ390 final_options=NOTRACEG
+DAT       MZ390 final_options=NOTRACEI
+DAT       MZ390 final_options=NOTRACEL
+DAT       MZ390 final_options=NOTRACEM
+DAT       MZ390 final_options=NOTRACEP
+DAT       MZ390 final_options=NOTRACEQ
+DAT       MZ390 final_options=NOTRACES
+DAT       MZ390 final_options=NOTRACET
+DAT       MZ390 final_options=NOTRACEV
+DAT       MZ390 final_options=TRAP
+DAT       MZ390 final_options=NOTRUNC
+DAT       MZ390 final_options=NOTS
+DAT       MZ390 final_options=VCB
+DAT       MZ390 final_options=WARN
+DAT       MZ390 final_options=XREF
+DAT       MZ390 final_options=ZSTRMAC
+DAT       MZ390 final_options=CHKMAC=0
+DAT       MZ390 final_options=CHKSRC=1
+DAT       MZ390 final_options=ERR=100
+DAT       MZ390 final_options=MAXCALL=50
+DAT       MZ390 final_options=MAXDISPLAY=80
+DAT       MZ390 final_options=MAXESD=1000
+DAT       MZ390 final_options=MAXFILE=1000
+DAT       MZ390 final_options=MAXGBL=100000
+DAT       MZ390 final_options=MAXHEIGHT=600
+DAT       MZ390 final_options=MAXLCL=100000
+DAT       MZ390 final_options=MAXLEN=80
+DAT       MZ390 final_options=MAXLINE=200000
+DAT       MZ390 final_options=MAXLOG=1000000
+DAT       MZ390 final_options=MAXPARM=10000
+DAT       MZ390 final_options=MAXPASS=2
+DAT       MZ390 final_options=MAXPC=50000
+DAT       MZ390 final_options=MAXQUE=1000
+DAT       MZ390 final_options=MAXRLD=10000
+DAT       MZ390 final_options=MAXSIZE=52428800
+DAT       MZ390 final_options=MAXSYM=50000
+DAT       MZ390 final_options=MAXWARN=4
+DAT       MZ390 final_options=MAXWIDTH=800
+DAT       MZ390 final_options=MEM=1
+DAT       MZ390 final_options=MINHEIGHT=150
+DAT       MZ390 final_options=MINWIDTH=150
+DAT       MZ390 final_options=MNOTE=0
+DAT       MZ390 final_options=PARM=
+DAT       MZ390 final_options=PROFILE=
+DAT       MZ390 final_options=STATS=W:\work\z390\linklib\DAT
+DAT       MZ390 final_options=SYSPARM=
+DAT       MZ390 final_options=SYSTERM=W:\work\z390\linklib\rtlink
+DAT       MZ390 final_options=TESTDD=
+DAT       MZ390 final_options=TIME=60
+DAT       MZ390 final_options=TRACE=
+DAT       MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+DAT       MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+DAT       MZ390 final_options=Z390COMMAND=cmd.exe
+DAT       MZ390 final_options=Z390EDITOR=notepad.exe
+DAT       MZ390 final_options=INSTALL=
+DAT       MZ390 final_options=IPL=
+DAT       MZ390 final_options=LOG=
+DAT       MZ390 final_options=SYS390=linklib\+linklib
+DAT       MZ390 final_options=SYSBAL=linklib\
+DAT       MZ390 final_options=SYSCPY=mac
+DAT       MZ390 final_options=SYSDAT=linklib\
+DAT       MZ390 final_options=SYSERR=linklib\
+DAT       MZ390 final_options=SYSLOG=linklib\
+DAT       MZ390 final_options=SYSLST=linklib\
+DAT       MZ390 final_options=SYSMAC=mac
+DAT       MZ390 final_options=SYSMLC=linklib\
+DAT       MZ390 final_options=SYSPCH=linklib\
+DAT       MZ390 final_options=SYSPRN=linklib\
+DAT       MZ390 final_options=SYSOBJ=linklib\
+DAT       MZ390 final_options=SYSOPT=linklib\
+DAT       MZ390 final_options=SYSTRC=linklib\
+DAT       MZ390 total MLC/MAC loaded  = 344
+DAT       MZ390 total BAL output lines= 106
+DAT       MZ390 total BAL instructions= 30
+DAT       MZ390 total macros          = 6
+DAT       MZ390 total macro loads     = 6
+DAT       MZ390 total macro calls     = 7
+DAT       MZ390 total AENTRY blocks   = 0
+DAT       MZ390 total ACALL  calls    = 0
+DAT       MZ390 total AIF    blocks   = 4
+DAT       MZ390 total ACASE  blocks   = 0
+DAT       MZ390 total AWHILE calls    = 1
+DAT       MZ390 total AUNTIL blocks   = 0
+DAT       MZ390 total global set names= 61
+DAT       MZ390 tot global seta cells = 2
+DAT       MZ390 tot global setb cells = 77
+DAT       MZ390 tot global setc cells = 42
+DAT       MZ390 max local pos parms   = 3
+DAT       MZ390 max local key parms   = 11
+DAT       MZ390 max local set names   = 13
+DAT       MZ390 max local seta cells  = 5
+DAT       MZ390 max local setb cells  = 0
+DAT       MZ390 max local setc cells  = 25
+DAT       MZ390 total array expansions= 0
+DAT       MZ390 total Keys            = 1592
+DAT       MZ390 Key searches          = 3063
+DAT       MZ390 Key avg comps         = 0
+DAT       MZ390 Key max comps         = 3
+DAT       MZ390 total macro line exec = 319
+DAT       MZ390 total pcode line exec = 105
+DAT       MZ390 total pcode line gen. = 51
+DAT       MZ390 total pcode line reuse= 0
+DAT       MZ390 total pcode op   gen. = 232
+DAT       MZ390 total pcode op   exec = 561
+DAT       MZ390 total pcode gen  opt  = 106
+DAT       MZ390 total pcode exec opt  = 1
+DAT       MZ390 FID=  1 ERR= 0 W:\work\z390\linklib\DAT.MLC
+DAT       MZ390 FID=  2 ERR= 0 W:\work\z390\mac\SUBENTRY.MAC
+DAT       MZ390 FID=  3 ERR= 0 W:\work\z390\mac\TIME.MAC
+DAT       MZ390 FID=  4 ERR= 0 W:\work\z390\mac\WTO.MAC
+DAT       MZ390 FID=  5 ERR= 0 W:\work\z390\mac\SUBEXIT.MAC
+DAT       MZ390 FID=  6 ERR= 0 W:\work\z390\mac\EQUREGS.MAC
+DAT       MZ390 total mnote warnings  = 0
+DAT       MZ390 total mnote errors    = 0
+DAT       MZ390 max   mnote level     = 0
+DAT       MZ390 total mz390 errors    = 0
+DAT       AZ390 BAL lines             = 106
+DAT       AZ390 symbols               = 31
+DAT       AZ390 Literals              = 1
+DAT       AZ390 alloc passes          = 2
+DAT       AZ390 Keys                  = 1351
+DAT       AZ390 Key searches          = 2042
+DAT       AZ390 Key avg comps         = 0
+DAT       AZ390 Key max comps         = 3
+DAT       AZ390 ESD symbols           = 1
+DAT       AZ390 object bytes          = 430
+DAT       AZ390 object rlds           = 0
+DAT       AZ390 total mnote warnings  = 0
+DAT       AZ390 total mnote errors    = 0
+DAT       AZ390 max   mnote level     = 0
+DAT       AZ390 total mz390 errors    = 0
+DAT       AZ390 total az390 errors    = 0
+DAT       MZ390 ENDED   RC= 0 MEM(MB)= MB IO=1790

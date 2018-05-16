@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Hand()
+comment1.params=
+comment1.target=void\ printHand()
+comment2.params=
+comment2.target=int\ getValues()
+comment3.params=
+comment3.target=int\ getCount()
+comment4.params=
+comment4.target=void\ showOne()
+numComments=5

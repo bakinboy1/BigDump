@@ -1,0 +1,22 @@
+#BlueJ class context
+comment0.params=
+comment0.target=ChocolateBar()
+comment1.params=newUnitCost\ newDark\ newBrand\ newPartner
+comment1.target=ChocolateBar(double,\ boolean,\ java.lang.String,\ ChocolateBar)
+comment2.params=newUnitCost\ newDark\ newBrand
+comment2.target=ChocolateBar(double,\ boolean,\ java.lang.String)
+comment3.params=
+comment3.target=double\ getUnitCost()
+comment4.params=
+comment4.target=java.lang.String\ getBrand()
+comment5.params=
+comment5.target=boolean\ getDark()
+comment6.params=newUnitCost
+comment6.target=void\ setUnitCost(double)
+comment7.params=newDark
+comment7.target=void\ setDark(boolean)
+comment8.params=newBrand
+comment8.target=void\ setBrand(java.lang.String)
+comment9.params=
+comment9.target=java.lang.String\ getInfo()
+numComments=10

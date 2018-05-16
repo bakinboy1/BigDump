@@ -1,0 +1,18 @@
+         MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 04/07/08                                                 *
+.*********************************************************************
+.* 04/09/08 initial coding for Z390 GEN_B BRANCH 
+.* 08/05/09 RPI 1065 add support for PG OF SN    
+.*********************************************************************
+         GEN_B  &PG_NAME,&SN_NAME
+         COPY  ZC_WS
+         ACALL GET_PG_LAB
+         J     &ZC_PG_LAB
+         MEXIT
+         COPY ZCGETLAB
+         MEND

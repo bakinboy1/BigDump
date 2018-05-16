@@ -1,0 +1,918 @@
+21:07:37 Z390CAT1  MZ390 START USING z390 V1.5.06x3 ON J2SE 1.7.0 03/11/12
+AZ390I Copyright 2011 Automated Software Tools Corporation
+AZ390I z390 is licensed under GNU General Public License
+AZ390I program = cics\vsam\Z390CAT1
+AZ390I options = W:\work\z390\z390.OPT=(time(60)) SYSMAC(cics\vsam+MAC) 
+  SYSCPY(cics\vsam+MAC)
+External Symbol Definitions
+ ESD=0001 LOC=00000000 LEN=00000028 TYPE=CST NAME=VCDT
+ ESD=0002 LOC=00000028 LEN=00000230 TYPE=CST NAME=VCLR
+ ESD=0003 LOC=00000258 LEN=00000078 TYPE=CST NAME=VCLRAIXS
+ ESD=0004 LOC=000002D0 LEN=00000108 TYPE=CST NAME=VCLRDSNS
+ ESD=0005 LOC=000003D8 LEN=00000078 TYPE=CST NAME=VAIX
+ ESD=0006 LOC=00000450 LEN=00000028 TYPE=CST NAME=VAIXDSNS
+ ESD=0007 LOC=00000478 LEN=00000058 TYPE=CST NAME=VPTH
+ ESD=0008 LOC=000004D0 LEN=00000068 TYPE=CST NAME=DCB
+Assembler Listing
+000000                                        (1/1)1          DEFINE CATALOG,NAME=Z390CAT1
+000000                                        (1/2)3 *
+000000                                        (1/3)4 * VESDS TEST FILE 1
+000000                                        (1/4)5 *
+000000                                        (1/6)6          DEFINE CLUSTER,NAME=MYFILE01,RECORDSIZE=(1,26),INDEX=NONINDEXED
+000000                                        (1/7)9 *
+000000                                       (1/8)10 * ESDS TEST FILE 2
+000000                                       (1/9)11 *
+000000                                      (1/10)12          DEFINE CLUSTER,NAME=MYFILE02,RECORDSIZE=50,INDEX=NONINDEXED
+000000                                      (1/11)15 *
+000000                                      (1/12)16 * ESDS TEST FILE 3
+000000                                      (1/13)17 *
+000000                                      (1/14)18          DEFINE CLUSTER,NAME=MYFILE03,RECORDSIZE=100,INDEX=NONINDEXED
+000000                                      (1/15)21 *
+000000                                      (1/16)22 * ESDS TEST FILE 4
+000000                                      (1/17)23 *
+000000                                      (1/18)24          DEFINE CLUSTER,NAME=MYWORD01,RECORDSIZE=15,INDEX=NONINDEXED
+000000                                      (1/19)27 *
+000000                                      (1/20)28 * ALTERNATE INDEX ON MYWORD01 (NOT UNIQUE)
+000000                                      (1/22)29          DEFINE AIX,NAME=MYAIX03,RELATE=MYWORD01,KEYS=(3,1),UNIQUEKEY=NO,UPGRADE=NO
+000000                                      (1/23)32          DEFINE PATH,NAME=AIXESDS,ENTRY=MYAIX03,UPDATE=NO
+000000                                      (1/24)35 *
+000000                                      (1/25)36 * ESDS TEST FILE 5
+000000                                      (1/26)37 *
+000000                                      (1/27)38          DEFINE CLUSTER,NAME=MYWORD02,RECORDSIZE=15,INDEX=NONINDEXED
+000000                                      (1/28)41 *
+000000                                      (1/29)42 * RRDS TEST FILE 6
+000000                                      (1/30)43 *
+000000                                      (1/31)44          DEFINE CLUSTER,NAME=MYFILE06,RECORDSIZE=30,INDEX=NUMBERED
+000000                                      (1/32)47 *
+000000                                      (1/33)48 * VRRDS TEST FILE 7
+000000                                      (1/34)49 *
+000000                                      (1/35)50          DEFINE CLUSTER,NAME=MYFILE07,RECORDSIZE=(1,50),INDEX=NUMBERED
+000000                                      (1/36)53 *
+000000                                      (1/37)54 * KSDS TEST FILE 8
+000000                                      (1/38)55 *
+000000                                      (1/40)56          DEFINE CLUSTER,NAME=MYFILE08,RECORDSIZE=15,INDEX=INDEXED,KEYS=(15,0)
+000000                                      (1/41)59 *
+000000                                      (1/42)60 * VKSDS TEST FILE 9
+000000                                      (1/43)61 *
+000000                                      (1/45)62          DEFINE CLUSTER,NAME=MYFILE09,RECORDSIZE=(27,35),INDEX=INDEXED,KEYS=(15,0)
+000000                                      (1/46)65 *
+000000                                      (1/47)66 * KSDS FILE 1
+000000                                      (1/48)67 *    AIX01 ON SURNAME UNIQUE
+000000                                      (1/49)68 *    AIX02 ON NAME NOT UNIQUE
+000000                                      (1/50)69 *
+000000                                      (1/52)70          DEFINE CLUSTER,NAME=MYKSDS01,RECORDSIZE=17,INDEX=INDEXED,KEYS=(2,0)
+000000                                      (1/54)73          DEFINE AIX,NAME=MYAIX01,RELATE=MYKSDS01,KEYS=(8,9),UNIQUEKEY=YES,UPGRADE=NO
+000000                                      (1/55)76          DEFINE PATH,NAME=AIXSURN,ENTRY=MYAIX01,UPDATE=NO
+000000                                      (1/57)79          DEFINE AIX,NAME=MYAIX02,RELATE=MYKSDS01,KEYS=(6,2),UNIQUEKEY=NO,UPGRADE=NO
+000000                                      (1/58)82          DEFINE PATH,NAME=AIXNAME,ENTRY=MYAIX02,UPDATE=NO
+000000                                      (1/59)85 *
+000000                                      (1/60)86          DEFINE END
+000000                                      (4/23)89+VCDT     CSECT 
+000000 E5C3C4E3                             (4/24)90+         DC    CL4'VCDT'      VCDTID   VSAM CATALOG DEFINITION TABLE ID
+000004 E9F3F9F0C3C1E3F1                     (4/25)91+         DC    CL8'Z390CAT1'  VCDTNAME CATALOG NAME
+00000C 0000000A                             (4/26)92+         DC    F'10'    VCDTCLRT TOTAL CLR BASE CLUSTER ENTRIES
+000010 00000028                             (4/27)93+         DC    A(VCLR)        VCDTCLRA ADDR  CLR ENTRIES
+000014 00000003                             (4/28)94+         DC    F'3'    VCDTAIXT TOTAL AIX ALTERNATE INDEXES
+000018 000003D8                             (4/29)95+         DC    A(VAIX)        VCDTAIXA ADDR  AIX ALTERNATE INDEX TABLE
+00001C 00000003                             (4/30)96+         DC    F'3'    VCDTPTHT TOTAL PTH PATH ENTRIES
+000020 00000478                             (4/31)97+         DC    A(VPTH)        VCDTPTHA ADDR  PTH PATH TABLE
+000024 000004D0                             (4/32)98+         DC    A(DCB)         VCDTDCBA ADDR  MODEL DCB FOR VES/VX0/VZN
+000028                                      (4/33)99+VCLR     CSECT , BASE CLUSTER TABLE ENTRIES
+000258                                     (4/34)100+VCLRAIXS CSECT , BASE CLUSTER AIX UPGRADE ADDRESS LISTS
+0002D0                                     (4/35)101+VCLRDSNS CSECT , BASE CLUSTER DSNAME'S (DEFAULT OR OVERRIDES)
+0003D8                                     (4/36)102+VAIX     CSECT , ALTERNATE INDEX TABLE ENTRIES
+000450                                     (4/37)103+VAIXDSNS CSECT , ALTERNATE INDEX DSNAME'S (DEFSULYT OR OVERRIDES)
+000478                                     (4/38)104+VPTH     CSECT , PATH TABLE ENTRIES
+0004D0                                     (4/39)105+DCB      CSECT , MODELDCB FOR DYNAMIC ALLOCATION VES/VX0/VXN AT OPEN
+0004D0                                     (5/49)107+MODELDCB DS    0D             RPI 915
+0004D0 0000000000000000                    (5/50)108+         DC    XL(DCBLEN)'00' RPI 946
+000538                  0004D0            (5/108)109+         ORG   MODELDCB+DCBID-IHADCB        RPI88
+0004D0 C4C3C2E5F1F0F0F1                   (5/109)110+         DC    C'DCBV1001'            RPI88
+0004D8                  0004EA            (5/110)111+         ORG   MODELDCB+DCBDSORG-IHADCB
+0004EA 40                                 (5/111)112+         DC    AL1(DCBDSORG_PS) DCBDSORG
+0004EB                  0004F0            (5/112)113+         ORG   MODELDCB+DCBEODAD-IHADCB
+0004F0 00000000                           (5/113)114+         DC    A(0) DCBEODAD
+0004F4                  0004F4            (5/114)115+         ORG   MODELDCB+DCBRECFM-IHADCB
+0004F4 80                                 (5/115)116+         DC    AL1(DCBRECFM_F) DCBRECFM
+0004F5                  0004F8            (5/116)117+         ORG   MODELDCB+DCBDDNAM-IHADCB
+0004F8 D4D6C4C5D3C4C3C2                   (5/121)118+         DC    CL8'MODELDCB' DCBDDNAME
+000500                  000500            (5/123)119+         ORG   MODELDCB+DCBOFLGS-IHADCB
+000500 00                                 (5/124)120+         DC    AL1(0) DCBOFLGS RPI 668 ZERO (SET AT OPEN)
+000501                  000502            (5/125)121+         ORG   MODELDCB+DCBMACRF-IHADCB
+000502 5050                               (5/130)122+         DC    AL2(DCBMACRF_GM+DCBMACRF_PM) DCBMACRF
+000504                  000508            (5/132)123+         ORG   MODELDCB+DCBSYNAD-IHADCB
+000508 00000000                           (5/133)124+         DC    A(0) DCBSYNAD DCBSYNAD
+00050C                  00050C            (5/134)125+         ORG   MODELDCB+DCBBLKSIF-IHADCB    RPI 587
+00050C 00000000                           (5/135)126+         DC    F'0' DCBBLKSIF  RPI 587
+000510                  000520            (5/136)127+         ORG   MODELDCB+DCBLRECLF-IHADCB    RPI 587
+000520 00000000                           (5/137)128+         DC    F'0' DCBLRECLF    RPI 587
+000524                  000528            (5/138)129+         ORG   MODELDCB+DCBREC-IHADCB
+000528 00000000                           (5/139)130+         DC    A(0) DCBREC
+00052C                  00052C            (5/140)131+         ORG   MODELDCB+DCBDSNAM-IHADCB
+00052C 00000000                           (5/141)132+         DC    A(0) DCBDSNAM
+000530                  000530            (5/142)133+         ORG   MODELDCB+DCBDCBE-IHADCB   RPI 281
+000530 00000000                           (5/143)134+         DC    A(0) DCBDCBE
+000534                  000534            (5/144)135+         ORG   MODELDCB+DCBIO-IHADCB     RPI 907
+000534 00000000                           (5/145)136+         DC    A(0)     DCBIO      RPI 907 TOTAL IO COUNT SINCE OPEN
+000538                  000538            (5/146)137+         ORG   MODELDCB+DCBLEN
+000000                                     (6/40)139+IHADCB   DSECT 
+000000                  000000             (6/41)140+         ORG   IHADCB+X'00'
+000000                                     (6/42)141+DCBID    DS    CL4            DCB ID RPI88
+000004                  00001A             (6/43)142+         ORG   IHADCB+X'1A'
+00001A                                     (6/44)143+DCBDSORG DS    X              DATA SET ORGANIZATION
+00001B                  00000040           (6/45)144+DCBDSORG_PS EQU X'40'           PHYSICAL SEQUENTIAL
+00001B                  00000020           (6/46)145+DCBDSORG_DA EQU X'20'           DIRECT ACCESS
+00001B                  00001C             (6/47)146+         ORG   IHADCB+X'1C'
+00001C                                     (6/48)147+DCBIOBAD DS    A              INPUT/OUTPUT BLOCK (TIOT TABLE INDEX)
+000020                  000020             (6/49)148+         ORG   IHADCB+X'20'
+000020                                     (6/50)149+DCBEODA  DS    0A ADDRESS OF END OF FILE EXIT 31 BIT VS 24 RPI 989
+000020                                     (6/51)150+DCBEODAD DS    A ADDRESS OF END OF FILE EXIT  31 BIT VS 24
+000024                  000024             (6/52)151+         ORG   IHADCB+X'24'
+000024                                     (6/53)152+DCBRECFM DS    X              RECORD FORMAT
+000025                  00000080           (6/54)153+DCBRECF      EQU X'80'           FIXED  RPI 989
+000025                  00000080           (6/55)154+DCBRECFM_F   EQU X'80'           FIXED
+000025                  00000080           (6/56)155+DCBRECFM_FA  EQU X'80'           FIXED
+000025                  00000080           (6/57)156+DCBRECFM_FM  EQU X'80'           FIXED
+000025                  00000040           (6/58)157+DCBRECFM_V   EQU X'40'           VARIABLE
+000025                  00000040           (6/59)158+DCBRECFM_VA  EQU X'40'           VARIABLE
+000025                  00000040           (6/60)159+DCBRECFM_VM  EQU X'40'           VARIABLE
+000025                  00000090           (6/61)160+DCBRECFM_FB  EQU X'90'           FIXED BLOCKED
+000025                  00000010           (6/62)161+DCBRECBR     EQU X'10'           BLOCKED RECORDS RPI 989
+000025                  00000090           (6/63)162+DCBRECFM_FBA EQU X'90'           FIXED BLOCKED
+000025                  00000090           (6/64)163+DCBRECFM_FBM EQU X'90'           FIXED BLOCKED
+000025                  00000050           (6/65)164+DCBRECFM_VB  EQU X'50'           VARIABLE BLOCKED
+000025                  00000050           (6/66)165+DCBRECFM_VBA EQU X'50'           VARIABLE BLOCKED
+000025                  00000050           (6/67)166+DCBRECFM_VBM EQU X'50'           VARIABLE BLOCKED
+000025                  000000A0           (6/68)167+DCBRECFM_FT  EQU X'A0'           FIXED ASCII TEXT
+000025                  00000060           (6/69)168+DCBRECFM_VT  EQU X'60'           VARIABLE ASCII TEXT
+000025                  000000C0           (6/70)169+DCBRECU      EQU X'C0'           UNDEFINED RCDS NOT SUPPORTED RPI 989
+000025                  000028             (6/71)170+         ORG   IHADCB+X'28'
+000028                                     (6/72)171+DCBDDNAM DS    CL8            DDNAME > ENV VAR > FILE NAME
+000030                  000030             (6/73)172+         ORG   IHADCB+X'30'
+000030                                     (6/74)173+DCBOFLGS DS    X              OPEN FLAGS
+000031                  00000010           (6/75)174+DCBOFLGS_OPEN EQU X'10'          FILE OPEN (X'80' > X'10' RPI 906)_
+000031                  00000010           (6/76)175+DCBOFOPN      EQU X'10'          FILE OPEN RPI 906
+000031                  00000040           (6/77)176+DCBOFLGS_GM   EQU X'40'          READ  ALLOWED
+000031                  00000020           (6/78)177+DCBOFLGS_PM   EQU X'20'          WRITE ALLOWED
+000031                  00000040           (6/79)178+DCBOFLGS_GL   EQU X'40'          READ  ALLOWED
+000031                  00000020           (6/80)179+DCBOFLGS_PL   EQU X'20'          WRITE ALLOWED
+000031                  00000040           (6/81)180+DCBOFLGS_R    EQU X'40'          READ  ALLOWED
+000031                  00000020           (6/82)181+DCBOFLGS_W    EQU X'20'          WRITE ALLOWED
+000031                  00000060           (6/83)182+DCBOFLGS_RW   EQU X'60'          READ AND WRITE ALLOWED
+000031                  000032             (6/84)183+         ORG   IHADCB+X'32'
+000032                                     (6/85)184+DCBMACRF DS    H              MACRO REFERENCE ACCESS TYPE
+000034                  00005000           (6/86)185+DCBMACRF_GM EQU X'5000'         GET MOVE   QSAM
+000034                  00000050           (6/87)186+DCBMACRF_PM EQU X'0050'         PUT MOVE   QSAM
+000034                  00004800           (6/88)187+DCBMACRF_GL EQU X'4800'         GET LOCATE QSAM    RPI 764
+000034                  00000048           (6/89)188+DCBMACRF_PL EQU X'0048'         PUT LOCATE QSAM    RPI 764
+000034                  00002000           (6/90)189+DCBMACRF_R  EQU X'2000'         READ  RANDOM BDAM
+000034                  00000020           (6/91)190+DCBMACRF_W  EQU X'0020'         WRITE RANDOM BDAM
+000034                  00002020           (6/92)191+DCBMACRF_RW EQU X'2020'         READ/WRITE RANDOM BDAM
+000034                  000038             (6/93)192+         ORG   IHADCB+X'38'
+000038                                     (6/94)193+DCBSYNAD DS    A              ERROR EXIT
+00003C                  00003C             (6/95)194+         ORG   IHADCB+X'3C'
+00003C                                     (6/96)195+DCBBLKSIF DS   F              BLOCK SIZE    RPI 587 32 BIT BLOCK SIZE
+000040                  00003E             (6/97)196+         ORG   IHADCB+X'3E'
+00003E                                     (6/98)197+DCBBLKSI DS    H              BLOCK SIZE    (ALSO UNBLOCKED MAX RECORD)
+000040                  000050             (6/99)198+         ORG   IHADCB+X'50'
+000050                                    (6/100)199+DCBLRECLF DS   F              RECORD LENGTH RPI 587 32 BIT RECORD LEN
+000054                  000052            (6/101)200+         ORG   IHADCB+X'52'
+000052                                    (6/102)201+DCBLRECL DS    H              RECORD LENGTH (MAY BE ZERO FOR UNBLOCKED)
+000054                  000058            (6/103)202+         ORG   IHADCB+X'58'
+000058                                    (6/104)203+DCBREC   DS    A      X'58'   ADDRESS OF USER SUPPLIED RECORD AREA
+00005C                                    (6/105)204+DCBDSNAM DS    A      X'5C'   ADDRESS OF USER SUPPLIED DSN FILE SPEC
+000060                                    (6/106)205+DCBDCBE  DS    A      X'60'   ADDRESS OF DCBE EODAD/SYNAD  RPI 281
+000064                                    (6/107)206+DCBIO    DS    F      X'64'   TOTAL DCB IO OPERATIONS SINCE OPEN
+000068                  00000068          (6/108)207+DCBLEN   EQU   *-IHADCB
+000538                                    (6/111)208+DCB             CSECT                              RPI 591
+000538                                     (4/46)211+*
+000538                                     (4/47)212+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+000538                                     (4/48)213+*
+000028                                     (4/49)214+VCLR     CSECT 
+000028                                     (4/50)215+MYFILE01            DS 0F
+000028 E5C3D3D9                            (4/51)216+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+00002C D4E8C6C9D3C5F0F1                    (4/52)217+         DC    CL8'MYFILE01'   VCLRNAME BASE CLUSTER NAME
+000034 C5E2C4E2                            (4/53)218+         DC    CL4'ESDS'   VCLRTYPE BASE CLUSTER TYPE
+000038                                     (4/54)219+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+000038 82                                  (4/57)220+         DC    BL1'10000010'
+000039 000000                              (4/58)221+         DC    BL3'0'
+00003C 00000001                            (4/59)222+         DC    F'1'     VCLRLAVG AVERAGE RCD LENGTH
+000040 0000001A                            (4/60)223+         DC    F'26'     VCLRLMAX MAXIMUM RCD LENGTH
+000044 00000000                            (4/61)224+         DC    F'0'     VCLRKLEN KSDS PRI KEY LENGTH
+000048 00000000                            (4/62)225+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+00004C 000002D0                            (4/63)226+         DC    A(MYFILE01_VES) VCLRVESA ADDR CLR DATA  DSN
+000050 000002DD                            (4/64)227+         DC    A(MYFILE01_VX0) VCLRVX0A ADDR CLR INDEX DSN
+000054 00000000                            (4/65)228+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+000258                                     (4/66)229+VCLRAIXS CSECT 
+000258                                     (4/67)230+MYFILE01_AIX_UPGRADES            DS 0F
+000258 000003D8                            (4/75)231+         DC    A(MYAIX03)
+00025C 00000400                            (4/75)232+         DC    A(MYAIX01)
+000260 00000428                            (4/75)233+         DC    A(MYAIX02)
+000058                                     (4/78)234+VCLR     CSECT 
+000058 00000000                            (4/79)235+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+00005C 00000258                            (4/80)236+         DC    A(MYFILE01_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+0002D0                                     (4/81)237+VCLRDSNS CSECT 
+0002D0 D4E8C6C9D3C5F0F1                    (4/82)238+MYFILE01_VES            DC C'MYFILE01.VES',X'00' VES DSNAME
+0002DD D4E8C6C9D3C5F0F1                    (4/83)239+MYFILE01_VX0            DC C'MYFILE01.VX0',X'00' VX0 DSNAME
+0002EA                                     (4/46)240+*
+0002EA                                     (4/47)241+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+0002EA                                     (4/48)242+*
+000060                                     (4/49)243+VCLR     CSECT 
+000060                                     (4/50)244+MYFILE02            DS 0F
+000060 E5C3D3D9                            (4/51)245+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+000064 D4E8C6C9D3C5F0F2                    (4/52)246+         DC    CL8'MYFILE02'   VCLRNAME BASE CLUSTER NAME
+00006C C5E2C4E2                            (4/53)247+         DC    CL4'ESDS'   VCLRTYPE BASE CLUSTER TYPE
+000070                                     (4/54)248+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+000070 02                                  (4/57)249+         DC    BL1'00000010'
+000071 000000                              (4/58)250+         DC    BL3'0'
+000074 00000000                            (4/59)251+         DC    F'0'     VCLRLAVG AVERAGE RCD LENGTH
+000078 00000032                            (4/60)252+         DC    F'50'     VCLRLMAX MAXIMUM RCD LENGTH
+00007C 00000000                            (4/61)253+         DC    F'0'     VCLRKLEN KSDS PRI KEY LENGTH
+000080 00000000                            (4/62)254+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+000084 000002EA                            (4/63)255+         DC    A(MYFILE02_VES) VCLRVESA ADDR CLR DATA  DSN
+000088 000002F7                            (4/64)256+         DC    A(MYFILE02_VX0) VCLRVX0A ADDR CLR INDEX DSN
+00008C 00000000                            (4/65)257+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+000264                                     (4/66)258+VCLRAIXS CSECT 
+000264                                     (4/67)259+MYFILE02_AIX_UPGRADES            DS 0F
+000264 000003D8                            (4/75)260+         DC    A(MYAIX03)
+000268 00000400                            (4/75)261+         DC    A(MYAIX01)
+00026C 00000428                            (4/75)262+         DC    A(MYAIX02)
+000090                                     (4/78)263+VCLR     CSECT 
+000090 00000000                            (4/79)264+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+000094 00000264                            (4/80)265+         DC    A(MYFILE02_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+0002EA                                     (4/81)266+VCLRDSNS CSECT 
+0002EA D4E8C6C9D3C5F0F2                    (4/82)267+MYFILE02_VES            DC C'MYFILE02.VES',X'00' VES DSNAME
+0002F7 D4E8C6C9D3C5F0F2                    (4/83)268+MYFILE02_VX0            DC C'MYFILE02.VX0',X'00' VX0 DSNAME
+000304                                     (4/46)269+*
+000304                                     (4/47)270+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+000304                                     (4/48)271+*
+000098                                     (4/49)272+VCLR     CSECT 
+000098                                     (4/50)273+MYFILE03            DS 0F
+000098 E5C3D3D9                            (4/51)274+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+00009C D4E8C6C9D3C5F0F3                    (4/52)275+         DC    CL8'MYFILE03'   VCLRNAME BASE CLUSTER NAME
+0000A4 C5E2C4E2                            (4/53)276+         DC    CL4'ESDS'   VCLRTYPE BASE CLUSTER TYPE
+0000A8                                     (4/54)277+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+0000A8 02                                  (4/57)278+         DC    BL1'00000010'
+0000A9 000000                              (4/58)279+         DC    BL3'0'
+0000AC 00000000                            (4/59)280+         DC    F'0'     VCLRLAVG AVERAGE RCD LENGTH
+0000B0 00000064                            (4/60)281+         DC    F'100'     VCLRLMAX MAXIMUM RCD LENGTH
+0000B4 00000000                            (4/61)282+         DC    F'0'     VCLRKLEN KSDS PRI KEY LENGTH
+0000B8 00000000                            (4/62)283+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+0000BC 00000304                            (4/63)284+         DC    A(MYFILE03_VES) VCLRVESA ADDR CLR DATA  DSN
+0000C0 00000311                            (4/64)285+         DC    A(MYFILE03_VX0) VCLRVX0A ADDR CLR INDEX DSN
+0000C4 00000000                            (4/65)286+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+000270                                     (4/66)287+VCLRAIXS CSECT 
+000270                                     (4/67)288+MYFILE03_AIX_UPGRADES            DS 0F
+000270 000003D8                            (4/75)289+         DC    A(MYAIX03)
+000274 00000400                            (4/75)290+         DC    A(MYAIX01)
+000278 00000428                            (4/75)291+         DC    A(MYAIX02)
+0000C8                                     (4/78)292+VCLR     CSECT 
+0000C8 00000000                            (4/79)293+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+0000CC 00000270                            (4/80)294+         DC    A(MYFILE03_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+000304                                     (4/81)295+VCLRDSNS CSECT 
+000304 D4E8C6C9D3C5F0F3                    (4/82)296+MYFILE03_VES            DC C'MYFILE03.VES',X'00' VES DSNAME
+000311 D4E8C6C9D3C5F0F3                    (4/83)297+MYFILE03_VX0            DC C'MYFILE03.VX0',X'00' VX0 DSNAME
+00031E                                     (4/46)298+*
+00031E                                     (4/47)299+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+00031E                                     (4/48)300+*
+0000D0                                     (4/49)301+VCLR     CSECT 
+0000D0                                     (4/50)302+MYWORD01            DS 0F
+0000D0 E5C3D3D9                            (4/51)303+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+0000D4 D4E8E6D6D9C4F0F1                    (4/52)304+         DC    CL8'MYWORD01'   VCLRNAME BASE CLUSTER NAME
+0000DC C5E2C4E2                            (4/53)305+         DC    CL4'ESDS'   VCLRTYPE BASE CLUSTER TYPE
+0000E0                                     (4/54)306+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+0000E0 02                                  (4/57)307+         DC    BL1'00000010'
+0000E1 000000                              (4/58)308+         DC    BL3'0'
+0000E4 00000000                            (4/59)309+         DC    F'0'     VCLRLAVG AVERAGE RCD LENGTH
+0000E8 0000000F                            (4/60)310+         DC    F'15'     VCLRLMAX MAXIMUM RCD LENGTH
+0000EC 00000000                            (4/61)311+         DC    F'0'     VCLRKLEN KSDS PRI KEY LENGTH
+0000F0 00000000                            (4/62)312+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+0000F4 0000031E                            (4/63)313+         DC    A(MYWORD01_VES) VCLRVESA ADDR CLR DATA  DSN
+0000F8 0000032B                            (4/64)314+         DC    A(MYWORD01_VX0) VCLRVX0A ADDR CLR INDEX DSN
+0000FC 00000000                            (4/65)315+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+00027C                                     (4/66)316+VCLRAIXS CSECT 
+00027C                                     (4/67)317+MYWORD01_AIX_UPGRADES            DS 0F
+00027C 000003D8                            (4/75)318+         DC    A(MYAIX03)
+000280 00000400                            (4/75)319+         DC    A(MYAIX01)
+000284 00000428                            (4/75)320+         DC    A(MYAIX02)
+000100                                     (4/78)321+VCLR     CSECT 
+000100 00000000                            (4/79)322+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+000104 0000027C                            (4/80)323+         DC    A(MYWORD01_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+00031E                                     (4/81)324+VCLRDSNS CSECT 
+00031E D4E8E6D6D9C4F0F1                    (4/82)325+MYWORD01_VES            DC C'MYWORD01.VES',X'00' VES DSNAME
+00032B D4E8E6D6D9C4F0F1                    (4/83)326+MYWORD01_VX0            DC C'MYWORD01.VX0',X'00' VX0 DSNAME
+000338                                     (4/46)327+*
+000338                                     (4/47)328+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+000338                                     (4/48)329+*
+000108                                     (4/49)330+VCLR     CSECT 
+000108                                     (4/50)331+MYWORD02            DS 0F
+000108 E5C3D3D9                            (4/51)332+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+00010C D4E8E6D6D9C4F0F2                    (4/52)333+         DC    CL8'MYWORD02'   VCLRNAME BASE CLUSTER NAME
+000114 C5E2C4E2                            (4/53)334+         DC    CL4'ESDS'   VCLRTYPE BASE CLUSTER TYPE
+000118                                     (4/54)335+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+000118 02                                  (4/57)336+         DC    BL1'00000010'
+000119 000000                              (4/58)337+         DC    BL3'0'
+00011C 00000000                            (4/59)338+         DC    F'0'     VCLRLAVG AVERAGE RCD LENGTH
+000120 0000000F                            (4/60)339+         DC    F'15'     VCLRLMAX MAXIMUM RCD LENGTH
+000124 00000000                            (4/61)340+         DC    F'0'     VCLRKLEN KSDS PRI KEY LENGTH
+000128 00000000                            (4/62)341+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+00012C 00000338                            (4/63)342+         DC    A(MYWORD02_VES) VCLRVESA ADDR CLR DATA  DSN
+000130 00000345                            (4/64)343+         DC    A(MYWORD02_VX0) VCLRVX0A ADDR CLR INDEX DSN
+000134 00000000                            (4/65)344+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+000288                                     (4/66)345+VCLRAIXS CSECT 
+000288                                     (4/67)346+MYWORD02_AIX_UPGRADES            DS 0F
+000288 000003D8                            (4/75)347+         DC    A(MYAIX03)
+00028C 00000400                            (4/75)348+         DC    A(MYAIX01)
+000290 00000428                            (4/75)349+         DC    A(MYAIX02)
+000138                                     (4/78)350+VCLR     CSECT 
+000138 00000000                            (4/79)351+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+00013C 00000288                            (4/80)352+         DC    A(MYWORD02_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+000338                                     (4/81)353+VCLRDSNS CSECT 
+000338 D4E8E6D6D9C4F0F2                    (4/82)354+MYWORD02_VES            DC C'MYWORD02.VES',X'00' VES DSNAME
+000345 D4E8E6D6D9C4F0F2                    (4/83)355+MYWORD02_VX0            DC C'MYWORD02.VX0',X'00' VX0 DSNAME
+000352                                     (4/46)356+*
+000352                                     (4/47)357+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+000352                                     (4/48)358+*
+000140                                     (4/49)359+VCLR     CSECT 
+000140                                     (4/50)360+MYFILE06            DS 0F
+000140 E5C3D3D9                            (4/51)361+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+000144 D4E8C6C9D3C5F0F6                    (4/52)362+         DC    CL8'MYFILE06'   VCLRNAME BASE CLUSTER NAME
+00014C D9D9C4E2                            (4/53)363+         DC    CL4'RRDS'   VCLRTYPE BASE CLUSTER TYPE
+000150                                     (4/54)364+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+000150 04                                  (4/57)365+         DC    BL1'00000100'
+000151 000000                              (4/58)366+         DC    BL3'0'
+000154 00000000                            (4/59)367+         DC    F'0'     VCLRLAVG AVERAGE RCD LENGTH
+000158 0000001E                            (4/60)368+         DC    F'30'     VCLRLMAX MAXIMUM RCD LENGTH
+00015C 00000000                            (4/61)369+         DC    F'0'     VCLRKLEN KSDS PRI KEY LENGTH
+000160 00000000                            (4/62)370+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+000164 00000352                            (4/63)371+         DC    A(MYFILE06_VES) VCLRVESA ADDR CLR DATA  DSN
+000168 0000035F                            (4/64)372+         DC    A(MYFILE06_VX0) VCLRVX0A ADDR CLR INDEX DSN
+00016C 00000000                            (4/65)373+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+000294                                     (4/66)374+VCLRAIXS CSECT 
+000294                                     (4/67)375+MYFILE06_AIX_UPGRADES            DS 0F
+000294 000003D8                            (4/75)376+         DC    A(MYAIX03)
+000298 00000400                            (4/75)377+         DC    A(MYAIX01)
+00029C 00000428                            (4/75)378+         DC    A(MYAIX02)
+000170                                     (4/78)379+VCLR     CSECT 
+000170 00000000                            (4/79)380+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+000174 00000294                            (4/80)381+         DC    A(MYFILE06_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+000352                                     (4/81)382+VCLRDSNS CSECT 
+000352 D4E8C6C9D3C5F0F6                    (4/82)383+MYFILE06_VES            DC C'MYFILE06.VES',X'00' VES DSNAME
+00035F D4E8C6C9D3C5F0F6                    (4/83)384+MYFILE06_VX0            DC C'MYFILE06.VX0',X'00' VX0 DSNAME
+00036C                                     (4/46)385+*
+00036C                                     (4/47)386+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+00036C                                     (4/48)387+*
+000178                                     (4/49)388+VCLR     CSECT 
+000178                                     (4/50)389+MYFILE07            DS 0F
+000178 E5C3D3D9                            (4/51)390+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+00017C D4E8C6C9D3C5F0F7                    (4/52)391+         DC    CL8'MYFILE07'   VCLRNAME BASE CLUSTER NAME
+000184 D9D9C4E2                            (4/53)392+         DC    CL4'RRDS'   VCLRTYPE BASE CLUSTER TYPE
+000188                                     (4/54)393+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+000188 84                                  (4/57)394+         DC    BL1'10000100'
+000189 000000                              (4/58)395+         DC    BL3'0'
+00018C 00000001                            (4/59)396+         DC    F'1'     VCLRLAVG AVERAGE RCD LENGTH
+000190 00000032                            (4/60)397+         DC    F'50'     VCLRLMAX MAXIMUM RCD LENGTH
+000194 00000000                            (4/61)398+         DC    F'0'     VCLRKLEN KSDS PRI KEY LENGTH
+000198 00000000                            (4/62)399+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+00019C 0000036C                            (4/63)400+         DC    A(MYFILE07_VES) VCLRVESA ADDR CLR DATA  DSN
+0001A0 00000379                            (4/64)401+         DC    A(MYFILE07_VX0) VCLRVX0A ADDR CLR INDEX DSN
+0001A4 00000000                            (4/65)402+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+0002A0                                     (4/66)403+VCLRAIXS CSECT 
+0002A0                                     (4/67)404+MYFILE07_AIX_UPGRADES            DS 0F
+0002A0 000003D8                            (4/75)405+         DC    A(MYAIX03)
+0002A4 00000400                            (4/75)406+         DC    A(MYAIX01)
+0002A8 00000428                            (4/75)407+         DC    A(MYAIX02)
+0001A8                                     (4/78)408+VCLR     CSECT 
+0001A8 00000000                            (4/79)409+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+0001AC 000002A0                            (4/80)410+         DC    A(MYFILE07_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+00036C                                     (4/81)411+VCLRDSNS CSECT 
+00036C D4E8C6C9D3C5F0F7                    (4/82)412+MYFILE07_VES            DC C'MYFILE07.VES',X'00' VES DSNAME
+000379 D4E8C6C9D3C5F0F7                    (4/83)413+MYFILE07_VX0            DC C'MYFILE07.VX0',X'00' VX0 DSNAME
+000386                                     (4/46)414+*
+000386                                     (4/47)415+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+000386                                     (4/48)416+*
+0001B0                                     (4/49)417+VCLR     CSECT 
+0001B0                                     (4/50)418+MYFILE08            DS 0F
+0001B0 E5C3D3D9                            (4/51)419+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+0001B4 D4E8C6C9D3C5F0F8                    (4/52)420+         DC    CL8'MYFILE08'   VCLRNAME BASE CLUSTER NAME
+0001BC D2E2C4E2                            (4/53)421+         DC    CL4'KSDS'   VCLRTYPE BASE CLUSTER TYPE
+0001C0                                     (4/54)422+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+0001C0 08                                  (4/57)423+         DC    BL1'00001000'
+0001C1 000000                              (4/58)424+         DC    BL3'0'
+0001C4 00000000                            (4/59)425+         DC    F'0'     VCLRLAVG AVERAGE RCD LENGTH
+0001C8 0000000F                            (4/60)426+         DC    F'15'     VCLRLMAX MAXIMUM RCD LENGTH
+0001CC 0000000F                            (4/61)427+         DC    F'15'     VCLRKLEN KSDS PRI KEY LENGTH
+0001D0 00000000                            (4/62)428+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+0001D4 00000386                            (4/63)429+         DC    A(MYFILE08_VES) VCLRVESA ADDR CLR DATA  DSN
+0001D8 00000393                            (4/64)430+         DC    A(MYFILE08_VX0) VCLRVX0A ADDR CLR INDEX DSN
+0001DC 00000000                            (4/65)431+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+0002AC                                     (4/66)432+VCLRAIXS CSECT 
+0002AC                                     (4/67)433+MYFILE08_AIX_UPGRADES            DS 0F
+0002AC 000003D8                            (4/75)434+         DC    A(MYAIX03)
+0002B0 00000400                            (4/75)435+         DC    A(MYAIX01)
+0002B4 00000428                            (4/75)436+         DC    A(MYAIX02)
+0001E0                                     (4/78)437+VCLR     CSECT 
+0001E0 00000000                            (4/79)438+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+0001E4 000002AC                            (4/80)439+         DC    A(MYFILE08_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+000386                                     (4/81)440+VCLRDSNS CSECT 
+000386 D4E8C6C9D3C5F0F8                    (4/82)441+MYFILE08_VES            DC C'MYFILE08.VES',X'00' VES DSNAME
+000393 D4E8C6C9D3C5F0F8                    (4/83)442+MYFILE08_VX0            DC C'MYFILE08.VX0',X'00' VX0 DSNAME
+0003A0                                     (4/46)443+*
+0003A0                                     (4/47)444+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+0003A0                                     (4/48)445+*
+0001E8                                     (4/49)446+VCLR     CSECT 
+0001E8                                     (4/50)447+MYFILE09            DS 0F
+0001E8 E5C3D3D9                            (4/51)448+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+0001EC D4E8C6C9D3C5F0F9                    (4/52)449+         DC    CL8'MYFILE09'   VCLRNAME BASE CLUSTER NAME
+0001F4 D2E2C4E2                            (4/53)450+         DC    CL4'KSDS'   VCLRTYPE BASE CLUSTER TYPE
+0001F8                                     (4/54)451+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+0001F8 88                                  (4/57)452+         DC    BL1'10001000'
+0001F9 000000                              (4/58)453+         DC    BL3'0'
+0001FC 0000001B                            (4/59)454+         DC    F'27'     VCLRLAVG AVERAGE RCD LENGTH
+000200 00000023                            (4/60)455+         DC    F'35'     VCLRLMAX MAXIMUM RCD LENGTH
+000204 0000000F                            (4/61)456+         DC    F'15'     VCLRKLEN KSDS PRI KEY LENGTH
+000208 00000000                            (4/62)457+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+00020C 000003A0                            (4/63)458+         DC    A(MYFILE09_VES) VCLRVESA ADDR CLR DATA  DSN
+000210 000003AD                            (4/64)459+         DC    A(MYFILE09_VX0) VCLRVX0A ADDR CLR INDEX DSN
+000214 00000000                            (4/65)460+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+0002B8                                     (4/66)461+VCLRAIXS CSECT 
+0002B8                                     (4/67)462+MYFILE09_AIX_UPGRADES            DS 0F
+0002B8 000003D8                            (4/75)463+         DC    A(MYAIX03)
+0002BC 00000400                            (4/75)464+         DC    A(MYAIX01)
+0002C0 00000428                            (4/75)465+         DC    A(MYAIX02)
+000218                                     (4/78)466+VCLR     CSECT 
+000218 00000000                            (4/79)467+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+00021C 000002B8                            (4/80)468+         DC    A(MYFILE09_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+0003A0                                     (4/81)469+VCLRDSNS CSECT 
+0003A0 D4E8C6C9D3C5F0F9                    (4/82)470+MYFILE09_VES            DC C'MYFILE09.VES',X'00' VES DSNAME
+0003AD D4E8C6C9D3C5F0F9                    (4/83)471+MYFILE09_VX0            DC C'MYFILE09.VX0',X'00' VX0 DSNAME
+0003BA                                     (4/46)472+*
+0003BA                                     (4/47)473+* VCLR VSAM BASE CLUSTER TABLE ENTRY
+0003BA                                     (4/48)474+*
+000220                                     (4/49)475+VCLR     CSECT 
+000220                                     (4/50)476+MYKSDS01            DS 0F
+000220 E5C3D3D9                            (4/51)477+         DC    CL4'VCLR'                  VCLRID  BASE CLUSTER ID
+000224 D4E8D2E2C4E2F0F1                    (4/52)478+         DC    CL8'MYKSDS01'   VCLRNAME BASE CLUSTER NAME
+00022C D2E2C4E2                            (4/53)479+         DC    CL4'KSDS'   VCLRTYPE BASE CLUSTER TYPE
+000230                                     (4/54)480+         DC    0XL4                       VCLRFLAG BASE CLUSTER OPTIONS
+000230 08                                  (4/57)481+         DC    BL1'00001000'
+000231 000000                              (4/58)482+         DC    BL3'0'
+000234 00000000                            (4/59)483+         DC    F'0'     VCLRLAVG AVERAGE RCD LENGTH
+000238 00000011                            (4/60)484+         DC    F'17'     VCLRLMAX MAXIMUM RCD LENGTH
+00023C 00000002                            (4/61)485+         DC    F'2'     VCLRKLEN KSDS PRI KEY LENGTH
+000240 00000000                            (4/62)486+         DC    F'0'     VCLRKOFF KSDS PRI KEY OFFSET
+000244 000003BA                            (4/63)487+         DC    A(MYKSDS01_VES) VCLRVESA ADDR CLR DATA  DSN
+000248 000003C7                            (4/64)488+         DC    A(MYKSDS01_VX0) VCLRVX0A ADDR CLR INDEX DSN
+00024C 00000000                            (4/65)489+         DC    A(0)       VCLRCI   OPTIONAL CI SIZE
+0002C4                                     (4/66)490+VCLRAIXS CSECT 
+0002C4                                     (4/67)491+MYKSDS01_AIX_UPGRADES            DS 0F
+0002C4 000003D8                            (4/75)492+         DC    A(MYAIX03)
+0002C8 00000400                            (4/75)493+         DC    A(MYAIX01)
+0002CC 00000428                            (4/75)494+         DC    A(MYAIX02)
+000250                                     (4/78)495+VCLR     CSECT 
+000250 00000000                            (4/79)496+         DC    F'0'  VCLRAIXT TOTAL UPGRADE AIX'S
+000254 000002C4                            (4/80)497+         DC    A(MYKSDS01_AIX_UPGRADES) VCLRAIXA ADDR AIX'S
+0003BA                                     (4/81)498+VCLRDSNS CSECT 
+0003BA D4E8D2E2C4E2F0F1                    (4/82)499+MYKSDS01_VES            DC C'MYKSDS01.VES',X'00' VES DSNAME
+0003C7 D4E8D2E2C4E2F0F1                    (4/83)500+MYKSDS01_VX0            DC C'MYKSDS01.VX0',X'00' VX0 DSNAME
+0003D4                                     (4/90)501+*
+0003D4                                     (4/91)502+* CLR VSAM ALTERNATE INDEX TABLE ENTRY
+0003D4                                     (4/92)503+*
+0003D8                                     (4/93)504+VAIX     CSECT 
+0003D8                                     (4/94)505+MYAIX03             DS 0F
+0003D8 E5C1C9E7                            (4/95)506+         DC    CL4'VAIX'                  VAIXID
+0003DC D4E8C1C9E7F0F340                    (4/96)507+         DC    CL8'MYAIX03'   VAIXNAME ALTERNATE INDEX NAME
+0003E4 D4E8E6D6D9C4F0F1                    (4/97)508+         DC    CL8'MYWORD01' VAIXCLRN BASE CLUSTER NAME
+0003EC                                     (4/98)509+         DC    0XL4                       VAIXFLAG AIX FLAGS
+0003EC 80                                 (4/100)510+         DC    BL1'10000000'
+0003ED 000000                             (4/101)511+         DC    BL3'0'
+0003F0 00000003                           (4/102)512+         DC    F'3'     VAIXKLEN AIX KEY LENGTH
+0003F4 00000001                           (4/103)513+         DC    F'1'     VAIXKOFF AIX KEY OFFSET
+0003F8 00000450                           (4/104)514+         DC    A(MYAIX03_VXN) VAIXVXNA ADDR AIX DSNAME
+0003FC 000000D0                           (4/105)515+         DC    A(MYWORD01)   VAIXRELA ADDR RELATED CLR/AIX
+000450                                    (4/106)516+VAIXDSNS CSECT 
+000450 D4E8C1C9E7F0F34B                   (4/107)517+MYAIX03_VXN             DC C'MYAIX03.VXN',X'00'
+00045C                                     (4/90)518+*
+00045C                                     (4/91)519+* CLR VSAM ALTERNATE INDEX TABLE ENTRY
+00045C                                     (4/92)520+*
+000400                                     (4/93)521+VAIX     CSECT 
+000400                                     (4/94)522+MYAIX01             DS 0F
+000400 E5C1C9E7                            (4/95)523+         DC    CL4'VAIX'                  VAIXID
+000404 D4E8C1C9E7F0F140                    (4/96)524+         DC    CL8'MYAIX01'   VAIXNAME ALTERNATE INDEX NAME
+00040C D4E8D2E2C4E2F0F1                    (4/97)525+         DC    CL8'MYKSDS01' VAIXCLRN BASE CLUSTER NAME
+000414                                     (4/98)526+         DC    0XL4                       VAIXFLAG AIX FLAGS
+000414 C0                                 (4/100)527+         DC    BL1'11000000'
+000415 000000                             (4/101)528+         DC    BL3'0'
+000418 00000008                           (4/102)529+         DC    F'8'     VAIXKLEN AIX KEY LENGTH
+00041C 00000009                           (4/103)530+         DC    F'9'     VAIXKOFF AIX KEY OFFSET
+000420 0000045C                           (4/104)531+         DC    A(MYAIX01_VXN) VAIXVXNA ADDR AIX DSNAME
+000424 00000220                           (4/105)532+         DC    A(MYKSDS01)   VAIXRELA ADDR RELATED CLR/AIX
+00045C                                    (4/106)533+VAIXDSNS CSECT 
+00045C D4E8C1C9E7F0F14B                   (4/107)534+MYAIX01_VXN             DC C'MYAIX01.VXN',X'00'
+000468                                     (4/90)535+*
+000468                                     (4/91)536+* CLR VSAM ALTERNATE INDEX TABLE ENTRY
+000468                                     (4/92)537+*
+000428                                     (4/93)538+VAIX     CSECT 
+000428                                     (4/94)539+MYAIX02             DS 0F
+000428 E5C1C9E7                            (4/95)540+         DC    CL4'VAIX'                  VAIXID
+00042C D4E8C1C9E7F0F240                    (4/96)541+         DC    CL8'MYAIX02'   VAIXNAME ALTERNATE INDEX NAME
+000434 D4E8D2E2C4E2F0F1                    (4/97)542+         DC    CL8'MYKSDS01' VAIXCLRN BASE CLUSTER NAME
+00043C                                     (4/98)543+         DC    0XL4                       VAIXFLAG AIX FLAGS
+00043C 80                                 (4/100)544+         DC    BL1'10000000'
+00043D 000000                             (4/101)545+         DC    BL3'0'
+000440 00000006                           (4/102)546+         DC    F'6'     VAIXKLEN AIX KEY LENGTH
+000444 00000002                           (4/103)547+         DC    F'2'     VAIXKOFF AIX KEY OFFSET
+000448 00000468                           (4/104)548+         DC    A(MYAIX02_VXN) VAIXVXNA ADDR AIX DSNAME
+00044C 00000220                           (4/105)549+         DC    A(MYKSDS01)   VAIXRELA ADDR RELATED CLR/AIX
+000468                                    (4/106)550+VAIXDSNS CSECT 
+000468 D4E8C1C9E7F0F24B                   (4/107)551+MYAIX02_VXN             DC C'MYAIX02.VXN',X'00'
+000474                                    (4/114)552+*
+000474                                    (4/115)553+* PTH VSAM PATH TABLE ENTRY
+000474                                    (4/116)554+*
+000478                                    (4/117)555+VPTH     CSECT 
+000478                                    (4/118)556+AIXESDS             DS 0F
+000478 D7C1E3C8                           (4/119)557+         DC    C'PATH'                    PATH    ID   RPI 865
+00047C C1C9E7C5E2C4E240                   (4/120)558+         DC    CL8'AIXESDS'   PTHNAME PATH NAME
+000484 D4E8C1C9E7F0F340                   (4/121)559+         DC    CL8'MYAIX03'  PTHENTN BASE CLR OR AIX NAME
+00048C                                    (4/122)560+         DC    0XL4                       AIXFLAG PATH FLAGS
+00048C 80                                 (4/123)561+         DC    BL1'10000000'
+00048D 000000                             (4/124)562+         DC    BL3'0'
+000490 000003D8                           (4/125)563+         DC    A(MYAIX03)    PTHENTA ADDR OF CLR OR AIX
+000494                                    (4/114)564+*
+000494                                    (4/115)565+* PTH VSAM PATH TABLE ENTRY
+000494                                    (4/116)566+*
+000494                                    (4/117)567+VPTH     CSECT 
+000494                                    (4/118)568+AIXSURN             DS 0F
+000494 D7C1E3C8                           (4/119)569+         DC    C'PATH'                    PATH    ID   RPI 865
+000498 C1C9E7E2E4D9D540                   (4/120)570+         DC    CL8'AIXSURN'   PTHNAME PATH NAME
+0004A0 D4E8C1C9E7F0F140                   (4/121)571+         DC    CL8'MYAIX01'  PTHENTN BASE CLR OR AIX NAME
+0004A8                                    (4/122)572+         DC    0XL4                       AIXFLAG PATH FLAGS
+0004A8 80                                 (4/123)573+         DC    BL1'10000000'
+0004A9 000000                             (4/124)574+         DC    BL3'0'
+0004AC 00000400                           (4/125)575+         DC    A(MYAIX01)    PTHENTA ADDR OF CLR OR AIX
+0004B0                                    (4/114)576+*
+0004B0                                    (4/115)577+* PTH VSAM PATH TABLE ENTRY
+0004B0                                    (4/116)578+*
+0004B0                                    (4/117)579+VPTH     CSECT 
+0004B0                                    (4/118)580+AIXNAME             DS 0F
+0004B0 D7C1E3C8                           (4/119)581+         DC    C'PATH'                    PATH    ID   RPI 865
+0004B4 C1C9E7D5C1D4C540                   (4/120)582+         DC    CL8'AIXNAME'   PTHNAME PATH NAME
+0004BC D4E8C1C9E7F0F240                   (4/121)583+         DC    CL8'MYAIX02'  PTHENTN BASE CLR OR AIX NAME
+0004C4                                    (4/122)584+         DC    0XL4                       AIXFLAG PATH FLAGS
+0004C4 80                                 (4/123)585+         DC    BL1'10000000'
+0004C5 000000                             (4/124)586+         DC    BL3'0'
+0004C8 00000428                           (4/125)587+         DC    A(MYAIX02)    PTHENTA ADDR OF CLR OR AIX
+0004CC                                     (7/29)590+*
+0004CC                                     (7/30)591+* IHAVCDT VSAM CATALOG DEFINITION TABLE(vcdt) DSECT
+0004CC                                     (7/31)592+*
+000000                                     (7/32)593+IHAVCDT  DSECT 
+000000                                     (7/33)594+VCDTID   DS    CL4   C'VCDT' ID
+000004                                     (7/34)595+VCDTNAME DS    CL8   NAME OF VSAM CATALOG
+00000C                                     (7/35)596+VCDTCLRT DS    F     TOTAL CLR BASE CLUSTERS
+000010                                     (7/36)597+VCDTCLRA DS    A     ADDR  CLR BASE CLUSTER TABLE
+000014                                     (7/37)598+VCDTAIXT DS    F     TOTAL AIX ALTERNATE INDEXES
+000018                                     (7/38)599+VCDTAIXA DS    A     ADDR  AIX ALTERNATE INDEXES
+00001C                                     (7/39)600+VCDTPTHT DS    F     TOTAL PTH PATHS
+000020                                     (7/40)601+VCDTPTHA DS    A     ADDR  PTH PATH TABLE
+000024                                     (7/41)602+VCDTDCBA DS    A     ADDR  MODEL DCB FOR VES/VX0/VXN ACCESS
+000028                                     (7/42)603+*
+000028                                     (7/43)604+* IHAVCLR VSAM BASE CLUSTER DSECT
+000028                                     (7/44)605+*
+000000                                     (7/45)606+IHAVCLR  DSECT 
+000000                                     (7/46)607+VCLRID   DS    CL4   ID C'VCLR'
+000004                                     (7/47)608+VCLRNAME DS    CL8   NAME OF BASE CLUSTER
+00000C                                     (7/48)609+VCLRTYPE DS    CL4   TYPE OF BASE CLUSTER (ESDS/RRDS/KSDS/LDS)
+000010                                     (7/49)610+VCLRFLAG DS    0F    OPTION FLAGS
+000010                                     (7/50)611+VCLRFLG1 DS    X     VCDT OPTION BYTE 1
+000011                  00000080           (7/51)612+VCLRVREC EQU   X'80' RECFM=V VARIABLE LENGTH VS FIXED
+000011                  00000040           (7/52)613+VCLRRUSE EQU   X'40' REUSE OPTION RESETS EOF TO 0 AT ACB OPEN
+000011                  00000008           (7/53)614+VCLRKSDS EQU   X'08' KSDS KEY SEQUENCED (DEF) VIA VXN INDEXES
+000011                  00000004           (7/54)615+VCLRRRDS EQU   X'04' RRDS RELATIVE RECORD     VIA VX0 INDEX
+000011                  00000002           (7/55)616+VCLRESDS EQU   X'02' ESDS ENTRY SEQUENCED     VIA VX0 INDEX
+000011                  00000001           (7/56)617+VCLRLDS  EQU   X'01' LDS  LINEAR CI SEQUENCE  VIA VX0 INDEX
+000011                                     (7/57)618+VCLRFLG2 DS    X     VCDT OPTION BYTE 2
+000012                                     (7/58)619+VCLRFLG3 DS    X     VCDT OPTION BYTE 3
+000013                                     (7/59)620+VCLRFLG4 DS    X     VCDT OPTION BYTE 4
+000014                                     (7/60)621+VCLRLAVG DS    F     AVG RECORD LENGTH FOR VREC
+000018                                     (7/61)622+VCLRLREC DS    F     MAX RECORD LENGTH (EXCLUDES 4 BYTE VREC LENGTH)
+00001C                                     (7/62)623+VCLRKLEN DS    F     KSDS PRIMARY KEY LENGTH
+000020                                     (7/63)624+VCLRKOFF DS    F     KSDS PRIMARY KEY OFFSET
+000024                                     (7/64)625+VCLRVESA DS    A     ADDR CLR VES DATA  OPTIONAL DSNAME (NAME.VES)
+000028                                     (7/65)626+VCLRVX0A DS    A     ADDR CLR VX0 INDEX OPTIONAL DSNAME (NAME.VX0)
+00002C                                     (7/66)627+VCLRAIXN DS    F     NUMBER OF AIX'S WITH UPGRADE FOR THIS CLUSTER
+000030                                     (7/67)628+VCLRAIXA DS    A     ADDR AIX UPGRADE TABLE OF VAIX ADDRESSES
+000034                                     (7/68)629+VCLRCI   DS    A     OPTIONAL CI SIZE TO SUPPORT LINEAR ACCESS
+000038                  00000038           (7/69)630+VCLRLEN  EQU   *-IHAVCLR
+000038                                     (7/70)631+*
+000038                                     (7/71)632+* IHAVAIX ALTERNATE INDEX DSECT
+000038                                     (7/72)633+*
+000000                                     (7/73)634+IHAVAIX  DSECT 
+000000                                     (7/74)635+VAIXID   DS    CL4   ID C'VAIX'
+000004                                     (7/75)636+VAIXNAME DS    CL8   NAME OF ALTERNATE INDEX
+00000C                                     (7/76)637+VAIXRELN DS    CL8   NAME OF RELATED VCLR BASE CLUSTER
+000014                                     (7/77)638+VAIXFLAG DS    0F    OPTION FLAGS
+000014                                     (7/78)639+VAIXFLG1 DS    X     OPTION BYTE 1
+000015                  00000080           (7/79)640+VAIXRUSE EQU   X'80' REUSE OPTION RESETS EOF TO 0 AT ACB OPEN
+000015                  00000040           (7/80)641+VAIXUKEY EQU   X'40' INFORCE UNIQUE KSDS KEYS
+000015                  00000020           (7/81)642+VAIXUAIX EQU   X'20' UPGRADE AIX ON BASE CLUSTER CHANGES
+000015                                     (7/82)643+VAIXFLG2 DS    X     OPTION BYTE 2
+000016                                     (7/83)644+VAIXFLG3 DS    X     OPTION BYTE 3
+000017                                     (7/84)645+VAIXFLG4 DS    X     OPTION BYTE 4
+000018                                     (7/85)646+VAIXKLEN DS    F     KSDS AIX KEY LENGTH
+00001C                                     (7/86)647+VAIXKOFF DS    F     KSDS AIX KEY OFFSET
+000020                                     (7/87)648+VAIXVXNA DS    A     ADDR AIX VXN OPTIONAL DSNAME (DEF. NAME.VXN)
+000024                                     (7/88)649+VAIXRELA DS    A     ADDR RELATED VCLR BASE CLUSTER
+000028                  00000028           (7/89)650+VAIXLEN  EQU   *-IHAVAIX
+000028                                     (7/90)651+*
+000028                                     (7/91)652+* IHAVPTH PATH DSECT
+000028                                     (7/92)653+*
+000000                                     (7/93)654+IHAVPTH  DSECT 
+000000                                     (7/94)655+VPTHID   DS    CL4 ID C'VPTH'
+000004                                     (7/95)656+VPTHNAME DS    CL8 NAME OF PATH
+00000C                                     (7/96)657+VPTHENTN DS    CL8   NAME OF BASE CLUSTER OR ALTERNATE INDEX ENTRY
+000014                                     (7/97)658+VPTHFLAG DS    0F    OPTION FLAGS
+000014                                     (7/98)659+VPTHFLG1 DS    X     OPTION BYTE 1
+000015                  00000080           (7/99)660+VPTHAIXP EQU   X'80' ENTRY IS AIX PATH VS ALIAS CLUSTER NAME
+000015                  00000040          (7/100)661+VPTHAIXU EQU   X'40' UPDATE ALL UPGRADE AIX'S ON BASE CLUSTER CHANGES
+000015                                    (7/101)662+VPTHFLG2 DS    X     OPTION BYTE 2
+000016                                    (7/102)663+VPTHFLG3 DS    X     OPTION BYTE 3
+000017                                    (7/103)664+VPTHFLG4 DS    X     OPTION BYTE 4
+000018                                    (7/104)665+VPTHENTA DS    A     ADDR OF ENTRY VAIX OR VCLR CATALOG ENTRY
+00001C                  0000001C          (7/105)666+VPTHLEN  EQU   *-IHAVPTH
+0004CC                                    (7/108)667+VPTH            CSECT 
+0004CC                                     (1/61)672          END 
+Relocation Definitions
+ ESD=0001 LOC=00000010 LEN=4 SIGN=+ XESD=0002
+ ESD=0001 LOC=00000018 LEN=4 SIGN=+ XESD=0005
+ ESD=0001 LOC=00000020 LEN=4 SIGN=+ XESD=0007
+ ESD=0001 LOC=00000024 LEN=4 SIGN=+ XESD=0008
+ ESD=0002 LOC=00000024 LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=00000028 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=00000000 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000004 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000008 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=00000034 LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=0000005C LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=00000060 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=0000000C LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000010 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000014 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=0000006C LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=00000094 LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=00000098 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=00000018 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=0000001C LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000020 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=000000A4 LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=000000CC LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=000000D0 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=00000024 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000028 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=0000002C LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=000000DC LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=00000104 LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=00000108 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=00000030 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000034 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000038 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=00000114 LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=0000013C LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=00000140 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=0000003C LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000040 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000044 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=0000014C LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=00000174 LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=00000178 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=00000048 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=0000004C LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000050 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=00000184 LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=000001AC LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=000001B0 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=00000054 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000058 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=0000005C LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=000001BC LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=000001E4 LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=000001E8 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=00000060 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000064 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000068 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=000001F4 LEN=4 SIGN=+ XESD=0003
+ ESD=0002 LOC=0000021C LEN=4 SIGN=+ XESD=0004
+ ESD=0002 LOC=00000220 LEN=4 SIGN=+ XESD=0004
+ ESD=0003 LOC=0000006C LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000070 LEN=4 SIGN=+ XESD=0005
+ ESD=0003 LOC=00000074 LEN=4 SIGN=+ XESD=0005
+ ESD=0002 LOC=0000022C LEN=4 SIGN=+ XESD=0003
+ ESD=0005 LOC=00000020 LEN=4 SIGN=+ XESD=0006
+ ESD=0005 LOC=00000024 LEN=4 SIGN=+ XESD=0002
+ ESD=0005 LOC=00000048 LEN=4 SIGN=+ XESD=0006
+ ESD=0005 LOC=0000004C LEN=4 SIGN=+ XESD=0002
+ ESD=0005 LOC=00000070 LEN=4 SIGN=+ XESD=0006
+ ESD=0005 LOC=00000074 LEN=4 SIGN=+ XESD=0002
+ ESD=0007 LOC=00000018 LEN=4 SIGN=+ XESD=0005
+ ESD=0007 LOC=00000034 LEN=4 SIGN=+ XESD=0005
+ ESD=0007 LOC=00000050 LEN=4 SIGN=+ XESD=0005
+
+Symbol Table Listing
+
+ SYM=AIXESDS  LOC=00000478 LEN=00000004 ESD=0007 TYPE=REL  XREF=556 
+ SYM=AIXNAME  LOC=000004B0 LEN=00000004 ESD=0007 TYPE=REL  XREF=580 
+ SYM=AIXSURN  LOC=00000494 LEN=00000004 ESD=0007 TYPE=REL  XREF=568 
+ SYM=DCB      LOC=000004D0 LEN=00000068 ESD=0008 TYPE=CST  XREF=105 98 208 
+ SYM=DCBBLKSI LOC=0000003E LEN=00000002 ESD=0009 TYPE=REL  XREF=197 
+ SYM=DCBBLKSIF LOC=0000003C LEN=00000004 ESD=0009 TYPE=REL  XREF=195 125 
+ SYM=DCBDCBE  LOC=00000060 LEN=00000004 ESD=0009 TYPE=REL  XREF=205 133 
+ SYM=DCBDDNAM LOC=00000028 LEN=00000008 ESD=0009 TYPE=REL  XREF=171 117 
+ SYM=DCBDSNAM LOC=0000005C LEN=00000004 ESD=0009 TYPE=REL  XREF=204 131 
+ SYM=DCBDSORG LOC=0000001A LEN=00000001 ESD=0009 TYPE=REL  XREF=143 111 
+ SYM=DCBDSORG_DA LOC=00000020 LEN=00000001 ESD=0000 TYPE=ABS  XREF=145 
+ SYM=DCBDSORG_PS LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=144 112 
+ SYM=DCBEODA  LOC=00000020 LEN=00000004 ESD=0009 TYPE=REL  XREF=149 
+ SYM=DCBEODAD LOC=00000020 LEN=00000004 ESD=0009 TYPE=REL  XREF=150 113 
+ SYM=DCBID    LOC=00000000 LEN=00000004 ESD=0009 TYPE=REL  XREF=141 109 
+ SYM=DCBIO    LOC=00000064 LEN=00000004 ESD=0009 TYPE=REL  XREF=206 135 
+ SYM=DCBIOBAD LOC=0000001C LEN=00000004 ESD=0009 TYPE=REL  XREF=147 
+ SYM=DCBLEN   LOC=00000068 LEN=00000001 ESD=0000 TYPE=ABS  XREF=207 108 137 
+ SYM=DCBLRECL LOC=00000052 LEN=00000002 ESD=0009 TYPE=REL  XREF=201 
+ SYM=DCBLRECLF LOC=00000050 LEN=00000004 ESD=0009 TYPE=REL  XREF=199 127 
+ SYM=DCBMACRF LOC=00000032 LEN=00000002 ESD=0009 TYPE=REL  XREF=184 121 
+ SYM=DCBMACRF_GL LOC=00004800 LEN=00000001 ESD=0000 TYPE=ABS  XREF=187 
+ SYM=DCBMACRF_GM LOC=00005000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=185 122 
+ SYM=DCBMACRF_PL LOC=00000048 LEN=00000001 ESD=0000 TYPE=ABS  XREF=188 
+ SYM=DCBMACRF_PM LOC=00000050 LEN=00000001 ESD=0000 TYPE=ABS  XREF=186 122 
+ SYM=DCBMACRF_R LOC=00002000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=189 
+ SYM=DCBMACRF_RW LOC=00002020 LEN=00000001 ESD=0000 TYPE=ABS  XREF=191 
+ SYM=DCBMACRF_W LOC=00000020 LEN=00000001 ESD=0000 TYPE=ABS  XREF=190 
+ SYM=DCBOFLGS LOC=00000030 LEN=00000001 ESD=0009 TYPE=REL  XREF=173 119 
+ SYM=DCBOFLGS_GL LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=178 
+ SYM=DCBOFLGS_GM LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=176 
+ SYM=DCBOFLGS_OPEN LOC=00000010 LEN=00000001 ESD=0000 TYPE=ABS  XREF=174 
+ SYM=DCBOFLGS_PL LOC=00000020 LEN=00000001 ESD=0000 TYPE=ABS  XREF=179 
+ SYM=DCBOFLGS_PM LOC=00000020 LEN=00000001 ESD=0000 TYPE=ABS  XREF=177 
+ SYM=DCBOFLGS_R LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=180 
+ SYM=DCBOFLGS_RW LOC=00000060 LEN=00000001 ESD=0000 TYPE=ABS  XREF=182 
+ SYM=DCBOFLGS_W LOC=00000020 LEN=00000001 ESD=0000 TYPE=ABS  XREF=181 
+ SYM=DCBOFOPN LOC=00000010 LEN=00000001 ESD=0000 TYPE=ABS  XREF=175 
+ SYM=DCBREC   LOC=00000058 LEN=00000004 ESD=0009 TYPE=REL  XREF=203 129 
+ SYM=DCBRECBR LOC=00000010 LEN=00000001 ESD=0000 TYPE=ABS  XREF=161 
+ SYM=DCBRECF  LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=153 
+ SYM=DCBRECFM LOC=00000024 LEN=00000001 ESD=0009 TYPE=REL  XREF=152 115 
+ SYM=DCBRECFM_F LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=154 116 
+ SYM=DCBRECFM_FA LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=155 
+ SYM=DCBRECFM_FB LOC=00000090 LEN=00000001 ESD=0000 TYPE=ABS  XREF=160 
+ SYM=DCBRECFM_FBA LOC=00000090 LEN=00000001 ESD=0000 TYPE=ABS  XREF=162 
+ SYM=DCBRECFM_FBM LOC=00000090 LEN=00000001 ESD=0000 TYPE=ABS  XREF=163 
+ SYM=DCBRECFM_FM LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=156 
+ SYM=DCBRECFM_FT LOC=000000A0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=167 
+ SYM=DCBRECFM_V LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=157 
+ SYM=DCBRECFM_VA LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=158 
+ SYM=DCBRECFM_VB LOC=00000050 LEN=00000001 ESD=0000 TYPE=ABS  XREF=164 
+ SYM=DCBRECFM_VBA LOC=00000050 LEN=00000001 ESD=0000 TYPE=ABS  XREF=165 
+ SYM=DCBRECFM_VBM LOC=00000050 LEN=00000001 ESD=0000 TYPE=ABS  XREF=166 
+ SYM=DCBRECFM_VM LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=159 
+ SYM=DCBRECFM_VT LOC=00000060 LEN=00000001 ESD=0000 TYPE=ABS  XREF=168 
+ SYM=DCBRECU  LOC=000000C0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=169 
+ SYM=DCBSYNAD LOC=00000038 LEN=00000004 ESD=0009 TYPE=REL  XREF=193 123 
+ SYM=IHADCB   LOC=00000000 LEN=00000068 ESD=0009 TYPE=DST  XREF=139 109 111 113 115 
+  117 119 121 123 125 127 129 131 133 135 140 142 146 148 151 170 172 183 192 194 
+  196 198 200 202 207 
+ SYM=IHAVAIX  LOC=00000000 LEN=00000028 ESD=000C TYPE=DST  XREF=634 650 
+ SYM=IHAVCDT  LOC=00000000 LEN=00000028 ESD=000A TYPE=DST  XREF=593 
+ SYM=IHAVCLR  LOC=00000000 LEN=00000038 ESD=000B TYPE=DST  XREF=606 630 
+ SYM=IHAVPTH  LOC=00000000 LEN=00000020 ESD=000D TYPE=DST  XREF=654 666 
+ SYM=MODELDCB LOC=000004D0 LEN=00000008 ESD=0008 TYPE=REL  XREF=107 109 111 113 115 
+  117 119 121 123 125 127 129 131 133 135 137 
+ SYM=MYAIX01  LOC=00000400 LEN=00000004 ESD=0005 TYPE=REL  XREF=522 232 261 290 319 
+  348 377 406 435 464 493 575 
+ SYM=MYAIX01_VXN LOC=0000045C LEN=0000000B ESD=0006 TYPE=REL  XREF=534 531 
+ SYM=MYAIX02  LOC=00000428 LEN=00000004 ESD=0005 TYPE=REL  XREF=539 233 262 291 320 
+  349 378 407 436 465 494 587 
+ SYM=MYAIX02_VXN LOC=00000468 LEN=0000000B ESD=0006 TYPE=REL  XREF=551 548 
+ SYM=MYAIX03  LOC=000003D8 LEN=00000004 ESD=0005 TYPE=REL  XREF=505 231 260 289 318 
+  347 376 405 434 463 492 563 
+ SYM=MYAIX03_VXN LOC=00000450 LEN=0000000B ESD=0006 TYPE=REL  XREF=517 514 
+ SYM=MYFILE01 LOC=00000028 LEN=00000004 ESD=0002 TYPE=REL  XREF=215 
+ SYM=MYFILE01_AIX_UPGRADES LOC=00000258 LEN=00000004 ESD=0003 TYPE=REL  XREF=230 236 
+ SYM=MYFILE01_VES LOC=000002D0 LEN=0000000C ESD=0004 TYPE=REL  XREF=238 226 
+ SYM=MYFILE01_VX0 LOC=000002DD LEN=0000000C ESD=0004 TYPE=REL  XREF=239 227 
+ SYM=MYFILE02 LOC=00000060 LEN=00000004 ESD=0002 TYPE=REL  XREF=244 
+ SYM=MYFILE02_AIX_UPGRADES LOC=00000264 LEN=00000004 ESD=0003 TYPE=REL  XREF=259 265 
+ SYM=MYFILE02_VES LOC=000002EA LEN=0000000C ESD=0004 TYPE=REL  XREF=267 255 
+ SYM=MYFILE02_VX0 LOC=000002F7 LEN=0000000C ESD=0004 TYPE=REL  XREF=268 256 
+ SYM=MYFILE03 LOC=00000098 LEN=00000004 ESD=0002 TYPE=REL  XREF=273 
+ SYM=MYFILE03_AIX_UPGRADES LOC=00000270 LEN=00000004 ESD=0003 TYPE=REL  XREF=288 294 
+ SYM=MYFILE03_VES LOC=00000304 LEN=0000000C ESD=0004 TYPE=REL  XREF=296 284 
+ SYM=MYFILE03_VX0 LOC=00000311 LEN=0000000C ESD=0004 TYPE=REL  XREF=297 285 
+ SYM=MYFILE06 LOC=00000140 LEN=00000004 ESD=0002 TYPE=REL  XREF=360 
+ SYM=MYFILE06_AIX_UPGRADES LOC=00000294 LEN=00000004 ESD=0003 TYPE=REL  XREF=375 381 
+ SYM=MYFILE06_VES LOC=00000352 LEN=0000000C ESD=0004 TYPE=REL  XREF=383 371 
+ SYM=MYFILE06_VX0 LOC=0000035F LEN=0000000C ESD=0004 TYPE=REL  XREF=384 372 
+ SYM=MYFILE07 LOC=00000178 LEN=00000004 ESD=0002 TYPE=REL  XREF=389 
+ SYM=MYFILE07_AIX_UPGRADES LOC=000002A0 LEN=00000004 ESD=0003 TYPE=REL  XREF=404 410 
+ SYM=MYFILE07_VES LOC=0000036C LEN=0000000C ESD=0004 TYPE=REL  XREF=412 400 
+ SYM=MYFILE07_VX0 LOC=00000379 LEN=0000000C ESD=0004 TYPE=REL  XREF=413 401 
+ SYM=MYFILE08 LOC=000001B0 LEN=00000004 ESD=0002 TYPE=REL  XREF=418 
+ SYM=MYFILE08_AIX_UPGRADES LOC=000002AC LEN=00000004 ESD=0003 TYPE=REL  XREF=433 439 
+ SYM=MYFILE08_VES LOC=00000386 LEN=0000000C ESD=0004 TYPE=REL  XREF=441 429 
+ SYM=MYFILE08_VX0 LOC=00000393 LEN=0000000C ESD=0004 TYPE=REL  XREF=442 430 
+ SYM=MYFILE09 LOC=000001E8 LEN=00000004 ESD=0002 TYPE=REL  XREF=447 
+ SYM=MYFILE09_AIX_UPGRADES LOC=000002B8 LEN=00000004 ESD=0003 TYPE=REL  XREF=462 468 
+ SYM=MYFILE09_VES LOC=000003A0 LEN=0000000C ESD=0004 TYPE=REL  XREF=470 458 
+ SYM=MYFILE09_VX0 LOC=000003AD LEN=0000000C ESD=0004 TYPE=REL  XREF=471 459 
+ SYM=MYKSDS01 LOC=00000220 LEN=00000004 ESD=0002 TYPE=REL  XREF=476 532 549 
+ SYM=MYKSDS01_AIX_UPGRADES LOC=000002C4 LEN=00000004 ESD=0003 TYPE=REL  XREF=491 497 
+ SYM=MYKSDS01_VES LOC=000003BA LEN=0000000C ESD=0004 TYPE=REL  XREF=499 487 
+ SYM=MYKSDS01_VX0 LOC=000003C7 LEN=0000000C ESD=0004 TYPE=REL  XREF=500 488 
+ SYM=MYWORD01 LOC=000000D0 LEN=00000004 ESD=0002 TYPE=REL  XREF=302 515 
+ SYM=MYWORD01_AIX_UPGRADES LOC=0000027C LEN=00000004 ESD=0003 TYPE=REL  XREF=317 323 
+ SYM=MYWORD01_VES LOC=0000031E LEN=0000000C ESD=0004 TYPE=REL  XREF=325 313 
+ SYM=MYWORD01_VX0 LOC=0000032B LEN=0000000C ESD=0004 TYPE=REL  XREF=326 314 
+ SYM=MYWORD02 LOC=00000108 LEN=00000004 ESD=0002 TYPE=REL  XREF=331 
+ SYM=MYWORD02_AIX_UPGRADES LOC=00000288 LEN=00000004 ESD=0003 TYPE=REL  XREF=346 352 
+ SYM=MYWORD02_VES LOC=00000338 LEN=0000000C ESD=0004 TYPE=REL  XREF=354 342 
+ SYM=MYWORD02_VX0 LOC=00000345 LEN=0000000C ESD=0004 TYPE=REL  XREF=355 343 
+ SYM=VAIX     LOC=000003D8 LEN=00000078 ESD=0005 TYPE=CST  XREF=102 95 504 521 538 
+ SYM=VAIXDSNS LOC=00000450 LEN=00000028 ESD=0006 TYPE=CST  XREF=103 516 533 550 
+ SYM=VAIXFLAG LOC=00000014 LEN=00000004 ESD=000C TYPE=REL  XREF=638 
+ SYM=VAIXFLG1 LOC=00000014 LEN=00000001 ESD=000C TYPE=REL  XREF=639 
+ SYM=VAIXFLG2 LOC=00000015 LEN=00000001 ESD=000C TYPE=REL  XREF=643 
+ SYM=VAIXFLG3 LOC=00000016 LEN=00000001 ESD=000C TYPE=REL  XREF=644 
+ SYM=VAIXFLG4 LOC=00000017 LEN=00000001 ESD=000C TYPE=REL  XREF=645 
+ SYM=VAIXID   LOC=00000000 LEN=00000004 ESD=000C TYPE=REL  XREF=635 
+ SYM=VAIXKLEN LOC=00000018 LEN=00000004 ESD=000C TYPE=REL  XREF=646 
+ SYM=VAIXKOFF LOC=0000001C LEN=00000004 ESD=000C TYPE=REL  XREF=647 
+ SYM=VAIXLEN  LOC=00000028 LEN=00000001 ESD=0000 TYPE=ABS  XREF=650 
+ SYM=VAIXNAME LOC=00000004 LEN=00000008 ESD=000C TYPE=REL  XREF=636 
+ SYM=VAIXRELA LOC=00000024 LEN=00000004 ESD=000C TYPE=REL  XREF=649 
+ SYM=VAIXRELN LOC=0000000C LEN=00000008 ESD=000C TYPE=REL  XREF=637 
+ SYM=VAIXRUSE LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=640 
+ SYM=VAIXUAIX LOC=00000020 LEN=00000001 ESD=0000 TYPE=ABS  XREF=642 
+ SYM=VAIXUKEY LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=641 
+ SYM=VAIXVXNA LOC=00000020 LEN=00000004 ESD=000C TYPE=REL  XREF=648 
+ SYM=VCDT     LOC=00000000 LEN=00000028 ESD=0001 TYPE=CST  XREF=89 
+ SYM=VCDTAIXA LOC=00000018 LEN=00000004 ESD=000A TYPE=REL  XREF=599 
+ SYM=VCDTAIXT LOC=00000014 LEN=00000004 ESD=000A TYPE=REL  XREF=598 
+ SYM=VCDTCLRA LOC=00000010 LEN=00000004 ESD=000A TYPE=REL  XREF=597 
+ SYM=VCDTCLRT LOC=0000000C LEN=00000004 ESD=000A TYPE=REL  XREF=596 
+ SYM=VCDTDCBA LOC=00000024 LEN=00000004 ESD=000A TYPE=REL  XREF=602 
+ SYM=VCDTID   LOC=00000000 LEN=00000004 ESD=000A TYPE=REL  XREF=594 
+ SYM=VCDTNAME LOC=00000004 LEN=00000008 ESD=000A TYPE=REL  XREF=595 
+ SYM=VCDTPTHA LOC=00000020 LEN=00000004 ESD=000A TYPE=REL  XREF=601 
+ SYM=VCDTPTHT LOC=0000001C LEN=00000004 ESD=000A TYPE=REL  XREF=600 
+ SYM=VCLR     LOC=00000028 LEN=00000230 ESD=0002 TYPE=CST  XREF=99 93 214 234 243 
+  263 272 292 301 321 330 350 359 379 388 408 417 437 446 466 475 495 
+ SYM=VCLRAIXA LOC=00000030 LEN=00000004 ESD=000B TYPE=REL  XREF=628 
+ SYM=VCLRAIXN LOC=0000002C LEN=00000004 ESD=000B TYPE=REL  XREF=627 
+ SYM=VCLRAIXS LOC=00000258 LEN=00000078 ESD=0003 TYPE=CST  XREF=100 229 258 287 316 
+  345 374 403 432 461 490 
+ SYM=VCLRCI   LOC=00000034 LEN=00000004 ESD=000B TYPE=REL  XREF=629 
+ SYM=VCLRDSNS LOC=000002D0 LEN=00000108 ESD=0004 TYPE=CST  XREF=101 237 266 295 324 
+  353 382 411 440 469 498 
+ SYM=VCLRESDS LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=616 
+ SYM=VCLRFLAG LOC=00000010 LEN=00000004 ESD=000B TYPE=REL  XREF=610 
+ SYM=VCLRFLG1 LOC=00000010 LEN=00000001 ESD=000B TYPE=REL  XREF=611 
+ SYM=VCLRFLG2 LOC=00000011 LEN=00000001 ESD=000B TYPE=REL  XREF=618 
+ SYM=VCLRFLG3 LOC=00000012 LEN=00000001 ESD=000B TYPE=REL  XREF=619 
+ SYM=VCLRFLG4 LOC=00000013 LEN=00000001 ESD=000B TYPE=REL  XREF=620 
+ SYM=VCLRID   LOC=00000000 LEN=00000004 ESD=000B TYPE=REL  XREF=607 
+ SYM=VCLRKLEN LOC=0000001C LEN=00000004 ESD=000B TYPE=REL  XREF=623 
+ SYM=VCLRKOFF LOC=00000020 LEN=00000004 ESD=000B TYPE=REL  XREF=624 
+ SYM=VCLRKSDS LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=614 
+ SYM=VCLRLAVG LOC=00000014 LEN=00000004 ESD=000B TYPE=REL  XREF=621 
+ SYM=VCLRLDS  LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=617 
+ SYM=VCLRLEN  LOC=00000038 LEN=00000001 ESD=0000 TYPE=ABS  XREF=630 
+ SYM=VCLRLREC LOC=00000018 LEN=00000004 ESD=000B TYPE=REL  XREF=622 
+ SYM=VCLRNAME LOC=00000004 LEN=00000008 ESD=000B TYPE=REL  XREF=608 
+ SYM=VCLRRRDS LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=615 
+ SYM=VCLRRUSE LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=613 
+ SYM=VCLRTYPE LOC=0000000C LEN=00000004 ESD=000B TYPE=REL  XREF=609 
+ SYM=VCLRVESA LOC=00000024 LEN=00000004 ESD=000B TYPE=REL  XREF=625 
+ SYM=VCLRVREC LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=612 
+ SYM=VCLRVX0A LOC=00000028 LEN=00000004 ESD=000B TYPE=REL  XREF=626 
+ SYM=VPTH     LOC=00000478 LEN=00000058 ESD=0007 TYPE=CST  XREF=104 97 555 567 579 
+  667 
+ SYM=VPTHAIXP LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=660 
+ SYM=VPTHAIXU LOC=00000040 LEN=00000001 ESD=0000 TYPE=ABS  XREF=661 
+ SYM=VPTHENTA LOC=00000018 LEN=00000004 ESD=000D TYPE=REL  XREF=665 
+ SYM=VPTHENTN LOC=0000000C LEN=00000008 ESD=000D TYPE=REL  XREF=657 
+ SYM=VPTHFLAG LOC=00000014 LEN=00000004 ESD=000D TYPE=REL  XREF=658 
+ SYM=VPTHFLG1 LOC=00000014 LEN=00000001 ESD=000D TYPE=REL  XREF=659 
+ SYM=VPTHFLG2 LOC=00000015 LEN=00000001 ESD=000D TYPE=REL  XREF=662 
+ SYM=VPTHFLG3 LOC=00000016 LEN=00000001 ESD=000D TYPE=REL  XREF=663 
+ SYM=VPTHFLG4 LOC=00000017 LEN=00000001 ESD=000D TYPE=REL  XREF=664 
+ SYM=VPTHID   LOC=00000000 LEN=00000004 ESD=000D TYPE=REL  XREF=655 
+ SYM=VPTHLEN  LOC=0000001C LEN=00000001 ESD=0000 TYPE=ABS  XREF=666 
+ SYM=VPTHNAME LOC=00000004 LEN=00000008 ESD=000D TYPE=REL  XREF=656 
+
+Literal Table Listing
+
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+21:07:38 Z390CAT1  MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 69 IO=2178

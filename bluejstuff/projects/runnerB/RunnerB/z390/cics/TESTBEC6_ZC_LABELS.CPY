@@ -1,0 +1,9 @@
+         LABEL AB2
+         LABEL AB3
+         LABEL BEC6ASRA
+         LABEL BEC6AEI0
+         LABEL BEC5
+         LABEL BEC7ASOK
+         LABEL AB4
+         LABEL BEC7ASRA
+         LABEL BEC6ZZZZ

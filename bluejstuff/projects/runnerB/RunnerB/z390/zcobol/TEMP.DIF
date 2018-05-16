@@ -1,0 +1,125 @@
+Comparing files WS.MAC and WS.SAV
+***** WS.MAC
+.*          ASCENDING, DESCENDING, BLANK WHEN ZERO
+.*********************************************************************
+***** WS.SAV
+.*          ASCENDING, DESCENDING, BLANK WHEN ZERO
+.* 09/03/09 RPI 1065 end prior levels for each FD
+.*********************************************************************
+*****
+
+***** WS.MAC
+         AIF   (&NEW_LVL_NO EQ 91)
+               ACALL WS_91_FILE  ADD FILE DCB 
+***** WS.SAV
+         AIF   (&NEW_LVL_NO EQ 91)
+               :&NEW_LVL_NO  SETA 1 
+               :&CUR_SET_LVL SETA 0
+               ACALL WS_END_PRIOR
+               ACALL WS_91_FILE  ADD FILE DCB 
+*****
+
+***** WS.MAC
+         AEND
+         :&WS_LOC_SAVE SETA &WS_LOC
+         AIF  (&WS_LVL GT 0)
+.*
+.*            END HIGHER LEVEL # GROUPS/REDEF ITEMS
+.*
+              ACALL WS_END_NN  
+.*
+.*            END REDEFINE AT SAME LEVEL # IF ANY
+.*
+              AIF   (&WS_LVL_RDEF(&WS_LVL)                             X  
+                    AND &WS_LOC GE &WS_LVL_RDEF_END(&WS_LVL))
+                    :&WS_LVL_RDEF(&WS_LVL) SETB 0                 
+              AEND
+         AEND
+.*
+***** WS.SAV
+         AEND
+         ACALL WS_END_PRIOR
+.*
+*****
+
+***** WS.MAC
+.*
+.* END ALL HIGHER LEVEL WS GROUP AND REDEFINE ITEMS
+.*
+         AENTRY WS_END_NN
+         AWHILE (&WS_LVL GT 1 AND &NEW_LVL_NO LT &WS_LVL_NO(&WS_LVL))
+              ACALL WS_END_GROUP                   
+              AIF (&WS_LVL_RDEF(&WS_LVL))
+                  ACALL WS_END_REDEFINE
+              AEND
+              :&WS_LVL SETA &WS_LVL-1
+         AEND
+         AIF   (&WS_LVL_SYM_IX(&WS_LVL) GT 0)
+               ACALL WS_END_GROUP
+         AEND
+         AIF   (&WS_LVL_RDEF(&WS_LVL)                                  X
+                AND &WS_LOC GE &WS_LVL_RDEF_END(&WS_LVL))
+              :&WS_LVL_RDEF(&WS_LVL) SETB 0  END REDEFINE
+         AEND
+***** WS.SAV
+.*
+.*
+.* END PRIOR
+.*
+         AENTRY WS_END_PRIOR
+         :&WS_LOC_SAVE SETA &WS_LOC
+         AIF  (&WS_LVL GT 0)
+.*
+.*            END HIGHER LEVEL # GROUPS/REDEF ITEMS
+.*
+              ACALL WS_END_NN  
+.*
+.*            END REDEFINE AT SAME LEVEL # IF ANY
+.*
+              AIF   (&WS_LVL_RDEF(&WS_LVL)                             X  
+                    AND &WS_LOC GE &WS_LVL_RDEF_END(&WS_LVL))
+                    :&WS_LVL_RDEF(&WS_LVL) SETB 0                 
+              AEND
+         AEND
+*****
+
+***** WS.MAC
+.*
+.* WS END GROUP - SET SYM_LEN AND WS_LOC IF GROUP OCCURS > 1
+***** WS.SAV
+.*
+.* END ALL HIGHER LEVEL WS GROUP AND REDEFINE ITEMS
+.*
+         AENTRY WS_END_NN
+         AWHILE (&WS_LVL GT 1 AND &NEW_LVL_NO LT &WS_LVL_NO(&WS_LVL))
+              ACALL WS_END_GROUP                   
+              AIF (&WS_LVL_RDEF(&WS_LVL))
+                  ACALL WS_END_REDEFINE
+              AEND
+              :&WS_LVL SETA &WS_LVL-1
+         AEND
+         AIF   (&WS_LVL_SYM_IX(&WS_LVL) GT 0)
+               ACALL WS_END_GROUP
+         AEND
+         AIF   (&WS_LVL_RDEF(&WS_LVL)                                  X
+                AND &WS_LOC GE &WS_LVL_RDEF_END(&WS_LVL))
+              :&WS_LVL_RDEF(&WS_LVL) SETB 0  END REDEFINE
+         AEND
+         AEND
+.*
+.* WS END GROUP - SET SYM_LEN AND WS_LOC IF GROUP OCCURS > 1
+*****
+
+***** WS.MAC
+                    :&I SETA &I+2    
+               AELSEIF (&I GT 2)
+***** WS.SAV
+                    :&I SETA &I+2    
+               AELSEIF ('&SYSLIST(&I)' EQ 'BLANK'                      X
+                        AND '&SYSLIST(&I+1)' EQ 'WHEN'                 X
+                        AND '&SYSLIST(&I+2)' EQ 'ZERO')
+                        :&SYM_OPT(&SYM_TOT) SETC '&SYM_OPT(&SYM_TOT).B'
+                        :&I SETA &I+3
+               AELSEIF (&I GT 2)
+*****
+

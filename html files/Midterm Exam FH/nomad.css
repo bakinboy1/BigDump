@@ -1,0 +1,166 @@
+header, nav, main, footer{display: block;}
+body{
+color:#221811;
+font-family: Veranda, Arial, serif;
+background-image:url("background.gif");
+}
+nav{
+	text-align: center;
+	
+	font-size:10px;
+	padding-top:10px;
+	
+	float: left;
+	width: 200px;
+	background-color:#eeeeee;
+}
+
+
+nav li{ 
+	margin-left: auto;
+    margin-right: auto;
+	display: list-item;
+	list-style-type: disc;
+	width: 120px;
+	text-align: justify;
+	padding-bottom:2px;
+	font-size: 12px;
+	}
+	
+nav ul{
+	padding-left:2px; 
+
+
+}
+*{
+	box-sizing: border-box;
+	
+}
+nav:link{
+	color: #fef6c2;
+	
+}
+nav:visited{
+	color: #d2b48c;
+}
+nav:hover{
+	color: #cc9933;
+}
+nav ul{padding-left:0px; 
+list-style-type: none;}
+.floatleft{
+	clear: left;
+	padding-right:20px;
+	padding-bottom:20px;
+}
+#welcome{
+	text-align: justify;
+	
+}
+#welcome img{
+display: block;
+width: auto;
+height: auto;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+
+}
+#construction{
+	text-align: justify;
+}
+#constrution img{
+display: block;
+width: auto;
+height: auto;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+}
+
+
+#nomad{
+	background-image:url("nomad.gif");
+	background-size: auto;
+	height: 50px;
+	background-repeat: no-repeat;
+}
+#images{
+	text-align: justify;
+	
+}
+#images img{
+display: inline-block;
+width: auto;
+height: auto;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+
+}
+#images:after{
+content:'';
+display:inline-block;
+width: auto;	
+
+}
+#skibar{
+	text-align: justify;
+	
+}
+#skibar img{
+display: block;
+width: auto;
+height: auto;
+margin-left: auto;
+margin-right: auto;
+text-align: center;
+
+}
+#images:after{
+content:'';
+display:inline-block;
+width: auto;	
+
+}
+
+
+h1{
+
+color:	#FF0000;
+font-family: Veranda, Arial, Serif;
+font-weight:bold;
+font-size: 40px;
+text-align: center;
+
+}
+main p{
+
+color:#000000;
+font-family: Veranda, Arial, Serif;
+font-weight:bold;
+font-size: 30px;
+text-align: center;
+}
+footer{
+font-style: italic;
+float: right;
+background-image:url("background.gif");
+}
+h2{
+	font-family: Veranda, Arial, Serif;
+font-weight:bold;
+
+text-align: center;
+}
+main, main h2, main h3, main h4, main div, main ul, main dl{
+	padding-left:0em;
+	padding-bottom:4em;
+	padding-right:13em;
+	padding-top:0em;
+	margin-left: 200px;
+	background-color:#FEF6C2;
+	background-image:url("background.gif");
+	
+	
+}	

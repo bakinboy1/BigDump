@@ -1,0 +1,10 @@
+Comparing files ZCOBOL\DEMO\I586\hello.HLA and ZCOBOL\DEMO\I586\SAVE\HELLO.HLA
+***** ZCOBOL\DEMO\I586\hello.HLA
+// ZCOBOL OPTIONS=()
+ program HELLO;
+***** ZCOBOL\DEMO\I586\SAVE\HELLO.HLA
+// ZCOBOL PGM=zcobol\demo\hello VER=V1.5.00cx2 MM/DD/YY
+// ZCOBOL OPTIONS=()
+ program HELLO;
+*****
+

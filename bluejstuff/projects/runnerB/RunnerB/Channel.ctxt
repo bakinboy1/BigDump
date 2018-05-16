@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=m\ r\ fr\ psw
+comment0.target=Channel(Memory,\ Registers,\ FRegisters,\ PSW)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Channel\r\n
+comment1.params=dcb
+comment1.target=void\ open(DCB)
+comment1.text=\r\n\ Open\ -An\ example\ of\ a\ method\ -\ replace\ this\ comment\ with\ your\ own\r\n\ \r\n
+comment2.params=s
+comment2.target=void\ setFilein1(java.util.Scanner)
+comment3.params=val
+comment3.target=void\ close(int)
+comment4.params=val
+comment4.target=void\ get(int)
+comment5.params=val
+comment5.target=void\ put(int)
+comment6.params=
+comment6.target=void\ reset()
+numComments=7

@@ -1,0 +1,1039 @@
+datetime  MZ390 START
+AZ390I Copyright 2011 Automated Software Tools Corporation
+AZ390I z390 is licensed under GNU General Public License
+AZ390I program = zcobol\demo\datetime
+AZ390I options = W:\work\z390\z390.OPT=(time(60)) @zcobol\z390\ZC390CLG=(
+  sysmac(+zcobol+zcobol\z390+mac+cics) syscpy(+zcobol+zcobol\z390+mac+cics) 
+  BAL NOLISTCALL MAXGBL(1500000)) notiming stats
+External Symbol Definitions
+ ESD=0001 LOC=00000000 LEN=000005B0 TYPE=CST NAME=FORMAT_DATE_EXAMPLE
+Assembler Listing
+000000                                       (6/15)1+*    ZCOBOL PGM='zcobol\demo\datetime' VER=V1.5.06 MM/DD/YY  
+000000                                       (6/15)2+*    ZCOBOL OPTIONS=() 
+000000                                        (1/4)3          COPY  datetime_ZC_LABELS.CPY
+000000                                        (1/5)4 *        IDENTIFICATION DIVISION.
+000000                                        (1/7)5 *        PROGRAM-ID.  FORMAT-DATE-EXAMPLE.
+000000                                      (11/34)6+         PRINT NOLIST,NOGEN,NOLISTUSE    SET LIST OPTION FOR INTERNAL CODE
+000000                                      (11/59)8+FORMAT_DATE_EXAMPLE CSECT ,                CSECT WITH PROCEDURE CODE AND WS
+000000                                     (11/60)10+         USING *,ZC_R15
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+000000 90ECD00C                            (16/51)11+         STM   14,12,12+4*(14-14)(13)
+000004                                     (11/93)12+         CNOP  4,8             FORCE ZC390PVT TO DOUBLEWORD BOUNDARY
+000004 A785001A                000038      (11/94)13+         BRAS  ZC_R8,ZC_LOAD
+000008                                     (11/95)14+         USING *,ZC_R8            BASE FOR LOAD AND CICS V5 USE
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+000008                                     (11/96)15+*
+000008                                     (11/97)16+*  THESE FIELDS MUST BE KEPT IN SYNC WITH zcobol\ZC390PVT.CPY
+000008                                     (11/98)17+*
+000008 C6D6D9D4C1E36DC4                    (11/99)18+         DC    CL8'FORMAT_DATE_EXAMPLE'    PVTPGM   ZCOBOL PGM NAME
+000010 F0F161F0F261F0F5                   (11/100)19+         DC    CL8'01/02/05'   PVTDATE  ZCOBOL COMPILE DATE
+000018 F2F24BF3F3404040                   (11/101)20+         DC    CL8'22.33'   PVTTIME  ZCOBOL COMPILE TIME
+000020 E5F14BF54BF0F640                   (11/102)21+         DC    CL8'V1.5.06'    PVTVER   ZCOBOL COMPILER VERSION
+000028 F0                                 (11/103)22+         DC    C'0'     PVTCICS  ZCOBOL EXEC CICS PGM
+000029 F1                                 (11/104)23+         DC    C'1'   PVTEXTND ZCOBOL EXTENDED PRECISION
+00002A F0                                 (11/105)24+         DC    C'0'    PVTTRUNC ZCOBOL TRUNCATE TO PICTURE
+00002B F1                                 (11/106)25+         DC    C'1'      PVTR64   ZCOBOL USE 64 BIT REGISTERS
+00002C 0050                               (11/107)26+         DC    H'80' MAX DISPLAY LINE LEN  RPI 1118
+00002E                                    (11/108)27+         DS    XL10            RESERVED
+000038                                    (11/109)28+ZC_LOAD  DS    0H
+000038 410080B0                0000B8      (17/74)29+         LA    0,=CL8'ZC390LIB'
+00003C 1BFF                                (17/95)30+         SR    15,15 USE DEFAULT SYS390 SEARCH
+00003E 0A08                               (17/125)31+         SVC   8 LOAD R0=A(NAME) R15=DDNAME/DSNAME ADDR OR 0
+000040 12FF                               (11/111)32+         LTR   ZC_R15,ZC_R15
+000042 A7840013                000068     (11/112)33+         JZ    ZC_LOAD_OK
+000046 A715000D                000060      (18/49)34+         BRAS  1,*+(WTO#0011_EOT-*+1)/2*2
+00004A 00160000E9C3F3F9                    (18/50)35+         DC    AL2(WTO#0011_EOT-*,0),C'ZC390LIB NOT FOUND'
+000060                  00000060           (18/51)36+WTO#0011_EOT     EQU *
+000060 0A23                                (18/52)37+         SVC   35
+000062 41F00010                           (11/114)38+         LA  ZC_R15,16
+000066 0A03                               (11/115)39+         SVC 3      EXIT TO CALLER WITH RC=16
+000068                                    (11/116)40+ZC_LOAD_OK DS  0H
+000068 1890                               (11/117)41+         LR    ZC_R9,ZC_R0
+00006A                                    (11/118)42+         USING ZC390CVT,ZC_R9    R9=CVT
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+00006A D503900080B8     000000 0000C0     (11/119)43+         CLC   ZCVT_ID,=C'ZCVT'              CHECK ZCVT ID AND LENGTH
+000070 A774000C                000088     (11/120)44+         JNE   ZC_VER_ERR                    IN ZC390LIB.390 MATCH
+000074 D503900480BC     000004 0000C4     (11/121)45+         CLC   ZCVT_LEN,=A(ZCVT_END-ZCVT_ID) ZCOBOL PGM COMPILED ID/LEN
+00007A 47708080                000088     (11/122)46+         BNE   ZC_VER_ERR
+00007E 58F09010                000010     (11/123)47+         L     ZC_R15,ZCVT_ZC390NUC
+000082 0DEF                               (11/124)48+         BASR  ZC_R14,ZC_R15 CALL ZC390NUC TO VERIFY VER, OPTIONS
+000084 A7F40022                0000C8     (11/125)49+         J     ZC_VER_OK
+000088                                    (11/126)50+ZC_VER_ERR DS 0H
+000088 A7150011                0000AA      (18/49)51+         BRAS  1,*+(WTO#0012_EOT-*+1)/2*2
+00008C 001E0000E9C3F3F9                    (18/50)52+         DC    AL2(WTO#0012_EOT-*,0),C'ZC390LIB ZCVT VERIFY ERROR'
+0000AA                  000000AA           (18/51)53+WTO#0012_EOT     EQU *
+0000AA 0A23                                (18/52)54+         SVC   35
+0000AC 41F00010                           (11/128)55+         LA  ZC_R15,16
+0000B0 0A03                               (11/129)56+         SVC 3      EXIT TO CALLER WITH RC=16
+0000B2                                    (11/130)57+         LTORG 
+0000B8 E9C3F3F9F0D3C9C2 =CL8'ZC390LIB'
+0000C0 E9C3E5E3         =C'ZCVT'
+0000C4 000001F8         =A(ZCVT_END-ZCVT_ID)
+0000C8                  00000080          (15/10)112=PFPO_TEST    EQU  X'80' PFPO TEST IF VALID OPCODE (NOT SUPPORTED YET)
+0000C8                  00000001          (15/11)113=PFPO_RADIX   EQU  1 PFPO OPCODE - CONVERT FROM ONE RADIX TO ANOTHER
+0000C8                  00000000          (15/12)114=PFPO_RND     EQU  0 PFOP ROUNDING OPTION (ONLY DEFAULT ALLOWED)
+0000C8                  00000000          (15/13)115=PFPO_TYPE_EH EQU  0 EH HFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000001          (15/14)116=PFPO_TYPE_DH EQU  1 ED HFP LONG      64 BITS 15 DIGITS
+0000C8                  00000002          (15/15)117=PFPO_TYPE_LH EQU  2 EL HFP EXTENDED 128 BITS 30 DIGITS
+0000C8                  00000005          (15/16)118=PFPO_TYPE_EB EQU  5 EB BFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000006          (15/17)119=PFPO_TYPE_DB EQU  6 DB BFP LONG      64 BITS 16 DIGITS
+0000C8                  00000007          (15/18)120=PFPO_TYPE_LB EQU  7 LB BFP EXTENDED 128 BITS 34 DIGITS
+0000C8                  00000008          (15/19)121=PFPO_TYPE_ED EQU  8 ED DFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000009          (15/20)122=PFPO_TYPE_DD EQU  9 DD DFP LONG      64 BITS 16 DIGITS
+0000C8                  0000000A          (15/21)123=PFPO_TYPE_LD EQU 10 LD DFP EXTENDED 128 BITS 34 DIGITS
+0000C8                                   (11/133)124+ZC_VER_OK DS   0H
+0000C8 582D0018                           (11/63)125+         L     ZC_R2,24(ZC_R13) SET ZC_R2=PARMLIST ADDRESS AFTER LOAD
+0000CC C01000000206            0004D8     (11/64)126+         LARL  ZC_R1,ZC_WS     ZC_R2=A(WORKING STORAGE WITH SAVEAREA)
+0000D2 501D0008                           (11/65)127+         ST    ZC_R1,8(ZC_R13) FORWARD  SAVE CHAIN
+0000D6 50D10004                           (11/66)128+         ST    ZC_R13,4(ZC_R1) BACKWARD SAVE CHAIN
+0000DA 18D1                               (11/67)129+         LR    ZC_R13,ZC_R1    LINK SAVE AREA IN ZC390CVT
+0000DC                                    (11/68)130+         USING ZC_WS,ZC_R13    BASE FOR ZCOBOL WS (SEE GEN_SYM_RX.MAC)
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=000004D8 LEN=01000 REG=D OFF=00000 LAB=
+0000DC 50D0D050                000528     (11/69)131+         ST    ZC_R13,ZC_WS_START  SAVE ADDR WS IN WS PREFIX
+0000E0 C00000000268            0005B0     (11/70)132+         LARL  ZC_R0,ZC_WS_END
+0000E6 1B0D                               (11/71)133+         SR    ZC_R0,ZC_R13
+0000E8 5000D054                00052C     (11/72)134+         ST    ZC_R0,ZC_WS_LEN     SAVE LENGTH OF WS IN WS PREFIX
+0000EC                                    (11/73)135+         DROP  ZC_R15              RPI 1042
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=000004D8 LEN=01000 REG=D OFF=00000 LAB=
+LISTUSE FORMAT_DATE_EXAMPLE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+0004D2                                    (11/74)136+ZC_WSLOC LOCTR 
+0004D8                                    (11/75)137+ZC_WS    DS    0D           START WORKING STORAGE
+000000                                    (11/81)138+ZC390CVT DSECT 
+000000                                    (12/31)139=ZCVT_ID            DC    C'ZCVT'             ZCVT ID  VERIFIED BY ZCOB
+000004                                    (12/32)140=ZCVT_LEN           DC    A(ZCVT_END-ZCVT_ID) ZCVT LEN VERIFIED BY ZCOB
+000008                                    (12/33)141=ZCVT_VER           DC    CL8'V1.5.06'    ZCVT VER VERIFIED BY ZC390NUC
+000010                                    (12/34)142=ZCVT_ZC390NUC  DC V(ZC390NUC)      MODULE  SYSTEM ROUTINE MODULE INIT
+000014                                    (12/35)143=ZCVT_CALL           DC V(CALL)       ENTRY R0=A(PGM),R1=A(PARMLIST)
+000018                                    (12/36)144=ZCVT_CMP64R32       DC V(CMP64R32)   ENTRY COMPARE R0-1=FLD1 R2-3=FLD2
+00001C                                    (12/37)145=ZCVT_CVTLBTQ        DC V(CVTLBTQ)    ENTRY CVT LB IN F4-6 TO Q IN R0-1
+000020                                    (12/38)146=ZCVT_CVTLDTP        DC V(CVTLDTP)    ENTRY CVT LD IN F0-2 TO PL31 R0-1
+000024                                    (12/39)147=ZCVT_CVTQTLB        DC V(CVTQTLB)    ENTRY CVT Q IN R0-1 TO LB IN F4-6
+000028                                    (12/40)148=ZCVT_DIV64R32       DC V(DIV64R32)   ENTRY DIVIDE R0-1=N64, R2-3=MAX64
+00002C                                    (12/41)149=ZCVT_DIVQ128        DC V(DIVQ128)    ENTRY DIVIDE Q128 R0-R1 BY R2-R3
+000030                                    (12/42)150=ZCVT_GOBACK         DC V(GOBACK)     ENTRY R1=RC
+000034                                    (12/43)151=ZCVT_MPYQ128        DC V(MPYQ128)    ENTRY MULTIPLY Q128 R0-R1 BY R2-R3
+000038                                    (12/44)152=ZCVT_OSE64R32       DC V(OSE64R32)   ENTRY ON SIZE ERR R0-1=N, R2-3=MAX
+00003C                                    (12/45)153=ZCVT_PERFORM        DC V(PERFORM)    ENTRY R14=PGTAR,R0=PGEXT,R1=PMRET
+000040                                    (12/46)154=ZCVT_PMCHECK        DC V(PMCHECK)    ENTRY R14=RETURN TO NEXT INSTR.
+000044                                    (12/47)155=ZCVT_ROUNDF         DC V(ROUNDF)     ENTRY R0=REM,R1=QUO,R2=DIVISOR
+000048                                    (12/48)156=ZCVT_STACKORG       DC V(STACKORG)   ENTRY PERFORM STACK ORIGIN
+00004C                                    (12/49)157=ZCVT_STACKPTR       DC V(STACKPTR)   ENTRY CUR ENTRY A(PG_END+4,RET)
+000050                                    (12/50)158=ZCVT_STACKEND       DC V(STACKEND)   ENTRY PERFORM STACK END
+000054                                    (12/51)159=ZCVT_STOPRUN        DC V(STOPRUN)    ENTRY R1=RC
+000058                                    (12/52)160=ZCVT_TALPHAX        DC V(TALPHAX)    ENTRY TEST ALPHABETIC X
+00005C                                    (12/53)161=ZCVT_TNUMP          DC V(TNUMP)      ENTRY TEST NUMERIC P
+000060                                    (12/54)162=ZCVT_TNUMX          DC V(TNUMX)      ENTRY TEST NUMERIC X
+000064                                    (12/55)163=ZCVT_TNUMZ          DC V(TNUMZ)      ENTRY TEST NUMERIC Z
+000068                                    (12/56)164=*
+000068                                    (12/57)165=* ADDITIONAL SEPARATE MODULES LINKED WITH Z390NUC IN ZC390LIB.390
+000068                                    (12/58)166=*
+000068                                    (12/59)167=ZCVT_ABORT     DC V(ABORT)         MODULE  R1=ABORT ERROR MSG #
+00006C                  00000001          (12/60)168=ZCVT_ABORT_ALTER   EQU    1 ABORT ALTER DUE TO BRC NOT FOUND AT TARGET
+00006C                  00000002          (12/61)169=ZCVT_ABORT_CALL    EQU    2 ABORT DYNAMIC CALL - PGM NOT FOUND
+00006C                  00000003          (12/62)170=ZCVT_ABORT_DISPLAY EQU    3 ABORT DISPLAY DUE TO BUFFER EXCEEDED
+00006C                  00000004          (12/63)171=ZCVT_ABORT_OPEN    EQU    4 ABORT OPEN  INVALID DCB
+00006C                  00000006          (12/64)172=ZCVT_ABORT_STACK   EQU    6 ABORT PEROFRM STACK OVERFLOW
+00006C                  00000007          (12/65)173=ZCVT_ABORT_VERSION EQU    7 ABORT ZC390NUC INIT ZCOBOL VERSION ERROR
+00006C                  00000008          (12/66)174=ZCVT_ABORT_INT128  EQU    8 ABORT INTEGER 128 CONVERSION OVERFLO
+00006C                  00000009          (12/67)175=ZCVT_ABORT_DIVQ    EQU    9 ABORT DIVIDE Q IF DIVISOR 0 OR > 2**63
+00006C                  0000000A          (12/68)176=ZCVT_ABORT_CICS    EQU   10 ABORT THIS PGM REQUIRES EXEC CICS TRANS MGR
+00006C                  0000000B          (12/69)177=ZCVT_ABORT_ACCEPT  EQU   11 ABORT ACCEPT EOF
+00006C                  0000000B          (12/70)178=ZCVT_ABORT_MAXERR  EQU   11 ABORT MAX ERROR CODE
+00006C                                    (12/71)179=ZCVT_ACCEPT    DC V(ACCEPT)        MODULE  R1=A(TYPE,FLD_ADD,FLD_LEN)
+000070                  00000001          (12/72)180=ZCVT_ACCEPT_DEFAULT EQU   1 INPUT DEFAULT DDNAME=SYSIN
+000070                  00000002          (12/73)181=ZCVT_ACCEPT_CONSOLE EQU   2 INPUT VIA WTOR FROM CONSOLE
+000070                  00000003          (12/74)182=ZCVT_ACCEPT_DDNAME  EQU   3 INPUT FROM DDNAME WITH DDNAME ADDR IN R3
+000070                  00000004          (12/75)183=ZCVT_ACCEPT_DATE    EQU   4 RETURN DAY OF WEEK PIC 9(8) MMDDYYYY
+000070                  00000005          (12/76)184=ZCVT_ACCEPT_TIME    EQU   5 RETURN DAY OF WEEK PIC 9(8) HHMMSSTH
+000070                  00000006          (12/77)185=ZCVT_ACCEPT_DOW     EQU   6 RETURN DAY OF WEEK PIC 9 1-7
+000070                                    (12/78)186=ZCVT_DISPLAY   DC V(DISPLAY)       MODULE  R1=A(ADDR,LEN,TYPE)
+000074                                    (12/79)187=ZCVT_INSPECT   DC V(INSPECT)       MODULE  R0=TYPE,R1=PARMLIST
+000078                  00000000          (12/80)188=ZCVT_TALLYING      EQU   0 INSPECT TALLYING
+000078                  00000004          (12/81)189=ZCVT_REPLACING     EQU   4 INSPECT REPLACING
+000078                  00000008          (12/82)190=ZCVT_CONVERTING    EQU   8 INSPECT CONVERTING
+000078                                    (12/83)191=*
+000078                                    (12/84)192=* SHARED DATA AREAS
+000078                                    (12/85)193=*
+000078                                    (12/86)194=ZCVT_PVTMAXDL  DS H          MAXIMUM DISPLAY LINE LENGTH  RPI 1118
+000080                                    (12/87)195=               DS 0D
+000080                                    (12/88)196=ZCVT_ZERO      DC XL16'00'   BINARY ZEROS
+000090                                    (12/89)197=ZCVT_HIGH_VALUES DC 0XL16,16X'FF' BINARY FF'S     RPI 1181
+0000A0                                    (12/90)198=ZCVT_PWORK     DS PL8        CVD/CVB WORK
+0000A8                                    (12/91)199=ZCVT_PWORK1    DS PL16       DIV DIVIDEND, CVDG/CVBG WORK
+0000B8                                    (12/92)200=ZCVT_PWORK2    DS PL16       DIV DIVISOR
+0000C8                                    (12/93)201=ZCVT_PWORK3    DS PL16       DIV QUOTIENT
+0000D8                                    (12/94)202=ZCVT_PWORK4    DS PL16       DIV REMAINDER
+0000E8                                    (12/95)203=ZCVT_NDDX      DS XL16       DIV DIVIDEND HOLD AREA
+0000F8                                    (12/96)204=ZCVT_WORKAREA  DS XL256      GEN_INSPECT PARMS, GEN_EDIT WORK, ETC.
+0001F8                                    (12/97)205=*
+0001F8                                    (12/98)206=* END OF ZC390CVT
+0001F8                                    (12/99)207=*
+0001F8                  000001F8         (12/100)208=ZCVT_END   EQU   *
+000000                                    (11/83)209+ZC390PVT DSECT 
+000000                                    (13/11)210=PVTPGM   DS    CL8  ZCOBOL PGM NAME
+000008                                    (13/12)211=PVTDATE  DS    CL8  ZCOBOL COMPILE DATE
+000010                                    (13/13)212=PVTTIME  DS    CL8  ZCOBOL COMPILE TIME
+000018                                    (13/14)213=PVTVER   DS    CL8  ZCOBOL COMPILER VERSION
+000020                                    (13/15)214=PVTCICS  DS    C    ZCOBOL EXEC CICS PGM
+000021                                    (13/16)215=PVTEXTND DS    C    ZCOBOL EXTENDED PRECISION
+000022                                    (13/17)216=PVTTRUNC DS    C    ZCOBOL TRUNCATE TO PICTURE
+000023                                    (13/18)217=PVTR64   DS    C    ZCOBOL USE 64 BIT REGISTERS
+000024                                    (13/19)218=PVTMAXDL DS    H    ZCOBOL MAX DISPLAY LINE LENGTH
+000026                                    (13/20)219=         DS    XL10 RESERVED
+0004D8                                    (11/85)220+ZC_WSLOC LOCTR              CONTINUE WS FOR FD AND DATA
+0004D8                                      (1/9)221 *        AUTHOR.      BILL ROGERS.
+0004D8                                     (1/10)222 *      * http://web.sxu.edu/rogers/cobol/datetime.html
+0004D8                                     (1/12)223 *        ENVIRONMENT DIVISION.
+0004D8                                     (1/14)224 *        DATA DIVISION.
+0004D8                                    (27/23)225+         PRINT DATA
+0004D8                                     (1/16)226 *        WORKING-STORAGE SECTION.
+0004D8                                     (1/18)227 *        01 SYSTEM-WEEKDAY            PIC 9.
+0004D8                                     (1/20)228 *        01 SYSTEM-DATE.
+0004D8                                     (1/22)229 *           02 SYSTEM-YEAR            PIC 99.
+0004D8                                     (1/24)230 *           02 SYSTEM-MONTH           PIC 99.
+0004D8                                     (1/26)231 *           02 SYSTEM-DAY             PIC 99.
+0004D8                                     (1/28)232 *        01 SYSTEM-TIME.
+0004D8                                     (1/30)233 *           02 SYSTEM-HOUR            PIC 99.
+0004D8                                     (1/32)234 *           02 SYSTEM-MINUTE          PIC 99.
+0004D8                                     (1/34)235 *           02 SYSTEM-SECOND          PIC 99.
+0004D8                                     (1/36)236 *           02 SYSTEM-HUNDREDTH       PIC 99.
+0004D8                                     (1/38)237 *        01 HEADER-LINE.
+0004D8                                     (1/40)238 *           02 HEADER-WEEKDAY         PIC X(3).
+0004D8                                     (1/42)239 *           02                        PIC X        VALUE SPACE.
+0004D8                                     (1/44)240 *           02 HEADER-MONTH           PIC X(3).
+0004D8                                     (1/46)241 *           02                        PIC X        VALUE SPACE.
+0004D8                                     (1/48)242 *           02 HEADER-DAY             PIC Z9.
+0004D8                                     (1/50)243 *           02                        PIC X        VALUE SPACE.
+0004D8                                     (1/52)244 *           02 HEADER-HOUR            PIC Z9.
+0004D8                                     (1/54)245 *           02                        PIC X        VALUE ':'.
+0004D8                                     (1/56)246 *           02 HEADER-MINUTE          PIC 99.
+0004D8                                     (1/58)247 *           02                        PIC X        VALUE SPACE.
+0004D8                                     (1/60)248 *           02 HEADER-AM-PM           PIC X(2).
+0004D8                                     (1/63)249 *        PROCEDURE DIVISION.
+0004D8                                     (1/64)250 *ZC   PROCEDURE DIVISION
+0004D8                                    (30/18)251+         PRINT LIST,GEN,LISTUSE TURN PRINT LISTING ON FOR USER CODE GEN
+0000EC                                    (30/19)252+FORMAT_DATE_EXAMPLE CSECT     SWITCH TO PROCEDURE CODE AHEAD OF WS
+0000EC                                     (1/66)253 *        MAINLINE.
+0000EC                                     (8/96)254+PG_MAINLINE DS 0H
+0000EC                                     (1/68)255 *            DISPLAY 'DATETIME STARTED'
+0000EC                                     (1/69)256 *ZC     32         DISPLAY 'DATETIME STARTED'
+0000EC A715000C                000104     (18/49)257+         BRAS  1,*+(WTO#0135_EOT-*+1)/2*2
+0000F0 00140000C4C1E3C5                   (18/50)258+         DC    AL2(WTO#0135_EOT-*,0),C'DATETIME STARTED'
+0000F8 E3C9D4C540E2E3C1
+000100 D9E3C5C4
+000104                  00000104          (18/51)259+WTO#0135_EOT     EQU *
+000104 0A23                               (18/52)260+         SVC   35
+000106                                     (1/71)261 *            ACCEPT SYSTEM-WEEKDAY FROM DAY-OF-WEEK.
+000106                                     (1/72)262 *ZC     33         ACCEPT SYSTEM_WEEKDAY,FROM,DAY_OF_WEEK
+000106 4120D058                000530     (36/25)263+         LA    ZC_R2,SYSTEM_WEEKDAY
+00010A C0100000019F            000448     (36/51)264+         LARL  ZC_R1,=A(ZCVT_ACCEPT_DOW,1)
+000110 58F0906C                00006C     (36/61)265+         L     ZC_R15,ZCVT_ACCEPT
+000114 0DEF                               (36/62)266+         BASR  ZC_R14,ZC_R15
+000116                                     (1/75)267 *            ACCEPT SYSTEM-DATE FROM DATE.
+000116                                     (1/76)268 *ZC     34         ACCEPT SYSTEM_DATE,FROM,DATE
+000116 4120D059                000531     (36/25)269+         LA    ZC_R2,SYSTEM_DATE
+00011A C0100000019B            000450     (36/45)270+         LARL  ZC_R1,=A(ZCVT_ACCEPT_DATE,6)
+000120 58F0906C                00006C     (36/61)271+         L     ZC_R15,ZCVT_ACCEPT
+000124 0DEF                               (36/62)272+         BASR  ZC_R14,ZC_R15
+000126                                     (1/79)273 *            ACCEPT SYSTEM-TIME FROM TIME.
+000126                                     (1/80)274 *ZC     35         ACCEPT SYSTEM_TIME,FROM,TIME
+000126 4120D05F                000537     (36/25)275+         LA    ZC_R2,SYSTEM_TIME
+00012A C01000000197            000458     (36/48)276+         LARL  ZC_R1,=A(ZCVT_ACCEPT_TIME,8)
+000130 58F0906C                00006C     (36/61)277+         L     ZC_R15,ZCVT_ACCEPT
+000134 0DEF                               (36/62)278+         BASR  ZC_R14,ZC_R15
+000136                                     (1/83)279 *            EVALUATE SYSTEM-WEEKDAY
+000136                                     (1/84)280 *ZC     36         EVALUATE SYSTEM_WEEKDAY
+000136                                     (1/86)281 *                WHEN  2  MOVE 'Mon' TO HEADER-WEEKDAY
+000136                                     (1/87)282 *ZC     37         WHEN  2
+000136                                     (8/41)283+PG_EVAL1_WHEN1 DS  0H  &TYPE
+000136 95F2D058                000530    (40/377)284+         CLI   SYSTEM_WEEKDAY,C'2'
+00013A A774000A                00014E     (41/15)285+         BRC   ZC_NE,PG_EVAL1_WHEN2
+00013E                                     (1/89)286 *ZC     37         MOVE  'Mon',TO,HEADER_WEEKDAY
+00013E C01000000191            000460    (47/160)287+         LARL  ZC_R1,=CL4'Mon'
+000144 D202D0671000     00053F           (47/299)288+          MVC   HEADER_WEEKDAY,0(ZC_R1)
+00014A                                     (1/91)289 *                WHEN  3  MOVE 'Tue' TO HEADER-WEEKDAY
+00014A                                     (1/92)290 *ZC     38         WHEN  3
+00014A A7F40048                0001DA     (48/15)291+         J     PG_EVAL1_END
+00014E                                     (8/41)292+PG_EVAL1_WHEN2 DS  0H  &TYPE
+00014E 95F3D058                000530    (40/377)293+         CLI   SYSTEM_WEEKDAY,C'3'
+000152 A774000A                000166     (41/15)294+         BRC   ZC_NE,PG_EVAL1_WHEN3
+000156                                     (1/94)295 *ZC     38         MOVE  'Tue',TO,HEADER_WEEKDAY
+000156 C01000000187            000464    (47/160)296+         LARL  ZC_R1,=CL4'Tue'
+00015C D202D0671000     00053F           (47/299)297+          MVC   HEADER_WEEKDAY,0(ZC_R1)
+000162                                     (1/96)298 *                WHEN  4  MOVE 'Wed' TO HEADER-WEEKDAY
+000162                                     (1/97)299 *ZC     39         WHEN  4
+000162 A7F4003C                0001DA     (48/15)300+         J     PG_EVAL1_END
+000166                                     (8/41)301+PG_EVAL1_WHEN3 DS  0H  &TYPE
+000166 95F4D058                000530    (40/377)302+         CLI   SYSTEM_WEEKDAY,C'4'
+00016A A774000A                00017E     (41/15)303+         BRC   ZC_NE,PG_EVAL1_WHEN4
+00016E                                     (1/99)304 *ZC     39         MOVE  'Wed',TO,HEADER_WEEKDAY
+00016E C0100000017D            000468    (47/160)305+         LARL  ZC_R1,=CL4'Wed'
+000174 D202D0671000     00053F           (47/299)306+          MVC   HEADER_WEEKDAY,0(ZC_R1)
+00017A                                    (1/101)307 *                WHEN  5  MOVE 'Thu' TO HEADER-WEEKDAY
+00017A                                    (1/102)308 *ZC     40         WHEN  5
+00017A A7F40030                0001DA     (48/15)309+         J     PG_EVAL1_END
+00017E                                     (8/41)310+PG_EVAL1_WHEN4 DS  0H  &TYPE
+00017E 95F5D058                000530    (40/377)311+         CLI   SYSTEM_WEEKDAY,C'5'
+000182 A774000A                000196     (41/15)312+         BRC   ZC_NE,PG_EVAL1_WHEN5
+000186                                    (1/104)313 *ZC     40         MOVE  'Thu',TO,HEADER_WEEKDAY
+000186 C01000000173            00046C    (47/160)314+         LARL  ZC_R1,=CL4'Thu'
+00018C D202D0671000     00053F           (47/299)315+          MVC   HEADER_WEEKDAY,0(ZC_R1)
+000192                                    (1/106)316 *                WHEN  6  MOVE 'Fri' TO HEADER-WEEKDAY
+000192                                    (1/107)317 *ZC     41         WHEN  6
+000192 A7F40024                0001DA     (48/15)318+         J     PG_EVAL1_END
+000196                                     (8/41)319+PG_EVAL1_WHEN5 DS  0H  &TYPE
+000196 95F6D058                000530    (40/377)320+         CLI   SYSTEM_WEEKDAY,C'6'
+00019A A774000A                0001AE     (41/15)321+         BRC   ZC_NE,PG_EVAL1_WHEN6
+00019E                                    (1/109)322 *ZC     41         MOVE  'Fri',TO,HEADER_WEEKDAY
+00019E C01000000169            000470    (47/160)323+         LARL  ZC_R1,=CL4'Fri'
+0001A4 D202D0671000     00053F           (47/299)324+          MVC   HEADER_WEEKDAY,0(ZC_R1)
+0001AA                                    (1/111)325 *                WHEN  7  MOVE 'Sat' TO HEADER-WEEKDAY
+0001AA                                    (1/112)326 *ZC     42         WHEN  7
+0001AA A7F40018                0001DA     (48/15)327+         J     PG_EVAL1_END
+0001AE                                     (8/41)328+PG_EVAL1_WHEN6 DS  0H  &TYPE
+0001AE 95F7D058                000530    (40/377)329+         CLI   SYSTEM_WEEKDAY,C'7'
+0001B2 A774000A                0001C6     (41/15)330+         BRC   ZC_NE,PG_EVAL1_WHEN7
+0001B6                                    (1/114)331 *ZC     42         MOVE  'Sat',TO,HEADER_WEEKDAY
+0001B6 C0100000015F            000474    (47/160)332+         LARL  ZC_R1,=CL4'Sat'
+0001BC D202D0671000     00053F           (47/299)333+          MVC   HEADER_WEEKDAY,0(ZC_R1)
+0001C2                                    (1/116)334 *                WHEN  1  MOVE 'Sun' TO HEADER-WEEKDAY
+0001C2                                    (1/117)335 *ZC     43         WHEN  1
+0001C2 A7F4000C                0001DA     (48/15)336+         J     PG_EVAL1_END
+0001C6                                     (8/41)337+PG_EVAL1_WHEN7 DS  0H  &TYPE
+0001C6 95F1D058                000530    (40/377)338+         CLI   SYSTEM_WEEKDAY,C'1'
+0001CA A7740008                0001DA     (41/15)339+         BRC   ZC_NE,PG_EVAL1_WHEN8
+0001CE                                    (1/119)340 *ZC     43         MOVE  'Sun',TO,HEADER_WEEKDAY
+0001CE C01000000155            000478    (47/160)341+         LARL  ZC_R1,=CL4'Sun'
+0001D4 D202D0671000     00053F           (47/299)342+          MVC   HEADER_WEEKDAY,0(ZC_R1)
+0001DA                                    (1/121)343 *            END-EVALUATE.
+0001DA                                    (1/122)344 *ZC     44         END_EVALUATE
+0001DA                                     (8/41)345+PG_EVAL1_WHEN8 DS  0H  &TYPE
+0001DA                                     (8/41)346+PG_EVAL1_END DS    0H  &TYPE
+0001DA                                    (1/125)347 *            EVALUATE SYSTEM-MONTH
+0001DA                                    (1/126)348 *ZC     45         EVALUATE SYSTEM_MONTH
+0001DA                                    (1/128)349 *                WHEN  1  MOVE 'Jan' TO HEADER-MONTH
+0001DA                                    (1/129)350 *ZC     46         WHEN  1
+0001DA                                     (8/41)351+PG_EVAL2_WHEN1 DS  0H  &TYPE
+0001DA C0100000016B            0004B0    (40/386)352+         LARL  ZC_R1,=C'01'
+0001E0 D501D05B1000     000533           (40/387)353+         CLC   SYSTEM_MONTH,0(ZC_R1)
+0001E6 A774000A                0001FA     (41/15)354+         BRC   ZC_NE,PG_EVAL2_WHEN2
+0001EA                                    (1/131)355 *ZC     46         MOVE  'Jan',TO,HEADER_MONTH
+0001EA C01000000149            00047C    (47/160)356+         LARL  ZC_R1,=CL4'Jan'
+0001F0 D202D06B1000     000543           (47/299)357+          MVC   HEADER_MONTH,0(ZC_R1)
+0001F6                                    (1/133)358 *                WHEN  2  MOVE 'Feb' TO HEADER-MONTH
+0001F6                                    (1/134)359 *ZC     47         WHEN  2
+0001F6 A7F400B0                000356     (48/15)360+         J     PG_EVAL2_END
+0001FA                                     (8/41)361+PG_EVAL2_WHEN2 DS  0H  &TYPE
+0001FA C0100000015C            0004B2    (40/386)362+         LARL  ZC_R1,=C'02'
+000200 D501D05B1000     000533           (40/387)363+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000206 A774000A                00021A     (41/15)364+         BRC   ZC_NE,PG_EVAL2_WHEN3
+00020A                                    (1/136)365 *ZC     47         MOVE  'Feb',TO,HEADER_MONTH
+00020A C0100000013B            000480    (47/160)366+         LARL  ZC_R1,=CL4'Feb'
+000210 D202D06B1000     000543           (47/299)367+          MVC   HEADER_MONTH,0(ZC_R1)
+000216                                    (1/138)368 *                WHEN  3  MOVE 'Mar' TO HEADER-MONTH
+000216                                    (1/139)369 *ZC     48         WHEN  3
+000216 A7F400A0                000356     (48/15)370+         J     PG_EVAL2_END
+00021A                                     (8/41)371+PG_EVAL2_WHEN3 DS  0H  &TYPE
+00021A C0100000014D            0004B4    (40/386)372+         LARL  ZC_R1,=C'03'
+000220 D501D05B1000     000533           (40/387)373+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000226 A774000A                00023A     (41/15)374+         BRC   ZC_NE,PG_EVAL2_WHEN4
+00022A                                    (1/141)375 *ZC     48         MOVE  'Mar',TO,HEADER_MONTH
+00022A C0100000012D            000484    (47/160)376+         LARL  ZC_R1,=CL4'Mar'
+000230 D202D06B1000     000543           (47/299)377+          MVC   HEADER_MONTH,0(ZC_R1)
+000236                                    (1/143)378 *                WHEN  4  MOVE 'Apr' TO HEADER-MONTH
+000236                                    (1/144)379 *ZC     49         WHEN  4
+000236 A7F40090                000356     (48/15)380+         J     PG_EVAL2_END
+00023A                                     (8/41)381+PG_EVAL2_WHEN4 DS  0H  &TYPE
+00023A C0100000013E            0004B6    (40/386)382+         LARL  ZC_R1,=C'04'
+000240 D501D05B1000     000533           (40/387)383+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000246 A774000A                00025A     (41/15)384+         BRC   ZC_NE,PG_EVAL2_WHEN5
+00024A                                    (1/146)385 *ZC     49         MOVE  'Apr',TO,HEADER_MONTH
+00024A C0100000011F            000488    (47/160)386+         LARL  ZC_R1,=CL4'Apr'
+000250 D202D06B1000     000543           (47/299)387+          MVC   HEADER_MONTH,0(ZC_R1)
+000256                                    (1/148)388 *                WHEN  5  MOVE 'May' TO HEADER-MONTH
+000256                                    (1/149)389 *ZC     50         WHEN  5
+000256 A7F40080                000356     (48/15)390+         J     PG_EVAL2_END
+00025A                                     (8/41)391+PG_EVAL2_WHEN5 DS  0H  &TYPE
+00025A C0100000012F            0004B8    (40/386)392+         LARL  ZC_R1,=C'05'
+000260 D501D05B1000     000533           (40/387)393+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000266 A774000A                00027A     (41/15)394+         BRC   ZC_NE,PG_EVAL2_WHEN6
+00026A                                    (1/151)395 *ZC     50         MOVE  'May',TO,HEADER_MONTH
+00026A C01000000111            00048C    (47/160)396+         LARL  ZC_R1,=CL4'May'
+000270 D202D06B1000     000543           (47/299)397+          MVC   HEADER_MONTH,0(ZC_R1)
+000276                                    (1/153)398 *                WHEN  6  MOVE 'Jun' TO HEADER-MONTH
+000276                                    (1/154)399 *ZC     51         WHEN  6
+000276 A7F40070                000356     (48/15)400+         J     PG_EVAL2_END
+00027A                                     (8/41)401+PG_EVAL2_WHEN6 DS  0H  &TYPE
+00027A C01000000120            0004BA    (40/386)402+         LARL  ZC_R1,=C'06'
+000280 D501D05B1000     000533           (40/387)403+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000286 A774000A                00029A     (41/15)404+         BRC   ZC_NE,PG_EVAL2_WHEN7
+00028A                                    (1/156)405 *ZC     51         MOVE  'Jun',TO,HEADER_MONTH
+00028A C01000000103            000490    (47/160)406+         LARL  ZC_R1,=CL4'Jun'
+000290 D202D06B1000     000543           (47/299)407+          MVC   HEADER_MONTH,0(ZC_R1)
+000296                                    (1/158)408 *                WHEN  7  MOVE 'Jul' TO HEADER-MONTH
+000296                                    (1/159)409 *ZC     52         WHEN  7
+000296 A7F40060                000356     (48/15)410+         J     PG_EVAL2_END
+00029A                                     (8/41)411+PG_EVAL2_WHEN7 DS  0H  &TYPE
+00029A C01000000111            0004BC    (40/386)412+         LARL  ZC_R1,=C'07'
+0002A0 D501D05B1000     000533           (40/387)413+         CLC   SYSTEM_MONTH,0(ZC_R1)
+0002A6 A774000A                0002BA     (41/15)414+         BRC   ZC_NE,PG_EVAL2_WHEN8
+0002AA                                    (1/161)415 *ZC     52         MOVE  'Jul',TO,HEADER_MONTH
+0002AA C010000000F5            000494    (47/160)416+         LARL  ZC_R1,=CL4'Jul'
+0002B0 D202D06B1000     000543           (47/299)417+          MVC   HEADER_MONTH,0(ZC_R1)
+0002B6                                    (1/163)418 *                WHEN  8  MOVE 'Aug' TO HEADER-MONTH
+0002B6                                    (1/164)419 *ZC     53         WHEN  8
+0002B6 A7F40050                000356     (48/15)420+         J     PG_EVAL2_END
+0002BA                                     (8/41)421+PG_EVAL2_WHEN8 DS  0H  &TYPE
+0002BA C01000000102            0004BE    (40/386)422+         LARL  ZC_R1,=C'08'
+0002C0 D501D05B1000     000533           (40/387)423+         CLC   SYSTEM_MONTH,0(ZC_R1)
+0002C6 A774000A                0002DA     (41/15)424+         BRC   ZC_NE,PG_EVAL2_WHEN9
+0002CA                                    (1/166)425 *ZC     53         MOVE  'Aug',TO,HEADER_MONTH
+0002CA C010000000E7            000498    (47/160)426+         LARL  ZC_R1,=CL4'Aug'
+0002D0 D202D06B1000     000543           (47/299)427+          MVC   HEADER_MONTH,0(ZC_R1)
+0002D6                                    (1/168)428 *                WHEN  9  MOVE 'Sep' TO HEADER-MONTH
+0002D6                                    (1/169)429 *ZC     54         WHEN  9
+0002D6 A7F40040                000356     (48/15)430+         J     PG_EVAL2_END
+0002DA                                     (8/41)431+PG_EVAL2_WHEN9 DS  0H  &TYPE
+0002DA C010000000F3            0004C0    (40/386)432+         LARL  ZC_R1,=C'09'
+0002E0 D501D05B1000     000533           (40/387)433+         CLC   SYSTEM_MONTH,0(ZC_R1)
+0002E6 A774000A                0002FA     (41/15)434+         BRC   ZC_NE,PG_EVAL2_WHEN10
+0002EA                                    (1/171)435 *ZC     54         MOVE  'Sep',TO,HEADER_MONTH
+0002EA C010000000D9            00049C    (47/160)436+         LARL  ZC_R1,=CL4'Sep'
+0002F0 D202D06B1000     000543           (47/299)437+          MVC   HEADER_MONTH,0(ZC_R1)
+0002F6                                    (1/173)438 *                WHEN 10  MOVE 'Oct' TO HEADER-MONTH
+0002F6                                    (1/174)439 *ZC     55         WHEN  10
+0002F6 A7F40030                000356     (48/15)440+         J     PG_EVAL2_END
+0002FA                                     (8/41)441+PG_EVAL2_WHEN10 DS 0H  &TYPE
+0002FA C010000000E4            0004C2    (40/386)442+         LARL  ZC_R1,=C'10'
+000300 D501D05B1000     000533           (40/387)443+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000306 A774000A                00031A     (41/15)444+         BRC   ZC_NE,PG_EVAL2_WHEN11
+00030A                                    (1/176)445 *ZC     55         MOVE  'Oct',TO,HEADER_MONTH
+00030A C010000000CB            0004A0    (47/160)446+         LARL  ZC_R1,=CL4'Oct'
+000310 D202D06B1000     000543           (47/299)447+          MVC   HEADER_MONTH,0(ZC_R1)
+000316                                    (1/178)448 *                WHEN 11  MOVE 'Nov' TO HEADER-MONTH
+000316                                    (1/179)449 *ZC     56         WHEN  11
+000316 A7F40020                000356     (48/15)450+         J     PG_EVAL2_END
+00031A                                     (8/41)451+PG_EVAL2_WHEN11 DS 0H  &TYPE
+00031A C010000000D5            0004C4    (40/386)452+         LARL  ZC_R1,=C'11'
+000320 D501D05B1000     000533           (40/387)453+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000326 A774000A                00033A     (41/15)454+         BRC   ZC_NE,PG_EVAL2_WHEN12
+00032A                                    (1/181)455 *ZC     56         MOVE  'Nov',TO,HEADER_MONTH
+00032A C010000000BD            0004A4    (47/160)456+         LARL  ZC_R1,=CL4'Nov'
+000330 D202D06B1000     000543           (47/299)457+          MVC   HEADER_MONTH,0(ZC_R1)
+000336                                    (1/183)458 *                WHEN 12  MOVE 'Dec' TO HEADER-MONTH
+000336                                    (1/184)459 *ZC     57         WHEN  12
+000336 A7F40010                000356     (48/15)460+         J     PG_EVAL2_END
+00033A                                     (8/41)461+PG_EVAL2_WHEN12 DS 0H  &TYPE
+00033A C010000000C6            0004C6    (40/386)462+         LARL  ZC_R1,=C'12'
+000340 D501D05B1000     000533           (40/387)463+         CLC   SYSTEM_MONTH,0(ZC_R1)
+000346 A7740008                000356     (41/15)464+         BRC   ZC_NE,PG_EVAL2_WHEN13
+00034A                                    (1/186)465 *ZC     57         MOVE  'Dec',TO,HEADER_MONTH
+00034A C010000000AF            0004A8    (47/160)466+         LARL  ZC_R1,=CL4'Dec'
+000350 D202D06B1000     000543           (47/299)467+          MVC   HEADER_MONTH,0(ZC_R1)
+000356                                    (1/188)468 *            END-EVALUATE.
+000356                                    (1/189)469 *ZC     58         END_EVALUATE
+000356                                     (8/41)470+PG_EVAL2_WHEN13 DS 0H  &TYPE
+000356                                     (8/41)471+PG_EVAL2_END DS    0H  &TYPE
+000356                                    (1/192)472 *            MOVE SYSTEM-DAY TO HEADER-DAY.
+000356                                    (1/193)473 *ZC     59         MOVE  SYSTEM_DAY,TO,HEADER_DAY
+000356 F27190A0D05D     0000A0 000535     (50/30)474+         PACK  ZCVT_PWORK(8),0+SYSTEM_DAY(2) PACK #1 NORMAL
+00035C C010000000B9            0004CE    (51/127)475+         LARL  ZC_R1,=AL1(C' ',X'20',X'21',X'20')
+000362 D20390F81000     0000F8           (51/128)476+         MVC   ZCVT_WORKAREA(4),0(ZC_R1) MOVE MASK FOR ED
+000368 DE0390F890A6     0000F8 0000A6    (51/143)477+         ED    ZCVT_WORKAREA(4),8-2+ZCVT_PWORK
+00036E D201D06F90FA     000547 0000FA    (51/185)478+         MVC   HEADER_DAY,ZCVT_WORKAREA+2
+000374                                    (1/196)479 *            IF SYSTEM-HOUR IS LESS THAN 12
+000374                                    (1/197)480 *ZC     60         IF    SYSTEM_HOUR,IS,LESS,THAN,12
+000374 C010000000A9            0004C6    (40/386)481+         LARL  ZC_R1,=C'12'
+00037A D501D05F1000     000537           (40/387)482+         CLC   SYSTEM_HOUR,0(ZC_R1)
+000380 A7B4000A                000394     (41/15)483+         BRC   15-ZC_L,PG_IF_1_1
+000384                                    (1/199)484 *               MOVE 'AM' TO HEADER-AM-PM
+000384                                    (1/200)485 *            ELSE
+000384                                    (1/201)486 *ZC     61         MOVE  'AM',TO,HEADER_AM_PM
+000384 C010000000A2            0004C8    (47/160)487+         LARL  ZC_R1,=CL2'AM'
+00038A D201D0781000     000550           (47/299)488+          MVC   HEADER_AM_PM,0(ZC_R1)
+000390                                    (1/203)489 *               MOVE 'PM' TO HEADER-AM-PM
+000390                                    (1/204)490 *ZC     63         ELSE
+000390 A7F4001E                0003CC     (48/15)491+         J     PG_IF_1_E
+000394                                     (8/41)492+PG_IF_1_1    DS    0H  &TYPE
+000394                                    (1/206)493 *ZC     63         MOVE  'PM',TO,HEADER_AM_PM
+000394 C0100000009B            0004CA    (47/160)494+         LARL  ZC_R1,=CL2'PM'
+00039A D201D0781000     000550           (47/299)495+          MVC   HEADER_AM_PM,0(ZC_R1)
+0003A0                                    (1/208)496 *               IF SYSTEM-HOUR IS NOT LESS THAN 13
+0003A0                                    (1/209)497 *ZC     64         IF    SYSTEM_HOUR,IS,NOT,LESS,THAN,13
+0003A0 C01000000096            0004CC    (40/386)498+         LARL  ZC_R1,=C'13'
+0003A6 D501D05F1000     000537           (40/387)499+         CLC   SYSTEM_HOUR,0(ZC_R1)
+0003AC A7440010                0003CC     (41/15)500+         BRC   15-ZC_GE,PG_IF_2_1
+0003B0                                    (1/211)501 *                  SUBTRACT 12 FROM SYSTEM-HOUR
+0003B0                                    (1/212)502 *               END-IF
+0003B0                                    (1/213)503 *ZC     65         SUBTRACT 12,FROM,SYSTEM_HOUR
+0003B0 F21190A8D05F     0000A8 000537     (50/30)504+         PACK  ZCVT_PWORK1(2),0+SYSTEM_HOUR(2) PACK #1 NORMAL
+0003B6 C0E00000007B            0004AC    (55/299)505+         LARL  ZC_R14,=PL4'12'
+0003BC FB1390A8E000     0000A8           (55/300)506+         SP    ZCVT_PWORK1(2),0(4,ZC_R14)
+0003C2 F311D05F90A8     000537 0000A8     (57/47)507+         UNPK  0+SYSTEM_HOUR(2),0+ZCVT_PWORK1(2) UNPK #1 NORMAL
+0003C8 96F0D060                000538     (57/50)508+         OI    2-1+SYSTEM_HOUR,X'F0'  RPI 1065
+0003CC                                    (1/215)509 *            END-IF.
+0003CC                                    (1/216)510 *ZC     67         END_IF
+0003CC                                     (8/41)511+PG_IF_2_1    DS    0H  &TYPE
+0003CC                                    (1/218)512 *ZC     67         END_IF
+0003CC                                     (8/41)513+PG_IF_1_E    DS    0H  &TYPE
+0003CC                                    (1/221)514 *            MOVE SYSTEM-HOUR TO HEADER-HOUR.
+0003CC                                    (1/222)515 *ZC     68         MOVE  SYSTEM_HOUR,TO,HEADER_HOUR
+0003CC F27190A0D05F     0000A0 000537     (50/30)516+         PACK  ZCVT_PWORK(8),0+SYSTEM_HOUR(2) PACK #1 NORMAL
+0003D2 C0100000007E            0004CE    (51/127)517+         LARL  ZC_R1,=AL1(C' ',X'20',X'21',X'20')
+0003D8 D20390F81000     0000F8           (51/128)518+         MVC   ZCVT_WORKAREA(4),0(ZC_R1) MOVE MASK FOR ED
+0003DE DE0390F890A6     0000F8 0000A6    (51/143)519+         ED    ZCVT_WORKAREA(4),8-2+ZCVT_PWORK
+0003E4 D201D07290FA     00054A 0000FA    (51/185)520+         MVC   HEADER_HOUR,ZCVT_WORKAREA+2
+0003EA                                    (1/225)521 *            MOVE SYSTEM-MINUTE TO HEADER-MINUTE.
+0003EA                                    (1/226)522 *ZC     69         MOVE  SYSTEM_MINUTE,TO,HEADER_MINUTE
+0003EA D201D075D061     00054D 000539    (47/105)523+         MVC   HEADER_MINUTE,2-2+SYSTEM_MINUTE ALN RIGHT 9ZP
+0003F0                                    (1/229)524 *            DISPLAY HEADER-LINE.
+0003F0                                    (1/230)525 *ZC     70         DISPLAY HEADER_LINE
+0003F0 413090F8                0000F8     (34/28)526+         LA    ZC_R3,ZCVT_WORKAREA  ZC_R3=CVT LIST WORK AREA
+0003F4 4100D067                00053F     (34/82)527+         LA    ZC_R0,HEADER_LINE
+0003F8 41100013                           (34/83)528+         LA    ZC_R1,19  RPI 1182 WAS &SYM_LEN(&FIELD_IX)
+0003FC 412000E7                           (34/88)529+         LA    ZC_R2,C'X'
+000400 90023000                           (34/90)530+         STM   ZC_R0,ZC_R2,0(ZC_R3)  SET DISPLAY LIST ENTRY
+000404 96803008                           (34/94)531+         OI    12-4(ZC_R3),X'80' SET VL BIT IN LAST WORD OF PARM LIST
+000408 1813                               (34/95)532+         LR    ZC_R1,ZC_R3
+00040A 58F09070                000070     (34/96)533+         L     ZC_R15,ZCVT_DISPLAY
+00040E 0DEF                               (34/97)534+         BASR  ZC_R14,ZC_R15
+000410                                    (1/233)535 *            DISPLAY 'DATATIME ENDED OK'
+000410                                    (1/234)536 *ZC     71         DISPLAY 'DATATIME ENDED OK'
+000410 A715000D                00042A     (18/49)537+         BRAS  1,*+(WTO#0452_EOT-*+1)/2*2
+000414 00150000C4C1E3C1                   (18/50)538+         DC    AL2(WTO#0452_EOT-*,0),C'DATATIME ENDED OK'
+00041C E3C9D4C540C5D5C4
+000424 C5C440D6D2
+000429                  00000429          (18/51)539+WTO#0452_EOT     EQU *
+00042A 0A23                               (18/52)540+         SVC   35
+00042C                                    (1/236)541 *            STOP RUN.
+00042C                                    (1/237)542 *ZC     72         STOP  RUN
+00042C 4810D0D4                0005AC     (60/18)543+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+000430 58F09030                000030     (60/23)544+         L     ZC_R15,ZCVT_GOBACK
+000434 07FF                               (60/24)545+         BR    ZC_R15
+000436 58F09040                000040      (8/64)546+PG_MAINLINE_END L ZC_R15,ZCVT_PMCHECK
+00043A 0DEF                                (8/65)547+         BASR  ZC_R14,ZC_R15 CHECK FOR END OF CURRENT PERFORM
+00043C                                    (8/108)548+SN_END_PROCEDURE DS 0H SECTION
+00043C                                    (61/18)549+*        PROCEDURE END
+00043C 4810D0D4                0005AC     (61/24)550+         LH    ZC_R1,RETURN_CODE
+000440 58F09030                000030     (61/25)551+         L     ZC_R15,ZCVT_GOBACK
+000444 0DEF                               (61/26)552+         BASR  ZC_R14,ZC_R15
+000446                                    (61/32)553+         LTORG 
+000448 0000000600000001 =A(ZCVT_ACCEPT_DOW,1)
+000450 0000000400000006 =A(ZCVT_ACCEPT_DATE,6)
+000458 0000000500000008 =A(ZCVT_ACCEPT_TIME,8)
+000460 D4969540         =CL4'Mon'
+000464 E3A48540         =CL4'Tue'
+000468 E6858440         =CL4'Wed'
+00046C E388A440         =CL4'Thu'
+000470 C6998940         =CL4'Fri'
+000474 E281A340         =CL4'Sat'
+000478 E2A49540         =CL4'Sun'
+00047C D1819540         =CL4'Jan'
+000480 C6858240         =CL4'Feb'
+000484 D4819940         =CL4'Mar'
+000488 C1979940         =CL4'Apr'
+00048C D481A840         =CL4'May'
+000490 D1A49540         =CL4'Jun'
+000494 D1A49340         =CL4'Jul'
+000498 C1A48740         =CL4'Aug'
+00049C E2859740         =CL4'Sep'
+0004A0 D683A340         =CL4'Oct'
+0004A4 D596A540         =CL4'Nov'
+0004A8 C4858340         =CL4'Dec'
+0004AC 0000012C         =PL4'12'
+0004B0 F0F1             =C'01'
+0004B2 F0F2             =C'02'
+0004B4 F0F3             =C'03'
+0004B6 F0F4             =C'04'
+0004B8 F0F5             =C'05'
+0004BA F0F6             =C'06'
+0004BC F0F7             =C'07'
+0004BE F0F8             =C'08'
+0004C0 F0F9             =C'09'
+0004C2 F1F0             =C'10'
+0004C4 F1F1             =C'11'
+0004C6 F1F2             =C'12'
+0004C8 C1D4             =CL2'AM'
+0004CA D7D4             =CL2'PM'
+0004CC F1F3             =C'13'
+0004CE 40202120         =AL1(C' ',X'20',X'21',X'20')
+0004D2                                     (6/15)554+*    ZCOBOL WORKING STORAGE SECTION DATA ITEMS 
+0004D2                                     (6/15)555+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC        VALUE 
+0004D2                                     (6/15)557+*    01  ZC_SAVEAREA                    00000000 00000048 1   X   X(72)       
+0004D2                                     (6/15)559+*    01  ZC_WS_ID                       00000048 00000008 1   X   X(8)       ''WS*WS*WS'' 
+0004D2                                     (6/15)561+*    01  ZC_WS_START                    00000050 00000004 1   A               
+0004D2                                     (6/15)563+*    01  ZC_WS_LEN                      00000054 00000004 1   F   9(9)        
+0004D2                                     (6/15)565+*    01  FILLER                         00000058 00000000 1   X               
+0004D2                                     (6/15)567+*    01  SYSTEM_WEEKDAY                 00000058 00000001 1   Z   9           
+0004D2                                     (6/15)569+*    01  SYSTEM_DATE                    00000059 00000006 1   X               
+0004D2                                     (6/15)571+*    02  SYSTEM_YEAR                    00000059 00000002 1   Z   99          
+0004D2                                     (6/15)573+*    02  SYSTEM_MONTH                   0000005B 00000002 1   Z   99          
+0004D2                                     (6/15)575+*    02  SYSTEM_DAY                     0000005D 00000002 1   Z   99          
+0004D2                                     (6/15)577+*    01  SYSTEM_TIME                    0000005F 00000008 1   X               
+0004D2                                     (6/15)579+*    02  SYSTEM_HOUR                    0000005F 00000002 1   Z   99          
+0004D2                                     (6/15)581+*    02  SYSTEM_MINUTE                  00000061 00000002 1   Z   99          
+0004D2                                     (6/15)583+*    02  SYSTEM_SECOND                  00000063 00000002 1   Z   99          
+0004D2                                     (6/15)585+*    02  SYSTEM_HUNDREDTH               00000065 00000002 1   Z   99          
+0004D2                                     (6/15)587+*    01  HEADER_LINE                    00000067 00000013 1   X               
+0004D2                                     (6/15)589+*    02  HEADER_WEEKDAY                 00000067 00000003 1   X   X(3)        
+0004D2                                     (6/15)591+*    02  FILLER                         0000006A 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)593+*    02  HEADER_MONTH                   0000006B 00000003 1   X   X(3)        
+0004D2                                     (6/15)595+*    02  FILLER                         0000006E 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)597+*    02  HEADER_DAY                     0000006F 00000002 1   X   Z9          
+0004D2                                     (6/15)599+*    02  FILLER                         00000071 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)601+*    02  HEADER_HOUR                    00000072 00000002 1   X   Z9          
+0004D2                                     (6/15)603+*    02  FILLER                         00000074 00000001 1   X   X          '':'' 
+0004D2                                     (6/15)605+*    02  HEADER_MINUTE                  00000075 00000002 1   Z   99          
+0004D2                                     (6/15)607+*    02  FILLER                         00000077 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)609+*    02  HEADER_AM_PM                   00000078 00000002 1   X   X(2)        
+0004D2                                     (6/15)611+*    01  DEBUG_ITEM                     0000007A 00000058 1   X               
+0004D2                                     (6/15)613+*    02  DEBUG_LINE                     0000007A 00000006 1   X   X(6)        
+0004D2                                     (6/15)615+*    02  FILLER                         00000080 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)617+*    02  DEBUG_NAME                     00000081 0000001E 1   X   X(30)       
+0004D2                                     (6/15)619+*    02  FILLER                         0000009F 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)621+*    02  DEBUG_SUB_1                    000000A0 00000004 1   Z   9999        
+0004D2                                     (6/15)623+*    02  FILLER                         000000A4 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)625+*    02  DEBUG_SUB_2                    000000A5 00000004 1   Z   9999        
+0004D2                                     (6/15)627+*    02  FILLER                         000000A9 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)629+*    02  DEBUG_SUB_3                    000000AA 00000004 1   Z   9999        
+0004D2                                     (6/15)631+*    02  FILLER                         000000AE 00000001 1   X   X          SPACE 
+0004D2                                     (6/15)633+*    02  DEBUG_CONTENTS                 000000AF 00000023 1   X   X(35)       
+0004D2                                     (6/15)635+*    01  TRUE                           000000D2 00000001 1   Z   9          1 
+0004D2                                     (6/15)637+*    01  FALSE                          000000D3 00000001 1   Z   9          0 
+0004D2                                     (6/15)639+*    01  RETURN_CODE                    000000D4 00000002 1   H   9(4)       0 
+0004D8                                    (63/39)641+ZC_WSLOC LOCTR 
+0004D8                  00000000         (63/131)642+ZC_WS_LOC_1  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004D8                                   (63/336)643+ZC_SAVEAREA DS CL72
+000520                  00000048         (63/131)644+ZC_WS_LOC_2  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000520 E6E25CE6E25CE6E2                  (63/220)645+ZC_WS_ID DC CL8'WS*WS*WS'
+000528                  00000050         (63/131)646+ZC_WS_LOC_3  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000528                                   (63/322)647+ZC_WS_START DS AL4
+00052C                  00000054         (63/131)648+ZC_WS_LOC_4  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00052C                                   (63/324)649+ZC_WS_LEN DS FL4
+000530                  00000058         (63/131)650+ZC_WS_LOC_5  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000530                                   (63/336)651+         DS  0CL0
+000530                  00000058         (63/131)652+ZC_WS_LOC_6  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000530                                   (63/338)653+SYSTEM_WEEKDAY DS ZL1
+000531                  00000059         (63/131)654+ZC_WS_LOC_7  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000531                                   (63/336)655+SYSTEM_DATE DS 0CL6
+000531                  00000059         (63/131)656+ZC_WS_LOC_8  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000531                                   (63/338)657+SYSTEM_YEAR DS ZL2
+000533                  0000005B         (63/131)658+ZC_WS_LOC_9  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000533                                   (63/338)659+SYSTEM_MONTH DS ZL2
+000535                  0000005D         (63/131)660+ZC_WS_LOC_10 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000535                                   (63/338)661+SYSTEM_DAY DS ZL2
+000537                  0000005F         (63/131)662+ZC_WS_LOC_11 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000537                                   (63/336)663+SYSTEM_TIME DS 0CL8
+000537                  0000005F         (63/131)664+ZC_WS_LOC_12 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000537                                   (63/338)665+SYSTEM_HOUR DS ZL2
+000539                  00000061         (63/131)666+ZC_WS_LOC_13 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000539                                   (63/338)667+SYSTEM_MINUTE DS ZL2
+00053B                  00000063         (63/131)668+ZC_WS_LOC_14 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00053B                                   (63/338)669+SYSTEM_SECOND DS ZL2
+00053D                  00000065         (63/131)670+ZC_WS_LOC_15 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00053D                                   (63/338)671+SYSTEM_HUNDREDTH DS ZL2
+00053F                  00000067         (63/131)672+ZC_WS_LOC_16 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00053F                                   (63/336)673+HEADER_LINE DS 0CL19
+00053F                  00000067         (63/131)674+ZC_WS_LOC_17 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00053F                                   (63/336)675+HEADER_WEEKDAY DS CL3
+000542                  0000006A         (63/131)676+ZC_WS_LOC_18 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000542 40                                (63/227)677+         DC CL1' '
+000543                  0000006B         (63/131)678+ZC_WS_LOC_19 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000543                                   (63/336)679+HEADER_MONTH DS CL3
+000546                  0000006E         (63/131)680+ZC_WS_LOC_20 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000546 40                                (63/227)681+         DC CL1' '
+000547                  0000006F         (63/131)682+ZC_WS_LOC_21 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000547                                   (63/336)683+HEADER_DAY DS CL2
+000549                  00000071         (63/131)684+ZC_WS_LOC_22 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000549 40                                (63/227)685+         DC CL1' '
+00054A                  00000072         (63/131)686+ZC_WS_LOC_23 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00054A                                   (63/336)687+HEADER_HOUR DS CL2
+00054C                  00000074         (63/131)688+ZC_WS_LOC_24 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00054C 7A                                (63/220)689+         DC CL1':'
+00054D                  00000075         (63/131)690+ZC_WS_LOC_25 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00054D                                   (63/338)691+HEADER_MINUTE DS ZL2
+00054F                  00000077         (63/131)692+ZC_WS_LOC_26 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00054F 40                                (63/227)693+         DC CL1' '
+000550                  00000078         (63/131)694+ZC_WS_LOC_27 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000550                                   (63/336)695+HEADER_AM_PM DS CL2
+000552                  0000007A         (63/131)696+ZC_WS_LOC_28 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000552                                   (63/336)697+DEBUG_ITEM DS 0CL88
+000552                  0000007A         (63/131)698+ZC_WS_LOC_29 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000552                                   (63/336)699+DEBUG_LINE DS CL6
+000558                  00000080         (63/131)700+ZC_WS_LOC_30 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000558 40                                (63/227)701+         DC CL1' '
+000559                  00000081         (63/131)702+ZC_WS_LOC_31 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000559                                   (63/336)703+DEBUG_NAME DS CL30
+000577                  0000009F         (63/131)704+ZC_WS_LOC_32 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000577 40                                (63/227)705+         DC CL1' '
+000578                  000000A0         (63/131)706+ZC_WS_LOC_33 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000578                                   (63/338)707+DEBUG_SUB_1 DS ZL4
+00057C                  000000A4         (63/131)708+ZC_WS_LOC_34 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00057C 40                                (63/227)709+         DC CL1' '
+00057D                  000000A5         (63/131)710+ZC_WS_LOC_35 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00057D                                   (63/338)711+DEBUG_SUB_2 DS ZL4
+000581                  000000A9         (63/131)712+ZC_WS_LOC_36 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000581 40                                (63/227)713+         DC CL1' '
+000582                  000000AA         (63/131)714+ZC_WS_LOC_37 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000582                                   (63/338)715+DEBUG_SUB_3 DS ZL4
+000586                  000000AE         (63/131)716+ZC_WS_LOC_38 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000586 40                                (63/227)717+         DC CL1' '
+000587                  000000AF         (63/131)718+ZC_WS_LOC_39 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000587                                   (63/336)719+DEBUG_CONTENTS DS CL35
+0005AA                  000000D2         (63/131)720+ZC_WS_LOC_40 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0005AA F1                                (63/251)721+TRUE     DC CL1'1'
+0005AB                  000000D3         (63/131)722+ZC_WS_LOC_41 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0005AB F0                                (63/251)723+FALSE    DC CL1'0'
+0005AC                  000000D4         (63/131)724+ZC_WS_LOC_42 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0005AC 0000                              (63/199)725+RETURN_CODE DC AL2(0)                  RPI 1065
+0005AE                                     (6/15)726+*    ZCOBOL LINKAGE SECTION DATA ITEMS 
+0005AE                                     (6/15)727+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC        VALUE 
+0005AE                                    (63/39)729+ZC_WSLOC LOCTR 
+0005AE                                    (61/58)730+ZC_WSLOC LOCTR 
+0005AE                  00000000          (61/60)731+ZC_WS_DIFF EQU  *-ZC_WS-214  DIFF BETWEEN ALLOC AND CALC WS
+0005B0                                    (61/65)732+ZC_WS_END DS   0D
+0005B0                                    (64/14)733+         MNOTE *,'ZCOBOL TOTAL SYMBOLS                 = 42'
+0005B0                                    (64/15)734+         MNOTE *,'ZCOBOL TOTAL SYMBOL DUPLICATES       = 0'
+0005B0                                    (64/16)735+         MNOTE *,'ZCOBOL TOTAL SYMBOL MAX DUP CHAIN    = 0'
+0005B0                                    (64/17)736+         MNOTE *,'ZCOBOL TOTAL SYMBOL LEVEL 88         = 0'
+0005B0                                    (64/18)737+         MNOTE *,'ZCOBOL TOTAL SYMBOL SET INDEXES      = 0'
+0005B0                                    (64/19)738+         MNOTE *,'ZCOBOL TOTAL SYMBOL LINKAGE SECTIONS = 0'
+0005B0                                    (64/20)739+         MNOTE *,'ZCOBOL TOTAL PROCEDURE SECTIONS      = 0'
+0005B0                                    (64/21)740+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPHS    = 1'
+0005B0                                    (64/22)741+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPH DUP = 0'
+0005B0                                    (1/241)742          END 
+
+Symbol Table Listing
+
+ SYM=DEBUG_CONTENTS LOC=00000587 LEN=00000023 ESD=0001 TYPE=REL  XREF=719 
+ SYM=DEBUG_ITEM LOC=00000552 LEN=00000058 ESD=0001 TYPE=REL  XREF=697 
+ SYM=DEBUG_LINE LOC=00000552 LEN=00000006 ESD=0001 TYPE=REL  XREF=699 
+ SYM=DEBUG_NAME LOC=00000559 LEN=0000001E ESD=0001 TYPE=REL  XREF=703 
+ SYM=DEBUG_SUB_1 LOC=00000578 LEN=00000004 ESD=0001 TYPE=REL  XREF=707 
+ SYM=DEBUG_SUB_2 LOC=0000057D LEN=00000004 ESD=0001 TYPE=REL  XREF=711 
+ SYM=DEBUG_SUB_3 LOC=00000582 LEN=00000004 ESD=0001 TYPE=REL  XREF=715 
+ SYM=FALSE    LOC=000005AB LEN=00000001 ESD=0001 TYPE=REL  XREF=723 
+ SYM=FORMAT_DATE_EXAMPLE LOC=00000000 LEN=000005B0 ESD=0001 TYPE=CST  XREF=8 252 
+ SYM=HEADER_AM_PM LOC=00000550 LEN=00000002 ESD=0001 TYPE=REL  XREF=695 488 495 
+ SYM=HEADER_DAY LOC=00000547 LEN=00000002 ESD=0001 TYPE=REL  XREF=683 478 
+ SYM=HEADER_HOUR LOC=0000054A LEN=00000002 ESD=0001 TYPE=REL  XREF=687 520 
+ SYM=HEADER_LINE LOC=0000053F LEN=00000013 ESD=0001 TYPE=REL  XREF=673 527 
+ SYM=HEADER_MINUTE LOC=0000054D LEN=00000002 ESD=0001 TYPE=REL  XREF=691 523 
+ SYM=HEADER_MONTH LOC=00000543 LEN=00000003 ESD=0001 TYPE=REL  XREF=679 357 367 377 
+  387 397 407 417 427 437 447 457 467 
+ SYM=HEADER_WEEKDAY LOC=0000053F LEN=00000003 ESD=0001 TYPE=REL  XREF=675 288 297 
+  306 315 324 333 342 
+ SYM=PFPO_RADIX LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=113 
+ SYM=PFPO_RND LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=114 
+ SYM=PFPO_TEST LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=112 
+ SYM=PFPO_TYPE_DB LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=119 
+ SYM=PFPO_TYPE_DD LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=122 
+ SYM=PFPO_TYPE_DH LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=116 
+ SYM=PFPO_TYPE_EB LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=118 
+ SYM=PFPO_TYPE_ED LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=121 
+ SYM=PFPO_TYPE_EH LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=115 
+ SYM=PFPO_TYPE_LB LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=120 
+ SYM=PFPO_TYPE_LD LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=123 
+ SYM=PFPO_TYPE_LH LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=117 
+ SYM=PG_EVAL1_END LOC=000001DA LEN=00000002 ESD=0001 TYPE=REL  XREF=346 291 300 309 
+  318 327 336 
+ SYM=PG_EVAL1_WHEN1 LOC=00000136 LEN=00000002 ESD=0001 TYPE=REL  XREF=283 
+ SYM=PG_EVAL1_WHEN2 LOC=0000014E LEN=00000002 ESD=0001 TYPE=REL  XREF=292 285 
+ SYM=PG_EVAL1_WHEN3 LOC=00000166 LEN=00000002 ESD=0001 TYPE=REL  XREF=301 294 
+ SYM=PG_EVAL1_WHEN4 LOC=0000017E LEN=00000002 ESD=0001 TYPE=REL  XREF=310 303 
+ SYM=PG_EVAL1_WHEN5 LOC=00000196 LEN=00000002 ESD=0001 TYPE=REL  XREF=319 312 
+ SYM=PG_EVAL1_WHEN6 LOC=000001AE LEN=00000002 ESD=0001 TYPE=REL  XREF=328 321 
+ SYM=PG_EVAL1_WHEN7 LOC=000001C6 LEN=00000002 ESD=0001 TYPE=REL  XREF=337 330 
+ SYM=PG_EVAL1_WHEN8 LOC=000001DA LEN=00000002 ESD=0001 TYPE=REL  XREF=345 339 
+ SYM=PG_EVAL2_END LOC=00000356 LEN=00000002 ESD=0001 TYPE=REL  XREF=471 360 370 380 
+  390 400 410 420 430 440 450 460 
+ SYM=PG_EVAL2_WHEN10 LOC=000002FA LEN=00000002 ESD=0001 TYPE=REL  XREF=441 434 
+ SYM=PG_EVAL2_WHEN1 LOC=000001DA LEN=00000002 ESD=0001 TYPE=REL  XREF=351 
+ SYM=PG_EVAL2_WHEN11 LOC=0000031A LEN=00000002 ESD=0001 TYPE=REL  XREF=451 444 
+ SYM=PG_EVAL2_WHEN12 LOC=0000033A LEN=00000002 ESD=0001 TYPE=REL  XREF=461 454 
+ SYM=PG_EVAL2_WHEN13 LOC=00000356 LEN=00000002 ESD=0001 TYPE=REL  XREF=470 464 
+ SYM=PG_EVAL2_WHEN2 LOC=000001FA LEN=00000002 ESD=0001 TYPE=REL  XREF=361 354 
+ SYM=PG_EVAL2_WHEN3 LOC=0000021A LEN=00000002 ESD=0001 TYPE=REL  XREF=371 364 
+ SYM=PG_EVAL2_WHEN4 LOC=0000023A LEN=00000002 ESD=0001 TYPE=REL  XREF=381 374 
+ SYM=PG_EVAL2_WHEN5 LOC=0000025A LEN=00000002 ESD=0001 TYPE=REL  XREF=391 384 
+ SYM=PG_EVAL2_WHEN6 LOC=0000027A LEN=00000002 ESD=0001 TYPE=REL  XREF=401 394 
+ SYM=PG_EVAL2_WHEN7 LOC=0000029A LEN=00000002 ESD=0001 TYPE=REL  XREF=411 404 
+ SYM=PG_EVAL2_WHEN8 LOC=000002BA LEN=00000002 ESD=0001 TYPE=REL  XREF=421 414 
+ SYM=PG_EVAL2_WHEN9 LOC=000002DA LEN=00000002 ESD=0001 TYPE=REL  XREF=431 424 
+ SYM=PG_IF_1_1 LOC=00000394 LEN=00000002 ESD=0001 TYPE=REL  XREF=492 483 
+ SYM=PG_IF_1_E LOC=000003CC LEN=00000002 ESD=0001 TYPE=REL  XREF=513 491 
+ SYM=PG_IF_2_1 LOC=000003CC LEN=00000002 ESD=0001 TYPE=REL  XREF=511 500 
+ SYM=PG_MAINLINE LOC=000000EC LEN=00000002 ESD=0001 TYPE=REL  XREF=254 
+ SYM=PG_MAINLINE_END LOC=00000436 LEN=00000004 ESD=0001 TYPE=REL  XREF=546 
+ SYM=PVTCICS  LOC=00000020 LEN=00000001 ESD=0004 TYPE=REL  XREF=214 
+ SYM=PVTDATE  LOC=00000008 LEN=00000008 ESD=0004 TYPE=REL  XREF=211 
+ SYM=PVTEXTND LOC=00000021 LEN=00000001 ESD=0004 TYPE=REL  XREF=215 
+ SYM=PVTMAXDL LOC=00000024 LEN=00000002 ESD=0004 TYPE=REL  XREF=218 
+ SYM=PVTPGM   LOC=00000000 LEN=00000008 ESD=0004 TYPE=REL  XREF=210 
+ SYM=PVTR64   LOC=00000023 LEN=00000001 ESD=0004 TYPE=REL  XREF=217 
+ SYM=PVTTIME  LOC=00000010 LEN=00000008 ESD=0004 TYPE=REL  XREF=212 
+ SYM=PVTTRUNC LOC=00000022 LEN=00000001 ESD=0004 TYPE=REL  XREF=216 
+ SYM=PVTVER   LOC=00000018 LEN=00000008 ESD=0004 TYPE=REL  XREF=213 
+ SYM=RETURN_CODE LOC=000005AC LEN=00000002 ESD=0001 TYPE=REL  XREF=725 543 550 
+ SYM=SN_END_PROCEDURE LOC=0000043C LEN=00000002 ESD=0001 TYPE=REL  XREF=548 
+ SYM=SYSTEM_DATE LOC=00000531 LEN=00000006 ESD=0001 TYPE=REL  XREF=655 269 
+ SYM=SYSTEM_DAY LOC=00000535 LEN=00000002 ESD=0001 TYPE=REL  XREF=661 474 
+ SYM=SYSTEM_HOUR LOC=00000537 LEN=00000002 ESD=0001 TYPE=REL  XREF=665 482 499 504 
+  507 508 516 
+ SYM=SYSTEM_HUNDREDTH LOC=0000053D LEN=00000002 ESD=0001 TYPE=REL  XREF=671 
+ SYM=SYSTEM_MINUTE LOC=00000539 LEN=00000002 ESD=0001 TYPE=REL  XREF=667 523 
+ SYM=SYSTEM_MONTH LOC=00000533 LEN=00000002 ESD=0001 TYPE=REL  XREF=659 353 363 373 
+  383 393 403 413 423 433 443 453 463 
+ SYM=SYSTEM_SECOND LOC=0000053B LEN=00000002 ESD=0001 TYPE=REL  XREF=669 
+ SYM=SYSTEM_TIME LOC=00000537 LEN=00000008 ESD=0001 TYPE=REL  XREF=663 275 
+ SYM=SYSTEM_WEEKDAY LOC=00000530 LEN=00000001 ESD=0001 TYPE=REL  XREF=653 263 284 
+  293 302 311 320 329 338 
+ SYM=SYSTEM_YEAR LOC=00000531 LEN=00000002 ESD=0001 TYPE=REL  XREF=657 
+ SYM=TRUE     LOC=000005AA LEN=00000001 ESD=0001 TYPE=REL  XREF=721 
+ SYM=WTO#0011_EOT LOC=00000060 LEN=00000001 ESD=0001 TYPE=REL  XREF=36 34 35 
+ SYM=WTO#0012_EOT LOC=000000AA LEN=00000001 ESD=0001 TYPE=REL  XREF=53 51 52 
+ SYM=WTO#0135_EOT LOC=00000104 LEN=00000001 ESD=0001 TYPE=REL  XREF=259 257 258 
+ SYM=WTO#0452_EOT LOC=00000429 LEN=00000001 ESD=0001 TYPE=REL  XREF=539 537 538 
+ SYM=ZC390CVT LOC=00000000 LEN=000001F8 ESD=0003 TYPE=DST  XREF=138 42 
+ SYM=ZC390PVT LOC=00000000 LEN=00000030 ESD=0004 TYPE=DST  XREF=209 
+ SYM=ZCVT_ABORT LOC=00000068 LEN=00000004 ESD=0003 TYPE=REL  XREF=167 
+ SYM=ZCVT_ABORT_ACCEPT LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=177 
+ SYM=ZCVT_ABORT_ALTER LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=168 
+ SYM=ZCVT_ABORT_CALL LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=169 
+ SYM=ZCVT_ABORT_CICS LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=176 
+ SYM=ZCVT_ABORT_DISPLAY LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=170 
+ SYM=ZCVT_ABORT_DIVQ LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=175 
+ SYM=ZCVT_ABORT_INT128 LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=174 
+ SYM=ZCVT_ABORT_MAXERR LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=178 
+ SYM=ZCVT_ABORT_OPEN LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=171 
+ SYM=ZCVT_ABORT_STACK LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=172 
+ SYM=ZCVT_ABORT_VERSION LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=173 
+ SYM=ZCVT_ACCEPT LOC=0000006C LEN=00000004 ESD=0003 TYPE=REL  XREF=179 265 271 277 
+ SYM=ZCVT_ACCEPT_CONSOLE LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=181 
+ SYM=ZCVT_ACCEPT_DATE LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=183 270 553 
+ SYM=ZCVT_ACCEPT_DDNAME LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=182 
+ SYM=ZCVT_ACCEPT_DEFAULT LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=180 
+ SYM=ZCVT_ACCEPT_DOW LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=185 264 553 
+ SYM=ZCVT_ACCEPT_TIME LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=184 276 553 
+ SYM=ZCVT_CALL LOC=00000014 LEN=00000004 ESD=0003 TYPE=REL  XREF=143 
+ SYM=ZCVT_CMP64R32 LOC=00000018 LEN=00000004 ESD=0003 TYPE=REL  XREF=144 
+ SYM=ZCVT_CONVERTING LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=190 
+ SYM=ZCVT_CVTLBTQ LOC=0000001C LEN=00000004 ESD=0003 TYPE=REL  XREF=145 
+ SYM=ZCVT_CVTLDTP LOC=00000020 LEN=00000004 ESD=0003 TYPE=REL  XREF=146 
+ SYM=ZCVT_CVTQTLB LOC=00000024 LEN=00000004 ESD=0003 TYPE=REL  XREF=147 
+ SYM=ZCVT_DISPLAY LOC=00000070 LEN=00000004 ESD=0003 TYPE=REL  XREF=186 533 
+ SYM=ZCVT_DIV64R32 LOC=00000028 LEN=00000004 ESD=0003 TYPE=REL  XREF=148 
+ SYM=ZCVT_DIVQ128 LOC=0000002C LEN=00000004 ESD=0003 TYPE=REL  XREF=149 
+ SYM=ZCVT_END LOC=000001F8 LEN=00000001 ESD=0003 TYPE=REL  XREF=208 45 57 140 
+ SYM=ZCVT_GOBACK LOC=00000030 LEN=00000004 ESD=0003 TYPE=REL  XREF=150 544 551 
+ SYM=ZCVT_HIGH_VALUES LOC=00000090 LEN=00000010 ESD=0003 TYPE=REL  XREF=197 
+ SYM=ZCVT_ID  LOC=00000000 LEN=00000004 ESD=0003 TYPE=REL  XREF=139 43 45 57 140 
+ SYM=ZCVT_INSPECT LOC=00000074 LEN=00000004 ESD=0003 TYPE=REL  XREF=187 
+ SYM=ZCVT_LEN LOC=00000004 LEN=00000004 ESD=0003 TYPE=REL  XREF=140 45 
+ SYM=ZCVT_MPYQ128 LOC=00000034 LEN=00000004 ESD=0003 TYPE=REL  XREF=151 
+ SYM=ZCVT_NDDX LOC=000000E8 LEN=00000010 ESD=0003 TYPE=REL  XREF=203 
+ SYM=ZCVT_OSE64R32 LOC=00000038 LEN=00000004 ESD=0003 TYPE=REL  XREF=152 
+ SYM=ZCVT_PERFORM LOC=0000003C LEN=00000004 ESD=0003 TYPE=REL  XREF=153 
+ SYM=ZCVT_PMCHECK LOC=00000040 LEN=00000004 ESD=0003 TYPE=REL  XREF=154 546 
+ SYM=ZCVT_PVTMAXDL LOC=00000078 LEN=00000002 ESD=0003 TYPE=REL  XREF=194 
+ SYM=ZCVT_PWORK LOC=000000A0 LEN=00000008 ESD=0003 TYPE=REL  XREF=198 474 477 516 
+  519 
+ SYM=ZCVT_PWORK1 LOC=000000A8 LEN=00000010 ESD=0003 TYPE=REL  XREF=199 504 506 507 
+ SYM=ZCVT_PWORK2 LOC=000000B8 LEN=00000010 ESD=0003 TYPE=REL  XREF=200 
+ SYM=ZCVT_PWORK3 LOC=000000C8 LEN=00000010 ESD=0003 TYPE=REL  XREF=201 
+ SYM=ZCVT_PWORK4 LOC=000000D8 LEN=00000010 ESD=0003 TYPE=REL  XREF=202 
+ SYM=ZCVT_REPLACING LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=189 
+ SYM=ZCVT_ROUNDF LOC=00000044 LEN=00000004 ESD=0003 TYPE=REL  XREF=155 
+ SYM=ZCVT_STACKEND LOC=00000050 LEN=00000004 ESD=0003 TYPE=REL  XREF=158 
+ SYM=ZCVT_STACKORG LOC=00000048 LEN=00000004 ESD=0003 TYPE=REL  XREF=156 
+ SYM=ZCVT_STACKPTR LOC=0000004C LEN=00000004 ESD=0003 TYPE=REL  XREF=157 
+ SYM=ZCVT_STOPRUN LOC=00000054 LEN=00000004 ESD=0003 TYPE=REL  XREF=159 
+ SYM=ZCVT_TALLYING LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=188 
+ SYM=ZCVT_TALPHAX LOC=00000058 LEN=00000004 ESD=0003 TYPE=REL  XREF=160 
+ SYM=ZCVT_TNUMP LOC=0000005C LEN=00000004 ESD=0003 TYPE=REL  XREF=161 
+ SYM=ZCVT_TNUMX LOC=00000060 LEN=00000004 ESD=0003 TYPE=REL  XREF=162 
+ SYM=ZCVT_TNUMZ LOC=00000064 LEN=00000004 ESD=0003 TYPE=REL  XREF=163 
+ SYM=ZCVT_VER LOC=00000008 LEN=00000008 ESD=0003 TYPE=REL  XREF=141 
+ SYM=ZCVT_WORKAREA LOC=000000F8 LEN=00000100 ESD=0003 TYPE=REL  XREF=204 476 477 
+  478 518 519 520 526 
+ SYM=ZCVT_ZC390NUC LOC=00000010 LEN=00000004 ESD=0003 TYPE=REL  XREF=142 47 
+ SYM=ZCVT_ZERO LOC=00000080 LEN=00000010 ESD=0003 TYPE=REL  XREF=196 
+ SYM=ZC_E     LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=94 
+ SYM=ZC_EQ    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=106 
+ SYM=ZC_F0    LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=76 
+ SYM=ZC_F10   LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=86 
+ SYM=ZC_F1    LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=77 
+ SYM=ZC_F11   LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=87 
+ SYM=ZC_F12   LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=88 
+ SYM=ZC_F13   LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=89 
+ SYM=ZC_F14   LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=90 
+ SYM=ZC_F15   LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=91 
+ SYM=ZC_F2    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=78 
+ SYM=ZC_F3    LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=79 
+ SYM=ZC_F4    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=80 
+ SYM=ZC_F5    LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=81 
+ SYM=ZC_F6    LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=82 
+ SYM=ZC_F7    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=83 
+ SYM=ZC_F8    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=84 
+ SYM=ZC_F9    LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=85 
+ SYM=ZC_GE    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=109 500 
+ SYM=ZC_GT    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=107 
+ SYM=ZC_H     LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=92 
+ SYM=ZC_L     LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=93 483 
+ SYM=ZC_LE    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=110 
+ SYM=ZC_LOAD  LOC=00000038 LEN=00000002 ESD=0001 TYPE=REL  XREF=28 13 
+ SYM=ZC_LOAD_OK LOC=00000068 LEN=00000002 ESD=0001 TYPE=REL  XREF=40 33 
+ SYM=ZC_LT    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=108 
+ SYM=ZC_M     LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=100 
+ SYM=ZC_NE    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=97 285 294 303 312 
+  321 330 339 354 364 374 384 394 404 414 424 434 444 454 464 
+ SYM=ZC_NH    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=95 
+ SYM=ZC_NL    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=96 
+ SYM=ZC_NM    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=103 
+ SYM=ZC_NO    LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=105 
+ SYM=ZC_NP    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=102 
+ SYM=ZC_NZ    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=104 
+ SYM=ZC_O     LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=98 
+ SYM=ZC_P     LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=99 
+ SYM=ZC_R0    LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=60 41 132 133 134 
+  527 530 
+ SYM=ZC_R10   LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=70 
+ SYM=ZC_R1    LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=61 126 127 128 129 
+  264 270 276 287 288 296 297 305 306 314 315 323 324 332 333 341 342 352 353 356 
+  357 362 363 366 367 372 373 376 377 382 383 386 387 392 393 396 397 402 403 406 
+  407 412 413 416 417 422 423 426 427 432 433 436 437 442 443 446 447 452 453 456 
+  457 462 463 466 467 475 476 481 482 487 488 494 495 498 499 517 518 528 532 543 
+  550 
+ SYM=ZC_R11   LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=71 
+ SYM=ZC_R12   LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=72 
+ SYM=ZC_R13   LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=73 125 127 128 129 
+  130 131 133 
+ SYM=ZC_R14   LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=74 48 266 272 278 
+  505 506 534 547 552 
+ SYM=ZC_R15   LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=75 10 32 38 47 48 
+  55 135 265 266 271 272 277 278 533 534 544 545 546 547 551 552 
+ SYM=ZC_R2    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=62 125 263 269 275 
+  529 530 
+ SYM=ZC_R3    LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=63 526 530 531 532 
+ SYM=ZC_R4    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=64 
+ SYM=ZC_R5    LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=65 
+ SYM=ZC_R6    LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=66 
+ SYM=ZC_R7    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=67 
+ SYM=ZC_R8    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=68 13 14 
+ SYM=ZC_R9    LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=69 41 42 
+ SYM=ZC_SAVEAREA LOC=000004D8 LEN=00000048 ESD=0001 TYPE=REL  XREF=643 
+ SYM=ZC_VER_ERR LOC=00000088 LEN=00000002 ESD=0001 TYPE=REL  XREF=50 44 46 
+ SYM=ZC_VER_OK LOC=000000C8 LEN=00000002 ESD=0001 TYPE=REL  XREF=124 49 
+ SYM=ZC_WS    LOC=000004D8 LEN=00000008 ESD=0001 TYPE=REL  XREF=137 126 130 642 644 
+  646 648 650 652 654 656 658 660 662 664 666 668 670 672 674 676 678 680 682 684 
+  686 688 690 692 694 696 698 700 702 704 706 708 710 712 714 716 718 720 722 724 
+  731 
+ SYM=ZC_WSLOC LOC=000004D2 LEN=000000DE ESD=0001 TYPE=CST  XREF=136 220 641 729 730 
+ SYM=ZC_WS_DIFF LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=731 
+ SYM=ZC_WS_END LOC=000005B0 LEN=00000008 ESD=0001 TYPE=REL  XREF=732 132 
+ SYM=ZC_WS_ID LOC=00000520 LEN=00000008 ESD=0001 TYPE=REL  XREF=645 
+ SYM=ZC_WS_LEN LOC=0000052C LEN=00000004 ESD=0001 TYPE=REL  XREF=649 134 
+ SYM=ZC_WS_LOC_10 LOC=0000005D LEN=00000001 ESD=0000 TYPE=ABS  XREF=660 
+ SYM=ZC_WS_LOC_1 LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=642 
+ SYM=ZC_WS_LOC_11 LOC=0000005F LEN=00000001 ESD=0000 TYPE=ABS  XREF=662 
+ SYM=ZC_WS_LOC_12 LOC=0000005F LEN=00000001 ESD=0000 TYPE=ABS  XREF=664 
+ SYM=ZC_WS_LOC_13 LOC=00000061 LEN=00000001 ESD=0000 TYPE=ABS  XREF=666 
+ SYM=ZC_WS_LOC_14 LOC=00000063 LEN=00000001 ESD=0000 TYPE=ABS  XREF=668 
+ SYM=ZC_WS_LOC_15 LOC=00000065 LEN=00000001 ESD=0000 TYPE=ABS  XREF=670 
+ SYM=ZC_WS_LOC_16 LOC=00000067 LEN=00000001 ESD=0000 TYPE=ABS  XREF=672 
+ SYM=ZC_WS_LOC_17 LOC=00000067 LEN=00000001 ESD=0000 TYPE=ABS  XREF=674 
+ SYM=ZC_WS_LOC_18 LOC=0000006A LEN=00000001 ESD=0000 TYPE=ABS  XREF=676 
+ SYM=ZC_WS_LOC_19 LOC=0000006B LEN=00000001 ESD=0000 TYPE=ABS  XREF=678 
+ SYM=ZC_WS_LOC_20 LOC=0000006E LEN=00000001 ESD=0000 TYPE=ABS  XREF=680 
+ SYM=ZC_WS_LOC_2 LOC=00000048 LEN=00000001 ESD=0000 TYPE=ABS  XREF=644 
+ SYM=ZC_WS_LOC_21 LOC=0000006F LEN=00000001 ESD=0000 TYPE=ABS  XREF=682 
+ SYM=ZC_WS_LOC_22 LOC=00000071 LEN=00000001 ESD=0000 TYPE=ABS  XREF=684 
+ SYM=ZC_WS_LOC_23 LOC=00000072 LEN=00000001 ESD=0000 TYPE=ABS  XREF=686 
+ SYM=ZC_WS_LOC_24 LOC=00000074 LEN=00000001 ESD=0000 TYPE=ABS  XREF=688 
+ SYM=ZC_WS_LOC_25 LOC=00000075 LEN=00000001 ESD=0000 TYPE=ABS  XREF=690 
+ SYM=ZC_WS_LOC_26 LOC=00000077 LEN=00000001 ESD=0000 TYPE=ABS  XREF=692 
+ SYM=ZC_WS_LOC_27 LOC=00000078 LEN=00000001 ESD=0000 TYPE=ABS  XREF=694 
+ SYM=ZC_WS_LOC_28 LOC=0000007A LEN=00000001 ESD=0000 TYPE=ABS  XREF=696 
+ SYM=ZC_WS_LOC_29 LOC=0000007A LEN=00000001 ESD=0000 TYPE=ABS  XREF=698 
+ SYM=ZC_WS_LOC_30 LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=700 
+ SYM=ZC_WS_LOC_3 LOC=00000050 LEN=00000001 ESD=0000 TYPE=ABS  XREF=646 
+ SYM=ZC_WS_LOC_31 LOC=00000081 LEN=00000001 ESD=0000 TYPE=ABS  XREF=702 
+ SYM=ZC_WS_LOC_32 LOC=0000009F LEN=00000001 ESD=0000 TYPE=ABS  XREF=704 
+ SYM=ZC_WS_LOC_33 LOC=000000A0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=706 
+ SYM=ZC_WS_LOC_34 LOC=000000A4 LEN=00000001 ESD=0000 TYPE=ABS  XREF=708 
+ SYM=ZC_WS_LOC_35 LOC=000000A5 LEN=00000001 ESD=0000 TYPE=ABS  XREF=710 
+ SYM=ZC_WS_LOC_36 LOC=000000A9 LEN=00000001 ESD=0000 TYPE=ABS  XREF=712 
+ SYM=ZC_WS_LOC_37 LOC=000000AA LEN=00000001 ESD=0000 TYPE=ABS  XREF=714 
+ SYM=ZC_WS_LOC_38 LOC=000000AE LEN=00000001 ESD=0000 TYPE=ABS  XREF=716 
+ SYM=ZC_WS_LOC_39 LOC=000000AF LEN=00000001 ESD=0000 TYPE=ABS  XREF=718 
+ SYM=ZC_WS_LOC_40 LOC=000000D2 LEN=00000001 ESD=0000 TYPE=ABS  XREF=720 
+ SYM=ZC_WS_LOC_4 LOC=00000054 LEN=00000001 ESD=0000 TYPE=ABS  XREF=648 
+ SYM=ZC_WS_LOC_41 LOC=000000D3 LEN=00000001 ESD=0000 TYPE=ABS  XREF=722 
+ SYM=ZC_WS_LOC_42 LOC=000000D4 LEN=00000001 ESD=0000 TYPE=ABS  XREF=724 
+ SYM=ZC_WS_LOC_5 LOC=00000058 LEN=00000001 ESD=0000 TYPE=ABS  XREF=650 
+ SYM=ZC_WS_LOC_6 LOC=00000058 LEN=00000001 ESD=0000 TYPE=ABS  XREF=652 
+ SYM=ZC_WS_LOC_7 LOC=00000059 LEN=00000001 ESD=0000 TYPE=ABS  XREF=654 
+ SYM=ZC_WS_LOC_8 LOC=00000059 LEN=00000001 ESD=0000 TYPE=ABS  XREF=656 
+ SYM=ZC_WS_LOC_9 LOC=0000005B LEN=00000001 ESD=0000 TYPE=ABS  XREF=658 
+ SYM=ZC_WS_START LOC=00000528 LEN=00000004 ESD=0001 TYPE=REL  XREF=647 131 
+ SYM=ZC_Z     LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=101 
+
+Literal Table Listing
+
+ LIT=A(ZCVT_ACCEPT_DATE,6) LOC=00000450 LEN=00000004 ESD=0001 POOL=0002 XREF=270 
+ LIT=A(ZCVT_ACCEPT_DOW,1) LOC=00000448 LEN=00000004 ESD=0001 POOL=0002 XREF=264 
+ LIT=A(ZCVT_ACCEPT_TIME,8) LOC=00000458 LEN=00000004 ESD=0001 POOL=0002 XREF=276 
+ LIT=A(ZCVT_END-ZCVT_ID) LOC=000000C4 LEN=00000004 ESD=0001 POOL=0001 XREF=45 
+ LIT=AL1(C' ',X'20',X'21',X'20') LOC=000004CE LEN=00000001 ESD=0001 POOL=0002 XREF=475 
+  517 
+ LIT=C'01'    LOC=000004B0 LEN=00000002 ESD=0001 POOL=0002 XREF=352 
+ LIT=C'02'    LOC=000004B2 LEN=00000002 ESD=0001 POOL=0002 XREF=362 
+ LIT=C'03'    LOC=000004B4 LEN=00000002 ESD=0001 POOL=0002 XREF=372 
+ LIT=C'04'    LOC=000004B6 LEN=00000002 ESD=0001 POOL=0002 XREF=382 
+ LIT=C'05'    LOC=000004B8 LEN=00000002 ESD=0001 POOL=0002 XREF=392 
+ LIT=C'06'    LOC=000004BA LEN=00000002 ESD=0001 POOL=0002 XREF=402 
+ LIT=C'07'    LOC=000004BC LEN=00000002 ESD=0001 POOL=0002 XREF=412 
+ LIT=C'08'    LOC=000004BE LEN=00000002 ESD=0001 POOL=0002 XREF=422 
+ LIT=C'09'    LOC=000004C0 LEN=00000002 ESD=0001 POOL=0002 XREF=432 
+ LIT=C'10'    LOC=000004C2 LEN=00000002 ESD=0001 POOL=0002 XREF=442 
+ LIT=C'11'    LOC=000004C4 LEN=00000002 ESD=0001 POOL=0002 XREF=452 
+ LIT=C'12'    LOC=000004C6 LEN=00000002 ESD=0001 POOL=0002 XREF=462 481 
+ LIT=C'13'    LOC=000004CC LEN=00000002 ESD=0001 POOL=0002 XREF=498 
+ LIT=C'ZCVT'  LOC=000000C0 LEN=00000004 ESD=0001 POOL=0001 XREF=43 
+ LIT=CL2'AM'  LOC=000004C8 LEN=00000002 ESD=0001 POOL=0002 XREF=487 
+ LIT=CL2'PM'  LOC=000004CA LEN=00000002 ESD=0001 POOL=0002 XREF=494 
+ LIT=CL4'Apr' LOC=00000488 LEN=00000004 ESD=0001 POOL=0002 XREF=386 
+ LIT=CL4'Aug' LOC=00000498 LEN=00000004 ESD=0001 POOL=0002 XREF=426 
+ LIT=CL4'Dec' LOC=000004A8 LEN=00000004 ESD=0001 POOL=0002 XREF=466 
+ LIT=CL4'Feb' LOC=00000480 LEN=00000004 ESD=0001 POOL=0002 XREF=366 
+ LIT=CL4'Fri' LOC=00000470 LEN=00000004 ESD=0001 POOL=0002 XREF=323 
+ LIT=CL4'Jan' LOC=0000047C LEN=00000004 ESD=0001 POOL=0002 XREF=356 
+ LIT=CL4'Jul' LOC=00000494 LEN=00000004 ESD=0001 POOL=0002 XREF=416 
+ LIT=CL4'Jun' LOC=00000490 LEN=00000004 ESD=0001 POOL=0002 XREF=406 
+ LIT=CL4'Mar' LOC=00000484 LEN=00000004 ESD=0001 POOL=0002 XREF=376 
+ LIT=CL4'May' LOC=0000048C LEN=00000004 ESD=0001 POOL=0002 XREF=396 
+ LIT=CL4'Mon' LOC=00000460 LEN=00000004 ESD=0001 POOL=0002 XREF=287 
+ LIT=CL4'Nov' LOC=000004A4 LEN=00000004 ESD=0001 POOL=0002 XREF=456 
+ LIT=CL4'Oct' LOC=000004A0 LEN=00000004 ESD=0001 POOL=0002 XREF=446 
+ LIT=CL4'Sat' LOC=00000474 LEN=00000004 ESD=0001 POOL=0002 XREF=332 
+ LIT=CL4'Sep' LOC=0000049C LEN=00000004 ESD=0001 POOL=0002 XREF=436 
+ LIT=CL4'Sun' LOC=00000478 LEN=00000004 ESD=0001 POOL=0002 XREF=341 
+ LIT=CL4'Thu' LOC=0000046C LEN=00000004 ESD=0001 POOL=0002 XREF=314 
+ LIT=CL4'Tue' LOC=00000464 LEN=00000004 ESD=0001 POOL=0002 XREF=296 
+ LIT=CL4'Wed' LOC=00000468 LEN=00000004 ESD=0001 POOL=0002 XREF=305 
+ LIT=CL8'ZC390LIB' LOC=000000B8 LEN=00000008 ESD=0001 POOL=0001 XREF=29 
+ LIT=PL4'12'  LOC=000004AC LEN=00000004 ESD=0001 POOL=0002 XREF=505 
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+datetime  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=26382

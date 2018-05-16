@@ -1,0 +1,73 @@
+         ZCOBOL PGM='zcobol\test\TESTPM2',VER=V1.5.06,CDATE=MM/DD/YY,CTX
+               IME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statsX
+               )
+         COPY  TESTPM2_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTPM2.
+         PROGRAM_ID TESTPM2
+*        AUTHOR.        DON HIGGINS.
+*      * TEST SECTIONS WITH DUPLICATE PARAGRAPHS AND PG QUAL.
+         AUTHOR DON,HIGGINS
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        S1 SECTION.
+         LABEL S1,SECTION
+*            DISPLAY 'TESTZC1 STARTED'
+*ZC     10         DISPLAY 'TESTZC1 STARTED'
+         DISPLAY 'TESTZC1 STARTED'
+*        P1.
+         LABEL P1
+*            PERFORM P3.
+*ZC     12         PERFORM P3
+         PERFORM P3
+         PERIOD 
+*        P2.
+         LABEL P2
+*            PERFORM P1 OF S2.
+*ZC     14         PERFORM P1,OF,S2
+         PERFORM P1,OF,S2
+         PERIOD 
+*        P3.
+         LABEL P3
+*            DISPLAY 'S1 P3'.
+*ZC     16         DISPLAY 'S1 P3'
+         DISPLAY 'S1 P3'
+         PERIOD 
+*        S2 SECTION.
+         LABEL S2,SECTION
+*        P1.
+         LABEL P1
+*            PERFORM P3.
+*ZC     19         PERFORM P3
+         PERFORM P3
+         PERIOD 
+*        P2.
+         LABEL P2
+*            PERFORM P1 OF S1
+*ZC     21         PERFORM P1,OF,S1
+         PERFORM P1,OF,S1
+*        P3.
+         LABEL P3
+*            DISPLAY 'S2 P3'
+*ZC     23         DISPLAY 'S2 P3'
+         DISPLAY 'S2 P3'
+*        P4.
+         LABEL P4
+*            DISPLAY 'TESTZC1 ENDED'
+*ZC     25         DISPLAY 'TESTZC1 ENDED'
+         DISPLAY 'TESTZC1 ENDED'
+*            STOP RUN.
+*ZC     26         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

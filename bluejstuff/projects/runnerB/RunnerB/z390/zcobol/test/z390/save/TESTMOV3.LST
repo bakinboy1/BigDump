@@ -1,0 +1,10 @@
+TESTMOV3  LZ390 START
+LZ390I Copyright 2011 Automated Software Tools Corporation
+LZ390I z390 is licensed under GNU General Public License
+LZ390I options = W:\work\z390\z390.OPT=(time(60)) SYSOBJ(+zcobol\z390) notiming 
+  stats
+LZ390I program = zcobol\test\TESTMOV3.OBJ
+LZ390I ESD=TESTMOV3 LOC=00000000 LEN=00005FD8
+LZ390I INCLUDE = zcobol\test\TESTMOV3.OBJ
+LZ390I total errors         = 0
+TESTMOV3  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=3221

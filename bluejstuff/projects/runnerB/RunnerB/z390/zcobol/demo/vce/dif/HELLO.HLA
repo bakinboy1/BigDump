@@ -1,0 +1,10 @@
+Comparing files ZCOBOL\DEMO\VCE\hello.HLA and ZCOBOL\DEMO\VCE\SAVE\HELLO.HLA
+***** ZCOBOL\DEMO\VCE\hello.HLA
+// ZCOBOL OPTIONS=()
+ program HELLO;
+***** ZCOBOL\DEMO\VCE\SAVE\HELLO.HLA
+// ZCOBOL PGM=zcobol\demo\hello VER=V1.5.00cx2 MM/DD/YY
+// ZCOBOL OPTIONS=()
+ program HELLO;
+*****
+

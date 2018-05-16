@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Mammal()
+comment0.text=\r\n\ @Mammal()\ sets\ default\ values\ for\ the\ mammal\ class\r\n
+comment1.params=newOnSite\ newMammal\ newTransfer\ newDiet\ newName\ newWeight\ newAge\ newAir
+comment1.target=Mammal(boolean,\ boolean,\ boolean,\ java.lang.String,\ java.lang.String,\ double,\ int,\ int)
+comment1.text=\r\n\ @\ public\ Mammal\ assigns\ the\ set\ method\ for\ each\ variable\ to\ be\ for\ a\ new\ variable\ of\ that\ type\r\n
+comment2.params=
+comment2.target=int\ getAir()
+comment2.text=\r\n\ @getAir()\ gets\ the\ air\ variable\r\n
+comment3.params=newAir
+comment3.target=void\ setAir(int)
+comment3.text=\r\n\ @setAir()\ sets\ the\ air\ variable\ to\ be\ newAir\r\n
+comment4.params=
+comment4.target=java.lang.String\ toString()
+comment4.text=\r\n\ @toString()\ prints\ out\ the\ toString\ line\ describing\ all\ the\ Mammal's\ stats\r\n
+numComments=5

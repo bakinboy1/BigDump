@@ -1,0 +1,402 @@
+header, nav, main, footer
+	{display:block;
+
+	}
+
+*
+	{box-sizing:border-box;
+
+	}
+
+img
+	{padding-left:10px;
+	padding-right:10px;
+
+	}
+
+audio
+	{display:block;
+	margin-top:1em;
+
+
+	}
+	html {
+	  background: url(background.png) no-repeat center center fixed;
+	  -webkit-background-size: cover;
+	  -moz-background-size: cover;
+	  -o-background-size: cover;
+	  background-size: cover;
+		position:relative;
+		z-index: 100;
+	}
+body
+	{background: transparent;
+
+
+	font-family:Verdana;
+  height:100%;
+	}
+
+header
+	{
+	height:150px;
+	background: transparent;
+
+	margin-bottom:0px;
+	padding-bottom:0px;
+
+	}
+
+h1
+	{padding-top:45px;
+	padding-left:220px;
+	font-size:3em;
+	text-align: center;
+	background: transparent;
+
+	}
+
+h4
+	{
+	font-size:1.2em;
+	text-transform:uppercase;
+	background: transparent;
+
+	padding-bottom:0px;
+	clear:left;
+
+	}
+
+form
+	{padding:2em;
+		background: transparent;
+
+	}
+
+nav
+	{text-align:center;
+	font-weight:bold;
+	font-size:1.5em;
+	padding-top:10px;
+	float:left;
+	width:fill;
+	background: transparent;
+
+
+	}
+
+nav a:link
+	{text-decoration:none;
+	color:#45749F;
+
+	}
+
+nav a:visited
+	{text-decoration:none;
+	color:#45749F;
+
+	}
+
+nav a:hover
+	{text-decoration:none;
+	color:#0070D7;
+
+	}
+
+nav ul
+	{list-style-type:none;
+	padding-left:2em;
+
+	}
+
+main
+	{margin-left:200px;
+	padding-bottom:1em;
+	display:block;
+	background: transparent;
+
+	margin-top:0px;
+	padding-top:0px;
+
+	}
+
+main h2, h3, h4, p, ul, dl
+	{padding-left:3em;
+	padding-right:2em;
+	text-align: center;
+	background: transparent;
+
+	}
+
+label
+	{display:block;
+	float:left;
+	text-align:right;
+	width:8em;
+	padding-right:1em;
+	background: transparent;
+
+	}
+
+input
+	{display:block;
+	margin-bottom:1em;
+
+	}
+
+textarea
+	{display:block;
+	margin-bottom:1em;
+	background: transparent;
+
+	}
+
+dt
+	{font-weight:bold;
+
+	}
+
+table
+	{width:90%;
+	margin:auto;
+	border-spacing:0px;
+	background: transparent;
+
+	padding-bottom:1em;
+
+	}
+
+td, th
+	{padding:10px;
+	text-align: center;
+	background: transparent;
+
+	}
+
+
+
+footer
+	{
+	font-size:.6em;
+	font-style:italic;
+	text-align:center;
+	padding-bottom:10px;
+	background: transparent;
+
+	}
+
+.details
+	{padding-left:20%;
+	padding-right:20%;
+	overflow:auto;
+
+	}
+
+.floatleft
+	{float:left;
+	padding-right:20px;
+	padding-bottom:20px;
+
+	}
+
+#marginSubmitButton
+	{margin-left:128px;
+
+	}
+
+#marginAndPaddingSetter
+	{margin-top:0px;
+	padding-top:10px;
+
+	}
+
+#wrapper
+	{min-width:900px;
+	max-width:1280px;
+	margin-left:auto;
+	margin-right:auto;
+
+
+
+	}
+
+
+
+#mobile
+	{display:none;
+
+	}
+
+#desktop
+	{display:inline;
+
+	}
+
+#mysubmit
+	{margin-left:9.5em;
+
+	}
+
+
+/* When the input field gets focus, change its width to 100% */
+
+@media only screen and (max-width: 1024px){
+
+*
+	{box-sizing:border-box;
+
+	}
+
+body
+	{margin:0px;
+	background-image:none;
+	background: transparent;
+
+	}
+
+
+
+h1
+	{margin-top:0px;
+	margin-bottom:1em;
+	padding-top:1em;
+	padding-bottom:1em;
+	font-size:2.5em;
+	background: transparent;
+
+	}
+
+nav
+	{float:none;
+	width:auto;
+	padding-top:0px;
+	margin:10px;
+	font-size:1.3em;
+	background: transparent;
+
+	}
+
+nav li
+	{display:inline-block;
+
+	}
+
+nav ul
+	{padding:0px;
+	margin:0px;
+	display:inline-block;
+
+	}
+
+nav a
+	{padding:1em;
+	width:8em;
+	font-weight:bold;
+	border-style:none;
+	display:inline-block;
+
+	}
+
+main
+	{padding:0px;
+	margin:0px;
+	font-size:90%;
+	background: transparent;
+
+	}
+
+#wrapper
+	{width:auto;
+	min-width:0px;
+	margin:0px;
+	padding:0px;
+	box-shadow:none;
+
+	}
+
+
+}
+@media only screen and (max-width: 726px) {
+
+*
+	{box-sizing:border-box;
+
+	}
+
+header
+	{
+	height:128px;
+	background: transparent;
+
+	}
+
+header h1
+	{padding-top:1em;
+		background: transparent;
+
+	}
+
+h1
+	{font-size:2em;
+	text-align:center;
+	padding:0px;
+	background: transparent;
+
+	}
+
+nav
+	{margin:0px;
+		background: transparent;
+
+	}
+
+nav a
+	{display: inline-block;
+	padding:.2em;
+	width:auto;
+
+
+	}
+
+nav li
+	{display:block;
+
+	}
+
+main
+	{padding-top:1px;
+		background: transparent;
+
+	}
+
+h2
+	{padding-top:.5em;
+	padding-right:0px;
+	padding-bottom:0px;
+	padding-left:.5em;
+	margin-right:.5em;
+
+	}
+
+.details
+	{padding-left:0px;
+	padding-right:0px;
+
+	}
+
+.floatleft
+	{padding-left:.5em;
+	padding-right:.5em;
+
+	}
+
+#mobile
+	{display:inline;
+
+	}
+
+#desktop
+	{display:none;
+
+	}
+}

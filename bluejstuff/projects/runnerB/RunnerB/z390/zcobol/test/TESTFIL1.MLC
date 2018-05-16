@@ -1,0 +1,133 @@
+         ZCOBOL PGM='zcobol\test\TESTFIL1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTFIL1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.  TESTFIL1.
+*      * THIS FAILED WITHOUT RPI 1048 FIX TO ZCOBOL\WORKING_STORAGE.MAC
+         PROGRAM_ID TESTFIL1
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        INPUT-OUTPUT SECTION.
+         INPUT_OUTPUT SECTION
+*        FILE-CONTROL.
+         FILE_CONTROL 
+*            SELECT IN-FILE
+*                ASSIGN TO 'zcobol\test\TESTFIL1.IN'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT IN_FILE,ASSIGN,TO,'zcobol\test\TESTFIL1.IN',ORGANIZATIOX
+               N,IS,LINE,SEQUENTIAL
+*            SELECT OUT-FILE
+*                ASSIGN TO 'zcobol\test\TESTFIL1.OUT'
+*                ORGANIZATION IS LINE SEQUENTIAL.
+         SELECT OUT_FILE,ASSIGN,TO,'zcobol\test\TESTFIL1.OUT',ORGANIZATX
+               ION,IS,LINE,SEQUENTIAL
+*        DATA DIVISION.
+         DATA  DIVISION
+*        FILE SECTION.
+         FILE  SECTION
+*        FD  IN-FILE
+*            DATA RECORD IS IN-RECORD.
+         FD    IN_FILE,DATA,RECORD,IS,IN_RECORD
+*        01  IN-RECORD PIC X(80).
+         WS      01,IN_RECORD,PIC,X(80)
+*        FD  OUT-FILE
+*            DATA RECORD IS OUT-RECORD.
+         FD    OUT_FILE,DATA,RECORD,IS,OUT_RECORD
+*        01  OUT-RECORD PIC X(80).
+         WS      01,OUT_RECORD,PIC,X(80)
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01  WS-LINE PIC X(80).
+         WS      01,WS_LINE,PIC,X(80)
+*        01  END-OF-FILE-FLAG PIC X.
+         WS      01,END_OF_FILE_FLAG,PIC,X
+*        01  HELP-WHY.
+         WS      01,HELP_WHY
+*            02  IS-IT-LIKE-THIS PIC X(10).
+         WS        02,IS_IT_LIKE_THIS,PIC,X(10)
+*        77  COUNT COMP-3 PIC S9(4) VALUE 0.
+         WS      77,COUNT,COMP_3,PIC,S9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC     10         PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTFIL1 STARTED'
+*ZC     29         DISPLAY 'TESTFIL1 STARTED'
+         DISPLAY 'TESTFIL1 STARTED'
+*            PERFORM INITIALIZATION-ROUTINE.
+*ZC     30         PERFORM INITIALIZATION_ROUTINE
+         PERFORM INITIALIZATION_ROUTINE
+         PERIOD 
+*            PERFORM THE-LOOP
+*                    UNTIL END-OF-FILE-FLAG = 'Y'.
+*ZC     31         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERFORM THE_LOOP,UNTIL,END_OF_FILE_FLAG,=,'Y'
+         PERIOD 
+*            PERFORM EOJ-ROUTINE.
+*ZC     33         PERFORM EOJ_ROUTINE
+         PERFORM EOJ_ROUTINE
+         PERIOD 
+*            DISPLAY 'TESTFIL1 ENDED OK'
+*ZC     34         DISPLAY 'TESTFIL1 ENDED OK'
+         DISPLAY 'TESTFIL1 ENDED OK'
+*            STOP RUN.
+*ZC     35         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INITIALIZATION-ROUTINE.
+         LABEL INITIALIZATION_ROUTINE
+*            OPEN INPUT IN-FILE.
+*ZC     37         OPEN  INPUT,IN_FILE
+         OPEN  INPUT,IN_FILE
+         PERIOD 
+*            OPEN OUTPUT OUT-FILE.
+*ZC     38         OPEN  OUTPUT,OUT_FILE
+         OPEN  OUTPUT,OUT_FILE
+         PERIOD 
+*            READ IN-FILE INTO OUT-RECORD
+*ZC     40         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     40         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        THE-LOOP.
+         LABEL THE_LOOP
+*            WRITE OUT-RECORD.
+*ZC     42         WRITE OUT_RECORD
+         WRITE OUT_RECORD
+         PERIOD 
+*            ADD 1 TO COUNT
+*ZC     43         ADD   1,TO,COUNT
+         ADD   1,TO,COUNT
+*            READ IN-FILE INTO OUT-RECORD
+*ZC     45         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+         READ  IN_FILE,INTO,OUT_RECORD,AT,END
+*                 AT END MOVE 'Y' TO END-OF-FILE-FLAG.
+*ZC     45         MOVE  'Y',TO,END_OF_FILE_FLAG
+         MOVE  'Y',TO,END_OF_FILE_FLAG
+         PERIOD 
+*        EOJ-ROUTINE.
+         LABEL EOJ_ROUTINE
+*            CLOSE IN-FILE.
+*ZC     47         CLOSE IN_FILE
+         CLOSE IN_FILE
+         PERIOD 
+*            CLOSE OUT-FILE.
+*ZC     48         CLOSE OUT_FILE
+         CLOSE OUT_FILE
+         PERIOD 
+*            DISPLAY 'RECORDS COPIED = ' COUNT.
+*ZC     49         DISPLAY 'RECORDS COPIED = ',COUNT
+         DISPLAY 'RECORDS COPIED = ',COUNT
+         PERIOD 
+*            STOP RUN.
+*ZC     50         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

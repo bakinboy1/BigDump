@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=psw
+comment0.target=void\ setPSW(PSW)
+comment1.params=memory
+comment1.target=void\ setMemory(Memory)
+comment2.params=cpu
+comment2.target=void\ setCPU(CPU)
+comment3.params=jtab\ v\ selected\ focus\ r\ c
+comment3.target=java.awt.Component\ getTableCellRendererComponent(javax.swing.JTable,\ java.lang.Object,\ boolean,\ boolean,\ int,\ int)
+comment4.params=addr
+comment4.target=int\ addressToRow(int)
+comment4.text=\r\n\ Converts\ a\ memory\ address\ to\ a\ row\ number\ in\ the\ memory\ panel\r\n
+comment5.params=addr
+comment5.target=int\ addressToColumn(int)
+comment5.text=\r\n\ Converts\ a\ memory\ address\ to\ a\ column\ number\ in\ the\ memory\ panel\r\n
+numComments=6

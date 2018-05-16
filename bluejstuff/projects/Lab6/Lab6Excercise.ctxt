@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Lab6Excercise()
+comment1.params=
+comment1.target=void\ initializeArray()
+comment2.params=
+comment2.target=Student[]\ getStudentArr()
+comment3.params=args
+comment3.target=void\ main(java.lang.String[])
+comment4.params=
+comment4.target=int\ id()
+comment5.params=
+comment5.target=java.lang.String\ First()
+comment6.params=
+comment6.target=java.lang.String\ Last()
+comment7.params=
+comment7.target=double\ Grades()
+numComments=8

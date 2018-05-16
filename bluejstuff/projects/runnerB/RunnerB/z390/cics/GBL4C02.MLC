@@ -1,0 +1,247 @@
+***********************************************************************
+* Copyright 2006 Automated Software Tools Corporation                 *
+* This source code is part of z390 assembler/emulator package         *
+* The z390 package is distributed under GNU general public license    *
+* Author - Don Higgins                                                *
+***********************************************************************
+GBL4C02  SUBENTRY
+*
+* FN=4C02  INQUIRE FILE REQUESTED
+*          IFILDATA SENT BACK
+*
+*         +0/DSCT +4/DSECT  +8/IND   +12/IND +16
+* R1  >>> WTOMSG, REQDSECT ,DFHFCTAD,CONNID, TRCEZ390
+* R14 = RETURN ADDRESS
+         LR    R3,R1              SAVE PARM POINTER
+         L     R4,16(R3)          TRCEZ390 ADDRESS
+         MVC   TRCEZ390,0(R4)     MOVE IT
+         L     R5,4(R3)           REQDSECT ADDRESS
+         USING REQDSECT,R5
+         L     R9,0(R3)           WTODSECT ADDRESS
+         USING WTODSECT,R9
+         MVC   WTOTERM,REQTERM    SET TERMID
+         MVC   WTOTRAN,REQTRAN    SET TRANSID
+         MVI   WTOTYPE,C' '       NO TRANSID TYPE
+         UNPK  WTOTASKN,REQTASKN  UNPACK TASK NUMBER
+         OI    WTOTASKN+6,X'F0'   CLEAR SIGN
+         MVC   WTODESC,=CL45'<<<Z390KCP INQ FILE REQUEST'
+         MVI   CICSTIND,C'A'      SET APPLICATION TYPE
+* MODIFIED CICSTRCE
+         CLI   TRCEZ390,C'N'      NO TRACING ?
+         BE    CICSTRDN           EXIT IF IT IS
+         CLI   TRCEZ390,C'Y'      ALL TRACING ?
+         BE    CICSTRGO           TRACE IF IT IS
+         CLC   TRCEZ390,CICSTIND  TRACE TYPE=TRACE REQUEST ?
+         BNE   CICSTRDN           EXIT IF NOT
+CICSTRGO EQU   *
+         TIME  DEC,TIME,LINKAGE=SYSTEM GET TIME
+         MVO   TIMEPACK,TIME      MOVE TO PACKED FIELD
+         MVC   TIMEHERE(13),TIMEEDIT MOVE EDIT WORD
+         ED    TIMEHERE(13),TIMEPACK EDIT TIME
+         MVC   WTOTIME,TIMEHERE   SET TIME
+         WTO   MF=(E,WTOMSG)      TRACE IT
+         DROP  R9
+*
+CICSTRDN DS    0H
+* COUNT FILES
+         SR    R8,R8              CLEAR R8
+         L     R6,8(R3)           ADDRESS FCT ADDRESS
+         L     R6,0(R6)           ADDRESS FCT
+CEMTIFCT EQU   *
+         CLI   0(R6),X'FF'        END OF FCT ?
+         BE    CEMTIFGO           EXIT IF IT IS
+         AHI   R8,1               COUNT THEM
+         AHI   R6,FCTABLEN        POINT TO NEXT FCT ENTRY
+         B     CEMTIFCT           LOOP
+*
+CEMTIFGO EQU   *
+* GETMAIN AN AREA TO SEND BACK
+         MS    R8,=AL4(IFILDLEN)  * LENGTH OF SENT DATA
+         AHI   R8,12+1            + PREFIX + STOPPER
+         GETMAIN R,LV=(R8),A=CEMTIFGM
+         ST    R0,0(R1)           SAVE LENGTH TO SEND
+         MVC   4(4,R1),=C'4C02'   SET REQUEST ID
+         MVC   8(4,R1),REQTERM    SET TERMID
+         L     R6,8(R3)           ADDRESS FCT ADDRESS
+         L     R6,0(R6)           ADDRESS FCT
+         USING DFHFCTDS,R6
+         LA    R7,12(R1)          ADDRESS SEND AREA
+         USING IFILDATA,R7
+         ST    R7,CEMTIFDT        SAVE DATA START
+CEMTIFLP EQU   *
+         MVC   IFILDFLE,FCTFILNM  MOVE FILENAME
+         MVC   IFILDSTA,FCTFILST  MOVE STATUS
+         MVC   IFILDSRV,FCTSERV   MOVE SERVREQ
+         MVC   IFILDFXV,FCTRECFM  MOVE RECFORM
+         MVC   CEMTIFGV,FCTFILNM  MOVE FILENAME FOR GETENV
+         MVI   IFILDDSN,C' '      SET FILL
+         MVC   IFILDDSN+1(L'IFILDDSN-1),IFILDDSN BLANK DSNAME
+         GETENV CEMTIFGV
+         LTR   R15,R15            CHECK RC ?
+         BNZ   CEMTIPTH           EXIT IF BAD
+* GOT A DSN, R2 IS THE POINTER
+         LA    R9,IFILDDSN        DESTINATION
+CEMTIFL2 EQU   *
+         MVC   0(1,R9),0(R2)      MOVE DSN A BYTE AT A TIME
+         AHI   R2,1               BUMP SOURCE
+         AHI   R9,1               BUMP DESTINATION
+         AHI   R15,1              BUMP COUNT
+         CHI   R15,L'IFILDDSN+1   LIMIT REACHED ?
+         BE    CEMTIPTH           EXIT IF REACHED
+         CLI   0(R2),X'00'        END OF DSN ?
+         BNE   CEMTIFL2           LOOP IF NOT
+CEMTIPTH EQU   *
+         LA    R8,FCTTELEN(R6)    ADDRESS ACB
+         USING IHAACB,R8
+         MVC   IFILDBSN,IFILDDSN  DEFAULT BASE DSNAME AS DSNAME
+         ICM   R12,15,ACBVAIXA    ANY PATH ?
+         BZ    CEMTIFLD           EXIT IF NONE
+         USING IHAVAIX,R12
+         MVC   CEMTIFGV,VAIXRELN  MOVE BASE FILENAME FOR GETENV
+         GETENV CEMTIFGV
+         LTR   R15,R15            CHECK RC ?
+         BNZ   CEMTIFLD           EXIT IF BAD
+         MVI   IFILDBSN,C' '      SET FILL
+         MVC   IFILDBSN+1(L'IFILDBSN-1),IFILDDSN BLANK BASE DSNAME
+* GOT A DSN, R2 IS THE POINTER
+         LA    R9,IFILDBSN        DESTINATION
+CEMTIFL3 EQU   *
+         MVC   0(1,R9),0(R2)      MOVE DSN A BYTE AT A TIME
+         AHI   R2,1               BUMP SOURCE
+         AHI   R9,1               BUMP DESTINATION
+         AHI   R15,1              BUMP COUNT
+         CHI   R15,L'IFILDBSN+1   LIMIT REACHED ?
+         BE    CEMTIFLD           EXIT IF REACHED
+         CLI   0(R2),X'00'        END OF DSN ?
+         BNE   CEMTIFL3           LOOP IF NOT
+CEMTIFLD EQU   *
+         XC    IFILDKL,IFILDKL    DEFAULT KEYLENGTH=0
+         XC    IFILDKP,IFILDKP    DEFAULT KEYPOSITION=0
+         XC    IFILDRCS,IFILDRCS  DEFAULT RECORDSIZE=0
+         MVI   IFILDTYP,X'00'     DEFAULT TYPE=NONE
+         ICM   R10,15,ACBVCLRA    ANY VCLR (CLUSTER ENTRY) ?
+         BZ    CEMTNOTO           EXIT IF NONE
+         USING IHAVCLR,R10
+* FOR PATH, KEYLENGTH AND POSITION ARE THE AIX'S
+         MVC   IFILDKL,VCLRKLEN   MOVE BASE KEYLENGTH
+         MVC   IFILDKP,VCLRKOFF   MOVE BASE KEYPOSITION
+         MVC   IFILDRCS,VCLRLREC  MOVE BASE RECORDSIZE
+         MVC   IFILDTYP,VCLRFLG1  MOVE BASE TYPE
+         LTR   R12,R12            ANY PATH ?
+         BZ    CEMTNOTO           EXIT IF NOT
+         MVC   IFILDKL,VAIXKLEN   MOVE AIX KEYLENGTH
+         MVC   IFILDKP,VAIXKOFF   MOVE AIX KEYPOSITION
+         DROP  R10,R12
+CEMTNOTO EQU   *
+         AHI   R6,FCTABLEN        POINT TO NEXT FCT ENTRY
+         AHI   R7,IFILDLEN        POINT TO NEXT SEND ENTRY
+         CLI   0(R6),X'FF'        END OF FCT ?
+         BE    CEMTIFSD           EXIT IF IT IS
+         B     CEMTIFLP           LOOP
+*
+CEMTIFSD EQU   *
+         MVI   IFILDFLE,X'FF'     MARK END OF FILES
+         L     R7,CEMTIFDT        R7=DATA START
+         CLI   IFILDFLE,X'FF'     ANY FILES ?
+         BE    CEMTINOF           EXIT IF NONE
+* SORT THE DATA, PRIMITIVE BUBBLE, WILL IMPROVE LATER
+SORTCYCL EQU   *
+         L     R7,CEMTIFDT        R7=DATA START
+         MVI   SORTIND,X'00'      RESET SORT INDICATOR
+SORTSCAN EQU   *
+         LA    R8,IFILDLEN(R7)    R8=NEXT ENTRY
+         CLI   0(R8),X'FF'        END OF DATA ?
+         BE    SORTCEND           EXIT IF IT IS
+         CLC   IFILDFLE,0(R8)     IN SEQUENCE ?
+         BNH   SORTBUMP           EXIT IF THEY ARE
+* ADJACENT ITEMS NOT IN SEQUENCE
+         LA    R4,SORTXFER        'TO' FIELD
+         LA    R5,IFILDLEN        'TO' LENGTH
+         LR    R10,R7             'FROM' FIELD
+         LR    R11,R5             'FROM' LENGTH
+         MVCL  R4,R10             MOVE 1ST ENTRY TO SAVE AREA
+         LR    R4,R7              'TO' FIELD
+         LA    R5,IFILDLEN        'TO' LENGTH
+         LR    R10,R8             'FROM' FIELD
+         LR    R11,R5             'FROM' LENGTH
+         MVCL  R4,R10             MOVE NEXT ENTRY TO 1ST ENTRY
+         LR    R4,R8              'TO' FIELD
+         LA    R5,IFILDLEN        'TO' LENGTH
+         LA    R10,SORTXFER       'FROM' FIELD
+         LR    R11,R5             'FROM' LENGTH
+         MVCL  R4,R10             MOVE SAVE AREA TO NEXT ENTRY
+         MVI   SORTIND,X'FF'      MARK SWAP HAS OCCURRED
+SORTBUMP EQU   *
+         AHI   R7,IFILDLEN        BUMP DATA POINTER
+         B     SORTSCAN           LOOP
+*
+SORTCEND EQU   *
+* END OF SWAP SCAN
+         CLI   SORTIND,X'FF'      DID WE SWAP ?
+         BE    SORTCYCL           RESCAN IF WE DID
+CEMTINOF EQU   *
+         L     R8,12(R3)          R8=CONN ID ADDRESS
+         L     R8,0(R8)           R8=CONNID
+         L     R14,CEMTIFGM       R14=DATA TO SEND
+         TCPIO SEND,MSG=(R14),LMSG=0(R14),CONN=(R8),PORT=3900
+         LTR   R15,R15            CHECK RC ?
+         BNZ   ABEND780           EXIT IF BAD
+         FREEMAIN LA=0(R14),A=(R14) FREE FCT SEND AREA
+         SUBEXIT
+*
+ABEND780 ABEND 780,DUMP           TCPIO SEND FAILED
+*
+CEMTIFGM DS    F                  TOTAL LENGTH OF ACQUIRED DATA
+CEMTIFDT DS    A                  ADDRESS OF DATA START FOR SORT
+CEMTIFGV DC    CL8' ',X'00'
+CICSTIND DS    C                  TRACE TYPE INDICATOR
+TRCEZ390 DS    C                  Z390 TRACE OPTION
+SORTXFER DS    CL(IFILDLEN)       SORT TRANSFER FIELD
+SORTIND  DC    X'00'              FF=SWAP HAS OCCURRED
+*
+* TIME CONVERSION FIELDS
+*
+TIME     DS    CL4                HHMMSSTT
+         DS    CL8                SPACE FOR DATE
+TIMEPACK DC    PL5'0'             0HHMMSSTTC
+TIMEEDIT DC    X'402021207A20207A20204B2020'
+TIMEHERE DS    CL13
+*
+         COPY  CEMTIFIL           CEMT I FIL DATA AREA
+*
+* RECEIVE MESSAGE AREA
+*
+REQDSECT DSECT
+         DS    AL4                REQUEST LENGTH
+         DS    CL4                REQUEST CODE
+REQTERM  DS    CL4                TERMINAL ID
+REQTRAN  DS    CL4                TRANSID
+         DS    C                  TRANSID TYPE
+REQTASKN DS    PL4                TASK NO
+*
+* WTO AREA DSECT
+*
+WTODSECT DSECT
+WTOMSG   DS    AL4
+WTOTIME  DS    CL13               TIME STAMP
+         DS    C
+         DS    CL4                MODULE/FUNCTION REFERENCE (EIBFN)
+         DS    C
+WTOTERM  DS    CL4                TERMID
+         DS    C
+WTOTRAN  DS    CL4                TRANSID (OR BLANK)
+         DS    C
+WTOTYPE  DS    C                  TRANSID TYPE
+         DS    C
+WTOTASKN DS    CL7                TASK NUMBER
+         DS    C
+WTODESC  DS    CL45               DESCRIPTION
+*
+         ACBD  ,                  VSAM ACB
+         VCDTD ,                  VSAM CLUSTER DEFINITION TABLE
+         DFHFCTDS                 FILE CONTROL TABLE
+*
+         EQUREGS
+*
+         END
+

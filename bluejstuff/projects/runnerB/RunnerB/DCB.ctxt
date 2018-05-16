@@ -1,0 +1,16 @@
+#BlueJ class context
+comment0.params=DDName\ physicalName\ mode\ physicalAddress\ eodad\ lrecl
+comment0.target=DCB(java.lang.String,\ java.lang.String,\ java.lang.String,\ java.lang.Integer,\ int,\ int)
+comment1.params=
+comment1.target=java.lang.String\ getDDName()
+comment2.params=
+comment2.target=java.lang.String\ getPhysicalName()
+comment3.params=
+comment3.target=java.lang.String\ getMode()
+comment4.params=
+comment4.target=java.lang.Integer\ getPhysicalAddress()
+comment5.params=
+comment5.target=int\ getEODAD()
+comment6.params=
+comment6.target=int\ getLRECL()
+numComments=7

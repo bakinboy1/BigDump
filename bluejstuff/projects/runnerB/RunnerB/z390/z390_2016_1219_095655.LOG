@@ -1,0 +1,48 @@
+Z390I V1.5.06
+Copyright 2011 Automated Software Tools Corporation
+z390 is licensed under GNU General Public License
+Log file = C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390\z390_2016_1219_095655.LOG
+Enter command or help
+
+z390 alphabetical command list
+ABOUT                    display summary information about z390 tool      
+AMODE31  ON/OFF          set amode 24/31 for link cmd
+ASCII    ON/OFF          set EBCDIC or ASCII mode mode
+ASM      MLC file        submit assembly of MLC source to OBJ object code file
+ASML     MLC file        submit assembly and link MLC source to 390 load module file
+ASMLG    MLC file        submit assembly, link, and execute 390 load module file
+CD       directory path  change directory
+CMD      command         set cmd mode and submit batch cmd
+Copy                     copy selected text to clipboard (GUI right click)    
+COMMANDS                 alphabetical list of all commands                    
+CON      ON/OFF          set console output for file cmds
+COPYLOG                  copy the entire log text to clipboard (GUI only)     
+Cut                      cut selected text (GUI right click)                  
+Dump     ON/OFF          set option for indicative or full dump on abort
+Edit     any file        edit source file in seprarate window
+ERR      nnn             change error msg limit from 100 to nnn (0 is off)
+EXIT                     exit z390 after closing all files (also CTRL-BREAK
+EXEC     390 file        submit execution of 390 load module
+FONT     points          change font size
+GUI      ON/OFF          Open Graphical User Interface for MCS, 3270, and graphics
+GUIDE                    view PDF user guide in web browser          
+HELP                     display help information summary                     
+JOB      BAT file        submit batch job
+LINK     obj file        submit link obj file into 390 load module
+LIST     ON/OFF          set PRN, LST, and/or LOG output for file cmds
+LISTCALL ON/OFF          set trace calls for MAC file cmd
+LOC      x y pixels      set upper left location of window
+MAC      mlc file        expand mlc macro file to bal source file
+PASTE                    paste clipboard text (GUI right click)                
+PERM                     display current Java security manager permissions     
+REL                      display current release level for OS, Java, and z390
+RMODE31  ON/OFF          set rmode 24/31 for link cmd
+SIZE     x y pixels      set width and height of window
+STATS    ON/OFF          set statistics for BAL, PRN, LST, and/or LOG file cmds
+STATUS   ON/OFF/sec      set status line on or off or set log interval sec  
+SUPPORT                  open browser to online support web site               
+TEST     ON/OFF          set prompt for interactive test cmds for EXEC cmd
+TITLE    'text'          set GUI title
+TIMEOUT  seconds         set command timeout seconds or 0 for no limit (default
+TRACE    ON/OFF          set trace for BAL, PRN, LST, and/or LOG file cmds
+Z390I total errors = 0

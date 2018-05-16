@@ -1,0 +1,8 @@
+hello     ZC390 START
+hello     ZC390 ENDED   RC= 0 MEM(MB)= MB IO=9
+hello     MZ390 START
+hello     MZ390 ENDED   RC= 0 MEM(MB)= MB IO=20151
+hello     LZ390 START
+hello     LZ390 ENDED   RC= 0 MEM(MB)= MB IO=211
+hello     EZ390 START
+hello     EZ390 ENDED   RC= 0 MEM(MB)= MB IO=317 INS=41

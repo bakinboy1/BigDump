@@ -1,0 +1,10 @@
+IEFBR14   LZ390 START
+LZ390I Copyright 2011 Automated Software Tools Corporation
+LZ390I z390 is licensed under GNU General Public License
+LZ390I options = W:\work\z390\z390.OPT=(time(60)) @rt\RT1=(bal notiming stats) 
+  sysobj(linklib) systerm(linklib\rtlink)
+LZ390I program = linklib\IEFBR14.OBJ
+LZ390I ESD=IEFBR14  LOC=00000000 LEN=00000008
+LZ390I INCLUDE = linklib\IEFBR14.OBJ
+LZ390I total errors         = 0
+IEFBR14   LZ390 ENDED   RC= 0 MEM(MB)= MB IO=163

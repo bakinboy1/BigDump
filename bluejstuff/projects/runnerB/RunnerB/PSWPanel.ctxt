@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=cpu
+comment0.target=PSWPanel(CPU)
+comment1.params=
+comment1.target=void\ repaintPSW()
+comment2.params=page
+comment2.target=void\ paintComponent(java.awt.Graphics)
+comment3.params=c
+comment3.target=void\ setTAColor(java.awt.Color)
+numComments=4

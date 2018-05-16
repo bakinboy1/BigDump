@@ -1,0 +1,26 @@
+#BlueJ class context
+comment0.params=
+comment0.target=ShoppingCart()
+comment1.params=newCustomerName\ newCurrentDate
+comment1.target=ShoppingCart(java.lang.String,\ java.lang.String)
+comment10.params=
+comment10.target=void\ printTotal()
+comment11.params=
+comment11.target=void\ printDescriptions()
+comment2.params=newCustomerName
+comment2.target=void\ setCustomerName(java.lang.String)
+comment3.params=
+comment3.target=java.lang.String\ getCustomerName()
+comment4.params=newCurrentDate
+comment4.target=void\ setCurrentDate(java.lang.String)
+comment5.params=newAddItem
+comment5.target=void\ addItem(ItemToPurchase)
+comment6.params=newRemoveItem
+comment6.target=void\ removeItem(ItemToPurchase)
+comment7.params=newModifyItem
+comment7.target=void\ modifyItem(java.lang.String)
+comment8.params=
+comment8.target=int\ getNumItemsInCart()
+comment9.params=
+comment9.target=int\ getCostOfCart()
+numComments=12

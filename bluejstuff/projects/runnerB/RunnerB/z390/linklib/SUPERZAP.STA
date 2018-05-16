@@ -1,0 +1,355 @@
+SUPERZAP  MZ390 START
+SUPERZAP  MZ390 Copyright 2011 Automated Software Tools Corporation
+SUPERZAP  MZ390 z390 is licensed under GNU General Public License
+SUPERZAP  MZ390 program = linklib\SUPERZAP.MLC
+SUPERZAP  MZ390 options = W:\work\z390\z390.OPT=(time(60)) sysmac(W:\work\z390\mac+.) 
+  syscpy(W:\work\z390\mac+.) bal notiming stats systerm(linklib\rtlink)
+SUPERZAP  MZ390 final_options=ALIGN
+SUPERZAP  MZ390 final_options=NOALLOW
+SUPERZAP  MZ390 final_options=NOAMODE24
+SUPERZAP  MZ390 final_options=AMODE31
+SUPERZAP  MZ390 final_options=NOASCII
+SUPERZAP  MZ390 final_options=ASM
+SUPERZAP  MZ390 final_options=NOASSIST
+SUPERZAP  MZ390 final_options=AUTOLINK
+SUPERZAP  MZ390 final_options=BAL
+SUPERZAP  MZ390 final_options=NOBS2000
+SUPERZAP  MZ390 final_options=EDF
+SUPERZAP  MZ390 final_options=NOCICS
+SUPERZAP  MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+SUPERZAP  MZ390 final_options=COMMENT
+SUPERZAP  MZ390 final_options=CON
+SUPERZAP  MZ390 final_options=NODUMP
+SUPERZAP  MZ390 final_options=EPILOG
+SUPERZAP  MZ390 final_options=NOERRSUM
+SUPERZAP  MZ390 final_options=EXTEND
+SUPERZAP  MZ390 final_options=FLOAT(DECIMAL)
+SUPERZAP  MZ390 final_options=NOGUAM
+SUPERZAP  MZ390 final_options=INIT
+SUPERZAP  MZ390 final_options=LIST
+SUPERZAP  MZ390 final_options=LISTCALL
+SUPERZAP  MZ390 final_options=LISTUSE
+SUPERZAP  MZ390 final_options=LOADHIGH
+SUPERZAP  MZ390 final_options=NOMCALL
+SUPERZAP  MZ390 final_options=NOMOD
+SUPERZAP  MZ390 final_options=OBJ
+SUPERZAP  MZ390 final_options=NOOBJHEX
+SUPERZAP  MZ390 final_options=PC
+SUPERZAP  MZ390 final_options=PCOPT
+SUPERZAP  MZ390 final_options=NOPDSMEM8
+SUPERZAP  MZ390 final_options=NOPRINTALL
+SUPERZAP  MZ390 final_options=PROLOG
+SUPERZAP  MZ390 final_options=PROTECT
+SUPERZAP  MZ390 final_options=R64
+SUPERZAP  MZ390 final_options=NOREFORMAT
+SUPERZAP  MZ390 final_options=NOREGS
+SUPERZAP  MZ390 final_options=RMODE24
+SUPERZAP  MZ390 final_options=NORMODE31
+SUPERZAP  MZ390 final_options=STATS
+SUPERZAP  MZ390 final_options=NOTEST
+SUPERZAP  MZ390 final_options=THREAD
+SUPERZAP  MZ390 final_options=NOTIME
+SUPERZAP  MZ390 final_options=NOTIMING
+SUPERZAP  MZ390 final_options=NOTRACE
+SUPERZAP  MZ390 final_options=NOTRACEA
+SUPERZAP  MZ390 final_options=NOTRACEALL
+SUPERZAP  MZ390 final_options=NOTRACEC
+SUPERZAP  MZ390 final_options=NOTRACEG
+SUPERZAP  MZ390 final_options=NOTRACEI
+SUPERZAP  MZ390 final_options=NOTRACEL
+SUPERZAP  MZ390 final_options=NOTRACEM
+SUPERZAP  MZ390 final_options=NOTRACEP
+SUPERZAP  MZ390 final_options=NOTRACEQ
+SUPERZAP  MZ390 final_options=NOTRACES
+SUPERZAP  MZ390 final_options=NOTRACET
+SUPERZAP  MZ390 final_options=NOTRACEV
+SUPERZAP  MZ390 final_options=TRAP
+SUPERZAP  MZ390 final_options=NOTRUNC
+SUPERZAP  MZ390 final_options=NOTS
+SUPERZAP  MZ390 final_options=VCB
+SUPERZAP  MZ390 final_options=WARN
+SUPERZAP  MZ390 final_options=XREF
+SUPERZAP  MZ390 final_options=ZSTRMAC
+SUPERZAP  MZ390 final_options=CHKMAC=0
+SUPERZAP  MZ390 final_options=CHKSRC=1
+SUPERZAP  MZ390 final_options=ERR=100
+SUPERZAP  MZ390 final_options=MAXCALL=50
+SUPERZAP  MZ390 final_options=MAXDISPLAY=80
+SUPERZAP  MZ390 final_options=MAXESD=1000
+SUPERZAP  MZ390 final_options=MAXFILE=1000
+SUPERZAP  MZ390 final_options=MAXGBL=100000
+SUPERZAP  MZ390 final_options=MAXHEIGHT=600
+SUPERZAP  MZ390 final_options=MAXLCL=100000
+SUPERZAP  MZ390 final_options=MAXLEN=80
+SUPERZAP  MZ390 final_options=MAXLINE=200000
+SUPERZAP  MZ390 final_options=MAXLOG=1000000
+SUPERZAP  MZ390 final_options=MAXPARM=10000
+SUPERZAP  MZ390 final_options=MAXPASS=2
+SUPERZAP  MZ390 final_options=MAXPC=50000
+SUPERZAP  MZ390 final_options=MAXQUE=1000
+SUPERZAP  MZ390 final_options=MAXRLD=10000
+SUPERZAP  MZ390 final_options=MAXSIZE=52428800
+SUPERZAP  MZ390 final_options=MAXSYM=50000
+SUPERZAP  MZ390 final_options=MAXWARN=4
+SUPERZAP  MZ390 final_options=MAXWIDTH=800
+SUPERZAP  MZ390 final_options=MEM=1
+SUPERZAP  MZ390 final_options=MINHEIGHT=150
+SUPERZAP  MZ390 final_options=MINWIDTH=150
+SUPERZAP  MZ390 final_options=MNOTE=0
+SUPERZAP  MZ390 final_options=PARM=
+SUPERZAP  MZ390 final_options=PROFILE=
+SUPERZAP  MZ390 final_options=STATS=W:\work\z390\linklib\SUPERZAP.STA
+SUPERZAP  MZ390 final_options=SYSPARM=
+SUPERZAP  MZ390 final_options=SYSTERM=W:\work\z390\linklib\rtlink.ERR
+SUPERZAP  MZ390 final_options=TESTDD=
+SUPERZAP  MZ390 final_options=TIME=60
+SUPERZAP  MZ390 final_options=TRACE=
+SUPERZAP  MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+SUPERZAP  MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+SUPERZAP  MZ390 final_options=Z390COMMAND=cmd.exe
+SUPERZAP  MZ390 final_options=Z390EDITOR=notepad.exe
+SUPERZAP  MZ390 final_options=INSTALL=
+SUPERZAP  MZ390 final_options=IPL=
+SUPERZAP  MZ390 final_options=LOG=
+SUPERZAP  MZ390 final_options=SYS390=linklib\+linklib
+SUPERZAP  MZ390 final_options=SYSBAL=linklib\
+SUPERZAP  MZ390 final_options=SYSCPY=W:\work\z390\mac+.
+SUPERZAP  MZ390 final_options=SYSDAT=linklib\
+SUPERZAP  MZ390 final_options=SYSERR=linklib\
+SUPERZAP  MZ390 final_options=SYSLOG=linklib\
+SUPERZAP  MZ390 final_options=SYSLST=linklib\
+SUPERZAP  MZ390 final_options=SYSMAC=W:\work\z390\mac+.
+SUPERZAP  MZ390 final_options=SYSMLC=linklib\
+SUPERZAP  MZ390 final_options=SYSPCH=linklib\
+SUPERZAP  MZ390 final_options=SYSPRN=linklib\
+SUPERZAP  MZ390 final_options=SYSOBJ=linklib\
+SUPERZAP  MZ390 final_options=SYSOPT=linklib\
+SUPERZAP  MZ390 final_options=SYSTRC=linklib\
+SUPERZAP  MZ390 total MLC/MAC loaded  = 2104
+SUPERZAP  MZ390 total BAL output lines= 2744
+SUPERZAP  MZ390 total BAL instructions= 54
+SUPERZAP  MZ390 total macros          = 29
+SUPERZAP  MZ390 total macro loads     = 29
+SUPERZAP  MZ390 total macro calls     = 576
+SUPERZAP  MZ390 total AENTRY blocks   = 5
+SUPERZAP  MZ390 total ACALL  calls    = 5
+SUPERZAP  MZ390 total AIF    blocks   = 69
+SUPERZAP  MZ390 total ACASE  blocks   = 0
+SUPERZAP  MZ390 total AWHILE calls    = 7
+SUPERZAP  MZ390 total AUNTIL blocks   = 0
+SUPERZAP  MZ390 total global set names= 83
+SUPERZAP  MZ390 tot global seta cells = 321
+SUPERZAP  MZ390 tot global setb cells = 279
+SUPERZAP  MZ390 tot global setc cells = 545
+SUPERZAP  MZ390 max local pos parms   = 9
+SUPERZAP  MZ390 max local key parms   = 23
+SUPERZAP  MZ390 max local set names   = 25
+SUPERZAP  MZ390 max local seta cells  = 8
+SUPERZAP  MZ390 max local setb cells  = 2
+SUPERZAP  MZ390 max local setc cells  = 25
+SUPERZAP  MZ390 total array expansions= 0
+SUPERZAP  MZ390 total Keys            = 10806
+SUPERZAP  MZ390 Key searches          = 79672
+SUPERZAP  MZ390 Key avg comps         = 0
+SUPERZAP  MZ390 Key max comps         = 4
+SUPERZAP  MZ390 total macro line exec = 11193
+SUPERZAP  MZ390 total pcode line exec = 3376
+SUPERZAP  MZ390 total pcode line gen. = 259
+SUPERZAP  MZ390 total pcode line reuse= 0
+SUPERZAP  MZ390 total pcode op   gen. = 1149
+SUPERZAP  MZ390 total pcode op   exec = 13157
+SUPERZAP  MZ390 total pcode gen  opt  = 381
+SUPERZAP  MZ390 total pcode exec opt  = 11
+SUPERZAP  MZ390 FID=  1 ERR= 0 W:\work\z390\linklib\SUPERZAP.MLC
+SUPERZAP  MZ390 FID=  2 ERR= 0 W:\work\z390\mac\ASMMSP.CPY
+SUPERZAP  MZ390 FID=  3 ERR= 0 W:\work\z390\mac\ZSTRMAC.CPY
+SUPERZAP  MZ390 FID=  4 ERR= 0 W:\work\z390\mac\SUBENTRY.MAC
+SUPERZAP  MZ390 FID=  5 ERR= 0 W:\work\z390\mac\PM.MAC
+SUPERZAP  MZ390 FID=  6 ERR= 0 W:\work\z390\mac\DO.MAC
+SUPERZAP  MZ390 FID=  7 ERR= 0 W:\work\z390\mac\ZSTRGBL.CPY
+SUPERZAP  MZ390 FID=  8 ERR= 0 W:\work\z390\mac\ZSTREQU.MAC
+SUPERZAP  MZ390 FID=  9 ERR= 0 W:\work\z390\mac\IF.MAC
+SUPERZAP  MZ390 FID= 10 ERR= 0 W:\work\z390\mac\ENDIF.MAC
+SUPERZAP  MZ390 FID= 11 ERR= 0 W:\work\z390\mac\ENDDO.MAC
+SUPERZAP  MZ390 FID= 12 ERR= 0 W:\work\z390\mac\SUBEXIT.MAC
+SUPERZAP  MZ390 FID= 13 ERR= 0 W:\work\z390\mac\ELSE.MAC
+SUPERZAP  MZ390 FID= 14 ERR= 0 W:\work\z390\mac\PENTRY.MAC
+SUPERZAP  MZ390 FID= 15 ERR= 0 W:\work\z390\mac\PEXIT.MAC
+SUPERZAP  MZ390 FID= 16 ERR= 0 W:\work\z390\mac\GETENV.MAC
+SUPERZAP  MZ390 FID= 17 ERR= 0 W:\work\z390\mac\WTO.MAC
+SUPERZAP  MZ390 FID= 18 ERR= 0 W:\work\z390\mac\OPEN.MAC
+SUPERZAP  MZ390 FID= 19 ERR= 0 W:\work\z390\mac\ZOPEN.MAC
+SUPERZAP  MZ390 FID= 20 ERR= 0 W:\work\z390\mac\DCBD.MAC
+SUPERZAP  MZ390 FID= 21 ERR= 0 W:\work\z390\mac\CLOSE.MAC
+SUPERZAP  MZ390 FID= 22 ERR= 0 W:\work\z390\mac\ZCLOSE.MAC
+SUPERZAP  MZ390 FID= 23 ERR= 0 W:\work\z390\mac\WTOR.MAC
+SUPERZAP  MZ390 FID= 24 ERR= 0 W:\work\z390\mac\WAIT.MAC
+SUPERZAP  MZ390 FID= 25 ERR= 0 W:\work\z390\mac\GET.MAC
+SUPERZAP  MZ390 FID= 26 ERR= 0 W:\work\z390\mac\ELSEIF.MAC
+SUPERZAP  MZ390 FID= 27 ERR= 0 W:\work\z390\mac\GETMAIN.MAC
+SUPERZAP  MZ390 FID= 28 ERR= 0 W:\work\z390\mac\ZOPTLR.MAC
+SUPERZAP  MZ390 FID= 29 ERR= 0 W:\work\z390\mac\PUT.MAC
+SUPERZAP  MZ390 FID= 30 ERR= 0 W:\work\z390\mac\ABEND.MAC
+SUPERZAP  MZ390 FID= 31 ERR= 0 W:\work\z390\mac\EQUREGS.MAC
+SUPERZAP  MZ390 FID= 32 ERR= 0 W:\work\z390\mac\DCB.MAC
+SUPERZAP  MZ390 total mnote warnings  = 0
+SUPERZAP  MZ390 total mnote errors    = 0
+SUPERZAP  MZ390 max   mnote level     = 0
+SUPERZAP  MZ390 total mz390 errors    = 0
+SUPERZAP  AZ390 BAL lines             = 2744
+SUPERZAP  AZ390 symbols               = 320
+SUPERZAP  AZ390 Literals              = 64
+SUPERZAP  AZ390 alloc passes          = 3
+SUPERZAP  AZ390 Keys                  = 1703
+SUPERZAP  AZ390 Key searches          = 19358
+SUPERZAP  AZ390 Key avg comps         = 1
+SUPERZAP  AZ390 Key max comps         = 4
+SUPERZAP  AZ390 ESD symbols           = 2
+SUPERZAP  AZ390 object bytes          = 17600
+SUPERZAP  AZ390 object rlds           = 15
+SUPERZAP  AZ390 total mnote warnings  = 0
+SUPERZAP  AZ390 total mnote errors    = 0
+SUPERZAP  AZ390 max   mnote level     = 0
+SUPERZAP  AZ390 total mz390 errors    = 0
+SUPERZAP  AZ390 total az390 errors    = 0
+SUPERZAP  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=15901
+SUPERZAP  LZ390 START
+SUPERZAP  LZ390 Copyright 2011 Automated Software Tools Corporation
+SUPERZAP  LZ390 z390 is licensed under GNU General Public License
+SUPERZAP  LZ390 options = W:\work\z390\z390.OPT=(time(60)) bal notiming stats 
+  systerm(linklib\rtlink)
+SUPERZAP  LZ390 program = linklib\SUPERZAP.OBJ
+SUPERZAP  LZ390 final_options=ALIGN
+SUPERZAP  LZ390 final_options=NOALLOW
+SUPERZAP  LZ390 final_options=NOAMODE24
+SUPERZAP  LZ390 final_options=AMODE31
+SUPERZAP  LZ390 final_options=NOASCII
+SUPERZAP  LZ390 final_options=ASM
+SUPERZAP  LZ390 final_options=NOASSIST
+SUPERZAP  LZ390 final_options=AUTOLINK
+SUPERZAP  LZ390 final_options=BAL
+SUPERZAP  LZ390 final_options=NOBS2000
+SUPERZAP  LZ390 final_options=EDF
+SUPERZAP  LZ390 final_options=NOCICS
+SUPERZAP  LZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+SUPERZAP  LZ390 final_options=COMMENT
+SUPERZAP  LZ390 final_options=CON
+SUPERZAP  LZ390 final_options=NODUMP
+SUPERZAP  LZ390 final_options=EPILOG
+SUPERZAP  LZ390 final_options=NOERRSUM
+SUPERZAP  LZ390 final_options=EXTEND
+SUPERZAP  LZ390 final_options=FLOAT(DECIMAL)
+SUPERZAP  LZ390 final_options=NOGUAM
+SUPERZAP  LZ390 final_options=INIT
+SUPERZAP  LZ390 final_options=LIST
+SUPERZAP  LZ390 final_options=LISTCALL
+SUPERZAP  LZ390 final_options=LISTUSE
+SUPERZAP  LZ390 final_options=LOADHIGH
+SUPERZAP  LZ390 final_options=NOMCALL
+SUPERZAP  LZ390 final_options=NOMOD
+SUPERZAP  LZ390 final_options=OBJ
+SUPERZAP  LZ390 final_options=NOOBJHEX
+SUPERZAP  LZ390 final_options=PC
+SUPERZAP  LZ390 final_options=PCOPT
+SUPERZAP  LZ390 final_options=NOPDSMEM8
+SUPERZAP  LZ390 final_options=NOPRINTALL
+SUPERZAP  LZ390 final_options=PROLOG
+SUPERZAP  LZ390 final_options=PROTECT
+SUPERZAP  LZ390 final_options=R64
+SUPERZAP  LZ390 final_options=NOREFORMAT
+SUPERZAP  LZ390 final_options=NOREGS
+SUPERZAP  LZ390 final_options=RMODE24
+SUPERZAP  LZ390 final_options=NORMODE31
+SUPERZAP  LZ390 final_options=STATS
+SUPERZAP  LZ390 final_options=NOTEST
+SUPERZAP  LZ390 final_options=THREAD
+SUPERZAP  LZ390 final_options=NOTIME
+SUPERZAP  LZ390 final_options=NOTIMING
+SUPERZAP  LZ390 final_options=NOTRACE
+SUPERZAP  LZ390 final_options=NOTRACEA
+SUPERZAP  LZ390 final_options=NOTRACEALL
+SUPERZAP  LZ390 final_options=NOTRACEC
+SUPERZAP  LZ390 final_options=NOTRACEG
+SUPERZAP  LZ390 final_options=NOTRACEI
+SUPERZAP  LZ390 final_options=NOTRACEL
+SUPERZAP  LZ390 final_options=NOTRACEM
+SUPERZAP  LZ390 final_options=NOTRACEP
+SUPERZAP  LZ390 final_options=NOTRACEQ
+SUPERZAP  LZ390 final_options=NOTRACES
+SUPERZAP  LZ390 final_options=NOTRACET
+SUPERZAP  LZ390 final_options=NOTRACEV
+SUPERZAP  LZ390 final_options=TRAP
+SUPERZAP  LZ390 final_options=NOTRUNC
+SUPERZAP  LZ390 final_options=NOTS
+SUPERZAP  LZ390 final_options=VCB
+SUPERZAP  LZ390 final_options=WARN
+SUPERZAP  LZ390 final_options=XREF
+SUPERZAP  LZ390 final_options=ZSTRMAC
+SUPERZAP  LZ390 final_options=CHKMAC=0
+SUPERZAP  LZ390 final_options=CHKSRC=1
+SUPERZAP  LZ390 final_options=ERR=100
+SUPERZAP  LZ390 final_options=MAXCALL=50
+SUPERZAP  LZ390 final_options=MAXDISPLAY=80
+SUPERZAP  LZ390 final_options=MAXESD=1000
+SUPERZAP  LZ390 final_options=MAXFILE=1000
+SUPERZAP  LZ390 final_options=MAXGBL=100000
+SUPERZAP  LZ390 final_options=MAXHEIGHT=600
+SUPERZAP  LZ390 final_options=MAXLCL=100000
+SUPERZAP  LZ390 final_options=MAXLEN=80
+SUPERZAP  LZ390 final_options=MAXLINE=200000
+SUPERZAP  LZ390 final_options=MAXLOG=1000000
+SUPERZAP  LZ390 final_options=MAXPARM=10000
+SUPERZAP  LZ390 final_options=MAXPASS=2
+SUPERZAP  LZ390 final_options=MAXPC=50000
+SUPERZAP  LZ390 final_options=MAXQUE=1000
+SUPERZAP  LZ390 final_options=MAXRLD=10000
+SUPERZAP  LZ390 final_options=MAXSIZE=52428800
+SUPERZAP  LZ390 final_options=MAXSYM=50000
+SUPERZAP  LZ390 final_options=MAXWARN=4
+SUPERZAP  LZ390 final_options=MAXWIDTH=800
+SUPERZAP  LZ390 final_options=MEM=1
+SUPERZAP  LZ390 final_options=MINHEIGHT=150
+SUPERZAP  LZ390 final_options=MINWIDTH=150
+SUPERZAP  LZ390 final_options=MNOTE=0
+SUPERZAP  LZ390 final_options=PARM=
+SUPERZAP  LZ390 final_options=PROFILE=
+SUPERZAP  LZ390 final_options=STATS=W:\work\z390\linklib\SUPERZAP.STA
+SUPERZAP  LZ390 final_options=SYSPARM=
+SUPERZAP  LZ390 final_options=SYSTERM=W:\work\z390\linklib\rtlink.ERR
+SUPERZAP  LZ390 final_options=TESTDD=
+SUPERZAP  LZ390 final_options=TIME=60
+SUPERZAP  LZ390 final_options=TRACE=
+SUPERZAP  LZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+SUPERZAP  LZ390 final_options=Z390BROWSER=cmd.exe /c Start
+SUPERZAP  LZ390 final_options=Z390COMMAND=cmd.exe
+SUPERZAP  LZ390 final_options=Z390EDITOR=notepad.exe
+SUPERZAP  LZ390 final_options=INSTALL=
+SUPERZAP  LZ390 final_options=IPL=
+SUPERZAP  LZ390 final_options=LOG=
+SUPERZAP  LZ390 final_options=SYS390=linklib\+linklib
+SUPERZAP  LZ390 final_options=SYSBAL=linklib\
+SUPERZAP  LZ390 final_options=SYSCPY=linklib\
+SUPERZAP  LZ390 final_options=SYSDAT=linklib\
+SUPERZAP  LZ390 final_options=SYSERR=linklib\
+SUPERZAP  LZ390 final_options=SYSLOG=linklib\
+SUPERZAP  LZ390 final_options=SYSLST=linklib\
+SUPERZAP  LZ390 final_options=SYSMAC=linklib\
+SUPERZAP  LZ390 final_options=SYSMLC=linklib\
+SUPERZAP  LZ390 final_options=SYSPCH=linklib\
+SUPERZAP  LZ390 final_options=SYSPRN=linklib\
+SUPERZAP  LZ390 final_options=SYSOBJ=linklib\
+SUPERZAP  LZ390 final_options=SYSOPT=linklib\
+SUPERZAP  LZ390 final_options=SYSTRC=linklib\
+SUPERZAP  LZ390 Stats total obj files = 1
+SUPERZAP  LZ390 Stats total esds      = 1
+SUPERZAP  LZ390 Stats total csects    = 1
+SUPERZAP  LZ390 Stats total entries   = 0
+SUPERZAP  LZ390 Stats missing wxtrn's = 0
+SUPERZAP  LZ390 Stats Keys            = 1
+SUPERZAP  LZ390 Stats Key searches    = 2
+SUPERZAP  LZ390 Stats Key avg comps   = 0
+SUPERZAP  LZ390 Stats Key max comps   = 1
+SUPERZAP  LZ390 Stats total obj byte  = 17600
+SUPERZAP  LZ390 Stats total obj rlds  = 15
+SUPERZAP  LZ390 total errors          = 0
+SUPERZAP  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=2484

@@ -1,0 +1,36 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Student()
+comment0.text=\r\n\ Default*\ Constructor\r\n\ A\ Constructor\ for\ the\ Student\ class\r\n\ Its\ only\ job\ is\ to\ assign\ values\ to\ the\ instance\ variables\r\n\ Will\ make\ id\ \=\=\ 909\ name\ \=\=\ "Frank"\ gpa\ \=\=\ 3.5\r\n
+comment1.params=id\ name\ gpa
+comment1.target=Student(int,\ java.lang.String,\ double)
+comment1.text=\r\n\ Custom\ Constructor\r\n\ A\ Constructor\ for\ the\ Student\ class\r\n\ Its\ only\ job\ is\ to\ assign\ values\ to\ the\ instance\ variables\r\n\ \r\n\ @param\ id\ The\ ID\ that\ we\ want\ for\ this\ Student\ object\r\n\ @param\ name\ The\ name\ that\ we\ want\ for\ this\ Student\ object\ \r\n\ @param\ gpa\ The\ gpa\ that\ we\ want\ for\ this\ Student\ object\r\n\ \r\n
+comment10.params=
+comment10.target=double\ getGPA()
+comment10.text=\r\n\ This\ is\ an\ *accessor*\ method,\ because\ it\ reads\ the\ value\ of\ an\ instance\ variable.\r\n\ This\ is\ a\ get()\ method.\ Will\ return\ the\ current\ GPA\ of\ this\ Student\ Object\r\n\ \r\n\ @return\ Returns\ the\ current\ GPA\ of\ this\ Student\ object\r\n
+comment11.params=
+comment11.target=java.lang.String\ toString()
+comment11.text=\r\n\ This\ is\ an\ *accessor*\ method,\ because\ it\ reads\ the\ value\ of\ an\ instance\ variable.\r\n\ Will\ return\ a\ textual\ description\ of\ this\ Student\ Object\r\n\ \r\n\ @return\ Returns\ a\ textual\ description\ of\ this\ Student\ Object\r\n
+comment2.params=name
+comment2.target=void\ setName(java.lang.String)
+comment2.text=\r\n\ This\ is\ a\ set()\ method\r\n\ It\ is\ a\ *mutator*\ because\ it\ changes\ the\ value\ of\ an\ instance\ variable\r\n\ Assigns\ the\ value\ of\ the\ argument\ to\ the\ 'name'\ instance\ variable\ \ \ \ \ \r\n\ \r\n\ @param\ name\ The\ name\ that\ we\ want\ for\ this\ Student\ object\ \r\n\r\n
+comment3.params=id
+comment3.target=void\ setID(int)
+comment3.text=\r\n\ This\ is\ a\ set()\ method\r\n\ It\ is\ a\ *mutator*\ because\ it\ changes\ the\ value\ of\ an\ instance\ variable\r\n\ Assigns\ the\ value\ of\ the\ argument\ to\ the\ 'id'\ instance\ variable\ \ \ \ \ \r\n\ \r\n\ @param\ id\ The\ id\ that\ we\ want\ for\ this\ Student\ object\ \r\n\r\n
+comment4.params=id
+comment4.target=void\ playWithID(int)
+comment4.text=\r\n\ \r\n\ \r\n\ \r\n
+comment5.params=gpa
+comment5.target=void\ setGPA(double)
+comment5.text=\r\n\ This\ is\ a\ set()\ method\r\n\ It\ is\ a\ *mutator*\ because\ it\ might\ change\ the\ value\ of\ an\ instance\ variable\r\n\ Assigns\ the\ value\ of\ the\ argument\ to\ the\ 'gpa'\ instance\ variable\ under\ *precondition*\ \ \ \ \r\n\ Here\ we\ are\ illustrating\ Programming\ By\ Contract\r\n\ \r\n\ @param\ gpa\ The\ gp\ that\ we\ want\ for\ this\ Student\ object\ \r\n\ @precondition\ (0.0\ <\=\ gpa\ <\=\ 4.0)\r\n
+comment6.params=money
+comment6.target=void\ addToJackpot(double)
+comment7.params=
+comment7.target=double\ getJackpot()
+comment8.params=
+comment8.target=java.lang.String\ getName()
+comment8.text=\r\n\ This\ is\ an\ *accessor*\ method,\ because\ it\ reads\ the\ value\ of\ an\ instance\ variable.\r\n\ This\ is\ a\ get()\ method.\ Will\ return\ the\ current\ name\ of\ this\ Student\ Object\r\n\ \r\n\ @return\ Returns\ the\ current\ name\ of\ this\ Student\ object\r\n
+comment9.params=
+comment9.target=int\ getID()
+comment9.text=\r\n\ This\ is\ an\ *accessor*\ method,\ because\ it\ reads\ the\ value\ of\ an\ instance\ variable.\r\n\ This\ is\ a\ get()\ method.\ Will\ return\ the\ current\ ID\ of\ this\ Student\ Object\r\n\ \r\n\ @return\ Returns\ the\ current\ ID\ of\ this\ Student\ object\r\n
+numComments=12

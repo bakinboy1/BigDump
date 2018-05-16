@@ -1,0 +1,616 @@
+Z390I V1.5.06
+Copyright 2011 Automated Software Tools Corporation
+z390 is licensed under GNU General Public License
+Log file = C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390\z390_2016_1219_101646.LOG
+Enter command or help
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:17:24 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:17:24 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390E MNOTE 12,'DCB DEVD NOT SUPPORTED'
+MZ390E MNOTE 12,'DCB DEVD NOT SUPPORTED'
+10:17:25 asmjcl1   MZ390 ENDED   RC=12 SEC= 0 MEM(MB)= 42 IO=1854
+Could Not Find c:\mlc\asmjcl1.mlc.obj
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/19/16 10:17:25 CMD task ended TOT SEC=1 TOT LOG IO=13
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:21:08 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:21:08 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+10:21:08 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 43 IO=1868
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:21:08 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:25:08 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:25:08 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+10:25:08 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 43 IO=1868
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:25:09 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:27:53 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>cls
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:27:53 CMD task ended TOT SEC=0 TOT LOG IO=5
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:27:59 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>com
+'com' is not recognized as an internal or external command,
+operable program or batch file.
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:27:59 CMD task ended TOT SEC=0 TOT LOG IO=7
+
+z390 alphabetical command list
+ABOUT                    display summary information about z390 tool      
+AMODE31  ON/OFF          set amode 24/31 for link cmd
+ASCII    ON/OFF          set EBCDIC or ASCII mode mode
+ASM      MLC file        submit assembly of MLC source to OBJ object code file
+ASML     MLC file        submit assembly and link MLC source to 390 load module file
+ASMLG    MLC file        submit assembly, link, and execute 390 load module file
+CD       directory path  change directory
+CMD      command         set cmd mode and submit batch cmd
+Copy                     copy selected text to clipboard (GUI right click)    
+COMMANDS                 alphabetical list of all commands                    
+CON      ON/OFF          set console output for file cmds
+COPYLOG                  copy the entire log text to clipboard (GUI only)     
+Cut                      cut selected text (GUI right click)                  
+Dump     ON/OFF          set option for indicative or full dump on abort
+Edit     any file        edit source file in seprarate window
+ERR      nnn             change error msg limit from 100 to nnn (0 is off)
+EXIT                     exit z390 after closing all files (also CTRL-BREAK
+EXEC     390 file        submit execution of 390 load module
+FONT     points          change font size
+GUI      ON/OFF          Open Graphical User Interface for MCS, 3270, and graphics
+GUIDE                    view PDF user guide in web browser          
+HELP                     display help information summary                     
+JOB      BAT file        submit batch job
+LINK     obj file        submit link obj file into 390 load module
+LIST     ON/OFF          set PRN, LST, and/or LOG output for file cmds
+LISTCALL ON/OFF          set trace calls for MAC file cmd
+LOC      x y pixels      set upper left location of window
+MAC      mlc file        expand mlc macro file to bal source file
+PASTE                    paste clipboard text (GUI right click)                
+PERM                     display current Java security manager permissions     
+REL                      display current release level for OS, Java, and z390
+RMODE31  ON/OFF          set rmode 24/31 for link cmd
+SIZE     x y pixels      set width and height of window
+STATS    ON/OFF          set statistics for BAL, PRN, LST, and/or LOG file cmds
+STATUS   ON/OFF/sec      set status line on or off or set log interval sec  
+SUPPORT                  open browser to online support web site               
+TEST     ON/OFF          set prompt for interactive test cmds for EXEC cmd
+TITLE    'text'          set GUI title
+TIMEOUT  seconds         set command timeout seconds or 0 for no limit (default
+TRACE    ON/OFF          set trace for BAL, PRN, LST, and/or LOG file cmds
+SZ390E error 71 previous command execution ended with rc =9009
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:28:52 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MLC c:\mlc\asmjcl1.mlc 
+'MLC' is not recognized as an internal or external command,
+operable program or batch file.
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:28:52 CMD task ended TOT SEC=0 TOT LOG IO=7
+SZ390E error 71 previous command execution ended with rc =9009
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:29:42 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:29:42 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+10:29:42 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 43 IO=1868
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:29:42 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:30:38 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.bal erase c:\mlc\asmjcl1.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.err erase c:\mlc\asmjcl1.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.sta erase c:\mlc\asmjcl1.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.tr* erase c:\mlc\asmjcl1.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\mlc\asmjcl1.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\mlc\asmjcl1.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+10:30:38 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+10:30:38 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 30 IO=1105
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:30:38 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:32:13 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:32:13 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+10:32:14 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 43 IO=1868
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:32:14 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:36:28 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.bal erase c:\mlc\asmjcl1.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.err erase c:\mlc\asmjcl1.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.sta erase c:\mlc\asmjcl1.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.tr* erase c:\mlc\asmjcl1.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\mlc\asmjcl1.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\mlc\asmjcl1.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+10:36:28 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+10:36:28 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 30 IO=1105
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:36:28 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:37:24 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:37:24 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+AZ390E error 144       (1/38)38            ST    R13,SAVEAREA+4          BACKWARD CHAIN CALLER
+AZ390E error 144       (1/39)39            LA    R13,SAVEAREA            ADDRESS OF MY SAVE AREA
+AZ390E error 144       (1/46)46                          LA     1,FILEOUT1
+AZ390E error 144     (1/125)125                          LA     1,FILEIN1
+AZ390E error 144     (1/134)134            LA    1,FILEIN1
+AZ390E error 144     (1/135)135            LA    0,RECIN
+AZ390E error 144     (1/142)142            MVC   RECOUT,RECIN            MOVE INPUT RECORD TO OUTPUT REC
+AZ390E error 144     (1/145)145            LA    1,FILEOUT1
+AZ390E error 144     (1/146)146            LA    0,RECOUT
+AZ390E error 144     (1/151)151            LA    1,FILEIN1
+AZ390E error 144     (1/152)152            LA    0,RECIN
+AZ390E error 144     (1/155)155            B     LOOP                    GO BACK AND PROCESS
+AZ390E error 144     (1/163)163                          LA     1,FILEIN1
+AZ390E error 144     (1/169)169                          LA     1,FILEOUT1
+AZ390E error 144     (1/173)173            L     R13,SAVEAREA+4          POINT AT OLD SAVE AREA
+AZ390E error  33     (1/192)192            ORG   FILEOUT1+DCBID-IHADCB        RPI88
+AZ390E error  33     (1/194)194            ORG   FILEOUT1+DCBDSORG-IHADCB
+AZ390E error  33     (1/196)196            ORG   FILEOUT1+DCBEODAD-IHADCB
+AZ390E error  33     (1/198)198            ORG   FILEOUT1+DCBRECFM-IHADCB
+AZ390E error  33     (1/200)200            ORG   FILEOUT1+DCBDDNAM-IHADCB
+AZ390E error  33     (1/202)202            ORG   FILEOUT1+DCBOFLGS-IHADCB
+AZ390E error  33     (1/204)204            ORG   FILEOUT1+DCBMACRF-IHADCB
+AZ390E error  33     (1/206)206            ORG   FILEOUT1+DCBSYNAD-IHADCB
+AZ390E error  33     (1/208)208            ORG   FILEOUT1+DCBBLKSIF-IHADCB    RPI 587
+AZ390E error  33     (1/210)210            ORG   FILEOUT1+DCBLRECLF-IHADCB    RPI 587
+AZ390E error  33     (1/212)212            ORG   FILEOUT1+DCBREC-IHADCB
+AZ390E error  33     (1/214)214            ORG   FILEOUT1+DCBDSNAM-IHADCB
+AZ390E error  33     (1/216)216            ORG   FILEOUT1+DCBDCBE-IHADCB   RPI 281
+AZ390E error  33     (1/218)218            ORG   FILEOUT1+DCBIO-IHADCB     RPI 907
+AZ390E error  33     (1/234)234            ORG   FILEIN1+DCBID-IHADCB        RPI88
+AZ390E error  33     (1/236)236            ORG   FILEIN1+DCBDSORG-IHADCB
+AZ390E error  33     (1/238)238            ORG   FILEIN1+DCBEODAD-IHADCB
+AZ390E error  33     (1/240)240            ORG   FILEIN1+DCBRECFM-IHADCB
+AZ390E error  33     (1/242)242            ORG   FILEIN1+DCBDDNAM-IHADCB
+AZ390E error  33     (1/244)244            ORG   FILEIN1+DCBOFLGS-IHADCB
+AZ390E error  33     (1/246)246            ORG   FILEIN1+DCBMACRF-IHADCB
+AZ390E error  33     (1/248)248            ORG   FILEIN1+DCBSYNAD-IHADCB
+AZ390E error  33     (1/250)250            ORG   FILEIN1+DCBBLKSIF-IHADCB    RPI 587
+AZ390E error  33     (1/252)252            ORG   FILEIN1+DCBLRECLF-IHADCB    RPI 587
+AZ390E error  33     (1/254)254            ORG   FILEIN1+DCBREC-IHADCB
+AZ390E error  33     (1/256)256            ORG   FILEIN1+DCBDSNAM-IHADCB
+AZ390E error  33     (1/258)258            ORG   FILEIN1+DCBDCBE-IHADCB   RPI 281
+AZ390E error  33     (1/260)260            ORG   FILEIN1+DCBIO-IHADCB     RPI 907
+10:37:24 asmjcl1   MZ390 ENDED   RC=12 SEC= 0 MEM(MB)= 41 IO=1011
+Could Not Find c:\mlc\asmjcl1.bal.obj
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/19/16 10:37:24 CMD task ended TOT SEC=1 TOT LOG IO=54
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:38:34 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:38:35 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+10:38:35 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 43 IO=1868
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:38:35 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:40:08 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\mlc\asmjcl1.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.bal erase c:\mlc\asmjcl1.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.err erase c:\mlc\asmjcl1.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.sta erase c:\mlc\asmjcl1.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\mlc\asmjcl1.mlc.tr* erase c:\mlc\asmjcl1.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\mlc\asmjcl1.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\mlc\asmjcl1.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+10:40:08 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+10:40:08 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 30 IO=1105
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:40:08 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 10:40:17 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+10:40:17 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+10:40:18 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 43 IO=2043
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 10:40:18 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 21:47:03 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+21:47:03 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+AZ390E error 144       (1/38)38            ST    R13,SAVEAREA+4          BACKWARD CHAIN CALLER
+AZ390E error 144       (1/39)39            LA    R13,SAVEAREA            ADDRESS OF MY SAVE AREA
+AZ390E error 144       (1/46)46                          LA     1,FILEOUT1
+AZ390E error 144     (1/125)125                          LA     1,FILEIN1
+AZ390E error 144     (1/134)134            LA    1,FILEIN1
+AZ390E error 144     (1/135)135            LA    0,RECIN
+AZ390E error 144     (1/142)142            MVC   RECOUT,RECIN            MOVE INPUT RECORD TO OUTPUT REC
+AZ390E error 144     (1/145)145            LA    1,FILEOUT1
+AZ390E error 144     (1/146)146            LA    0,RECOUT
+AZ390E error 144     (1/151)151            LA    1,FILEIN1
+AZ390E error 144     (1/152)152            LA    0,RECIN
+AZ390E error 144     (1/155)155            B     LOOP                    GO BACK AND PROCESS
+AZ390E error 144     (1/163)163                          LA     1,FILEIN1
+AZ390E error 144     (1/169)169                          LA     1,FILEOUT1
+AZ390E error 144     (1/173)173            L     R13,SAVEAREA+4          POINT AT OLD SAVE AREA
+AZ390E error  33     (1/192)192            ORG   FILEOUT1+DCBID-IHADCB        RPI88
+AZ390E error  33     (1/194)194            ORG   FILEOUT1+DCBDSORG-IHADCB
+AZ390E error  33     (1/196)196            ORG   FILEOUT1+DCBEODAD-IHADCB
+AZ390E error  33     (1/198)198            ORG   FILEOUT1+DCBRECFM-IHADCB
+AZ390E error  33     (1/200)200            ORG   FILEOUT1+DCBDDNAM-IHADCB
+AZ390E error  33     (1/202)202            ORG   FILEOUT1+DCBOFLGS-IHADCB
+AZ390E error  33     (1/204)204            ORG   FILEOUT1+DCBMACRF-IHADCB
+AZ390E error  33     (1/206)206            ORG   FILEOUT1+DCBSYNAD-IHADCB
+AZ390E error  33     (1/208)208            ORG   FILEOUT1+DCBBLKSIF-IHADCB    RPI 587
+AZ390E error  33     (1/210)210            ORG   FILEOUT1+DCBLRECLF-IHADCB    RPI 587
+AZ390E error  33     (1/212)212            ORG   FILEOUT1+DCBREC-IHADCB
+AZ390E error  33     (1/214)214            ORG   FILEOUT1+DCBDSNAM-IHADCB
+AZ390E error  33     (1/216)216            ORG   FILEOUT1+DCBDCBE-IHADCB   RPI 281
+AZ390E error  33     (1/218)218            ORG   FILEOUT1+DCBIO-IHADCB     RPI 907
+AZ390E error  33     (1/234)234            ORG   FILEIN1+DCBID-IHADCB        RPI88
+AZ390E error  33     (1/236)236            ORG   FILEIN1+DCBDSORG-IHADCB
+AZ390E error  33     (1/238)238            ORG   FILEIN1+DCBEODAD-IHADCB
+AZ390E error  33     (1/240)240            ORG   FILEIN1+DCBRECFM-IHADCB
+AZ390E error  33     (1/242)242            ORG   FILEIN1+DCBDDNAM-IHADCB
+AZ390E error  33     (1/244)244            ORG   FILEIN1+DCBOFLGS-IHADCB
+AZ390E error  33     (1/246)246            ORG   FILEIN1+DCBMACRF-IHADCB
+AZ390E error  33     (1/248)248            ORG   FILEIN1+DCBSYNAD-IHADCB
+AZ390E error  33     (1/250)250            ORG   FILEIN1+DCBBLKSIF-IHADCB    RPI 587
+AZ390E error  33     (1/252)252            ORG   FILEIN1+DCBLRECLF-IHADCB    RPI 587
+AZ390E error  33     (1/254)254            ORG   FILEIN1+DCBREC-IHADCB
+AZ390E error  33     (1/256)256            ORG   FILEIN1+DCBDSNAM-IHADCB
+AZ390E error  33     (1/258)258            ORG   FILEIN1+DCBDCBE-IHADCB   RPI 281
+AZ390E error  33     (1/260)260            ORG   FILEIN1+DCBIO-IHADCB     RPI 907
+21:47:04 asmjcl1   MZ390 ENDED   RC=12 SEC= 0 MEM(MB)= 42 IO=1123
+Could Not Find c:\mlc\asmjcl1.bal.obj
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/19/16 21:47:04 CMD task ended TOT SEC=1 TOT LOG IO=54
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 21:47:10 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\mlc\asmjcl1.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+21:47:10 asmjcl1   MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+21:47:11 asmjcl1   MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 43 IO=2043
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 21:47:11 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 22:53:54 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\maristcode\mvcmlc.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.bal erase c:\maristcode\mvcmlc.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.err erase c:\maristcode\mvcmlc.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.sta erase c:\maristcode\mvcmlc.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.tr* erase c:\maristcode\mvcmlc.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\maristcode\mvcmlc.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\maristcode\mvcmlc.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+22:53:55 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+22:53:55 mvcmlc    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 26 IO=28
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 22:53:55 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 22:54:36 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\maristcode\mvcmlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+22:54:36 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+AZ390E error 144         (1/7)7             B      BEGIN
+22:54:36 mvcmlc    MZ390 ENDED   RC=12 SEC= 0 MEM(MB)= 38 IO=69
+Could Not Find c:\maristcode\mvcmlc.bal.obj
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/19/16 22:54:37 CMD task ended TOT SEC=1 TOT LOG IO=12
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:00:32 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\maristcode\mvcmlc.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.bal erase c:\maristcode\mvcmlc.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.err erase c:\maristcode\mvcmlc.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.sta erase c:\maristcode\mvcmlc.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.tr* erase c:\maristcode\mvcmlc.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\maristcode\mvcmlc.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\maristcode\mvcmlc.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+23:00:32 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+23:00:32 mvcmlc    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 26 IO=34
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 23:00:32 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:00:38 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\maristcode\mvcmlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+23:00:38 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+AZ390E error 198         (1/9)9             B      BEGIN
+AZ390E error 198       (1/13)13             END    BEGIN
+23:00:39 mvcmlc    MZ390 ENDED   RC=12 SEC= 0 MEM(MB)= 38 IO=83
+Could Not Find c:\maristcode\mvcmlc.bal.obj
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/19/16 23:00:39 CMD task ended TOT SEC=0 TOT LOG IO=13
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:46:12 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\maristcode\mvcmlc.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.bal erase c:\maristcode\mvcmlc.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.err erase c:\maristcode\mvcmlc.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.sta erase c:\maristcode\mvcmlc.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.tr* erase c:\maristcode\mvcmlc.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\maristcode\mvcmlc.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\maristcode\mvcmlc.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+23:46:12 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+23:46:12 mvcmlc    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 26 IO=34
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 23:46:12 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:46:21 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\maristcode\mvcmlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+23:46:21 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+AZ390E error 144         (1/9)9             B      BEGIN
+23:46:21 mvcmlc    MZ390 ENDED   RC=12 SEC= 0 MEM(MB)= 38 IO=83
+Could Not Find c:\maristcode\mvcmlc.bal.obj
+Press any key to continue . . . 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>exit
+*** 12/19/16 23:46:22 CMD task ended TOT SEC=1 TOT LOG IO=12
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:52:45 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\maristcode\mvcmlc.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.bal erase c:\maristcode\mvcmlc.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.err erase c:\maristcode\mvcmlc.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.sta erase c:\maristcode\mvcmlc.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.tr* erase c:\maristcode\mvcmlc.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\maristcode\mvcmlc.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\maristcode\mvcmlc.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+23:52:46 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+23:52:46 mvcmlc    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 27 IO=34
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 23:52:46 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:52:55 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\maristcode\mvcmlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+23:52:55 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+23:52:55 mvcmlc    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 38 IO=79
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 23:52:55 CMD task ended TOT SEC=1 TOT LOG IO=9
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:59:00 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>MAC c:\maristcode\mvcmlc.mlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem mac run mz390 macro processor to expand mlc to bal with nomlc 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem echo off 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == tron shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON ECHO ON 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if c:\maristcode\mvcmlc.mlc == TRON shift
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.bal erase c:\maristcode\mvcmlc.mlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.err erase c:\maristcode\mvcmlc.mlc.err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.sta erase c:\maristcode\mvcmlc.mlc.sta 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if exist c:\maristcode\mvcmlc.mlc.tr* erase c:\maristcode\mvcmlc.mlc.tr* 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>call C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mz390 c:\maristcode\mvcmlc.mlc  bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)         
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem execute mz390 runtime with java runtime options: 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem 01/15/09 DSH added 150 MB init and max mem for zcobol 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -classpath  path to jar file 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmsnK      set initial memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -XmxnK      set max     memory allocation to nK 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem -Xrs        allow control break interruption of java tasks 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>java -classpath C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\z390.jar -Xrs -Xms150000K -Xmx150000K  mz390 c:\maristcode\mvcmlc.mlc bal noasm sysmac(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) syscpy(C:\Users\David\AppData\Local\Programs\AUTOMA~1\z390\mac+.) chksrc(0) chkmac(0)   
+23:59:00 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+MZ390I total mnote warnings = 0
+MZ390I total mnote errors   = 0
+MZ390I max   mnote level    = 0
+MZ390I total mz390 errors   = 0
+23:59:00 mvcmlc    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 26 IO=36
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>if errorlevel 5 goto err 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>goto end 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 23:59:00 CMD task ended TOT SEC=0 TOT LOG IO=32
+Microsoft Windows [Version 10.0.14393]
+(c) 2016 Microsoft Corporation. All rights reserved.
+*** 12/19/16 23:59:34 CMD task started
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>CD \Users\David\AppData\Local\Programs\Automated Software Tools\z390\
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>ASM c:\maristcode\mvcmlc.bal 
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>rem asm run macro assembly to generate relocatible obj from mlc source  
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390>echo off 
+23:59:34 mvcmlc    MZ390 START USING z390 V1.5.06 ON J2SE 1.8.0_111 12/19/16
+23:59:34 mvcmlc    MZ390 ENDED   RC= 0 SEC= 0 MEM(MB)= 38 IO=85
+C:\Users\David\AppData\Local\Programs\Automated Software Tools\z390> exit
+*** 12/19/16 23:59:34 CMD task ended TOT SEC=1 TOT LOG IO=9
+Z390I total errors = 2

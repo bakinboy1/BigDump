@@ -1,0 +1,97 @@
+***********************************************************************
+* Copyright 2006 Automated Software Tools Corporation                 *
+* This source code is part of z390 assembler/emulator package         *
+* The z390 package is distributed under GNU general public license    *
+* Author - Don Higgins                                                *
+***********************************************************************
+LCL0C02  CSECT
+*
+* FN=0C02  EXEC CICS GETMAIN
+*
+* R1  >>> P0C02 BLOCK POINTER
+*
+         USING *,R13
+         B     12(R15)            BYPASS EYECATCHER
+         DC    CL8'LCL0C02'
+         LR    R13,R15            R13 AS BASE
+         LR    R3,R1              SET BASE
+         L     R3,0(R3)                    FOR PARMS
+         USING (P0C02,P0C02END),R3
+         L     DFHEIBR,P0C02EIB   LOAD EIB ADDRESS
+         USING DFHEIBLK,DFHEIBR
+         L     TCTTEAR,P0C02TCT   LOAD TCT ADDRESS
+         USING DFHTCTTE,TCTTEAR
+         MVC   EIBFN,P0C02FN      SET EIBFN
+         XC    EIBRCODE,EIBRCODE  CLEAR EIBRCODE
+         XC    EIBRESP,EIBRESP    CLEAR EIBRESP
+         XC    EIBRESP2,EIBRESP2  CLEAR EIBRESP2
+         ICM   R1,15,P0C02RSP     R1=RESP ADDRESS
+         BZ    NORESP             EXIT IF NONE
+         XC    0(4,R1),0(R1)      CLEAR RESP
+NORESP   EQU   *
+         ICM   R1,15,P0C02RS2     R1=RESP2 ADDRESS
+         BZ    NORESP2            EXIT IF NONE
+         XC    0(4,R1),0(R1)      CLEAR RESP2
+NORESP2  EQU   *
+         CLI   P0C02NED,X'FF'     NOEDF ?
+         BE    NOEDFB             EXIT IF IT IS
+         CLI   TCTTEEDF,X'FF'     EDF ON ?
+         BNE   NOEDFB             EXIT IF NOT
+         MVI   TCTTEEBA,X'00'     SET 'BEFORE' INTERCEPT
+         MVI   TCTTEEDL,X'00'     SET NORMAL LINKAGE
+         L     R15,TCTTEEDA       R15=EDF PROCESSOR ADDRESS
+         BAKR  0,R15              STACK REGS AND GO
+*
+NOEDFB   EQU   *
+         L     R1,P0C02LEN        R1=GETMAIN LENGTH
+         AHI   R1,8               +8 FOR PREFIX
+         GETMAIN R,LV=(R1)
+         ST    R1,P0C02GMA        SAVE GETMAIN ADDRESS
+         LA    R14,TCTTESCC       R14=ANCHOR OF GETMAIN CHAIN
+LOOP     EQU   *
+         OC    0(4,R14),0(R14)    ANY GETMAIN CHAIN ?
+         BNZ   CHAIN              EXIT IF THERE IS
+         ST    R1,0(R14)          SAVE GETMAIN CHAIN
+         XC    0(4,R1),0(R1)      CLEAR FORWARD CHAIN
+         ST    R0,4(R1)           SAVE LENGTH ACQUIRED IN PREFIX
+         B     INIT               EXIT
+*
+CHAIN    EQU   *
+         L     R14,0(R14)         NEXT GETMAIN AREA
+         B     LOOP               LOOP THRU CHAIN
+*
+INIT     EQU   *
+         CLI   P0C02INM,X'FF'     ANY INITIMG ?
+         BNE   NOINIT             EXIT IF NOT
+         L     R14,P0C02GMA       SET ADDRESS TO CLEAR
+         AHI   R14,8              ADJUST FOR PREFIX
+         LR    R15,R0             SET LENGTH TO CLEAR
+         AHI   R15,-8             ADJUST FOR PREFIX
+         LR    R0,R14             SET 2ND ADDRESS
+         SR    R1,R1              CLEAR 2ND LENGTH
+         ICM   R1,8,P0C02INT      SET PADDING BYTE
+         MVCL  R14,R0             CLEAR GETMAINED AREA WITH INITIMG
+NOINIT   EQU   *
+         CLI   P0C02NED,X'FF'     NOEDF ?
+         BE    NOEDFA             RETURN IF IT IS
+         CLI   TCTTEEDF,X'FF'     EDF ON ?
+         BNE   NOEDFA             RETURN IF NOT
+         MVI   TCTTEEBA,X'FF'     SET 'AFTER' INTERCEPT
+         MVI   TCTTEEDL,X'00'     SET NORMAL LINKAGE
+         L     R15,TCTTEEDA       R15=EDF PROCESSOR ADDRESS
+         BAKR  0,R15              STACK REGS AND GO
+*
+NOEDFA   EQU   *
+         PR    ,                  UNSTACK AND RETURN TO MACRO
+*
+         LTORG
+*
+         P0C02 DSECT
+*
+         DFHEIBLK                 EIB
+         DFHTCTTE                 TCTTE
+*
+         EQUREGS REGS=GPR
+*
+         END
+

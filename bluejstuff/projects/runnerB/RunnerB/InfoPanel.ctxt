@@ -1,0 +1,4 @@
+#BlueJ class context
+comment0.params=strTitle\ strBody\ Xsize\ Ysize\ Xlocation\ Ylocation
+comment0.target=InfoPanel(java.lang.String,\ java.lang.String,\ int,\ int,\ int,\ int)
+numComments=1

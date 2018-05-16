@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=dev
+comment0.target=void\ enqueueDevice(Device)
+comment1.params=
+comment1.target=Device\ dequeueAnyDevice()
+comment2.params=
+comment2.target=Device\ dequeuePeach()
+comment3.params=
+comment3.target=Device\ dequeueCyborg()
+numComments=4

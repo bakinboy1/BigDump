@@ -1,0 +1,21 @@
+         ZCOBOL PGM='zcobol\demo\hello',VER=V1.5.01dx5,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(notiming,stats)
+         COPY  hello_ZC_LABELS.CPY
+* 000100 IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+* 000200 PROGRAM-ID. HELLO.
+         PROGRAM_ID HELLO
+         DATA  DIVISION
+         DATA  END
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+* 000400     DISPLAY 'Hello World'.
+*ZC      4 000400  DISPLAY 'Hello World'
+         DISPLAY 'Hello World'
+         PERIOD 
+* 000500     STOP RUN.
+*ZC      5 000500  STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

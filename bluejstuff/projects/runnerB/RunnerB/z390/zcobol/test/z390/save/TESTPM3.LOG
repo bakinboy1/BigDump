@@ -1,0 +1,12 @@
+TESTPM3   EZ390 START
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = zcobol\test\TESTPM3.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+BYTEFILE STARTED
+ BYTEFILE RECORDS COPIED =      3
+ BYTES COPIED =                  240
+BYTEFILE ENDED OK
+EZ390I total errors         = 0
+TESTPM3   EZ390 ENDED   RC= 0 MEM(MB)= MB IO=332 INS=11650

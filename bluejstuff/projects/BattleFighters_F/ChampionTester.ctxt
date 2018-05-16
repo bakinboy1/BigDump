@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=ChampionTester()
+comment0.text=\r\n\ declare\ each\ champion's\ health,\ attack\ value,\ and\ name\r\n
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment1.text=\r\n\ declare\ each\ champion's\ health,\ attack\ value,\ and\ name\r\n
+numComments=2

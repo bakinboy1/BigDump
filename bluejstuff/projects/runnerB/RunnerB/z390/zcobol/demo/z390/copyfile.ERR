@@ -1,0 +1,8 @@
+copyfile  ZC390 START
+copyfile  ZC390 ENDED   RC= 0 MEM(MB)= MB IO=9
+copyfile  MZ390 START
+copyfile  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=57918
+copyfile  LZ390 START
+copyfile  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=345
+copyfile  EZ390 START
+copyfile  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=359 INS=999

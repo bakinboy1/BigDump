@@ -1,0 +1,47 @@
+Comparing files ZCOBOL\DEMO\JAVA\HELLO.MLC and ZCOBOL\DEMO\JAVA\SAVE\HELLO.MLC
+***** ZCOBOL\DEMO\JAVA\HELLO.MLC
+         ZCOBOL PGM='zcobol\demo\HELLO',VER=V1.5.01dx5,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(notiming,stats)
+         COPY  HELLO_ZC_LABELS.CPY
+* 000100 IDENTIFICATION DIVISION.
+***** ZCOBOL\DEMO\JAVA\SAVE\HELLO.MLC
+         ZCOBOL PGM=zcobol\demo\HELLO,VER=V1.5.00cx2,CDATE=MM/DD/YY,CTIX
+               ME=,OPTIONS=(notiming,stats)
+* 000100 IDENTIFICATION DIVISION.
+*****
+
+***** ZCOBOL\DEMO\JAVA\HELLO.MLC
+         PROGRAM_ID HELLO
+         DATA  DIVISION
+         DATA  END
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+***** ZCOBOL\DEMO\JAVA\SAVE\HELLO.MLC
+         PROGRAM_ID HELLO
+         DATA DIVISION
+         DATA END
+         PROCEDURE DIVISION
+*****
+
+***** ZCOBOL\DEMO\JAVA\HELLO.MLC
+* 000400     DISPLAY 'Hello World'.
+*ZC      4 000400  DISPLAY 'Hello World'
+         DISPLAY 'Hello World'
+         PERIOD 
+* 000500     STOP RUN.
+*ZC      5 000500  STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   
+***** ZCOBOL\DEMO\JAVA\SAVE\HELLO.MLC
+* 000400     DISPLAY 'Hello World'.
+             DISPLAY 'Hello World'
+             PERIOD
+* 000500     STOP RUN.
+             STOP RUN
+             PERIOD
+         PROCEDURE END
+         END
+*****
+

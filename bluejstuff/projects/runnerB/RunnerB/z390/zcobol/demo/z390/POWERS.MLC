@@ -1,0 +1,44 @@
+         ZCOBOL PGM='zcobol\demo\POWERS',VER=V1.5.06,CDATE=MM/DD/YY,CTIX
+               ME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,stats)
+         COPY  POWERS_ZC_LABELS.CPY
+*      ***************************************************************
+*      * Author.  Don Higgins
+*      * Date.    06/29/06
+*      * Remarks. COBOL Powers of 2 from 0 to 126
+*      ***************************************************************
+*      * 03/14/09 RPI 1004 UPGRADED TO USE COMP PIC S9(39) QW
+*      ***************************************************************
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID. POWERS.
+         PROGRAM_ID POWERS
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01 POWER  PIC S9(3)  COMP-3 VALUE 0.
+         WS      01,POWER,PIC,S9(3),COMP_3,VALUE,0
+*        01 PNUM   PIC S9(39) COMP   VALUE 1.
+         WS      01,PNUM,PIC,S9(39),COMP,VALUE,1
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*            PERFORM UNTIL POWER EQUALS 127
+*ZC     15         PERFORM UNTIL,POWER,EQUALS,127
+         PERFORM UNTIL,POWER,EQUALS,127
+*                DISPLAY 'POWER OF 2**' POWER ' = ' PNUM
+*ZC     16         DISPLAY 'POWER OF 2**',POWER,' = ',PNUM
+         DISPLAY 'POWER OF 2**',POWER,' = ',PNUM
+*                ADD PNUM TO PNUM
+*ZC     17         ADD   PNUM,TO,PNUM
+         ADD   PNUM,TO,PNUM
+*                ADD 1    TO POWER
+*ZC     18         ADD   1,TO,POWER
+         ADD   1,TO,POWER
+*            END-PERFORM.
+*ZC     19         END_PERFORM 
+         END_PERFORM 
+         PERIOD 
+         PROCEDURE END
+         END   

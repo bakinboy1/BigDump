@@ -1,0 +1,10 @@
+TESTBFP1  LZ390 START
+LZ390I Copyright 2011 Automated Software Tools Corporation
+LZ390I z390 is licensed under GNU General Public License
+LZ390I options = W:\work\z390\z390.OPT=(time(60)) SYSOBJ(+zcobol\z390) notiming 
+  stats float(binary)
+LZ390I program = zcobol\test\TESTBFP1.OBJ
+LZ390I ESD=TESTBFP1 LOC=00000000 LEN=00002AF0
+LZ390I INCLUDE = zcobol\test\TESTBFP1.OBJ
+LZ390I total errors         = 0
+TESTBFP1  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=1523

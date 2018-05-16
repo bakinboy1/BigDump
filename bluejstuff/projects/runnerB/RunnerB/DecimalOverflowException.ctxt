@@ -1,0 +1,8 @@
+#BlueJ class context
+comment0.params=
+comment0.target=DecimalOverflowException()
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ DecimalOverflowException\r\n
+comment1.params=s
+comment1.target=DecimalOverflowException(java.lang.String)
+comment1.text=\r\n\ Constructor\ for\ objects\ of\ class\ DecimalOverflowException\r\n
+numComments=2

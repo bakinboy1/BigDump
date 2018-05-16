@@ -1,0 +1,50 @@
+         MACRO
+.*********************************************************************
+.* Copyright 2008 Automated Software Tools Corporation               *
+.* This source code is part of z390 zCOBOL/assembler/emulator package*
+.* The z390 package is distributed under GNU general public license  *
+.* Author - Don Higgins                                              *
+.* Date   - 04/07/08                                                 *
+.*********************************************************************
+.* 03/04/09 initial coding for COMPUTE using IF as model
+.*********************************************************************
+.* Pending work includes support for field,lit,expression in either 
+.* first or second operand.  Coming after COMPUTE dubugs GEN_EXP.
+.*********************************************************************
+         COMPUTE
+         COPY  ZC_WS
+         :&PARM_IX SETA 2
+         AWHILE (&PARM_IX LT N'&SYSLIST                                X
+                 AND '&SYSLIST(&PARM_IX)' NE '='                       X
+                 AND '&SYSLIST(&PARM_IX)' NE 'EQUAL')
+               :&PARM_IX SETA &PARM_IX+1
+         AEND
+         AIF   (&PARM_IX GT N'&SYSLIST)
+               MNOTE 8,'COMPUTE = NOT FOUND'
+               MEXIT
+         AEND
+         :&EXP_PARMS SETC '&SYSLIST(&PARM_IX+1)'
+         :&PARM_IX SETA &PARM_IX+2
+         AWHILE (&PARM_IX LE N'&SYSLIST                                X
+                 AND '&SYSLIST(&PARM_IX)' NE 'ON'                      X
+                 AND '&SYSLIST(&PARM_IX)' NE 'NOT') COLLECT EXP PARMS
+               :&EXP_PARMS SETC '&EXP_PARMS,&SYSLIST(&PARM_IX)'
+               :&PARM_IX SETA &PARM_IX+1
+         AEND
+         AIF   ('&SYSLIST(&PARM_IX)' EQ 'ON'                           X
+                OR '&SYSLIST(&PARM_IX)' EQ 'NOT') ON SIZE/NOT ON SIZE
+               MNOTE 8,'COMPUTE ON SIZE NOT SUPPORTED YET'
+               MEXIT
+         AEND
+         :&PARM_IX SETA 1
+         :&FIELD_REG SETC 'ZC_R15' NOTE GEN_ADD USES 1, 2, 14 FOR LITS
+         :&FIELD_SS1 SETB 1
+         ACALL GET_PARM_FIELD                      GET TARGET FIELD
+       AIF   (&FIELD_IX GT 0)
+         ZC_CALC &FIELD_NAME,&FIELD_IX,&EXP_PARMS  CALC EXP
+       AELSE
+         MNOTE 8,'COMPUTE TARGET FIELD NOT FOUND - &SYSLIST(1)'
+       AEND
+         MEXIT
+         COPY ZCGETFLD
+         MEND

@@ -1,0 +1,10 @@
+#BlueJ class context
+comment0.params=newCadence\ newGear\ newSpeed\ newSuspension
+comment0.target=MountainBike(int,\ int,\ int,\ java.lang.String)
+comment1.params=newSuspension
+comment1.target=void\ setSuspension(java.lang.String)
+comment2.params=
+comment2.target=java.lang.String\ getSuspension()
+comment3.params=
+comment3.target=void\ printDescription()
+numComments=4

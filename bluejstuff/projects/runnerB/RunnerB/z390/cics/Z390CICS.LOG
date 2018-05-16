@@ -1,0 +1,34 @@
+14:03:13 Z390CICS  EZ390 START USING z390 V1.5.06 ON J2SE 1.6.0_31 05/21/12
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = cics\Z390CICS.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) NOTIME CON
+CMDLOG ID=0 MSG=Microsoft Windows [Version 6.1.7601]
+CMDLOG ID=0 MSG=Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+CMDLOG ID=0 MSG=W:\work\z390>CALL EZ390 %CICSPATH%\Z390KCP NOTIME GUAM PARM(LDON0LOGOS) LOG(DON0) TRACE(EGQT) TS MAXSIZE(60) DUMP
+CMDLOG ID=0 MSG=W:\work\z390>rem execute ez390 runtime with java runtime options: 
+CMDLOG ID=0 MSG=W:\work\z390>rem -classpath  path to jar file 
+CMDLOG ID=0 MSG=W:\work\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+CMDLOG ID=0 MSG=W:\work\z390>rem -XmsnK      set initial memory allocation to nK 
+CMDLOG ID=0 MSG=W:\work\z390>rem -XmxnK      set max     memory allocation to nK 
+CMDLOG ID=0 MSG=W:\work\z390>rem -Xrs        allow control break interruption of java tasks 
+CMDLOG ID=0 MSG=W:\work\z390>if exist z390.jar goto jar 
+CMDLOG ID=0 MSG=W:\work\z390>java -classpath z390.jar -Xrs  ez390 cics\Z390KCP NOTIME GUAM PARM(LDON0LOGOS) LOG(DON0) TRACE(EGQT) TS MAXSIZE(60) DUMP 
+CMDLOG ID=0 MSG=14:03:14 Z390KCP   EZ390 START USING z390 V1.5.06 ON J2SE 1.6.0_31 05/21/12
+CMDLOG ID=1 MSG=Microsoft Windows [Version 6.1.7601]
+CMDLOG ID=1 MSG=Copyright (c) 2009 Microsoft Corporation.  All rights reserved.
+CMDLOG ID=1 MSG=W:\work\z390>CALL EZ390 %CICSPATH%\Z390KCP NOTIME GUAM PARM(LDON1LOGOS) LOG(DON1) TRACE(EGQT) TS MAXSIZE(60) DUMP
+CMDLOG ID=1 MSG=W:\work\z390>rem execute ez390 runtime with java runtime options: 
+CMDLOG ID=1 MSG=W:\work\z390>rem -classpath  path to jar file 
+CMDLOG ID=1 MSG=W:\work\z390>rem -verbose:gc trace garbage collection to detect memory leaks 
+CMDLOG ID=1 MSG=W:\work\z390>rem -XmsnK      set initial memory allocation to nK 
+CMDLOG ID=1 MSG=W:\work\z390>rem -XmxnK      set max     memory allocation to nK 
+CMDLOG ID=1 MSG=W:\work\z390>rem -Xrs        allow control break interruption of java tasks 
+CMDLOG ID=1 MSG=W:\work\z390>if exist z390.jar goto jar 
+CMDLOG ID=1 MSG=W:\work\z390>java -classpath z390.jar -Xrs  ez390 cics\Z390KCP NOTIME GUAM PARM(LDON1LOGOS) LOG(DON1) TRACE(EGQT) TS MAXSIZE(60) DUMP 
+CMDLOG ID=1 MSG=14:03:14 Z390KCP   EZ390 START USING z390 V1.5.06 ON J2SE 1.6.0_31 05/21/12
+TCPIO disconnect during read for conn=1 port=3900
+TCPIO disconnect during read for conn=0 port=3900
+EZ390I instructions/sec     = 468
+EZ390I total errors         = 0
+14:04:22 Z390CICS  EZ390 ENDED   RC= 0 SEC=69 MEM(MB)= 19 IO=685 INS=32416

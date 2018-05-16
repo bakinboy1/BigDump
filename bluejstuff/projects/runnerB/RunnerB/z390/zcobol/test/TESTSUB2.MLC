@@ -1,0 +1,3206 @@
+         ZCOBOL PGM='ZCOBOL\TEST\TESTSUB2',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTSUB2_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTSUB1.
+         PROGRAM_ID TESTSUB1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  04/25/12.
+*      * TEST SUBTRACT WITH SCALING FOR IMPLIED DECIMAL                X
+                 
+         DATE_WRITTEN 04,/,25,/,12
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 EH1 FLOAT-HEX-7       VALUE 4.0.
+         WS      77,EH1,FLOAT_HEX_7,VALUE,4.0
+*        77 DH1 FLOAT-HEX-15      VALUE 4.0.
+         WS      77,DH1,FLOAT_HEX_15,VALUE,4.0
+*        77 LH1 FLOAT-HEX-30      VALUE 4.0.
+         WS      77,LH1,FLOAT_HEX_30,VALUE,4.0
+*        77 EB1 FLOAT-BINARY-7    VALUE 4.0.
+         WS      77,EB1,FLOAT_BINARY_7,VALUE,4.0
+*        77 DB1 FLOAT-BINARY-16   VALUE 4.0.
+         WS      77,DB1,FLOAT_BINARY_16,VALUE,4.0
+*        77 LB1 FLOAT-BINARY-34   VALUE 4.0.
+         WS      77,LB1,FLOAT_BINARY_34,VALUE,4.0
+*        77 ED1 FLOAT-DECIMAL-7   VALUE 4.0.
+         WS      77,ED1,FLOAT_DECIMAL_7,VALUE,4.0
+*        77 DD1 FLOAT-DECIMAL-16  VALUE 4.0.
+         WS      77,DD1,FLOAT_DECIMAL_16,VALUE,4.0
+*        77 LD1 FLOAT-DECIMAL-34  VALUE 4.0.
+         WS      77,LD1,FLOAT_DECIMAL_34,VALUE,4.0
+*        77 H1      COMP PIC S9(1)V999  VALUE 4.0.
+         WS      77,H1,COMP,PIC,S9(1)V999,VALUE,4.0
+*        77 F1      COMP PIC S9(1)V9(8) VALUE 4.0.
+         WS      77,F1,COMP,PIC,S9(1)V9(8),VALUE,4.0
+*        77 G1      COMP PIC S9(11)V9(7) VALUE 4.0.
+         WS      77,G1,COMP,PIC,S9(11)V9(7),VALUE,4.0
+*        77 Q1      COMP PIC S9(33)V9(6)   VALUE 4.0.
+         WS      77,Q1,COMP,PIC,S9(33)V9(6),VALUE,4.0
+*        77 P1      COMP-3 PIC S9(16)V9(5) VALUE 4.0.
+         WS      77,P1,COMP_3,PIC,S9(16)V9(5),VALUE,4.0
+*        77 Z1             PIC S9(7)V9(4) VALUE 4.0.
+         WS      77,Z1,PIC,S9(7)V9(4),VALUE,4.0
+*        77 EH2 FLOAT-HEX-7       VALUE 1.00.
+         WS      77,EH2,FLOAT_HEX_7,VALUE,1.00
+*        77 DH2 FLOAT-HEX-15      VALUE 1.00.
+         WS      77,DH2,FLOAT_HEX_15,VALUE,1.00
+*        77 LH2 FLOAT-HEX-30      VALUE 1.00.
+         WS      77,LH2,FLOAT_HEX_30,VALUE,1.00
+*        77 EB2 FLOAT-BINARY-7    VALUE 1.00.
+         WS      77,EB2,FLOAT_BINARY_7,VALUE,1.00
+*        77 DB2 FLOAT-BINARY-16   VALUE 1.00.
+         WS      77,DB2,FLOAT_BINARY_16,VALUE,1.00
+*        77 LB2 FLOAT-BINARY-34   VALUE 1.00.
+         WS      77,LB2,FLOAT_BINARY_34,VALUE,1.00
+*        77 ED2 FLOAT-DECIMAL-7   VALUE 1.00.
+         WS      77,ED2,FLOAT_DECIMAL_7,VALUE,1.00
+*        77 DD2 FLOAT-DECIMAL-16  VALUE 1.00.
+         WS      77,DD2,FLOAT_DECIMAL_16,VALUE,1.00
+*        77 LD2 FLOAT-DECIMAL-34  VALUE 1.00.
+         WS      77,LD2,FLOAT_DECIMAL_34,VALUE,1.00
+*        77 H2      COMP PIC S9(2)V99         VALUE 1.00.
+         WS      77,H2,COMP,PIC,S9(2)V99,VALUE,1.00
+*        77 F2      COMP PIC S9(6)V999        VALUE 1.00.
+         WS      77,F2,COMP,PIC,S9(6)V999,VALUE,1.00
+*        77 G2      COMP PIC S9(14)V9999      VALUE 1.00.
+         WS      77,G2,COMP,PIC,S9(14)V9999,VALUE,1.00
+*        77 Q2      COMP PIC S9(34)V99999     VALUE 1.00.
+         WS      77,Q2,COMP,PIC,S9(34)V99999,VALUE,1.00
+*        77 P2      COMP-3 PIC S9(25)V999999  VALUE 1.00.
+         WS      77,P2,COMP_3,PIC,S9(25)V999999,VALUE,1.00
+*        77 Z2             PIC S9(24)V9999999 VALUE 1.00.
+         WS      77,Z2,PIC,S9(24)V9999999,VALUE,1.00
+*        77 EH3 FLOAT-HEX-7       VALUE 3.00.
+         WS      77,EH3,FLOAT_HEX_7,VALUE,3.00
+*        77 DH3 FLOAT-HEX-15      VALUE 3.00.
+         WS      77,DH3,FLOAT_HEX_15,VALUE,3.00
+*        77 LH3 FLOAT-HEX-30      VALUE 3.00.
+         WS      77,LH3,FLOAT_HEX_30,VALUE,3.00
+*        77 EB3 FLOAT-BINARY-7    VALUE 3.00.
+         WS      77,EB3,FLOAT_BINARY_7,VALUE,3.00
+*        77 DB3 FLOAT-BINARY-16   VALUE 3.00.
+         WS      77,DB3,FLOAT_BINARY_16,VALUE,3.00
+*        77 LB3 FLOAT-BINARY-34   VALUE 3.00.
+         WS      77,LB3,FLOAT_BINARY_34,VALUE,3.00
+*        77 ED3 FLOAT-DECIMAL-7   VALUE 3.00.
+         WS      77,ED3,FLOAT_DECIMAL_7,VALUE,3.00
+*        77 DD3 FLOAT-DECIMAL-16  VALUE 3.00.
+         WS      77,DD3,FLOAT_DECIMAL_16,VALUE,3.00
+*        77 LD3 FLOAT-DECIMAL-34  VALUE 3.00.
+         WS      77,LD3,FLOAT_DECIMAL_34,VALUE,3.00
+*        77 H3      COMP PIC S9(2)V99         VALUE 3.00.
+         WS      77,H3,COMP,PIC,S9(2)V99,VALUE,3.00
+*        77 F3      COMP PIC S9(6)V999        VALUE 3.00.
+         WS      77,F3,COMP,PIC,S9(6)V999,VALUE,3.00
+*        77 G3      COMP PIC S9(14)V9999      VALUE 3.00.
+         WS      77,G3,COMP,PIC,S9(14)V9999,VALUE,3.00
+*        77 Q3      COMP PIC S9(34)V99999     VALUE 3.00.
+         WS      77,Q3,COMP,PIC,S9(34)V99999,VALUE,3.00
+*        77 P3      COMP-3 PIC S9(25)V999999  VALUE 3.00.
+         WS      77,P3,COMP_3,PIC,S9(25)V999999,VALUE,3.00
+*        77 Z3             PIC S9(24)V9999999 VALUE 3.00.
+         WS      77,Z3,PIC,S9(24)V9999999,VALUE,3.00
+*        77 G     COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,G,COMP_3,PIC,9(4),VALUE,0
+*        77 B     COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,B,COMP_3,PIC,9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTSUB1 TEST SCALED SUBTRACT'
+*ZC     58         DISPLAY 'TESTSUB1 TEST SCALED SUBTRACT'
+         DISPLAY 'TESTSUB1 TEST SCALED SUBTRACT'
+*            PERFORM INIT.
+*ZC     59         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT EH2 FROM EH1 IF EH3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     60         SUBTRACT EH2,FROM,EH1
+         SUBTRACT EH2,FROM,EH1
+*ZC     60         IF    EH3,=,EH1
+         IF    EH3,=,EH1
+*ZC     60         PERFORM G
+         PERFORM G
+*ZC     60         ELSE  
+         ELSE  
+*ZC     60         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM DH1 IF EH3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     61         SUBTRACT EH2,FROM,DH1
+         SUBTRACT EH2,FROM,DH1
+*ZC     61         IF    EH3,=,DH1
+         IF    EH3,=,DH1
+*ZC     61         PERFORM G
+         PERFORM G
+*ZC     61         ELSE  
+         ELSE  
+*ZC     61         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM LH1 IF EH3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     62         SUBTRACT EH2,FROM,LH1
+         SUBTRACT EH2,FROM,LH1
+*ZC     62         IF    EH3,=,LH1
+         IF    EH3,=,LH1
+*ZC     62         PERFORM G
+         PERFORM G
+*ZC     62         ELSE  
+         ELSE  
+*ZC     62         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM EB1 IF EH3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     63         SUBTRACT EH2,FROM,EB1
+         SUBTRACT EH2,FROM,EB1
+*ZC     63         IF    EH3,=,EB1
+         IF    EH3,=,EB1
+*ZC     63         PERFORM G
+         PERFORM G
+*ZC     63         ELSE  
+         ELSE  
+*ZC     63         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM DB1 IF EH3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     64         SUBTRACT EH2,FROM,DB1
+         SUBTRACT EH2,FROM,DB1
+*ZC     64         IF    EH3,=,DB1
+         IF    EH3,=,DB1
+*ZC     64         PERFORM G
+         PERFORM G
+*ZC     64         ELSE  
+         ELSE  
+*ZC     64         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM LB1 IF EH3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     65         SUBTRACT EH2,FROM,LB1
+         SUBTRACT EH2,FROM,LB1
+*ZC     65         IF    EH3,=,LB1
+         IF    EH3,=,LB1
+*ZC     65         PERFORM G
+         PERFORM G
+*ZC     65         ELSE  
+         ELSE  
+*ZC     65         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM ED1 IF EH3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     66         SUBTRACT EH2,FROM,ED1
+         SUBTRACT EH2,FROM,ED1
+*ZC     66         IF    EH3,=,ED1
+         IF    EH3,=,ED1
+*ZC     66         PERFORM G
+         PERFORM G
+*ZC     66         ELSE  
+         ELSE  
+*ZC     66         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM DD1 IF EH3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     67         SUBTRACT EH2,FROM,DD1
+         SUBTRACT EH2,FROM,DD1
+*ZC     67         IF    EH3,=,DD1
+         IF    EH3,=,DD1
+*ZC     67         PERFORM G
+         PERFORM G
+*ZC     67         ELSE  
+         ELSE  
+*ZC     67         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM LD1 IF EH3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     68         SUBTRACT EH2,FROM,LD1
+         SUBTRACT EH2,FROM,LD1
+*ZC     68         IF    EH3,=,LD1
+         IF    EH3,=,LD1
+*ZC     68         PERFORM G
+         PERFORM G
+*ZC     68         ELSE  
+         ELSE  
+*ZC     68         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM F1  IF EH3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     69         SUBTRACT EH2,FROM,F1
+         SUBTRACT EH2,FROM,F1
+*ZC     69         IF    EH3,=,F1
+         IF    EH3,=,F1
+*ZC     69         PERFORM G
+         PERFORM G
+*ZC     69         ELSE  
+         ELSE  
+*ZC     69         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM G1  IF EH3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     70         SUBTRACT EH2,FROM,G1
+         SUBTRACT EH2,FROM,G1
+*ZC     70         IF    EH3,=,G1
+         IF    EH3,=,G1
+*ZC     70         PERFORM G
+         PERFORM G
+*ZC     70         ELSE  
+         ELSE  
+*ZC     70         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM H1  IF EH3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     71         SUBTRACT EH2,FROM,H1
+         SUBTRACT EH2,FROM,H1
+*ZC     71         IF    EH3,=,H1
+         IF    EH3,=,H1
+*ZC     71         PERFORM G
+         PERFORM G
+*ZC     71         ELSE  
+         ELSE  
+*ZC     71         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM P1  IF EH3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     72         SUBTRACT EH2,FROM,P1
+         SUBTRACT EH2,FROM,P1
+*ZC     72         IF    EH3,=,P1
+         IF    EH3,=,P1
+*ZC     72         PERFORM G
+         PERFORM G
+*ZC     72         ELSE  
+         ELSE  
+*ZC     72         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM Q1  IF EH3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     73         SUBTRACT EH2,FROM,Q1
+         SUBTRACT EH2,FROM,Q1
+*ZC     73         IF    EH3,=,Q1
+         IF    EH3,=,Q1
+*ZC     73         PERFORM G
+         PERFORM G
+*ZC     73         ELSE  
+         ELSE  
+*ZC     73         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EH2 FROM Z1  IF EH3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC     74         SUBTRACT EH2,FROM,Z1
+         SUBTRACT EH2,FROM,Z1
+*ZC     74         IF    EH3,=,Z1
+         IF    EH3,=,Z1
+*ZC     74         PERFORM G
+         PERFORM G
+*ZC     74         ELSE  
+         ELSE  
+*ZC     74         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC     75         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT DH2 FROM EH1 IF DH3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     76         SUBTRACT DH2,FROM,EH1
+         SUBTRACT DH2,FROM,EH1
+*ZC     76         IF    DH3,=,EH1
+         IF    DH3,=,EH1
+*ZC     76         PERFORM G
+         PERFORM G
+*ZC     76         ELSE  
+         ELSE  
+*ZC     76         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM DH1 IF DH3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     77         SUBTRACT DH2,FROM,DH1
+         SUBTRACT DH2,FROM,DH1
+*ZC     77         IF    DH3,=,DH1
+         IF    DH3,=,DH1
+*ZC     77         PERFORM G
+         PERFORM G
+*ZC     77         ELSE  
+         ELSE  
+*ZC     77         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM LH1 IF DH3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     78         SUBTRACT DH2,FROM,LH1
+         SUBTRACT DH2,FROM,LH1
+*ZC     78         IF    DH3,=,LH1
+         IF    DH3,=,LH1
+*ZC     78         PERFORM G
+         PERFORM G
+*ZC     78         ELSE  
+         ELSE  
+*ZC     78         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM EB1 IF DH3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     79         SUBTRACT DH2,FROM,EB1
+         SUBTRACT DH2,FROM,EB1
+*ZC     79         IF    DH3,=,EB1
+         IF    DH3,=,EB1
+*ZC     79         PERFORM G
+         PERFORM G
+*ZC     79         ELSE  
+         ELSE  
+*ZC     79         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM DB1 IF DH3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     80         SUBTRACT DH2,FROM,DB1
+         SUBTRACT DH2,FROM,DB1
+*ZC     80         IF    DH3,=,DB1
+         IF    DH3,=,DB1
+*ZC     80         PERFORM G
+         PERFORM G
+*ZC     80         ELSE  
+         ELSE  
+*ZC     80         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM LB1 IF DH3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     81         SUBTRACT DH2,FROM,LB1
+         SUBTRACT DH2,FROM,LB1
+*ZC     81         IF    DH3,=,LB1
+         IF    DH3,=,LB1
+*ZC     81         PERFORM G
+         PERFORM G
+*ZC     81         ELSE  
+         ELSE  
+*ZC     81         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM ED1 IF DH3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     82         SUBTRACT DH2,FROM,ED1
+         SUBTRACT DH2,FROM,ED1
+*ZC     82         IF    DH3,=,ED1
+         IF    DH3,=,ED1
+*ZC     82         PERFORM G
+         PERFORM G
+*ZC     82         ELSE  
+         ELSE  
+*ZC     82         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM DD1 IF DH3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     83         SUBTRACT DH2,FROM,DD1
+         SUBTRACT DH2,FROM,DD1
+*ZC     83         IF    DH3,=,DD1
+         IF    DH3,=,DD1
+*ZC     83         PERFORM G
+         PERFORM G
+*ZC     83         ELSE  
+         ELSE  
+*ZC     83         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM LD1 IF DH3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     84         SUBTRACT DH2,FROM,LD1
+         SUBTRACT DH2,FROM,LD1
+*ZC     84         IF    DH3,=,LD1
+         IF    DH3,=,LD1
+*ZC     84         PERFORM G
+         PERFORM G
+*ZC     84         ELSE  
+         ELSE  
+*ZC     84         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM F1  IF DH3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     85         SUBTRACT DH2,FROM,F1
+         SUBTRACT DH2,FROM,F1
+*ZC     85         IF    DH3,=,F1
+         IF    DH3,=,F1
+*ZC     85         PERFORM G
+         PERFORM G
+*ZC     85         ELSE  
+         ELSE  
+*ZC     85         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM G1  IF DH3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     86         SUBTRACT DH2,FROM,G1
+         SUBTRACT DH2,FROM,G1
+*ZC     86         IF    DH3,=,G1
+         IF    DH3,=,G1
+*ZC     86         PERFORM G
+         PERFORM G
+*ZC     86         ELSE  
+         ELSE  
+*ZC     86         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM H1  IF DH3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     87         SUBTRACT DH2,FROM,H1
+         SUBTRACT DH2,FROM,H1
+*ZC     87         IF    DH3,=,H1
+         IF    DH3,=,H1
+*ZC     87         PERFORM G
+         PERFORM G
+*ZC     87         ELSE  
+         ELSE  
+*ZC     87         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM P1  IF DH3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     88         SUBTRACT DH2,FROM,P1
+         SUBTRACT DH2,FROM,P1
+*ZC     88         IF    DH3,=,P1
+         IF    DH3,=,P1
+*ZC     88         PERFORM G
+         PERFORM G
+*ZC     88         ELSE  
+         ELSE  
+*ZC     88         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM Q1  IF DH3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC     89         SUBTRACT DH2,FROM,Q1
+         SUBTRACT DH2,FROM,Q1
+*ZC     89         IF    DH3,=,Q1
+         IF    DH3,=,Q1
+*ZC     89         PERFORM G
+         PERFORM G
+*ZC     89         ELSE  
+         ELSE  
+*ZC     89         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DH2 FROM Z1  IF DH3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC     90         SUBTRACT DH2,FROM,Z1
+         SUBTRACT DH2,FROM,Z1
+*ZC     90         IF    DH3,=,Z1
+         IF    DH3,=,Z1
+*ZC     90         PERFORM G
+         PERFORM G
+*ZC     90         ELSE  
+         ELSE  
+*ZC     90         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC     91         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT LH2 FROM EH1 IF LH3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     92         SUBTRACT LH2,FROM,EH1
+         SUBTRACT LH2,FROM,EH1
+*ZC     92         IF    LH3,=,EH1
+         IF    LH3,=,EH1
+*ZC     92         PERFORM G
+         PERFORM G
+*ZC     92         ELSE  
+         ELSE  
+*ZC     92         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM DH1 IF LH3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     93         SUBTRACT LH2,FROM,DH1
+         SUBTRACT LH2,FROM,DH1
+*ZC     93         IF    LH3,=,DH1
+         IF    LH3,=,DH1
+*ZC     93         PERFORM G
+         PERFORM G
+*ZC     93         ELSE  
+         ELSE  
+*ZC     93         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM LH1 IF LH3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     94         SUBTRACT LH2,FROM,LH1
+         SUBTRACT LH2,FROM,LH1
+*ZC     94         IF    LH3,=,LH1
+         IF    LH3,=,LH1
+*ZC     94         PERFORM G
+         PERFORM G
+*ZC     94         ELSE  
+         ELSE  
+*ZC     94         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM EB1 IF LH3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     95         SUBTRACT LH2,FROM,EB1
+         SUBTRACT LH2,FROM,EB1
+*ZC     95         IF    LH3,=,EB1
+         IF    LH3,=,EB1
+*ZC     95         PERFORM G
+         PERFORM G
+*ZC     95         ELSE  
+         ELSE  
+*ZC     95         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM DB1 IF LH3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     96         SUBTRACT LH2,FROM,DB1
+         SUBTRACT LH2,FROM,DB1
+*ZC     96         IF    LH3,=,DB1
+         IF    LH3,=,DB1
+*ZC     96         PERFORM G
+         PERFORM G
+*ZC     96         ELSE  
+         ELSE  
+*ZC     96         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM LB1 IF LH3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     97         SUBTRACT LH2,FROM,LB1
+         SUBTRACT LH2,FROM,LB1
+*ZC     97         IF    LH3,=,LB1
+         IF    LH3,=,LB1
+*ZC     97         PERFORM G
+         PERFORM G
+*ZC     97         ELSE  
+         ELSE  
+*ZC     97         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM ED1 IF LH3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     98         SUBTRACT LH2,FROM,ED1
+         SUBTRACT LH2,FROM,ED1
+*ZC     98         IF    LH3,=,ED1
+         IF    LH3,=,ED1
+*ZC     98         PERFORM G
+         PERFORM G
+*ZC     98         ELSE  
+         ELSE  
+*ZC     98         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM DD1 IF LH3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     99         SUBTRACT LH2,FROM,DD1
+         SUBTRACT LH2,FROM,DD1
+*ZC     99         IF    LH3,=,DD1
+         IF    LH3,=,DD1
+*ZC     99         PERFORM G
+         PERFORM G
+*ZC     99         ELSE  
+         ELSE  
+*ZC     99         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM LD1 IF LH3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    100         SUBTRACT LH2,FROM,LD1
+         SUBTRACT LH2,FROM,LD1
+*ZC    100         IF    LH3,=,LD1
+         IF    LH3,=,LD1
+*ZC    100         PERFORM G
+         PERFORM G
+*ZC    100         ELSE  
+         ELSE  
+*ZC    100         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM F1  IF LH3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    101         SUBTRACT LH2,FROM,F1
+         SUBTRACT LH2,FROM,F1
+*ZC    101         IF    LH3,=,F1
+         IF    LH3,=,F1
+*ZC    101         PERFORM G
+         PERFORM G
+*ZC    101         ELSE  
+         ELSE  
+*ZC    101         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM G1  IF LH3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    102         SUBTRACT LH2,FROM,G1
+         SUBTRACT LH2,FROM,G1
+*ZC    102         IF    LH3,=,G1
+         IF    LH3,=,G1
+*ZC    102         PERFORM G
+         PERFORM G
+*ZC    102         ELSE  
+         ELSE  
+*ZC    102         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM H1  IF LH3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    103         SUBTRACT LH2,FROM,H1
+         SUBTRACT LH2,FROM,H1
+*ZC    103         IF    LH3,=,H1
+         IF    LH3,=,H1
+*ZC    103         PERFORM G
+         PERFORM G
+*ZC    103         ELSE  
+         ELSE  
+*ZC    103         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM P1  IF LH3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    104         SUBTRACT LH2,FROM,P1
+         SUBTRACT LH2,FROM,P1
+*ZC    104         IF    LH3,=,P1
+         IF    LH3,=,P1
+*ZC    104         PERFORM G
+         PERFORM G
+*ZC    104         ELSE  
+         ELSE  
+*ZC    104         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM Q1  IF LH3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    105         SUBTRACT LH2,FROM,Q1
+         SUBTRACT LH2,FROM,Q1
+*ZC    105         IF    LH3,=,Q1
+         IF    LH3,=,Q1
+*ZC    105         PERFORM G
+         PERFORM G
+*ZC    105         ELSE  
+         ELSE  
+*ZC    105         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LH2 FROM Z1  IF LH3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    106         SUBTRACT LH2,FROM,Z1
+         SUBTRACT LH2,FROM,Z1
+*ZC    106         IF    LH3,=,Z1
+         IF    LH3,=,Z1
+*ZC    106         PERFORM G
+         PERFORM G
+*ZC    106         ELSE  
+         ELSE  
+*ZC    106         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    107         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT EB2 FROM EH1 IF EB3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    108         SUBTRACT EB2,FROM,EH1
+         SUBTRACT EB2,FROM,EH1
+*ZC    108         IF    EB3,=,EH1
+         IF    EB3,=,EH1
+*ZC    108         PERFORM G
+         PERFORM G
+*ZC    108         ELSE  
+         ELSE  
+*ZC    108         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM DH1 IF EB3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    109         SUBTRACT EB2,FROM,DH1
+         SUBTRACT EB2,FROM,DH1
+*ZC    109         IF    EB3,=,DH1
+         IF    EB3,=,DH1
+*ZC    109         PERFORM G
+         PERFORM G
+*ZC    109         ELSE  
+         ELSE  
+*ZC    109         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM LH1 IF EB3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    110         SUBTRACT EB2,FROM,LH1
+         SUBTRACT EB2,FROM,LH1
+*ZC    110         IF    EB3,=,LH1
+         IF    EB3,=,LH1
+*ZC    110         PERFORM G
+         PERFORM G
+*ZC    110         ELSE  
+         ELSE  
+*ZC    110         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM EB1 IF EB3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    111         SUBTRACT EB2,FROM,EB1
+         SUBTRACT EB2,FROM,EB1
+*ZC    111         IF    EB3,=,EB1
+         IF    EB3,=,EB1
+*ZC    111         PERFORM G
+         PERFORM G
+*ZC    111         ELSE  
+         ELSE  
+*ZC    111         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM DB1 IF EB3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    112         SUBTRACT EB2,FROM,DB1
+         SUBTRACT EB2,FROM,DB1
+*ZC    112         IF    EB3,=,DB1
+         IF    EB3,=,DB1
+*ZC    112         PERFORM G
+         PERFORM G
+*ZC    112         ELSE  
+         ELSE  
+*ZC    112         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM LB1 IF EB3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    113         SUBTRACT EB2,FROM,LB1
+         SUBTRACT EB2,FROM,LB1
+*ZC    113         IF    EB3,=,LB1
+         IF    EB3,=,LB1
+*ZC    113         PERFORM G
+         PERFORM G
+*ZC    113         ELSE  
+         ELSE  
+*ZC    113         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM ED1 IF EB3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    114         SUBTRACT EB2,FROM,ED1
+         SUBTRACT EB2,FROM,ED1
+*ZC    114         IF    EB3,=,ED1
+         IF    EB3,=,ED1
+*ZC    114         PERFORM G
+         PERFORM G
+*ZC    114         ELSE  
+         ELSE  
+*ZC    114         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM DD1 IF EB3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    115         SUBTRACT EB2,FROM,DD1
+         SUBTRACT EB2,FROM,DD1
+*ZC    115         IF    EB3,=,DD1
+         IF    EB3,=,DD1
+*ZC    115         PERFORM G
+         PERFORM G
+*ZC    115         ELSE  
+         ELSE  
+*ZC    115         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM LD1 IF EB3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    116         SUBTRACT EB2,FROM,LD1
+         SUBTRACT EB2,FROM,LD1
+*ZC    116         IF    EB3,=,LD1
+         IF    EB3,=,LD1
+*ZC    116         PERFORM G
+         PERFORM G
+*ZC    116         ELSE  
+         ELSE  
+*ZC    116         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM F1  IF EB3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    117         SUBTRACT EB2,FROM,F1
+         SUBTRACT EB2,FROM,F1
+*ZC    117         IF    EB3,=,F1
+         IF    EB3,=,F1
+*ZC    117         PERFORM G
+         PERFORM G
+*ZC    117         ELSE  
+         ELSE  
+*ZC    117         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM G1  IF EB3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    118         SUBTRACT EB2,FROM,G1
+         SUBTRACT EB2,FROM,G1
+*ZC    118         IF    EB3,=,G1
+         IF    EB3,=,G1
+*ZC    118         PERFORM G
+         PERFORM G
+*ZC    118         ELSE  
+         ELSE  
+*ZC    118         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM H1  IF EB3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    119         SUBTRACT EB2,FROM,H1
+         SUBTRACT EB2,FROM,H1
+*ZC    119         IF    EB3,=,H1
+         IF    EB3,=,H1
+*ZC    119         PERFORM G
+         PERFORM G
+*ZC    119         ELSE  
+         ELSE  
+*ZC    119         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM P1  IF EB3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    120         SUBTRACT EB2,FROM,P1
+         SUBTRACT EB2,FROM,P1
+*ZC    120         IF    EB3,=,P1
+         IF    EB3,=,P1
+*ZC    120         PERFORM G
+         PERFORM G
+*ZC    120         ELSE  
+         ELSE  
+*ZC    120         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM Q1  IF EB3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    121         SUBTRACT EB2,FROM,Q1
+         SUBTRACT EB2,FROM,Q1
+*ZC    121         IF    EB3,=,Q1
+         IF    EB3,=,Q1
+*ZC    121         PERFORM G
+         PERFORM G
+*ZC    121         ELSE  
+         ELSE  
+*ZC    121         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT EB2 FROM Z1  IF EB3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    122         SUBTRACT EB2,FROM,Z1
+         SUBTRACT EB2,FROM,Z1
+*ZC    122         IF    EB3,=,Z1
+         IF    EB3,=,Z1
+*ZC    122         PERFORM G
+         PERFORM G
+*ZC    122         ELSE  
+         ELSE  
+*ZC    122         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    123         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT DB2 FROM EH1 IF DB3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    124         SUBTRACT DB2,FROM,EH1
+         SUBTRACT DB2,FROM,EH1
+*ZC    124         IF    DB3,=,EH1
+         IF    DB3,=,EH1
+*ZC    124         PERFORM G
+         PERFORM G
+*ZC    124         ELSE  
+         ELSE  
+*ZC    124         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM DH1 IF DB3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    125         SUBTRACT DB2,FROM,DH1
+         SUBTRACT DB2,FROM,DH1
+*ZC    125         IF    DB3,=,DH1
+         IF    DB3,=,DH1
+*ZC    125         PERFORM G
+         PERFORM G
+*ZC    125         ELSE  
+         ELSE  
+*ZC    125         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM LH1 IF DB3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    126         SUBTRACT DB2,FROM,LH1
+         SUBTRACT DB2,FROM,LH1
+*ZC    126         IF    DB3,=,LH1
+         IF    DB3,=,LH1
+*ZC    126         PERFORM G
+         PERFORM G
+*ZC    126         ELSE  
+         ELSE  
+*ZC    126         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM EB1 IF DB3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    127         SUBTRACT DB2,FROM,EB1
+         SUBTRACT DB2,FROM,EB1
+*ZC    127         IF    DB3,=,EB1
+         IF    DB3,=,EB1
+*ZC    127         PERFORM G
+         PERFORM G
+*ZC    127         ELSE  
+         ELSE  
+*ZC    127         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM DB1 IF DB3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    128         SUBTRACT DB2,FROM,DB1
+         SUBTRACT DB2,FROM,DB1
+*ZC    128         IF    DB3,=,DB1
+         IF    DB3,=,DB1
+*ZC    128         PERFORM G
+         PERFORM G
+*ZC    128         ELSE  
+         ELSE  
+*ZC    128         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM LB1 IF DB3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    129         SUBTRACT DB2,FROM,LB1
+         SUBTRACT DB2,FROM,LB1
+*ZC    129         IF    DB3,=,LB1
+         IF    DB3,=,LB1
+*ZC    129         PERFORM G
+         PERFORM G
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM ED1 IF DB3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    130         SUBTRACT DB2,FROM,ED1
+         SUBTRACT DB2,FROM,ED1
+*ZC    130         IF    DB3,=,ED1
+         IF    DB3,=,ED1
+*ZC    130         PERFORM G
+         PERFORM G
+*ZC    130         ELSE  
+         ELSE  
+*ZC    130         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM DD1 IF DB3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    131         SUBTRACT DB2,FROM,DD1
+         SUBTRACT DB2,FROM,DD1
+*ZC    131         IF    DB3,=,DD1
+         IF    DB3,=,DD1
+*ZC    131         PERFORM G
+         PERFORM G
+*ZC    131         ELSE  
+         ELSE  
+*ZC    131         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM LD1 IF DB3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    132         SUBTRACT DB2,FROM,LD1
+         SUBTRACT DB2,FROM,LD1
+*ZC    132         IF    DB3,=,LD1
+         IF    DB3,=,LD1
+*ZC    132         PERFORM G
+         PERFORM G
+*ZC    132         ELSE  
+         ELSE  
+*ZC    132         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM F1  IF DB3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    133         SUBTRACT DB2,FROM,F1
+         SUBTRACT DB2,FROM,F1
+*ZC    133         IF    DB3,=,F1
+         IF    DB3,=,F1
+*ZC    133         PERFORM G
+         PERFORM G
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM G1  IF DB3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    134         SUBTRACT DB2,FROM,G1
+         SUBTRACT DB2,FROM,G1
+*ZC    134         IF    DB3,=,G1
+         IF    DB3,=,G1
+*ZC    134         PERFORM G
+         PERFORM G
+*ZC    134         ELSE  
+         ELSE  
+*ZC    134         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM H1  IF DB3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    135         SUBTRACT DB2,FROM,H1
+         SUBTRACT DB2,FROM,H1
+*ZC    135         IF    DB3,=,H1
+         IF    DB3,=,H1
+*ZC    135         PERFORM G
+         PERFORM G
+*ZC    135         ELSE  
+         ELSE  
+*ZC    135         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM P1  IF DB3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    136         SUBTRACT DB2,FROM,P1
+         SUBTRACT DB2,FROM,P1
+*ZC    136         IF    DB3,=,P1
+         IF    DB3,=,P1
+*ZC    136         PERFORM G
+         PERFORM G
+*ZC    136         ELSE  
+         ELSE  
+*ZC    136         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM Q1  IF DB3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    137         SUBTRACT DB2,FROM,Q1
+         SUBTRACT DB2,FROM,Q1
+*ZC    137         IF    DB3,=,Q1
+         IF    DB3,=,Q1
+*ZC    137         PERFORM G
+         PERFORM G
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DB2 FROM Z1  IF DB3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    138         SUBTRACT DB2,FROM,Z1
+         SUBTRACT DB2,FROM,Z1
+*ZC    138         IF    DB3,=,Z1
+         IF    DB3,=,Z1
+*ZC    138         PERFORM G
+         PERFORM G
+*ZC    138         ELSE  
+         ELSE  
+*ZC    138         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    139         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT LB2 FROM EH1 IF LB3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    140         SUBTRACT LB2,FROM,EH1
+         SUBTRACT LB2,FROM,EH1
+*ZC    140         IF    LB3,=,EH1
+         IF    LB3,=,EH1
+*ZC    140         PERFORM G
+         PERFORM G
+*ZC    140         ELSE  
+         ELSE  
+*ZC    140         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM DH1 IF LB3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    141         SUBTRACT LB2,FROM,DH1
+         SUBTRACT LB2,FROM,DH1
+*ZC    141         IF    LB3,=,DH1
+         IF    LB3,=,DH1
+*ZC    141         PERFORM G
+         PERFORM G
+*ZC    141         ELSE  
+         ELSE  
+*ZC    141         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM LH1 IF LB3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    142         SUBTRACT LB2,FROM,LH1
+         SUBTRACT LB2,FROM,LH1
+*ZC    142         IF    LB3,=,LH1
+         IF    LB3,=,LH1
+*ZC    142         PERFORM G
+         PERFORM G
+*ZC    142         ELSE  
+         ELSE  
+*ZC    142         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM EB1 IF LB3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    143         SUBTRACT LB2,FROM,EB1
+         SUBTRACT LB2,FROM,EB1
+*ZC    143         IF    LB3,=,EB1
+         IF    LB3,=,EB1
+*ZC    143         PERFORM G
+         PERFORM G
+*ZC    143         ELSE  
+         ELSE  
+*ZC    143         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM DB1 IF LB3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    144         SUBTRACT LB2,FROM,DB1
+         SUBTRACT LB2,FROM,DB1
+*ZC    144         IF    LB3,=,DB1
+         IF    LB3,=,DB1
+*ZC    144         PERFORM G
+         PERFORM G
+*ZC    144         ELSE  
+         ELSE  
+*ZC    144         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM LB1 IF LB3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    145         SUBTRACT LB2,FROM,LB1
+         SUBTRACT LB2,FROM,LB1
+*ZC    145         IF    LB3,=,LB1
+         IF    LB3,=,LB1
+*ZC    145         PERFORM G
+         PERFORM G
+*ZC    145         ELSE  
+         ELSE  
+*ZC    145         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM ED1 IF LB3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    146         SUBTRACT LB2,FROM,ED1
+         SUBTRACT LB2,FROM,ED1
+*ZC    146         IF    LB3,=,ED1
+         IF    LB3,=,ED1
+*ZC    146         PERFORM G
+         PERFORM G
+*ZC    146         ELSE  
+         ELSE  
+*ZC    146         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM DD1 IF LB3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    147         SUBTRACT LB2,FROM,DD1
+         SUBTRACT LB2,FROM,DD1
+*ZC    147         IF    LB3,=,DD1
+         IF    LB3,=,DD1
+*ZC    147         PERFORM G
+         PERFORM G
+*ZC    147         ELSE  
+         ELSE  
+*ZC    147         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM LD1 IF LB3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    148         SUBTRACT LB2,FROM,LD1
+         SUBTRACT LB2,FROM,LD1
+*ZC    148         IF    LB3,=,LD1
+         IF    LB3,=,LD1
+*ZC    148         PERFORM G
+         PERFORM G
+*ZC    148         ELSE  
+         ELSE  
+*ZC    148         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM F1  IF LB3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    149         SUBTRACT LB2,FROM,F1
+         SUBTRACT LB2,FROM,F1
+*ZC    149         IF    LB3,=,F1
+         IF    LB3,=,F1
+*ZC    149         PERFORM G
+         PERFORM G
+*ZC    149         ELSE  
+         ELSE  
+*ZC    149         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM G1  IF LB3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    150         SUBTRACT LB2,FROM,G1
+         SUBTRACT LB2,FROM,G1
+*ZC    150         IF    LB3,=,G1
+         IF    LB3,=,G1
+*ZC    150         PERFORM G
+         PERFORM G
+*ZC    150         ELSE  
+         ELSE  
+*ZC    150         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM H1  IF LB3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    151         SUBTRACT LB2,FROM,H1
+         SUBTRACT LB2,FROM,H1
+*ZC    151         IF    LB3,=,H1
+         IF    LB3,=,H1
+*ZC    151         PERFORM G
+         PERFORM G
+*ZC    151         ELSE  
+         ELSE  
+*ZC    151         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM P1  IF LB3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    152         SUBTRACT LB2,FROM,P1
+         SUBTRACT LB2,FROM,P1
+*ZC    152         IF    LB3,=,P1
+         IF    LB3,=,P1
+*ZC    152         PERFORM G
+         PERFORM G
+*ZC    152         ELSE  
+         ELSE  
+*ZC    152         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM Q1  IF LB3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    153         SUBTRACT LB2,FROM,Q1
+         SUBTRACT LB2,FROM,Q1
+*ZC    153         IF    LB3,=,Q1
+         IF    LB3,=,Q1
+*ZC    153         PERFORM G
+         PERFORM G
+*ZC    153         ELSE  
+         ELSE  
+*ZC    153         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LB2 FROM Z1  IF LB3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    154         SUBTRACT LB2,FROM,Z1
+         SUBTRACT LB2,FROM,Z1
+*ZC    154         IF    LB3,=,Z1
+         IF    LB3,=,Z1
+*ZC    154         PERFORM G
+         PERFORM G
+*ZC    154         ELSE  
+         ELSE  
+*ZC    154         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.       
+*ZC    155         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT ED2 FROM EH1 IF ED3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    156         SUBTRACT ED2,FROM,EH1
+         SUBTRACT ED2,FROM,EH1
+*ZC    156         IF    ED3,=,EH1
+         IF    ED3,=,EH1
+*ZC    156         PERFORM G
+         PERFORM G
+*ZC    156         ELSE  
+         ELSE  
+*ZC    156         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM DH1 IF ED3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    157         SUBTRACT ED2,FROM,DH1
+         SUBTRACT ED2,FROM,DH1
+*ZC    157         IF    ED3,=,DH1
+         IF    ED3,=,DH1
+*ZC    157         PERFORM G
+         PERFORM G
+*ZC    157         ELSE  
+         ELSE  
+*ZC    157         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM LH1 IF ED3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    158         SUBTRACT ED2,FROM,LH1
+         SUBTRACT ED2,FROM,LH1
+*ZC    158         IF    ED3,=,LH1
+         IF    ED3,=,LH1
+*ZC    158         PERFORM G
+         PERFORM G
+*ZC    158         ELSE  
+         ELSE  
+*ZC    158         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM EB1 IF ED3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    159         SUBTRACT ED2,FROM,EB1
+         SUBTRACT ED2,FROM,EB1
+*ZC    159         IF    ED3,=,EB1
+         IF    ED3,=,EB1
+*ZC    159         PERFORM G
+         PERFORM G
+*ZC    159         ELSE  
+         ELSE  
+*ZC    159         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM DB1 IF ED3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    160         SUBTRACT ED2,FROM,DB1
+         SUBTRACT ED2,FROM,DB1
+*ZC    160         IF    ED3,=,DB1
+         IF    ED3,=,DB1
+*ZC    160         PERFORM G
+         PERFORM G
+*ZC    160         ELSE  
+         ELSE  
+*ZC    160         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM LB1 IF ED3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    161         SUBTRACT ED2,FROM,LB1
+         SUBTRACT ED2,FROM,LB1
+*ZC    161         IF    ED3,=,LB1
+         IF    ED3,=,LB1
+*ZC    161         PERFORM G
+         PERFORM G
+*ZC    161         ELSE  
+         ELSE  
+*ZC    161         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM ED1 IF ED3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    162         SUBTRACT ED2,FROM,ED1
+         SUBTRACT ED2,FROM,ED1
+*ZC    162         IF    ED3,=,ED1
+         IF    ED3,=,ED1
+*ZC    162         PERFORM G
+         PERFORM G
+*ZC    162         ELSE  
+         ELSE  
+*ZC    162         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM DD1 IF ED3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    163         SUBTRACT ED2,FROM,DD1
+         SUBTRACT ED2,FROM,DD1
+*ZC    163         IF    ED3,=,DD1
+         IF    ED3,=,DD1
+*ZC    163         PERFORM G
+         PERFORM G
+*ZC    163         ELSE  
+         ELSE  
+*ZC    163         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM LD1 IF ED3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    164         SUBTRACT ED2,FROM,LD1
+         SUBTRACT ED2,FROM,LD1
+*ZC    164         IF    ED3,=,LD1
+         IF    ED3,=,LD1
+*ZC    164         PERFORM G
+         PERFORM G
+*ZC    164         ELSE  
+         ELSE  
+*ZC    164         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM F1  IF ED3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    165         SUBTRACT ED2,FROM,F1
+         SUBTRACT ED2,FROM,F1
+*ZC    165         IF    ED3,=,F1
+         IF    ED3,=,F1
+*ZC    165         PERFORM G
+         PERFORM G
+*ZC    165         ELSE  
+         ELSE  
+*ZC    165         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM G1  IF ED3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    166         SUBTRACT ED2,FROM,G1
+         SUBTRACT ED2,FROM,G1
+*ZC    166         IF    ED3,=,G1
+         IF    ED3,=,G1
+*ZC    166         PERFORM G
+         PERFORM G
+*ZC    166         ELSE  
+         ELSE  
+*ZC    166         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM H1  IF ED3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    167         SUBTRACT ED2,FROM,H1
+         SUBTRACT ED2,FROM,H1
+*ZC    167         IF    ED3,=,H1
+         IF    ED3,=,H1
+*ZC    167         PERFORM G
+         PERFORM G
+*ZC    167         ELSE  
+         ELSE  
+*ZC    167         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM P1  IF ED3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    168         SUBTRACT ED2,FROM,P1
+         SUBTRACT ED2,FROM,P1
+*ZC    168         IF    ED3,=,P1
+         IF    ED3,=,P1
+*ZC    168         PERFORM G
+         PERFORM G
+*ZC    168         ELSE  
+         ELSE  
+*ZC    168         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM Q1  IF ED3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    169         SUBTRACT ED2,FROM,Q1
+         SUBTRACT ED2,FROM,Q1
+*ZC    169         IF    ED3,=,Q1
+         IF    ED3,=,Q1
+*ZC    169         PERFORM G
+         PERFORM G
+*ZC    169         ELSE  
+         ELSE  
+*ZC    169         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT ED2 FROM Z1  IF ED3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    170         SUBTRACT ED2,FROM,Z1
+         SUBTRACT ED2,FROM,Z1
+*ZC    170         IF    ED3,=,Z1
+         IF    ED3,=,Z1
+*ZC    170         PERFORM G
+         PERFORM G
+*ZC    170         ELSE  
+         ELSE  
+*ZC    170         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    171         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT DD2 FROM EH1 IF DD3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    172         SUBTRACT DD2,FROM,EH1
+         SUBTRACT DD2,FROM,EH1
+*ZC    172         IF    DD3,=,EH1
+         IF    DD3,=,EH1
+*ZC    172         PERFORM G
+         PERFORM G
+*ZC    172         ELSE  
+         ELSE  
+*ZC    172         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM DH1 IF DD3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    173         SUBTRACT DD2,FROM,DH1
+         SUBTRACT DD2,FROM,DH1
+*ZC    173         IF    DD3,=,DH1
+         IF    DD3,=,DH1
+*ZC    173         PERFORM G
+         PERFORM G
+*ZC    173         ELSE  
+         ELSE  
+*ZC    173         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM LH1 IF DD3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    174         SUBTRACT DD2,FROM,LH1
+         SUBTRACT DD2,FROM,LH1
+*ZC    174         IF    DD3,=,LH1
+         IF    DD3,=,LH1
+*ZC    174         PERFORM G
+         PERFORM G
+*ZC    174         ELSE  
+         ELSE  
+*ZC    174         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM EB1 IF DD3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    175         SUBTRACT DD2,FROM,EB1
+         SUBTRACT DD2,FROM,EB1
+*ZC    175         IF    DD3,=,EB1
+         IF    DD3,=,EB1
+*ZC    175         PERFORM G
+         PERFORM G
+*ZC    175         ELSE  
+         ELSE  
+*ZC    175         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM DB1 IF DD3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    176         SUBTRACT DD2,FROM,DB1
+         SUBTRACT DD2,FROM,DB1
+*ZC    176         IF    DD3,=,DB1
+         IF    DD3,=,DB1
+*ZC    176         PERFORM G
+         PERFORM G
+*ZC    176         ELSE  
+         ELSE  
+*ZC    176         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM LB1 IF DD3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    177         SUBTRACT DD2,FROM,LB1
+         SUBTRACT DD2,FROM,LB1
+*ZC    177         IF    DD3,=,LB1
+         IF    DD3,=,LB1
+*ZC    177         PERFORM G
+         PERFORM G
+*ZC    177         ELSE  
+         ELSE  
+*ZC    177         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM ED1 IF DD3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    178         SUBTRACT DD2,FROM,ED1
+         SUBTRACT DD2,FROM,ED1
+*ZC    178         IF    DD3,=,ED1
+         IF    DD3,=,ED1
+*ZC    178         PERFORM G
+         PERFORM G
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM DD1 IF DD3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    179         SUBTRACT DD2,FROM,DD1
+         SUBTRACT DD2,FROM,DD1
+*ZC    179         IF    DD3,=,DD1
+         IF    DD3,=,DD1
+*ZC    179         PERFORM G
+         PERFORM G
+*ZC    179         ELSE  
+         ELSE  
+*ZC    179         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM LD1 IF DD3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    180         SUBTRACT DD2,FROM,LD1
+         SUBTRACT DD2,FROM,LD1
+*ZC    180         IF    DD3,=,LD1
+         IF    DD3,=,LD1
+*ZC    180         PERFORM G
+         PERFORM G
+*ZC    180         ELSE  
+         ELSE  
+*ZC    180         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM F1  IF DD3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    181         SUBTRACT DD2,FROM,F1
+         SUBTRACT DD2,FROM,F1
+*ZC    181         IF    DD3,=,F1
+         IF    DD3,=,F1
+*ZC    181         PERFORM G
+         PERFORM G
+*ZC    181         ELSE  
+         ELSE  
+*ZC    181         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM G1  IF DD3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    182         SUBTRACT DD2,FROM,G1
+         SUBTRACT DD2,FROM,G1
+*ZC    182         IF    DD3,=,G1
+         IF    DD3,=,G1
+*ZC    182         PERFORM G
+         PERFORM G
+*ZC    182         ELSE  
+         ELSE  
+*ZC    182         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM H1  IF DD3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    183         SUBTRACT DD2,FROM,H1
+         SUBTRACT DD2,FROM,H1
+*ZC    183         IF    DD3,=,H1
+         IF    DD3,=,H1
+*ZC    183         PERFORM G
+         PERFORM G
+*ZC    183         ELSE  
+         ELSE  
+*ZC    183         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM P1  IF DD3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    184         SUBTRACT DD2,FROM,P1
+         SUBTRACT DD2,FROM,P1
+*ZC    184         IF    DD3,=,P1
+         IF    DD3,=,P1
+*ZC    184         PERFORM G
+         PERFORM G
+*ZC    184         ELSE  
+         ELSE  
+*ZC    184         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM Q1  IF DD3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    185         SUBTRACT DD2,FROM,Q1
+         SUBTRACT DD2,FROM,Q1
+*ZC    185         IF    DD3,=,Q1
+         IF    DD3,=,Q1
+*ZC    185         PERFORM G
+         PERFORM G
+*ZC    185         ELSE  
+         ELSE  
+*ZC    185         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT DD2 FROM Z1  IF DD3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    186         SUBTRACT DD2,FROM,Z1
+         SUBTRACT DD2,FROM,Z1
+*ZC    186         IF    DD3,=,Z1
+         IF    DD3,=,Z1
+*ZC    186         PERFORM G
+         PERFORM G
+*ZC    186         ELSE  
+         ELSE  
+*ZC    186         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    187         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT LD2 FROM EH1 IF LD3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    188         SUBTRACT LD2,FROM,EH1
+         SUBTRACT LD2,FROM,EH1
+*ZC    188         IF    LD3,=,EH1
+         IF    LD3,=,EH1
+*ZC    188         PERFORM G
+         PERFORM G
+*ZC    188         ELSE  
+         ELSE  
+*ZC    188         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM DH1 IF LD3 = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    189         SUBTRACT LD2,FROM,DH1
+         SUBTRACT LD2,FROM,DH1
+*ZC    189         IF    LD3,=,DH1
+         IF    LD3,=,DH1
+*ZC    189         PERFORM G
+         PERFORM G
+*ZC    189         ELSE  
+         ELSE  
+*ZC    189         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM LH1 IF LD3 = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    190         SUBTRACT LD2,FROM,LH1
+         SUBTRACT LD2,FROM,LH1
+*ZC    190         IF    LD3,=,LH1
+         IF    LD3,=,LH1
+*ZC    190         PERFORM G
+         PERFORM G
+*ZC    190         ELSE  
+         ELSE  
+*ZC    190         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM EB1 IF LD3 = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    191         SUBTRACT LD2,FROM,EB1
+         SUBTRACT LD2,FROM,EB1
+*ZC    191         IF    LD3,=,EB1
+         IF    LD3,=,EB1
+*ZC    191         PERFORM G
+         PERFORM G
+*ZC    191         ELSE  
+         ELSE  
+*ZC    191         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM DB1 IF LD3 = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    192         SUBTRACT LD2,FROM,DB1
+         SUBTRACT LD2,FROM,DB1
+*ZC    192         IF    LD3,=,DB1
+         IF    LD3,=,DB1
+*ZC    192         PERFORM G
+         PERFORM G
+*ZC    192         ELSE  
+         ELSE  
+*ZC    192         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM LB1 IF LD3 = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    193         SUBTRACT LD2,FROM,LB1
+         SUBTRACT LD2,FROM,LB1
+*ZC    193         IF    LD3,=,LB1
+         IF    LD3,=,LB1
+*ZC    193         PERFORM G
+         PERFORM G
+*ZC    193         ELSE  
+         ELSE  
+*ZC    193         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM ED1 IF LD3 = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    194         SUBTRACT LD2,FROM,ED1
+         SUBTRACT LD2,FROM,ED1
+*ZC    194         IF    LD3,=,ED1
+         IF    LD3,=,ED1
+*ZC    194         PERFORM G
+         PERFORM G
+*ZC    194         ELSE  
+         ELSE  
+*ZC    194         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM DD1 IF LD3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    195         SUBTRACT LD2,FROM,DD1
+         SUBTRACT LD2,FROM,DD1
+*ZC    195         IF    LD3,=,DD1
+         IF    LD3,=,DD1
+*ZC    195         PERFORM G
+         PERFORM G
+*ZC    195         ELSE  
+         ELSE  
+*ZC    195         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM LD1 IF LD3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    196         SUBTRACT LD2,FROM,LD1
+         SUBTRACT LD2,FROM,LD1
+*ZC    196         IF    LD3,=,LD1
+         IF    LD3,=,LD1
+*ZC    196         PERFORM G
+         PERFORM G
+*ZC    196         ELSE  
+         ELSE  
+*ZC    196         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM F1  IF LD3 = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    197         SUBTRACT LD2,FROM,F1
+         SUBTRACT LD2,FROM,F1
+*ZC    197         IF    LD3,=,F1
+         IF    LD3,=,F1
+*ZC    197         PERFORM G
+         PERFORM G
+*ZC    197         ELSE  
+         ELSE  
+*ZC    197         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM G1  IF LD3 = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    198         SUBTRACT LD2,FROM,G1
+         SUBTRACT LD2,FROM,G1
+*ZC    198         IF    LD3,=,G1
+         IF    LD3,=,G1
+*ZC    198         PERFORM G
+         PERFORM G
+*ZC    198         ELSE  
+         ELSE  
+*ZC    198         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM H1  IF LD3 = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    199         SUBTRACT LD2,FROM,H1
+         SUBTRACT LD2,FROM,H1
+*ZC    199         IF    LD3,=,H1
+         IF    LD3,=,H1
+*ZC    199         PERFORM G
+         PERFORM G
+*ZC    199         ELSE  
+         ELSE  
+*ZC    199         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM P1  IF LD3 = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    200         SUBTRACT LD2,FROM,P1
+         SUBTRACT LD2,FROM,P1
+*ZC    200         IF    LD3,=,P1
+         IF    LD3,=,P1
+*ZC    200         PERFORM G
+         PERFORM G
+*ZC    200         ELSE  
+         ELSE  
+*ZC    200         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM Q1  IF LD3 = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    201         SUBTRACT LD2,FROM,Q1
+         SUBTRACT LD2,FROM,Q1
+*ZC    201         IF    LD3,=,Q1
+         IF    LD3,=,Q1
+*ZC    201         PERFORM G
+         PERFORM G
+*ZC    201         ELSE  
+         ELSE  
+*ZC    201         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT LD2 FROM Z1  IF LD3 = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    202         SUBTRACT LD2,FROM,Z1
+         SUBTRACT LD2,FROM,Z1
+*ZC    202         IF    LD3,=,Z1
+         IF    LD3,=,Z1
+*ZC    202         PERFORM G
+         PERFORM G
+*ZC    202         ELSE  
+         ELSE  
+*ZC    202         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    203         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT F2  FROM EH1 IF F3  = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    204         SUBTRACT F2,FROM,EH1
+         SUBTRACT F2,FROM,EH1
+*ZC    204         IF    F3,=,EH1
+         IF    F3,=,EH1
+*ZC    204         PERFORM G
+         PERFORM G
+*ZC    204         ELSE  
+         ELSE  
+*ZC    204         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM DH1 IF F3  = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    205         SUBTRACT F2,FROM,DH1
+         SUBTRACT F2,FROM,DH1
+*ZC    205         IF    F3,=,DH1
+         IF    F3,=,DH1
+*ZC    205         PERFORM G
+         PERFORM G
+*ZC    205         ELSE  
+         ELSE  
+*ZC    205         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM LH1 IF F3  = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    206         SUBTRACT F2,FROM,LH1
+         SUBTRACT F2,FROM,LH1
+*ZC    206         IF    F3,=,LH1
+         IF    F3,=,LH1
+*ZC    206         PERFORM G
+         PERFORM G
+*ZC    206         ELSE  
+         ELSE  
+*ZC    206         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM EB1 IF F3  = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    207         SUBTRACT F2,FROM,EB1
+         SUBTRACT F2,FROM,EB1
+*ZC    207         IF    F3,=,EB1
+         IF    F3,=,EB1
+*ZC    207         PERFORM G
+         PERFORM G
+*ZC    207         ELSE  
+         ELSE  
+*ZC    207         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM DB1 IF F3  = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    208         SUBTRACT F2,FROM,DB1
+         SUBTRACT F2,FROM,DB1
+*ZC    208         IF    F3,=,DB1
+         IF    F3,=,DB1
+*ZC    208         PERFORM G
+         PERFORM G
+*ZC    208         ELSE  
+         ELSE  
+*ZC    208         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM LB1 IF F3  = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    209         SUBTRACT F2,FROM,LB1
+         SUBTRACT F2,FROM,LB1
+*ZC    209         IF    F3,=,LB1
+         IF    F3,=,LB1
+*ZC    209         PERFORM G
+         PERFORM G
+*ZC    209         ELSE  
+         ELSE  
+*ZC    209         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM ED1 IF F3  = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    210         SUBTRACT F2,FROM,ED1
+         SUBTRACT F2,FROM,ED1
+*ZC    210         IF    F3,=,ED1
+         IF    F3,=,ED1
+*ZC    210         PERFORM G
+         PERFORM G
+*ZC    210         ELSE  
+         ELSE  
+*ZC    210         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM DD1 IF EH3 = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    211         SUBTRACT F2,FROM,DD1
+         SUBTRACT F2,FROM,DD1
+*ZC    211         IF    EH3,=,DD1
+         IF    EH3,=,DD1
+*ZC    211         PERFORM G
+         PERFORM G
+*ZC    211         ELSE  
+         ELSE  
+*ZC    211         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM LD1 IF EH3 = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    212         SUBTRACT F2,FROM,LD1
+         SUBTRACT F2,FROM,LD1
+*ZC    212         IF    EH3,=,LD1
+         IF    EH3,=,LD1
+*ZC    212         PERFORM G
+         PERFORM G
+*ZC    212         ELSE  
+         ELSE  
+*ZC    212         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM F1  IF F3  = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    213         SUBTRACT F2,FROM,F1
+         SUBTRACT F2,FROM,F1
+*ZC    213         IF    F3,=,F1
+         IF    F3,=,F1
+*ZC    213         PERFORM G
+         PERFORM G
+*ZC    213         ELSE  
+         ELSE  
+*ZC    213         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM G1  IF F3  = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    214         SUBTRACT F2,FROM,G1
+         SUBTRACT F2,FROM,G1
+*ZC    214         IF    F3,=,G1
+         IF    F3,=,G1
+*ZC    214         PERFORM G
+         PERFORM G
+*ZC    214         ELSE  
+         ELSE  
+*ZC    214         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM H1  IF F3  = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    215         SUBTRACT F2,FROM,H1
+         SUBTRACT F2,FROM,H1
+*ZC    215         IF    F3,=,H1
+         IF    F3,=,H1
+*ZC    215         PERFORM G
+         PERFORM G
+*ZC    215         ELSE  
+         ELSE  
+*ZC    215         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM P1  IF F3  = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    216         SUBTRACT F2,FROM,P1
+         SUBTRACT F2,FROM,P1
+*ZC    216         IF    F3,=,P1
+         IF    F3,=,P1
+*ZC    216         PERFORM G
+         PERFORM G
+*ZC    216         ELSE  
+         ELSE  
+*ZC    216         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM Q1  IF F3  = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    217         SUBTRACT F2,FROM,Q1
+         SUBTRACT F2,FROM,Q1
+*ZC    217         IF    F3,=,Q1
+         IF    F3,=,Q1
+*ZC    217         PERFORM G
+         PERFORM G
+*ZC    217         ELSE  
+         ELSE  
+*ZC    217         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT F2  FROM Z1  IF F3  = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    218         SUBTRACT F2,FROM,Z1
+         SUBTRACT F2,FROM,Z1
+*ZC    218         IF    F3,=,Z1
+         IF    F3,=,Z1
+*ZC    218         PERFORM G
+         PERFORM G
+*ZC    218         ELSE  
+         ELSE  
+*ZC    218         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    219         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT G2  FROM EH1 IF G3  = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    220         SUBTRACT G2,FROM,EH1
+         SUBTRACT G2,FROM,EH1
+*ZC    220         IF    G3,=,EH1
+         IF    G3,=,EH1
+*ZC    220         PERFORM G
+         PERFORM G
+*ZC    220         ELSE  
+         ELSE  
+*ZC    220         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM DH1 IF G3  = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    221         SUBTRACT G2,FROM,DH1
+         SUBTRACT G2,FROM,DH1
+*ZC    221         IF    G3,=,DH1
+         IF    G3,=,DH1
+*ZC    221         PERFORM G
+         PERFORM G
+*ZC    221         ELSE  
+         ELSE  
+*ZC    221         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM LH1 IF G3  = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    222         SUBTRACT G2,FROM,LH1
+         SUBTRACT G2,FROM,LH1
+*ZC    222         IF    G3,=,LH1
+         IF    G3,=,LH1
+*ZC    222         PERFORM G
+         PERFORM G
+*ZC    222         ELSE  
+         ELSE  
+*ZC    222         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM EB1 IF G3  = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    223         SUBTRACT G2,FROM,EB1
+         SUBTRACT G2,FROM,EB1
+*ZC    223         IF    G3,=,EB1
+         IF    G3,=,EB1
+*ZC    223         PERFORM G
+         PERFORM G
+*ZC    223         ELSE  
+         ELSE  
+*ZC    223         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM DB1 IF G3  = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    224         SUBTRACT G2,FROM,DB1
+         SUBTRACT G2,FROM,DB1
+*ZC    224         IF    G3,=,DB1
+         IF    G3,=,DB1
+*ZC    224         PERFORM G
+         PERFORM G
+*ZC    224         ELSE  
+         ELSE  
+*ZC    224         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM LB1 IF G3  = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    225         SUBTRACT G2,FROM,LB1
+         SUBTRACT G2,FROM,LB1
+*ZC    225         IF    G3,=,LB1
+         IF    G3,=,LB1
+*ZC    225         PERFORM G
+         PERFORM G
+*ZC    225         ELSE  
+         ELSE  
+*ZC    225         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM ED1 IF G3  = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    226         SUBTRACT G2,FROM,ED1
+         SUBTRACT G2,FROM,ED1
+*ZC    226         IF    G3,=,ED1
+         IF    G3,=,ED1
+*ZC    226         PERFORM G
+         PERFORM G
+*ZC    226         ELSE  
+         ELSE  
+*ZC    226         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM DD1 IF G3  = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    227         SUBTRACT G2,FROM,DD1
+         SUBTRACT G2,FROM,DD1
+*ZC    227         IF    G3,=,DD1
+         IF    G3,=,DD1
+*ZC    227         PERFORM G
+         PERFORM G
+*ZC    227         ELSE  
+         ELSE  
+*ZC    227         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM LD1 IF G3  = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    228         SUBTRACT G2,FROM,LD1
+         SUBTRACT G2,FROM,LD1
+*ZC    228         IF    G3,=,LD1
+         IF    G3,=,LD1
+*ZC    228         PERFORM G
+         PERFORM G
+*ZC    228         ELSE  
+         ELSE  
+*ZC    228         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM F1  IF G3  = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    229         SUBTRACT G2,FROM,F1
+         SUBTRACT G2,FROM,F1
+*ZC    229         IF    G3,=,F1
+         IF    G3,=,F1
+*ZC    229         PERFORM G
+         PERFORM G
+*ZC    229         ELSE  
+         ELSE  
+*ZC    229         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM G1  IF G3  = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    230         SUBTRACT G2,FROM,G1
+         SUBTRACT G2,FROM,G1
+*ZC    230         IF    G3,=,G1
+         IF    G3,=,G1
+*ZC    230         PERFORM G
+         PERFORM G
+*ZC    230         ELSE  
+         ELSE  
+*ZC    230         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM H1  IF G3  = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    231         SUBTRACT G2,FROM,H1
+         SUBTRACT G2,FROM,H1
+*ZC    231         IF    G3,=,H1
+         IF    G3,=,H1
+*ZC    231         PERFORM G
+         PERFORM G
+*ZC    231         ELSE  
+         ELSE  
+*ZC    231         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM P1  IF G3  = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    232         SUBTRACT G2,FROM,P1
+         SUBTRACT G2,FROM,P1
+*ZC    232         IF    G3,=,P1
+         IF    G3,=,P1
+*ZC    232         PERFORM G
+         PERFORM G
+*ZC    232         ELSE  
+         ELSE  
+*ZC    232         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM Q1  IF G3  = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    233         SUBTRACT G2,FROM,Q1
+         SUBTRACT G2,FROM,Q1
+*ZC    233         IF    G3,=,Q1
+         IF    G3,=,Q1
+*ZC    233         PERFORM G
+         PERFORM G
+*ZC    233         ELSE  
+         ELSE  
+*ZC    233         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT G2  FROM Z1  IF G3  = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    234         SUBTRACT G2,FROM,Z1
+         SUBTRACT G2,FROM,Z1
+*ZC    234         IF    G3,=,Z1
+         IF    G3,=,Z1
+*ZC    234         PERFORM G
+         PERFORM G
+*ZC    234         ELSE  
+         ELSE  
+*ZC    234         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    235         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT H2  FROM EH1 IF H3  = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    236         SUBTRACT H2,FROM,EH1
+         SUBTRACT H2,FROM,EH1
+*ZC    236         IF    H3,=,EH1
+         IF    H3,=,EH1
+*ZC    236         PERFORM G
+         PERFORM G
+*ZC    236         ELSE  
+         ELSE  
+*ZC    236         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM DH1 IF H3  = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    237         SUBTRACT H2,FROM,DH1
+         SUBTRACT H2,FROM,DH1
+*ZC    237         IF    H3,=,DH1
+         IF    H3,=,DH1
+*ZC    237         PERFORM G
+         PERFORM G
+*ZC    237         ELSE  
+         ELSE  
+*ZC    237         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM LH1 IF H3  = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    238         SUBTRACT H2,FROM,LH1
+         SUBTRACT H2,FROM,LH1
+*ZC    238         IF    H3,=,LH1
+         IF    H3,=,LH1
+*ZC    238         PERFORM G
+         PERFORM G
+*ZC    238         ELSE  
+         ELSE  
+*ZC    238         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM EB1 IF H3  = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    239         SUBTRACT H2,FROM,EB1
+         SUBTRACT H2,FROM,EB1
+*ZC    239         IF    H3,=,EB1
+         IF    H3,=,EB1
+*ZC    239         PERFORM G
+         PERFORM G
+*ZC    239         ELSE  
+         ELSE  
+*ZC    239         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM DB1 IF H3  = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    240         SUBTRACT H2,FROM,DB1
+         SUBTRACT H2,FROM,DB1
+*ZC    240         IF    H3,=,DB1
+         IF    H3,=,DB1
+*ZC    240         PERFORM G
+         PERFORM G
+*ZC    240         ELSE  
+         ELSE  
+*ZC    240         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM LB1 IF H3  = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    241         SUBTRACT H2,FROM,LB1
+         SUBTRACT H2,FROM,LB1
+*ZC    241         IF    H3,=,LB1
+         IF    H3,=,LB1
+*ZC    241         PERFORM G
+         PERFORM G
+*ZC    241         ELSE  
+         ELSE  
+*ZC    241         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM ED1 IF H3  = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    242         SUBTRACT H2,FROM,ED1
+         SUBTRACT H2,FROM,ED1
+*ZC    242         IF    H3,=,ED1
+         IF    H3,=,ED1
+*ZC    242         PERFORM G
+         PERFORM G
+*ZC    242         ELSE  
+         ELSE  
+*ZC    242         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM DD1 IF H3  = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    243         SUBTRACT H2,FROM,DD1
+         SUBTRACT H2,FROM,DD1
+*ZC    243         IF    H3,=,DD1
+         IF    H3,=,DD1
+*ZC    243         PERFORM G
+         PERFORM G
+*ZC    243         ELSE  
+         ELSE  
+*ZC    243         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM LD1 IF H3  = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    244         SUBTRACT H2,FROM,LD1
+         SUBTRACT H2,FROM,LD1
+*ZC    244         IF    H3,=,LD1
+         IF    H3,=,LD1
+*ZC    244         PERFORM G
+         PERFORM G
+*ZC    244         ELSE  
+         ELSE  
+*ZC    244         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM F1  IF H3  = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    245         SUBTRACT H2,FROM,F1
+         SUBTRACT H2,FROM,F1
+*ZC    245         IF    H3,=,F1
+         IF    H3,=,F1
+*ZC    245         PERFORM G
+         PERFORM G
+*ZC    245         ELSE  
+         ELSE  
+*ZC    245         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM G1  IF H3  = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    246         SUBTRACT H2,FROM,G1
+         SUBTRACT H2,FROM,G1
+*ZC    246         IF    H3,=,G1
+         IF    H3,=,G1
+*ZC    246         PERFORM G
+         PERFORM G
+*ZC    246         ELSE  
+         ELSE  
+*ZC    246         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM H1  IF H3  = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    247         SUBTRACT H2,FROM,H1
+         SUBTRACT H2,FROM,H1
+*ZC    247         IF    H3,=,H1
+         IF    H3,=,H1
+*ZC    247         PERFORM G
+         PERFORM G
+*ZC    247         ELSE  
+         ELSE  
+*ZC    247         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM P1  IF H3  = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    248         SUBTRACT H2,FROM,P1
+         SUBTRACT H2,FROM,P1
+*ZC    248         IF    H3,=,P1
+         IF    H3,=,P1
+*ZC    248         PERFORM G
+         PERFORM G
+*ZC    248         ELSE  
+         ELSE  
+*ZC    248         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM Q1  IF H3  = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    249         SUBTRACT H2,FROM,Q1
+         SUBTRACT H2,FROM,Q1
+*ZC    249         IF    H3,=,Q1
+         IF    H3,=,Q1
+*ZC    249         PERFORM G
+         PERFORM G
+*ZC    249         ELSE  
+         ELSE  
+*ZC    249         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT H2  FROM Z1  IF H3  = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    250         SUBTRACT H2,FROM,Z1
+         SUBTRACT H2,FROM,Z1
+*ZC    250         IF    H3,=,Z1
+         IF    H3,=,Z1
+*ZC    250         PERFORM G
+         PERFORM G
+*ZC    250         ELSE  
+         ELSE  
+*ZC    250         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.      
+*ZC    251         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT P2  FROM EH1 IF P3  = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    252         SUBTRACT P2,FROM,EH1
+         SUBTRACT P2,FROM,EH1
+*ZC    252         IF    P3,=,EH1
+         IF    P3,=,EH1
+*ZC    252         PERFORM G
+         PERFORM G
+*ZC    252         ELSE  
+         ELSE  
+*ZC    252         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM DH1 IF P3  = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    253         SUBTRACT P2,FROM,DH1
+         SUBTRACT P2,FROM,DH1
+*ZC    253         IF    P3,=,DH1
+         IF    P3,=,DH1
+*ZC    253         PERFORM G
+         PERFORM G
+*ZC    253         ELSE  
+         ELSE  
+*ZC    253         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM LH1 IF P3  = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    254         SUBTRACT P2,FROM,LH1
+         SUBTRACT P2,FROM,LH1
+*ZC    254         IF    P3,=,LH1
+         IF    P3,=,LH1
+*ZC    254         PERFORM G
+         PERFORM G
+*ZC    254         ELSE  
+         ELSE  
+*ZC    254         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM EB1 IF P3  = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    255         SUBTRACT P2,FROM,EB1
+         SUBTRACT P2,FROM,EB1
+*ZC    255         IF    P3,=,EB1
+         IF    P3,=,EB1
+*ZC    255         PERFORM G
+         PERFORM G
+*ZC    255         ELSE  
+         ELSE  
+*ZC    255         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM DB1 IF P3  = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    256         SUBTRACT P2,FROM,DB1
+         SUBTRACT P2,FROM,DB1
+*ZC    256         IF    P3,=,DB1
+         IF    P3,=,DB1
+*ZC    256         PERFORM G
+         PERFORM G
+*ZC    256         ELSE  
+         ELSE  
+*ZC    256         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM LB1 IF P3  = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    257         SUBTRACT P2,FROM,LB1
+         SUBTRACT P2,FROM,LB1
+*ZC    257         IF    P3,=,LB1
+         IF    P3,=,LB1
+*ZC    257         PERFORM G
+         PERFORM G
+*ZC    257         ELSE  
+         ELSE  
+*ZC    257         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM ED1 IF P3  = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    258         SUBTRACT P2,FROM,ED1
+         SUBTRACT P2,FROM,ED1
+*ZC    258         IF    P3,=,ED1
+         IF    P3,=,ED1
+*ZC    258         PERFORM G
+         PERFORM G
+*ZC    258         ELSE  
+         ELSE  
+*ZC    258         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM DD1 IF P3  = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    259         SUBTRACT P2,FROM,DD1
+         SUBTRACT P2,FROM,DD1
+*ZC    259         IF    P3,=,DD1
+         IF    P3,=,DD1
+*ZC    259         PERFORM G
+         PERFORM G
+*ZC    259         ELSE  
+         ELSE  
+*ZC    259         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM LD1 IF P3  = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    260         SUBTRACT P2,FROM,LD1
+         SUBTRACT P2,FROM,LD1
+*ZC    260         IF    P3,=,LD1
+         IF    P3,=,LD1
+*ZC    260         PERFORM G
+         PERFORM G
+*ZC    260         ELSE  
+         ELSE  
+*ZC    260         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM F1  IF P3  = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    261         SUBTRACT P2,FROM,F1
+         SUBTRACT P2,FROM,F1
+*ZC    261         IF    P3,=,F1
+         IF    P3,=,F1
+*ZC    261         PERFORM G
+         PERFORM G
+*ZC    261         ELSE  
+         ELSE  
+*ZC    261         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM G1  IF P3  = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    262         SUBTRACT P2,FROM,G1
+         SUBTRACT P2,FROM,G1
+*ZC    262         IF    P3,=,G1
+         IF    P3,=,G1
+*ZC    262         PERFORM G
+         PERFORM G
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM H1  IF P3  = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    263         SUBTRACT P2,FROM,H1
+         SUBTRACT P2,FROM,H1
+*ZC    263         IF    P3,=,H1
+         IF    P3,=,H1
+*ZC    263         PERFORM G
+         PERFORM G
+*ZC    263         ELSE  
+         ELSE  
+*ZC    263         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM P1  IF P3  = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    264         SUBTRACT P2,FROM,P1
+         SUBTRACT P2,FROM,P1
+*ZC    264         IF    P3,=,P1
+         IF    P3,=,P1
+*ZC    264         PERFORM G
+         PERFORM G
+*ZC    264         ELSE  
+         ELSE  
+*ZC    264         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM Q1  IF P3  = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    265         SUBTRACT P2,FROM,Q1
+         SUBTRACT P2,FROM,Q1
+*ZC    265         IF    P3,=,Q1
+         IF    P3,=,Q1
+*ZC    265         PERFORM G
+         PERFORM G
+*ZC    265         ELSE  
+         ELSE  
+*ZC    265         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT P2  FROM Z1  IF P3  = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    266         SUBTRACT P2,FROM,Z1
+         SUBTRACT P2,FROM,Z1
+*ZC    266         IF    P3,=,Z1
+         IF    P3,=,Z1
+*ZC    266         PERFORM G
+         PERFORM G
+*ZC    266         ELSE  
+         ELSE  
+*ZC    266         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    267         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT Q2  FROM EH1 IF Q3  = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    268         SUBTRACT Q2,FROM,EH1
+         SUBTRACT Q2,FROM,EH1
+*ZC    268         IF    Q3,=,EH1
+         IF    Q3,=,EH1
+*ZC    268         PERFORM G
+         PERFORM G
+*ZC    268         ELSE  
+         ELSE  
+*ZC    268         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM DH1 IF Q3  = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    269         SUBTRACT Q2,FROM,DH1
+         SUBTRACT Q2,FROM,DH1
+*ZC    269         IF    Q3,=,DH1
+         IF    Q3,=,DH1
+*ZC    269         PERFORM G
+         PERFORM G
+*ZC    269         ELSE  
+         ELSE  
+*ZC    269         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM LH1 IF Q3  = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    270         SUBTRACT Q2,FROM,LH1
+         SUBTRACT Q2,FROM,LH1
+*ZC    270         IF    Q3,=,LH1
+         IF    Q3,=,LH1
+*ZC    270         PERFORM G
+         PERFORM G
+*ZC    270         ELSE  
+         ELSE  
+*ZC    270         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM EB1 IF Q3  = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    271         SUBTRACT Q2,FROM,EB1
+         SUBTRACT Q2,FROM,EB1
+*ZC    271         IF    Q3,=,EB1
+         IF    Q3,=,EB1
+*ZC    271         PERFORM G
+         PERFORM G
+*ZC    271         ELSE  
+         ELSE  
+*ZC    271         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM DB1 IF Q3  = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    272         SUBTRACT Q2,FROM,DB1
+         SUBTRACT Q2,FROM,DB1
+*ZC    272         IF    Q3,=,DB1
+         IF    Q3,=,DB1
+*ZC    272         PERFORM G
+         PERFORM G
+*ZC    272         ELSE  
+         ELSE  
+*ZC    272         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM LB1 IF Q3  = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    273         SUBTRACT Q2,FROM,LB1
+         SUBTRACT Q2,FROM,LB1
+*ZC    273         IF    Q3,=,LB1
+         IF    Q3,=,LB1
+*ZC    273         PERFORM G
+         PERFORM G
+*ZC    273         ELSE  
+         ELSE  
+*ZC    273         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM ED1 IF Q3  = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    274         SUBTRACT Q2,FROM,ED1
+         SUBTRACT Q2,FROM,ED1
+*ZC    274         IF    Q3,=,ED1
+         IF    Q3,=,ED1
+*ZC    274         PERFORM G
+         PERFORM G
+*ZC    274         ELSE  
+         ELSE  
+*ZC    274         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM DD1 IF Q3  = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    275         SUBTRACT Q2,FROM,DD1
+         SUBTRACT Q2,FROM,DD1
+*ZC    275         IF    Q3,=,DD1
+         IF    Q3,=,DD1
+*ZC    275         PERFORM G
+         PERFORM G
+*ZC    275         ELSE  
+         ELSE  
+*ZC    275         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM LD1 IF Q3  = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    276         SUBTRACT Q2,FROM,LD1
+         SUBTRACT Q2,FROM,LD1
+*ZC    276         IF    Q3,=,LD1
+         IF    Q3,=,LD1
+*ZC    276         PERFORM G
+         PERFORM G
+*ZC    276         ELSE  
+         ELSE  
+*ZC    276         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM F1  IF Q3  = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    277         SUBTRACT Q2,FROM,F1
+         SUBTRACT Q2,FROM,F1
+*ZC    277         IF    Q3,=,F1
+         IF    Q3,=,F1
+*ZC    277         PERFORM G
+         PERFORM G
+*ZC    277         ELSE  
+         ELSE  
+*ZC    277         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM G1  IF Q3  = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    278         SUBTRACT Q2,FROM,G1
+         SUBTRACT Q2,FROM,G1
+*ZC    278         IF    Q3,=,G1
+         IF    Q3,=,G1
+*ZC    278         PERFORM G
+         PERFORM G
+*ZC    278         ELSE  
+         ELSE  
+*ZC    278         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM H1  IF Q3  = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    279         SUBTRACT Q2,FROM,H1
+         SUBTRACT Q2,FROM,H1
+*ZC    279         IF    Q3,=,H1
+         IF    Q3,=,H1
+*ZC    279         PERFORM G
+         PERFORM G
+*ZC    279         ELSE  
+         ELSE  
+*ZC    279         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM P1  IF Q3  = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    280         SUBTRACT Q2,FROM,P1
+         SUBTRACT Q2,FROM,P1
+*ZC    280         IF    Q3,=,P1
+         IF    Q3,=,P1
+*ZC    280         PERFORM G
+         PERFORM G
+*ZC    280         ELSE  
+         ELSE  
+*ZC    280         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM Q1  IF Q3  = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    281         SUBTRACT Q2,FROM,Q1
+         SUBTRACT Q2,FROM,Q1
+*ZC    281         IF    Q3,=,Q1
+         IF    Q3,=,Q1
+*ZC    281         PERFORM G
+         PERFORM G
+*ZC    281         ELSE  
+         ELSE  
+*ZC    281         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Q2  FROM Z1  IF Q3  = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    282         SUBTRACT Q2,FROM,Z1
+         SUBTRACT Q2,FROM,Z1
+*ZC    282         IF    Q3,=,Z1
+         IF    Q3,=,Z1
+*ZC    282         PERFORM G
+         PERFORM G
+*ZC    282         ELSE  
+         ELSE  
+*ZC    282         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.       
+*ZC    283         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            SUBTRACT Z2  FROM EH1 IF Z3  = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    284         SUBTRACT Z2,FROM,EH1
+         SUBTRACT Z2,FROM,EH1
+*ZC    284         IF    Z3,=,EH1
+         IF    Z3,=,EH1
+*ZC    284         PERFORM G
+         PERFORM G
+*ZC    284         ELSE  
+         ELSE  
+*ZC    284         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM DH1 IF Z3  = DH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    285         SUBTRACT Z2,FROM,DH1
+         SUBTRACT Z2,FROM,DH1
+*ZC    285         IF    Z3,=,DH1
+         IF    Z3,=,DH1
+*ZC    285         PERFORM G
+         PERFORM G
+*ZC    285         ELSE  
+         ELSE  
+*ZC    285         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM LH1 IF Z3  = LH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    286         SUBTRACT Z2,FROM,LH1
+         SUBTRACT Z2,FROM,LH1
+*ZC    286         IF    Z3,=,LH1
+         IF    Z3,=,LH1
+*ZC    286         PERFORM G
+         PERFORM G
+*ZC    286         ELSE  
+         ELSE  
+*ZC    286         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM EB1 IF Z3  = EB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    287         SUBTRACT Z2,FROM,EB1
+         SUBTRACT Z2,FROM,EB1
+*ZC    287         IF    Z3,=,EB1
+         IF    Z3,=,EB1
+*ZC    287         PERFORM G
+         PERFORM G
+*ZC    287         ELSE  
+         ELSE  
+*ZC    287         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM DB1 IF Z3  = DB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    288         SUBTRACT Z2,FROM,DB1
+         SUBTRACT Z2,FROM,DB1
+*ZC    288         IF    Z3,=,DB1
+         IF    Z3,=,DB1
+*ZC    288         PERFORM G
+         PERFORM G
+*ZC    288         ELSE  
+         ELSE  
+*ZC    288         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM LB1 IF Z3  = LB1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    289         SUBTRACT Z2,FROM,LB1
+         SUBTRACT Z2,FROM,LB1
+*ZC    289         IF    Z3,=,LB1
+         IF    Z3,=,LB1
+*ZC    289         PERFORM G
+         PERFORM G
+*ZC    289         ELSE  
+         ELSE  
+*ZC    289         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM ED1 IF Z3  = ED1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    290         SUBTRACT Z2,FROM,ED1
+         SUBTRACT Z2,FROM,ED1
+*ZC    290         IF    Z3,=,ED1
+         IF    Z3,=,ED1
+*ZC    290         PERFORM G
+         PERFORM G
+*ZC    290         ELSE  
+         ELSE  
+*ZC    290         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM DD1 IF Z3  = DD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    291         SUBTRACT Z2,FROM,DD1
+         SUBTRACT Z2,FROM,DD1
+*ZC    291         IF    Z3,=,DD1
+         IF    Z3,=,DD1
+*ZC    291         PERFORM G
+         PERFORM G
+*ZC    291         ELSE  
+         ELSE  
+*ZC    291         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM LD1 IF Z3  = LD1 PERFORM G ELSE PERFORM X
+               B.
+*ZC    292         SUBTRACT Z2,FROM,LD1
+         SUBTRACT Z2,FROM,LD1
+*ZC    292         IF    Z3,=,LD1
+         IF    Z3,=,LD1
+*ZC    292         PERFORM G
+         PERFORM G
+*ZC    292         ELSE  
+         ELSE  
+*ZC    292         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM F1  IF Z3  = F1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    293         SUBTRACT Z2,FROM,F1
+         SUBTRACT Z2,FROM,F1
+*ZC    293         IF    Z3,=,F1
+         IF    Z3,=,F1
+*ZC    293         PERFORM G
+         PERFORM G
+*ZC    293         ELSE  
+         ELSE  
+*ZC    293         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM G1  IF Z3  = G1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    294         SUBTRACT Z2,FROM,G1
+         SUBTRACT Z2,FROM,G1
+*ZC    294         IF    Z3,=,G1
+         IF    Z3,=,G1
+*ZC    294         PERFORM G
+         PERFORM G
+*ZC    294         ELSE  
+         ELSE  
+*ZC    294         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM H1  IF Z3  = H1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    295         SUBTRACT Z2,FROM,H1
+         SUBTRACT Z2,FROM,H1
+*ZC    295         IF    Z3,=,H1
+         IF    Z3,=,H1
+*ZC    295         PERFORM G
+         PERFORM G
+*ZC    295         ELSE  
+         ELSE  
+*ZC    295         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM P1  IF Z3  = P1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    296         SUBTRACT Z2,FROM,P1
+         SUBTRACT Z2,FROM,P1
+*ZC    296         IF    Z3,=,P1
+         IF    Z3,=,P1
+*ZC    296         PERFORM G
+         PERFORM G
+*ZC    296         ELSE  
+         ELSE  
+*ZC    296         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM Q1  IF Z3  = Q1  PERFORM G ELSE PERFORM X
+               B.
+*ZC    297         SUBTRACT Z2,FROM,Q1
+         SUBTRACT Z2,FROM,Q1
+*ZC    297         IF    Z3,=,Q1
+         IF    Z3,=,Q1
+*ZC    297         PERFORM G
+         PERFORM G
+*ZC    297         ELSE  
+         ELSE  
+*ZC    297         PERFORM B
+         PERFORM B
+         PERIOD 
+*            SUBTRACT Z2  FROM Z1  IF Z3  = Z1  PERFORM G ELSE PERFORM X
+               B.          
+*ZC    298         SUBTRACT Z2,FROM,Z1
+         SUBTRACT Z2,FROM,Z1
+*ZC    298         IF    Z3,=,Z1
+         IF    Z3,=,Z1
+*ZC    298         PERFORM G
+         PERFORM G
+*ZC    298         ELSE  
+         ELSE  
+*ZC    298         PERFORM B
+         PERFORM B
+         PERIOD 
+*            DISPLAY 'TOTAL G = ' G ' TOTAL B = ' B
+*ZC    299         DISPLAY 'TOTAL G = ',G,' TOTAL B = ',B
+         DISPLAY 'TOTAL G = ',G,' TOTAL B = ',B
+*            STOP RUN.
+*ZC    300         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INIT.
+         LABEL INIT
+*            DISPLAY 'INIT'
+*ZC    302         DISPLAY 'INIT'
+         DISPLAY 'INIT'
+*            MOVE 4.0 TO EH1.
+*ZC    303         MOVE  4.0,TO,EH1
+         MOVE  4.0,TO,EH1
+         PERIOD 
+*            MOVE 4.0 TO DH1.
+*ZC    304         MOVE  4.0,TO,DH1
+         MOVE  4.0,TO,DH1
+         PERIOD 
+*            MOVE 4.0 TO LH1.
+*ZC    305         MOVE  4.0,TO,LH1
+         MOVE  4.0,TO,LH1
+         PERIOD 
+*            MOVE 4.0 TO EB1.
+*ZC    306         MOVE  4.0,TO,EB1
+         MOVE  4.0,TO,EB1
+         PERIOD 
+*            MOVE 4.0 TO DB1.
+*ZC    307         MOVE  4.0,TO,DB1
+         MOVE  4.0,TO,DB1
+         PERIOD 
+*            MOVE 4.0 TO LB1.
+*ZC    308         MOVE  4.0,TO,LB1
+         MOVE  4.0,TO,LB1
+         PERIOD 
+*            MOVE 4.0 TO ED1.
+*ZC    309         MOVE  4.0,TO,ED1
+         MOVE  4.0,TO,ED1
+         PERIOD 
+*            MOVE 4.0 TO DD1.
+*ZC    310         MOVE  4.0,TO,DD1
+         MOVE  4.0,TO,DD1
+         PERIOD 
+*            MOVE 4.0 TO LD1.
+*ZC    311         MOVE  4.0,TO,LD1
+         MOVE  4.0,TO,LD1
+         PERIOD 
+*            MOVE 4.0 TO F1.
+*ZC    312         MOVE  4.0,TO,F1
+         MOVE  4.0,TO,F1
+         PERIOD 
+*            MOVE 4.0 TO G1.
+*ZC    313         MOVE  4.0,TO,G1
+         MOVE  4.0,TO,G1
+         PERIOD 
+*            MOVE 4.0 TO H1.
+*ZC    314         MOVE  4.0,TO,H1
+         MOVE  4.0,TO,H1
+         PERIOD 
+*            MOVE 4.0 TO P1.
+*ZC    315         MOVE  4.0,TO,P1
+         MOVE  4.0,TO,P1
+         PERIOD 
+*            MOVE 4.0 TO Q1.
+*ZC    316         MOVE  4.0,TO,Q1
+         MOVE  4.0,TO,Q1
+         PERIOD 
+*            MOVE 4.0 TO Z1.    
+*ZC    317         MOVE  4.0,TO,Z1
+         MOVE  4.0,TO,Z1
+         PERIOD 
+*        G.
+         LABEL G
+*            ADD 1 TO G.
+*ZC    319         ADD   1,TO,G
+         ADD   1,TO,G
+         PERIOD 
+*            DISPLAY 'GOOD-TEST'.
+*ZC    320         DISPLAY 'GOOD-TEST'
+         DISPLAY 'GOOD-TEST'
+         PERIOD 
+*        B.
+         LABEL B
+*            ADD 1 TO B
+*ZC    322         ADD   1,TO,B
+         ADD   1,TO,B
+*            MOVE 16 TO RETURN-CODE..
+*ZC    323         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+         PERIOD 
+*            DISPLAY 'BAD-TEST'.
+*      *    STOP RUN.
+*ZC    324         DISPLAY 'BAD-TEST'
+         DISPLAY 'BAD-TEST'
+         PERIOD 
+         PROCEDURE END
+         END   

@@ -1,0 +1,9 @@
+TESTADD2  LZ390 START
+LZ390I Copyright 2011 Automated Software Tools Corporation
+LZ390I z390 is licensed under GNU General Public License
+LZ390I options = W:\work\z390\z390.OPT=(time(60)) notiming stats
+LZ390I program = ZCOBOL\TEST\TESTADD2.OBJ
+LZ390I ESD=TESTADD2 LOC=00000000 LEN=00007568
+LZ390I INCLUDE = ZCOBOL\TEST\TESTADD2.OBJ
+LZ390I total errors         = 0
+TESTADD2  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=3913

@@ -1,0 +1,6 @@
+#BlueJ class context
+comment0.params=type
+comment0.target=Calculate(doMath)
+comment1.params=v1\ v2
+comment1.target=int\ go(int,\ int)
+numComments=2

@@ -1,0 +1,3202 @@
+         ZCOBOL PGM='ZCOBOL\TEST\TESTMPY2',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTMPY2_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTMPY2.
+         PROGRAM_ID TESTMPY2
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  04/25/12.
+*      * TEST MULTIPLY  WITH SCALING FOR IMPLIED DECIMAL               X
+                 
+         DATE_WRITTEN 04,/,25,/,12
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 EH1 FLOAT-HEX-7       VALUE 3.0.
+         WS      77,EH1,FLOAT_HEX_7,VALUE,3.0
+*        77 DH1 FLOAT-HEX-15      VALUE 3.0.
+         WS      77,DH1,FLOAT_HEX_15,VALUE,3.0
+*        77 LH1 FLOAT-HEX-30      VALUE 3.0.
+         WS      77,LH1,FLOAT_HEX_30,VALUE,3.0
+*        77 EB1 FLOAT-BINARY-7    VALUE 3.0.
+         WS      77,EB1,FLOAT_BINARY_7,VALUE,3.0
+*        77 DB1 FLOAT-BINARY-16   VALUE 3.0.
+         WS      77,DB1,FLOAT_BINARY_16,VALUE,3.0
+*        77 LB1 FLOAT-BINARY-34   VALUE 3.0.
+         WS      77,LB1,FLOAT_BINARY_34,VALUE,3.0
+*        77 ED1 FLOAT-DECIMAL-7   VALUE 3.0.
+         WS      77,ED1,FLOAT_DECIMAL_7,VALUE,3.0
+*        77 DD1 FLOAT-DECIMAL-16  VALUE 3.0.
+         WS      77,DD1,FLOAT_DECIMAL_16,VALUE,3.0
+*        77 LD1 FLOAT-DECIMAL-34  VALUE 3.0.
+         WS      77,LD1,FLOAT_DECIMAL_34,VALUE,3.0
+*        77 H1      COMP PIC S9(1)V9(3)    VALUE 3.0.
+         WS      77,H1,COMP,PIC,S9(1)V9(3),VALUE,3.0
+*        77 F1      COMP PIC S9(1)V9(8)    VALUE 3.0.
+         WS      77,F1,COMP,PIC,S9(1)V9(8),VALUE,3.0
+*        77 G1      COMP PIC S9(11)V9(7)   VALUE 3.0.
+         WS      77,G1,COMP,PIC,S9(11)V9(7),VALUE,3.0
+*        77 Q1      COMP PIC S9(33)V9(6)   VALUE 3.0.
+         WS      77,Q1,COMP,PIC,S9(33)V9(6),VALUE,3.0
+*        77 P1      COMP-3 PIC S9(16)V(5)  VALUE 3.0.
+         WS      77,P1,COMP_3,PIC,S9(16)V(5),VALUE,3.0
+*        77 Z1             PIC S9(11)V9(4)  VALUE 3.0.
+         WS      77,Z1,PIC,S9(11)V9(4),VALUE,3.0
+*        77 EH2 FLOAT-HEX-7       VALUE 2.00.
+         WS      77,EH2,FLOAT_HEX_7,VALUE,2.00
+*        77 DH2 FLOAT-HEX-15      VALUE 2.00.
+         WS      77,DH2,FLOAT_HEX_15,VALUE,2.00
+*        77 LH2 FLOAT-HEX-30      VALUE 2.00.
+         WS      77,LH2,FLOAT_HEX_30,VALUE,2.00
+*        77 EB2 FLOAT-BINARY-7    VALUE 2.00.
+         WS      77,EB2,FLOAT_BINARY_7,VALUE,2.00
+*        77 DB2 FLOAT-BINARY-16   VALUE 2.00.
+         WS      77,DB2,FLOAT_BINARY_16,VALUE,2.00
+*        77 LB2 FLOAT-BINARY-34   VALUE 2.00.
+         WS      77,LB2,FLOAT_BINARY_34,VALUE,2.00
+*        77 ED2 FLOAT-DECIMAL-7   VALUE 2.00.
+         WS      77,ED2,FLOAT_DECIMAL_7,VALUE,2.00
+*        77 DD2 FLOAT-DECIMAL-16  VALUE 2.00.
+         WS      77,DD2,FLOAT_DECIMAL_16,VALUE,2.00
+*        77 LD2 FLOAT-DECIMAL-34  VALUE 2.00.
+         WS      77,LD2,FLOAT_DECIMAL_34,VALUE,2.00
+*        77 H2      COMP PIC S9(2)V99         VALUE 2.00.
+         WS      77,H2,COMP,PIC,S9(2)V99,VALUE,2.00
+*        77 F2      COMP PIC S9(6)V999        VALUE 2.00.
+         WS      77,F2,COMP,PIC,S9(6)V999,VALUE,2.00
+*        77 G2      COMP PIC S9(14)V9999      VALUE 2.00.
+         WS      77,G2,COMP,PIC,S9(14)V9999,VALUE,2.00
+*        77 Q2      COMP PIC S9(34)V99999     VALUE 2.00.
+         WS      77,Q2,COMP,PIC,S9(34)V99999,VALUE,2.00
+*        77 P2      COMP-3 PIC S9(25)V999999  VALUE 2.00.
+         WS      77,P2,COMP_3,PIC,S9(25)V999999,VALUE,2.00
+*        77 Z2             PIC S9(24)V9999999 VALUE 2.00.
+         WS      77,Z2,PIC,S9(24)V9999999,VALUE,2.00
+*        77 EH3 FLOAT-HEX-7       VALUE 6.00.
+         WS      77,EH3,FLOAT_HEX_7,VALUE,6.00
+*        77 DH3 FLOAT-HEX-15      VALUE 6.00.
+         WS      77,DH3,FLOAT_HEX_15,VALUE,6.00
+*        77 LH3 FLOAT-HEX-30      VALUE 6.00.
+         WS      77,LH3,FLOAT_HEX_30,VALUE,6.00
+*        77 EB3 FLOAT-BINARY-7    VALUE 6.00.
+         WS      77,EB3,FLOAT_BINARY_7,VALUE,6.00
+*        77 DB3 FLOAT-BINARY-16   VALUE 6.00.
+         WS      77,DB3,FLOAT_BINARY_16,VALUE,6.00
+*        77 LB3 FLOAT-BINARY-34   VALUE 6.00.
+         WS      77,LB3,FLOAT_BINARY_34,VALUE,6.00
+*        77 ED3 FLOAT-DECIMAL-7   VALUE 6.00.
+         WS      77,ED3,FLOAT_DECIMAL_7,VALUE,6.00
+*        77 DD3 FLOAT-DECIMAL-16  VALUE 6.00.
+         WS      77,DD3,FLOAT_DECIMAL_16,VALUE,6.00
+*        77 LD3 FLOAT-DECIMAL-34  VALUE 6.00.
+         WS      77,LD3,FLOAT_DECIMAL_34,VALUE,6.00
+*        77 H3      COMP PIC S9(2)V99         VALUE 6.00.
+         WS      77,H3,COMP,PIC,S9(2)V99,VALUE,6.00
+*        77 F3      COMP PIC S9(6)V999        VALUE 6.00.
+         WS      77,F3,COMP,PIC,S9(6)V999,VALUE,6.00
+*        77 G3      COMP PIC S9(14)V9999      VALUE 6.00.
+         WS      77,G3,COMP,PIC,S9(14)V9999,VALUE,6.00
+*        77 Q3      COMP PIC S9(34)V99999     VALUE 6.00.
+         WS      77,Q3,COMP,PIC,S9(34)V99999,VALUE,6.00
+*        77 P3      COMP-3 PIC S9(25)V999999  VALUE 6.00.
+         WS      77,P3,COMP_3,PIC,S9(25)V999999,VALUE,6.00
+*        77 Z3             PIC S9(24)V9999999 VALUE 6.00.
+         WS      77,Z3,PIC,S9(24)V9999999,VALUE,6.00
+*        77 G    COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,G,COMP_3,PIC,9(4),VALUE,0
+*        77 B     COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,B,COMP_3,PIC,9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTMPY2 TEST SCALED MULTIPLY'
+*ZC     58         DISPLAY 'TESTMPY2 TEST SCALED MULTIPLY'
+         DISPLAY 'TESTMPY2 TEST SCALED MULTIPLY'
+*             MULTIPLY  EH2 BY EH1 IF EH3 = EH1 PERFORM G ELSE PERFORM X
+               B.
+*ZC     59         MULTIPLY EH2,BY,EH1
+         MULTIPLY EH2,BY,EH1
+*ZC     59         IF    EH3,=,EH1
+         IF    EH3,=,EH1
+*ZC     59         PERFORM G
+         PERFORM G
+*ZC     59         ELSE  
+         ELSE  
+*ZC     59         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY DH1 IF EH3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     60         MULTIPLY EH2,BY,DH1
+         MULTIPLY EH2,BY,DH1
+*ZC     60         IF    EH3,=,DH1
+         IF    EH3,=,DH1
+*ZC     60         PERFORM G
+         PERFORM G
+*ZC     60         ELSE  
+         ELSE  
+*ZC     60         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY LH1 IF EH3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     61         MULTIPLY EH2,BY,LH1
+         MULTIPLY EH2,BY,LH1
+*ZC     61         IF    EH3,=,LH1
+         IF    EH3,=,LH1
+*ZC     61         PERFORM G
+         PERFORM G
+*ZC     61         ELSE  
+         ELSE  
+*ZC     61         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY EB1 IF EH3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     62         MULTIPLY EH2,BY,EB1
+         MULTIPLY EH2,BY,EB1
+*ZC     62         IF    EH3,=,EB1
+         IF    EH3,=,EB1
+*ZC     62         PERFORM G
+         PERFORM G
+*ZC     62         ELSE  
+         ELSE  
+*ZC     62         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY DB1 IF EH3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     63         MULTIPLY EH2,BY,DB1
+         MULTIPLY EH2,BY,DB1
+*ZC     63         IF    EH3,=,DB1
+         IF    EH3,=,DB1
+*ZC     63         PERFORM G
+         PERFORM G
+*ZC     63         ELSE  
+         ELSE  
+*ZC     63         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY LB1 IF EH3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     64         MULTIPLY EH2,BY,LB1
+         MULTIPLY EH2,BY,LB1
+*ZC     64         IF    EH3,=,LB1
+         IF    EH3,=,LB1
+*ZC     64         PERFORM G
+         PERFORM G
+*ZC     64         ELSE  
+         ELSE  
+*ZC     64         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY ED1 IF EH3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     65         MULTIPLY EH2,BY,ED1
+         MULTIPLY EH2,BY,ED1
+*ZC     65         IF    EH3,=,ED1
+         IF    EH3,=,ED1
+*ZC     65         PERFORM G
+         PERFORM G
+*ZC     65         ELSE  
+         ELSE  
+*ZC     65         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY DD1 IF EH3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     66         MULTIPLY EH2,BY,DD1
+         MULTIPLY EH2,BY,DD1
+*ZC     66         IF    EH3,=,DD1
+         IF    EH3,=,DD1
+*ZC     66         PERFORM G
+         PERFORM G
+*ZC     66         ELSE  
+         ELSE  
+*ZC     66         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY LD1 IF EH3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     67         MULTIPLY EH2,BY,LD1
+         MULTIPLY EH2,BY,LD1
+*ZC     67         IF    EH3,=,LD1
+         IF    EH3,=,LD1
+*ZC     67         PERFORM G
+         PERFORM G
+*ZC     67         ELSE  
+         ELSE  
+*ZC     67         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY F1  IF EH3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     68         MULTIPLY EH2,BY,F1
+         MULTIPLY EH2,BY,F1
+*ZC     68         IF    EH3,=,F1
+         IF    EH3,=,F1
+*ZC     68         PERFORM G
+         PERFORM G
+*ZC     68         ELSE  
+         ELSE  
+*ZC     68         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY G1  IF EH3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     69         MULTIPLY EH2,BY,G1
+         MULTIPLY EH2,BY,G1
+*ZC     69         IF    EH3,=,G1
+         IF    EH3,=,G1
+*ZC     69         PERFORM G
+         PERFORM G
+*ZC     69         ELSE  
+         ELSE  
+*ZC     69         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY H1  IF EH3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     70         MULTIPLY EH2,BY,H1
+         MULTIPLY EH2,BY,H1
+*ZC     70         IF    EH3,=,H1
+         IF    EH3,=,H1
+*ZC     70         PERFORM G
+         PERFORM G
+*ZC     70         ELSE  
+         ELSE  
+*ZC     70         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY P1  IF EH3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     71         MULTIPLY EH2,BY,P1
+         MULTIPLY EH2,BY,P1
+*ZC     71         IF    EH3,=,P1
+         IF    EH3,=,P1
+*ZC     71         PERFORM G
+         PERFORM G
+*ZC     71         ELSE  
+         ELSE  
+*ZC     71         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY Q1  IF EH3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     72         MULTIPLY EH2,BY,Q1
+         MULTIPLY EH2,BY,Q1
+*ZC     72         IF    EH3,=,Q1
+         IF    EH3,=,Q1
+*ZC     72         PERFORM G
+         PERFORM G
+*ZC     72         ELSE  
+         ELSE  
+*ZC     72         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EH2 BY Z1  IF EH3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC     73         MULTIPLY EH2,BY,Z1
+         MULTIPLY EH2,BY,Z1
+*ZC     73         IF    EH3,=,Z1
+         IF    EH3,=,Z1
+*ZC     73         PERFORM G
+         PERFORM G
+*ZC     73         ELSE  
+         ELSE  
+*ZC     73         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC     74         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  DH2 BY EH1 IF DH3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     75         MULTIPLY DH2,BY,EH1
+         MULTIPLY DH2,BY,EH1
+*ZC     75         IF    DH3,=,EH1
+         IF    DH3,=,EH1
+*ZC     75         PERFORM G
+         PERFORM G
+*ZC     75         ELSE  
+         ELSE  
+*ZC     75         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY DH1 IF DH3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     76         MULTIPLY DH2,BY,DH1
+         MULTIPLY DH2,BY,DH1
+*ZC     76         IF    DH3,=,DH1
+         IF    DH3,=,DH1
+*ZC     76         PERFORM G
+         PERFORM G
+*ZC     76         ELSE  
+         ELSE  
+*ZC     76         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY LH1 IF DH3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     77         MULTIPLY DH2,BY,LH1
+         MULTIPLY DH2,BY,LH1
+*ZC     77         IF    DH3,=,LH1
+         IF    DH3,=,LH1
+*ZC     77         PERFORM G
+         PERFORM G
+*ZC     77         ELSE  
+         ELSE  
+*ZC     77         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY EB1 IF DH3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     78         MULTIPLY DH2,BY,EB1
+         MULTIPLY DH2,BY,EB1
+*ZC     78         IF    DH3,=,EB1
+         IF    DH3,=,EB1
+*ZC     78         PERFORM G
+         PERFORM G
+*ZC     78         ELSE  
+         ELSE  
+*ZC     78         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY DB1 IF DH3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     79         MULTIPLY DH2,BY,DB1
+         MULTIPLY DH2,BY,DB1
+*ZC     79         IF    DH3,=,DB1
+         IF    DH3,=,DB1
+*ZC     79         PERFORM G
+         PERFORM G
+*ZC     79         ELSE  
+         ELSE  
+*ZC     79         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY LB1 IF DH3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     80         MULTIPLY DH2,BY,LB1
+         MULTIPLY DH2,BY,LB1
+*ZC     80         IF    DH3,=,LB1
+         IF    DH3,=,LB1
+*ZC     80         PERFORM G
+         PERFORM G
+*ZC     80         ELSE  
+         ELSE  
+*ZC     80         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY ED1 IF DH3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     81         MULTIPLY DH2,BY,ED1
+         MULTIPLY DH2,BY,ED1
+*ZC     81         IF    DH3,=,ED1
+         IF    DH3,=,ED1
+*ZC     81         PERFORM G
+         PERFORM G
+*ZC     81         ELSE  
+         ELSE  
+*ZC     81         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY DD1 IF DH3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     82         MULTIPLY DH2,BY,DD1
+         MULTIPLY DH2,BY,DD1
+*ZC     82         IF    DH3,=,DD1
+         IF    DH3,=,DD1
+*ZC     82         PERFORM G
+         PERFORM G
+*ZC     82         ELSE  
+         ELSE  
+*ZC     82         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY LD1 IF DH3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     83         MULTIPLY DH2,BY,LD1
+         MULTIPLY DH2,BY,LD1
+*ZC     83         IF    DH3,=,LD1
+         IF    DH3,=,LD1
+*ZC     83         PERFORM G
+         PERFORM G
+*ZC     83         ELSE  
+         ELSE  
+*ZC     83         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY F1  IF DH3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     84         MULTIPLY DH2,BY,F1
+         MULTIPLY DH2,BY,F1
+*ZC     84         IF    DH3,=,F1
+         IF    DH3,=,F1
+*ZC     84         PERFORM G
+         PERFORM G
+*ZC     84         ELSE  
+         ELSE  
+*ZC     84         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY G1  IF DH3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     85         MULTIPLY DH2,BY,G1
+         MULTIPLY DH2,BY,G1
+*ZC     85         IF    DH3,=,G1
+         IF    DH3,=,G1
+*ZC     85         PERFORM G
+         PERFORM G
+*ZC     85         ELSE  
+         ELSE  
+*ZC     85         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY H1  IF DH3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     86         MULTIPLY DH2,BY,H1
+         MULTIPLY DH2,BY,H1
+*ZC     86         IF    DH3,=,H1
+         IF    DH3,=,H1
+*ZC     86         PERFORM G
+         PERFORM G
+*ZC     86         ELSE  
+         ELSE  
+*ZC     86         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY P1  IF DH3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     87         MULTIPLY DH2,BY,P1
+         MULTIPLY DH2,BY,P1
+*ZC     87         IF    DH3,=,P1
+         IF    DH3,=,P1
+*ZC     87         PERFORM G
+         PERFORM G
+*ZC     87         ELSE  
+         ELSE  
+*ZC     87         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY Q1  IF DH3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC     88         MULTIPLY DH2,BY,Q1
+         MULTIPLY DH2,BY,Q1
+*ZC     88         IF    DH3,=,Q1
+         IF    DH3,=,Q1
+*ZC     88         PERFORM G
+         PERFORM G
+*ZC     88         ELSE  
+         ELSE  
+*ZC     88         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DH2 BY Z1  IF DH3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC     89         MULTIPLY DH2,BY,Z1
+         MULTIPLY DH2,BY,Z1
+*ZC     89         IF    DH3,=,Z1
+         IF    DH3,=,Z1
+*ZC     89         PERFORM G
+         PERFORM G
+*ZC     89         ELSE  
+         ELSE  
+*ZC     89         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC     90         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  LH2 BY EH1 IF LH3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     91         MULTIPLY LH2,BY,EH1
+         MULTIPLY LH2,BY,EH1
+*ZC     91         IF    LH3,=,EH1
+         IF    LH3,=,EH1
+*ZC     91         PERFORM G
+         PERFORM G
+*ZC     91         ELSE  
+         ELSE  
+*ZC     91         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY DH1 IF LH3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     92         MULTIPLY LH2,BY,DH1
+         MULTIPLY LH2,BY,DH1
+*ZC     92         IF    LH3,=,DH1
+         IF    LH3,=,DH1
+*ZC     92         PERFORM G
+         PERFORM G
+*ZC     92         ELSE  
+         ELSE  
+*ZC     92         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY LH1 IF LH3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     93         MULTIPLY LH2,BY,LH1
+         MULTIPLY LH2,BY,LH1
+*ZC     93         IF    LH3,=,LH1
+         IF    LH3,=,LH1
+*ZC     93         PERFORM G
+         PERFORM G
+*ZC     93         ELSE  
+         ELSE  
+*ZC     93         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY EB1 IF LH3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     94         MULTIPLY LH2,BY,EB1
+         MULTIPLY LH2,BY,EB1
+*ZC     94         IF    LH3,=,EB1
+         IF    LH3,=,EB1
+*ZC     94         PERFORM G
+         PERFORM G
+*ZC     94         ELSE  
+         ELSE  
+*ZC     94         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY DB1 IF LH3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     95         MULTIPLY LH2,BY,DB1
+         MULTIPLY LH2,BY,DB1
+*ZC     95         IF    LH3,=,DB1
+         IF    LH3,=,DB1
+*ZC     95         PERFORM G
+         PERFORM G
+*ZC     95         ELSE  
+         ELSE  
+*ZC     95         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY LB1 IF LH3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     96         MULTIPLY LH2,BY,LB1
+         MULTIPLY LH2,BY,LB1
+*ZC     96         IF    LH3,=,LB1
+         IF    LH3,=,LB1
+*ZC     96         PERFORM G
+         PERFORM G
+*ZC     96         ELSE  
+         ELSE  
+*ZC     96         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY ED1 IF LH3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     97         MULTIPLY LH2,BY,ED1
+         MULTIPLY LH2,BY,ED1
+*ZC     97         IF    LH3,=,ED1
+         IF    LH3,=,ED1
+*ZC     97         PERFORM G
+         PERFORM G
+*ZC     97         ELSE  
+         ELSE  
+*ZC     97         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY DD1 IF LH3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     98         MULTIPLY LH2,BY,DD1
+         MULTIPLY LH2,BY,DD1
+*ZC     98         IF    LH3,=,DD1
+         IF    LH3,=,DD1
+*ZC     98         PERFORM G
+         PERFORM G
+*ZC     98         ELSE  
+         ELSE  
+*ZC     98         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY LD1 IF LH3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC     99         MULTIPLY LH2,BY,LD1
+         MULTIPLY LH2,BY,LD1
+*ZC     99         IF    LH3,=,LD1
+         IF    LH3,=,LD1
+*ZC     99         PERFORM G
+         PERFORM G
+*ZC     99         ELSE  
+         ELSE  
+*ZC     99         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY F1  IF LH3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    100         MULTIPLY LH2,BY,F1
+         MULTIPLY LH2,BY,F1
+*ZC    100         IF    LH3,=,F1
+         IF    LH3,=,F1
+*ZC    100         PERFORM G
+         PERFORM G
+*ZC    100         ELSE  
+         ELSE  
+*ZC    100         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY G1  IF LH3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    101         MULTIPLY LH2,BY,G1
+         MULTIPLY LH2,BY,G1
+*ZC    101         IF    LH3,=,G1
+         IF    LH3,=,G1
+*ZC    101         PERFORM G
+         PERFORM G
+*ZC    101         ELSE  
+         ELSE  
+*ZC    101         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY H1  IF LH3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    102         MULTIPLY LH2,BY,H1
+         MULTIPLY LH2,BY,H1
+*ZC    102         IF    LH3,=,H1
+         IF    LH3,=,H1
+*ZC    102         PERFORM G
+         PERFORM G
+*ZC    102         ELSE  
+         ELSE  
+*ZC    102         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY P1  IF LH3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    103         MULTIPLY LH2,BY,P1
+         MULTIPLY LH2,BY,P1
+*ZC    103         IF    LH3,=,P1
+         IF    LH3,=,P1
+*ZC    103         PERFORM G
+         PERFORM G
+*ZC    103         ELSE  
+         ELSE  
+*ZC    103         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY Q1  IF LH3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    104         MULTIPLY LH2,BY,Q1
+         MULTIPLY LH2,BY,Q1
+*ZC    104         IF    LH3,=,Q1
+         IF    LH3,=,Q1
+*ZC    104         PERFORM G
+         PERFORM G
+*ZC    104         ELSE  
+         ELSE  
+*ZC    104         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LH2 BY Z1  IF LH3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    105         MULTIPLY LH2,BY,Z1
+         MULTIPLY LH2,BY,Z1
+*ZC    105         IF    LH3,=,Z1
+         IF    LH3,=,Z1
+*ZC    105         PERFORM G
+         PERFORM G
+*ZC    105         ELSE  
+         ELSE  
+*ZC    105         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    106         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  EB2 BY EH1 IF EB3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    107         MULTIPLY EB2,BY,EH1
+         MULTIPLY EB2,BY,EH1
+*ZC    107         IF    EB3,=,EH1
+         IF    EB3,=,EH1
+*ZC    107         PERFORM G
+         PERFORM G
+*ZC    107         ELSE  
+         ELSE  
+*ZC    107         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY DH1 IF EB3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    108         MULTIPLY EB2,BY,DH1
+         MULTIPLY EB2,BY,DH1
+*ZC    108         IF    EB3,=,DH1
+         IF    EB3,=,DH1
+*ZC    108         PERFORM G
+         PERFORM G
+*ZC    108         ELSE  
+         ELSE  
+*ZC    108         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY LH1 IF EB3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    109         MULTIPLY EB2,BY,LH1
+         MULTIPLY EB2,BY,LH1
+*ZC    109         IF    EB3,=,LH1
+         IF    EB3,=,LH1
+*ZC    109         PERFORM G
+         PERFORM G
+*ZC    109         ELSE  
+         ELSE  
+*ZC    109         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY EB1 IF EB3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    110         MULTIPLY EB2,BY,EB1
+         MULTIPLY EB2,BY,EB1
+*ZC    110         IF    EB3,=,EB1
+         IF    EB3,=,EB1
+*ZC    110         PERFORM G
+         PERFORM G
+*ZC    110         ELSE  
+         ELSE  
+*ZC    110         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY DB1 IF EB3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    111         MULTIPLY EB2,BY,DB1
+         MULTIPLY EB2,BY,DB1
+*ZC    111         IF    EB3,=,DB1
+         IF    EB3,=,DB1
+*ZC    111         PERFORM G
+         PERFORM G
+*ZC    111         ELSE  
+         ELSE  
+*ZC    111         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY LB1 IF EB3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    112         MULTIPLY EB2,BY,LB1
+         MULTIPLY EB2,BY,LB1
+*ZC    112         IF    EB3,=,LB1
+         IF    EB3,=,LB1
+*ZC    112         PERFORM G
+         PERFORM G
+*ZC    112         ELSE  
+         ELSE  
+*ZC    112         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY ED1 IF EB3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    113         MULTIPLY EB2,BY,ED1
+         MULTIPLY EB2,BY,ED1
+*ZC    113         IF    EB3,=,ED1
+         IF    EB3,=,ED1
+*ZC    113         PERFORM G
+         PERFORM G
+*ZC    113         ELSE  
+         ELSE  
+*ZC    113         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY DD1 IF EB3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    114         MULTIPLY EB2,BY,DD1
+         MULTIPLY EB2,BY,DD1
+*ZC    114         IF    EB3,=,DD1
+         IF    EB3,=,DD1
+*ZC    114         PERFORM G
+         PERFORM G
+*ZC    114         ELSE  
+         ELSE  
+*ZC    114         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY LD1 IF EB3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    115         MULTIPLY EB2,BY,LD1
+         MULTIPLY EB2,BY,LD1
+*ZC    115         IF    EB3,=,LD1
+         IF    EB3,=,LD1
+*ZC    115         PERFORM G
+         PERFORM G
+*ZC    115         ELSE  
+         ELSE  
+*ZC    115         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY F1  IF EB3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    116         MULTIPLY EB2,BY,F1
+         MULTIPLY EB2,BY,F1
+*ZC    116         IF    EB3,=,F1
+         IF    EB3,=,F1
+*ZC    116         PERFORM G
+         PERFORM G
+*ZC    116         ELSE  
+         ELSE  
+*ZC    116         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY G1  IF EB3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    117         MULTIPLY EB2,BY,G1
+         MULTIPLY EB2,BY,G1
+*ZC    117         IF    EB3,=,G1
+         IF    EB3,=,G1
+*ZC    117         PERFORM G
+         PERFORM G
+*ZC    117         ELSE  
+         ELSE  
+*ZC    117         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY H1  IF EB3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    118         MULTIPLY EB2,BY,H1
+         MULTIPLY EB2,BY,H1
+*ZC    118         IF    EB3,=,H1
+         IF    EB3,=,H1
+*ZC    118         PERFORM G
+         PERFORM G
+*ZC    118         ELSE  
+         ELSE  
+*ZC    118         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY P1  IF EB3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    119         MULTIPLY EB2,BY,P1
+         MULTIPLY EB2,BY,P1
+*ZC    119         IF    EB3,=,P1
+         IF    EB3,=,P1
+*ZC    119         PERFORM G
+         PERFORM G
+*ZC    119         ELSE  
+         ELSE  
+*ZC    119         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY Q1  IF EB3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    120         MULTIPLY EB2,BY,Q1
+         MULTIPLY EB2,BY,Q1
+*ZC    120         IF    EB3,=,Q1
+         IF    EB3,=,Q1
+*ZC    120         PERFORM G
+         PERFORM G
+*ZC    120         ELSE  
+         ELSE  
+*ZC    120         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  EB2 BY Z1  IF EB3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    121         MULTIPLY EB2,BY,Z1
+         MULTIPLY EB2,BY,Z1
+*ZC    121         IF    EB3,=,Z1
+         IF    EB3,=,Z1
+*ZC    121         PERFORM G
+         PERFORM G
+*ZC    121         ELSE  
+         ELSE  
+*ZC    121         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    122         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  DB2 BY EH1 IF DB3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    123         MULTIPLY DB2,BY,EH1
+         MULTIPLY DB2,BY,EH1
+*ZC    123         IF    DB3,=,EH1
+         IF    DB3,=,EH1
+*ZC    123         PERFORM G
+         PERFORM G
+*ZC    123         ELSE  
+         ELSE  
+*ZC    123         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY DH1 IF DB3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    124         MULTIPLY DB2,BY,DH1
+         MULTIPLY DB2,BY,DH1
+*ZC    124         IF    DB3,=,DH1
+         IF    DB3,=,DH1
+*ZC    124         PERFORM G
+         PERFORM G
+*ZC    124         ELSE  
+         ELSE  
+*ZC    124         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY LH1 IF DB3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    125         MULTIPLY DB2,BY,LH1
+         MULTIPLY DB2,BY,LH1
+*ZC    125         IF    DB3,=,LH1
+         IF    DB3,=,LH1
+*ZC    125         PERFORM G
+         PERFORM G
+*ZC    125         ELSE  
+         ELSE  
+*ZC    125         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY EB1 IF DB3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    126         MULTIPLY DB2,BY,EB1
+         MULTIPLY DB2,BY,EB1
+*ZC    126         IF    DB3,=,EB1
+         IF    DB3,=,EB1
+*ZC    126         PERFORM G
+         PERFORM G
+*ZC    126         ELSE  
+         ELSE  
+*ZC    126         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY DB1 IF DB3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    127         MULTIPLY DB2,BY,DB1
+         MULTIPLY DB2,BY,DB1
+*ZC    127         IF    DB3,=,DB1
+         IF    DB3,=,DB1
+*ZC    127         PERFORM G
+         PERFORM G
+*ZC    127         ELSE  
+         ELSE  
+*ZC    127         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY LB1 IF DB3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    128         MULTIPLY DB2,BY,LB1
+         MULTIPLY DB2,BY,LB1
+*ZC    128         IF    DB3,=,LB1
+         IF    DB3,=,LB1
+*ZC    128         PERFORM G
+         PERFORM G
+*ZC    128         ELSE  
+         ELSE  
+*ZC    128         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY ED1 IF DB3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    129         MULTIPLY DB2,BY,ED1
+         MULTIPLY DB2,BY,ED1
+*ZC    129         IF    DB3,=,ED1
+         IF    DB3,=,ED1
+*ZC    129         PERFORM G
+         PERFORM G
+*ZC    129         ELSE  
+         ELSE  
+*ZC    129         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY DD1 IF DB3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    130         MULTIPLY DB2,BY,DD1
+         MULTIPLY DB2,BY,DD1
+*ZC    130         IF    DB3,=,DD1
+         IF    DB3,=,DD1
+*ZC    130         PERFORM G
+         PERFORM G
+*ZC    130         ELSE  
+         ELSE  
+*ZC    130         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY LD1 IF DB3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    131         MULTIPLY DB2,BY,LD1
+         MULTIPLY DB2,BY,LD1
+*ZC    131         IF    DB3,=,LD1
+         IF    DB3,=,LD1
+*ZC    131         PERFORM G
+         PERFORM G
+*ZC    131         ELSE  
+         ELSE  
+*ZC    131         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY F1  IF DB3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    132         MULTIPLY DB2,BY,F1
+         MULTIPLY DB2,BY,F1
+*ZC    132         IF    DB3,=,F1
+         IF    DB3,=,F1
+*ZC    132         PERFORM G
+         PERFORM G
+*ZC    132         ELSE  
+         ELSE  
+*ZC    132         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY G1  IF DB3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    133         MULTIPLY DB2,BY,G1
+         MULTIPLY DB2,BY,G1
+*ZC    133         IF    DB3,=,G1
+         IF    DB3,=,G1
+*ZC    133         PERFORM G
+         PERFORM G
+*ZC    133         ELSE  
+         ELSE  
+*ZC    133         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY H1  IF DB3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    134         MULTIPLY DB2,BY,H1
+         MULTIPLY DB2,BY,H1
+*ZC    134         IF    DB3,=,H1
+         IF    DB3,=,H1
+*ZC    134         PERFORM G
+         PERFORM G
+*ZC    134         ELSE  
+         ELSE  
+*ZC    134         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY P1  IF DB3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    135         MULTIPLY DB2,BY,P1
+         MULTIPLY DB2,BY,P1
+*ZC    135         IF    DB3,=,P1
+         IF    DB3,=,P1
+*ZC    135         PERFORM G
+         PERFORM G
+*ZC    135         ELSE  
+         ELSE  
+*ZC    135         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY Q1  IF DB3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    136         MULTIPLY DB2,BY,Q1
+         MULTIPLY DB2,BY,Q1
+*ZC    136         IF    DB3,=,Q1
+         IF    DB3,=,Q1
+*ZC    136         PERFORM G
+         PERFORM G
+*ZC    136         ELSE  
+         ELSE  
+*ZC    136         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DB2 BY Z1  IF DB3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    137         MULTIPLY DB2,BY,Z1
+         MULTIPLY DB2,BY,Z1
+*ZC    137         IF    DB3,=,Z1
+         IF    DB3,=,Z1
+*ZC    137         PERFORM G
+         PERFORM G
+*ZC    137         ELSE  
+         ELSE  
+*ZC    137         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    138         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  LB2 BY EH1 IF LB3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    139         MULTIPLY LB2,BY,EH1
+         MULTIPLY LB2,BY,EH1
+*ZC    139         IF    LB3,=,EH1
+         IF    LB3,=,EH1
+*ZC    139         PERFORM G
+         PERFORM G
+*ZC    139         ELSE  
+         ELSE  
+*ZC    139         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY DH1 IF LB3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    140         MULTIPLY LB2,BY,DH1
+         MULTIPLY LB2,BY,DH1
+*ZC    140         IF    LB3,=,DH1
+         IF    LB3,=,DH1
+*ZC    140         PERFORM G
+         PERFORM G
+*ZC    140         ELSE  
+         ELSE  
+*ZC    140         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY LH1 IF LB3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    141         MULTIPLY LB2,BY,LH1
+         MULTIPLY LB2,BY,LH1
+*ZC    141         IF    LB3,=,LH1
+         IF    LB3,=,LH1
+*ZC    141         PERFORM G
+         PERFORM G
+*ZC    141         ELSE  
+         ELSE  
+*ZC    141         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY EB1 IF LB3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    142         MULTIPLY LB2,BY,EB1
+         MULTIPLY LB2,BY,EB1
+*ZC    142         IF    LB3,=,EB1
+         IF    LB3,=,EB1
+*ZC    142         PERFORM G
+         PERFORM G
+*ZC    142         ELSE  
+         ELSE  
+*ZC    142         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY DB1 IF LB3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    143         MULTIPLY LB2,BY,DB1
+         MULTIPLY LB2,BY,DB1
+*ZC    143         IF    LB3,=,DB1
+         IF    LB3,=,DB1
+*ZC    143         PERFORM G
+         PERFORM G
+*ZC    143         ELSE  
+         ELSE  
+*ZC    143         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY LB1 IF LB3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    144         MULTIPLY LB2,BY,LB1
+         MULTIPLY LB2,BY,LB1
+*ZC    144         IF    LB3,=,LB1
+         IF    LB3,=,LB1
+*ZC    144         PERFORM G
+         PERFORM G
+*ZC    144         ELSE  
+         ELSE  
+*ZC    144         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY ED1 IF LB3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    145         MULTIPLY LB2,BY,ED1
+         MULTIPLY LB2,BY,ED1
+*ZC    145         IF    LB3,=,ED1
+         IF    LB3,=,ED1
+*ZC    145         PERFORM G
+         PERFORM G
+*ZC    145         ELSE  
+         ELSE  
+*ZC    145         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY DD1 IF LB3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    146         MULTIPLY LB2,BY,DD1
+         MULTIPLY LB2,BY,DD1
+*ZC    146         IF    LB3,=,DD1
+         IF    LB3,=,DD1
+*ZC    146         PERFORM G
+         PERFORM G
+*ZC    146         ELSE  
+         ELSE  
+*ZC    146         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY LD1 IF LB3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    147         MULTIPLY LB2,BY,LD1
+         MULTIPLY LB2,BY,LD1
+*ZC    147         IF    LB3,=,LD1
+         IF    LB3,=,LD1
+*ZC    147         PERFORM G
+         PERFORM G
+*ZC    147         ELSE  
+         ELSE  
+*ZC    147         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY F1  IF LB3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    148         MULTIPLY LB2,BY,F1
+         MULTIPLY LB2,BY,F1
+*ZC    148         IF    LB3,=,F1
+         IF    LB3,=,F1
+*ZC    148         PERFORM G
+         PERFORM G
+*ZC    148         ELSE  
+         ELSE  
+*ZC    148         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY G1  IF LB3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    149         MULTIPLY LB2,BY,G1
+         MULTIPLY LB2,BY,G1
+*ZC    149         IF    LB3,=,G1
+         IF    LB3,=,G1
+*ZC    149         PERFORM G
+         PERFORM G
+*ZC    149         ELSE  
+         ELSE  
+*ZC    149         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY H1  IF LB3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    150         MULTIPLY LB2,BY,H1
+         MULTIPLY LB2,BY,H1
+*ZC    150         IF    LB3,=,H1
+         IF    LB3,=,H1
+*ZC    150         PERFORM G
+         PERFORM G
+*ZC    150         ELSE  
+         ELSE  
+*ZC    150         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY P1  IF LB3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    151         MULTIPLY LB2,BY,P1
+         MULTIPLY LB2,BY,P1
+*ZC    151         IF    LB3,=,P1
+         IF    LB3,=,P1
+*ZC    151         PERFORM G
+         PERFORM G
+*ZC    151         ELSE  
+         ELSE  
+*ZC    151         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY Q1  IF LB3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    152         MULTIPLY LB2,BY,Q1
+         MULTIPLY LB2,BY,Q1
+*ZC    152         IF    LB3,=,Q1
+         IF    LB3,=,Q1
+*ZC    152         PERFORM G
+         PERFORM G
+*ZC    152         ELSE  
+         ELSE  
+*ZC    152         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LB2 BY Z1  IF LB3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    153         MULTIPLY LB2,BY,Z1
+         MULTIPLY LB2,BY,Z1
+*ZC    153         IF    LB3,=,Z1
+         IF    LB3,=,Z1
+*ZC    153         PERFORM G
+         PERFORM G
+*ZC    153         ELSE  
+         ELSE  
+*ZC    153         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.       
+*ZC    154         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  ED2 BY EH1 IF ED3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    155         MULTIPLY ED2,BY,EH1
+         MULTIPLY ED2,BY,EH1
+*ZC    155         IF    ED3,=,EH1
+         IF    ED3,=,EH1
+*ZC    155         PERFORM G
+         PERFORM G
+*ZC    155         ELSE  
+         ELSE  
+*ZC    155         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY DH1 IF ED3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    156         MULTIPLY ED2,BY,DH1
+         MULTIPLY ED2,BY,DH1
+*ZC    156         IF    ED3,=,DH1
+         IF    ED3,=,DH1
+*ZC    156         PERFORM G
+         PERFORM G
+*ZC    156         ELSE  
+         ELSE  
+*ZC    156         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY LH1 IF ED3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    157         MULTIPLY ED2,BY,LH1
+         MULTIPLY ED2,BY,LH1
+*ZC    157         IF    ED3,=,LH1
+         IF    ED3,=,LH1
+*ZC    157         PERFORM G
+         PERFORM G
+*ZC    157         ELSE  
+         ELSE  
+*ZC    157         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY EB1 IF ED3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    158         MULTIPLY ED2,BY,EB1
+         MULTIPLY ED2,BY,EB1
+*ZC    158         IF    ED3,=,EB1
+         IF    ED3,=,EB1
+*ZC    158         PERFORM G
+         PERFORM G
+*ZC    158         ELSE  
+         ELSE  
+*ZC    158         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY DB1 IF ED3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    159         MULTIPLY ED2,BY,DB1
+         MULTIPLY ED2,BY,DB1
+*ZC    159         IF    ED3,=,DB1
+         IF    ED3,=,DB1
+*ZC    159         PERFORM G
+         PERFORM G
+*ZC    159         ELSE  
+         ELSE  
+*ZC    159         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY LB1 IF ED3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    160         MULTIPLY ED2,BY,LB1
+         MULTIPLY ED2,BY,LB1
+*ZC    160         IF    ED3,=,LB1
+         IF    ED3,=,LB1
+*ZC    160         PERFORM G
+         PERFORM G
+*ZC    160         ELSE  
+         ELSE  
+*ZC    160         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY ED1 IF ED3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    161         MULTIPLY ED2,BY,ED1
+         MULTIPLY ED2,BY,ED1
+*ZC    161         IF    ED3,=,ED1
+         IF    ED3,=,ED1
+*ZC    161         PERFORM G
+         PERFORM G
+*ZC    161         ELSE  
+         ELSE  
+*ZC    161         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY DD1 IF ED3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    162         MULTIPLY ED2,BY,DD1
+         MULTIPLY ED2,BY,DD1
+*ZC    162         IF    ED3,=,DD1
+         IF    ED3,=,DD1
+*ZC    162         PERFORM G
+         PERFORM G
+*ZC    162         ELSE  
+         ELSE  
+*ZC    162         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY LD1 IF ED3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    163         MULTIPLY ED2,BY,LD1
+         MULTIPLY ED2,BY,LD1
+*ZC    163         IF    ED3,=,LD1
+         IF    ED3,=,LD1
+*ZC    163         PERFORM G
+         PERFORM G
+*ZC    163         ELSE  
+         ELSE  
+*ZC    163         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY F1  IF ED3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    164         MULTIPLY ED2,BY,F1
+         MULTIPLY ED2,BY,F1
+*ZC    164         IF    ED3,=,F1
+         IF    ED3,=,F1
+*ZC    164         PERFORM G
+         PERFORM G
+*ZC    164         ELSE  
+         ELSE  
+*ZC    164         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY G1  IF ED3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    165         MULTIPLY ED2,BY,G1
+         MULTIPLY ED2,BY,G1
+*ZC    165         IF    ED3,=,G1
+         IF    ED3,=,G1
+*ZC    165         PERFORM G
+         PERFORM G
+*ZC    165         ELSE  
+         ELSE  
+*ZC    165         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY H1  IF ED3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    166         MULTIPLY ED2,BY,H1
+         MULTIPLY ED2,BY,H1
+*ZC    166         IF    ED3,=,H1
+         IF    ED3,=,H1
+*ZC    166         PERFORM G
+         PERFORM G
+*ZC    166         ELSE  
+         ELSE  
+*ZC    166         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY P1  IF ED3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    167         MULTIPLY ED2,BY,P1
+         MULTIPLY ED2,BY,P1
+*ZC    167         IF    ED3,=,P1
+         IF    ED3,=,P1
+*ZC    167         PERFORM G
+         PERFORM G
+*ZC    167         ELSE  
+         ELSE  
+*ZC    167         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY Q1  IF ED3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    168         MULTIPLY ED2,BY,Q1
+         MULTIPLY ED2,BY,Q1
+*ZC    168         IF    ED3,=,Q1
+         IF    ED3,=,Q1
+*ZC    168         PERFORM G
+         PERFORM G
+*ZC    168         ELSE  
+         ELSE  
+*ZC    168         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  ED2 BY Z1  IF ED3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    169         MULTIPLY ED2,BY,Z1
+         MULTIPLY ED2,BY,Z1
+*ZC    169         IF    ED3,=,Z1
+         IF    ED3,=,Z1
+*ZC    169         PERFORM G
+         PERFORM G
+*ZC    169         ELSE  
+         ELSE  
+*ZC    169         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    170         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  DD2 BY EH1 IF DD3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    171         MULTIPLY DD2,BY,EH1
+         MULTIPLY DD2,BY,EH1
+*ZC    171         IF    DD3,=,EH1
+         IF    DD3,=,EH1
+*ZC    171         PERFORM G
+         PERFORM G
+*ZC    171         ELSE  
+         ELSE  
+*ZC    171         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY DH1 IF DD3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    172         MULTIPLY DD2,BY,DH1
+         MULTIPLY DD2,BY,DH1
+*ZC    172         IF    DD3,=,DH1
+         IF    DD3,=,DH1
+*ZC    172         PERFORM G
+         PERFORM G
+*ZC    172         ELSE  
+         ELSE  
+*ZC    172         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY LH1 IF DD3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    173         MULTIPLY DD2,BY,LH1
+         MULTIPLY DD2,BY,LH1
+*ZC    173         IF    DD3,=,LH1
+         IF    DD3,=,LH1
+*ZC    173         PERFORM G
+         PERFORM G
+*ZC    173         ELSE  
+         ELSE  
+*ZC    173         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY EB1 IF DD3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    174         MULTIPLY DD2,BY,EB1
+         MULTIPLY DD2,BY,EB1
+*ZC    174         IF    DD3,=,EB1
+         IF    DD3,=,EB1
+*ZC    174         PERFORM G
+         PERFORM G
+*ZC    174         ELSE  
+         ELSE  
+*ZC    174         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY DB1 IF DD3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    175         MULTIPLY DD2,BY,DB1
+         MULTIPLY DD2,BY,DB1
+*ZC    175         IF    DD3,=,DB1
+         IF    DD3,=,DB1
+*ZC    175         PERFORM G
+         PERFORM G
+*ZC    175         ELSE  
+         ELSE  
+*ZC    175         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY LB1 IF DD3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    176         MULTIPLY DD2,BY,LB1
+         MULTIPLY DD2,BY,LB1
+*ZC    176         IF    DD3,=,LB1
+         IF    DD3,=,LB1
+*ZC    176         PERFORM G
+         PERFORM G
+*ZC    176         ELSE  
+         ELSE  
+*ZC    176         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY ED1 IF DD3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    177         MULTIPLY DD2,BY,ED1
+         MULTIPLY DD2,BY,ED1
+*ZC    177         IF    DD3,=,ED1
+         IF    DD3,=,ED1
+*ZC    177         PERFORM G
+         PERFORM G
+*ZC    177         ELSE  
+         ELSE  
+*ZC    177         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY DD1 IF DD3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    178         MULTIPLY DD2,BY,DD1
+         MULTIPLY DD2,BY,DD1
+*ZC    178         IF    DD3,=,DD1
+         IF    DD3,=,DD1
+*ZC    178         PERFORM G
+         PERFORM G
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY LD1 IF DD3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    179         MULTIPLY DD2,BY,LD1
+         MULTIPLY DD2,BY,LD1
+*ZC    179         IF    DD3,=,LD1
+         IF    DD3,=,LD1
+*ZC    179         PERFORM G
+         PERFORM G
+*ZC    179         ELSE  
+         ELSE  
+*ZC    179         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY F1  IF DD3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    180         MULTIPLY DD2,BY,F1
+         MULTIPLY DD2,BY,F1
+*ZC    180         IF    DD3,=,F1
+         IF    DD3,=,F1
+*ZC    180         PERFORM G
+         PERFORM G
+*ZC    180         ELSE  
+         ELSE  
+*ZC    180         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY G1  IF DD3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    181         MULTIPLY DD2,BY,G1
+         MULTIPLY DD2,BY,G1
+*ZC    181         IF    DD3,=,G1
+         IF    DD3,=,G1
+*ZC    181         PERFORM G
+         PERFORM G
+*ZC    181         ELSE  
+         ELSE  
+*ZC    181         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY H1  IF DD3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    182         MULTIPLY DD2,BY,H1
+         MULTIPLY DD2,BY,H1
+*ZC    182         IF    DD3,=,H1
+         IF    DD3,=,H1
+*ZC    182         PERFORM G
+         PERFORM G
+*ZC    182         ELSE  
+         ELSE  
+*ZC    182         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY P1  IF DD3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    183         MULTIPLY DD2,BY,P1
+         MULTIPLY DD2,BY,P1
+*ZC    183         IF    DD3,=,P1
+         IF    DD3,=,P1
+*ZC    183         PERFORM G
+         PERFORM G
+*ZC    183         ELSE  
+         ELSE  
+*ZC    183         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY Q1  IF DD3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    184         MULTIPLY DD2,BY,Q1
+         MULTIPLY DD2,BY,Q1
+*ZC    184         IF    DD3,=,Q1
+         IF    DD3,=,Q1
+*ZC    184         PERFORM G
+         PERFORM G
+*ZC    184         ELSE  
+         ELSE  
+*ZC    184         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  DD2 BY Z1  IF DD3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    185         MULTIPLY DD2,BY,Z1
+         MULTIPLY DD2,BY,Z1
+*ZC    185         IF    DD3,=,Z1
+         IF    DD3,=,Z1
+*ZC    185         PERFORM G
+         PERFORM G
+*ZC    185         ELSE  
+         ELSE  
+*ZC    185         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    186         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  LD2 BY EH1 IF LD3 = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    187         MULTIPLY LD2,BY,EH1
+         MULTIPLY LD2,BY,EH1
+*ZC    187         IF    LD3,=,EH1
+         IF    LD3,=,EH1
+*ZC    187         PERFORM G
+         PERFORM G
+*ZC    187         ELSE  
+         ELSE  
+*ZC    187         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY DH1 IF LD3 = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    188         MULTIPLY LD2,BY,DH1
+         MULTIPLY LD2,BY,DH1
+*ZC    188         IF    LD3,=,DH1
+         IF    LD3,=,DH1
+*ZC    188         PERFORM G
+         PERFORM G
+*ZC    188         ELSE  
+         ELSE  
+*ZC    188         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY LH1 IF LD3 = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    189         MULTIPLY LD2,BY,LH1
+         MULTIPLY LD2,BY,LH1
+*ZC    189         IF    LD3,=,LH1
+         IF    LD3,=,LH1
+*ZC    189         PERFORM G
+         PERFORM G
+*ZC    189         ELSE  
+         ELSE  
+*ZC    189         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY EB1 IF LD3 = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    190         MULTIPLY LD2,BY,EB1
+         MULTIPLY LD2,BY,EB1
+*ZC    190         IF    LD3,=,EB1
+         IF    LD3,=,EB1
+*ZC    190         PERFORM G
+         PERFORM G
+*ZC    190         ELSE  
+         ELSE  
+*ZC    190         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY DB1 IF LD3 = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    191         MULTIPLY LD2,BY,DB1
+         MULTIPLY LD2,BY,DB1
+*ZC    191         IF    LD3,=,DB1
+         IF    LD3,=,DB1
+*ZC    191         PERFORM G
+         PERFORM G
+*ZC    191         ELSE  
+         ELSE  
+*ZC    191         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY LB1 IF LD3 = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    192         MULTIPLY LD2,BY,LB1
+         MULTIPLY LD2,BY,LB1
+*ZC    192         IF    LD3,=,LB1
+         IF    LD3,=,LB1
+*ZC    192         PERFORM G
+         PERFORM G
+*ZC    192         ELSE  
+         ELSE  
+*ZC    192         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY ED1 IF LD3 = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    193         MULTIPLY LD2,BY,ED1
+         MULTIPLY LD2,BY,ED1
+*ZC    193         IF    LD3,=,ED1
+         IF    LD3,=,ED1
+*ZC    193         PERFORM G
+         PERFORM G
+*ZC    193         ELSE  
+         ELSE  
+*ZC    193         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY DD1 IF LD3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    194         MULTIPLY LD2,BY,DD1
+         MULTIPLY LD2,BY,DD1
+*ZC    194         IF    LD3,=,DD1
+         IF    LD3,=,DD1
+*ZC    194         PERFORM G
+         PERFORM G
+*ZC    194         ELSE  
+         ELSE  
+*ZC    194         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY LD1 IF LD3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    195         MULTIPLY LD2,BY,LD1
+         MULTIPLY LD2,BY,LD1
+*ZC    195         IF    LD3,=,LD1
+         IF    LD3,=,LD1
+*ZC    195         PERFORM G
+         PERFORM G
+*ZC    195         ELSE  
+         ELSE  
+*ZC    195         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY F1  IF LD3 = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    196         MULTIPLY LD2,BY,F1
+         MULTIPLY LD2,BY,F1
+*ZC    196         IF    LD3,=,F1
+         IF    LD3,=,F1
+*ZC    196         PERFORM G
+         PERFORM G
+*ZC    196         ELSE  
+         ELSE  
+*ZC    196         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY G1  IF LD3 = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    197         MULTIPLY LD2,BY,G1
+         MULTIPLY LD2,BY,G1
+*ZC    197         IF    LD3,=,G1
+         IF    LD3,=,G1
+*ZC    197         PERFORM G
+         PERFORM G
+*ZC    197         ELSE  
+         ELSE  
+*ZC    197         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY H1  IF LD3 = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    198         MULTIPLY LD2,BY,H1
+         MULTIPLY LD2,BY,H1
+*ZC    198         IF    LD3,=,H1
+         IF    LD3,=,H1
+*ZC    198         PERFORM G
+         PERFORM G
+*ZC    198         ELSE  
+         ELSE  
+*ZC    198         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY P1  IF LD3 = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    199         MULTIPLY LD2,BY,P1
+         MULTIPLY LD2,BY,P1
+*ZC    199         IF    LD3,=,P1
+         IF    LD3,=,P1
+*ZC    199         PERFORM G
+         PERFORM G
+*ZC    199         ELSE  
+         ELSE  
+*ZC    199         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY Q1  IF LD3 = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    200         MULTIPLY LD2,BY,Q1
+         MULTIPLY LD2,BY,Q1
+*ZC    200         IF    LD3,=,Q1
+         IF    LD3,=,Q1
+*ZC    200         PERFORM G
+         PERFORM G
+*ZC    200         ELSE  
+         ELSE  
+*ZC    200         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  LD2 BY Z1  IF LD3 = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    201         MULTIPLY LD2,BY,Z1
+         MULTIPLY LD2,BY,Z1
+*ZC    201         IF    LD3,=,Z1
+         IF    LD3,=,Z1
+*ZC    201         PERFORM G
+         PERFORM G
+*ZC    201         ELSE  
+         ELSE  
+*ZC    201         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    202         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  F2  BY EH1 IF F3  = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    203         MULTIPLY F2,BY,EH1
+         MULTIPLY F2,BY,EH1
+*ZC    203         IF    F3,=,EH1
+         IF    F3,=,EH1
+*ZC    203         PERFORM G
+         PERFORM G
+*ZC    203         ELSE  
+         ELSE  
+*ZC    203         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY DH1 IF F3  = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    204         MULTIPLY F2,BY,DH1
+         MULTIPLY F2,BY,DH1
+*ZC    204         IF    F3,=,DH1
+         IF    F3,=,DH1
+*ZC    204         PERFORM G
+         PERFORM G
+*ZC    204         ELSE  
+         ELSE  
+*ZC    204         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY LH1 IF F3  = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    205         MULTIPLY F2,BY,LH1
+         MULTIPLY F2,BY,LH1
+*ZC    205         IF    F3,=,LH1
+         IF    F3,=,LH1
+*ZC    205         PERFORM G
+         PERFORM G
+*ZC    205         ELSE  
+         ELSE  
+*ZC    205         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY EB1 IF F3  = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    206         MULTIPLY F2,BY,EB1
+         MULTIPLY F2,BY,EB1
+*ZC    206         IF    F3,=,EB1
+         IF    F3,=,EB1
+*ZC    206         PERFORM G
+         PERFORM G
+*ZC    206         ELSE  
+         ELSE  
+*ZC    206         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY DB1 IF F3  = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    207         MULTIPLY F2,BY,DB1
+         MULTIPLY F2,BY,DB1
+*ZC    207         IF    F3,=,DB1
+         IF    F3,=,DB1
+*ZC    207         PERFORM G
+         PERFORM G
+*ZC    207         ELSE  
+         ELSE  
+*ZC    207         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY LB1 IF F3  = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    208         MULTIPLY F2,BY,LB1
+         MULTIPLY F2,BY,LB1
+*ZC    208         IF    F3,=,LB1
+         IF    F3,=,LB1
+*ZC    208         PERFORM G
+         PERFORM G
+*ZC    208         ELSE  
+         ELSE  
+*ZC    208         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY ED1 IF F3  = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    209         MULTIPLY F2,BY,ED1
+         MULTIPLY F2,BY,ED1
+*ZC    209         IF    F3,=,ED1
+         IF    F3,=,ED1
+*ZC    209         PERFORM G
+         PERFORM G
+*ZC    209         ELSE  
+         ELSE  
+*ZC    209         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY DD1 IF EH3 = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    210         MULTIPLY F2,BY,DD1
+         MULTIPLY F2,BY,DD1
+*ZC    210         IF    EH3,=,DD1
+         IF    EH3,=,DD1
+*ZC    210         PERFORM G
+         PERFORM G
+*ZC    210         ELSE  
+         ELSE  
+*ZC    210         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY LD1 IF EH3 = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    211         MULTIPLY F2,BY,LD1
+         MULTIPLY F2,BY,LD1
+*ZC    211         IF    EH3,=,LD1
+         IF    EH3,=,LD1
+*ZC    211         PERFORM G
+         PERFORM G
+*ZC    211         ELSE  
+         ELSE  
+*ZC    211         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY F1  IF F3  = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    212         MULTIPLY F2,BY,F1
+         MULTIPLY F2,BY,F1
+*ZC    212         IF    F3,=,F1
+         IF    F3,=,F1
+*ZC    212         PERFORM G
+         PERFORM G
+*ZC    212         ELSE  
+         ELSE  
+*ZC    212         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY G1  IF F3  = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    213         MULTIPLY F2,BY,G1
+         MULTIPLY F2,BY,G1
+*ZC    213         IF    F3,=,G1
+         IF    F3,=,G1
+*ZC    213         PERFORM G
+         PERFORM G
+*ZC    213         ELSE  
+         ELSE  
+*ZC    213         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY H1  IF F3  = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    214         MULTIPLY F2,BY,H1
+         MULTIPLY F2,BY,H1
+*ZC    214         IF    F3,=,H1
+         IF    F3,=,H1
+*ZC    214         PERFORM G
+         PERFORM G
+*ZC    214         ELSE  
+         ELSE  
+*ZC    214         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY P1  IF F3  = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    215         MULTIPLY F2,BY,P1
+         MULTIPLY F2,BY,P1
+*ZC    215         IF    F3,=,P1
+         IF    F3,=,P1
+*ZC    215         PERFORM G
+         PERFORM G
+*ZC    215         ELSE  
+         ELSE  
+*ZC    215         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY Q1  IF F3  = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    216         MULTIPLY F2,BY,Q1
+         MULTIPLY F2,BY,Q1
+*ZC    216         IF    F3,=,Q1
+         IF    F3,=,Q1
+*ZC    216         PERFORM G
+         PERFORM G
+*ZC    216         ELSE  
+         ELSE  
+*ZC    216         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  F2  BY Z1  IF F3  = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    217         MULTIPLY F2,BY,Z1
+         MULTIPLY F2,BY,Z1
+*ZC    217         IF    F3,=,Z1
+         IF    F3,=,Z1
+*ZC    217         PERFORM G
+         PERFORM G
+*ZC    217         ELSE  
+         ELSE  
+*ZC    217         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    218         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  G2  BY EH1 IF G3  = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    219         MULTIPLY G2,BY,EH1
+         MULTIPLY G2,BY,EH1
+*ZC    219         IF    G3,=,EH1
+         IF    G3,=,EH1
+*ZC    219         PERFORM G
+         PERFORM G
+*ZC    219         ELSE  
+         ELSE  
+*ZC    219         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY DH1 IF G3  = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    220         MULTIPLY G2,BY,DH1
+         MULTIPLY G2,BY,DH1
+*ZC    220         IF    G3,=,DH1
+         IF    G3,=,DH1
+*ZC    220         PERFORM G
+         PERFORM G
+*ZC    220         ELSE  
+         ELSE  
+*ZC    220         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY LH1 IF G3  = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    221         MULTIPLY G2,BY,LH1
+         MULTIPLY G2,BY,LH1
+*ZC    221         IF    G3,=,LH1
+         IF    G3,=,LH1
+*ZC    221         PERFORM G
+         PERFORM G
+*ZC    221         ELSE  
+         ELSE  
+*ZC    221         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY EB1 IF G3  = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    222         MULTIPLY G2,BY,EB1
+         MULTIPLY G2,BY,EB1
+*ZC    222         IF    G3,=,EB1
+         IF    G3,=,EB1
+*ZC    222         PERFORM G
+         PERFORM G
+*ZC    222         ELSE  
+         ELSE  
+*ZC    222         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY DB1 IF G3  = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    223         MULTIPLY G2,BY,DB1
+         MULTIPLY G2,BY,DB1
+*ZC    223         IF    G3,=,DB1
+         IF    G3,=,DB1
+*ZC    223         PERFORM G
+         PERFORM G
+*ZC    223         ELSE  
+         ELSE  
+*ZC    223         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY LB1 IF G3  = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    224         MULTIPLY G2,BY,LB1
+         MULTIPLY G2,BY,LB1
+*ZC    224         IF    G3,=,LB1
+         IF    G3,=,LB1
+*ZC    224         PERFORM G
+         PERFORM G
+*ZC    224         ELSE  
+         ELSE  
+*ZC    224         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY ED1 IF G3  = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    225         MULTIPLY G2,BY,ED1
+         MULTIPLY G2,BY,ED1
+*ZC    225         IF    G3,=,ED1
+         IF    G3,=,ED1
+*ZC    225         PERFORM G
+         PERFORM G
+*ZC    225         ELSE  
+         ELSE  
+*ZC    225         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY DD1 IF G3  = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    226         MULTIPLY G2,BY,DD1
+         MULTIPLY G2,BY,DD1
+*ZC    226         IF    G3,=,DD1
+         IF    G3,=,DD1
+*ZC    226         PERFORM G
+         PERFORM G
+*ZC    226         ELSE  
+         ELSE  
+*ZC    226         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY LD1 IF G3  = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    227         MULTIPLY G2,BY,LD1
+         MULTIPLY G2,BY,LD1
+*ZC    227         IF    G3,=,LD1
+         IF    G3,=,LD1
+*ZC    227         PERFORM G
+         PERFORM G
+*ZC    227         ELSE  
+         ELSE  
+*ZC    227         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY F1  IF G3  = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    228         MULTIPLY G2,BY,F1
+         MULTIPLY G2,BY,F1
+*ZC    228         IF    G3,=,F1
+         IF    G3,=,F1
+*ZC    228         PERFORM G
+         PERFORM G
+*ZC    228         ELSE  
+         ELSE  
+*ZC    228         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY G1  IF G3  = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    229         MULTIPLY G2,BY,G1
+         MULTIPLY G2,BY,G1
+*ZC    229         IF    G3,=,G1
+         IF    G3,=,G1
+*ZC    229         PERFORM G
+         PERFORM G
+*ZC    229         ELSE  
+         ELSE  
+*ZC    229         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY H1  IF G3  = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    230         MULTIPLY G2,BY,H1
+         MULTIPLY G2,BY,H1
+*ZC    230         IF    G3,=,H1
+         IF    G3,=,H1
+*ZC    230         PERFORM G
+         PERFORM G
+*ZC    230         ELSE  
+         ELSE  
+*ZC    230         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY P1  IF G3  = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    231         MULTIPLY G2,BY,P1
+         MULTIPLY G2,BY,P1
+*ZC    231         IF    G3,=,P1
+         IF    G3,=,P1
+*ZC    231         PERFORM G
+         PERFORM G
+*ZC    231         ELSE  
+         ELSE  
+*ZC    231         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY Q1  IF G3  = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    232         MULTIPLY G2,BY,Q1
+         MULTIPLY G2,BY,Q1
+*ZC    232         IF    G3,=,Q1
+         IF    G3,=,Q1
+*ZC    232         PERFORM G
+         PERFORM G
+*ZC    232         ELSE  
+         ELSE  
+*ZC    232         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  G2  BY Z1  IF G3  = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    233         MULTIPLY G2,BY,Z1
+         MULTIPLY G2,BY,Z1
+*ZC    233         IF    G3,=,Z1
+         IF    G3,=,Z1
+*ZC    233         PERFORM G
+         PERFORM G
+*ZC    233         ELSE  
+         ELSE  
+*ZC    233         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    234         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  H2  BY EH1 IF H3  = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    235         MULTIPLY H2,BY,EH1
+         MULTIPLY H2,BY,EH1
+*ZC    235         IF    H3,=,EH1
+         IF    H3,=,EH1
+*ZC    235         PERFORM G
+         PERFORM G
+*ZC    235         ELSE  
+         ELSE  
+*ZC    235         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY DH1 IF H3  = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    236         MULTIPLY H2,BY,DH1
+         MULTIPLY H2,BY,DH1
+*ZC    236         IF    H3,=,DH1
+         IF    H3,=,DH1
+*ZC    236         PERFORM G
+         PERFORM G
+*ZC    236         ELSE  
+         ELSE  
+*ZC    236         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY LH1 IF H3  = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    237         MULTIPLY H2,BY,LH1
+         MULTIPLY H2,BY,LH1
+*ZC    237         IF    H3,=,LH1
+         IF    H3,=,LH1
+*ZC    237         PERFORM G
+         PERFORM G
+*ZC    237         ELSE  
+         ELSE  
+*ZC    237         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY EB1 IF H3  = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    238         MULTIPLY H2,BY,EB1
+         MULTIPLY H2,BY,EB1
+*ZC    238         IF    H3,=,EB1
+         IF    H3,=,EB1
+*ZC    238         PERFORM G
+         PERFORM G
+*ZC    238         ELSE  
+         ELSE  
+*ZC    238         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY DB1 IF H3  = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    239         MULTIPLY H2,BY,DB1
+         MULTIPLY H2,BY,DB1
+*ZC    239         IF    H3,=,DB1
+         IF    H3,=,DB1
+*ZC    239         PERFORM G
+         PERFORM G
+*ZC    239         ELSE  
+         ELSE  
+*ZC    239         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY LB1 IF H3  = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    240         MULTIPLY H2,BY,LB1
+         MULTIPLY H2,BY,LB1
+*ZC    240         IF    H3,=,LB1
+         IF    H3,=,LB1
+*ZC    240         PERFORM G
+         PERFORM G
+*ZC    240         ELSE  
+         ELSE  
+*ZC    240         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY ED1 IF H3  = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    241         MULTIPLY H2,BY,ED1
+         MULTIPLY H2,BY,ED1
+*ZC    241         IF    H3,=,ED1
+         IF    H3,=,ED1
+*ZC    241         PERFORM G
+         PERFORM G
+*ZC    241         ELSE  
+         ELSE  
+*ZC    241         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY DD1 IF H3  = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    242         MULTIPLY H2,BY,DD1
+         MULTIPLY H2,BY,DD1
+*ZC    242         IF    H3,=,DD1
+         IF    H3,=,DD1
+*ZC    242         PERFORM G
+         PERFORM G
+*ZC    242         ELSE  
+         ELSE  
+*ZC    242         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY LD1 IF H3  = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    243         MULTIPLY H2,BY,LD1
+         MULTIPLY H2,BY,LD1
+*ZC    243         IF    H3,=,LD1
+         IF    H3,=,LD1
+*ZC    243         PERFORM G
+         PERFORM G
+*ZC    243         ELSE  
+         ELSE  
+*ZC    243         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY F1  IF H3  = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    244         MULTIPLY H2,BY,F1
+         MULTIPLY H2,BY,F1
+*ZC    244         IF    H3,=,F1
+         IF    H3,=,F1
+*ZC    244         PERFORM G
+         PERFORM G
+*ZC    244         ELSE  
+         ELSE  
+*ZC    244         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY G1  IF H3  = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    245         MULTIPLY H2,BY,G1
+         MULTIPLY H2,BY,G1
+*ZC    245         IF    H3,=,G1
+         IF    H3,=,G1
+*ZC    245         PERFORM G
+         PERFORM G
+*ZC    245         ELSE  
+         ELSE  
+*ZC    245         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY H1  IF H3  = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    246         MULTIPLY H2,BY,H1
+         MULTIPLY H2,BY,H1
+*ZC    246         IF    H3,=,H1
+         IF    H3,=,H1
+*ZC    246         PERFORM G
+         PERFORM G
+*ZC    246         ELSE  
+         ELSE  
+*ZC    246         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY P1  IF H3  = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    247         MULTIPLY H2,BY,P1
+         MULTIPLY H2,BY,P1
+*ZC    247         IF    H3,=,P1
+         IF    H3,=,P1
+*ZC    247         PERFORM G
+         PERFORM G
+*ZC    247         ELSE  
+         ELSE  
+*ZC    247         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY Q1  IF H3  = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    248         MULTIPLY H2,BY,Q1
+         MULTIPLY H2,BY,Q1
+*ZC    248         IF    H3,=,Q1
+         IF    H3,=,Q1
+*ZC    248         PERFORM G
+         PERFORM G
+*ZC    248         ELSE  
+         ELSE  
+*ZC    248         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  H2  BY Z1  IF H3  = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    249         MULTIPLY H2,BY,Z1
+         MULTIPLY H2,BY,Z1
+*ZC    249         IF    H3,=,Z1
+         IF    H3,=,Z1
+*ZC    249         PERFORM G
+         PERFORM G
+*ZC    249         ELSE  
+         ELSE  
+*ZC    249         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.      
+*ZC    250         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  P2  BY EH1 IF P3  = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    251         MULTIPLY P2,BY,EH1
+         MULTIPLY P2,BY,EH1
+*ZC    251         IF    P3,=,EH1
+         IF    P3,=,EH1
+*ZC    251         PERFORM G
+         PERFORM G
+*ZC    251         ELSE  
+         ELSE  
+*ZC    251         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY DH1 IF P3  = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    252         MULTIPLY P2,BY,DH1
+         MULTIPLY P2,BY,DH1
+*ZC    252         IF    P3,=,DH1
+         IF    P3,=,DH1
+*ZC    252         PERFORM G
+         PERFORM G
+*ZC    252         ELSE  
+         ELSE  
+*ZC    252         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY LH1 IF P3  = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    253         MULTIPLY P2,BY,LH1
+         MULTIPLY P2,BY,LH1
+*ZC    253         IF    P3,=,LH1
+         IF    P3,=,LH1
+*ZC    253         PERFORM G
+         PERFORM G
+*ZC    253         ELSE  
+         ELSE  
+*ZC    253         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY EB1 IF P3  = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    254         MULTIPLY P2,BY,EB1
+         MULTIPLY P2,BY,EB1
+*ZC    254         IF    P3,=,EB1
+         IF    P3,=,EB1
+*ZC    254         PERFORM G
+         PERFORM G
+*ZC    254         ELSE  
+         ELSE  
+*ZC    254         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY DB1 IF P3  = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    255         MULTIPLY P2,BY,DB1
+         MULTIPLY P2,BY,DB1
+*ZC    255         IF    P3,=,DB1
+         IF    P3,=,DB1
+*ZC    255         PERFORM G
+         PERFORM G
+*ZC    255         ELSE  
+         ELSE  
+*ZC    255         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY LB1 IF P3  = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    256         MULTIPLY P2,BY,LB1
+         MULTIPLY P2,BY,LB1
+*ZC    256         IF    P3,=,LB1
+         IF    P3,=,LB1
+*ZC    256         PERFORM G
+         PERFORM G
+*ZC    256         ELSE  
+         ELSE  
+*ZC    256         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY ED1 IF P3  = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    257         MULTIPLY P2,BY,ED1
+         MULTIPLY P2,BY,ED1
+*ZC    257         IF    P3,=,ED1
+         IF    P3,=,ED1
+*ZC    257         PERFORM G
+         PERFORM G
+*ZC    257         ELSE  
+         ELSE  
+*ZC    257         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY DD1 IF P3  = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    258         MULTIPLY P2,BY,DD1
+         MULTIPLY P2,BY,DD1
+*ZC    258         IF    P3,=,DD1
+         IF    P3,=,DD1
+*ZC    258         PERFORM G
+         PERFORM G
+*ZC    258         ELSE  
+         ELSE  
+*ZC    258         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY LD1 IF P3  = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    259         MULTIPLY P2,BY,LD1
+         MULTIPLY P2,BY,LD1
+*ZC    259         IF    P3,=,LD1
+         IF    P3,=,LD1
+*ZC    259         PERFORM G
+         PERFORM G
+*ZC    259         ELSE  
+         ELSE  
+*ZC    259         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY F1  IF P3  = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    260         MULTIPLY P2,BY,F1
+         MULTIPLY P2,BY,F1
+*ZC    260         IF    P3,=,F1
+         IF    P3,=,F1
+*ZC    260         PERFORM G
+         PERFORM G
+*ZC    260         ELSE  
+         ELSE  
+*ZC    260         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY G1  IF P3  = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    261         MULTIPLY P2,BY,G1
+         MULTIPLY P2,BY,G1
+*ZC    261         IF    P3,=,G1
+         IF    P3,=,G1
+*ZC    261         PERFORM G
+         PERFORM G
+*ZC    261         ELSE  
+         ELSE  
+*ZC    261         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY H1  IF P3  = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    262         MULTIPLY P2,BY,H1
+         MULTIPLY P2,BY,H1
+*ZC    262         IF    P3,=,H1
+         IF    P3,=,H1
+*ZC    262         PERFORM G
+         PERFORM G
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY P1  IF P3  = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    263         MULTIPLY P2,BY,P1
+         MULTIPLY P2,BY,P1
+*ZC    263         IF    P3,=,P1
+         IF    P3,=,P1
+*ZC    263         PERFORM G
+         PERFORM G
+*ZC    263         ELSE  
+         ELSE  
+*ZC    263         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY Q1  IF P3  = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    264         MULTIPLY P2,BY,Q1
+         MULTIPLY P2,BY,Q1
+*ZC    264         IF    P3,=,Q1
+         IF    P3,=,Q1
+*ZC    264         PERFORM G
+         PERFORM G
+*ZC    264         ELSE  
+         ELSE  
+*ZC    264         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  P2  BY Z1  IF P3  = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    265         MULTIPLY P2,BY,Z1
+         MULTIPLY P2,BY,Z1
+*ZC    265         IF    P3,=,Z1
+         IF    P3,=,Z1
+*ZC    265         PERFORM G
+         PERFORM G
+*ZC    265         ELSE  
+         ELSE  
+*ZC    265         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.
+*ZC    266         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  Q2  BY EH1 IF Q3  = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    267         MULTIPLY Q2,BY,EH1
+         MULTIPLY Q2,BY,EH1
+*ZC    267         IF    Q3,=,EH1
+         IF    Q3,=,EH1
+*ZC    267         PERFORM G
+         PERFORM G
+*ZC    267         ELSE  
+         ELSE  
+*ZC    267         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY DH1 IF Q3  = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    268         MULTIPLY Q2,BY,DH1
+         MULTIPLY Q2,BY,DH1
+*ZC    268         IF    Q3,=,DH1
+         IF    Q3,=,DH1
+*ZC    268         PERFORM G
+         PERFORM G
+*ZC    268         ELSE  
+         ELSE  
+*ZC    268         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY LH1 IF Q3  = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    269         MULTIPLY Q2,BY,LH1
+         MULTIPLY Q2,BY,LH1
+*ZC    269         IF    Q3,=,LH1
+         IF    Q3,=,LH1
+*ZC    269         PERFORM G
+         PERFORM G
+*ZC    269         ELSE  
+         ELSE  
+*ZC    269         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY EB1 IF Q3  = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    270         MULTIPLY Q2,BY,EB1
+         MULTIPLY Q2,BY,EB1
+*ZC    270         IF    Q3,=,EB1
+         IF    Q3,=,EB1
+*ZC    270         PERFORM G
+         PERFORM G
+*ZC    270         ELSE  
+         ELSE  
+*ZC    270         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY DB1 IF Q3  = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    271         MULTIPLY Q2,BY,DB1
+         MULTIPLY Q2,BY,DB1
+*ZC    271         IF    Q3,=,DB1
+         IF    Q3,=,DB1
+*ZC    271         PERFORM G
+         PERFORM G
+*ZC    271         ELSE  
+         ELSE  
+*ZC    271         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY LB1 IF Q3  = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    272         MULTIPLY Q2,BY,LB1
+         MULTIPLY Q2,BY,LB1
+*ZC    272         IF    Q3,=,LB1
+         IF    Q3,=,LB1
+*ZC    272         PERFORM G
+         PERFORM G
+*ZC    272         ELSE  
+         ELSE  
+*ZC    272         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY ED1 IF Q3  = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    273         MULTIPLY Q2,BY,ED1
+         MULTIPLY Q2,BY,ED1
+*ZC    273         IF    Q3,=,ED1
+         IF    Q3,=,ED1
+*ZC    273         PERFORM G
+         PERFORM G
+*ZC    273         ELSE  
+         ELSE  
+*ZC    273         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY DD1 IF Q3  = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    274         MULTIPLY Q2,BY,DD1
+         MULTIPLY Q2,BY,DD1
+*ZC    274         IF    Q3,=,DD1
+         IF    Q3,=,DD1
+*ZC    274         PERFORM G
+         PERFORM G
+*ZC    274         ELSE  
+         ELSE  
+*ZC    274         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY LD1 IF Q3  = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    275         MULTIPLY Q2,BY,LD1
+         MULTIPLY Q2,BY,LD1
+*ZC    275         IF    Q3,=,LD1
+         IF    Q3,=,LD1
+*ZC    275         PERFORM G
+         PERFORM G
+*ZC    275         ELSE  
+         ELSE  
+*ZC    275         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY F1  IF Q3  = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    276         MULTIPLY Q2,BY,F1
+         MULTIPLY Q2,BY,F1
+*ZC    276         IF    Q3,=,F1
+         IF    Q3,=,F1
+*ZC    276         PERFORM G
+         PERFORM G
+*ZC    276         ELSE  
+         ELSE  
+*ZC    276         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY G1  IF Q3  = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    277         MULTIPLY Q2,BY,G1
+         MULTIPLY Q2,BY,G1
+*ZC    277         IF    Q3,=,G1
+         IF    Q3,=,G1
+*ZC    277         PERFORM G
+         PERFORM G
+*ZC    277         ELSE  
+         ELSE  
+*ZC    277         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY H1  IF Q3  = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    278         MULTIPLY Q2,BY,H1
+         MULTIPLY Q2,BY,H1
+*ZC    278         IF    Q3,=,H1
+         IF    Q3,=,H1
+*ZC    278         PERFORM G
+         PERFORM G
+*ZC    278         ELSE  
+         ELSE  
+*ZC    278         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY P1  IF Q3  = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    279         MULTIPLY Q2,BY,P1
+         MULTIPLY Q2,BY,P1
+*ZC    279         IF    Q3,=,P1
+         IF    Q3,=,P1
+*ZC    279         PERFORM G
+         PERFORM G
+*ZC    279         ELSE  
+         ELSE  
+*ZC    279         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY Q1  IF Q3  = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    280         MULTIPLY Q2,BY,Q1
+         MULTIPLY Q2,BY,Q1
+*ZC    280         IF    Q3,=,Q1
+         IF    Q3,=,Q1
+*ZC    280         PERFORM G
+         PERFORM G
+*ZC    280         ELSE  
+         ELSE  
+*ZC    280         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Q2  BY Z1  IF Q3  = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    281         MULTIPLY Q2,BY,Z1
+         MULTIPLY Q2,BY,Z1
+*ZC    281         IF    Q3,=,Z1
+         IF    Q3,=,Z1
+*ZC    281         PERFORM G
+         PERFORM G
+*ZC    281         ELSE  
+         ELSE  
+*ZC    281         PERFORM B
+         PERFORM B
+         PERIOD 
+*            PERFORM INIT.       
+*ZC    282         PERFORM INIT
+         PERFORM INIT
+         PERIOD 
+*            MULTIPLY  Z2  BY EH1 IF Z3  = EH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    283         MULTIPLY Z2,BY,EH1
+         MULTIPLY Z2,BY,EH1
+*ZC    283         IF    Z3,=,EH1
+         IF    Z3,=,EH1
+*ZC    283         PERFORM G
+         PERFORM G
+*ZC    283         ELSE  
+         ELSE  
+*ZC    283         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY DH1 IF Z3  = DH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    284         MULTIPLY Z2,BY,DH1
+         MULTIPLY Z2,BY,DH1
+*ZC    284         IF    Z3,=,DH1
+         IF    Z3,=,DH1
+*ZC    284         PERFORM G
+         PERFORM G
+*ZC    284         ELSE  
+         ELSE  
+*ZC    284         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY LH1 IF Z3  = LH1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    285         MULTIPLY Z2,BY,LH1
+         MULTIPLY Z2,BY,LH1
+*ZC    285         IF    Z3,=,LH1
+         IF    Z3,=,LH1
+*ZC    285         PERFORM G
+         PERFORM G
+*ZC    285         ELSE  
+         ELSE  
+*ZC    285         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY EB1 IF Z3  = EB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    286         MULTIPLY Z2,BY,EB1
+         MULTIPLY Z2,BY,EB1
+*ZC    286         IF    Z3,=,EB1
+         IF    Z3,=,EB1
+*ZC    286         PERFORM G
+         PERFORM G
+*ZC    286         ELSE  
+         ELSE  
+*ZC    286         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY DB1 IF Z3  = DB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    287         MULTIPLY Z2,BY,DB1
+         MULTIPLY Z2,BY,DB1
+*ZC    287         IF    Z3,=,DB1
+         IF    Z3,=,DB1
+*ZC    287         PERFORM G
+         PERFORM G
+*ZC    287         ELSE  
+         ELSE  
+*ZC    287         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY LB1 IF Z3  = LB1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    288         MULTIPLY Z2,BY,LB1
+         MULTIPLY Z2,BY,LB1
+*ZC    288         IF    Z3,=,LB1
+         IF    Z3,=,LB1
+*ZC    288         PERFORM G
+         PERFORM G
+*ZC    288         ELSE  
+         ELSE  
+*ZC    288         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY ED1 IF Z3  = ED1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    289         MULTIPLY Z2,BY,ED1
+         MULTIPLY Z2,BY,ED1
+*ZC    289         IF    Z3,=,ED1
+         IF    Z3,=,ED1
+*ZC    289         PERFORM G
+         PERFORM G
+*ZC    289         ELSE  
+         ELSE  
+*ZC    289         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY DD1 IF Z3  = DD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    290         MULTIPLY Z2,BY,DD1
+         MULTIPLY Z2,BY,DD1
+*ZC    290         IF    Z3,=,DD1
+         IF    Z3,=,DD1
+*ZC    290         PERFORM G
+         PERFORM G
+*ZC    290         ELSE  
+         ELSE  
+*ZC    290         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY LD1 IF Z3  = LD1 PERFORM G ELSE PERFORM BX
+               .
+*ZC    291         MULTIPLY Z2,BY,LD1
+         MULTIPLY Z2,BY,LD1
+*ZC    291         IF    Z3,=,LD1
+         IF    Z3,=,LD1
+*ZC    291         PERFORM G
+         PERFORM G
+*ZC    291         ELSE  
+         ELSE  
+*ZC    291         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY F1  IF Z3  = F1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    292         MULTIPLY Z2,BY,F1
+         MULTIPLY Z2,BY,F1
+*ZC    292         IF    Z3,=,F1
+         IF    Z3,=,F1
+*ZC    292         PERFORM G
+         PERFORM G
+*ZC    292         ELSE  
+         ELSE  
+*ZC    292         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY G1  IF Z3  = G1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    293         MULTIPLY Z2,BY,G1
+         MULTIPLY Z2,BY,G1
+*ZC    293         IF    Z3,=,G1
+         IF    Z3,=,G1
+*ZC    293         PERFORM G
+         PERFORM G
+*ZC    293         ELSE  
+         ELSE  
+*ZC    293         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY H1  IF Z3  = H1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    294         MULTIPLY Z2,BY,H1
+         MULTIPLY Z2,BY,H1
+*ZC    294         IF    Z3,=,H1
+         IF    Z3,=,H1
+*ZC    294         PERFORM G
+         PERFORM G
+*ZC    294         ELSE  
+         ELSE  
+*ZC    294         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY P1  IF Z3  = P1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    295         MULTIPLY Z2,BY,P1
+         MULTIPLY Z2,BY,P1
+*ZC    295         IF    Z3,=,P1
+         IF    Z3,=,P1
+*ZC    295         PERFORM G
+         PERFORM G
+*ZC    295         ELSE  
+         ELSE  
+*ZC    295         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY Q1  IF Z3  = Q1  PERFORM G ELSE PERFORM BX
+               .
+*ZC    296         MULTIPLY Z2,BY,Q1
+         MULTIPLY Z2,BY,Q1
+*ZC    296         IF    Z3,=,Q1
+         IF    Z3,=,Q1
+*ZC    296         PERFORM G
+         PERFORM G
+*ZC    296         ELSE  
+         ELSE  
+*ZC    296         PERFORM B
+         PERFORM B
+         PERIOD 
+*            MULTIPLY  Z2  BY Z1  IF Z3  = Z1  PERFORM G ELSE PERFORM BX
+               .          
+*ZC    297         MULTIPLY Z2,BY,Z1
+         MULTIPLY Z2,BY,Z1
+*ZC    297         IF    Z3,=,Z1
+         IF    Z3,=,Z1
+*ZC    297         PERFORM G
+         PERFORM G
+*ZC    297         ELSE  
+         ELSE  
+*ZC    297         PERFORM B
+         PERFORM B
+         PERIOD 
+*            DISPLAY 'TOTAL G = ' G ' TOTAL B = ' B
+*ZC    298         DISPLAY 'TOTAL G = ',G,' TOTAL B = ',B
+         DISPLAY 'TOTAL G = ',G,' TOTAL B = ',B
+*            STOP RUN.
+*ZC    299         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        INIT.
+         LABEL INIT
+*            DISPLAY 'INIT'
+*ZC    301         DISPLAY 'INIT'
+         DISPLAY 'INIT'
+*            MOVE 3.0 TO EH1.
+*ZC    302         MOVE  3.0,TO,EH1
+         MOVE  3.0,TO,EH1
+         PERIOD 
+*            MOVE 3.0 TO DH1.
+*ZC    303         MOVE  3.0,TO,DH1
+         MOVE  3.0,TO,DH1
+         PERIOD 
+*            MOVE 3.0 TO LH1.
+*ZC    304         MOVE  3.0,TO,LH1
+         MOVE  3.0,TO,LH1
+         PERIOD 
+*            MOVE 3.0 TO EB1.
+*ZC    305         MOVE  3.0,TO,EB1
+         MOVE  3.0,TO,EB1
+         PERIOD 
+*            MOVE 3.0 TO DB1.
+*ZC    306         MOVE  3.0,TO,DB1
+         MOVE  3.0,TO,DB1
+         PERIOD 
+*            MOVE 3.0 TO LB1.
+*ZC    307         MOVE  3.0,TO,LB1
+         MOVE  3.0,TO,LB1
+         PERIOD 
+*            MOVE 3.0 TO ED1.
+*ZC    308         MOVE  3.0,TO,ED1
+         MOVE  3.0,TO,ED1
+         PERIOD 
+*            MOVE 3.0 TO DD1.
+*ZC    309         MOVE  3.0,TO,DD1
+         MOVE  3.0,TO,DD1
+         PERIOD 
+*            MOVE 3.0 TO LD1.
+*ZC    310         MOVE  3.0,TO,LD1
+         MOVE  3.0,TO,LD1
+         PERIOD 
+*            MOVE 3.0 TO F1.
+*ZC    311         MOVE  3.0,TO,F1
+         MOVE  3.0,TO,F1
+         PERIOD 
+*            MOVE 3.0 TO G1.
+*ZC    312         MOVE  3.0,TO,G1
+         MOVE  3.0,TO,G1
+         PERIOD 
+*            MOVE 3.0 TO H1.
+*ZC    313         MOVE  3.0,TO,H1
+         MOVE  3.0,TO,H1
+         PERIOD 
+*            MOVE 3.0 TO P1.
+*ZC    314         MOVE  3.0,TO,P1
+         MOVE  3.0,TO,P1
+         PERIOD 
+*            MOVE 3.0 TO Q1.
+*ZC    315         MOVE  3.0,TO,Q1
+         MOVE  3.0,TO,Q1
+         PERIOD 
+*            MOVE 3.0 TO Z1.    
+*ZC    316         MOVE  3.0,TO,Z1
+         MOVE  3.0,TO,Z1
+         PERIOD 
+*        G.
+         LABEL G
+*            ADD 1 TO G.
+*ZC    318         ADD   1,TO,G
+         ADD   1,TO,G
+         PERIOD 
+*            DISPLAY 'GOOD-TEST'.
+*ZC    319         DISPLAY 'GOOD-TEST'
+         DISPLAY 'GOOD-TEST'
+         PERIOD 
+*        B.
+         LABEL B
+*            ADD 1 TO B
+*ZC    321         ADD   1,TO,B
+         ADD   1,TO,B
+*            MOVE 16 TO RETURN-CODE..
+*ZC    322         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+         PERIOD 
+*            DISPLAY 'BAD-TEST'.
+*      *    STOP RUN.
+*ZC    323         DISPLAY 'BAD-TEST'
+         DISPLAY 'BAD-TEST'
+         PERIOD 
+         PROCEDURE END
+         END   

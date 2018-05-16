@@ -1,0 +1,237 @@
+         ZCOBOL PGM='zcobol\test\TESTSIX1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTSIX1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTSIX1.
+         PROGRAM_ID TESTSIX1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  01/08/09.
+*      * TEST SUBSCRIPTS AND INDEXES (MORE TO COME)                    X
+                 
+         DATE_WRITTEN 01,/,08,/,09
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77  FLT-SRT FLOAT-SHORT OCCURS 2.
+         WS      77,FLT_SRT,FLOAT_SHORT,OCCURS,2
+*        01  T0.
+         WS      01,T0
+*            10  T1 OCCURS 2 TIMES.
+         WS        10,T1,OCCURS,2,TIMES
+*                15 T1-ID PIC X.
+         WS          15,T1_ID,PIC,X
+*                15 T2 OCCURS 3 TIMES.
+         WS          15,T2,OCCURS,3,TIMES
+*                   20 T2-ID PIC X.
+         WS            20,T2_ID,PIC,X
+*        77  S1 COMP PIC S9(9).
+         WS      77,S1,COMP,PIC,S9(9)
+*        77  S2 COMP PIC S9(9).
+         WS      77,S2,COMP,PIC,S9(9)
+*        77  NFS2 COMP   PIC S9(9)  OCCURS 2 TIMES.
+         WS      77,NFS2,COMP,PIC,S9(9),OCCURS,2,TIMES
+*        77  NGS2 COMP   PIC S9(18) OCCURS 2 TIMES.
+         WS      77,NGS2,COMP,PIC,S9(18),OCCURS,2,TIMES
+*        77  NHS2 COMP   PIC S9(4)  OCCURS 2 TIMES.
+         WS      77,NHS2,COMP,PIC,S9(4),OCCURS,2,TIMES
+*        77  I    COMP   PIC S99    VALUE 1.
+         WS      77,I,COMP,PIC,S99,VALUE,1
+*        77  J    COMP   PIC S99    VALUE 2.
+         WS      77,J,COMP,PIC,S99,VALUE,2
+*        77  GOOD COMP-3 PIC S9(9) VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,S9(9),VALUE,0
+*        77  BAD  COMP-3 PIC S9(9) VALUE 0.
+         WS      77,BAD,COMP_3,PIC,S9(9),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTSIX1 STARTING'
+*ZC     26         DISPLAY 'TESTSIX1 STARTING'
+         DISPLAY 'TESTSIX1 STARTING'
+*            MOVE '1ABC2DEF' TO T0
+*ZC     27         MOVE  '1ABC2DEF',TO,T0
+         MOVE  '1ABC2DEF',TO,T0
+*      1     IF T1-ID(1) = '1'   PERFORM GOOD ELSE PERFORM BAD.
+*ZC     28      1  IF    T1_ID,'(',1,')',=,'1'
+         IF    T1_ID,'(',1,')',=,'1'
+*ZC     28      1  PERFORM GOOD
+         PERFORM GOOD
+*ZC     28      1  ELSE  
+         ELSE  
+*ZC     28      1  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*      2     IF T1-ID(2) = '2'   PERFORM GOOD ELSE PERFORM BAD.  
+*ZC     29      2  IF    T1_ID,'(',2,')',=,'2'
+         IF    T1_ID,'(',2,')',=,'2'
+*ZC     29      2  PERFORM GOOD
+         PERFORM GOOD
+*ZC     29      2  ELSE  
+         ELSE  
+*ZC     29      2  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*      3     IF T2-ID(1 1) = 'A' PERFORM GOOD ELSE PERFORM BAD.  
+*ZC     30      3  IF    T2_ID,'(',1,1,')',=,'A'
+         IF    T2_ID,'(',1,1,')',=,'A'
+*ZC     30      3  PERFORM GOOD
+         PERFORM GOOD
+*ZC     30      3  ELSE  
+         ELSE  
+*ZC     30      3  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*      4     IF T2-ID(2 1) = 'D' PERFORM GOOD ELSE PERFORM BAD.  
+*ZC     31      4  IF    T2_ID,'(',2,1,')',=,'D'
+         IF    T2_ID,'(',2,1,')',=,'D'
+*ZC     31      4  PERFORM GOOD
+         PERFORM GOOD
+*ZC     31      4  ELSE  
+         ELSE  
+*ZC     31      4  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*      5     IF T2-ID(1 3) = 'C' PERFORM GOOD ELSE PERFORM BAD.  
+*ZC     32      5  IF    T2_ID,'(',1,3,')',=,'C'
+         IF    T2_ID,'(',1,3,')',=,'C'
+*ZC     32      5  PERFORM GOOD
+         PERFORM GOOD
+*ZC     32      5  ELSE  
+         ELSE  
+*ZC     32      5  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*      6     IF T2-ID(2 3) = 'F' PERFORM GOOD ELSE PERFORM BAD.  
+*ZC     33      6  IF    T2_ID,'(',2,3,')',=,'F'
+         IF    T2_ID,'(',2,3,')',=,'F'
+*ZC     33      6  PERFORM GOOD
+         PERFORM GOOD
+*ZC     33      6  ELSE  
+         ELSE  
+*ZC     33      6  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 1 TO S1 MOVE 3 TO S2
+*ZC     34         MOVE  1,TO,S1
+         MOVE  1,TO,S1
+*ZC     34         MOVE  3,TO,S2
+         MOVE  3,TO,S2
+*      7     IF T2-ID(S1 S2) = 'C' PERFORM GOOD ELSE PERFORM BAD.  
+*ZC     35      7  IF    T2_ID,'(',S1,S2,')',=,'C'
+         IF    T2_ID,'(',S1,S2,')',=,'C'
+*ZC     35      7  PERFORM GOOD
+         PERFORM GOOD
+*ZC     35      7  ELSE  
+         ELSE  
+*ZC     35      7  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            PERFORM VARYING S1 FROM 1 BY 1 UNTIL S1 > 2
+*ZC     36         PERFORM VARYING,S1,FROM,1,BY,1,UNTIL,S1,>,2
+         PERFORM VARYING,S1,FROM,1,BY,1,UNTIL,S1,>,2
+*                PERFORM VARYING S2 FROM 1 BY 1 UNTIL S2 > 3
+*ZC     37         PERFORM VARYING,S2,FROM,1,BY,1,UNTIL,S2,>,3
+         PERFORM VARYING,S2,FROM,1,BY,1,UNTIL,S2,>,3
+*                   DISPLAY 'T2-ID(' S1 ',' S2 ')=' T2-ID(S1 S2).
+*ZC     38         DISPLAY 'T2-ID(',S1,',',S2,')=',T2_ID,'(',S1,S2,')'
+         DISPLAY 'T2-ID(',S1,',',S2,')=',T2_ID,'(',S1,S2,')'
+         PERIOD 
+*            MOVE 1 TO NFS2(I) NFS2(I+1)
+*ZC     39         MOVE  1,TO,NFS2,'(',I,')',NFS2,'(',I,+,1,')'
+         MOVE  1,TO,NFS2,'(',I,')',NFS2,'(',I,+,1,')'
+*            ADD       NFS2(I) TO NFS2(I+1)
+*ZC     40         ADD   NFS2,'(',I,')',TO,NFS2,'(',I,+,1,')'
+         ADD   NFS2,'(',I,')',TO,NFS2,'(',I,+,1,')'
+*      8     IF NFS2(I+1) = 2 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     41      8  IF    NFS2,'(',I,+,1,')',=,2
+         IF    NFS2,'(',I,+,1,')',=,2
+*ZC     41      8  PERFORM GOOD
+         PERFORM GOOD
+*ZC     41      8  ELSE  
+         ELSE  
+*ZC     41      8  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD  1 TO NFS2(I) NFS2(I+1)
+*ZC     42         ADD   1,TO,NFS2,'(',I,')',NFS2,'(',I,+,1,')'
+         ADD   1,TO,NFS2,'(',I,')',NFS2,'(',I,+,1,')'
+*      9     IF NFS2(I)   = 2 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     43      9  IF    NFS2,'(',I,')',=,2
+         IF    NFS2,'(',I,')',=,2
+*ZC     43      9  PERFORM GOOD
+         PERFORM GOOD
+*ZC     43      9  ELSE  
+         ELSE  
+*ZC     43      9  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*     10     IF NFS2(I+1) = 3 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     44     10  IF    NFS2,'(',I,+,1,')',=,3
+         IF    NFS2,'(',I,+,1,')',=,3
+*ZC     44     10  PERFORM GOOD
+         PERFORM GOOD
+*ZC     44     10  ELSE  
+         ELSE  
+*      * TEST COMPUTE DFP WITH SUBSCRIPTS
+*ZC     44     10  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 1.1 TO FLT-SRT(2)
+*ZC     46         MOVE  1.1,TO,FLT_SRT,'(',2,')'
+         MOVE  1.1,TO,FLT_SRT,'(',2,')'
+*            ADD  2.2 TO FLT-SRT(2).
+*ZC     47         ADD   2.2,TO,FLT_SRT,'(',2,')'
+         ADD   2.2,TO,FLT_SRT,'(',2,')'
+         PERIOD 
+*     11     IF FLT-SRT(2) = 3.3 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     48     11  IF    FLT_SRT,'(',2,')',=,3.3
+         IF    FLT_SRT,'(',2,')',=,3.3
+*ZC     48     11  PERFORM GOOD
+         PERFORM GOOD
+*ZC     48     11  ELSE  
+         ELSE  
+*ZC     48     11  PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTSIX1 GOOD TESTS =' GOOD ' BAD TESTS = ' BAD
+*ZC     49         DISPLAY 'TESTSIX1 GOOD TESTS =',GOOD,' BAD TESTS = 'X
+               ,BAD
+         DISPLAY 'TESTSIX1 GOOD TESTS =',GOOD,' BAD TESTS = ',BAD
+*            STOP RUN.
+*ZC     50         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC     52         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*            DISPLAY 'GOOD'.
+*ZC     53         DISPLAY 'GOOD'
+         DISPLAY 'GOOD'
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            ADD 1 TO BAD.
+*ZC     55         ADD   1,TO,BAD
+         ADD   1,TO,BAD
+         PERIOD 
+*            MOVE 16 TO RETURN-CODE
+*ZC     56         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            DISPLAY 'BAD'..
+*ZC     57         DISPLAY 'BAD'
+         DISPLAY 'BAD'
+         PERIOD 
+         PROCEDURE END
+         END   

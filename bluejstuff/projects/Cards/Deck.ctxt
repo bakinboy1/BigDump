@@ -1,0 +1,12 @@
+#BlueJ class context
+comment0.params=
+comment0.target=Deck()
+comment1.params=
+comment1.target=java.lang.String\ printDeck()
+comment2.params=
+comment2.target=void\ shuffleDeck()
+comment3.params=
+comment3.target=card\ dealCard()
+comment4.params=c
+comment4.target=void\ addCard(card)
+numComments=5

@@ -1,0 +1,2 @@
+         LABEL GOOD
+         LABEL BAD

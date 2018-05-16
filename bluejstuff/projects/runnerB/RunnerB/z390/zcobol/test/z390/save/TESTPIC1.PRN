@@ -1,0 +1,1201 @@
+TESTPIC1  MZ390 START
+AZ390I Copyright 2011 Automated Software Tools Corporation
+AZ390I z390 is licensed under GNU General Public License
+AZ390I program = zcobol\test\TESTPIC1
+AZ390I options = W:\work\z390\z390.OPT=(time(60)) @zcobol\z390\ZC390CLG=(
+  sysmac(+zcobol+zcobol\z390+mac+cics) syscpy(+zcobol+zcobol\z390+mac+cics) 
+  BAL NOLISTCALL MAXGBL(1500000)) notiming stats
+External Symbol Definitions
+ ESD=0001 LOC=00000000 LEN=00000550 TYPE=CST NAME=COMPTYPE
+Assembler Listing
+000000                                       (6/15)1+*    ZCOBOL PGM='zcobol\test\TESTPIC1' VER=V1.5.06 MM/DD/YY  
+000000                                       (6/15)2+*    ZCOBOL OPTIONS=() 
+000000                                        (1/4)3          COPY  TESTPIC1_ZC_LABELS.CPY
+000000                                        (1/5)4 *        IDENTIFICATION DIVISION.
+000000                                        (1/7)5 *        PROGRAM-ID. COMPTYPE.
+000000                                       (9/34)6+         PRINT NOLIST,NOGEN,NOLISTUSE    SET LIST OPTION FOR INTERNAL CODE
+000000                                       (9/59)8+COMPTYPE CSECT ,                CSECT WITH PROCEDURE CODE AND WS
+000000                                       (9/60)9+         USING *,ZC_R15
+LISTUSE COMPTYPE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+000000 90ECD00C                            (14/51)10+         STM   14,12,12+4*(14-14)(13)
+000004                                      (9/93)11+         CNOP  4,8             FORCE ZC390PVT TO DOUBLEWORD BOUNDARY
+000004 A785001A                000038       (9/94)12+         BRAS  ZC_R8,ZC_LOAD
+000008                                      (9/95)13+         USING *,ZC_R8            BASE FOR LOAD AND CICS V5 USE
+LISTUSE COMPTYPE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE COMPTYPE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+000008                                      (9/96)14+*
+000008                                      (9/97)15+*  THESE FIELDS MUST BE KEPT IN SYNC WITH zcobol\ZC390PVT.CPY
+000008                                      (9/98)16+*
+000008 C3D6D4D7E3E8D7C5                     (9/99)17+         DC    CL8'COMPTYPE'    PVTPGM   ZCOBOL PGM NAME
+000010 F0F161F0F261F0F5                    (9/100)18+         DC    CL8'01/02/05'   PVTDATE  ZCOBOL COMPILE DATE
+000018 F2F24BF3F3404040                    (9/101)19+         DC    CL8'22.33'   PVTTIME  ZCOBOL COMPILE TIME
+000020 E5F14BF54BF0F640                    (9/102)20+         DC    CL8'V1.5.06'    PVTVER   ZCOBOL COMPILER VERSION
+000028 F0                                  (9/103)21+         DC    C'0'     PVTCICS  ZCOBOL EXEC CICS PGM
+000029 F1                                  (9/104)22+         DC    C'1'   PVTEXTND ZCOBOL EXTENDED PRECISION
+00002A F0                                  (9/105)23+         DC    C'0'    PVTTRUNC ZCOBOL TRUNCATE TO PICTURE
+00002B F1                                  (9/106)24+         DC    C'1'      PVTR64   ZCOBOL USE 64 BIT REGISTERS
+00002C 0050                                (9/107)25+         DC    H'80' MAX DISPLAY LINE LEN  RPI 1118
+00002E                                     (9/108)26+         DS    XL10            RESERVED
+000038                                     (9/109)27+ZC_LOAD  DS    0H
+000038 410080B0                0000B8      (15/74)28+         LA    0,=CL8'ZC390LIB'
+00003C 1BFF                                (15/95)29+         SR    15,15 USE DEFAULT SYS390 SEARCH
+00003E 0A08                               (15/125)30+         SVC   8 LOAD R0=A(NAME) R15=DDNAME/DSNAME ADDR OR 0
+000040 12FF                                (9/111)31+         LTR   ZC_R15,ZC_R15
+000042 A7840013                000068      (9/112)32+         JZ    ZC_LOAD_OK
+000046 A715000D                000060      (16/49)33+         BRAS  1,*+(WTO#0009_EOT-*+1)/2*2
+00004A 00160000E9C3F3F9                    (16/50)34+         DC    AL2(WTO#0009_EOT-*,0),C'ZC390LIB NOT FOUND'
+000060                  00000060           (16/51)35+WTO#0009_EOT     EQU *
+000060 0A23                                (16/52)36+         SVC   35
+000062 41F00010                            (9/114)37+         LA  ZC_R15,16
+000066 0A03                                (9/115)38+         SVC 3      EXIT TO CALLER WITH RC=16
+000068                                     (9/116)39+ZC_LOAD_OK DS  0H
+000068 1890                                (9/117)40+         LR    ZC_R9,ZC_R0
+00006A                                     (9/118)41+         USING ZC390CVT,ZC_R9    R9=CVT
+LISTUSE COMPTYPE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE COMPTYPE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+00006A D503900080B8     000000 0000C0      (9/119)42+         CLC   ZCVT_ID,=C'ZCVT'              CHECK ZCVT ID AND LENGTH
+000070 A774000C                000088      (9/120)43+         JNE   ZC_VER_ERR                    IN ZC390LIB.390 MATCH
+000074 D503900480BC     000004 0000C4      (9/121)44+         CLC   ZCVT_LEN,=A(ZCVT_END-ZCVT_ID) ZCOBOL PGM COMPILED ID/LEN
+00007A 47708080                000088      (9/122)45+         BNE   ZC_VER_ERR
+00007E 58F09010                000010      (9/123)46+         L     ZC_R15,ZCVT_ZC390NUC
+000082 0DEF                                (9/124)47+         BASR  ZC_R14,ZC_R15 CALL ZC390NUC TO VERIFY VER, OPTIONS
+000084 A7F40022                0000C8      (9/125)48+         J     ZC_VER_OK
+000088                                     (9/126)49+ZC_VER_ERR DS 0H
+000088 A7150011                0000AA      (16/49)50+         BRAS  1,*+(WTO#0010_EOT-*+1)/2*2
+00008C 001E0000E9C3F3F9                    (16/50)51+         DC    AL2(WTO#0010_EOT-*,0),C'ZC390LIB ZCVT VERIFY ERROR'
+0000AA                  000000AA           (16/51)52+WTO#0010_EOT     EQU *
+0000AA 0A23                                (16/52)53+         SVC   35
+0000AC 41F00010                            (9/128)54+         LA  ZC_R15,16
+0000B0 0A03                                (9/129)55+         SVC 3      EXIT TO CALLER WITH RC=16
+0000B2                                     (9/130)56+         LTORG 
+0000B8 E9C3F3F9F0D3C9C2 =CL8'ZC390LIB'
+0000C0 E9C3E5E3         =C'ZCVT'
+0000C4 000001F8         =A(ZCVT_END-ZCVT_ID)
+0000C8                  00000080          (13/10)111=PFPO_TEST    EQU  X'80' PFPO TEST IF VALID OPCODE (NOT SUPPORTED YET)
+0000C8                  00000001          (13/11)112=PFPO_RADIX   EQU  1 PFPO OPCODE - CONVERT FROM ONE RADIX TO ANOTHER
+0000C8                  00000000          (13/12)113=PFPO_RND     EQU  0 PFOP ROUNDING OPTION (ONLY DEFAULT ALLOWED)
+0000C8                  00000000          (13/13)114=PFPO_TYPE_EH EQU  0 EH HFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000001          (13/14)115=PFPO_TYPE_DH EQU  1 ED HFP LONG      64 BITS 15 DIGITS
+0000C8                  00000002          (13/15)116=PFPO_TYPE_LH EQU  2 EL HFP EXTENDED 128 BITS 30 DIGITS
+0000C8                  00000005          (13/16)117=PFPO_TYPE_EB EQU  5 EB BFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000006          (13/17)118=PFPO_TYPE_DB EQU  6 DB BFP LONG      64 BITS 16 DIGITS
+0000C8                  00000007          (13/18)119=PFPO_TYPE_LB EQU  7 LB BFP EXTENDED 128 BITS 34 DIGITS
+0000C8                  00000008          (13/19)120=PFPO_TYPE_ED EQU  8 ED DFP SHORT     32 BITS 7  DIGITS
+0000C8                  00000009          (13/20)121=PFPO_TYPE_DD EQU  9 DD DFP LONG      64 BITS 16 DIGITS
+0000C8                  0000000A          (13/21)122=PFPO_TYPE_LD EQU 10 LD DFP EXTENDED 128 BITS 34 DIGITS
+0000C8                                    (9/133)123+ZC_VER_OK DS   0H
+0000C8 582D0018                            (9/63)124+         L     ZC_R2,24(ZC_R13) SET ZC_R2=PARMLIST ADDRESS AFTER LOAD
+0000CC C0100000002E            000128      (9/64)125+         LARL  ZC_R1,ZC_WS     ZC_R2=A(WORKING STORAGE WITH SAVEAREA)
+0000D2 501D0008                            (9/65)126+         ST    ZC_R1,8(ZC_R13) FORWARD  SAVE CHAIN
+0000D6 50D10004                            (9/66)127+         ST    ZC_R13,4(ZC_R1) BACKWARD SAVE CHAIN
+0000DA 18D1                                (9/67)128+         LR    ZC_R13,ZC_R1    LINK SAVE AREA IN ZC390CVT
+0000DC                                     (9/68)129+         USING ZC_WS,ZC_R13    BASE FOR ZCOBOL WS (SEE GEN_SYM_RX.MAC)
+LISTUSE COMPTYPE ESD=0001 LOC=00000000 LEN=01000 REG=F OFF=00000 LAB=
+LISTUSE COMPTYPE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+LISTUSE COMPTYPE ESD=0001 LOC=00000128 LEN=01000 REG=D OFF=00000 LAB=
+0000DC 50D0D050                000178      (9/69)130+         ST    ZC_R13,ZC_WS_START  SAVE ADDR WS IN WS PREFIX
+0000E0 C00000000238            000550      (9/70)131+         LARL  ZC_R0,ZC_WS_END
+0000E6 1B0D                                (9/71)132+         SR    ZC_R0,ZC_R13
+0000E8 5000D054                00017C      (9/72)133+         ST    ZC_R0,ZC_WS_LEN     SAVE LENGTH OF WS IN WS PREFIX
+0000EC                                     (9/73)134+         DROP  ZC_R15              RPI 1042
+LISTUSE COMPTYPE ESD=0001 LOC=00000128 LEN=01000 REG=D OFF=00000 LAB=
+LISTUSE COMPTYPE ESD=0001 LOC=00000008 LEN=01000 REG=8 OFF=00000 LAB=
+LISTUSE ZC390CVT ESD=0003 LOC=00000000 LEN=01000 REG=9 OFF=00000 LAB=
+000128                                     (9/74)135+ZC_WSLOC LOCTR 
+000128                                     (9/75)136+ZC_WS    DS    0D           START WORKING STORAGE
+000000                                     (9/81)137+ZC390CVT DSECT 
+000000                                    (10/31)138=ZCVT_ID            DC    C'ZCVT'             ZCVT ID  VERIFIED BY ZCOB
+000004                                    (10/32)139=ZCVT_LEN           DC    A(ZCVT_END-ZCVT_ID) ZCVT LEN VERIFIED BY ZCOB
+000008                                    (10/33)140=ZCVT_VER           DC    CL8'V1.5.06'    ZCVT VER VERIFIED BY ZC390NUC
+000010                                    (10/34)141=ZCVT_ZC390NUC  DC V(ZC390NUC)      MODULE  SYSTEM ROUTINE MODULE INIT
+000014                                    (10/35)142=ZCVT_CALL           DC V(CALL)       ENTRY R0=A(PGM),R1=A(PARMLIST)
+000018                                    (10/36)143=ZCVT_CMP64R32       DC V(CMP64R32)   ENTRY COMPARE R0-1=FLD1 R2-3=FLD2
+00001C                                    (10/37)144=ZCVT_CVTLBTQ        DC V(CVTLBTQ)    ENTRY CVT LB IN F4-6 TO Q IN R0-1
+000020                                    (10/38)145=ZCVT_CVTLDTP        DC V(CVTLDTP)    ENTRY CVT LD IN F0-2 TO PL31 R0-1
+000024                                    (10/39)146=ZCVT_CVTQTLB        DC V(CVTQTLB)    ENTRY CVT Q IN R0-1 TO LB IN F4-6
+000028                                    (10/40)147=ZCVT_DIV64R32       DC V(DIV64R32)   ENTRY DIVIDE R0-1=N64, R2-3=MAX64
+00002C                                    (10/41)148=ZCVT_DIVQ128        DC V(DIVQ128)    ENTRY DIVIDE Q128 R0-R1 BY R2-R3
+000030                                    (10/42)149=ZCVT_GOBACK         DC V(GOBACK)     ENTRY R1=RC
+000034                                    (10/43)150=ZCVT_MPYQ128        DC V(MPYQ128)    ENTRY MULTIPLY Q128 R0-R1 BY R2-R3
+000038                                    (10/44)151=ZCVT_OSE64R32       DC V(OSE64R32)   ENTRY ON SIZE ERR R0-1=N, R2-3=MAX
+00003C                                    (10/45)152=ZCVT_PERFORM        DC V(PERFORM)    ENTRY R14=PGTAR,R0=PGEXT,R1=PMRET
+000040                                    (10/46)153=ZCVT_PMCHECK        DC V(PMCHECK)    ENTRY R14=RETURN TO NEXT INSTR.
+000044                                    (10/47)154=ZCVT_ROUNDF         DC V(ROUNDF)     ENTRY R0=REM,R1=QUO,R2=DIVISOR
+000048                                    (10/48)155=ZCVT_STACKORG       DC V(STACKORG)   ENTRY PERFORM STACK ORIGIN
+00004C                                    (10/49)156=ZCVT_STACKPTR       DC V(STACKPTR)   ENTRY CUR ENTRY A(PG_END+4,RET)
+000050                                    (10/50)157=ZCVT_STACKEND       DC V(STACKEND)   ENTRY PERFORM STACK END
+000054                                    (10/51)158=ZCVT_STOPRUN        DC V(STOPRUN)    ENTRY R1=RC
+000058                                    (10/52)159=ZCVT_TALPHAX        DC V(TALPHAX)    ENTRY TEST ALPHABETIC X
+00005C                                    (10/53)160=ZCVT_TNUMP          DC V(TNUMP)      ENTRY TEST NUMERIC P
+000060                                    (10/54)161=ZCVT_TNUMX          DC V(TNUMX)      ENTRY TEST NUMERIC X
+000064                                    (10/55)162=ZCVT_TNUMZ          DC V(TNUMZ)      ENTRY TEST NUMERIC Z
+000068                                    (10/56)163=*
+000068                                    (10/57)164=* ADDITIONAL SEPARATE MODULES LINKED WITH Z390NUC IN ZC390LIB.390
+000068                                    (10/58)165=*
+000068                                    (10/59)166=ZCVT_ABORT     DC V(ABORT)         MODULE  R1=ABORT ERROR MSG #
+00006C                  00000001          (10/60)167=ZCVT_ABORT_ALTER   EQU    1 ABORT ALTER DUE TO BRC NOT FOUND AT TARGET
+00006C                  00000002          (10/61)168=ZCVT_ABORT_CALL    EQU    2 ABORT DYNAMIC CALL - PGM NOT FOUND
+00006C                  00000003          (10/62)169=ZCVT_ABORT_DISPLAY EQU    3 ABORT DISPLAY DUE TO BUFFER EXCEEDED
+00006C                  00000004          (10/63)170=ZCVT_ABORT_OPEN    EQU    4 ABORT OPEN  INVALID DCB
+00006C                  00000006          (10/64)171=ZCVT_ABORT_STACK   EQU    6 ABORT PEROFRM STACK OVERFLOW
+00006C                  00000007          (10/65)172=ZCVT_ABORT_VERSION EQU    7 ABORT ZC390NUC INIT ZCOBOL VERSION ERROR
+00006C                  00000008          (10/66)173=ZCVT_ABORT_INT128  EQU    8 ABORT INTEGER 128 CONVERSION OVERFLO
+00006C                  00000009          (10/67)174=ZCVT_ABORT_DIVQ    EQU    9 ABORT DIVIDE Q IF DIVISOR 0 OR > 2**63
+00006C                  0000000A          (10/68)175=ZCVT_ABORT_CICS    EQU   10 ABORT THIS PGM REQUIRES EXEC CICS TRANS MGR
+00006C                  0000000B          (10/69)176=ZCVT_ABORT_ACCEPT  EQU   11 ABORT ACCEPT EOF
+00006C                  0000000B          (10/70)177=ZCVT_ABORT_MAXERR  EQU   11 ABORT MAX ERROR CODE
+00006C                                    (10/71)178=ZCVT_ACCEPT    DC V(ACCEPT)        MODULE  R1=A(TYPE,FLD_ADD,FLD_LEN)
+000070                  00000001          (10/72)179=ZCVT_ACCEPT_DEFAULT EQU   1 INPUT DEFAULT DDNAME=SYSIN
+000070                  00000002          (10/73)180=ZCVT_ACCEPT_CONSOLE EQU   2 INPUT VIA WTOR FROM CONSOLE
+000070                  00000003          (10/74)181=ZCVT_ACCEPT_DDNAME  EQU   3 INPUT FROM DDNAME WITH DDNAME ADDR IN R3
+000070                  00000004          (10/75)182=ZCVT_ACCEPT_DATE    EQU   4 RETURN DAY OF WEEK PIC 9(8) MMDDYYYY
+000070                  00000005          (10/76)183=ZCVT_ACCEPT_TIME    EQU   5 RETURN DAY OF WEEK PIC 9(8) HHMMSSTH
+000070                  00000006          (10/77)184=ZCVT_ACCEPT_DOW     EQU   6 RETURN DAY OF WEEK PIC 9 1-7
+000070                                    (10/78)185=ZCVT_DISPLAY   DC V(DISPLAY)       MODULE  R1=A(ADDR,LEN,TYPE)
+000074                                    (10/79)186=ZCVT_INSPECT   DC V(INSPECT)       MODULE  R0=TYPE,R1=PARMLIST
+000078                  00000000          (10/80)187=ZCVT_TALLYING      EQU   0 INSPECT TALLYING
+000078                  00000004          (10/81)188=ZCVT_REPLACING     EQU   4 INSPECT REPLACING
+000078                  00000008          (10/82)189=ZCVT_CONVERTING    EQU   8 INSPECT CONVERTING
+000078                                    (10/83)190=*
+000078                                    (10/84)191=* SHARED DATA AREAS
+000078                                    (10/85)192=*
+000078                                    (10/86)193=ZCVT_PVTMAXDL  DS H          MAXIMUM DISPLAY LINE LENGTH  RPI 1118
+000080                                    (10/87)194=               DS 0D
+000080                                    (10/88)195=ZCVT_ZERO      DC XL16'00'   BINARY ZEROS
+000090                                    (10/89)196=ZCVT_HIGH_VALUES DC 0XL16,16X'FF' BINARY FF'S     RPI 1181
+0000A0                                    (10/90)197=ZCVT_PWORK     DS PL8        CVD/CVB WORK
+0000A8                                    (10/91)198=ZCVT_PWORK1    DS PL16       DIV DIVIDEND, CVDG/CVBG WORK
+0000B8                                    (10/92)199=ZCVT_PWORK2    DS PL16       DIV DIVISOR
+0000C8                                    (10/93)200=ZCVT_PWORK3    DS PL16       DIV QUOTIENT
+0000D8                                    (10/94)201=ZCVT_PWORK4    DS PL16       DIV REMAINDER
+0000E8                                    (10/95)202=ZCVT_NDDX      DS XL16       DIV DIVIDEND HOLD AREA
+0000F8                                    (10/96)203=ZCVT_WORKAREA  DS XL256      GEN_INSPECT PARMS, GEN_EDIT WORK, ETC.
+0001F8                                    (10/97)204=*
+0001F8                                    (10/98)205=* END OF ZC390CVT
+0001F8                                    (10/99)206=*
+0001F8                  000001F8         (10/100)207=ZCVT_END   EQU   *
+000000                                     (9/83)208+ZC390PVT DSECT 
+000000                                    (11/11)209=PVTPGM   DS    CL8  ZCOBOL PGM NAME
+000008                                    (11/12)210=PVTDATE  DS    CL8  ZCOBOL COMPILE DATE
+000010                                    (11/13)211=PVTTIME  DS    CL8  ZCOBOL COMPILE TIME
+000018                                    (11/14)212=PVTVER   DS    CL8  ZCOBOL COMPILER VERSION
+000020                                    (11/15)213=PVTCICS  DS    C    ZCOBOL EXEC CICS PGM
+000021                                    (11/16)214=PVTEXTND DS    C    ZCOBOL EXTENDED PRECISION
+000022                                    (11/17)215=PVTTRUNC DS    C    ZCOBOL TRUNCATE TO PICTURE
+000023                                    (11/18)216=PVTR64   DS    C    ZCOBOL USE 64 BIT REGISTERS
+000024                                    (11/19)217=PVTMAXDL DS    H    ZCOBOL MAX DISPLAY LINE LENGTH
+000026                                    (11/20)218=         DS    XL10 RESERVED
+000128                                     (9/85)219+ZC_WSLOC LOCTR              CONTINUE WS FOR FD AND DATA
+000128                                      (1/9)220 *        DATA DIVISION.
+000128                                    (23/23)221+         PRINT DATA
+000128                                     (1/11)222 *        WORKING-STORAGE SECTION.
+000128                                     (1/12)223 ****************************************************************
+000128                                     (1/13)224 *
+000128                                     (1/14)225 ****************************************************************
+000128                                     (1/16)226 *        01  Z-cobol-data-Types-comp-unsigned.
+000128                                     (1/18)227 *          03 comp-9-00
+000128                                     (1/19)228 *             pic  9(00) comp
+000128                                     (1/20)229 *                        value x'FF00'.
+000128                                     (1/22)230 *          03 comp-9-01
+000128                                     (1/23)231 *             pic  9(01) comp
+000128                                     (1/24)232 *                        value x'FF01'.
+000128                                     (1/26)233 *          03 comp-9-02
+000128                                     (1/27)234 *             pic  9(02) comp
+000128                                     (1/28)235 *                        value x'FF02'.
+000128                                     (1/30)236 *          03 comp-9-03
+000128                                     (1/31)237 *             pic  9(03) comp
+000128                                     (1/32)238 *                        value x'FF03'.
+000128                                     (1/34)239 *          03 comp-9-04
+000128                                     (1/35)240 *             pic  9(04) comp
+000128                                     (1/36)241 *                        value x'FF04'.
+000128                                     (1/38)242 *          03 comp-9-05
+000128                                     (1/39)243 *             pic  9(05) comp
+000128                                     (1/40)244 *                        value x'FF05'.
+000128                                     (1/42)245 *          03 comp-9-06
+000128                                     (1/43)246 *             pic  9(06) comp
+000128                                     (1/44)247 *                        value x'FF06'.
+000128                                     (1/46)248 *          03 comp-9-07
+000128                                     (1/47)249 *             pic  9(07) comp
+000128                                     (1/48)250 *                        value x'FF07'.
+000128                                     (1/50)251 *          03 comp-9-08
+000128                                     (1/51)252 *             pic  9(08) comp
+000128                                     (1/52)253 *                        value x'FF08'.
+000128                                     (1/54)254 *          03 comp-9-09
+000128                                     (1/55)255 *             pic  9(09) comp
+000128                                     (1/56)256 *                        value x'FF000009'.
+000128                                     (1/58)257 *          03 comp-9-10
+000128                                     (1/59)258 *             pic  9(10) comp
+000128                                     (1/60)259 *                        value x'FF0000000000000A'.
+000128                                     (1/63)260 *          03 comp-9-11
+000128                                     (1/64)261 *             pic  9(11) comp
+000128                                     (1/65)262 *                        value x'FF0000000000000B'.
+000128                                     (1/68)263 *          03 comp-9-12
+000128                                     (1/69)264 *             pic  9(12) comp
+000128                                     (1/70)265 *                        value x'FF0000000000000C'.
+000128                                     (1/73)266 *          03 comp-9-13
+000128                                     (1/74)267 *             pic  9(13) comp
+000128                                     (1/75)268 *                        value x'FF0000000000000D'.
+000128                                     (1/78)269 *          03 comp-9-14
+000128                                     (1/79)270 *             pic  9(14) comp
+000128                                     (1/80)271 *                        value x'FF0000000000000E'.
+000128                                     (1/83)272 *          03 comp-9-15
+000128                                     (1/84)273 *             pic  9(15) comp
+000128                                     (1/85)274 *                        value x'FF0000000000000F'.
+000128                                     (1/88)275 *          03 comp-9-16
+000128                                     (1/89)276 *             pic  9(16) comp
+000128                                     (1/90)277 *                        value x'FF00000000000010'.
+000128                                     (1/93)278 *          03 comp-9-17
+000128                                     (1/94)279 *             pic  9(17) comp
+000128                                     (1/95)280 *                        value x'FF00000000000011'.
+000128                                     (1/98)281 *          03 comp-9-18
+000128                                     (1/99)282 *             pic  9(18) comp
+000128                                    (1/100)283 *                        value x'FF00000000000012'.
+000128                                    (1/103)284 *          03 comp-9-19
+000128                                    (1/104)285 *             pic  9(19) comp
+000128                                    (1/105)286 *                        value x'FF000000000000000000000000000013'.
+000128                                    (1/108)287 *          03 comp-9-20
+000128                                    (1/109)288 *             pic  9(20) comp
+000128                                    (1/110)289 *                        value x'FF000000000000000000000000000014'.
+000128                                    (1/113)290 *          03 comp-9-21
+000128                                    (1/114)291 *             pic  9(21) comp
+000128                                    (1/115)292 *                        value x'FF000000000000000000000000000015'.
+000128                                    (1/118)293 *          03 comp-9-22
+000128                                    (1/119)294 *             pic  9(22) comp
+000128                                    (1/120)295 *                        value x'FF000000000000000000000000000016'.
+000128                                    (1/123)296 *          03 comp-9-23
+000128                                    (1/124)297 *             pic  9(23) comp
+000128                                    (1/125)298 *                        value x'FF000000000000000000000000000017'.
+000128                                    (1/128)299 *          03 comp-9-24
+000128                                    (1/129)300 *             pic  9(24) comp
+000128                                    (1/130)301 *                        value x'FF000000000000000000000000000018'.
+000128                                    (1/133)302 *          03 comp-9-25
+000128                                    (1/134)303 *             pic  9(25) comp
+000128                                    (1/135)304 *                        value x'FF000000000000000000000000000019'.
+000128                                    (1/138)305 *          03 comp-9-26
+000128                                    (1/139)306 *             pic  9(26) comp
+000128                                    (1/140)307 *                        value x'FF00000000000000000000000000001A'.
+000128                                    (1/143)308 *          03 comp-9-27
+000128                                    (1/144)309 *             pic  9(27) comp
+000128                                    (1/145)310 *                        value x'FF00000000000000000000000000001B'.
+000128                                    (1/148)311 *          03 comp-9-28
+000128                                    (1/149)312 *             pic  9(28) comp
+000128                                    (1/150)313 *                        value x'FF00000000000000000000000000001C'.
+000128                                    (1/153)314 *          03 comp-9-29
+000128                                    (1/154)315 *             pic  9(29) comp
+000128                                    (1/155)316 *                        value x'FF00000000000000000000000000001D'.
+000128                                    (1/158)317 *          03 comp-9-30
+000128                                    (1/159)318 *             pic  9(30) comp
+000128                                    (1/160)319 *                        value x'FF00000000000000000000000000001E'.
+000128                                    (1/163)320 *          03 comp-9-31
+000128                                    (1/164)321 *             pic  9(31) comp
+000128                                    (1/165)322 *                        value x'FF00000000000000000000000000001F'.
+000128                                    (1/168)323 *          03 comp-9-32
+000128                                    (1/169)324 *             pic  9(32) comp
+000128                                    (1/170)325 *                        value x'FF000000000000000000000000000020'.
+000128                                    (1/173)326 *          03 comp-9-33
+000128                                    (1/174)327 *             pic  9(33) comp
+000128                                    (1/175)328 *                        value x'FF000000000000000000000000000021'.
+000128                                    (1/178)329 *          03 comp-9-34
+000128                                    (1/179)330 *             pic  9(34) comp
+000128                                    (1/180)331 *                        value x'FF000000000000000000000000000022'.
+000128                                    (1/183)332 *          03 comp-9-35
+000128                                    (1/184)333 *             pic  9(35) comp
+000128                                    (1/185)334 *                        value x'FF000000000000000000000000000023'.
+000128                                    (1/188)335 *          03 comp-9-36
+000128                                    (1/189)336 *             pic  9(36) comp
+000128                                    (1/190)337 *                        value x'FF000000000000000000000000000024'.
+000128                                    (1/193)338 *          03 comp-9-37
+000128                                    (1/194)339 *             pic  9(37) comp
+000128                                    (1/195)340 *                        value x'FF000000000000000000000000000025'.
+000128                                    (1/198)341 *          03 comp-9-38
+000128                                    (1/199)342 *             pic  9(38) comp
+000128                                    (1/200)343 *                        value x'FF000000000000000000000000000026'.
+000128                                    (1/203)344 *          03 comp-9-39
+000128                                    (1/204)345 *             pic  9(39) comp
+000128                                    (1/205)346 *                        value x'FF000000000000000000000000000027'.
+000128                                    (1/206)347 *
+000128                                    (1/209)348 *        01  Z-cobol-data-Types-comp-Signed.
+000128                                    (1/210)349 *      ***************************************************************
+000128                                    (1/212)350 *          03 comp-S9-00
+000128                                    (1/213)351 *              pic S9(00) comp
+000128                                    (1/214)352 *                         value x'8000'.
+000128                                    (1/216)353 *          03 comp-S9-01
+000128                                    (1/217)354 *              pic S9(01) comp
+000128                                    (1/218)355 *                         value x'8001'.
+000128                                    (1/220)356 *          03 comp-S9-02
+000128                                    (1/221)357 *              pic S9(02) comp
+000128                                    (1/222)358 *                         value x'8002'.
+000128                                    (1/224)359 *          03 comp-S9-03
+000128                                    (1/225)360 *              pic S9(03) comp
+000128                                    (1/226)361 *                         value x'8003'.
+000128                                    (1/228)362 *          03 comp-S9-04
+000128                                    (1/229)363 *              pic S9(04) comp
+000128                                    (1/230)364 *                         value x'8004'.
+000128                                    (1/232)365 *          03 comp-S9-05
+000128                                    (1/233)366 *              pic S9(05) comp
+000128                                    (1/234)367 *                         value x'8005'.
+000128                                    (1/236)368 *          03 comp-S9-06
+000128                                    (1/237)369 *              pic S9(06) comp
+000128                                    (1/238)370 *                         value x'8006'.
+000128                                    (1/240)371 *          03 comp-S9-07
+000128                                    (1/241)372 *              pic S9(07) comp
+000128                                    (1/242)373 *                         value x'8007'.
+000128                                    (1/244)374 *          03 comp-S9-08
+000128                                    (1/245)375 *              pic S9(08) comp
+000128                                    (1/246)376 *                         value x'8008'.
+000128                                    (1/248)377 *          03 comp-S9-09
+000128                                    (1/249)378 *              pic S9(09) comp
+000128                                    (1/250)379 *                         value x'80000009'.
+000128                                    (1/252)380 *          03 comp-S9-10
+000128                                    (1/253)381 *              pic S9(10) comp
+000128                                    (1/254)382 *                         value x'800000000000000A'.
+000128                                    (1/257)383 *          03 comp-S9-11
+000128                                    (1/258)384 *              pic S9(11) comp
+000128                                    (1/259)385 *                         value x'800000000000000B'.
+000128                                    (1/262)386 *          03 comp-S9-12
+000128                                    (1/263)387 *              pic S9(12) comp
+000128                                    (1/264)388 *                         value x'800000000000000C'.
+000128                                    (1/267)389 *          03 comp-S9-13
+000128                                    (1/268)390 *              pic S9(13) comp
+000128                                    (1/269)391 *                         value x'800000000000000D'.
+000128                                    (1/272)392 *          03 comp-S9-14
+000128                                    (1/273)393 *              pic S9(14) comp
+000128                                    (1/274)394 *                         value x'800000000000000E'.
+000128                                    (1/277)395 *          03 comp-S9-15
+000128                                    (1/278)396 *              pic S9(15) comp
+000128                                    (1/279)397 *                         value x'800000000000000F'.
+000128                                    (1/282)398 *          03 comp-S9-16
+000128                                    (1/283)399 *              pic S9(16) comp
+000128                                    (1/284)400 *                         value x'8000000000000010'.
+000128                                    (1/287)401 *          03 comp-S9-17
+000128                                    (1/288)402 *              pic S9(17) comp
+000128                                    (1/289)403 *                         value x'8000000000000011'.
+000128                                    (1/292)404 *          03 comp-S9-18
+000128                                    (1/293)405 *              pic S9(18) comp
+000128                                    (1/294)406 *                         value x'8000000000000012'.
+000128                                    (1/297)407 *          03 comp-S9-19
+000128                                    (1/298)408 *              pic S9(19) comp
+000128                                    (1/299)409 *                         value x'80000000000000000000000000000013'.
+000128                                    (1/302)410 *          03 comp-S9-20
+000128                                    (1/303)411 *              pic S9(20) comp
+000128                                    (1/304)412 *                         value x'80000000000000000000000000000014'.
+000128                                    (1/307)413 *          03 comp-S9-21
+000128                                    (1/308)414 *              pic S9(21) comp
+000128                                    (1/309)415 *                         value x'80000000000000000000000000000015'.
+000128                                    (1/312)416 *          03 comp-S9-22
+000128                                    (1/313)417 *              pic S9(22) comp
+000128                                    (1/314)418 *                         value x'80000000000000000000000000000016'.
+000128                                    (1/317)419 *          03 comp-S9-23
+000128                                    (1/318)420 *              pic S9(23) comp
+000128                                    (1/319)421 *                         value x'80000000000000000000000000000017'.
+000128                                    (1/322)422 *          03 comp-S9-24
+000128                                    (1/323)423 *              pic S9(24) comp
+000128                                    (1/324)424 *                         value x'80000000000000000000000000000018'.
+000128                                    (1/327)425 *          03 comp-S9-25
+000128                                    (1/328)426 *              pic S9(25) comp
+000128                                    (1/329)427 *                         value x'80000000000000000000000000000019'.
+000128                                    (1/332)428 *          03 comp-S9-26
+000128                                    (1/333)429 *              pic S9(26) comp
+000128                                    (1/334)430 *                         value x'8000000000000000000000000000001A'.
+000128                                    (1/337)431 *          03 comp-S9-27
+000128                                    (1/338)432 *              pic S9(27) comp
+000128                                    (1/339)433 *                         value x'8000000000000000000000000000001B'.
+000128                                    (1/342)434 *          03 comp-S9-28
+000128                                    (1/343)435 *              pic S9(28) comp
+000128                                    (1/344)436 *                         value x'8000000000000000000000000000001C'.
+000128                                    (1/347)437 *          03 comp-S9-29
+000128                                    (1/348)438 *              pic S9(29) comp
+000128                                    (1/349)439 *                         value x'8000000000000000000000000000001D'.
+000128                                    (1/352)440 *          03 comp-S9-30
+000128                                    (1/353)441 *              pic S9(30) comp
+000128                                    (1/354)442 *                         value x'8000000000000000000000000000001E'.
+000128                                    (1/357)443 *          03 comp-S9-31
+000128                                    (1/358)444 *              pic S9(31) comp
+000128                                    (1/359)445 *                         value x'8000000000000000000000000000001F'.
+000128                                    (1/362)446 *          03 comp-S9-32
+000128                                    (1/363)447 *              pic S9(32) comp
+000128                                    (1/364)448 *                         value x'80000000000000000000000000000020'.
+000128                                    (1/367)449 *          03 comp-S9-33
+000128                                    (1/368)450 *              pic S9(33) comp
+000128                                    (1/369)451 *                         value x'80000000000000000000000000000021'.
+000128                                    (1/372)452 *          03 comp-S9-34
+000128                                    (1/373)453 *              pic S9(34) comp
+000128                                    (1/374)454 *                         value x'80000000000000000000000000000022'.
+000128                                    (1/377)455 *          03 comp-S9-35
+000128                                    (1/378)456 *              pic S9(35) comp
+000128                                    (1/379)457 *                         value x'80000000000000000000000000000023'.
+000128                                    (1/382)458 *          03 comp-S9-36
+000128                                    (1/383)459 *              pic S9(36) comp
+000128                                    (1/384)460 *                         value x'80000000000000000000000000000024'.
+000128                                    (1/387)461 *          03 comp-S9-37
+000128                                    (1/388)462 *              pic S9(37) comp
+000128                                    (1/389)463 *                         value x'80000000000000000000000000000025'.
+000128                                    (1/392)464 *          03 comp-S9-38
+000128                                    (1/393)465 *              pic S9(38) comp
+000128                                    (1/394)466 *                         value x'80000000000000000000000000000026'.
+000128                                    (1/397)467 *          03 comp-S9-39
+000128                                    (1/398)468 *              pic S9(39) comp
+000128                                    (1/399)469 *                         value x'80000000000000000000000000000027'.
+000128                                    (1/400)470 *      ***************************************************************
+000128                                    (1/404)471 *        PROCEDURE DIVISION.
+000128                                    (1/405)472 *ZC   PROCEDURE DIVISION
+000128                                    (26/18)473+         PRINT LIST,GEN,LISTUSE TURN PRINT LISTING ON FOR USER CODE GEN
+0000EC                                    (26/19)474+COMPTYPE CSECT                SWITCH TO PROCEDURE CODE AHEAD OF WS
+0000EC                                    (1/407)475 *         Display 'Computational Data Types'.
+0000EC                                    (1/408)476 *ZC   DISPLAY 'Computational Data Types'
+0000EC A7150010                00010C     (16/49)477+         BRAS  1,*+(WTO#0317_EOT-*+1)/2*2
+0000F0 001C0000C3969497                   (16/50)478+         DC    AL2(WTO#0317_EOT-*,0),C'Computational Data Types'
+0000F8 A4A381A389969581
+000100 9340C481A38140E3
+000108 A89785A2
+00010C                  0000010C          (16/51)479+WTO#0317_EOT     EQU *
+00010C 0A23                               (16/52)480+         SVC   35
+00010E                                    (1/411)481 *ZC   STOP  RUN
+00010E 4810D422                00054A     (31/18)482+         LH    ZC_R1,RETURN_CODE      PASS RETURN CODE IN R1
+000112 58F09030                000030     (31/23)483+         L     ZC_R15,ZCVT_GOBACK
+000116 07FF                               (31/24)484+         BR    ZC_R15
+000118                                   (34/108)485+SN_END_PROCEDURE DS 0H SECTION
+000118                                    (33/18)486+*        PROCEDURE END
+000118 4810D422                00054A     (33/24)487+         LH    ZC_R1,RETURN_CODE
+00011C 58F09030                000030     (33/25)488+         L     ZC_R15,ZCVT_GOBACK
+000120 0DEF                               (33/26)489+         BASR  ZC_R14,ZC_R15
+000122                                    (33/32)490+         LTORG 
+000128                                     (6/15)491+*    ZCOBOL WORKING STORAGE SECTION DATA ITEMS 
+000128                                     (6/15)492+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC        VALUE 
+000128                                     (6/15)494+*    01  ZC_SAVEAREA                    00000000 00000048 1   X   X(72)       
+000128                                     (6/15)496+*    01  ZC_WS_ID                       00000048 00000008 1   X   X(8)       ''WS*WS*WS'' 
+000128                                     (6/15)498+*    01  ZC_WS_START                    00000050 00000004 1   A               
+000128                                     (6/15)500+*    01  ZC_WS_LEN                      00000054 00000004 1   F   9(9)        
+000128                                     (6/15)502+*    01  FILLER                         00000058 000001B8 1   X               
+000128                                     (6/15)504+*    01  Z_COBOL_DATA_TYPES_COMP_UNSIGNED 00000058 000001B8 1   X               
+000128                                     (6/15)506+*    03  COMP_9_00                      00000058 00000004 1   F   9(00)      X''FF00'' 
+000128                                     (6/15)508+*    03  COMP_9_01                      0000005C 00000002 1   H   9(01)      X''FF01'' 
+000128                                     (6/15)510+*    03  COMP_9_02                      0000005E 00000002 1   H   9(02)      X''FF02'' 
+000128                                     (6/15)512+*    03  COMP_9_03                      00000060 00000002 1   H   9(03)      X''FF03'' 
+000128                                     (6/15)514+*    03  COMP_9_04                      00000062 00000002 1   H   9(04)      X''FF04'' 
+000128                                     (6/15)516+*    03  COMP_9_05                      00000064 00000004 1   F   9(05)      X''FF05'' 
+000128                                     (6/15)518+*    03  COMP_9_06                      00000068 00000004 1   F   9(06)      X''FF06'' 
+000128                                     (6/15)520+*    03  COMP_9_07                      0000006C 00000004 1   F   9(07)      X''FF07'' 
+000128                                     (6/15)522+*    03  COMP_9_08                      00000070 00000004 1   F   9(08)      X''FF08'' 
+000128                                     (6/15)524+*    03  COMP_9_09                      00000074 00000004 1   F   9(09)      X''FF000009'' 
+000128                                     (6/15)526+*    03  COMP_9_10                      00000078 00000008 1   G   9(10)      X''FF0000000000000A'' 
+000128                                     (6/15)528+*    03  COMP_9_11                      00000080 00000008 1   G   9(11)      X''FF0000000000000B'' 
+000128                                     (6/15)530+*    03  COMP_9_12                      00000088 00000008 1   G   9(12)      X''FF0000000000000C'' 
+000128                                     (6/15)532+*    03  COMP_9_13                      00000090 00000008 1   G   9(13)      X''FF0000000000000D'' 
+000128                                     (6/15)534+*    03  COMP_9_14                      00000098 00000008 1   G   9(14)      X''FF0000000000000E'' 
+000128                                     (6/15)536+*    03  COMP_9_15                      000000A0 00000008 1   G   9(15)      X''FF0000000000000F'' 
+000128                                     (6/15)538+*    03  COMP_9_16                      000000A8 00000008 1   G   9(16)      X''FF00000000000010'' 
+000128                                     (6/15)540+*    03  COMP_9_17                      000000B0 00000008 1   G   9(17)      X''FF00000000000011'' 
+000128                                     (6/15)542+*    03  COMP_9_18                      000000B8 00000008 1   G   9(18)      X''FF00000000000012'' 
+000128                                     (6/15)544+*    03  COMP_9_19                      000000C0 00000010 1   Q   9(19)      X''FF000000000000000000000000000013'' 
+000128                                     (6/15)546+*    03  COMP_9_20                      000000D0 00000010 1   Q   9(20)      X''FF000000000000000000000000000014'' 
+000128                                     (6/15)548+*    03  COMP_9_21                      000000E0 00000010 1   Q   9(21)      X''FF000000000000000000000000000015'' 
+000128                                     (6/15)550+*    03  COMP_9_22                      000000F0 00000010 1   Q   9(22)      X''FF000000000000000000000000000016'' 
+000128                                     (6/15)552+*    03  COMP_9_23                      00000100 00000010 1   Q   9(23)      X''FF000000000000000000000000000017'' 
+000128                                     (6/15)554+*    03  COMP_9_24                      00000110 00000010 1   Q   9(24)      X''FF000000000000000000000000000018'' 
+000128                                     (6/15)556+*    03  COMP_9_25                      00000120 00000010 1   Q   9(25)      X''FF000000000000000000000000000019'' 
+000128                                     (6/15)558+*    03  COMP_9_26                      00000130 00000010 1   Q   9(26)      X''FF00000000000000000000000000001A'' 
+000128                                     (6/15)560+*    03  COMP_9_27                      00000140 00000010 1   Q   9(27)      X''FF00000000000000000000000000001B'' 
+000128                                     (6/15)562+*    03  COMP_9_28                      00000150 00000010 1   Q   9(28)      X''FF00000000000000000000000000001C'' 
+000128                                     (6/15)564+*    03  COMP_9_29                      00000160 00000010 1   Q   9(29)      X''FF00000000000000000000000000001D'' 
+000128                                     (6/15)566+*    03  COMP_9_30                      00000170 00000010 1   Q   9(30)      X''FF00000000000000000000000000001E'' 
+000128                                     (6/15)568+*    03  COMP_9_31                      00000180 00000010 1   Q   9(31)      X''FF00000000000000000000000000001F'' 
+000128                                     (6/15)570+*    03  COMP_9_32                      00000190 00000010 1   Q   9(32)      X''FF000000000000000000000000000020'' 
+000128                                     (6/15)572+*    03  COMP_9_33                      000001A0 00000010 1   Q   9(33)      X''FF000000000000000000000000000021'' 
+000128                                     (6/15)574+*    03  COMP_9_34                      000001B0 00000010 1   Q   9(34)      X''FF000000000000000000000000000022'' 
+000128                                     (6/15)576+*    03  COMP_9_35                      000001C0 00000010 1   Q   9(35)      X''FF000000000000000000000000000023'' 
+000128                                     (6/15)578+*    03  COMP_9_36                      000001D0 00000010 1   Q   9(36)      X''FF000000000000000000000000000024'' 
+000128                                     (6/15)580+*    03  COMP_9_37                      000001E0 00000010 1   Q   9(37)      X''FF000000000000000000000000000025'' 
+000128                                     (6/15)582+*    03  COMP_9_38                      000001F0 00000010 1   Q   9(38)      X''FF000000000000000000000000000026'' 
+000128                                     (6/15)584+*    03  COMP_9_39                      00000200 00000010 1   Q   9(39)      X''FF000000000000000000000000000027'' 
+000128                                     (6/15)586+*    01  Z_COBOL_DATA_TYPES_COMP_SIGNED 00000210 000001B8 1   X               
+000128                                     (6/15)588+*    03  COMP_S9_00                     00000210 00000004 1   F   9(00)      X''8000'' 
+000128                                     (6/15)590+*    03  COMP_S9_01                     00000214 00000002 1   H   9(01)      X''8001'' 
+000128                                     (6/15)592+*    03  COMP_S9_02                     00000216 00000002 1   H   9(02)      X''8002'' 
+000128                                     (6/15)594+*    03  COMP_S9_03                     00000218 00000002 1   H   9(03)      X''8003'' 
+000128                                     (6/15)596+*    03  COMP_S9_04                     0000021A 00000002 1   H   9(04)      X''8004'' 
+000128                                     (6/15)598+*    03  COMP_S9_05                     0000021C 00000004 1   F   9(05)      X''8005'' 
+000128                                     (6/15)600+*    03  COMP_S9_06                     00000220 00000004 1   F   9(06)      X''8006'' 
+000128                                     (6/15)602+*    03  COMP_S9_07                     00000224 00000004 1   F   9(07)      X''8007'' 
+000128                                     (6/15)604+*    03  COMP_S9_08                     00000228 00000004 1   F   9(08)      X''8008'' 
+000128                                     (6/15)606+*    03  COMP_S9_09                     0000022C 00000004 1   F   9(09)      X''80000009'' 
+000128                                     (6/15)608+*    03  COMP_S9_10                     00000230 00000008 1   G   9(10)      X''800000000000000A'' 
+000128                                     (6/15)610+*    03  COMP_S9_11                     00000238 00000008 1   G   9(11)      X''800000000000000B'' 
+000128                                     (6/15)612+*    03  COMP_S9_12                     00000240 00000008 1   G   9(12)      X''800000000000000C'' 
+000128                                     (6/15)614+*    03  COMP_S9_13                     00000248 00000008 1   G   9(13)      X''800000000000000D'' 
+000128                                     (6/15)616+*    03  COMP_S9_14                     00000250 00000008 1   G   9(14)      X''800000000000000E'' 
+000128                                     (6/15)618+*    03  COMP_S9_15                     00000258 00000008 1   G   9(15)      X''800000000000000F'' 
+000128                                     (6/15)620+*    03  COMP_S9_16                     00000260 00000008 1   G   9(16)      X''8000000000000010'' 
+000128                                     (6/15)622+*    03  COMP_S9_17                     00000268 00000008 1   G   9(17)      X''8000000000000011'' 
+000128                                     (6/15)624+*    03  COMP_S9_18                     00000270 00000008 1   G   9(18)      X''8000000000000012'' 
+000128                                     (6/15)626+*    03  COMP_S9_19                     00000278 00000010 1   Q   9(19)      X''80000000000000000000000000000013'' 
+000128                                     (6/15)628+*    03  COMP_S9_20                     00000288 00000010 1   Q   9(20)      X''80000000000000000000000000000014'' 
+000128                                     (6/15)630+*    03  COMP_S9_21                     00000298 00000010 1   Q   9(21)      X''80000000000000000000000000000015'' 
+000128                                     (6/15)632+*    03  COMP_S9_22                     000002A8 00000010 1   Q   9(22)      X''80000000000000000000000000000016'' 
+000128                                     (6/15)634+*    03  COMP_S9_23                     000002B8 00000010 1   Q   9(23)      X''80000000000000000000000000000017'' 
+000128                                     (6/15)636+*    03  COMP_S9_24                     000002C8 00000010 1   Q   9(24)      X''80000000000000000000000000000018'' 
+000128                                     (6/15)638+*    03  COMP_S9_25                     000002D8 00000010 1   Q   9(25)      X''80000000000000000000000000000019'' 
+000128                                     (6/15)640+*    03  COMP_S9_26                     000002E8 00000010 1   Q   9(26)      X''8000000000000000000000000000001A'' 
+000128                                     (6/15)642+*    03  COMP_S9_27                     000002F8 00000010 1   Q   9(27)      X''8000000000000000000000000000001B'' 
+000128                                     (6/15)644+*    03  COMP_S9_28                     00000308 00000010 1   Q   9(28)      X''8000000000000000000000000000001C'' 
+000128                                     (6/15)646+*    03  COMP_S9_29                     00000318 00000010 1   Q   9(29)      X''8000000000000000000000000000001D'' 
+000128                                     (6/15)648+*    03  COMP_S9_30                     00000328 00000010 1   Q   9(30)      X''8000000000000000000000000000001E'' 
+000128                                     (6/15)650+*    03  COMP_S9_31                     00000338 00000010 1   Q   9(31)      X''8000000000000000000000000000001F'' 
+000128                                     (6/15)652+*    03  COMP_S9_32                     00000348 00000010 1   Q   9(32)      X''80000000000000000000000000000020'' 
+000128                                     (6/15)654+*    03  COMP_S9_33                     00000358 00000010 1   Q   9(33)      X''80000000000000000000000000000021'' 
+000128                                     (6/15)656+*    03  COMP_S9_34                     00000368 00000010 1   Q   9(34)      X''80000000000000000000000000000022'' 
+000128                                     (6/15)658+*    03  COMP_S9_35                     00000378 00000010 1   Q   9(35)      X''80000000000000000000000000000023'' 
+000128                                     (6/15)660+*    03  COMP_S9_36                     00000388 00000010 1   Q   9(36)      X''80000000000000000000000000000024'' 
+000128                                     (6/15)662+*    03  COMP_S9_37                     00000398 00000010 1   Q   9(37)      X''80000000000000000000000000000025'' 
+000128                                     (6/15)664+*    03  COMP_S9_38                     000003A8 00000010 1   Q   9(38)      X''80000000000000000000000000000026'' 
+000128                                     (6/15)666+*    03  COMP_S9_39                     000003B8 00000010 1   Q   9(39)      X''80000000000000000000000000000027'' 
+000128                                     (6/15)668+*    01  DEBUG_ITEM                     000003C8 00000058 1   X               
+000128                                     (6/15)670+*    02  DEBUG_LINE                     000003C8 00000006 1   X   X(6)        
+000128                                     (6/15)672+*    02  FILLER                         000003CE 00000001 1   X   X          SPACE 
+000128                                     (6/15)674+*    02  DEBUG_NAME                     000003CF 0000001E 1   X   X(30)       
+000128                                     (6/15)676+*    02  FILLER                         000003ED 00000001 1   X   X          SPACE 
+000128                                     (6/15)678+*    02  DEBUG_SUB_1                    000003EE 00000004 1   Z   9999        
+000128                                     (6/15)680+*    02  FILLER                         000003F2 00000001 1   X   X          SPACE 
+000128                                     (6/15)682+*    02  DEBUG_SUB_2                    000003F3 00000004 1   Z   9999        
+000128                                     (6/15)684+*    02  FILLER                         000003F7 00000001 1   X   X          SPACE 
+000128                                     (6/15)686+*    02  DEBUG_SUB_3                    000003F8 00000004 1   Z   9999        
+000128                                     (6/15)688+*    02  FILLER                         000003FC 00000001 1   X   X          SPACE 
+000128                                     (6/15)690+*    02  DEBUG_CONTENTS                 000003FD 00000023 1   X   X(35)       
+000128                                     (6/15)692+*    01  TRUE                           00000420 00000001 1   Z   9          1 
+000128                                     (6/15)694+*    01  FALSE                          00000421 00000001 1   Z   9          0 
+000128                                     (6/15)696+*    01  RETURN_CODE                    00000422 00000002 1   H   9(4)       0 
+000128                                    (37/39)698+ZC_WSLOC LOCTR 
+000128                  00000000         (37/131)699+ZC_WS_LOC_1  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000128                                   (37/336)700+ZC_SAVEAREA DS CL72
+000170                  00000048         (37/131)701+ZC_WS_LOC_2  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000170 E6E25CE6E25CE6E2                  (37/220)702+ZC_WS_ID DC CL8'WS*WS*WS'
+000178                  00000050         (37/131)703+ZC_WS_LOC_3  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000178                                   (37/322)704+ZC_WS_START DS AL4
+00017C                  00000054         (37/131)705+ZC_WS_LOC_4  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00017C                                   (37/324)706+ZC_WS_LEN DS FL4
+000180                  00000058         (37/131)707+ZC_WS_LOC_5  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000180                                   (37/336)708+         DS  0CL440
+000180                  00000058         (37/131)709+ZC_WS_LOC_6  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000180                                   (37/336)710+Z_COBOL_DATA_TYPES_COMP_UNSIGNED DS 0CL440
+000180                  00000058         (37/131)711+ZC_WS_LOC_7  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000180 0000FF00                          (37/188)712+COMP_9_00 DC AL4(X'FF00')                  RPI 1065
+000184                  0000005C         (37/131)713+ZC_WS_LOC_8  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000184 FF01                              (37/199)714+COMP_9_01 DC AL2(X'FF01')                  RPI 1065
+000186                  0000005E         (37/131)715+ZC_WS_LOC_9  EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000186 FF02                              (37/199)716+COMP_9_02 DC AL2(X'FF02')                  RPI 1065
+000188                  00000060         (37/131)717+ZC_WS_LOC_10 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000188 FF03                              (37/199)718+COMP_9_03 DC AL2(X'FF03')                  RPI 1065
+00018A                  00000062         (37/131)719+ZC_WS_LOC_11 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00018A FF04                              (37/199)720+COMP_9_04 DC AL2(X'FF04')                  RPI 1065
+00018C                  00000064         (37/131)721+ZC_WS_LOC_12 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00018C 0000FF05                          (37/188)722+COMP_9_05 DC AL4(X'FF05')                  RPI 1065
+000190                  00000068         (37/131)723+ZC_WS_LOC_13 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000190 0000FF06                          (37/188)724+COMP_9_06 DC AL4(X'FF06')                  RPI 1065
+000194                  0000006C         (37/131)725+ZC_WS_LOC_14 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000194 0000FF07                          (37/188)726+COMP_9_07 DC AL4(X'FF07')                  RPI 1065
+000198                  00000070         (37/131)727+ZC_WS_LOC_15 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000198 0000FF08                          (37/188)728+COMP_9_08 DC AL4(X'FF08')                  RPI 1065
+00019C                  00000074         (37/131)729+ZC_WS_LOC_16 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00019C FF000009                          (37/188)730+COMP_9_09 DC AL4(X'FF000009')                  RPI 1065
+0001A0                  00000078         (37/131)731+ZC_WS_LOC_17 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001A0 FF0000000000000A                  (37/193)732+COMP_9_10 DC XL8'FF0000000000000A'                        RPI 1065
+0001A8                  00000080         (37/131)733+ZC_WS_LOC_18 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001A8 FF0000000000000B                  (37/193)734+COMP_9_11 DC XL8'FF0000000000000B'                        RPI 1065
+0001B0                  00000088         (37/131)735+ZC_WS_LOC_19 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001B0 FF0000000000000C                  (37/193)736+COMP_9_12 DC XL8'FF0000000000000C'                        RPI 1065
+0001B8                  00000090         (37/131)737+ZC_WS_LOC_20 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001B8 FF0000000000000D                  (37/193)738+COMP_9_13 DC XL8'FF0000000000000D'                        RPI 1065
+0001C0                  00000098         (37/131)739+ZC_WS_LOC_21 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001C0 FF0000000000000E                  (37/193)740+COMP_9_14 DC XL8'FF0000000000000E'                        RPI 1065
+0001C8                  000000A0         (37/131)741+ZC_WS_LOC_22 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001C8 FF0000000000000F                  (37/193)742+COMP_9_15 DC XL8'FF0000000000000F'                        RPI 1065
+0001D0                  000000A8         (37/131)743+ZC_WS_LOC_23 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001D0 FF00000000000010                  (37/193)744+COMP_9_16 DC XL8'FF00000000000010'                        RPI 1065
+0001D8                  000000B0         (37/131)745+ZC_WS_LOC_24 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001D8 FF00000000000011                  (37/193)746+COMP_9_17 DC XL8'FF00000000000011'                        RPI 1065
+0001E0                  000000B8         (37/131)747+ZC_WS_LOC_25 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001E0 FF00000000000012                  (37/193)748+COMP_9_18 DC XL8'FF00000000000012'                        RPI 1065
+0001E8                  000000C0         (37/131)749+ZC_WS_LOC_26 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001E8 FF00000000000000                  (37/209)750+COMP_9_19 DC XL16'FF000000000000000000000000000013'                       RPI 1065
+0001F0 0000000000000013
+0001F8                  000000D0         (37/131)752+ZC_WS_LOC_27 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0001F8 FF00000000000000                  (37/209)753+COMP_9_20 DC XL16'FF000000000000000000000000000014'                       RPI 1065
+000200 0000000000000014
+000208                  000000E0         (37/131)755+ZC_WS_LOC_28 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000208 FF00000000000000                  (37/209)756+COMP_9_21 DC XL16'FF000000000000000000000000000015'                       RPI 1065
+000210 0000000000000015
+000218                  000000F0         (37/131)758+ZC_WS_LOC_29 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000218 FF00000000000000                  (37/209)759+COMP_9_22 DC XL16'FF000000000000000000000000000016'                       RPI 1065
+000220 0000000000000016
+000228                  00000100         (37/131)761+ZC_WS_LOC_30 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000228 FF00000000000000                  (37/209)762+COMP_9_23 DC XL16'FF000000000000000000000000000017'                       RPI 1065
+000230 0000000000000017
+000238                  00000110         (37/131)764+ZC_WS_LOC_31 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000238 FF00000000000000                  (37/209)765+COMP_9_24 DC XL16'FF000000000000000000000000000018'                       RPI 1065
+000240 0000000000000018
+000248                  00000120         (37/131)767+ZC_WS_LOC_32 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000248 FF00000000000000                  (37/209)768+COMP_9_25 DC XL16'FF000000000000000000000000000019'                       RPI 1065
+000250 0000000000000019
+000258                  00000130         (37/131)770+ZC_WS_LOC_33 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000258 FF00000000000000                  (37/209)771+COMP_9_26 DC XL16'FF00000000000000000000000000001A'                       RPI 1065
+000260 000000000000001A
+000268                  00000140         (37/131)773+ZC_WS_LOC_34 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000268 FF00000000000000                  (37/209)774+COMP_9_27 DC XL16'FF00000000000000000000000000001B'                       RPI 1065
+000270 000000000000001B
+000278                  00000150         (37/131)776+ZC_WS_LOC_35 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000278 FF00000000000000                  (37/209)777+COMP_9_28 DC XL16'FF00000000000000000000000000001C'                       RPI 1065
+000280 000000000000001C
+000288                  00000160         (37/131)779+ZC_WS_LOC_36 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000288 FF00000000000000                  (37/209)780+COMP_9_29 DC XL16'FF00000000000000000000000000001D'                       RPI 1065
+000290 000000000000001D
+000298                  00000170         (37/131)782+ZC_WS_LOC_37 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000298 FF00000000000000                  (37/209)783+COMP_9_30 DC XL16'FF00000000000000000000000000001E'                       RPI 1065
+0002A0 000000000000001E
+0002A8                  00000180         (37/131)785+ZC_WS_LOC_38 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0002A8 FF00000000000000                  (37/209)786+COMP_9_31 DC XL16'FF00000000000000000000000000001F'                       RPI 1065
+0002B0 000000000000001F
+0002B8                  00000190         (37/131)788+ZC_WS_LOC_39 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0002B8 FF00000000000000                  (37/209)789+COMP_9_32 DC XL16'FF000000000000000000000000000020'                       RPI 1065
+0002C0 0000000000000020
+0002C8                  000001A0         (37/131)791+ZC_WS_LOC_40 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0002C8 FF00000000000000                  (37/209)792+COMP_9_33 DC XL16'FF000000000000000000000000000021'                       RPI 1065
+0002D0 0000000000000021
+0002D8                  000001B0         (37/131)794+ZC_WS_LOC_41 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0002D8 FF00000000000000                  (37/209)795+COMP_9_34 DC XL16'FF000000000000000000000000000022'                       RPI 1065
+0002E0 0000000000000022
+0002E8                  000001C0         (37/131)797+ZC_WS_LOC_42 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0002E8 FF00000000000000                  (37/209)798+COMP_9_35 DC XL16'FF000000000000000000000000000023'                       RPI 1065
+0002F0 0000000000000023
+0002F8                  000001D0         (37/131)800+ZC_WS_LOC_43 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0002F8 FF00000000000000                  (37/209)801+COMP_9_36 DC XL16'FF000000000000000000000000000024'                       RPI 1065
+000300 0000000000000024
+000308                  000001E0         (37/131)803+ZC_WS_LOC_44 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000308 FF00000000000000                  (37/209)804+COMP_9_37 DC XL16'FF000000000000000000000000000025'                       RPI 1065
+000310 0000000000000025
+000318                  000001F0         (37/131)806+ZC_WS_LOC_45 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000318 FF00000000000000                  (37/209)807+COMP_9_38 DC XL16'FF000000000000000000000000000026'                       RPI 1065
+000320 0000000000000026
+000328                  00000200         (37/131)809+ZC_WS_LOC_46 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000328 FF00000000000000                  (37/209)810+COMP_9_39 DC XL16'FF000000000000000000000000000027'                       RPI 1065
+000330 0000000000000027
+000338                  00000210         (37/131)812+ZC_WS_LOC_47 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000338                                   (37/336)813+Z_COBOL_DATA_TYPES_COMP_SIGNED DS 0CL440
+000338                  00000210         (37/131)814+ZC_WS_LOC_48 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000338 00008000                          (37/188)815+COMP_S9_00 DC AL4(X'8000')                  RPI 1065
+00033C                  00000214         (37/131)816+ZC_WS_LOC_49 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00033C 8001                              (37/199)817+COMP_S9_01 DC AL2(X'8001')                  RPI 1065
+00033E                  00000216         (37/131)818+ZC_WS_LOC_50 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00033E 8002                              (37/199)819+COMP_S9_02 DC AL2(X'8002')                  RPI 1065
+000340                  00000218         (37/131)820+ZC_WS_LOC_51 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000340 8003                              (37/199)821+COMP_S9_03 DC AL2(X'8003')                  RPI 1065
+000342                  0000021A         (37/131)822+ZC_WS_LOC_52 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000342 8004                              (37/199)823+COMP_S9_04 DC AL2(X'8004')                  RPI 1065
+000344                  0000021C         (37/131)824+ZC_WS_LOC_53 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000344 00008005                          (37/188)825+COMP_S9_05 DC AL4(X'8005')                  RPI 1065
+000348                  00000220         (37/131)826+ZC_WS_LOC_54 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000348 00008006                          (37/188)827+COMP_S9_06 DC AL4(X'8006')                  RPI 1065
+00034C                  00000224         (37/131)828+ZC_WS_LOC_55 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00034C 00008007                          (37/188)829+COMP_S9_07 DC AL4(X'8007')                  RPI 1065
+000350                  00000228         (37/131)830+ZC_WS_LOC_56 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000350 00008008                          (37/188)831+COMP_S9_08 DC AL4(X'8008')                  RPI 1065
+000354                  0000022C         (37/131)832+ZC_WS_LOC_57 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000354 80000009                          (37/188)833+COMP_S9_09 DC AL4(X'80000009')                  RPI 1065
+000358                  00000230         (37/131)834+ZC_WS_LOC_58 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000358 800000000000000A                  (37/193)835+COMP_S9_10 DC XL8'800000000000000A'                        RPI 1065
+000360                  00000238         (37/131)836+ZC_WS_LOC_59 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000360 800000000000000B                  (37/193)837+COMP_S9_11 DC XL8'800000000000000B'                        RPI 1065
+000368                  00000240         (37/131)838+ZC_WS_LOC_60 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000368 800000000000000C                  (37/193)839+COMP_S9_12 DC XL8'800000000000000C'                        RPI 1065
+000370                  00000248         (37/131)840+ZC_WS_LOC_61 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000370 800000000000000D                  (37/193)841+COMP_S9_13 DC XL8'800000000000000D'                        RPI 1065
+000378                  00000250         (37/131)842+ZC_WS_LOC_62 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000378 800000000000000E                  (37/193)843+COMP_S9_14 DC XL8'800000000000000E'                        RPI 1065
+000380                  00000258         (37/131)844+ZC_WS_LOC_63 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000380 800000000000000F                  (37/193)845+COMP_S9_15 DC XL8'800000000000000F'                        RPI 1065
+000388                  00000260         (37/131)846+ZC_WS_LOC_64 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000388 8000000000000010                  (37/193)847+COMP_S9_16 DC XL8'8000000000000010'                        RPI 1065
+000390                  00000268         (37/131)848+ZC_WS_LOC_65 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000390 8000000000000011                  (37/193)849+COMP_S9_17 DC XL8'8000000000000011'                        RPI 1065
+000398                  00000270         (37/131)850+ZC_WS_LOC_66 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000398 8000000000000012                  (37/193)851+COMP_S9_18 DC XL8'8000000000000012'                        RPI 1065
+0003A0                  00000278         (37/131)852+ZC_WS_LOC_67 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0003A0 8000000000000000                  (37/209)853+COMP_S9_19 DC XL16'80000000000000000000000000000013'                       RPI 1065
+0003A8 0000000000000013
+0003B0                  00000288         (37/131)855+ZC_WS_LOC_68 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0003B0 8000000000000000                  (37/209)856+COMP_S9_20 DC XL16'80000000000000000000000000000014'                       RPI 1065
+0003B8 0000000000000014
+0003C0                  00000298         (37/131)858+ZC_WS_LOC_69 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0003C0 8000000000000000                  (37/209)859+COMP_S9_21 DC XL16'80000000000000000000000000000015'                       RPI 1065
+0003C8 0000000000000015
+0003D0                  000002A8         (37/131)861+ZC_WS_LOC_70 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0003D0 8000000000000000                  (37/209)862+COMP_S9_22 DC XL16'80000000000000000000000000000016'                       RPI 1065
+0003D8 0000000000000016
+0003E0                  000002B8         (37/131)864+ZC_WS_LOC_71 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0003E0 8000000000000000                  (37/209)865+COMP_S9_23 DC XL16'80000000000000000000000000000017'                       RPI 1065
+0003E8 0000000000000017
+0003F0                  000002C8         (37/131)867+ZC_WS_LOC_72 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0003F0 8000000000000000                  (37/209)868+COMP_S9_24 DC XL16'80000000000000000000000000000018'                       RPI 1065
+0003F8 0000000000000018
+000400                  000002D8         (37/131)870+ZC_WS_LOC_73 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000400 8000000000000000                  (37/209)871+COMP_S9_25 DC XL16'80000000000000000000000000000019'                       RPI 1065
+000408 0000000000000019
+000410                  000002E8         (37/131)873+ZC_WS_LOC_74 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000410 8000000000000000                  (37/209)874+COMP_S9_26 DC XL16'8000000000000000000000000000001A'                       RPI 1065
+000418 000000000000001A
+000420                  000002F8         (37/131)876+ZC_WS_LOC_75 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000420 8000000000000000                  (37/209)877+COMP_S9_27 DC XL16'8000000000000000000000000000001B'                       RPI 1065
+000428 000000000000001B
+000430                  00000308         (37/131)879+ZC_WS_LOC_76 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000430 8000000000000000                  (37/209)880+COMP_S9_28 DC XL16'8000000000000000000000000000001C'                       RPI 1065
+000438 000000000000001C
+000440                  00000318         (37/131)882+ZC_WS_LOC_77 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000440 8000000000000000                  (37/209)883+COMP_S9_29 DC XL16'8000000000000000000000000000001D'                       RPI 1065
+000448 000000000000001D
+000450                  00000328         (37/131)885+ZC_WS_LOC_78 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000450 8000000000000000                  (37/209)886+COMP_S9_30 DC XL16'8000000000000000000000000000001E'                       RPI 1065
+000458 000000000000001E
+000460                  00000338         (37/131)888+ZC_WS_LOC_79 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000460 8000000000000000                  (37/209)889+COMP_S9_31 DC XL16'8000000000000000000000000000001F'                       RPI 1065
+000468 000000000000001F
+000470                  00000348         (37/131)891+ZC_WS_LOC_80 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000470 8000000000000000                  (37/209)892+COMP_S9_32 DC XL16'80000000000000000000000000000020'                       RPI 1065
+000478 0000000000000020
+000480                  00000358         (37/131)894+ZC_WS_LOC_81 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000480 8000000000000000                  (37/209)895+COMP_S9_33 DC XL16'80000000000000000000000000000021'                       RPI 1065
+000488 0000000000000021
+000490                  00000368         (37/131)897+ZC_WS_LOC_82 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000490 8000000000000000                  (37/209)898+COMP_S9_34 DC XL16'80000000000000000000000000000022'                       RPI 1065
+000498 0000000000000022
+0004A0                  00000378         (37/131)900+ZC_WS_LOC_83 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004A0 8000000000000000                  (37/209)901+COMP_S9_35 DC XL16'80000000000000000000000000000023'                       RPI 1065
+0004A8 0000000000000023
+0004B0                  00000388         (37/131)903+ZC_WS_LOC_84 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004B0 8000000000000000                  (37/209)904+COMP_S9_36 DC XL16'80000000000000000000000000000024'                       RPI 1065
+0004B8 0000000000000024
+0004C0                  00000398         (37/131)906+ZC_WS_LOC_85 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004C0 8000000000000000                  (37/209)907+COMP_S9_37 DC XL16'80000000000000000000000000000025'                       RPI 1065
+0004C8 0000000000000025
+0004D0                  000003A8         (37/131)909+ZC_WS_LOC_86 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004D0 8000000000000000                  (37/209)910+COMP_S9_38 DC XL16'80000000000000000000000000000026'                       RPI 1065
+0004D8 0000000000000026
+0004E0                  000003B8         (37/131)912+ZC_WS_LOC_87 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004E0 8000000000000000                  (37/209)913+COMP_S9_39 DC XL16'80000000000000000000000000000027'                       RPI 1065
+0004E8 0000000000000027
+0004F0                  000003C8         (37/131)915+ZC_WS_LOC_88 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004F0                                   (37/336)916+DEBUG_ITEM DS 0CL88
+0004F0                  000003C8         (37/131)917+ZC_WS_LOC_89 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004F0                                   (37/336)918+DEBUG_LINE DS CL6
+0004F6                  000003CE         (37/131)919+ZC_WS_LOC_90 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004F6 40                                (37/227)920+         DC CL1' '
+0004F7                  000003CF         (37/131)921+ZC_WS_LOC_91 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+0004F7                                   (37/336)922+DEBUG_NAME DS CL30
+000515                  000003ED         (37/131)923+ZC_WS_LOC_92 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000515 40                                (37/227)924+         DC CL1' '
+000516                  000003EE         (37/131)925+ZC_WS_LOC_93 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000516                                   (37/338)926+DEBUG_SUB_1 DS ZL4
+00051A                  000003F2         (37/131)927+ZC_WS_LOC_94 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00051A 40                                (37/227)928+         DC CL1' '
+00051B                  000003F3         (37/131)929+ZC_WS_LOC_95 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00051B                                   (37/338)930+DEBUG_SUB_2 DS ZL4
+00051F                  000003F7         (37/131)931+ZC_WS_LOC_96 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00051F 40                                (37/227)932+         DC CL1' '
+000520                  000003F8         (37/131)933+ZC_WS_LOC_97 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000520                                   (37/338)934+DEBUG_SUB_3 DS ZL4
+000524                  000003FC         (37/131)935+ZC_WS_LOC_98 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000524 40                                (37/227)936+         DC CL1' '
+000525                  000003FD         (37/131)937+ZC_WS_LOC_99 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000525                                   (37/336)938+DEBUG_CONTENTS DS CL35
+000548                  00000420         (37/131)939+ZC_WS_LOC_100 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000548 F1                                (37/251)940+TRUE     DC CL1'1'
+000549                  00000421         (37/131)941+ZC_WS_LOC_101 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+000549 F0                                (37/251)942+FALSE    DC CL1'0'
+00054A                  00000422         (37/131)943+ZC_WS_LOC_102 EQU *-ZC_WS CHECK &SYM_NAME(&I) WS LOC
+00054A 0000                              (37/199)944+RETURN_CODE DC AL2(0)                  RPI 1065
+00054C                                     (6/15)945+*    ZCOBOL LINKAGE SECTION DATA ITEMS 
+00054C                                     (6/15)946+*    LVL DATA NAME                      ADDR     LEN      DUP TYP PIC        VALUE 
+00054C                                    (37/39)948+ZC_WSLOC LOCTR 
+00054C                                    (33/58)949+ZC_WSLOC LOCTR 
+00054C                  00000000          (33/60)950+ZC_WS_DIFF EQU  *-ZC_WS-1060  DIFF BETWEEN ALLOC AND CALC WS
+000550                                    (33/65)951+ZC_WS_END DS   0D
+000550                                    (38/14)952+         MNOTE *,'ZCOBOL TOTAL SYMBOLS                 = 102'
+000550                                    (38/15)953+         MNOTE *,'ZCOBOL TOTAL SYMBOL DUPLICATES       = 0'
+000550                                    (38/16)954+         MNOTE *,'ZCOBOL TOTAL SYMBOL MAX DUP CHAIN    = 0'
+000550                                    (38/17)955+         MNOTE *,'ZCOBOL TOTAL SYMBOL LEVEL 88         = 0'
+000550                                    (38/18)956+         MNOTE *,'ZCOBOL TOTAL SYMBOL SET INDEXES      = 0'
+000550                                    (38/19)957+         MNOTE *,'ZCOBOL TOTAL SYMBOL LINKAGE SECTIONS = 0'
+000550                                    (38/20)958+         MNOTE *,'ZCOBOL TOTAL PROCEDURE SECTIONS      = 0'
+000550                                    (38/21)959+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPHS    = 0'
+000550                                    (38/22)960+         MNOTE *,'ZCOBOL TOTAL PROCEDURE PARAGRAPH DUP = 0'
+000550                                    (1/415)961          END 
+
+Symbol Table Listing
+
+ SYM=COMPTYPE LOC=00000000 LEN=00000550 ESD=0001 TYPE=CST  XREF=8 474 
+ SYM=COMP_9_00 LOC=00000180 LEN=00000004 ESD=0001 TYPE=REL  XREF=712 
+ SYM=COMP_9_01 LOC=00000184 LEN=00000002 ESD=0001 TYPE=REL  XREF=714 
+ SYM=COMP_9_02 LOC=00000186 LEN=00000002 ESD=0001 TYPE=REL  XREF=716 
+ SYM=COMP_9_03 LOC=00000188 LEN=00000002 ESD=0001 TYPE=REL  XREF=718 
+ SYM=COMP_9_04 LOC=0000018A LEN=00000002 ESD=0001 TYPE=REL  XREF=720 
+ SYM=COMP_9_05 LOC=0000018C LEN=00000004 ESD=0001 TYPE=REL  XREF=722 
+ SYM=COMP_9_06 LOC=00000190 LEN=00000004 ESD=0001 TYPE=REL  XREF=724 
+ SYM=COMP_9_07 LOC=00000194 LEN=00000004 ESD=0001 TYPE=REL  XREF=726 
+ SYM=COMP_9_08 LOC=00000198 LEN=00000004 ESD=0001 TYPE=REL  XREF=728 
+ SYM=COMP_9_09 LOC=0000019C LEN=00000004 ESD=0001 TYPE=REL  XREF=730 
+ SYM=COMP_9_10 LOC=000001A0 LEN=00000008 ESD=0001 TYPE=REL  XREF=732 
+ SYM=COMP_9_11 LOC=000001A8 LEN=00000008 ESD=0001 TYPE=REL  XREF=734 
+ SYM=COMP_9_12 LOC=000001B0 LEN=00000008 ESD=0001 TYPE=REL  XREF=736 
+ SYM=COMP_9_13 LOC=000001B8 LEN=00000008 ESD=0001 TYPE=REL  XREF=738 
+ SYM=COMP_9_14 LOC=000001C0 LEN=00000008 ESD=0001 TYPE=REL  XREF=740 
+ SYM=COMP_9_15 LOC=000001C8 LEN=00000008 ESD=0001 TYPE=REL  XREF=742 
+ SYM=COMP_9_16 LOC=000001D0 LEN=00000008 ESD=0001 TYPE=REL  XREF=744 
+ SYM=COMP_9_17 LOC=000001D8 LEN=00000008 ESD=0001 TYPE=REL  XREF=746 
+ SYM=COMP_9_18 LOC=000001E0 LEN=00000008 ESD=0001 TYPE=REL  XREF=748 
+ SYM=COMP_9_19 LOC=000001E8 LEN=00000010 ESD=0001 TYPE=REL  XREF=750 
+ SYM=COMP_9_20 LOC=000001F8 LEN=00000010 ESD=0001 TYPE=REL  XREF=753 
+ SYM=COMP_9_21 LOC=00000208 LEN=00000010 ESD=0001 TYPE=REL  XREF=756 
+ SYM=COMP_9_22 LOC=00000218 LEN=00000010 ESD=0001 TYPE=REL  XREF=759 
+ SYM=COMP_9_23 LOC=00000228 LEN=00000010 ESD=0001 TYPE=REL  XREF=762 
+ SYM=COMP_9_24 LOC=00000238 LEN=00000010 ESD=0001 TYPE=REL  XREF=765 
+ SYM=COMP_9_25 LOC=00000248 LEN=00000010 ESD=0001 TYPE=REL  XREF=768 
+ SYM=COMP_9_26 LOC=00000258 LEN=00000010 ESD=0001 TYPE=REL  XREF=771 
+ SYM=COMP_9_27 LOC=00000268 LEN=00000010 ESD=0001 TYPE=REL  XREF=774 
+ SYM=COMP_9_28 LOC=00000278 LEN=00000010 ESD=0001 TYPE=REL  XREF=777 
+ SYM=COMP_9_29 LOC=00000288 LEN=00000010 ESD=0001 TYPE=REL  XREF=780 
+ SYM=COMP_9_30 LOC=00000298 LEN=00000010 ESD=0001 TYPE=REL  XREF=783 
+ SYM=COMP_9_31 LOC=000002A8 LEN=00000010 ESD=0001 TYPE=REL  XREF=786 
+ SYM=COMP_9_32 LOC=000002B8 LEN=00000010 ESD=0001 TYPE=REL  XREF=789 
+ SYM=COMP_9_33 LOC=000002C8 LEN=00000010 ESD=0001 TYPE=REL  XREF=792 
+ SYM=COMP_9_34 LOC=000002D8 LEN=00000010 ESD=0001 TYPE=REL  XREF=795 
+ SYM=COMP_9_35 LOC=000002E8 LEN=00000010 ESD=0001 TYPE=REL  XREF=798 
+ SYM=COMP_9_36 LOC=000002F8 LEN=00000010 ESD=0001 TYPE=REL  XREF=801 
+ SYM=COMP_9_37 LOC=00000308 LEN=00000010 ESD=0001 TYPE=REL  XREF=804 
+ SYM=COMP_9_38 LOC=00000318 LEN=00000010 ESD=0001 TYPE=REL  XREF=807 
+ SYM=COMP_9_39 LOC=00000328 LEN=00000010 ESD=0001 TYPE=REL  XREF=810 
+ SYM=COMP_S9_00 LOC=00000338 LEN=00000004 ESD=0001 TYPE=REL  XREF=815 
+ SYM=COMP_S9_01 LOC=0000033C LEN=00000002 ESD=0001 TYPE=REL  XREF=817 
+ SYM=COMP_S9_02 LOC=0000033E LEN=00000002 ESD=0001 TYPE=REL  XREF=819 
+ SYM=COMP_S9_03 LOC=00000340 LEN=00000002 ESD=0001 TYPE=REL  XREF=821 
+ SYM=COMP_S9_04 LOC=00000342 LEN=00000002 ESD=0001 TYPE=REL  XREF=823 
+ SYM=COMP_S9_05 LOC=00000344 LEN=00000004 ESD=0001 TYPE=REL  XREF=825 
+ SYM=COMP_S9_06 LOC=00000348 LEN=00000004 ESD=0001 TYPE=REL  XREF=827 
+ SYM=COMP_S9_07 LOC=0000034C LEN=00000004 ESD=0001 TYPE=REL  XREF=829 
+ SYM=COMP_S9_08 LOC=00000350 LEN=00000004 ESD=0001 TYPE=REL  XREF=831 
+ SYM=COMP_S9_09 LOC=00000354 LEN=00000004 ESD=0001 TYPE=REL  XREF=833 
+ SYM=COMP_S9_10 LOC=00000358 LEN=00000008 ESD=0001 TYPE=REL  XREF=835 
+ SYM=COMP_S9_11 LOC=00000360 LEN=00000008 ESD=0001 TYPE=REL  XREF=837 
+ SYM=COMP_S9_12 LOC=00000368 LEN=00000008 ESD=0001 TYPE=REL  XREF=839 
+ SYM=COMP_S9_13 LOC=00000370 LEN=00000008 ESD=0001 TYPE=REL  XREF=841 
+ SYM=COMP_S9_14 LOC=00000378 LEN=00000008 ESD=0001 TYPE=REL  XREF=843 
+ SYM=COMP_S9_15 LOC=00000380 LEN=00000008 ESD=0001 TYPE=REL  XREF=845 
+ SYM=COMP_S9_16 LOC=00000388 LEN=00000008 ESD=0001 TYPE=REL  XREF=847 
+ SYM=COMP_S9_17 LOC=00000390 LEN=00000008 ESD=0001 TYPE=REL  XREF=849 
+ SYM=COMP_S9_18 LOC=00000398 LEN=00000008 ESD=0001 TYPE=REL  XREF=851 
+ SYM=COMP_S9_19 LOC=000003A0 LEN=00000010 ESD=0001 TYPE=REL  XREF=853 
+ SYM=COMP_S9_20 LOC=000003B0 LEN=00000010 ESD=0001 TYPE=REL  XREF=856 
+ SYM=COMP_S9_21 LOC=000003C0 LEN=00000010 ESD=0001 TYPE=REL  XREF=859 
+ SYM=COMP_S9_22 LOC=000003D0 LEN=00000010 ESD=0001 TYPE=REL  XREF=862 
+ SYM=COMP_S9_23 LOC=000003E0 LEN=00000010 ESD=0001 TYPE=REL  XREF=865 
+ SYM=COMP_S9_24 LOC=000003F0 LEN=00000010 ESD=0001 TYPE=REL  XREF=868 
+ SYM=COMP_S9_25 LOC=00000400 LEN=00000010 ESD=0001 TYPE=REL  XREF=871 
+ SYM=COMP_S9_26 LOC=00000410 LEN=00000010 ESD=0001 TYPE=REL  XREF=874 
+ SYM=COMP_S9_27 LOC=00000420 LEN=00000010 ESD=0001 TYPE=REL  XREF=877 
+ SYM=COMP_S9_28 LOC=00000430 LEN=00000010 ESD=0001 TYPE=REL  XREF=880 
+ SYM=COMP_S9_29 LOC=00000440 LEN=00000010 ESD=0001 TYPE=REL  XREF=883 
+ SYM=COMP_S9_30 LOC=00000450 LEN=00000010 ESD=0001 TYPE=REL  XREF=886 
+ SYM=COMP_S9_31 LOC=00000460 LEN=00000010 ESD=0001 TYPE=REL  XREF=889 
+ SYM=COMP_S9_32 LOC=00000470 LEN=00000010 ESD=0001 TYPE=REL  XREF=892 
+ SYM=COMP_S9_33 LOC=00000480 LEN=00000010 ESD=0001 TYPE=REL  XREF=895 
+ SYM=COMP_S9_34 LOC=00000490 LEN=00000010 ESD=0001 TYPE=REL  XREF=898 
+ SYM=COMP_S9_35 LOC=000004A0 LEN=00000010 ESD=0001 TYPE=REL  XREF=901 
+ SYM=COMP_S9_36 LOC=000004B0 LEN=00000010 ESD=0001 TYPE=REL  XREF=904 
+ SYM=COMP_S9_37 LOC=000004C0 LEN=00000010 ESD=0001 TYPE=REL  XREF=907 
+ SYM=COMP_S9_38 LOC=000004D0 LEN=00000010 ESD=0001 TYPE=REL  XREF=910 
+ SYM=COMP_S9_39 LOC=000004E0 LEN=00000010 ESD=0001 TYPE=REL  XREF=913 
+ SYM=DEBUG_CONTENTS LOC=00000525 LEN=00000023 ESD=0001 TYPE=REL  XREF=938 
+ SYM=DEBUG_ITEM LOC=000004F0 LEN=00000058 ESD=0001 TYPE=REL  XREF=916 
+ SYM=DEBUG_LINE LOC=000004F0 LEN=00000006 ESD=0001 TYPE=REL  XREF=918 
+ SYM=DEBUG_NAME LOC=000004F7 LEN=0000001E ESD=0001 TYPE=REL  XREF=922 
+ SYM=DEBUG_SUB_1 LOC=00000516 LEN=00000004 ESD=0001 TYPE=REL  XREF=926 
+ SYM=DEBUG_SUB_2 LOC=0000051B LEN=00000004 ESD=0001 TYPE=REL  XREF=930 
+ SYM=DEBUG_SUB_3 LOC=00000520 LEN=00000004 ESD=0001 TYPE=REL  XREF=934 
+ SYM=FALSE    LOC=00000549 LEN=00000001 ESD=0001 TYPE=REL  XREF=942 
+ SYM=PFPO_RADIX LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=112 
+ SYM=PFPO_RND LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=113 
+ SYM=PFPO_TEST LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=111 
+ SYM=PFPO_TYPE_DB LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=118 
+ SYM=PFPO_TYPE_DD LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=121 
+ SYM=PFPO_TYPE_DH LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=115 
+ SYM=PFPO_TYPE_EB LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=117 
+ SYM=PFPO_TYPE_ED LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=120 
+ SYM=PFPO_TYPE_EH LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=114 
+ SYM=PFPO_TYPE_LB LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=119 
+ SYM=PFPO_TYPE_LD LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=122 
+ SYM=PFPO_TYPE_LH LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=116 
+ SYM=PVTCICS  LOC=00000020 LEN=00000001 ESD=0004 TYPE=REL  XREF=213 
+ SYM=PVTDATE  LOC=00000008 LEN=00000008 ESD=0004 TYPE=REL  XREF=210 
+ SYM=PVTEXTND LOC=00000021 LEN=00000001 ESD=0004 TYPE=REL  XREF=214 
+ SYM=PVTMAXDL LOC=00000024 LEN=00000002 ESD=0004 TYPE=REL  XREF=217 
+ SYM=PVTPGM   LOC=00000000 LEN=00000008 ESD=0004 TYPE=REL  XREF=209 
+ SYM=PVTR64   LOC=00000023 LEN=00000001 ESD=0004 TYPE=REL  XREF=216 
+ SYM=PVTTIME  LOC=00000010 LEN=00000008 ESD=0004 TYPE=REL  XREF=211 
+ SYM=PVTTRUNC LOC=00000022 LEN=00000001 ESD=0004 TYPE=REL  XREF=215 
+ SYM=PVTVER   LOC=00000018 LEN=00000008 ESD=0004 TYPE=REL  XREF=212 
+ SYM=RETURN_CODE LOC=0000054A LEN=00000002 ESD=0001 TYPE=REL  XREF=944 482 487 
+ SYM=SN_END_PROCEDURE LOC=00000118 LEN=00000002 ESD=0001 TYPE=REL  XREF=485 
+ SYM=TRUE     LOC=00000548 LEN=00000001 ESD=0001 TYPE=REL  XREF=940 
+ SYM=WTO#0009_EOT LOC=00000060 LEN=00000001 ESD=0001 TYPE=REL  XREF=35 33 34 
+ SYM=WTO#0010_EOT LOC=000000AA LEN=00000001 ESD=0001 TYPE=REL  XREF=52 50 51 
+ SYM=WTO#0317_EOT LOC=0000010C LEN=00000001 ESD=0001 TYPE=REL  XREF=479 477 478 
+ SYM=ZC390CVT LOC=00000000 LEN=000001F8 ESD=0003 TYPE=DST  XREF=137 41 
+ SYM=ZC390PVT LOC=00000000 LEN=00000030 ESD=0004 TYPE=DST  XREF=208 
+ SYM=ZCVT_ABORT LOC=00000068 LEN=00000004 ESD=0003 TYPE=REL  XREF=166 
+ SYM=ZCVT_ABORT_ACCEPT LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=176 
+ SYM=ZCVT_ABORT_ALTER LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=167 
+ SYM=ZCVT_ABORT_CALL LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=168 
+ SYM=ZCVT_ABORT_CICS LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=175 
+ SYM=ZCVT_ABORT_DISPLAY LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=169 
+ SYM=ZCVT_ABORT_DIVQ LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=174 
+ SYM=ZCVT_ABORT_INT128 LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=173 
+ SYM=ZCVT_ABORT_MAXERR LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=177 
+ SYM=ZCVT_ABORT_OPEN LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=170 
+ SYM=ZCVT_ABORT_STACK LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=171 
+ SYM=ZCVT_ABORT_VERSION LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=172 
+ SYM=ZCVT_ACCEPT LOC=0000006C LEN=00000004 ESD=0003 TYPE=REL  XREF=178 
+ SYM=ZCVT_ACCEPT_CONSOLE LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=180 
+ SYM=ZCVT_ACCEPT_DATE LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=182 
+ SYM=ZCVT_ACCEPT_DDNAME LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=181 
+ SYM=ZCVT_ACCEPT_DEFAULT LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=179 
+ SYM=ZCVT_ACCEPT_DOW LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=184 
+ SYM=ZCVT_ACCEPT_TIME LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=183 
+ SYM=ZCVT_CALL LOC=00000014 LEN=00000004 ESD=0003 TYPE=REL  XREF=142 
+ SYM=ZCVT_CMP64R32 LOC=00000018 LEN=00000004 ESD=0003 TYPE=REL  XREF=143 
+ SYM=ZCVT_CONVERTING LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=189 
+ SYM=ZCVT_CVTLBTQ LOC=0000001C LEN=00000004 ESD=0003 TYPE=REL  XREF=144 
+ SYM=ZCVT_CVTLDTP LOC=00000020 LEN=00000004 ESD=0003 TYPE=REL  XREF=145 
+ SYM=ZCVT_CVTQTLB LOC=00000024 LEN=00000004 ESD=0003 TYPE=REL  XREF=146 
+ SYM=ZCVT_DISPLAY LOC=00000070 LEN=00000004 ESD=0003 TYPE=REL  XREF=185 
+ SYM=ZCVT_DIV64R32 LOC=00000028 LEN=00000004 ESD=0003 TYPE=REL  XREF=147 
+ SYM=ZCVT_DIVQ128 LOC=0000002C LEN=00000004 ESD=0003 TYPE=REL  XREF=148 
+ SYM=ZCVT_END LOC=000001F8 LEN=00000001 ESD=0003 TYPE=REL  XREF=207 44 56 139 
+ SYM=ZCVT_GOBACK LOC=00000030 LEN=00000004 ESD=0003 TYPE=REL  XREF=149 483 488 
+ SYM=ZCVT_HIGH_VALUES LOC=00000090 LEN=00000010 ESD=0003 TYPE=REL  XREF=196 
+ SYM=ZCVT_ID  LOC=00000000 LEN=00000004 ESD=0003 TYPE=REL  XREF=138 42 44 56 139 
+ SYM=ZCVT_INSPECT LOC=00000074 LEN=00000004 ESD=0003 TYPE=REL  XREF=186 
+ SYM=ZCVT_LEN LOC=00000004 LEN=00000004 ESD=0003 TYPE=REL  XREF=139 44 
+ SYM=ZCVT_MPYQ128 LOC=00000034 LEN=00000004 ESD=0003 TYPE=REL  XREF=150 
+ SYM=ZCVT_NDDX LOC=000000E8 LEN=00000010 ESD=0003 TYPE=REL  XREF=202 
+ SYM=ZCVT_OSE64R32 LOC=00000038 LEN=00000004 ESD=0003 TYPE=REL  XREF=151 
+ SYM=ZCVT_PERFORM LOC=0000003C LEN=00000004 ESD=0003 TYPE=REL  XREF=152 
+ SYM=ZCVT_PMCHECK LOC=00000040 LEN=00000004 ESD=0003 TYPE=REL  XREF=153 
+ SYM=ZCVT_PVTMAXDL LOC=00000078 LEN=00000002 ESD=0003 TYPE=REL  XREF=193 
+ SYM=ZCVT_PWORK LOC=000000A0 LEN=00000008 ESD=0003 TYPE=REL  XREF=197 
+ SYM=ZCVT_PWORK1 LOC=000000A8 LEN=00000010 ESD=0003 TYPE=REL  XREF=198 
+ SYM=ZCVT_PWORK2 LOC=000000B8 LEN=00000010 ESD=0003 TYPE=REL  XREF=199 
+ SYM=ZCVT_PWORK3 LOC=000000C8 LEN=00000010 ESD=0003 TYPE=REL  XREF=200 
+ SYM=ZCVT_PWORK4 LOC=000000D8 LEN=00000010 ESD=0003 TYPE=REL  XREF=201 
+ SYM=ZCVT_REPLACING LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=188 
+ SYM=ZCVT_ROUNDF LOC=00000044 LEN=00000004 ESD=0003 TYPE=REL  XREF=154 
+ SYM=ZCVT_STACKEND LOC=00000050 LEN=00000004 ESD=0003 TYPE=REL  XREF=157 
+ SYM=ZCVT_STACKORG LOC=00000048 LEN=00000004 ESD=0003 TYPE=REL  XREF=155 
+ SYM=ZCVT_STACKPTR LOC=0000004C LEN=00000004 ESD=0003 TYPE=REL  XREF=156 
+ SYM=ZCVT_STOPRUN LOC=00000054 LEN=00000004 ESD=0003 TYPE=REL  XREF=158 
+ SYM=ZCVT_TALLYING LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=187 
+ SYM=ZCVT_TALPHAX LOC=00000058 LEN=00000004 ESD=0003 TYPE=REL  XREF=159 
+ SYM=ZCVT_TNUMP LOC=0000005C LEN=00000004 ESD=0003 TYPE=REL  XREF=160 
+ SYM=ZCVT_TNUMX LOC=00000060 LEN=00000004 ESD=0003 TYPE=REL  XREF=161 
+ SYM=ZCVT_TNUMZ LOC=00000064 LEN=00000004 ESD=0003 TYPE=REL  XREF=162 
+ SYM=ZCVT_VER LOC=00000008 LEN=00000008 ESD=0003 TYPE=REL  XREF=140 
+ SYM=ZCVT_WORKAREA LOC=000000F8 LEN=00000100 ESD=0003 TYPE=REL  XREF=203 
+ SYM=ZCVT_ZC390NUC LOC=00000010 LEN=00000004 ESD=0003 TYPE=REL  XREF=141 46 
+ SYM=ZCVT_ZERO LOC=00000080 LEN=00000010 ESD=0003 TYPE=REL  XREF=195 
+ SYM=ZC_E     LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=93 
+ SYM=ZC_EQ    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=105 
+ SYM=ZC_F0    LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=75 
+ SYM=ZC_F10   LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=85 
+ SYM=ZC_F1    LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=76 
+ SYM=ZC_F11   LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=86 
+ SYM=ZC_F12   LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=87 
+ SYM=ZC_F13   LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=88 
+ SYM=ZC_F14   LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=89 
+ SYM=ZC_F15   LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=90 
+ SYM=ZC_F2    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=77 
+ SYM=ZC_F3    LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=78 
+ SYM=ZC_F4    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=79 
+ SYM=ZC_F5    LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=80 
+ SYM=ZC_F6    LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=81 
+ SYM=ZC_F7    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=82 
+ SYM=ZC_F8    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=83 
+ SYM=ZC_F9    LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=84 
+ SYM=ZC_GE    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=108 
+ SYM=ZC_GT    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=106 
+ SYM=ZC_H     LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=91 
+ SYM=ZC_L     LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=92 
+ SYM=ZC_LE    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=109 
+ SYM=ZC_LOAD  LOC=00000038 LEN=00000002 ESD=0001 TYPE=REL  XREF=27 12 
+ SYM=ZC_LOAD_OK LOC=00000068 LEN=00000002 ESD=0001 TYPE=REL  XREF=39 32 
+ SYM=ZC_LT    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=107 
+ SYM=ZC_M     LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=99 
+ SYM=ZC_NE    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=96 
+ SYM=ZC_NH    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=94 
+ SYM=ZC_NL    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=95 
+ SYM=ZC_NM    LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=102 
+ SYM=ZC_NO    LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=104 
+ SYM=ZC_NP    LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=101 
+ SYM=ZC_NZ    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=103 
+ SYM=ZC_O     LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=97 
+ SYM=ZC_P     LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=98 
+ SYM=ZC_R0    LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=59 40 131 132 133 
+ SYM=ZC_R10   LOC=0000000A LEN=00000001 ESD=0000 TYPE=ABS  XREF=69 
+ SYM=ZC_R1    LOC=00000001 LEN=00000001 ESD=0000 TYPE=ABS  XREF=60 125 126 127 128 
+  482 487 
+ SYM=ZC_R11   LOC=0000000B LEN=00000001 ESD=0000 TYPE=ABS  XREF=70 
+ SYM=ZC_R12   LOC=0000000C LEN=00000001 ESD=0000 TYPE=ABS  XREF=71 
+ SYM=ZC_R13   LOC=0000000D LEN=00000001 ESD=0000 TYPE=ABS  XREF=72 124 126 127 128 
+  129 130 132 
+ SYM=ZC_R14   LOC=0000000E LEN=00000001 ESD=0000 TYPE=ABS  XREF=73 47 489 
+ SYM=ZC_R15   LOC=0000000F LEN=00000001 ESD=0000 TYPE=ABS  XREF=74 9 31 37 46 47 
+  54 134 483 484 488 489 
+ SYM=ZC_R2    LOC=00000002 LEN=00000001 ESD=0000 TYPE=ABS  XREF=61 124 
+ SYM=ZC_R3    LOC=00000003 LEN=00000001 ESD=0000 TYPE=ABS  XREF=62 
+ SYM=ZC_R4    LOC=00000004 LEN=00000001 ESD=0000 TYPE=ABS  XREF=63 
+ SYM=ZC_R5    LOC=00000005 LEN=00000001 ESD=0000 TYPE=ABS  XREF=64 
+ SYM=ZC_R6    LOC=00000006 LEN=00000001 ESD=0000 TYPE=ABS  XREF=65 
+ SYM=ZC_R7    LOC=00000007 LEN=00000001 ESD=0000 TYPE=ABS  XREF=66 
+ SYM=ZC_R8    LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=67 12 13 
+ SYM=ZC_R9    LOC=00000009 LEN=00000001 ESD=0000 TYPE=ABS  XREF=68 40 41 
+ SYM=ZC_SAVEAREA LOC=00000128 LEN=00000048 ESD=0001 TYPE=REL  XREF=700 
+ SYM=ZC_VER_ERR LOC=00000088 LEN=00000002 ESD=0001 TYPE=REL  XREF=49 43 45 
+ SYM=ZC_VER_OK LOC=000000C8 LEN=00000002 ESD=0001 TYPE=REL  XREF=123 48 
+ SYM=ZC_WS    LOC=00000128 LEN=00000008 ESD=0001 TYPE=REL  XREF=136 125 129 699 701 
+  703 705 707 709 711 713 715 717 719 721 723 725 727 729 731 733 735 737 739 741 
+  743 745 747 749 752 755 758 761 764 767 770 773 776 779 782 785 788 791 794 797 
+  800 803 806 809 812 814 816 818 820 822 824 826 828 830 832 834 836 838 840 842 
+  844 846 848 850 852 855 858 861 864 867 870 873 876 879 882 885 888 891 894 897 
+  900 903 906 909 912 915 917 919 921 923 925 927 929 931 933 935 937 939 941 943 
+  950 
+ SYM=ZC_WSLOC LOC=00000128 LEN=00000428 ESD=0001 TYPE=CST  XREF=135 219 698 948 949 
+ SYM=ZC_WS_DIFF LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=950 
+ SYM=ZC_WS_END LOC=00000550 LEN=00000008 ESD=0001 TYPE=REL  XREF=951 131 
+ SYM=ZC_WS_ID LOC=00000170 LEN=00000008 ESD=0001 TYPE=REL  XREF=702 
+ SYM=ZC_WS_LEN LOC=0000017C LEN=00000004 ESD=0001 TYPE=REL  XREF=706 133 
+ SYM=ZC_WS_LOC_100 LOC=00000420 LEN=00000001 ESD=0000 TYPE=ABS  XREF=939 
+ SYM=ZC_WS_LOC_10 LOC=00000060 LEN=00000001 ESD=0000 TYPE=ABS  XREF=717 
+ SYM=ZC_WS_LOC_101 LOC=00000421 LEN=00000001 ESD=0000 TYPE=ABS  XREF=941 
+ SYM=ZC_WS_LOC_102 LOC=00000422 LEN=00000001 ESD=0000 TYPE=ABS  XREF=943 
+ SYM=ZC_WS_LOC_1 LOC=00000000 LEN=00000001 ESD=0000 TYPE=ABS  XREF=699 
+ SYM=ZC_WS_LOC_11 LOC=00000062 LEN=00000001 ESD=0000 TYPE=ABS  XREF=719 
+ SYM=ZC_WS_LOC_12 LOC=00000064 LEN=00000001 ESD=0000 TYPE=ABS  XREF=721 
+ SYM=ZC_WS_LOC_13 LOC=00000068 LEN=00000001 ESD=0000 TYPE=ABS  XREF=723 
+ SYM=ZC_WS_LOC_14 LOC=0000006C LEN=00000001 ESD=0000 TYPE=ABS  XREF=725 
+ SYM=ZC_WS_LOC_15 LOC=00000070 LEN=00000001 ESD=0000 TYPE=ABS  XREF=727 
+ SYM=ZC_WS_LOC_16 LOC=00000074 LEN=00000001 ESD=0000 TYPE=ABS  XREF=729 
+ SYM=ZC_WS_LOC_17 LOC=00000078 LEN=00000001 ESD=0000 TYPE=ABS  XREF=731 
+ SYM=ZC_WS_LOC_18 LOC=00000080 LEN=00000001 ESD=0000 TYPE=ABS  XREF=733 
+ SYM=ZC_WS_LOC_19 LOC=00000088 LEN=00000001 ESD=0000 TYPE=ABS  XREF=735 
+ SYM=ZC_WS_LOC_20 LOC=00000090 LEN=00000001 ESD=0000 TYPE=ABS  XREF=737 
+ SYM=ZC_WS_LOC_2 LOC=00000048 LEN=00000001 ESD=0000 TYPE=ABS  XREF=701 
+ SYM=ZC_WS_LOC_21 LOC=00000098 LEN=00000001 ESD=0000 TYPE=ABS  XREF=739 
+ SYM=ZC_WS_LOC_22 LOC=000000A0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=741 
+ SYM=ZC_WS_LOC_23 LOC=000000A8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=743 
+ SYM=ZC_WS_LOC_24 LOC=000000B0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=745 
+ SYM=ZC_WS_LOC_25 LOC=000000B8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=747 
+ SYM=ZC_WS_LOC_26 LOC=000000C0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=749 
+ SYM=ZC_WS_LOC_27 LOC=000000D0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=752 
+ SYM=ZC_WS_LOC_28 LOC=000000E0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=755 
+ SYM=ZC_WS_LOC_29 LOC=000000F0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=758 
+ SYM=ZC_WS_LOC_30 LOC=00000100 LEN=00000001 ESD=0000 TYPE=ABS  XREF=761 
+ SYM=ZC_WS_LOC_3 LOC=00000050 LEN=00000001 ESD=0000 TYPE=ABS  XREF=703 
+ SYM=ZC_WS_LOC_31 LOC=00000110 LEN=00000001 ESD=0000 TYPE=ABS  XREF=764 
+ SYM=ZC_WS_LOC_32 LOC=00000120 LEN=00000001 ESD=0000 TYPE=ABS  XREF=767 
+ SYM=ZC_WS_LOC_33 LOC=00000130 LEN=00000001 ESD=0000 TYPE=ABS  XREF=770 
+ SYM=ZC_WS_LOC_34 LOC=00000140 LEN=00000001 ESD=0000 TYPE=ABS  XREF=773 
+ SYM=ZC_WS_LOC_35 LOC=00000150 LEN=00000001 ESD=0000 TYPE=ABS  XREF=776 
+ SYM=ZC_WS_LOC_36 LOC=00000160 LEN=00000001 ESD=0000 TYPE=ABS  XREF=779 
+ SYM=ZC_WS_LOC_37 LOC=00000170 LEN=00000001 ESD=0000 TYPE=ABS  XREF=782 
+ SYM=ZC_WS_LOC_38 LOC=00000180 LEN=00000001 ESD=0000 TYPE=ABS  XREF=785 
+ SYM=ZC_WS_LOC_39 LOC=00000190 LEN=00000001 ESD=0000 TYPE=ABS  XREF=788 
+ SYM=ZC_WS_LOC_40 LOC=000001A0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=791 
+ SYM=ZC_WS_LOC_4 LOC=00000054 LEN=00000001 ESD=0000 TYPE=ABS  XREF=705 
+ SYM=ZC_WS_LOC_41 LOC=000001B0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=794 
+ SYM=ZC_WS_LOC_42 LOC=000001C0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=797 
+ SYM=ZC_WS_LOC_43 LOC=000001D0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=800 
+ SYM=ZC_WS_LOC_44 LOC=000001E0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=803 
+ SYM=ZC_WS_LOC_45 LOC=000001F0 LEN=00000001 ESD=0000 TYPE=ABS  XREF=806 
+ SYM=ZC_WS_LOC_46 LOC=00000200 LEN=00000001 ESD=0000 TYPE=ABS  XREF=809 
+ SYM=ZC_WS_LOC_47 LOC=00000210 LEN=00000001 ESD=0000 TYPE=ABS  XREF=812 
+ SYM=ZC_WS_LOC_48 LOC=00000210 LEN=00000001 ESD=0000 TYPE=ABS  XREF=814 
+ SYM=ZC_WS_LOC_49 LOC=00000214 LEN=00000001 ESD=0000 TYPE=ABS  XREF=816 
+ SYM=ZC_WS_LOC_50 LOC=00000216 LEN=00000001 ESD=0000 TYPE=ABS  XREF=818 
+ SYM=ZC_WS_LOC_5 LOC=00000058 LEN=00000001 ESD=0000 TYPE=ABS  XREF=707 
+ SYM=ZC_WS_LOC_51 LOC=00000218 LEN=00000001 ESD=0000 TYPE=ABS  XREF=820 
+ SYM=ZC_WS_LOC_52 LOC=0000021A LEN=00000001 ESD=0000 TYPE=ABS  XREF=822 
+ SYM=ZC_WS_LOC_53 LOC=0000021C LEN=00000001 ESD=0000 TYPE=ABS  XREF=824 
+ SYM=ZC_WS_LOC_54 LOC=00000220 LEN=00000001 ESD=0000 TYPE=ABS  XREF=826 
+ SYM=ZC_WS_LOC_55 LOC=00000224 LEN=00000001 ESD=0000 TYPE=ABS  XREF=828 
+ SYM=ZC_WS_LOC_56 LOC=00000228 LEN=00000001 ESD=0000 TYPE=ABS  XREF=830 
+ SYM=ZC_WS_LOC_57 LOC=0000022C LEN=00000001 ESD=0000 TYPE=ABS  XREF=832 
+ SYM=ZC_WS_LOC_58 LOC=00000230 LEN=00000001 ESD=0000 TYPE=ABS  XREF=834 
+ SYM=ZC_WS_LOC_59 LOC=00000238 LEN=00000001 ESD=0000 TYPE=ABS  XREF=836 
+ SYM=ZC_WS_LOC_60 LOC=00000240 LEN=00000001 ESD=0000 TYPE=ABS  XREF=838 
+ SYM=ZC_WS_LOC_6 LOC=00000058 LEN=00000001 ESD=0000 TYPE=ABS  XREF=709 
+ SYM=ZC_WS_LOC_61 LOC=00000248 LEN=00000001 ESD=0000 TYPE=ABS  XREF=840 
+ SYM=ZC_WS_LOC_62 LOC=00000250 LEN=00000001 ESD=0000 TYPE=ABS  XREF=842 
+ SYM=ZC_WS_LOC_63 LOC=00000258 LEN=00000001 ESD=0000 TYPE=ABS  XREF=844 
+ SYM=ZC_WS_LOC_64 LOC=00000260 LEN=00000001 ESD=0000 TYPE=ABS  XREF=846 
+ SYM=ZC_WS_LOC_65 LOC=00000268 LEN=00000001 ESD=0000 TYPE=ABS  XREF=848 
+ SYM=ZC_WS_LOC_66 LOC=00000270 LEN=00000001 ESD=0000 TYPE=ABS  XREF=850 
+ SYM=ZC_WS_LOC_67 LOC=00000278 LEN=00000001 ESD=0000 TYPE=ABS  XREF=852 
+ SYM=ZC_WS_LOC_68 LOC=00000288 LEN=00000001 ESD=0000 TYPE=ABS  XREF=855 
+ SYM=ZC_WS_LOC_69 LOC=00000298 LEN=00000001 ESD=0000 TYPE=ABS  XREF=858 
+ SYM=ZC_WS_LOC_70 LOC=000002A8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=861 
+ SYM=ZC_WS_LOC_7 LOC=00000058 LEN=00000001 ESD=0000 TYPE=ABS  XREF=711 
+ SYM=ZC_WS_LOC_71 LOC=000002B8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=864 
+ SYM=ZC_WS_LOC_72 LOC=000002C8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=867 
+ SYM=ZC_WS_LOC_73 LOC=000002D8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=870 
+ SYM=ZC_WS_LOC_74 LOC=000002E8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=873 
+ SYM=ZC_WS_LOC_75 LOC=000002F8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=876 
+ SYM=ZC_WS_LOC_76 LOC=00000308 LEN=00000001 ESD=0000 TYPE=ABS  XREF=879 
+ SYM=ZC_WS_LOC_77 LOC=00000318 LEN=00000001 ESD=0000 TYPE=ABS  XREF=882 
+ SYM=ZC_WS_LOC_78 LOC=00000328 LEN=00000001 ESD=0000 TYPE=ABS  XREF=885 
+ SYM=ZC_WS_LOC_79 LOC=00000338 LEN=00000001 ESD=0000 TYPE=ABS  XREF=888 
+ SYM=ZC_WS_LOC_80 LOC=00000348 LEN=00000001 ESD=0000 TYPE=ABS  XREF=891 
+ SYM=ZC_WS_LOC_8 LOC=0000005C LEN=00000001 ESD=0000 TYPE=ABS  XREF=713 
+ SYM=ZC_WS_LOC_81 LOC=00000358 LEN=00000001 ESD=0000 TYPE=ABS  XREF=894 
+ SYM=ZC_WS_LOC_82 LOC=00000368 LEN=00000001 ESD=0000 TYPE=ABS  XREF=897 
+ SYM=ZC_WS_LOC_83 LOC=00000378 LEN=00000001 ESD=0000 TYPE=ABS  XREF=900 
+ SYM=ZC_WS_LOC_84 LOC=00000388 LEN=00000001 ESD=0000 TYPE=ABS  XREF=903 
+ SYM=ZC_WS_LOC_85 LOC=00000398 LEN=00000001 ESD=0000 TYPE=ABS  XREF=906 
+ SYM=ZC_WS_LOC_86 LOC=000003A8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=909 
+ SYM=ZC_WS_LOC_87 LOC=000003B8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=912 
+ SYM=ZC_WS_LOC_88 LOC=000003C8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=915 
+ SYM=ZC_WS_LOC_89 LOC=000003C8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=917 
+ SYM=ZC_WS_LOC_90 LOC=000003CE LEN=00000001 ESD=0000 TYPE=ABS  XREF=919 
+ SYM=ZC_WS_LOC_9 LOC=0000005E LEN=00000001 ESD=0000 TYPE=ABS  XREF=715 
+ SYM=ZC_WS_LOC_91 LOC=000003CF LEN=00000001 ESD=0000 TYPE=ABS  XREF=921 
+ SYM=ZC_WS_LOC_92 LOC=000003ED LEN=00000001 ESD=0000 TYPE=ABS  XREF=923 
+ SYM=ZC_WS_LOC_93 LOC=000003EE LEN=00000001 ESD=0000 TYPE=ABS  XREF=925 
+ SYM=ZC_WS_LOC_94 LOC=000003F2 LEN=00000001 ESD=0000 TYPE=ABS  XREF=927 
+ SYM=ZC_WS_LOC_95 LOC=000003F3 LEN=00000001 ESD=0000 TYPE=ABS  XREF=929 
+ SYM=ZC_WS_LOC_96 LOC=000003F7 LEN=00000001 ESD=0000 TYPE=ABS  XREF=931 
+ SYM=ZC_WS_LOC_97 LOC=000003F8 LEN=00000001 ESD=0000 TYPE=ABS  XREF=933 
+ SYM=ZC_WS_LOC_98 LOC=000003FC LEN=00000001 ESD=0000 TYPE=ABS  XREF=935 
+ SYM=ZC_WS_LOC_99 LOC=000003FD LEN=00000001 ESD=0000 TYPE=ABS  XREF=937 
+ SYM=ZC_WS_START LOC=00000178 LEN=00000004 ESD=0001 TYPE=REL  XREF=704 130 
+ SYM=ZC_Z     LOC=00000008 LEN=00000001 ESD=0000 TYPE=ABS  XREF=100 
+ SYM=Z_COBOL_DATA_TYPES_COMP_SIGNED LOC=00000338 LEN=000001B8 ESD=0001 TYPE=REL  XREF=813 
+ SYM=Z_COBOL_DATA_TYPES_COMP_UNSIGNED LOC=00000180 LEN=000001B8 ESD=0001 TYPE=REL  XREF=710 
+
+Literal Table Listing
+
+ LIT=A(ZCVT_END-ZCVT_ID) LOC=000000C4 LEN=00000004 ESD=0001 POOL=0001 XREF=44 
+ LIT=C'ZCVT'  LOC=000000C0 LEN=00000004 ESD=0001 POOL=0001 XREF=42 
+ LIT=CL8'ZC390LIB' LOC=000000B8 LEN=00000008 ESD=0001 POOL=0001 XREF=28 
+ 
+AZ390I total mnote warnings = 0
+AZ390I total mnote errors   = 0
+AZ390I max   mnote level    = 0
+AZ390I total mz390 errors   = 0
+AZ390I total az390 errors   = 0
+TESTPIC1  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=12334

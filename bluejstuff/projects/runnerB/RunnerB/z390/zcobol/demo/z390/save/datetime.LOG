@@ -1,0 +1,11 @@
+datetime  EZ390 START
+EZ390I Copyright 2011 Automated Software Tools Corporation
+EZ390I z390 is licensed under GNU General Public License
+EZ390I program = zcobol\demo\datetime.390
+EZ390I options = W:\work\z390\z390.OPT=(time(60)) SYS390(+zcobol\z390) notiming 
+  stats
+DATETIME STARTED
+ Mon Jan  2 10:33 PM
+DATATIME ENDED OK
+EZ390I total errors         = 0
+datetime  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=319 INS=262

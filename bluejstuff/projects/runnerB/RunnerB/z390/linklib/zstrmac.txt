@@ -1,0 +1,129 @@
+*********************************************************************
+* Copyright 2008 Automated Software Tools Corporation               *
+* This source code is part of z390 assembler/emulator package       *
+* The z390 package is distributed under GNU general public license  *
+* Author - Don Higgins                                              *
+* Date   - 08/13/08                                                 *
+*********************************************************************
+* 08/13/22 RPI 896 TRANSLATE Z390 ZSTRMAC EXTENSIONS TO STD HLASM
+*          1.  Z390 BOOTSTRAP VER - RT\TEST\ZSTRMAC1.MLC
+*          1.  STRUCTURED VERSION - LINKLIB\ZSTRMAC.ZSM
+*          2.  GEN HLASM COMP VER - LINKLIB\ZSTRMAC.MLC VIA ZSTRMAC1
+* 09/17/08 RPI 911 CHANGE ASELECT TO ACASE AND APM TO ACALL AND
+*                  SUPPORT LOWER CASE
+*********************************************************************
+* ZSTRMAC READS SYSUT1 SOURCE FILE AND OUTPUTS SYSUT2 SOURCE FILE
+* WITH TRANSLATION OF FOLLOWING Z390 ZSTRMAC EXTENSIONS TO STD HLASM:
+*  1. AIF (EXP)     >   AIF (NOT(EXP)).AIF_N_B
+*                   >   ......
+*  2. AELSEIF (EXP) >   AGO .AIF_N_E
+*                   > .AIF_B AIF (EXP).AIF_N_B+1
+*                   >   ......
+*  3. AELSE         >   AGO .AIF_N_E
+*                   > .AIF_N_B+1 ANOP
+*                   >   ......
+*  4. AEND          > .AIF_N_E ANOP
+*  5. ACALL NAME    > &ACALL_N SETA B
+*                   >   AGO .ACL_N
+*                   > .ACL_N_B ANOP
+*                   >   ......
+*  6. AENTRY NAME   > .ACL_N ANOP
+*                   >   ......
+*  7. AEXIT         >   AGO .ACL_N_E    (EXIT NON AIF STRUCURE)
+*                   >   ......
+*     AEND          >   .ACL_N_E AGO (&ACALL_N).ACL_N_1,.ACL_N_2,
+*                   >                                   .ACL_N_B
+*  8. AWHILE (EXP)  > .AWH_N_T AIF (NOT(EXP)).AWH_N_E
+*                   >   ......
+*     AEND          >   AGO .AWH_N_T
+*                   > .AWH_N_E ANOP
+*                   >   ......
+*  9. AUNTIL (EXP)  >   AGO .AUN_N
+*                   > .AUN_N_T AIF (EXP).AUN_N_E
+*                   > .AUN_N ANOP
+*                   >   ......
+*     AEND          >   AGO .AUN_N_T
+*                   > .AUN_N_E ANOP
+*                   >   ......
+* 10. ACASE (EXP)   >   AGO .ACS_N_AGO
+* 11. AWHEN V1,V2   > .ACS_N_B1 ANOP  VN=(N,C'?',X'??', OR (V1,V2)
+*                   >   ......
+*     AWHEN V2      >   AGO .ACS_N_E
+*                   > .ACS_N_B2 ANOP
+*                   >   ......
+*     AELSE         >   AGO .ACS_N_E
+*                   > .ACS_N_X ANOP
+*                   >   ......
+*     AEND          >   AGO .ACS_N_E
+*                   > .ACS_N_G AGO (EXP).ACS_N_B1,.ACS_N_X,.ACS_N_B2
+*                   >   AGO .ACS_N_X
+*                   > .ACS_N_E ANOP
+* 12. :label stmt   > place label in label field without the :
+*                     and indent the stmt to start at the original :
+*
+* NOTES:
+*  1. THE ORIGINAL BOOTSTRAP VERSION IS IN RT\TEST\ZSTRMAC1.MLC
+*     ALONG WITH THE FIRST TEST PROGRAM TESTZSM1.ZSM WHICH IS
+*     TRANSLATED TO TESTZSM1.MLC USING ZSTRMAC1.MLC.
+*  2. TO RUN TRANSLATOR USING HLASM:
+*     A.  REMOVE DDNAME= EXTENSIONS FROM AREAD AND PUNCH
+*     B.  PLACE INPUT SOURCE AFTER PROGRAM SOURCE IN SYSIN.
+*     C.  CHANGE EOF LOGIC TO CHECK FOR EOF RECORD SUCH AS "END"
+*********************************************************************
+         MACRO
+         ZSTRMAC
+         LCLA  &ERRORS        TOTAL ERROR MESSAGES
+         LCLA  &AEND_TOT,&AENTRY_TOT,&AEXIT_TOT,&AIF_TOT,&ACALL_TOT
+         LCLA  &ACASE_TOT,&AUNTIL_TOT,&AWHEN_TOT,&AWHILE_TOT
+         LCLC  &TEXT          LINE OF TEXT READ BY READ_TEXT
+         LCLB  &EOF           END OF FILE
+         LCLA  &LINE          TOTAL INPUT LINES
+         LCLB  &GEN_AIF_ERR   SYNTAX ERROR IN GEN_AIF
+         LCLB  &FIND_NAME_ERR SYNTAX ERROR FINDING ACALL/AENTRY NAME
+         LCLB  &FIND_PARM_ERR SYNTAX ERROR FINDING FIRST PARM
+         LCLB  &FIND_EXP_ERR  SYNTAX ERROR FINDING (..) FOR AIF/ACASE
+         LCLB  &GET_VALUE_ERR ERROR PARSING DEC, '?', OR X'??'
+         LCLA  &LVL           CURRENT LEVEL OF STRUCTURE
+         LCLC  &LVL_TYPE(50) TYPE AIF/ACASE/AENTRY
+         LCLA  &LVL_TCNT(50) TYPE INSTANCE COUNTER
+         LCLB  &LVL_TEND(50) TYPE END LABEL REQ FOR MULT BLKS
+         LCLA  &LVL_BCNT(50) BLOCK COUNTER WITHIN TYPE INSTANCE
+         LCLC  &LVL_ACASE(50) ACASE COMPUTED AGO STATEMENT
+         LCLA  &LVL_ACASE_FIRST(50) ACASE FIRST WHEN VALUE 0-255
+         LCLA  &LVL_ACASE_LAST(50)  ACASE LAST  WHEN VALUE 0-255
+         LCLB  &LVL_AELSE(50)   AELSE BLOCK DEFINED FOR ACASE
+         LCLA  &IS_OP           START OF OPCODE
+         LCLA  &IS_OP_END       ENDOF OF OPCODE+1
+         LCLA  &IS_EXP          START OF AIF EXP (...)
+         LCLA  &ACALL_INDEX       INDEX TO ACALL/AENTRY VIA FIND_NAME
+         LCLA  &ACALL_NAME_TOT    TOTAL PERFORMED ROUTINES
+         LCLC  &ACALL_NAME(100)   NAMES OF PERFORMED ROUTINES
+         LCLA  &ACALL_CNT(100)    EXIT COUNT FOR ROUTINES
+         LCLB  &ACALL_DEF(100)    FLAG FOR DUP AND MISSING ERRORS
+.*
+.* READ SYUT1 AND OUTPUT SYSUT2 WITH STRUCTURED MACRO CODE
+.*
+.*       ACALL READ_REC
+&ACALL_1_READ_REC SETA    1
+           AGO   .ACL_1_READ_REC
+.ACL_1_1   ANOP
+.*       AWHILE (NOT &EOF)
+.AWH_1_T   ANOP
+           AIF    (NOT(NOT &EOF)).AWH_1_E
+.*             ACALL PROC_REC
+&ACALL_2_PROC_REC SETA    1
+                 AGO   .ACL_2_PROC_REC
+.ACL_2_1         ANOP
+.*             ACALL READ_REC
+&ACALL_1_READ_REC SETA    2
+                 AGO   .ACL_1_READ_REC
+.ACL_1_2         ANOP
+.*       AEND
+           AGO   .AWH_1_T
+.AWH_1_E   ANOP
+&ACALL_INDEX SETA 1
+.*       AWHILE (&ACALL_INDEX LE &ACALL_NAME_TOT)
+.AWH_2_T   ANOP
+           AIF    (NOT(&ACALL_INDEX LE &ACALL_NAME_TOT)).AWH_2_E
+.*             AIF (NOT &ACALL_DEF(&ACALL_INDEX))
+                 AIF (NOT(NOT &ACALL_DEF(&ACALL_INDEX))).AIF_1_1

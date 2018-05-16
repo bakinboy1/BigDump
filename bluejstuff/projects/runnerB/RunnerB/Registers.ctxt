@@ -1,0 +1,11 @@
+#BlueJ class context
+comment0.params=psw
+comment0.target=Registers(PSW)
+comment0.text=\r\n\ Constructor\ for\ objects\ of\ class\ Registers\r\n
+comment1.params=i
+comment1.target=Register\ getRegister(int)
+comment2.params=regNumber\ regValue
+comment2.target=void\ setRegister(int,\ int)
+comment3.params=
+comment3.target=void\ randomize()
+numComments=4

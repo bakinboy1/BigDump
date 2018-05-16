@@ -1,0 +1,3287 @@
+         ZCOBOL PGM='zcobol\test\TESTCMP1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTCMP1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTCMP1.
+         PROGRAM_ID TESTCMP1
+*        AUTHOR.        DON HIGGINS.
+         AUTHOR DON,HIGGINS
+*        DATE-WRITTEN.  10/13/08.
+*      * TEST ADD, SUBTRACT, MULTIPLEY, DIVIDE.                        X
+                 
+         DATE_WRITTEN 10,/,13,/,08
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        77 D1      COMP-2            VALUE 1.           
+         WS      77,D1,COMP_2,VALUE,1
+*        77 E1      COMP-1            VALUE 1.           
+         WS      77,E1,COMP_1,VALUE,1
+*        77 W1      COMP   PIC S9(9)  VALUE 1.           
+         WS      77,W1,COMP,PIC,S9(9),VALUE,1
+*        77 G1      COMP   PIC S9(18) VALUE 1.           
+         WS      77,G1,COMP,PIC,S9(18),VALUE,1
+*        77 H1      COMP   PIC S9(4)  VALUE 1.           
+         WS      77,H1,COMP,PIC,S9(4),VALUE,1
+*        77 P1      COMP-3 PIC S9(4)  VALUE 1.           
+         WS      77,P1,COMP_3,PIC,S9(4),VALUE,1
+*        77 Z1             PIC S9(4)  VALUE 1.           
+         WS      77,Z1,PIC,S9(4),VALUE,1
+*        77 D2      COMP-2            VALUE 2.           
+         WS      77,D2,COMP_2,VALUE,2
+*        77 E2      COMP-1            VALUE 2.           
+         WS      77,E2,COMP_1,VALUE,2
+*        77 W2      COMP   PIC S9(9)  VALUE 2.           
+         WS      77,W2,COMP,PIC,S9(9),VALUE,2
+*        77 G2      COMP   PIC S9(18) VALUE 2.           
+         WS      77,G2,COMP,PIC,S9(18),VALUE,2
+*        77 H2      COMP   PIC S9(4)  VALUE 2.           
+         WS      77,H2,COMP,PIC,S9(4),VALUE,2
+*        77 P2      COMP-3 PIC S9(4)  VALUE 2.           
+         WS      77,P2,COMP_3,PIC,S9(4),VALUE,2
+*        77 Z2             PIC S9(4)  VALUE 2.           
+         WS      77,Z2,PIC,S9(4),VALUE,2
+*        77 D3      COMP-2            VALUE 3.           
+         WS      77,D3,COMP_2,VALUE,3
+*        77 E3      COMP-1            VALUE 3.           
+         WS      77,E3,COMP_1,VALUE,3
+*        77 W3      COMP   PIC S9(9)  VALUE 3.           
+         WS      77,W3,COMP,PIC,S9(9),VALUE,3
+*        77 G3      COMP   PIC S9(18) VALUE 3.           
+         WS      77,G3,COMP,PIC,S9(18),VALUE,3
+*        77 H3      COMP   PIC S9(4)  VALUE 3.           
+         WS      77,H3,COMP,PIC,S9(4),VALUE,3
+*        77 P3      COMP-3 PIC S9(4)  VALUE 3.           
+         WS      77,P3,COMP_3,PIC,S9(4),VALUE,3
+*        77 Z3             PIC S9(4)  VALUE 3.           
+         WS      77,Z3,PIC,S9(4),VALUE,3
+*        77 GOOD   COMP-3 PIC 9(4)   VALUE 0.
+         WS      77,GOOD,COMP_3,PIC,9(4),VALUE,0
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            DISPLAY 'TESTCMP1 ADD, SUB, MPY, DIV, COMPUTE STARTING'
+*ZC     33         DISPLAY 'TESTCMP1 ADD, SUB, MPY, DIV, COMPUTE STARTIX
+               NG'
+         DISPLAY 'TESTCMP1 ADD, SUB, MPY, DIV, COMPUTE STARTING'
+*            DISPLAY 'TESTCMP1 SUBTRACT 2 GOOD'
+*ZC     34         DISPLAY 'TESTCMP1 SUBTRACT 2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT 2 GOOD'
+         LABEL 1
+*        1.  SUBTRACT 2 FROM D1 
+*ZC     35         SUBTRACT 2,FROM,D1
+         SUBTRACT 2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     36         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC     36         PERFORM GOOD
+         PERFORM GOOD
+*ZC     36         ELSE  
+         ELSE  
+*ZC     36         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 2
+*        2.  SUBTRACT 2 FROM E1 
+*ZC     37         SUBTRACT 2,FROM,E1
+         SUBTRACT 2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     38         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC     38         PERFORM GOOD
+         PERFORM GOOD
+*ZC     38         ELSE  
+         ELSE  
+*ZC     38         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 3
+*        3.  SUBTRACT 2 FROM W1 
+*ZC     39         SUBTRACT 2,FROM,W1
+         SUBTRACT 2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     40         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC     40         PERFORM GOOD
+         PERFORM GOOD
+*ZC     40         ELSE  
+         ELSE  
+*ZC     40         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 4
+*        4.  SUBTRACT 2 FROM G1 
+*ZC     41         SUBTRACT 2,FROM,G1
+         SUBTRACT 2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     42         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC     42         PERFORM GOOD
+         PERFORM GOOD
+*ZC     42         ELSE  
+         ELSE  
+*ZC     42         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 5
+*        5.  SUBTRACT 2 FROM H1
+*ZC     43         SUBTRACT 2,FROM,H1
+         SUBTRACT 2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     44         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC     44         PERFORM GOOD
+         PERFORM GOOD
+*ZC     44         ELSE  
+         ELSE  
+*ZC     44         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 6
+*        6.  SUBTRACT 2 FROM P1
+*ZC     45         SUBTRACT 2,FROM,P1
+         SUBTRACT 2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     46         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC     46         PERFORM GOOD
+         PERFORM GOOD
+*ZC     46         ELSE  
+         ELSE  
+*ZC     46         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 7
+*        7.  SUBTRACT 2 FROM Z1 
+*ZC     47         SUBTRACT 2,FROM,Z1
+         SUBTRACT 2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     48         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC     48         PERFORM GOOD
+         PERFORM GOOD
+*ZC     48         ELSE  
+         ELSE  
+*ZC     48         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 8
+*        8.  DISPLAY 'TESTCMP1 SUBTRACT D2 GOOD'
+*ZC     49         DISPLAY 'TESTCMP1 SUBTRACT D2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT D2 GOOD'
+*            MOVE 1 TO D1
+*ZC     50         MOVE  1,TO,D1
+         MOVE  1,TO,D1
+*            MOVE 1 TO E1
+*ZC     51         MOVE  1,TO,E1
+         MOVE  1,TO,E1
+*            MOVE 1 TO W1
+*ZC     52         MOVE  1,TO,W1
+         MOVE  1,TO,W1
+*            MOVE 1 TO G1
+*ZC     53         MOVE  1,TO,G1
+         MOVE  1,TO,G1
+*            MOVE 1 TO H1
+*ZC     54         MOVE  1,TO,H1
+         MOVE  1,TO,H1
+*            MOVE 1 TO P1
+*ZC     55         MOVE  1,TO,P1
+         MOVE  1,TO,P1
+*            MOVE 1 TO Z1
+*ZC     56         MOVE  1,TO,Z1
+         MOVE  1,TO,Z1
+*            SUBTRACT D2 FROM D1 
+*ZC     57         SUBTRACT D2,FROM,D1
+         SUBTRACT D2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     58         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC     58         PERFORM GOOD
+         PERFORM GOOD
+*ZC     58         ELSE  
+         ELSE  
+*ZC     58         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 9
+*        9.  SUBTRACT D2 FROM E1 
+*ZC     59         SUBTRACT D2,FROM,E1
+         SUBTRACT D2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     60         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC     60         PERFORM GOOD
+         PERFORM GOOD
+*ZC     60         ELSE  
+         ELSE  
+*ZC     60         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 10
+*        10. SUBTRACT D2 FROM W1 
+*ZC     61         SUBTRACT D2,FROM,W1
+         SUBTRACT D2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     62         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC     62         PERFORM GOOD
+         PERFORM GOOD
+*ZC     62         ELSE  
+         ELSE  
+*ZC     62         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 11
+*        11. SUBTRACT D2 FROM G1 
+*ZC     63         SUBTRACT D2,FROM,G1
+         SUBTRACT D2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     64         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC     64         PERFORM GOOD
+         PERFORM GOOD
+*ZC     64         ELSE  
+         ELSE  
+*ZC     64         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 12
+*        12. SUBTRACT D2 FROM H1 
+*ZC     65         SUBTRACT D2,FROM,H1
+         SUBTRACT D2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     66         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC     66         PERFORM GOOD
+         PERFORM GOOD
+*ZC     66         ELSE  
+         ELSE  
+*ZC     66         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 13
+*        13. SUBTRACT D2 FROM P1 
+*ZC     67         SUBTRACT D2,FROM,P1
+         SUBTRACT D2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     68         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC     68         PERFORM GOOD
+         PERFORM GOOD
+*ZC     68         ELSE  
+         ELSE  
+*ZC     68         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 14
+*        14. SUBTRACT D2 FROM Z1 
+*ZC     69         SUBTRACT D2,FROM,Z1
+         SUBTRACT D2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     70         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC     70         PERFORM GOOD
+         PERFORM GOOD
+*ZC     70         ELSE  
+         ELSE  
+*ZC     70         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 15
+*        15. DISPLAY 'TESTCMP1 SUBTRACT E2 GOOD'
+*ZC     71         DISPLAY 'TESTCMP1 SUBTRACT E2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT E2 GOOD'
+*            MOVE 1 TO D1
+*ZC     72         MOVE  1,TO,D1
+         MOVE  1,TO,D1
+*            MOVE 1 TO E1
+*ZC     73         MOVE  1,TO,E1
+         MOVE  1,TO,E1
+*            MOVE 1 TO W1
+*ZC     74         MOVE  1,TO,W1
+         MOVE  1,TO,W1
+*            MOVE 1 TO G1
+*ZC     75         MOVE  1,TO,G1
+         MOVE  1,TO,G1
+*            MOVE 1 TO H1
+*ZC     76         MOVE  1,TO,H1
+         MOVE  1,TO,H1
+*            MOVE 1 TO P1
+*ZC     77         MOVE  1,TO,P1
+         MOVE  1,TO,P1
+*            MOVE 1 TO Z1
+*ZC     78         MOVE  1,TO,Z1
+         MOVE  1,TO,Z1
+*            SUBTRACT E2 FROM D1 
+*ZC     79         SUBTRACT E2,FROM,D1
+         SUBTRACT E2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     80         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC     80         PERFORM GOOD
+         PERFORM GOOD
+*ZC     80         ELSE  
+         ELSE  
+*ZC     80         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 16
+*        16. SUBTRACT E2 FROM E1 
+*ZC     81         SUBTRACT E2,FROM,E1
+         SUBTRACT E2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     82         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC     82         PERFORM GOOD
+         PERFORM GOOD
+*ZC     82         ELSE  
+         ELSE  
+*ZC     82         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 17
+*        17. SUBTRACT E2 FROM W1 
+*ZC     83         SUBTRACT E2,FROM,W1
+         SUBTRACT E2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     84         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC     84         PERFORM GOOD
+         PERFORM GOOD
+*ZC     84         ELSE  
+         ELSE  
+*ZC     84         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 18
+*        18. SUBTRACT E2 FROM G1 
+*ZC     85         SUBTRACT E2,FROM,G1
+         SUBTRACT E2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     86         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC     86         PERFORM GOOD
+         PERFORM GOOD
+*ZC     86         ELSE  
+         ELSE  
+*ZC     86         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 19
+*        19. SUBTRACT E2 FROM H1 
+*ZC     87         SUBTRACT E2,FROM,H1
+         SUBTRACT E2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     88         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC     88         PERFORM GOOD
+         PERFORM GOOD
+*ZC     88         ELSE  
+         ELSE  
+*ZC     88         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 20
+*        20. SUBTRACT E2 FROM P1 
+*ZC     89         SUBTRACT E2,FROM,P1
+         SUBTRACT E2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     90         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC     90         PERFORM GOOD
+         PERFORM GOOD
+*ZC     90         ELSE  
+         ELSE  
+*ZC     90         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 21
+*        21. SUBTRACT E2 FROM Z1 
+*ZC     91         SUBTRACT E2,FROM,Z1
+         SUBTRACT E2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC     92         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC     92         PERFORM GOOD
+         PERFORM GOOD
+*ZC     92         ELSE  
+         ELSE  
+*ZC     92         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 22
+*        22. DISPLAY 'TESTCMP1 SUBTRACT W2 GOOD'
+*ZC     93         DISPLAY 'TESTCMP1 SUBTRACT W2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT W2 GOOD'
+*            MOVE 1 TO D1
+*ZC     94         MOVE  1,TO,D1
+         MOVE  1,TO,D1
+*            MOVE 1 TO E1
+*ZC     95         MOVE  1,TO,E1
+         MOVE  1,TO,E1
+*            MOVE 1 TO W1
+*ZC     96         MOVE  1,TO,W1
+         MOVE  1,TO,W1
+*            MOVE 1 TO G1
+*ZC     97         MOVE  1,TO,G1
+         MOVE  1,TO,G1
+*            MOVE 1 TO H1
+*ZC     98         MOVE  1,TO,H1
+         MOVE  1,TO,H1
+*            MOVE 1 TO P1
+*ZC     99         MOVE  1,TO,P1
+         MOVE  1,TO,P1
+*            MOVE 1 TO Z1
+*ZC    100         MOVE  1,TO,Z1
+         MOVE  1,TO,Z1
+*            SUBTRACT W2 FROM D1 
+*ZC    101         SUBTRACT W2,FROM,D1
+         SUBTRACT W2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    102         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC    102         PERFORM GOOD
+         PERFORM GOOD
+*ZC    102         ELSE  
+         ELSE  
+*ZC    102         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 23
+*        23. SUBTRACT W2 FROM E1 
+*ZC    103         SUBTRACT W2,FROM,E1
+         SUBTRACT W2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    104         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC    104         PERFORM GOOD
+         PERFORM GOOD
+*ZC    104         ELSE  
+         ELSE  
+*ZC    104         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 24
+*        24. SUBTRACT W2 FROM W1 
+*ZC    105         SUBTRACT W2,FROM,W1
+         SUBTRACT W2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    106         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC    106         PERFORM GOOD
+         PERFORM GOOD
+*ZC    106         ELSE  
+         ELSE  
+*ZC    106         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 25
+*        25. SUBTRACT W2 FROM G1 
+*ZC    107         SUBTRACT W2,FROM,G1
+         SUBTRACT W2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    108         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC    108         PERFORM GOOD
+         PERFORM GOOD
+*ZC    108         ELSE  
+         ELSE  
+*ZC    108         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 26
+*        26. SUBTRACT W2 FROM H1 
+*ZC    109         SUBTRACT W2,FROM,H1
+         SUBTRACT W2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    110         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC    110         PERFORM GOOD
+         PERFORM GOOD
+*ZC    110         ELSE  
+         ELSE  
+*ZC    110         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 27
+*        27. SUBTRACT W2 FROM P1 
+*ZC    111         SUBTRACT W2,FROM,P1
+         SUBTRACT W2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    112         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC    112         PERFORM GOOD
+         PERFORM GOOD
+*ZC    112         ELSE  
+         ELSE  
+*ZC    112         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 28
+*        28. SUBTRACT W2 FROM Z1 
+*ZC    113         SUBTRACT W2,FROM,Z1
+         SUBTRACT W2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    114         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC    114         PERFORM GOOD
+         PERFORM GOOD
+*ZC    114         ELSE  
+         ELSE  
+*ZC    114         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 29
+*        29. DISPLAY 'TESTCMP1 SUBTRACT G2 GOOD'
+*ZC    115         DISPLAY 'TESTCMP1 SUBTRACT G2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT G2 GOOD'
+*            MOVE 1 TO D1
+*ZC    116         MOVE  1,TO,D1
+         MOVE  1,TO,D1
+*            MOVE 1 TO E1
+*ZC    117         MOVE  1,TO,E1
+         MOVE  1,TO,E1
+*            MOVE 1 TO W1
+*ZC    118         MOVE  1,TO,W1
+         MOVE  1,TO,W1
+*            MOVE 1 TO G1
+*ZC    119         MOVE  1,TO,G1
+         MOVE  1,TO,G1
+*            MOVE 1 TO H1
+*ZC    120         MOVE  1,TO,H1
+         MOVE  1,TO,H1
+*            MOVE 1 TO P1
+*ZC    121         MOVE  1,TO,P1
+         MOVE  1,TO,P1
+*            MOVE 1 TO Z1
+*ZC    122         MOVE  1,TO,Z1
+         MOVE  1,TO,Z1
+*            SUBTRACT G2 FROM D1 
+*ZC    123         SUBTRACT G2,FROM,D1
+         SUBTRACT G2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    124         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC    124         PERFORM GOOD
+         PERFORM GOOD
+*ZC    124         ELSE  
+         ELSE  
+*ZC    124         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 30
+*        30. SUBTRACT G2 FROM E1 
+*ZC    125         SUBTRACT G2,FROM,E1
+         SUBTRACT G2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    126         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC    126         PERFORM GOOD
+         PERFORM GOOD
+*ZC    126         ELSE  
+         ELSE  
+*ZC    126         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 31
+*        31. SUBTRACT G2 FROM W1 
+*ZC    127         SUBTRACT G2,FROM,W1
+         SUBTRACT G2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    128         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC    128         PERFORM GOOD
+         PERFORM GOOD
+*ZC    128         ELSE  
+         ELSE  
+*ZC    128         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 32
+*        32. SUBTRACT G2 FROM G1 
+*ZC    129         SUBTRACT G2,FROM,G1
+         SUBTRACT G2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    130         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC    130         PERFORM GOOD
+         PERFORM GOOD
+*ZC    130         ELSE  
+         ELSE  
+*ZC    130         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 33
+*        33. SUBTRACT G2 FROM H1 
+*ZC    131         SUBTRACT G2,FROM,H1
+         SUBTRACT G2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    132         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC    132         PERFORM GOOD
+         PERFORM GOOD
+*ZC    132         ELSE  
+         ELSE  
+*ZC    132         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 34
+*        34. SUBTRACT G2 FROM P1 
+*ZC    133         SUBTRACT G2,FROM,P1
+         SUBTRACT G2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    134         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC    134         PERFORM GOOD
+         PERFORM GOOD
+*ZC    134         ELSE  
+         ELSE  
+*ZC    134         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 35
+*        35. SUBTRACT G2 FROM Z1 
+*ZC    135         SUBTRACT G2,FROM,Z1
+         SUBTRACT G2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    136         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC    136         PERFORM GOOD
+         PERFORM GOOD
+*ZC    136         ELSE  
+         ELSE  
+*ZC    136         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 36
+*        36. DISPLAY 'TESTCMP1 SUBTRACT H2 GOOD'
+*ZC    137         DISPLAY 'TESTCMP1 SUBTRACT H2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT H2 GOOD'
+*            MOVE 1 TO D1
+*ZC    138         MOVE  1,TO,D1
+         MOVE  1,TO,D1
+*            MOVE 1 TO E1
+*ZC    139         MOVE  1,TO,E1
+         MOVE  1,TO,E1
+*            MOVE 1 TO W1
+*ZC    140         MOVE  1,TO,W1
+         MOVE  1,TO,W1
+*            MOVE 1 TO G1
+*ZC    141         MOVE  1,TO,G1
+         MOVE  1,TO,G1
+*            MOVE 1 TO H1
+*ZC    142         MOVE  1,TO,H1
+         MOVE  1,TO,H1
+*            MOVE 1 TO P1
+*ZC    143         MOVE  1,TO,P1
+         MOVE  1,TO,P1
+*            MOVE 1 TO Z1
+*ZC    144         MOVE  1,TO,Z1
+         MOVE  1,TO,Z1
+*            SUBTRACT H2 FROM D1 
+*ZC    145         SUBTRACT H2,FROM,D1
+         SUBTRACT H2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    146         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC    146         PERFORM GOOD
+         PERFORM GOOD
+*ZC    146         ELSE  
+         ELSE  
+*ZC    146         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 37
+*        37. SUBTRACT H2 FROM E1 
+*ZC    147         SUBTRACT H2,FROM,E1
+         SUBTRACT H2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    148         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC    148         PERFORM GOOD
+         PERFORM GOOD
+*ZC    148         ELSE  
+         ELSE  
+*ZC    148         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 38
+*        38. SUBTRACT H2 FROM W1 
+*ZC    149         SUBTRACT H2,FROM,W1
+         SUBTRACT H2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    150         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC    150         PERFORM GOOD
+         PERFORM GOOD
+*ZC    150         ELSE  
+         ELSE  
+*ZC    150         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 39
+*        39. SUBTRACT H2 FROM G1 
+*ZC    151         SUBTRACT H2,FROM,G1
+         SUBTRACT H2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    152         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC    152         PERFORM GOOD
+         PERFORM GOOD
+*ZC    152         ELSE  
+         ELSE  
+*ZC    152         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 40
+*        40. SUBTRACT H2 FROM H1 
+*ZC    153         SUBTRACT H2,FROM,H1
+         SUBTRACT H2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    154         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC    154         PERFORM GOOD
+         PERFORM GOOD
+*ZC    154         ELSE  
+         ELSE  
+*ZC    154         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 41
+*        41. SUBTRACT H2 FROM P1 
+*ZC    155         SUBTRACT H2,FROM,P1
+         SUBTRACT H2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    156         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC    156         PERFORM GOOD
+         PERFORM GOOD
+*ZC    156         ELSE  
+         ELSE  
+*ZC    156         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 42
+*        42. SUBTRACT H2 FROM Z1 
+*ZC    157         SUBTRACT H2,FROM,Z1
+         SUBTRACT H2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    158         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC    158         PERFORM GOOD
+         PERFORM GOOD
+*ZC    158         ELSE  
+         ELSE  
+*ZC    158         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 43
+*        43. DISPLAY 'TESTCMP1 SUBTRACT P2 GOOD'
+*ZC    159         DISPLAY 'TESTCMP1 SUBTRACT P2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT P2 GOOD'
+*            MOVE 1 TO D1
+*ZC    160         MOVE  1,TO,D1
+         MOVE  1,TO,D1
+*            MOVE 1 TO E1
+*ZC    161         MOVE  1,TO,E1
+         MOVE  1,TO,E1
+*            MOVE 1 TO W1
+*ZC    162         MOVE  1,TO,W1
+         MOVE  1,TO,W1
+*            MOVE 1 TO G1
+*ZC    163         MOVE  1,TO,G1
+         MOVE  1,TO,G1
+*            MOVE 1 TO H1
+*ZC    164         MOVE  1,TO,H1
+         MOVE  1,TO,H1
+*            MOVE 1 TO P1
+*ZC    165         MOVE  1,TO,P1
+         MOVE  1,TO,P1
+*            MOVE 1 TO Z1
+*ZC    166         MOVE  1,TO,Z1
+         MOVE  1,TO,Z1
+*            SUBTRACT P2 FROM D1 
+*ZC    167         SUBTRACT P2,FROM,D1
+         SUBTRACT P2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    168         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC    168         PERFORM GOOD
+         PERFORM GOOD
+*ZC    168         ELSE  
+         ELSE  
+*ZC    168         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 44
+*        44. SUBTRACT P2 FROM E1 
+*ZC    169         SUBTRACT P2,FROM,E1
+         SUBTRACT P2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    170         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC    170         PERFORM GOOD
+         PERFORM GOOD
+*ZC    170         ELSE  
+         ELSE  
+*ZC    170         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 45
+*        45. SUBTRACT P2 FROM W1 
+*ZC    171         SUBTRACT P2,FROM,W1
+         SUBTRACT P2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    172         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC    172         PERFORM GOOD
+         PERFORM GOOD
+*ZC    172         ELSE  
+         ELSE  
+*ZC    172         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 46
+*        46. SUBTRACT P2 FROM G1 
+*ZC    173         SUBTRACT P2,FROM,G1
+         SUBTRACT P2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    174         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC    174         PERFORM GOOD
+         PERFORM GOOD
+*ZC    174         ELSE  
+         ELSE  
+*ZC    174         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 47
+*        47. SUBTRACT P2 FROM H1 
+*ZC    175         SUBTRACT P2,FROM,H1
+         SUBTRACT P2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    176         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC    176         PERFORM GOOD
+         PERFORM GOOD
+*ZC    176         ELSE  
+         ELSE  
+*ZC    176         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 48
+*        48. SUBTRACT P2 FROM P1 
+*ZC    177         SUBTRACT P2,FROM,P1
+         SUBTRACT P2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    178         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC    178         PERFORM GOOD
+         PERFORM GOOD
+*ZC    178         ELSE  
+         ELSE  
+*ZC    178         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 49
+*        49. SUBTRACT P2 FROM Z1 
+*ZC    179         SUBTRACT P2,FROM,Z1
+         SUBTRACT P2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    180         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC    180         PERFORM GOOD
+         PERFORM GOOD
+*ZC    180         ELSE  
+         ELSE  
+*ZC    180         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 50
+*        50. DISPLAY 'TESTCMP1 SUBTRACT Z2 GOOD'
+*ZC    181         DISPLAY 'TESTCMP1 SUBTRACT Z2 GOOD'
+         DISPLAY 'TESTCMP1 SUBTRACT Z2 GOOD'
+*            MOVE 1 TO D1
+*ZC    182         MOVE  1,TO,D1
+         MOVE  1,TO,D1
+*            MOVE 1 TO E1
+*ZC    183         MOVE  1,TO,E1
+         MOVE  1,TO,E1
+*            MOVE 1 TO W1
+*ZC    184         MOVE  1,TO,W1
+         MOVE  1,TO,W1
+*            MOVE 1 TO G1
+*ZC    185         MOVE  1,TO,G1
+         MOVE  1,TO,G1
+*            MOVE 1 TO H1
+*ZC    186         MOVE  1,TO,H1
+         MOVE  1,TO,H1
+*            MOVE 1 TO P1
+*ZC    187         MOVE  1,TO,P1
+         MOVE  1,TO,P1
+*            MOVE 1 TO Z1
+*ZC    188         MOVE  1,TO,Z1
+         MOVE  1,TO,Z1
+*            SUBTRACT Z2 FROM D1 
+*ZC    189         SUBTRACT Z2,FROM,D1
+         SUBTRACT Z2,FROM,D1
+*             IF D1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    190         IF    D1,=,-,1
+         IF    D1,=,-,1
+*ZC    190         PERFORM GOOD
+         PERFORM GOOD
+*ZC    190         ELSE  
+         ELSE  
+*ZC    190         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 51
+*        51. SUBTRACT Z2 FROM E1 
+*ZC    191         SUBTRACT Z2,FROM,E1
+         SUBTRACT Z2,FROM,E1
+*             IF E1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    192         IF    E1,=,-,1
+         IF    E1,=,-,1
+*ZC    192         PERFORM GOOD
+         PERFORM GOOD
+*ZC    192         ELSE  
+         ELSE  
+*ZC    192         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 52
+*        52. SUBTRACT Z2 FROM W1 
+*ZC    193         SUBTRACT Z2,FROM,W1
+         SUBTRACT Z2,FROM,W1
+*             IF W1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    194         IF    W1,=,-,1
+         IF    W1,=,-,1
+*ZC    194         PERFORM GOOD
+         PERFORM GOOD
+*ZC    194         ELSE  
+         ELSE  
+*ZC    194         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 53
+*        53. SUBTRACT Z2 FROM G1 
+*ZC    195         SUBTRACT Z2,FROM,G1
+         SUBTRACT Z2,FROM,G1
+*             IF G1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    196         IF    G1,=,-,1
+         IF    G1,=,-,1
+*ZC    196         PERFORM GOOD
+         PERFORM GOOD
+*ZC    196         ELSE  
+         ELSE  
+*ZC    196         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 54
+*        54. SUBTRACT Z2 FROM H1 
+*ZC    197         SUBTRACT Z2,FROM,H1
+         SUBTRACT Z2,FROM,H1
+*             IF H1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    198         IF    H1,=,-,1
+         IF    H1,=,-,1
+*ZC    198         PERFORM GOOD
+         PERFORM GOOD
+*ZC    198         ELSE  
+         ELSE  
+*ZC    198         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 55
+*        55. SUBTRACT Z2 FROM P1 
+*ZC    199         SUBTRACT Z2,FROM,P1
+         SUBTRACT Z2,FROM,P1
+*             IF P1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    200         IF    P1,=,-,1
+         IF    P1,=,-,1
+*ZC    200         PERFORM GOOD
+         PERFORM GOOD
+*ZC    200         ELSE  
+         ELSE  
+*ZC    200         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 56
+*        56. SUBTRACT Z2 FROM Z1 
+*ZC    201         SUBTRACT Z2,FROM,Z1
+         SUBTRACT Z2,FROM,Z1
+*             IF Z1 = -1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    202         IF    Z1,=,-,1
+         IF    Z1,=,-,1
+*ZC    202         PERFORM GOOD
+         PERFORM GOOD
+*ZC    202         ELSE  
+         ELSE  
+*ZC    202         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 57
+*        57. DISPLAY 'TESTCMP1 ADD 2 GOOD'
+*ZC    203         DISPLAY 'TESTCMP1 ADD 2 GOOD'
+         DISPLAY 'TESTCMP1 ADD 2 GOOD'
+*            MOVE -1 TO D1
+*ZC    204         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    205         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    206         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    207         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    208         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    209         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    210         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD 2 TO D1 
+*ZC    211         ADD   2,TO,D1
+         ADD   2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    212         IF    D1,=,1
+         IF    D1,=,1
+*ZC    212         PERFORM GOOD
+         PERFORM GOOD
+*ZC    212         ELSE  
+         ELSE  
+*ZC    212         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 58
+*        58. ADD 2 TO E1 
+*ZC    213         ADD   2,TO,E1
+         ADD   2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    214         IF    E1,=,1
+         IF    E1,=,1
+*ZC    214         PERFORM GOOD
+         PERFORM GOOD
+*ZC    214         ELSE  
+         ELSE  
+*ZC    214         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 59
+*        59. ADD 2 TO W1 
+*ZC    215         ADD   2,TO,W1
+         ADD   2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    216         IF    W1,=,1
+         IF    W1,=,1
+*ZC    216         PERFORM GOOD
+         PERFORM GOOD
+*ZC    216         ELSE  
+         ELSE  
+*ZC    216         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 60
+*        60. ADD 2 TO G1 
+*ZC    217         ADD   2,TO,G1
+         ADD   2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    218         IF    G1,=,1
+         IF    G1,=,1
+*ZC    218         PERFORM GOOD
+         PERFORM GOOD
+*ZC    218         ELSE  
+         ELSE  
+*ZC    218         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 61
+*        61. ADD 2 TO H1 
+*ZC    219         ADD   2,TO,H1
+         ADD   2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    220         IF    H1,=,1
+         IF    H1,=,1
+*ZC    220         PERFORM GOOD
+         PERFORM GOOD
+*ZC    220         ELSE  
+         ELSE  
+*ZC    220         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 62
+*        62. ADD 2 TO P1 
+*ZC    221         ADD   2,TO,P1
+         ADD   2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    222         IF    P1,=,1
+         IF    P1,=,1
+*ZC    222         PERFORM GOOD
+         PERFORM GOOD
+*ZC    222         ELSE  
+         ELSE  
+*ZC    222         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 63
+*        63. ADD 2 TO Z1 
+*ZC    223         ADD   2,TO,Z1
+         ADD   2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    224         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    224         PERFORM GOOD
+         PERFORM GOOD
+*ZC    224         ELSE  
+         ELSE  
+*ZC    224         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+         LABEL 64
+*        64. DISPLAY 'TESTCMP1 ADD D2 GOOD'
+*ZC    225         DISPLAY 'TESTCMP1 ADD D2 GOOD'
+         DISPLAY 'TESTCMP1 ADD D2 GOOD'
+*            MOVE -1 TO D1
+*ZC    226         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    227         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    228         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    229         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    230         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    231         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    232         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD D2 TO D1 
+*ZC    233         ADD   D2,TO,D1
+         ADD   D2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    234         IF    D1,=,1
+         IF    D1,=,1
+*ZC    234         PERFORM GOOD
+         PERFORM GOOD
+*ZC    234         ELSE  
+         ELSE  
+*ZC    234         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD D2 TO E1 
+*ZC    235         ADD   D2,TO,E1
+         ADD   D2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    236         IF    E1,=,1
+         IF    E1,=,1
+*ZC    236         PERFORM GOOD
+         PERFORM GOOD
+*ZC    236         ELSE  
+         ELSE  
+*ZC    236         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD D2 TO W1 
+*ZC    237         ADD   D2,TO,W1
+         ADD   D2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    238         IF    W1,=,1
+         IF    W1,=,1
+*ZC    238         PERFORM GOOD
+         PERFORM GOOD
+*ZC    238         ELSE  
+         ELSE  
+*ZC    238         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD D2 TO G1 
+*ZC    239         ADD   D2,TO,G1
+         ADD   D2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    240         IF    G1,=,1
+         IF    G1,=,1
+*ZC    240         PERFORM GOOD
+         PERFORM GOOD
+*ZC    240         ELSE  
+         ELSE  
+*ZC    240         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD D2 TO H1 
+*ZC    241         ADD   D2,TO,H1
+         ADD   D2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    242         IF    H1,=,1
+         IF    H1,=,1
+*ZC    242         PERFORM GOOD
+         PERFORM GOOD
+*ZC    242         ELSE  
+         ELSE  
+*ZC    242         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD D2 TO P1 
+*ZC    243         ADD   D2,TO,P1
+         ADD   D2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    244         IF    P1,=,1
+         IF    P1,=,1
+*ZC    244         PERFORM GOOD
+         PERFORM GOOD
+*ZC    244         ELSE  
+         ELSE  
+*ZC    244         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD D2 TO Z1 
+*ZC    245         ADD   D2,TO,Z1
+         ADD   D2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    246         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    246         PERFORM GOOD
+         PERFORM GOOD
+*ZC    246         ELSE  
+         ELSE  
+*ZC    246         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 ADD E2 GOOD'
+*ZC    247         DISPLAY 'TESTCMP1 ADD E2 GOOD'
+         DISPLAY 'TESTCMP1 ADD E2 GOOD'
+*            MOVE -1 TO D1
+*ZC    248         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    249         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    250         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    251         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    252         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    253         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    254         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD E2 TO D1 
+*ZC    255         ADD   E2,TO,D1
+         ADD   E2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    256         IF    D1,=,1
+         IF    D1,=,1
+*ZC    256         PERFORM GOOD
+         PERFORM GOOD
+*ZC    256         ELSE  
+         ELSE  
+*ZC    256         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD E2 TO E1 
+*ZC    257         ADD   E2,TO,E1
+         ADD   E2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    258         IF    E1,=,1
+         IF    E1,=,1
+*ZC    258         PERFORM GOOD
+         PERFORM GOOD
+*ZC    258         ELSE  
+         ELSE  
+*ZC    258         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD E2 TO W1 
+*ZC    259         ADD   E2,TO,W1
+         ADD   E2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    260         IF    W1,=,1
+         IF    W1,=,1
+*ZC    260         PERFORM GOOD
+         PERFORM GOOD
+*ZC    260         ELSE  
+         ELSE  
+*ZC    260         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD E2 TO G1 
+*ZC    261         ADD   E2,TO,G1
+         ADD   E2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    262         IF    G1,=,1
+         IF    G1,=,1
+*ZC    262         PERFORM GOOD
+         PERFORM GOOD
+*ZC    262         ELSE  
+         ELSE  
+*ZC    262         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD E2 TO H1 
+*ZC    263         ADD   E2,TO,H1
+         ADD   E2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    264         IF    H1,=,1
+         IF    H1,=,1
+*ZC    264         PERFORM GOOD
+         PERFORM GOOD
+*ZC    264         ELSE  
+         ELSE  
+*ZC    264         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD E2 TO P1 
+*ZC    265         ADD   E2,TO,P1
+         ADD   E2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    266         IF    P1,=,1
+         IF    P1,=,1
+*ZC    266         PERFORM GOOD
+         PERFORM GOOD
+*ZC    266         ELSE  
+         ELSE  
+*ZC    266         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD E2 TO Z1 
+*ZC    267         ADD   E2,TO,Z1
+         ADD   E2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    268         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    268         PERFORM GOOD
+         PERFORM GOOD
+*ZC    268         ELSE  
+         ELSE  
+*ZC    268         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 ADD W2 GOOD'
+*ZC    269         DISPLAY 'TESTCMP1 ADD W2 GOOD'
+         DISPLAY 'TESTCMP1 ADD W2 GOOD'
+*            MOVE -1 TO D1
+*ZC    270         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    271         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    272         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    273         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    274         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    275         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    276         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD W2 TO D1 
+*ZC    277         ADD   W2,TO,D1
+         ADD   W2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    278         IF    D1,=,1
+         IF    D1,=,1
+*ZC    278         PERFORM GOOD
+         PERFORM GOOD
+*ZC    278         ELSE  
+         ELSE  
+*ZC    278         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD W2 TO E1 
+*ZC    279         ADD   W2,TO,E1
+         ADD   W2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    280         IF    E1,=,1
+         IF    E1,=,1
+*ZC    280         PERFORM GOOD
+         PERFORM GOOD
+*ZC    280         ELSE  
+         ELSE  
+*ZC    280         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD W2 TO W1 
+*ZC    281         ADD   W2,TO,W1
+         ADD   W2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    282         IF    W1,=,1
+         IF    W1,=,1
+*ZC    282         PERFORM GOOD
+         PERFORM GOOD
+*ZC    282         ELSE  
+         ELSE  
+*ZC    282         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD W2 TO G1 
+*ZC    283         ADD   W2,TO,G1
+         ADD   W2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    284         IF    G1,=,1
+         IF    G1,=,1
+*ZC    284         PERFORM GOOD
+         PERFORM GOOD
+*ZC    284         ELSE  
+         ELSE  
+*ZC    284         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD W2 TO H1 
+*ZC    285         ADD   W2,TO,H1
+         ADD   W2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    286         IF    H1,=,1
+         IF    H1,=,1
+*ZC    286         PERFORM GOOD
+         PERFORM GOOD
+*ZC    286         ELSE  
+         ELSE  
+*ZC    286         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD W2 TO P1 
+*ZC    287         ADD   W2,TO,P1
+         ADD   W2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    288         IF    P1,=,1
+         IF    P1,=,1
+*ZC    288         PERFORM GOOD
+         PERFORM GOOD
+*ZC    288         ELSE  
+         ELSE  
+*ZC    288         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD W2 TO Z1 
+*ZC    289         ADD   W2,TO,Z1
+         ADD   W2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    290         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    290         PERFORM GOOD
+         PERFORM GOOD
+*ZC    290         ELSE  
+         ELSE  
+*ZC    290         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 ADD G2 GOOD'
+*ZC    291         DISPLAY 'TESTCMP1 ADD G2 GOOD'
+         DISPLAY 'TESTCMP1 ADD G2 GOOD'
+*            MOVE -1 TO D1
+*ZC    292         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    293         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    294         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    295         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    296         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    297         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    298         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD G2 TO D1 
+*ZC    299         ADD   G2,TO,D1
+         ADD   G2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    300         IF    D1,=,1
+         IF    D1,=,1
+*ZC    300         PERFORM GOOD
+         PERFORM GOOD
+*ZC    300         ELSE  
+         ELSE  
+*ZC    300         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD G2 TO E1 
+*ZC    301         ADD   G2,TO,E1
+         ADD   G2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    302         IF    E1,=,1
+         IF    E1,=,1
+*ZC    302         PERFORM GOOD
+         PERFORM GOOD
+*ZC    302         ELSE  
+         ELSE  
+*ZC    302         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD G2 TO W1 
+*ZC    303         ADD   G2,TO,W1
+         ADD   G2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    304         IF    W1,=,1
+         IF    W1,=,1
+*ZC    304         PERFORM GOOD
+         PERFORM GOOD
+*ZC    304         ELSE  
+         ELSE  
+*ZC    304         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD G2 TO G1 
+*ZC    305         ADD   G2,TO,G1
+         ADD   G2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    306         IF    G1,=,1
+         IF    G1,=,1
+*ZC    306         PERFORM GOOD
+         PERFORM GOOD
+*ZC    306         ELSE  
+         ELSE  
+*ZC    306         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD G2 TO H1 
+*ZC    307         ADD   G2,TO,H1
+         ADD   G2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    308         IF    H1,=,1
+         IF    H1,=,1
+*ZC    308         PERFORM GOOD
+         PERFORM GOOD
+*ZC    308         ELSE  
+         ELSE  
+*ZC    308         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD G2 TO P1 
+*ZC    309         ADD   G2,TO,P1
+         ADD   G2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    310         IF    P1,=,1
+         IF    P1,=,1
+*ZC    310         PERFORM GOOD
+         PERFORM GOOD
+*ZC    310         ELSE  
+         ELSE  
+*ZC    310         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD G2 TO Z1 
+*ZC    311         ADD   G2,TO,Z1
+         ADD   G2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    312         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    312         PERFORM GOOD
+         PERFORM GOOD
+*ZC    312         ELSE  
+         ELSE  
+*ZC    312         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 ADD H2 GOOD'
+*ZC    313         DISPLAY 'TESTCMP1 ADD H2 GOOD'
+         DISPLAY 'TESTCMP1 ADD H2 GOOD'
+*            MOVE -1 TO D1
+*ZC    314         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    315         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    316         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    317         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    318         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    319         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    320         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD H2 TO D1 
+*ZC    321         ADD   H2,TO,D1
+         ADD   H2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    322         IF    D1,=,1
+         IF    D1,=,1
+*ZC    322         PERFORM GOOD
+         PERFORM GOOD
+*ZC    322         ELSE  
+         ELSE  
+*ZC    322         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD H2 TO E1 
+*ZC    323         ADD   H2,TO,E1
+         ADD   H2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    324         IF    E1,=,1
+         IF    E1,=,1
+*ZC    324         PERFORM GOOD
+         PERFORM GOOD
+*ZC    324         ELSE  
+         ELSE  
+*ZC    324         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD H2 TO W1 
+*ZC    325         ADD   H2,TO,W1
+         ADD   H2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    326         IF    W1,=,1
+         IF    W1,=,1
+*ZC    326         PERFORM GOOD
+         PERFORM GOOD
+*ZC    326         ELSE  
+         ELSE  
+*ZC    326         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD H2 TO G1 
+*ZC    327         ADD   H2,TO,G1
+         ADD   H2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    328         IF    G1,=,1
+         IF    G1,=,1
+*ZC    328         PERFORM GOOD
+         PERFORM GOOD
+*ZC    328         ELSE  
+         ELSE  
+*ZC    328         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD H2 TO H1 
+*ZC    329         ADD   H2,TO,H1
+         ADD   H2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    330         IF    H1,=,1
+         IF    H1,=,1
+*ZC    330         PERFORM GOOD
+         PERFORM GOOD
+*ZC    330         ELSE  
+         ELSE  
+*ZC    330         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD H2 TO P1 
+*ZC    331         ADD   H2,TO,P1
+         ADD   H2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    332         IF    P1,=,1
+         IF    P1,=,1
+*ZC    332         PERFORM GOOD
+         PERFORM GOOD
+*ZC    332         ELSE  
+         ELSE  
+*ZC    332         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD H2 TO Z1 
+*ZC    333         ADD   H2,TO,Z1
+         ADD   H2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    334         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    334         PERFORM GOOD
+         PERFORM GOOD
+*ZC    334         ELSE  
+         ELSE  
+*ZC    334         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 ADD P2 GOOD'
+*ZC    335         DISPLAY 'TESTCMP1 ADD P2 GOOD'
+         DISPLAY 'TESTCMP1 ADD P2 GOOD'
+*            MOVE -1 TO D1
+*ZC    336         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    337         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    338         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    339         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    340         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    341         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    342         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD P2 TO D1 
+*ZC    343         ADD   P2,TO,D1
+         ADD   P2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    344         IF    D1,=,1
+         IF    D1,=,1
+*ZC    344         PERFORM GOOD
+         PERFORM GOOD
+*ZC    344         ELSE  
+         ELSE  
+*ZC    344         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD P2 TO E1 
+*ZC    345         ADD   P2,TO,E1
+         ADD   P2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    346         IF    E1,=,1
+         IF    E1,=,1
+*ZC    346         PERFORM GOOD
+         PERFORM GOOD
+*ZC    346         ELSE  
+         ELSE  
+*ZC    346         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD P2 TO W1 
+*ZC    347         ADD   P2,TO,W1
+         ADD   P2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    348         IF    W1,=,1
+         IF    W1,=,1
+*ZC    348         PERFORM GOOD
+         PERFORM GOOD
+*ZC    348         ELSE  
+         ELSE  
+*ZC    348         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD P2 TO G1 
+*ZC    349         ADD   P2,TO,G1
+         ADD   P2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    350         IF    G1,=,1
+         IF    G1,=,1
+*ZC    350         PERFORM GOOD
+         PERFORM GOOD
+*ZC    350         ELSE  
+         ELSE  
+*ZC    350         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD P2 TO H1 
+*ZC    351         ADD   P2,TO,H1
+         ADD   P2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    352         IF    H1,=,1
+         IF    H1,=,1
+*ZC    352         PERFORM GOOD
+         PERFORM GOOD
+*ZC    352         ELSE  
+         ELSE  
+*ZC    352         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD P2 TO P1 
+*ZC    353         ADD   P2,TO,P1
+         ADD   P2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    354         IF    P1,=,1
+         IF    P1,=,1
+*ZC    354         PERFORM GOOD
+         PERFORM GOOD
+*ZC    354         ELSE  
+         ELSE  
+*ZC    354         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD P2 TO Z1 
+*ZC    355         ADD   P2,TO,Z1
+         ADD   P2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    356         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    356         PERFORM GOOD
+         PERFORM GOOD
+*ZC    356         ELSE  
+         ELSE  
+*ZC    356         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 ADD Z2 GOOD'
+*ZC    357         DISPLAY 'TESTCMP1 ADD Z2 GOOD'
+         DISPLAY 'TESTCMP1 ADD Z2 GOOD'
+*            MOVE -1 TO D1
+*ZC    358         MOVE  -,1,TO,D1
+         MOVE  -,1,TO,D1
+*            MOVE -1 TO E1
+*ZC    359         MOVE  -,1,TO,E1
+         MOVE  -,1,TO,E1
+*            MOVE -1 TO W1
+*ZC    360         MOVE  -,1,TO,W1
+         MOVE  -,1,TO,W1
+*            MOVE -1 TO G1
+*ZC    361         MOVE  -,1,TO,G1
+         MOVE  -,1,TO,G1
+*            MOVE -1 TO H1
+*ZC    362         MOVE  -,1,TO,H1
+         MOVE  -,1,TO,H1
+*            MOVE -1 TO P1
+*ZC    363         MOVE  -,1,TO,P1
+         MOVE  -,1,TO,P1
+*            MOVE -1 TO Z1
+*ZC    364         MOVE  -,1,TO,Z1
+         MOVE  -,1,TO,Z1
+*            ADD Z2 TO D1 
+*ZC    365         ADD   Z2,TO,D1
+         ADD   Z2,TO,D1
+*             IF D1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    366         IF    D1,=,1
+         IF    D1,=,1
+*ZC    366         PERFORM GOOD
+         PERFORM GOOD
+*ZC    366         ELSE  
+         ELSE  
+*ZC    366         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD Z2 TO E1 
+*ZC    367         ADD   Z2,TO,E1
+         ADD   Z2,TO,E1
+*             IF E1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    368         IF    E1,=,1
+         IF    E1,=,1
+*ZC    368         PERFORM GOOD
+         PERFORM GOOD
+*ZC    368         ELSE  
+         ELSE  
+*ZC    368         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD Z2 TO W1 
+*ZC    369         ADD   Z2,TO,W1
+         ADD   Z2,TO,W1
+*             IF W1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    370         IF    W1,=,1
+         IF    W1,=,1
+*ZC    370         PERFORM GOOD
+         PERFORM GOOD
+*ZC    370         ELSE  
+         ELSE  
+*ZC    370         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD Z2 TO G1 
+*ZC    371         ADD   Z2,TO,G1
+         ADD   Z2,TO,G1
+*             IF G1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    372         IF    G1,=,1
+         IF    G1,=,1
+*ZC    372         PERFORM GOOD
+         PERFORM GOOD
+*ZC    372         ELSE  
+         ELSE  
+*ZC    372         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD Z2 TO H1 
+*ZC    373         ADD   Z2,TO,H1
+         ADD   Z2,TO,H1
+*             IF H1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    374         IF    H1,=,1
+         IF    H1,=,1
+*ZC    374         PERFORM GOOD
+         PERFORM GOOD
+*ZC    374         ELSE  
+         ELSE  
+*ZC    374         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD Z2 TO P1 
+*ZC    375         ADD   Z2,TO,P1
+         ADD   Z2,TO,P1
+*             IF P1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    376         IF    P1,=,1
+         IF    P1,=,1
+*ZC    376         PERFORM GOOD
+         PERFORM GOOD
+*ZC    376         ELSE  
+         ELSE  
+*ZC    376         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD Z2 TO Z1 
+*ZC    377         ADD   Z2,TO,Z1
+         ADD   Z2,TO,Z1
+*             IF Z1 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    378         IF    Z1,=,1
+         IF    Z1,=,1
+*ZC    378         PERFORM GOOD
+         PERFORM GOOD
+*ZC    378         ELSE  
+         ELSE  
+*ZC    378         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY 2 GOOD'
+*ZC    379         DISPLAY 'TESTCMP1 MULTIPLY 2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY 2 GOOD'
+*            MOVE 3 TO D2
+*ZC    380         MOVE  3,TO,D2
+         MOVE  3,TO,D2
+*            MOVE 3 TO E2
+*ZC    381         MOVE  3,TO,E2
+         MOVE  3,TO,E2
+*            MOVE 3 TO W2
+*ZC    382         MOVE  3,TO,W2
+         MOVE  3,TO,W2
+*            MOVE 3 TO G2
+*ZC    383         MOVE  3,TO,G2
+         MOVE  3,TO,G2
+*            MOVE 3 TO H2
+*ZC    384         MOVE  3,TO,H2
+         MOVE  3,TO,H2
+*            MOVE 3 TO P2
+*ZC    385         MOVE  3,TO,P2
+         MOVE  3,TO,P2
+*            MOVE 3 TO Z2
+*ZC    386         MOVE  3,TO,Z2
+         MOVE  3,TO,Z2
+*            MOVE -2 TO D1
+*ZC    387         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    388         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    389         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    390         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    391         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    392         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    393         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY  3 BY D1 
+*ZC    394         MULTIPLY 3,BY,D1
+         MULTIPLY 3,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    395         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    395         PERFORM GOOD
+         PERFORM GOOD
+*ZC    395         ELSE  
+         ELSE  
+*ZC    395         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY  3 BY E1 
+*ZC    396         MULTIPLY 3,BY,E1
+         MULTIPLY 3,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    397         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    397         PERFORM GOOD
+         PERFORM GOOD
+*ZC    397         ELSE  
+         ELSE  
+*ZC    397         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY  3 BY W1 
+*ZC    398         MULTIPLY 3,BY,W1
+         MULTIPLY 3,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    399         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    399         PERFORM GOOD
+         PERFORM GOOD
+*ZC    399         ELSE  
+         ELSE  
+*ZC    399         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY  3 BY G1 
+*ZC    400         MULTIPLY 3,BY,G1
+         MULTIPLY 3,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    401         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    401         PERFORM GOOD
+         PERFORM GOOD
+*ZC    401         ELSE  
+         ELSE  
+*ZC    401         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY  3 BY H1 
+*ZC    402         MULTIPLY 3,BY,H1
+         MULTIPLY 3,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    403         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    403         PERFORM GOOD
+         PERFORM GOOD
+*ZC    403         ELSE  
+         ELSE  
+*ZC    403         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY  3 BY P1 
+*ZC    404         MULTIPLY 3,BY,P1
+         MULTIPLY 3,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    405         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    405         PERFORM GOOD
+         PERFORM GOOD
+*ZC    405         ELSE  
+         ELSE  
+*ZC    405         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY  3 BY Z1 
+*ZC    406         MULTIPLY 3,BY,Z1
+         MULTIPLY 3,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    407         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    407         PERFORM GOOD
+         PERFORM GOOD
+*ZC    407         ELSE  
+         ELSE  
+*ZC    407         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY D2 GOOD'
+*ZC    408         DISPLAY 'TESTCMP1 MULTIPLY D2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY D2 GOOD'
+*            MOVE -2 TO D1
+*ZC    409         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    410         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    411         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    412         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    413         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    414         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    415         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY D2 BY D1 
+*ZC    416         MULTIPLY D2,BY,D1
+         MULTIPLY D2,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    417         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    417         PERFORM GOOD
+         PERFORM GOOD
+*ZC    417         ELSE  
+         ELSE  
+*ZC    417         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY D2 BY E1 
+*ZC    418         MULTIPLY D2,BY,E1
+         MULTIPLY D2,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    419         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    419         PERFORM GOOD
+         PERFORM GOOD
+*ZC    419         ELSE  
+         ELSE  
+*ZC    419         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY D2 BY W1 
+*ZC    420         MULTIPLY D2,BY,W1
+         MULTIPLY D2,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    421         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    421         PERFORM GOOD
+         PERFORM GOOD
+*ZC    421         ELSE  
+         ELSE  
+*ZC    421         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY D2 BY G1 
+*ZC    422         MULTIPLY D2,BY,G1
+         MULTIPLY D2,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    423         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    423         PERFORM GOOD
+         PERFORM GOOD
+*ZC    423         ELSE  
+         ELSE  
+*ZC    423         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY D2 BY H1 
+*ZC    424         MULTIPLY D2,BY,H1
+         MULTIPLY D2,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    425         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    425         PERFORM GOOD
+         PERFORM GOOD
+*ZC    425         ELSE  
+         ELSE  
+*ZC    425         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY D2 BY P1 
+*ZC    426         MULTIPLY D2,BY,P1
+         MULTIPLY D2,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    427         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    427         PERFORM GOOD
+         PERFORM GOOD
+*ZC    427         ELSE  
+         ELSE  
+*ZC    427         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY D2 BY Z1 
+*ZC    428         MULTIPLY D2,BY,Z1
+         MULTIPLY D2,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    429         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    429         PERFORM GOOD
+         PERFORM GOOD
+*ZC    429         ELSE  
+         ELSE  
+*ZC    429         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY E2 GOOD'
+*ZC    430         DISPLAY 'TESTCMP1 MULTIPLY E2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY E2 GOOD'
+*            MOVE -2 TO D1
+*ZC    431         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    432         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    433         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    434         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    435         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    436         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    437         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY E2 BY D1 
+*ZC    438         MULTIPLY E2,BY,D1
+         MULTIPLY E2,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    439         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    439         PERFORM GOOD
+         PERFORM GOOD
+*ZC    439         ELSE  
+         ELSE  
+*ZC    439         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY E2 BY E1 
+*ZC    440         MULTIPLY E2,BY,E1
+         MULTIPLY E2,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    441         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    441         PERFORM GOOD
+         PERFORM GOOD
+*ZC    441         ELSE  
+         ELSE  
+*ZC    441         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY E2 BY W1 
+*ZC    442         MULTIPLY E2,BY,W1
+         MULTIPLY E2,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    443         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    443         PERFORM GOOD
+         PERFORM GOOD
+*ZC    443         ELSE  
+         ELSE  
+*ZC    443         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY E2 BY G1 
+*ZC    444         MULTIPLY E2,BY,G1
+         MULTIPLY E2,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    445         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    445         PERFORM GOOD
+         PERFORM GOOD
+*ZC    445         ELSE  
+         ELSE  
+*ZC    445         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY E2 BY H1 
+*ZC    446         MULTIPLY E2,BY,H1
+         MULTIPLY E2,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    447         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    447         PERFORM GOOD
+         PERFORM GOOD
+*ZC    447         ELSE  
+         ELSE  
+*ZC    447         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY E2 BY P1 
+*ZC    448         MULTIPLY E2,BY,P1
+         MULTIPLY E2,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    449         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    449         PERFORM GOOD
+         PERFORM GOOD
+*ZC    449         ELSE  
+         ELSE  
+*ZC    449         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY E2 BY Z1 
+*ZC    450         MULTIPLY E2,BY,Z1
+         MULTIPLY E2,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    451         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    451         PERFORM GOOD
+         PERFORM GOOD
+*ZC    451         ELSE  
+         ELSE  
+*ZC    451         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY W2 GOOD'
+*ZC    452         DISPLAY 'TESTCMP1 MULTIPLY W2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY W2 GOOD'
+*            MOVE -2 TO D1
+*ZC    453         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    454         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    455         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    456         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    457         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    458         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    459         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY W2 BY D1 
+*ZC    460         MULTIPLY W2,BY,D1
+         MULTIPLY W2,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    461         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    461         PERFORM GOOD
+         PERFORM GOOD
+*ZC    461         ELSE  
+         ELSE  
+*ZC    461         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY W2 BY E1 
+*ZC    462         MULTIPLY W2,BY,E1
+         MULTIPLY W2,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    463         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    463         PERFORM GOOD
+         PERFORM GOOD
+*ZC    463         ELSE  
+         ELSE  
+*ZC    463         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY W2 BY W1 
+*ZC    464         MULTIPLY W2,BY,W1
+         MULTIPLY W2,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    465         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    465         PERFORM GOOD
+         PERFORM GOOD
+*ZC    465         ELSE  
+         ELSE  
+*ZC    465         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY W2 BY G1 
+*ZC    466         MULTIPLY W2,BY,G1
+         MULTIPLY W2,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    467         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    467         PERFORM GOOD
+         PERFORM GOOD
+*ZC    467         ELSE  
+         ELSE  
+*ZC    467         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY W2 BY H1 
+*ZC    468         MULTIPLY W2,BY,H1
+         MULTIPLY W2,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    469         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    469         PERFORM GOOD
+         PERFORM GOOD
+*ZC    469         ELSE  
+         ELSE  
+*ZC    469         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY W2 BY P1 
+*ZC    470         MULTIPLY W2,BY,P1
+         MULTIPLY W2,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    471         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    471         PERFORM GOOD
+         PERFORM GOOD
+*ZC    471         ELSE  
+         ELSE  
+*ZC    471         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY W2 BY Z1 
+*ZC    472         MULTIPLY W2,BY,Z1
+         MULTIPLY W2,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    473         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    473         PERFORM GOOD
+         PERFORM GOOD
+*ZC    473         ELSE  
+         ELSE  
+*ZC    473         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY G2 GOOD'
+*ZC    474         DISPLAY 'TESTCMP1 MULTIPLY G2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY G2 GOOD'
+*            MOVE -2 TO D1
+*ZC    475         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    476         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    477         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    478         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    479         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    480         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    481         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY G2 BY D1 
+*ZC    482         MULTIPLY G2,BY,D1
+         MULTIPLY G2,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    483         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    483         PERFORM GOOD
+         PERFORM GOOD
+*ZC    483         ELSE  
+         ELSE  
+*ZC    483         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY G2 BY E1 
+*ZC    484         MULTIPLY G2,BY,E1
+         MULTIPLY G2,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    485         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    485         PERFORM GOOD
+         PERFORM GOOD
+*ZC    485         ELSE  
+         ELSE  
+*ZC    485         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY G2 BY W1 
+*ZC    486         MULTIPLY G2,BY,W1
+         MULTIPLY G2,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    487         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    487         PERFORM GOOD
+         PERFORM GOOD
+*ZC    487         ELSE  
+         ELSE  
+*ZC    487         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY G2 BY G1 
+*ZC    488         MULTIPLY G2,BY,G1
+         MULTIPLY G2,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    489         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    489         PERFORM GOOD
+         PERFORM GOOD
+*ZC    489         ELSE  
+         ELSE  
+*ZC    489         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY G2 BY H1 
+*ZC    490         MULTIPLY G2,BY,H1
+         MULTIPLY G2,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    491         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    491         PERFORM GOOD
+         PERFORM GOOD
+*ZC    491         ELSE  
+         ELSE  
+*ZC    491         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY G2 BY P1 
+*ZC    492         MULTIPLY G2,BY,P1
+         MULTIPLY G2,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    493         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    493         PERFORM GOOD
+         PERFORM GOOD
+*ZC    493         ELSE  
+         ELSE  
+*ZC    493         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY G2 BY Z1 
+*ZC    494         MULTIPLY G2,BY,Z1
+         MULTIPLY G2,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    495         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    495         PERFORM GOOD
+         PERFORM GOOD
+*ZC    495         ELSE  
+         ELSE  
+*ZC    495         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY H2 GOOD'
+*ZC    496         DISPLAY 'TESTCMP1 MULTIPLY H2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY H2 GOOD'
+*            MOVE -2 TO D1
+*ZC    497         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    498         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    499         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    500         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    501         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    502         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    503         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY H2 BY D1 
+*ZC    504         MULTIPLY H2,BY,D1
+         MULTIPLY H2,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    505         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    505         PERFORM GOOD
+         PERFORM GOOD
+*ZC    505         ELSE  
+         ELSE  
+*ZC    505         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY H2 BY E1 
+*ZC    506         MULTIPLY H2,BY,E1
+         MULTIPLY H2,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    507         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    507         PERFORM GOOD
+         PERFORM GOOD
+*ZC    507         ELSE  
+         ELSE  
+*ZC    507         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY H2 BY W1 
+*ZC    508         MULTIPLY H2,BY,W1
+         MULTIPLY H2,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    509         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    509         PERFORM GOOD
+         PERFORM GOOD
+*ZC    509         ELSE  
+         ELSE  
+*ZC    509         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY H2 BY G1 
+*ZC    510         MULTIPLY H2,BY,G1
+         MULTIPLY H2,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    511         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    511         PERFORM GOOD
+         PERFORM GOOD
+*ZC    511         ELSE  
+         ELSE  
+*ZC    511         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY H2 BY H1 
+*ZC    512         MULTIPLY H2,BY,H1
+         MULTIPLY H2,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    513         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    513         PERFORM GOOD
+         PERFORM GOOD
+*ZC    513         ELSE  
+         ELSE  
+*ZC    513         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY H2 BY P1 
+*ZC    514         MULTIPLY H2,BY,P1
+         MULTIPLY H2,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    515         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    515         PERFORM GOOD
+         PERFORM GOOD
+*ZC    515         ELSE  
+         ELSE  
+*ZC    515         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY H2 BY Z1 
+*ZC    516         MULTIPLY H2,BY,Z1
+         MULTIPLY H2,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    517         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    517         PERFORM GOOD
+         PERFORM GOOD
+*ZC    517         ELSE  
+         ELSE  
+*ZC    517         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY P2 GOOD'
+*ZC    518         DISPLAY 'TESTCMP1 MULTIPLY P2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY P2 GOOD'
+*            MOVE -2 TO D1
+*ZC    519         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    520         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    521         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    522         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    523         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    524         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    525         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY P2 BY D1 
+*ZC    526         MULTIPLY P2,BY,D1
+         MULTIPLY P2,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    527         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    527         PERFORM GOOD
+         PERFORM GOOD
+*ZC    527         ELSE  
+         ELSE  
+*ZC    527         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY P2 BY E1 
+*ZC    528         MULTIPLY P2,BY,E1
+         MULTIPLY P2,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    529         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    529         PERFORM GOOD
+         PERFORM GOOD
+*ZC    529         ELSE  
+         ELSE  
+*ZC    529         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY P2 BY W1 
+*ZC    530         MULTIPLY P2,BY,W1
+         MULTIPLY P2,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    531         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    531         PERFORM GOOD
+         PERFORM GOOD
+*ZC    531         ELSE  
+         ELSE  
+*ZC    531         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY P2 BY G1 
+*ZC    532         MULTIPLY P2,BY,G1
+         MULTIPLY P2,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    533         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    533         PERFORM GOOD
+         PERFORM GOOD
+*ZC    533         ELSE  
+         ELSE  
+*ZC    533         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY P2 BY H1 
+*ZC    534         MULTIPLY P2,BY,H1
+         MULTIPLY P2,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    535         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    535         PERFORM GOOD
+         PERFORM GOOD
+*ZC    535         ELSE  
+         ELSE  
+*ZC    535         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY P2 BY P1 
+*ZC    536         MULTIPLY P2,BY,P1
+         MULTIPLY P2,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    537         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    537         PERFORM GOOD
+         PERFORM GOOD
+*ZC    537         ELSE  
+         ELSE  
+*ZC    537         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY P2 BY Z1 
+*ZC    538         MULTIPLY P2,BY,Z1
+         MULTIPLY P2,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    539         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    539         PERFORM GOOD
+         PERFORM GOOD
+*ZC    539         ELSE  
+         ELSE  
+*ZC    539         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 MULTIPLY Z2 GOOD'
+*ZC    540         DISPLAY 'TESTCMP1 MULTIPLY Z2 GOOD'
+         DISPLAY 'TESTCMP1 MULTIPLY Z2 GOOD'
+*            MOVE -2 TO D1
+*ZC    541         MOVE  -,2,TO,D1
+         MOVE  -,2,TO,D1
+*            MOVE -2 TO E1
+*ZC    542         MOVE  -,2,TO,E1
+         MOVE  -,2,TO,E1
+*            MOVE -2 TO W1
+*ZC    543         MOVE  -,2,TO,W1
+         MOVE  -,2,TO,W1
+*            MOVE -2 TO G1
+*ZC    544         MOVE  -,2,TO,G1
+         MOVE  -,2,TO,G1
+*            MOVE -2 TO H1
+*ZC    545         MOVE  -,2,TO,H1
+         MOVE  -,2,TO,H1
+*            MOVE -2 TO P1
+*ZC    546         MOVE  -,2,TO,P1
+         MOVE  -,2,TO,P1
+*            MOVE -2 TO Z1
+*ZC    547         MOVE  -,2,TO,Z1
+         MOVE  -,2,TO,Z1
+*            MULTIPLY Z2 BY D1 
+*ZC    548         MULTIPLY Z2,BY,D1
+         MULTIPLY Z2,BY,D1
+*             IF D1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    549         IF    D1,=,-,6
+         IF    D1,=,-,6
+*ZC    549         PERFORM GOOD
+         PERFORM GOOD
+*ZC    549         ELSE  
+         ELSE  
+*ZC    549         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY Z2 BY E1 
+*ZC    550         MULTIPLY Z2,BY,E1
+         MULTIPLY Z2,BY,E1
+*             IF E1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    551         IF    E1,=,-,6
+         IF    E1,=,-,6
+*ZC    551         PERFORM GOOD
+         PERFORM GOOD
+*ZC    551         ELSE  
+         ELSE  
+*ZC    551         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY Z2 BY W1 
+*ZC    552         MULTIPLY Z2,BY,W1
+         MULTIPLY Z2,BY,W1
+*             IF W1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    553         IF    W1,=,-,6
+         IF    W1,=,-,6
+*ZC    553         PERFORM GOOD
+         PERFORM GOOD
+*ZC    553         ELSE  
+         ELSE  
+*ZC    553         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY Z2 BY G1 
+*ZC    554         MULTIPLY Z2,BY,G1
+         MULTIPLY Z2,BY,G1
+*             IF G1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    555         IF    G1,=,-,6
+         IF    G1,=,-,6
+*ZC    555         PERFORM GOOD
+         PERFORM GOOD
+*ZC    555         ELSE  
+         ELSE  
+*ZC    555         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY Z2 BY H1 
+*ZC    556         MULTIPLY Z2,BY,H1
+         MULTIPLY Z2,BY,H1
+*             IF H1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    557         IF    H1,=,-,6
+         IF    H1,=,-,6
+*ZC    557         PERFORM GOOD
+         PERFORM GOOD
+*ZC    557         ELSE  
+         ELSE  
+*ZC    557         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY Z2 BY P1 
+*ZC    558         MULTIPLY Z2,BY,P1
+         MULTIPLY Z2,BY,P1
+*             IF P1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    559         IF    P1,=,-,6
+         IF    P1,=,-,6
+*ZC    559         PERFORM GOOD
+         PERFORM GOOD
+*ZC    559         ELSE  
+         ELSE  
+*ZC    559         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY Z2 BY Z1 
+*ZC    560         MULTIPLY Z2,BY,Z1
+         MULTIPLY Z2,BY,Z1
+*             IF Z1 = -6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    561         IF    Z1,=,-,6
+         IF    Z1,=,-,6
+*ZC    561         PERFORM GOOD
+         PERFORM GOOD
+*ZC    561         ELSE  
+         ELSE  
+*ZC    561         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 DIVIDE COMP-1/2 GOOD'
+*ZC    562         DISPLAY 'TESTCMP1 DIVIDE COMP-1/2 GOOD'
+         DISPLAY 'TESTCMP1 DIVIDE COMP-1/2 GOOD'
+*            DIVIDE 2 INTO 7 GIVING D2 
+*ZC    563         DIVIDE 2,INTO,7,GIVING,D2
+         DIVIDE 2,INTO,7,GIVING,D2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    564         IF    D2,=,3.5
+         IF    D2,=,3.5
+*ZC    564         PERFORM GOOD
+         PERFORM GOOD
+*ZC    564         ELSE  
+         ELSE  
+*ZC    564         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING E2 
+*ZC    565         DIVIDE 2,INTO,7,GIVING,E2
+         DIVIDE 2,INTO,7,GIVING,E2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    566         IF    E2,=,3.5
+         IF    E2,=,3.5
+*ZC    566         PERFORM GOOD
+         PERFORM GOOD
+*ZC    566         ELSE  
+         ELSE  
+*ZC    566         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING W2 REMAINDER W3
+*ZC    567         DIVIDE 2,INTO,7,GIVING,W2,REMAINDER,W3
+         DIVIDE 2,INTO,7,GIVING,W2,REMAINDER,W3
+*             IF W2 = 3 AND W3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    568         IF    W2,=,3,AND,W3,=,1
+         IF    W2,=,3,AND,W3,=,1
+*ZC    568         PERFORM GOOD
+         PERFORM GOOD
+*ZC    568         ELSE  
+         ELSE  
+*ZC    568         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING G2 REMAINDER G3
+*ZC    569         DIVIDE 2,INTO,7,GIVING,G2,REMAINDER,G3
+         DIVIDE 2,INTO,7,GIVING,G2,REMAINDER,G3
+*             IF G2 = 3 AND G3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    570         IF    G2,=,3,AND,G3,=,1
+         IF    G2,=,3,AND,G3,=,1
+*ZC    570         PERFORM GOOD
+         PERFORM GOOD
+*ZC    570         ELSE  
+         ELSE  
+*ZC    570         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING H2 REMAINDER H3
+*ZC    571         DIVIDE 2,INTO,7,GIVING,H2,REMAINDER,H3
+         DIVIDE 2,INTO,7,GIVING,H2,REMAINDER,H3
+*             IF H2 = 3 AND H3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    572         IF    H2,=,3,AND,H3,=,1
+         IF    H2,=,3,AND,H3,=,1
+*ZC    572         PERFORM GOOD
+         PERFORM GOOD
+*ZC    572         ELSE  
+         ELSE  
+*ZC    572         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING P2 REMAINDER P3
+*ZC    573         DIVIDE 2,INTO,7,GIVING,P2,REMAINDER,P3
+         DIVIDE 2,INTO,7,GIVING,P2,REMAINDER,P3
+*             IF P2 = 3 AND P3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    574         IF    P2,=,3,AND,P3,=,1
+         IF    P2,=,3,AND,P3,=,1
+*ZC    574         PERFORM GOOD
+         PERFORM GOOD
+*ZC    574         ELSE  
+         ELSE  
+*ZC    574         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING Z2 REMAINDER Z3
+*ZC    575         DIVIDE 2,INTO,7,GIVING,Z2,REMAINDER,Z3
+         DIVIDE 2,INTO,7,GIVING,Z2,REMAINDER,Z3
+*             IF Z2 = 3 AND Z3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    576         IF    Z2,=,3,AND,Z3,=,1
+         IF    Z2,=,3,AND,Z3,=,1
+*ZC    576         PERFORM GOOD
+         PERFORM GOOD
+*ZC    576         ELSE  
+         ELSE  
+*ZC    576         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 7 BY 2 GIVING D2 
+*ZC    577         DIVIDE 7,BY,2,GIVING,D2
+         DIVIDE 7,BY,2,GIVING,D2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    578         IF    D2,=,3.5
+         IF    D2,=,3.5
+*ZC    578         PERFORM GOOD
+         PERFORM GOOD
+*ZC    578         ELSE  
+         ELSE  
+*ZC    578         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 7 BY 2 GIVING E2 
+*ZC    579         DIVIDE 7,BY,2,GIVING,E2
+         DIVIDE 7,BY,2,GIVING,E2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    580         IF    E2,=,3.5
+         IF    E2,=,3.5
+*ZC    580         PERFORM GOOD
+         PERFORM GOOD
+*ZC    580         ELSE  
+         ELSE  
+*ZC    580         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 7 BY 2 GIVING W2 REMAINDER W3
+*ZC    581         DIVIDE 7,BY,2,GIVING,W2,REMAINDER,W3
+         DIVIDE 7,BY,2,GIVING,W2,REMAINDER,W3
+*             IF W2 = 3 AND W3 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    582         IF    W2,=,3,AND,W3,=,1
+         IF    W2,=,3,AND,W3,=,1
+*ZC    582         PERFORM GOOD
+         PERFORM GOOD
+*ZC    582         ELSE  
+         ELSE  
+*ZC    582         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 7 TO D2
+*ZC    583         MOVE  7,TO,D2
+         MOVE  7,TO,D2
+*            DIVIDE 2 INTO D2 
+*ZC    584         DIVIDE 2,INTO,D2
+         DIVIDE 2,INTO,D2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    585         IF    D2,=,3.5
+         IF    D2,=,3.5
+*ZC    585         PERFORM GOOD
+         PERFORM GOOD
+*ZC    585         ELSE  
+         ELSE  
+*ZC    585         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 7 TO E2
+*ZC    586         MOVE  7,TO,E2
+         MOVE  7,TO,E2
+*            DIVIDE 2 INTO E2 
+*ZC    587         DIVIDE 2,INTO,E2
+         DIVIDE 2,INTO,E2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    588         IF    E2,=,3.5
+         IF    E2,=,3.5
+*ZC    588         PERFORM GOOD
+         PERFORM GOOD
+*ZC    588         ELSE  
+         ELSE  
+*ZC    588         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 7 TO D2
+*ZC    589         MOVE  7,TO,D2
+         MOVE  7,TO,D2
+*            DIVIDE D2 BY 2 
+*ZC    590         DIVIDE D2,BY,2
+         DIVIDE D2,BY,2
+*             IF D2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    591         IF    D2,=,3.5
+         IF    D2,=,3.5
+*ZC    591         PERFORM GOOD
+         PERFORM GOOD
+*ZC    591         ELSE  
+         ELSE  
+*ZC    591         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 7 TO E2
+*ZC    592         MOVE  7,TO,E2
+         MOVE  7,TO,E2
+*            DIVIDE E2 BY 2 
+*ZC    593         DIVIDE E2,BY,2
+         DIVIDE E2,BY,2
+*             IF E2 = 3.5 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    594         IF    E2,=,3.5
+         IF    E2,=,3.5
+*ZC    594         PERFORM GOOD
+         PERFORM GOOD
+*ZC    594         ELSE  
+         ELSE  
+*      * TEST ADD WITH MULT SOURCE AND TARGETS
+*ZC    594         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 0 TO H1 H2
+*ZC    596         MOVE  0,TO,H1,H2
+         MOVE  0,TO,H1,H2
+*            ADD 1 2 3 TO H1 H2
+*ZC    597         ADD   1,2,3,TO,H1,H2
+         ADD   1,2,3,TO,H1,H2
+*            IF H1 = 6 AND H2 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    598         IF    H1,=,6,AND,H2,=,6
+         IF    H1,=,6,AND,H2,=,6
+*ZC    598         PERFORM GOOD
+         PERFORM GOOD
+*ZC    598         ELSE  
+         ELSE  
+*ZC    598         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD 1 2 3 GIVING H1 H2
+*ZC    599         ADD   1,2,3,GIVING,H1,H2
+         ADD   1,2,3,GIVING,H1,H2
+*            IF H1 = 6 AND H2 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    600         IF    H1,=,6,AND,H2,=,6
+         IF    H1,=,6,AND,H2,=,6
+*ZC    600         PERFORM GOOD
+         PERFORM GOOD
+*ZC    600         ELSE  
+         ELSE  
+*ZC    600         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            ADD 1 2 TO 3 GIVING H1 H2
+*ZC    601         ADD   1,2,TO,3,GIVING,H1,H2
+         ADD   1,2,TO,3,GIVING,H1,H2
+*            IF H1 = 6 AND H2 = 6 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    602         IF    H1,=,6,AND,H2,=,6
+         IF    H1,=,6,AND,H2,=,6
+*ZC    602         PERFORM GOOD
+         PERFORM GOOD
+*ZC    602         ELSE  
+         ELSE  
+*      * TEST SUBTRACT WITH MULT SOURCE AND TARGETS
+*ZC    602         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 7 TO H1 H2
+*ZC    604         MOVE  7,TO,H1,H2
+         MOVE  7,TO,H1,H2
+*            SUBTRACT 1 2 3 FROM H1 H2
+*ZC    605         SUBTRACT 1,2,3,FROM,H1,H2
+         SUBTRACT 1,2,3,FROM,H1,H2
+*            IF H1 = 1 AND H2 = 1 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    606         IF    H1,=,1,AND,H2,=,1
+         IF    H1,=,1,AND,H2,=,1
+*ZC    606         PERFORM GOOD
+         PERFORM GOOD
+*ZC    606         ELSE  
+         ELSE  
+*ZC    606         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            SUBTRACT 1 2 3 FROM 8 GIVING H1 H2
+*ZC    607         SUBTRACT 1,2,3,FROM,8,GIVING,H1,H2
+         SUBTRACT 1,2,3,FROM,8,GIVING,H1,H2
+*            IF H1 = 2 AND H2 = 2 PERFORM GOOD ELSE PERFORM BAD.
+*ZC    608         IF    H1,=,2,AND,H2,=,2
+         IF    H1,=,2,AND,H2,=,2
+*ZC    608         PERFORM GOOD
+         PERFORM GOOD
+*ZC    608         ELSE  
+         ELSE  
+*      * TEST DIVIDE WITH MULT TARGETS 
+*ZC    608         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 3 TO H1 H2
+*ZC    610         MOVE  3,TO,H1,H2
+         MOVE  3,TO,H1,H2
+*            DIVIDE 2 INTO H1 H2
+*ZC    611         DIVIDE 2,INTO,H1,H2
+         DIVIDE 2,INTO,H1,H2
+*            IF H1 = 1 AND H2 = 1 
+*ZC    612         IF    H1,=,1,AND,H2,=,1
+         IF    H1,=,1,AND,H2,=,1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    613         PERFORM GOOD
+         PERFORM GOOD
+*ZC    613         ELSE  
+         ELSE  
+*ZC    613         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING H1 H2
+*ZC    614         DIVIDE 2,INTO,7,GIVING,H1,H2
+         DIVIDE 2,INTO,7,GIVING,H1,H2
+*            IF H1 = 3 AND H2 = 3 
+*ZC    615         IF    H1,=,3,AND,H2,=,3
+         IF    H1,=,3,AND,H2,=,3
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    616         PERFORM GOOD
+         PERFORM GOOD
+*ZC    616         ELSE  
+         ELSE  
+*ZC    616         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DIVIDE 2 INTO 7 GIVING H1 REMAINDER H2
+*ZC    617         DIVIDE 2,INTO,7,GIVING,H1,REMAINDER,H2
+         DIVIDE 2,INTO,7,GIVING,H1,REMAINDER,H2
+*            IF H1 = 3 AND H2 = 1 
+*ZC    618         IF    H1,=,3,AND,H2,=,1
+         IF    H1,=,3,AND,H2,=,1
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    619         PERFORM GOOD
+         PERFORM GOOD
+*ZC    619         ELSE  
+         ELSE  
+*      * TEST MULTIPLY WITH MULT MULTIPLIERS AND MULT GIVING
+*ZC    619         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 3 TO H1
+*ZC    621         MOVE  3,TO,H1
+         MOVE  3,TO,H1
+*            MULTIPLY 2 BY H1   
+*ZC    622         MULTIPLY 2,BY,H1
+         MULTIPLY 2,BY,H1
+*            IF H1 = 6 
+*ZC    623         IF    H1,=,6
+         IF    H1,=,6
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    624         PERFORM GOOD
+         PERFORM GOOD
+*ZC    624         ELSE  
+         ELSE  
+*ZC    624         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MOVE 3 TO H1
+*ZC    625         MOVE  3,TO,H1
+         MOVE  3,TO,H1
+*            MULTIPLY 2 BY H1 H1  
+*ZC    626         MULTIPLY 2,BY,H1,H1
+         MULTIPLY 2,BY,H1,H1
+*            IF H1 = 12 
+*ZC    627         IF    H1,=,12
+         IF    H1,=,12
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    628         PERFORM GOOD
+         PERFORM GOOD
+*ZC    628         ELSE  
+         ELSE  
+*ZC    628         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            MULTIPLY 3 BY 2 GIVING H1 H2  
+*ZC    629         MULTIPLY 3,BY,2,GIVING,H1,H2
+         MULTIPLY 3,BY,2,GIVING,H1,H2
+*            IF H1 = 6 AND H2 = 6 
+*ZC    630         IF    H1,=,6,AND,H2,=,6
+         IF    H1,=,6,AND,H2,=,6
+*               PERFORM GOOD ELSE PERFORM BAD.
+*ZC    631         PERFORM GOOD
+         PERFORM GOOD
+*ZC    631         ELSE  
+         ELSE  
+*ZC    631         PERFORM BAD
+         PERFORM BAD
+         PERIOD 
+*            DISPLAY 'TESTCMP1 GOOD TESTS =' GOOD
+*ZC    632         DISPLAY 'TESTCMP1 GOOD TESTS =',GOOD
+         DISPLAY 'TESTCMP1 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC    633         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD.
+*ZC    635         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+         PERIOD 
+*        BAD.
+         LABEL BAD
+*            MOVE 16 TO RETURN-CODE
+*ZC    637         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    638         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

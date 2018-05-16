@@ -1,0 +1,189 @@
+DAT       MZ390 START
+DAT       MZ390 Copyright 2011 Automated Software Tools Corporation
+DAT       MZ390 z390 is licensed under GNU General Public License
+DAT       MZ390 program = linklib\DAT.MLC
+DAT       MZ390 options = W:\work\z390\z390.OPT=(time(60)) bal notiming sysmac(mac) 
+  syscpy(mac) stats systerm(linklib\rtlink)
+DAT       MZ390 final_options=ALIGN
+DAT       MZ390 final_options=NOALLOW
+DAT       MZ390 final_options=NOAMODE24
+DAT       MZ390 final_options=AMODE31
+DAT       MZ390 final_options=NOASCII
+DAT       MZ390 final_options=ASM
+DAT       MZ390 final_options=NOASSIST
+DAT       MZ390 final_options=AUTOLINK
+DAT       MZ390 final_options=BAL
+DAT       MZ390 final_options=NOBS2000
+DAT       MZ390 final_options=EDF
+DAT       MZ390 final_options=NOCICS
+DAT       MZ390 final_options=CODEPAGE(ISO-8859-1+IBM1047)
+DAT       MZ390 final_options=COMMENT
+DAT       MZ390 final_options=CON
+DAT       MZ390 final_options=NODUMP
+DAT       MZ390 final_options=EPILOG
+DAT       MZ390 final_options=NOERRSUM
+DAT       MZ390 final_options=EXTEND
+DAT       MZ390 final_options=FLOAT(DECIMAL)
+DAT       MZ390 final_options=NOGUAM
+DAT       MZ390 final_options=INIT
+DAT       MZ390 final_options=LIST
+DAT       MZ390 final_options=LISTCALL
+DAT       MZ390 final_options=LISTUSE
+DAT       MZ390 final_options=LOADHIGH
+DAT       MZ390 final_options=NOMCALL
+DAT       MZ390 final_options=NOMOD
+DAT       MZ390 final_options=OBJ
+DAT       MZ390 final_options=NOOBJHEX
+DAT       MZ390 final_options=PC
+DAT       MZ390 final_options=PCOPT
+DAT       MZ390 final_options=NOPDSMEM8
+DAT       MZ390 final_options=NOPRINTALL
+DAT       MZ390 final_options=PROLOG
+DAT       MZ390 final_options=PROTECT
+DAT       MZ390 final_options=R64
+DAT       MZ390 final_options=NOREFORMAT
+DAT       MZ390 final_options=NOREGS
+DAT       MZ390 final_options=RMODE24
+DAT       MZ390 final_options=NORMODE31
+DAT       MZ390 final_options=STATS
+DAT       MZ390 final_options=NOTEST
+DAT       MZ390 final_options=THREAD
+DAT       MZ390 final_options=NOTIME
+DAT       MZ390 final_options=NOTIMING
+DAT       MZ390 final_options=NOTRACE
+DAT       MZ390 final_options=NOTRACEA
+DAT       MZ390 final_options=NOTRACEALL
+DAT       MZ390 final_options=NOTRACEC
+DAT       MZ390 final_options=NOTRACEG
+DAT       MZ390 final_options=NOTRACEI
+DAT       MZ390 final_options=NOTRACEL
+DAT       MZ390 final_options=NOTRACEM
+DAT       MZ390 final_options=NOTRACEP
+DAT       MZ390 final_options=NOTRACEQ
+DAT       MZ390 final_options=NOTRACES
+DAT       MZ390 final_options=NOTRACET
+DAT       MZ390 final_options=NOTRACEV
+DAT       MZ390 final_options=TRAP
+DAT       MZ390 final_options=NOTRUNC
+DAT       MZ390 final_options=NOTS
+DAT       MZ390 final_options=VCB
+DAT       MZ390 final_options=WARN
+DAT       MZ390 final_options=XREF
+DAT       MZ390 final_options=ZSTRMAC
+DAT       MZ390 final_options=CHKMAC=0
+DAT       MZ390 final_options=CHKSRC=1
+DAT       MZ390 final_options=ERR=100
+DAT       MZ390 final_options=MAXCALL=50
+DAT       MZ390 final_options=MAXDISPLAY=80
+DAT       MZ390 final_options=MAXESD=1000
+DAT       MZ390 final_options=MAXFILE=1000
+DAT       MZ390 final_options=MAXGBL=100000
+DAT       MZ390 final_options=MAXHEIGHT=600
+DAT       MZ390 final_options=MAXLCL=100000
+DAT       MZ390 final_options=MAXLEN=80
+DAT       MZ390 final_options=MAXLINE=200000
+DAT       MZ390 final_options=MAXLOG=1000000
+DAT       MZ390 final_options=MAXPARM=10000
+DAT       MZ390 final_options=MAXPASS=2
+DAT       MZ390 final_options=MAXPC=50000
+DAT       MZ390 final_options=MAXQUE=1000
+DAT       MZ390 final_options=MAXRLD=10000
+DAT       MZ390 final_options=MAXSIZE=52428800
+DAT       MZ390 final_options=MAXSYM=50000
+DAT       MZ390 final_options=MAXWARN=4
+DAT       MZ390 final_options=MAXWIDTH=800
+DAT       MZ390 final_options=MEM=1
+DAT       MZ390 final_options=MINHEIGHT=150
+DAT       MZ390 final_options=MINWIDTH=150
+DAT       MZ390 final_options=MNOTE=0
+DAT       MZ390 final_options=PARM=
+DAT       MZ390 final_options=PROFILE=
+DAT       MZ390 final_options=STATS=W:\work\z390\linklib\DAT.STA
+DAT       MZ390 final_options=SYSPARM=
+DAT       MZ390 final_options=SYSTERM=W:\work\z390\linklib\rtlink.ERR
+DAT       MZ390 final_options=TESTDD=
+DAT       MZ390 final_options=TIME=60
+DAT       MZ390 final_options=TRACE=
+DAT       MZ390 final_options=Z390ACROBAT=cmd.exe /c Start
+DAT       MZ390 final_options=Z390BROWSER=cmd.exe /c Start
+DAT       MZ390 final_options=Z390COMMAND=cmd.exe
+DAT       MZ390 final_options=Z390EDITOR=notepad.exe
+DAT       MZ390 final_options=INSTALL=
+DAT       MZ390 final_options=IPL=
+DAT       MZ390 final_options=LOG=
+DAT       MZ390 final_options=SYS390=linklib\+linklib
+DAT       MZ390 final_options=SYSBAL=linklib\
+DAT       MZ390 final_options=SYSCPY=mac
+DAT       MZ390 final_options=SYSDAT=linklib\
+DAT       MZ390 final_options=SYSERR=linklib\
+DAT       MZ390 final_options=SYSLOG=linklib\
+DAT       MZ390 final_options=SYSLST=linklib\
+DAT       MZ390 final_options=SYSMAC=mac
+DAT       MZ390 final_options=SYSMLC=linklib\
+DAT       MZ390 final_options=SYSPCH=linklib\
+DAT       MZ390 final_options=SYSPRN=linklib\
+DAT       MZ390 final_options=SYSOBJ=linklib\
+DAT       MZ390 final_options=SYSOPT=linklib\
+DAT       MZ390 final_options=SYSTRC=linklib\
+DAT       MZ390 total MLC/MAC loaded  = 344
+DAT       MZ390 total BAL output lines= 106
+DAT       MZ390 total BAL instructions= 30
+DAT       MZ390 total macros          = 6
+DAT       MZ390 total macro loads     = 6
+DAT       MZ390 total macro calls     = 7
+DAT       MZ390 total AENTRY blocks   = 0
+DAT       MZ390 total ACALL  calls    = 0
+DAT       MZ390 total AIF    blocks   = 4
+DAT       MZ390 total ACASE  blocks   = 0
+DAT       MZ390 total AWHILE calls    = 1
+DAT       MZ390 total AUNTIL blocks   = 0
+DAT       MZ390 total global set names= 61
+DAT       MZ390 tot global seta cells = 2
+DAT       MZ390 tot global setb cells = 77
+DAT       MZ390 tot global setc cells = 42
+DAT       MZ390 max local pos parms   = 3
+DAT       MZ390 max local key parms   = 11
+DAT       MZ390 max local set names   = 13
+DAT       MZ390 max local seta cells  = 5
+DAT       MZ390 max local setb cells  = 0
+DAT       MZ390 max local setc cells  = 25
+DAT       MZ390 total array expansions= 0
+DAT       MZ390 total Keys            = 1592
+DAT       MZ390 Key searches          = 3063
+DAT       MZ390 Key avg comps         = 0
+DAT       MZ390 Key max comps         = 3
+DAT       MZ390 total macro line exec = 319
+DAT       MZ390 total pcode line exec = 105
+DAT       MZ390 total pcode line gen. = 51
+DAT       MZ390 total pcode line reuse= 0
+DAT       MZ390 total pcode op   gen. = 232
+DAT       MZ390 total pcode op   exec = 561
+DAT       MZ390 total pcode gen  opt  = 106
+DAT       MZ390 total pcode exec opt  = 1
+DAT       MZ390 FID=  1 ERR= 0 W:\work\z390\linklib\DAT.MLC
+DAT       MZ390 FID=  2 ERR= 0 W:\work\z390\mac\SUBENTRY.MAC
+DAT       MZ390 FID=  3 ERR= 0 W:\work\z390\mac\TIME.MAC
+DAT       MZ390 FID=  4 ERR= 0 W:\work\z390\mac\WTO.MAC
+DAT       MZ390 FID=  5 ERR= 0 W:\work\z390\mac\SUBEXIT.MAC
+DAT       MZ390 FID=  6 ERR= 0 W:\work\z390\mac\EQUREGS.MAC
+DAT       MZ390 total mnote warnings  = 0
+DAT       MZ390 total mnote errors    = 0
+DAT       MZ390 max   mnote level     = 0
+DAT       MZ390 total mz390 errors    = 0
+DAT       AZ390 BAL lines             = 106
+DAT       AZ390 symbols               = 31
+DAT       AZ390 Literals              = 1
+DAT       AZ390 alloc passes          = 2
+DAT       AZ390 Keys                  = 1351
+DAT       AZ390 Key searches          = 2042
+DAT       AZ390 Key avg comps         = 0
+DAT       AZ390 Key max comps         = 3
+DAT       AZ390 ESD symbols           = 1
+DAT       AZ390 object bytes          = 430
+DAT       AZ390 object rlds           = 0
+DAT       AZ390 total mnote warnings  = 0
+DAT       AZ390 total mnote errors    = 0
+DAT       AZ390 max   mnote level     = 0
+DAT       AZ390 total mz390 errors    = 0
+DAT       AZ390 total az390 errors    = 0
+DAT       MZ390 ENDED   RC= 0 MEM(MB)= MB IO=1790

@@ -1,0 +1,480 @@
+         ZCOBOL PGM='zcobol\test\TESTMOV1',VER=V1.5.06,CDATE=MM/DD/YY,CX
+               TIME=,OPTIONS=(SYSCPY(+zcobol+zcobol\z390),notiming,statX
+               s)
+         COPY  TESTMOV1_ZC_LABELS.CPY
+*        IDENTIFICATION DIVISION.
+         IDENTIFICATION DIVISION
+*        PROGRAM-ID.    TESTMOV1.
+         PROGRAM_ID TESTMOV1
+*        AUTHOR.        DON HIGGINS.
+*      * TEST MOVE.
+*      ***************************************************************
+*      * 01/26/12 DSH RPI 1181 ADD TEST 21
+*      ***************************************************************
+         AUTHOR DON,HIGGINS
+*        ENVIRONMENT DIVISION.
+         ENVIRONMENT DIVISION
+*        DATA DIVISION.
+         DATA  DIVISION
+*        WORKING-STORAGE SECTION.
+         WORKING_STORAGE SECTION
+*        01  ABCDEF PIC X(6) VALUE 'ABCDEF'.
+         WS      01,ABCDEF,PIC,X(6),VALUE,'ABCDEF'
+*        01  ABC    PIC X(3) REDEFINES ABCDEF OCCURS 2.
+         WS      01,ABC,PIC,X(3),REDEFINES,ABCDEF,OCCURS,2
+*         77  NF1    COMP PIC S9(9).
+         WS      77,NF1,COMP,PIC,S9(9)
+*         77  DF1    PIC Z(9).
+         WS      77,DF1,PIC,Z(9)
+*         77  DF2    PIC Z(8)9.
+         WS      77,DF2,PIC,Z(8)9
+*         77  DF3    PIC ZZZ,ZZZ,ZZ9.
+         WS      77,DF3,PIC,'ZZZ,ZZZ,ZZ9'
+*         77  NH1    COMP PIC S9(4).
+         WS      77,NH1,COMP,PIC,S9(4)
+*         77  DH1    PIC Z(4).
+         WS      77,DH1,PIC,Z(4)
+*         77  DH2    PIC Z(3)9.
+         WS      77,DH2,PIC,Z(3)9
+*         77  NP1    COMP-3 PIC S9.
+         WS      77,NP1,COMP_3,PIC,S9
+*         77  NP2    COMP-3 PIC S9(4).
+         WS      77,NP2,COMP_3,PIC,S9(4)
+*         77  DP1    PIC Z.
+         WS      77,DP1,PIC,Z
+*         77  DP2    PIC Z(3)9.
+         WS      77,DP2,PIC,Z(3)9
+*         77  DP3    PIC ZZ-99.
+         WS      77,DP3,PIC,ZZ-99
+*         77  FLD1   PIC XX VALUE  'XY'.
+         WS      77,FLD1,PIC,XX,VALUE,'XY'
+*         77  FLD2   PIC XXX VALUE 'ABC'.
+         WS      77,FLD2,PIC,XXX,VALUE,'ABC'
+         WS      77,GOOD,COMP,PIC,S9(9),VALUE,0
+*         77  GOOD   COMP PIC S9(9) VALUE 0..
+*        77 SUB1 PIC 9.
+         WS      77,SUB1,PIC,9
+         DATA  END
+*        PROCEDURE DIVISION.
+*ZC   PROCEDURE DIVISION
+         PROCEDURE DIVISION
+*        MAINLINE.
+         LABEL MAINLINE
+*            MOVE 0 TO NF1
+*ZC     31         MOVE  0,TO,NF1
+         MOVE  0,TO,NF1
+*      1     MOVE NF1 TO DF1                                           
+*ZC     32      1  MOVE  NF1,TO,DF1
+         MOVE  NF1,TO,DF1
+*            IF DF1 NOT = '         ' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     33         IF    DF1,NOT,=,'         '
+         IF    DF1,NOT,=,'         '
+*ZC     33         PERFORM BAD
+         PERFORM BAD
+*ZC     33         ELSE  
+         ELSE  
+*ZC     33         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 1 TO NF1
+*ZC     34         MOVE  1,TO,NF1
+         MOVE  1,TO,NF1
+*      2     MOVE NF1 TO DF1                                           X
+                
+*ZC     35      2  MOVE  NF1,TO,DF1
+         MOVE  NF1,TO,DF1
+*            IF DF1 NOT = '        1' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     36         IF    DF1,NOT,=,'        1'
+         IF    DF1,NOT,=,'        1'
+*ZC     36         PERFORM BAD
+         PERFORM BAD
+*ZC     36         ELSE  
+         ELSE  
+*ZC     36         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 0 TO NF1
+*ZC     37         MOVE  0,TO,NF1
+         MOVE  0,TO,NF1
+*      3     MOVE NF1 TO DF2                                           X
+                
+*ZC     38      3  MOVE  NF1,TO,DF2
+         MOVE  NF1,TO,DF2
+*            IF DF2 NOT = '        0' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     39         IF    DF2,NOT,=,'        0'
+         IF    DF2,NOT,=,'        0'
+*ZC     39         PERFORM BAD
+         PERFORM BAD
+*ZC     39         ELSE  
+         ELSE  
+*ZC     39         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 123456789 TO NF1
+*ZC     40         MOVE  123456789,TO,NF1
+         MOVE  123456789,TO,NF1
+*      4     MOVE NF1 TO DF2                                           X
+                
+*ZC     41      4  MOVE  NF1,TO,DF2
+         MOVE  NF1,TO,DF2
+*            IF DF2 NOT = '123456789' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     42         IF    DF2,NOT,=,'123456789'
+         IF    DF2,NOT,=,'123456789'
+*ZC     42         PERFORM BAD
+         PERFORM BAD
+*ZC     42         ELSE  
+         ELSE  
+*ZC     42         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 0 TO NF1
+*ZC     43         MOVE  0,TO,NF1
+         MOVE  0,TO,NF1
+*      5     MOVE NF1 TO DF3                                           X
+                
+*ZC     44      5  MOVE  NF1,TO,DF3
+         MOVE  NF1,TO,DF3
+*            IF DF3 NOT = '          0' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     45         IF    DF3,NOT,=,'          0'
+         IF    DF3,NOT,=,'          0'
+*ZC     45         PERFORM BAD
+         PERFORM BAD
+*ZC     45         ELSE  
+         ELSE  
+*ZC     45         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 123456789 TO NF1
+*ZC     46         MOVE  123456789,TO,NF1
+         MOVE  123456789,TO,NF1
+*      6     MOVE NF1 TO DF3                                           X
+                
+*ZC     47      6  MOVE  NF1,TO,DF3
+         MOVE  NF1,TO,DF3
+*            IF DF3 NOT = '123,456,789' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     48         IF    DF3,NOT,=,'123,456,789'
+         IF    DF3,NOT,=,'123,456,789'
+*ZC     48         PERFORM BAD
+         PERFORM BAD
+*ZC     48         ELSE  
+         ELSE  
+*ZC     48         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 0 TO NH1
+*ZC     49         MOVE  0,TO,NH1
+         MOVE  0,TO,NH1
+*      7     MOVE NH1 TO DH1                                           X
+                
+*ZC     50      7  MOVE  NH1,TO,DH1
+         MOVE  NH1,TO,DH1
+*            IF DH1 NOT = '    ' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     51         IF    DH1,NOT,=,'    '
+         IF    DH1,NOT,=,'    '
+*ZC     51         PERFORM BAD
+         PERFORM BAD
+*ZC     51         ELSE  
+         ELSE  
+*ZC     51         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 1 TO NH1
+*ZC     52         MOVE  1,TO,NH1
+         MOVE  1,TO,NH1
+*      8     MOVE NH1 TO DH1                                           X
+                
+*ZC     53      8  MOVE  NH1,TO,DH1
+         MOVE  NH1,TO,DH1
+*            IF DH1 NOT = '   1' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     54         IF    DH1,NOT,=,'   1'
+         IF    DH1,NOT,=,'   1'
+*ZC     54         PERFORM BAD
+         PERFORM BAD
+*ZC     54         ELSE  
+         ELSE  
+*ZC     54         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 0 TO NH1
+*ZC     55         MOVE  0,TO,NH1
+         MOVE  0,TO,NH1
+*      9     MOVE NH1 TO DH2                                           X
+                
+*ZC     56      9  MOVE  NH1,TO,DH2
+         MOVE  NH1,TO,DH2
+*            IF DH2 NOT = '   0' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     57         IF    DH2,NOT,=,'   0'
+         IF    DH2,NOT,=,'   0'
+*ZC     57         PERFORM BAD
+         PERFORM BAD
+*ZC     57         ELSE  
+         ELSE  
+*ZC     57         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 1234 TO NH1
+*ZC     58         MOVE  1234,TO,NH1
+         MOVE  1234,TO,NH1
+*     10     MOVE NH1 TO DH2                                           X
+                
+*ZC     59     10  MOVE  NH1,TO,DH2
+         MOVE  NH1,TO,DH2
+*            IF DH2 NOT = '1234' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     60         IF    DH2,NOT,=,'1234'
+         IF    DH2,NOT,=,'1234'
+*ZC     60         PERFORM BAD
+         PERFORM BAD
+*ZC     60         ELSE  
+         ELSE  
+*ZC     60         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 0 TO NP1
+*ZC     61         MOVE  0,TO,NP1
+         MOVE  0,TO,NP1
+*     11     MOVE NP1 TO DP1                                           
+*ZC     62     11  MOVE  NP1,TO,DP1
+         MOVE  NP1,TO,DP1
+*            IF DP1 NOT = ' ' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     63         IF    DP1,NOT,=,' '
+         IF    DP1,NOT,=,' '
+*ZC     63         PERFORM BAD
+         PERFORM BAD
+*ZC     63         ELSE  
+         ELSE  
+*ZC     63         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 1 TO NP1
+*ZC     64         MOVE  1,TO,NP1
+         MOVE  1,TO,NP1
+*     12     MOVE NP1 TO DP1                                           X
+                
+*ZC     65     12  MOVE  NP1,TO,DP1
+         MOVE  NP1,TO,DP1
+*            IF DP1 NOT = '1' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     66         IF    DP1,NOT,=,'1'
+         IF    DP1,NOT,=,'1'
+*ZC     66         PERFORM BAD
+         PERFORM BAD
+*ZC     66         ELSE  
+         ELSE  
+*ZC     66         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 0 TO NP1
+*ZC     67         MOVE  0,TO,NP1
+         MOVE  0,TO,NP1
+*     13     MOVE NP1 TO DP2                                           X
+                
+*ZC     68     13  MOVE  NP1,TO,DP2
+         MOVE  NP1,TO,DP2
+*            IF DP2 NOT = '   0' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     69         IF    DP2,NOT,=,'   0'
+         IF    DP2,NOT,=,'   0'
+*ZC     69         PERFORM BAD
+         PERFORM BAD
+*ZC     69         ELSE  
+         ELSE  
+*ZC     69         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 0 TO NP2
+*ZC     70         MOVE  0,TO,NP2
+         MOVE  0,TO,NP2
+*     14     MOVE NP2 TO DP2                                           X
+                
+*ZC     71     14  MOVE  NP2,TO,DP2
+         MOVE  NP2,TO,DP2
+*            IF DP2 NOT = '   0' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     72         IF    DP2,NOT,=,'   0'
+         IF    DP2,NOT,=,'   0'
+*ZC     72         PERFORM BAD
+         PERFORM BAD
+*ZC     72         ELSE  
+         ELSE  
+*ZC     72         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 1234 TO NP2
+*ZC     73         MOVE  1234,TO,NP2
+         MOVE  1234,TO,NP2
+*     15     MOVE NP2 TO DP2                                           X
+                
+*ZC     74     15  MOVE  NP2,TO,DP2
+         MOVE  NP2,TO,DP2
+*            IF DP2 NOT = '1234' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     75         IF    DP2,NOT,=,'1234'
+         IF    DP2,NOT,=,'1234'
+*ZC     75         PERFORM BAD
+         PERFORM BAD
+*ZC     75         ELSE  
+         ELSE  
+*ZC     75         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 12 TO NP2
+*ZC     76         MOVE  12,TO,NP2
+         MOVE  12,TO,NP2
+*     16     MOVE NP2 TO DP3                                           X
+                
+*ZC     77     16  MOVE  NP2,TO,DP3
+         MOVE  NP2,TO,DP3
+*            IF DP3 NOT = '   12' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     78         IF    DP3,NOT,=,'   12'
+         IF    DP3,NOT,=,'   12'
+*ZC     78         PERFORM BAD
+         PERFORM BAD
+*ZC     78         ELSE  
+         ELSE  
+*ZC     78         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*            MOVE 1234 TO NP2
+*ZC     79         MOVE  1234,TO,NP2
+         MOVE  1234,TO,NP2
+*     17     MOVE NP2 TO DP3                                           X
+                
+*ZC     80     17  MOVE  NP2,TO,DP3
+         MOVE  NP2,TO,DP3
+*            IF DP3 NOT = '12-34' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     81         IF    DP3,NOT,=,'12-34'
+         IF    DP3,NOT,=,'12-34'
+*ZC     81         PERFORM BAD
+         PERFORM BAD
+*ZC     81         ELSE  
+         ELSE  
+*ZC     81         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     18     MOVE ABCDEF(2:1) TO ABCDEF(5:1)
+*ZC     82     18  MOVE  ABCDEF,'(',2,:,1,')',TO,ABCDEF,'(',5,:,1,')'
+         MOVE  ABCDEF,'(',2,:,1,')',TO,ABCDEF,'(',5,:,1,')'
+*            IF ABCDEF NOT = 'ABCDBF' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     83         IF    ABCDEF,NOT,=,'ABCDBF'
+         IF    ABCDEF,NOT,=,'ABCDBF'
+*ZC     83         PERFORM BAD
+         PERFORM BAD
+*ZC     83         ELSE  
+         ELSE  
+*ZC     83         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     19     IF ABC(1)(2:1) NOT = ABC(2)(2:1)
+*ZC     84     19  IF    ABC,'(',1,')','(',2,:,1,')',NOT,=,ABC,'(',2,')X
+               ','(',2,:,1,')'
+         IF    ABC,'(',1,')','(',2,:,1,')',NOT,=,ABC,'(',2,')','(',2,:,X
+               1,')'
+*                PERFORM BAD ELSE PERFORM GOOD.
+*ZC     85         PERFORM BAD
+         PERFORM BAD
+*ZC     85         ELSE  
+         ELSE  
+*ZC     85         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     20     MOVE ABC(1)(2:2) TO ABC(2)(2:2)
+*ZC     86     20  MOVE  ABC,'(',1,')','(',2,:,2,')',TO,ABC,'(',2,')','X
+               (',2,:,2,')'
+         MOVE  ABC,'(',1,')','(',2,:,2,')',TO,ABC,'(',2,')','(',2,:,2,'X
+               )'
+*            IF ABC(2) NOT = 'DBC' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     87         IF    ABC,'(',2,')',NOT,=,'DBC'
+         IF    ABC,'(',2,')',NOT,=,'DBC'
+*ZC     87         PERFORM BAD
+         PERFORM BAD
+*ZC     87         ELSE  
+         ELSE  
+*ZC     87         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     21     MOVE FLD1 TO FLD2(2:2)
+*ZC     88     21  MOVE  FLD1,TO,FLD2,'(',2,:,2,')'
+         MOVE  FLD1,TO,FLD2,'(',2,:,2,')'
+*            IF FLD2 NOT = 'AXY' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     89         IF    FLD2,NOT,=,'AXY'
+         IF    FLD2,NOT,=,'AXY'
+*ZC     89         PERFORM BAD
+         PERFORM BAD
+*ZC     89         ELSE  
+         ELSE  
+*ZC     89         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     22     MOVE 2 TO SUB1
+*ZC     90     22  MOVE  2,TO,SUB1
+         MOVE  2,TO,SUB1
+*            MOVE '12' TO FLD2(SUB1:2)
+*ZC     91         MOVE  '12',TO,FLD2,'(',SUB1,:,2,')'
+         MOVE  '12',TO,FLD2,'(',SUB1,:,2,')'
+*            IF FLD2 NOT = 'A12' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     92         IF    FLD2,NOT,=,'A12'
+         IF    FLD2,NOT,=,'A12'
+*ZC     92         PERFORM BAD
+         PERFORM BAD
+*ZC     92         ELSE  
+         ELSE  
+*ZC     92         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     23     MOVE 1 TO SUB1
+*ZC     93     23  MOVE  1,TO,SUB1
+         MOVE  1,TO,SUB1
+*             MOVE '12' TO FLD2(SUB1+1:2)
+*ZC     94         MOVE  '12',TO,FLD2,'(',SUB1,+,1,:,2,')'
+         MOVE  '12',TO,FLD2,'(',SUB1,+,1,:,2,')'
+*            IF FLD2 NOT = 'A12' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     95         IF    FLD2,NOT,=,'A12'
+         IF    FLD2,NOT,=,'A12'
+*ZC     95         PERFORM BAD
+         PERFORM BAD
+*ZC     95         ELSE  
+         ELSE  
+*ZC     95         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*     24     MOVE 3 TO SUB1
+*ZC     96     24  MOVE  3,TO,SUB1
+         MOVE  3,TO,SUB1
+*             MOVE '12' TO FLD2(SUB1 -1:2)
+*ZC     97         MOVE  '12',TO,FLD2,'(',SUB1,-,1,:,2,')'
+         MOVE  '12',TO,FLD2,'(',SUB1,-,1,:,2,')'
+*            IF FLD2 NOT = 'A12' PERFORM BAD ELSE PERFORM GOOD.
+*ZC     98         IF    FLD2,NOT,=,'A12'
+         IF    FLD2,NOT,=,'A12'
+*ZC     98         PERFORM BAD
+         PERFORM BAD
+*ZC     98         ELSE  
+         ELSE  
+*ZC     98         PERFORM GOOD
+         PERFORM GOOD
+         PERIOD 
+*        WRAP-UP.
+         LABEL WRAP_UP
+*            DISPLAY 'TESTMOV1 GOOD TESTS =' GOOD 
+*ZC    100         DISPLAY 'TESTMOV1 GOOD TESTS =',GOOD
+         DISPLAY 'TESTMOV1 GOOD TESTS =',GOOD
+*            STOP RUN.
+*ZC    101         STOP  RUN
+         STOP  RUN
+         PERIOD 
+*        GOOD.
+         LABEL GOOD
+*            ADD 1 TO GOOD
+*ZC    103         ADD   1,TO,GOOD
+         ADD   1,TO,GOOD
+*        BAD.
+         LABEL BAD
+*            DISPLAY 'TESTMOV1 GOOD TESTS =' GOOD 'BAD TESTS=1'.
+*ZC    105         DISPLAY 'TESTMOV1 GOOD TESTS =',GOOD,'BAD TESTS=1'
+         DISPLAY 'TESTMOV1 GOOD TESTS =',GOOD,'BAD TESTS=1'
+         PERIOD 
+*            MOVE 16 TO RETURN-CODE
+*ZC    106         MOVE  16,TO,RETURN_CODE
+         MOVE  16,TO,RETURN_CODE
+*            STOP RUN.
+*ZC    107         STOP  RUN
+         STOP  RUN
+         PERIOD 
+         PROCEDURE END
+         END   

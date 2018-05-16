@@ -1,0 +1,7 @@
+#BlueJ class context
+comment0.params=healthBar\ attackPoints\ name
+comment0.target=Champion(int,\ int,\ java.lang.String)
+comment0.text=\r\n\ Creates\ the\ champion\ health\ point\r\n\ @Require\:\r\n\ \ \ \ healthBar\ is\ an\ integer\ greater\ than\ or\ equal\ to\ 1\ but\ less\ than\ or\ equal\ to\ 100\r\n\ \ \ \ attackPoints\ is\ and\ integer\ greater\ than\ or\ equal\ to\ 1\ but\ less\ than\ or\ equal\ to\ 100\r\n
+comment1.params=warrior\ wizard\ warlock
+comment1.target=void\ battle(Champion,\ Champion,\ Champion)
+numComments=2

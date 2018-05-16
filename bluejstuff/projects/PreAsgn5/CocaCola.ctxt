@@ -1,0 +1,18 @@
+#BlueJ class context
+comment0.params=kindOfCoke\ amount\ unitPrice
+comment0.target=CocaCola(java.lang.String,\ int,\ double)
+comment1.params=kindOfCoke
+comment1.target=void\ setKindOfCoke(java.lang.String)
+comment2.params=amount
+comment2.target=void\ setAmount(int)
+comment3.params=unitPrice
+comment3.target=void\ setUnitPrice(double)
+comment4.params=
+comment4.target=java.lang.String\ getKindOfCoke()
+comment5.params=
+comment5.target=int\ getAmount()
+comment6.params=
+comment6.target=double\ getUnitPrice()
+comment7.params=
+comment7.target=java.lang.String\ toString()
+numComments=8

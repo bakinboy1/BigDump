@@ -1,0 +1,20 @@
+#BlueJ class context
+comment0.params=max
+comment0.target=void\ move(int)
+comment1.params=radius
+comment1.target=double\ computeCircleArea(double)
+comment2.params=a\ b
+comment2.target=int\ add(int,\ int)
+comment3.params=a\ b
+comment3.target=java.lang.String\ add(java.lang.String,\ java.lang.String)
+comment4.params=a\ b
+comment4.target=double\ add(double,\ double)
+comment5.params=a\ b
+comment5.target=double\ add(int,\ double)
+comment6.params=b\ a
+comment6.target=int\ add(double,\ int)
+comment7.params=a\ b
+comment7.target=java.lang.String\ add(java.lang.String,\ double)
+comment8.params=a\ b
+comment8.target=boolean\ compare(java.lang.String,\ java.lang.String)
+numComments=9

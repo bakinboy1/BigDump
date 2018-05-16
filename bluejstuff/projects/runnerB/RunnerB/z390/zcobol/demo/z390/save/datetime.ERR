@@ -1,0 +1,8 @@
+datetime  ZC390 START
+datetime  ZC390 ENDED   RC= 0 MEM(MB)= MB IO=9
+datetime  MZ390 START
+datetime  MZ390 ENDED   RC= 0 MEM(MB)= MB IO=51828
+datetime  LZ390 START
+datetime  LZ390 ENDED   RC= 0 MEM(MB)= MB IO=341
+datetime  EZ390 START
+datetime  EZ390 ENDED   RC= 0 MEM(MB)= MB IO=319 INS=262
